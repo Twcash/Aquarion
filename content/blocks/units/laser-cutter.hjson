@@ -1,0 +1,14 @@
+type: PayloadDeconstructor
+localizedName: Laser Cutter
+ambientSound: cutter
+size: 5
+solid: false
+minPayloadSize: 2
+maxPayloadSize: 2
+itemCapacity: 120
+deconstructSpeed: .15
+category: crafting
+consumes: {
+power: 4.5
+}
+buildVisibility: sandboxOnly

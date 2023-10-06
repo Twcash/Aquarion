@@ -1,0 +1,9 @@
+type: Floor
+variants: 1
+itemDrop: item-sulfur
+playerUnmineable: true
+attributes: {
+  oil: 0.1
+  sand: 0
+  water: -1
+}

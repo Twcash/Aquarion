@@ -1,0 +1,44 @@
+type: GenericCrafter
+ambientSound: smelter
+localizedName: liquefaction Crucible
+size: 3
+itemCapacity: 20
+hasLiquids: true
+liquidCapacity: 100
+consumes: {
+power: 4
+  items: [
+item-crushed-iron/5
+  ]
+}
+craftTime: 60
+outputLiquid: liquid-molten-iron/0.25
+category: crafting
+requirements: [
+  item-iron-plate/50
+item-iron-rod/20
+item-iron-frame/10
+]
+drawer: [
+  {
+    type: DrawRegion
+    suffix: -bottom
+  }
+{
+ type: DrawLiquidTile
+drawLiquid: slag
+padding: 1
+}
+{
+    type: DrawBubbles
+    amount: 150
+    sides: 6
+    spread: 8
+    strokeMin: 0
+    color: c1591d
+  }
+{
+    type: DrawRegion
+    suffix: -base
+  }
+]

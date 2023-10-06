@@ -1,0 +1,18 @@
+category: production
+type: drill
+size: 3
+tier: 1
+drillTime: 640
+requirements: [
+item-tin/10
+lead/20
+]
+consumes: {
+  power: 1
+  liquid: {
+    liquid: water
+    amount: 0.1
+    booster: false
+    optional: false
+  }
+}

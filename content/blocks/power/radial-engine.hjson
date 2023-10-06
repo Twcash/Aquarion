@@ -1,0 +1,24 @@
+type: ConsumeGenerator
+category: power
+requirements: [
+item-lead-plate/20
+item-tin-wire/10
+item-tin/15
+]
+powerProduction: 10
+outputLiquid: gas-carbon-dioxide/.5
+size: 3
+liquidCapacity: 60
+warmupSpeed: 0.5
+consumes: {
+  liquid: liquid-heavy-oil/.25
+}
+generateEffect: {
+line: true
+  particles: 5
+  length: 50
+  lifetime: 10
+  sizeFrom: 1
+  sizeTo: 1
+  colorTo: d1b33c
+}

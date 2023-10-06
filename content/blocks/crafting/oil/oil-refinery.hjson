@@ -1,0 +1,37 @@
+type: GenericCrafter
+category: crafting
+size: 3
+hasLiquids: true 
+craftTime: 10
+rotate: true
+invertFlip: true
+liquidCapacity: 60
+consumes: {
+power: 3
+  liquids: [
+steam/.15
+oil/.25
+
+  ]
+}
+liquidOutputDirections: [1,2, 3]
+requirements: [
+item-lead-plate/60
+item-tin-wire/20
+]
+outputLiquids: [
+  liquid-light-oil/0.1
+  liquid-heavy-oil/.2
+gas-carbon-dioxide/.4
+]
+drawer: [
+{
+type: DrawRegion
+suffix: -base
+}
+{
+type: drawRegion
+buildingRotate: true
+suffix: -outputs
+}
+]
