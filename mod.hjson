@@ -1,0 +1,9 @@
+repo: fabrica
+name: "fabrica"
+displayName: "Fabrica"
+author: "twcash"
+description: "This is not Mindustry"
+subtitle: "Ver 0"
+version: "0"
+minGameVersion: "146"
+hidden: "false"
