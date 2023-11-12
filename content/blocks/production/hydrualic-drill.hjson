@@ -1,0 +1,44 @@
+type: Drill
+ambientSound: drill
+localizedName: Hydrualic Drill
+size: 4
+tier: 2
+hardnessDrillMultiplier: 2
+liquidBoostIntensity: 1.1
+liquidCapacity:60
+itemCapacity: 20
+drillTime: 320
+rotateSpeed: 1.1
+warmupSpeed: 0.05
+liquidBoostIntensity:1.2
+squareSprite: true
+updateEffect: {
+    type: ParticleEffect,
+    line: false,
+    particles: 20
+    lifetime: 120
+    length: 10
+    cone: -360
+    strokeFrom: 20
+    lenFrom: 10
+    lenTo: 5
+    colorFrom: 3D2F24
+    colorTo: 717171
+}
+consumes: {
+  power: 5.5
+  liquid: {
+    liquid: water
+    amount: 0.2
+    booster: false
+    optional: false
+  }
+}
+placeableLiquid: false
+category: production
+buildVisibility: shown
+requirements: [
+item-iron-frame/16
+item-iron-rod/40
+item-iron-plate/10
+]

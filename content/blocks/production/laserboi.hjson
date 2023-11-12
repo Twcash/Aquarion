@@ -1,0 +1,40 @@
+
+category: production
+localizedName: Laser Bore
+type: BeamDrill
+tier: 3
+drillTime: 250
+fogRadius: 4
+optionalBoostEfficiency: 2.5
+size: 2
+range: 3
+localizedName: laser Bore
+consumes: {
+  power: 1.5
+  liquid: {
+    liquid: gas-carbon-dioxide
+    amount: .25
+    booster: true
+    optional: true
+  }
+}
+requirements: [
+item-lead-plate/20
+item-tin/30
+]
+drawer: [
+{
+type: DrawDefault
+}
+{
+type: DrawCrucibleFlame
+}
+{
+    type: DrawRegion
+    suffix: -top
+buildingRotate: true
+  }
+{
+type: DrawCrucibleFlame
+}
+]

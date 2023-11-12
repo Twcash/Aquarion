@@ -1,0 +1,45 @@
+
+type: ConsumeGenerator
+localizedName: Small Steam Turbine
+ambientSound: hum
+size: 3
+baseExplosiveness: 70
+powerProduction: 14
+itemDuration: 120
+liquidCapacity: 60
+consumes: {
+  liquid: {
+    liquid: steam
+    amount: .25
+  }
+}
+generateEffect: {
+    length: 10
+lifetime: 120
+sizeFrom: 4
+sizeTo: 0
+strokeFrom: 6
+    strokeTo: 0
+particles: 5
+    colorFrom: ffffff
+    colorTo: 3D2F24
+}
+craftTime: 60
+category: power
+requirements: [
+  item-iron-frame/10
+item-iron-rod/20
+item-iron-plate/60
+]
+drawer: [
+  {
+    type: DrawRegion
+    suffix: -base
+  }
+  {
+    type: DrawRegion
+    suffix: -rotator
+spinsprite: true
+rotateSpeed: 5
+  }
+]

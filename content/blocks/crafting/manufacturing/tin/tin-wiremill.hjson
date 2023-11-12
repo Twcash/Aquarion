@@ -1,0 +1,32 @@
+category: crafting
+size: 3
+type: GenericCrafter
+localizedName: Tin Wiremill
+ craftEffect: pulverizeMedium
+requirements: [
+lead/20
+item-tin/10
+]
+consumes: {
+power: 1
+  items: [
+item-tin/2
+  ]
+liquids:[
+steam/.125
+]
+}
+ambientSound: machine
+outputItems: [
+ item-tin-wire/3
+]
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: DrawRegion
+suffix: -top
+}
+]

@@ -1,0 +1,52 @@
+type: GenericCrafter
+category: crafting
+dumpExtraLiquid : false
+localizedName: Intermediate Refinery
+size: 4
+hasLiquids: true 
+craftTime: 60
+itemCapacity: 30
+liquidCapacity: 120
+rotate: true
+invertFlip: true
+liquidCapacity: 120
+ambientSound: flux
+ambientSoundVolume: .5
+consumes: {
+power: 6
+  liquids: [
+steam/.3
+liquid-naptha/.1
+  ]
+}
+liquidOutputDirections: [1,2,3,4]
+requirements: [
+item-lead-plate/80
+item-tin-wire/180
+]
+outputItem: item-sulfur/1
+outputLiquids: [
+gas-propane/.2
+  liquid-heavy-oil/.2
+liquid-ethylene/.1
+gas-carbon-dioxide/.2
+]
+drawer: [
+{
+type: DrawRegion
+suffix: -bottom
+}
+{
+type: DrawPlasma
+plasmas: 4
+}
+{
+type: DrawRegion
+suffix: -top
+}
+{
+type: DrawRegion
+suffix: -base
+buildingRotate: true
+}
+]

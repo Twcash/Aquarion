@@ -1,0 +1,16 @@
+type: CellLiquid
+temperature: 100000000
+flammability: 100
+viscosity: .99
+color: cbd97f
+explosiveness: 100000000
+heatCapacity: .2
+lightColor: d5ff00
+colorFrom: 808f35
+colorTo: 9db03b
+spreadTarget: oil
+moveThroughBlocks: true
+spreadamage: 0
+cells: 10
+amountSpread: 10
+StatusEffect : sublimation

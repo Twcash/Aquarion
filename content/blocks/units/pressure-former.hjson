@@ -1,0 +1,28 @@
+type: unitFactory
+ambientSound: machine
+localizedName: Pressure Former
+size: 3
+buildTime: .2
+haspower: true
+liquidCapacity: 50
+consumes: {
+power: 4.5
+ liquid: liquid-molten-iron/.125
+}
+category: crafting
+requirements: [
+  lead/150
+  graphite/50
+  titanium/50
+]
+drawer: [
+{
+    type: DrawLiquidTile
+    drawLiquid: slag
+    padding: 4
+  }
+{
+    type: DrawRegion
+    suffix: -top
+  }
+]

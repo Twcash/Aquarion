@@ -1,0 +1,60 @@
+
+type: GenericCrafter
+localizedName: Solid Fuel Boiler
+ambientSound: steam
+size: 2
+liquidCapacity: 120
+consumes: {
+  items: [
+coal/1
+  ]
+  liquid: {
+    liquid: water
+    amount: .25
+  }
+}
+craftTime: 45
+outputLiquid: steam/.5
+category: crafting
+requirements: [
+  lead/60
+item-tin/30
+]
+drawer: [
+  {
+    type: DrawRegion
+    suffix: -bottom
+  }
+ {
+    type: DrawLiquidTile
+    drawLiquid: water
+    padding: 1
+  }
+{
+    type: DrawLiquidTile
+    drawLiquid: steam
+    padding: 1
+  }
+{
+    type: DrawRegion
+    suffix: -middle
+  }
+{
+    type: DrawBubbles
+    amount: 10
+    sides: 6
+    spread: 4
+    strokeMin: 0
+    color: ffffff
+  }
+{
+    type: DrawRegion
+    suffix: -top
+  }
+{
+    type: DrawGlowRegion
+    suffix: -glow
+    color: da9944
+  }
+]
+buildTime: 360

@@ -1,0 +1,30 @@
+type: HeatProducer
+localizedName: Fan Cooler
+consumePower: .5
+drawer: [
+{
+type: DrawRegion
+suffix: -bottom
+}
+{
+type: DrawRegion
+suffix: -turbine
+rotateSprite: true
+rotateSpeed: 6
+}
+{
+type: DrawBlurSpin
+suffix: -turbine
+}
+{
+type: drawRegion
+suffix: -top
+}
+]
+requirements: [
+item-tin-wire/40
+item-lead-plate/60
+]
+category: crafting
+size: 2
+ heatOutput: 5

@@ -1,0 +1,50 @@
+type: ConsumeGenerator
+localizedName: Deisel Engine
+category: power
+requirements: [
+item-lead-plate/20
+item-tin-wire/10
+item-tin/15
+]
+powerProduction: 10
+outputLiquid: gas-carbon-dioxide/.5
+size: 3
+liquidCapacity: 60
+warmupSpeed: 0.5
+consumes: {
+  liquid: liquid-heavy-oil/.1
+}
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: DrawPistons
+sides: 4
+sinMag: 4
+sinscl: 10
+sinOffset: 2
+sideOffset: 10
+angleOffset: 45
+}
+{
+type: drawCrucibleFlame
+}
+{
+type: DrawRegion
+suffix: -top
+}
+{
+type: drawGlowRegion
+suffix: -heat
+glowIntensity: .2
+glowscale: .5
+alpha: .1
+ color: ffeecd
+}
+]
+generateEffect: {
+baseRotation: 45
+useRotation: true
+}

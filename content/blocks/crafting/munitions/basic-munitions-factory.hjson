@@ -1,0 +1,28 @@
+category: crafting
+size: 2
+type: GenericCrafter
+localizedName: Basic Munitions Factory
+requirements: [
+item-lead-plate/30
+item-tin-wire/40
+]
+consumes: {
+power: 1.5
+  items: [
+item-lead-plate/2
+item-sulfur/1
+  ]
+}
+ambientSound: machine
+outputItems: [
+ item-light-munitions/3
+]
+drawer: [
+{
+type: DrawDefault
+}
+{
+type: DrawGlowRegion
+suffix: -heat
+}
+]

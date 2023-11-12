@@ -1,0 +1,4 @@
+type: OreBlock
+wallOre: true
+itemDrop: coal
+variants: 3
