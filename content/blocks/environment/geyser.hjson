@@ -1,7 +1,0 @@
-type: SteamVent
-parent: mineralized-sulfur  
-blendGroup: mineralized-sulfur
-variants: 1
-attributes: {
-steam: 1
-}

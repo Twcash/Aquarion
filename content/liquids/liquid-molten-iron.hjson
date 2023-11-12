@@ -1,9 +1,0 @@
-color: ff7f35
-hidden: false
-coolant: false
-heatCapacity: .6
-flammability: .1
-temperature: 5
-viscocity: .7
-incinerable: false
-localizedName: Molten Iron

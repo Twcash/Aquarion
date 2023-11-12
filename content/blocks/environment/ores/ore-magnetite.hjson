@@ -1,4 +1,0 @@
-type: OreBlock
-itemDrop: item-magnetite
-playerUnmineable: true
-hardness: 3
