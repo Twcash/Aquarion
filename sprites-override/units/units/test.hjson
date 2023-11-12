@@ -1,0 +1,25 @@
+type: mech
+hitSize: 8
+canBoost: true
+speed: 0.01
+boostMultiplier: 100
+engineSize: 3
+weapons: [
+{
+name: test-weapon
+reload: 60
+x: 0
+y: 3
+rotate: false
+bullet: {
+damage: 40
+BulletType: smallBullet
+lifetime: 120
+speed: 1
+width: 7
+height: 14
+frontColor: 00a8ff
+backColor: 57cecd
+}
+}
+]

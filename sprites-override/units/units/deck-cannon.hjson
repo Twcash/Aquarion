@@ -1,0 +1,48 @@
+type: legs
+health: 20000
+armor: 9
+hitSize: 29
+speed: .3
+legCount: 5
+legLenght: 10
+legBaseOffset: 1.5
+legMoveSpace: 2
+legLenght: 60
+legPairOffset: 5
+legStraightness: .3
+stepShake: 2
+rotateSpeed: 1
+weapons: [
+{
+name: deck-cannon-weapon
+reload: 150
+mirror: true
+flipSprite: true
+ejectEffect: casing3
+x: 10
+y: 12
+top: false
+under: true
+rotate: false
+alternate: true
+recoil: 10
+shootSound: artillery
+layerOffset: -0.001
+bullet: {
+damage: 400
+BulletType: ArtilleryBulletType
+knockBack: 1.2
+hitShake: 12
+lightRadius: 45
+splashDamage: 125
+splashDamageRadius: 50
+lifetime: 50
+hitEffect: massiveExplosion 
+speed: 5
+width: 12
+height: 15
+frontColor: ff0000
+backColor: c12828
+}
+}
+]
