@@ -1,9 +1,8 @@
-repo: fabrica
-name: "fabrica"
-displayName: "Fabrica"
+repo: Tantros-test
+name: "Tantros test"
+displayName: "Tantros-test"
 author: "twcash"
-description: "This is not Mindustry"
-subtitle: "Ver 0"
-version: "0"
+description: "A Tantros attempt"
+version: "1.0"
 minGameVersion: "146"
 hidden: "false"
