@@ -1,0 +1,10 @@
+sector: 10
+planet: tantros
+localizedName: Algal Fields
+difficulty: 2
+enemyBase: false
+captureWave: 6
+research: {
+parent: core-pike
+alwaysUnlocked: true
+}

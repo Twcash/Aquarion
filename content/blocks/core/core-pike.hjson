@@ -1,0 +1,23 @@
+type: CoreBlock
+localizedName: Core: Pike
+description: The core of the base. small, once destroyed the sector is lost.
+squareSprite: false
+health: 1500
+itemCapacity: 6000
+size: 3
+unitCapModifier: 20
+unitType: cull
+alwaysUnlocked: true
+requirements: [
+bauxite/1000
+lead/2000
+]
+category: effect
+hasItems: true
+hasColor: true
+research: {
+root: true
+name: Tantros
+alwaysUnlocked: true
+planet: tantros
+}

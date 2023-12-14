@@ -1,0 +1,47 @@
+type: missile
+lowAltitude: true
+lifetime: 38
+hidden: true
+health: 95
+outlineColor: 2f3734
+template: MissileUnitType
+speed: 4.6
+maxRange: 5
+rotateSpeed: 3
+missileAccelTime: 2
+range: 30
+homingDelay: 2
+hitSize: 12
+trailLength: 3
+engineSize: 1.5
+engineOffset: 3
+trailColor: 8fff82
+engineColor: 8fff82
+abilities: [
+{
+type: moveEffectAbility
+effect: airBubble
+y: -9
+interval: 6
+}
+]
+deathSound: none
+deathExplosionEffect: none
+weapons: [
+{
+rotate: true
+rotateSpeed: 0
+mirror: false
+shootCone: 360
+shootOnDeath: true
+reload: 1
+mirror: false
+shootOnDeath: true
+bullet: {
+type: ExplosionBulletType
+splashDamageRadius: 4.5
+splashDamage: 45
+}
+shootEffect: massiveExplosion
+}
+]

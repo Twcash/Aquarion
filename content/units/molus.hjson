@@ -1,0 +1,52 @@
+type: crawl
+deathSound: squish
+health: 250
+armor: 1
+targetFlags: [
+factory
+null
+]
+hitSize: 7
+outlineColor: b0b0b0
+omniMovement: true
+rotateSpeed: 1.5
+omniMovement: false
+faceTarget: true
+defaultController: HugAI
+targetAir: false
+crushDamage: .1
+segments: 3
+drawBody: false
+deathExplosionEffect: [
+{
+length: 24
+lifetime: 120
+particles: 30
+colorFrom: ff00cc
+colorTo: 83196e
+sizeFrom: 3
+sizeTo: 0
+interp: pow3Out
+sizeInterp: pow2In
+}
+]
+drawCell: false
+speed: .5
+drag:.05
+segmentScl: 3
+segmentPhase: 5
+segmentMag: .5
+range:0
+requirements: {
+  block: molus-den
+  time: 5000
+}
+useUnitCap: false
+abilities: [
+{
+type: LiquidExplodeAbility
+liquid: molus-goop
+amount: 80
+}
+]
+lightRadius: 0

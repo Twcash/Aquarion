@@ -1,0 +1,20 @@
+type: UnitCargoUnloadPoint
+category: distribution
+conductivePower: true
+localizedName: Cargo Depot
+underBullets: true
+solid: false
+size: 2
+itemCapacity: 50
+requirements: [
+lead/10
+]
+squareSprite: false
+research: {
+planet: tantros
+name: Cargo Depot
+parent: sealedconveyor
+requirements: [
+lead/20
+]
+}

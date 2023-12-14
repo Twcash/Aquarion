@@ -1,0 +1,70 @@
+type: flying
+localizedName: Zoarcid
+flying: true
+lowAltitude: true
+outlineColor: 2f3734
+drag: .1
+speed: 1.5
+rotateSpeed: 1
+range: 50
+omniMovement: false
+accel: .1
+itemCapacity: 20
+faceTarget: true
+health: 120
+engineSize: 0
+armor: 1
+immunities: [
+slow
+]
+hitSize: 9
+abilities: [
+{
+type: moveEffectAbility
+effect: airBubble
+y: -9
+interval: 15
+}
+]
+weapons: [
+{
+mirror: true
+name: zoarcid-weapon
+X: 0
+reload: 50
+rotate: true
+velocityRnd: .04
+shootSound: missile
+bullet: {
+type: MissileBulletType
+width: 5
+height: 6
+shrinkY: 0
+drag: -.005
+speed: 2
+homingRange: 30
+lifetime: 35
+trailColor: ff8b3d
+frontColor: ff771b
+hitEffect: blastExplosion
+despawnEffect: blastExplosion
+weaveScale: 2
+weaveMag: 1
+damage: 15
+}
+}
+]
+requirements: {
+  block: submarine-factory
+  time: 1200
+  requirements: [
+silicon/30
+lead/40
+metaglass/20
+  ]
+}
+research: {
+planet: tantros
+name: Zoarcid
+parent: submarine-factory
+}

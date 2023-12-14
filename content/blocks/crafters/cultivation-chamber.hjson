@@ -1,0 +1,52 @@
+type: GenericCrafter
+description: Uses chemoautotrophic bacteria to oxidize bauxite.
+localizedName: cultivation Chamber
+size: 3
+conductivePower: true
+craftTime: 120
+requirements: [
+lead/40
+bauxite/20
+]
+consumes: {
+power: 2
+items: [
+bauxite/1
+]
+}
+outputItem: oxide/2
+category: crafting
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: DrawCultivator
+bubbles: 50
+sides: 10
+spread: 7
+strokeMin: .4
+plantColor: 96743c
+bottomColor: 8b7552
+plantColorLight: b98d43
+recurrence: 10
+radius: 2
+}
+{
+type: drawRegion
+suffix: -top
+}
+]
+research: {
+requirements: [
+lead/60
+bauxite/30
+]
+parent: geothermal-generator
+name: Cultivation Chamber
+planet: tantros
+objectives: [
+algal-feilds
+]
+}

@@ -1,0 +1,15 @@
+type: sorter
+localizedName: Sealed Sorter
+solid: true
+category: distribution
+requirements: [
+lead/10
+]
+research: {
+planet: tantros
+name: Sealed Sorter
+parent: sealedconveyor
+requirements: [
+lead/5
+]
+}

@@ -1,0 +1,20 @@
+type: PowerNode
+size: 1
+maxNodes: 3
+localizedName: Director node
+laserRange: 4
+requirements: [
+bauxite/10
+lead/20
+]
+category: power
+localizedName: Director Beam
+research: {
+name: Director node
+parent: director
+research: [
+lead/50
+bauxite/20
+]
+planet: tantros
+}

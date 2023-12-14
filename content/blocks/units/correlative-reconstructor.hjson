@@ -1,0 +1,18 @@
+type: reconstructor
+size: 3
+localizedName: Correlative Reconstructor
+category: units
+constructTime: 900
+requirements: [
+manganese/120
+silicon/200
+bauxite/60
+]
+consumes: {
+power: 1.5
+items: [
+silicon/80
+oxide/40
+]
+}
+regionSuffix: -water

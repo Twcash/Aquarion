@@ -1,0 +1,61 @@
+type: flying
+flying: true
+lowAltitude: true
+outlineColor: 2f3734
+drag: .2
+localizedName: Anguilli
+speed: 3
+rotateSpeed: .9
+range: 60
+omniMovement: false
+accel: .1
+itemCapacity: 45
+faceTarget: true
+health: 640
+armor: 2
+engineSize: 0
+hitSize: 18
+abilities: [
+{
+type: moveEffectAbility
+effect: airBubble
+y: -9
+interval: 20
+}
+]
+weapons: [
+{
+mirror: true
+name: anguilli-weapon
+X: 6
+shoot: {
+shots: 2
+cone: 15
+}
+reload: 20
+rotate: true
+velocityRnd: .1
+shootSound: missile
+bullet: {
+type: MissileBulletType
+width: 6
+height: 7
+shrinkY: 0
+drag: -.01
+speed: 2.5
+homingRange: 45
+lifetime: 45
+trailColor: ff8b3d
+frontColor: ff771b
+hitEffect: blastExplosion
+despawnEffect: blastExplosion
+weaveScale: 4
+weaveMag: 2
+damage: 6
+}
+}
+]
+requirements: {
+  previous: zoarcid
+ block: correlative-reconstructor
+}

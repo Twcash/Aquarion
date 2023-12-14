@@ -1,0 +1,47 @@
+type: HeatProducer
+size: 2
+outputItem: sodium/1
+conductivePower: true
+consumes: {
+power: 1
+ items: [
+    coal/1
+  ]
+}
+description: uses coal to boil water into sodium. Releases heat as a by-product.
+localizedName: Water Boiler
+category: crafting
+rotateDraw: false
+craftEffect: fluxVapor
+aambientSound: extractLoop
+heatOutput: 5
+liquidCapacity: 30
+//HAHAHAHHHAHAHHAHAHAHAHAAHHAHHAHAHA
+outPutLiquid: steam/1.66666
+requirements: [
+metaglass/20
+lead/10
+bauxite/20
+]
+drawer: [
+{
+type: DrawRegion
+suffix: -bottom
+}
+{
+type: DrawRegion
+suffix: -tope
+}
+{
+type: DrawHeatOutput
+}
+]
+research: {
+requirements: [
+lead/20
+bauxite/30
+]
+parent: geothermal-generator
+name: Water Boiler
+planet: tantros
+}

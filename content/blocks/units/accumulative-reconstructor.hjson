@@ -1,0 +1,22 @@
+type: reconstructor
+size: 5
+localizedName: Accumulativer Reconstructor
+category: units
+constructTime: 2250
+requirements: [
+manganese/360
+metaglass/300
+silicon/550
+bauxite/250
+duralumin/60
+]
+consumes: {
+power: 4.5
+items: [
+manganese/30
+oxide/20
+silicon/180
+]
+}
+regionSuffix: -water
+squareSprite: false

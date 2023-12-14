@@ -1,0 +1,36 @@
+type: burstDrill
+category: production
+localizedName: Compression Drill
+drillTime: 360
+conductivePower: true
+size: 2
+tier: 4
+arrows: 2
+arrowOffset: -2
+arrowSpacing: 2
+drillEffect: [
+{
+type: mineImpact
+}
+{
+type: drillSteam
+}
+{
+type: mineImpactWave
+}
+]
+shake: 2
+itemCapacity: 20
+fogRadius: 3
+requirements: [
+lead/10
+bauxite/20
+]
+research: {
+planet: tantros
+parent: core-pike
+name: Compression Drill
+requirements: [
+bauxite/10
+]
+}

@@ -1,0 +1,16 @@
+localizedName: Sealed Router
+type: router
+category: distribution
+solid: true
+underBullets: fale
+requirements: [
+lead/10
+]
+research: {
+planet: tantros
+name: Sealed Conveyor
+parent: sealedconveyor
+requirements: [
+lead/5
+]
+}

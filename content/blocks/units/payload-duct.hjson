@@ -1,0 +1,23 @@
+type: PayloadConveyor
+localizedName: Payload Duct
+requirements: [
+lead/10
+metaglass/5
+]
+size: 3
+payloadLimit: 2
+moveTime: 45
+moveForce: 140
+category: units
+drawer: {
+type: drawDefault
+}
+research: {
+planet: tantros
+name: payload Duct
+requirements: [
+silicon/10
+lead/40
+]
+parent: cargo-dock
+}

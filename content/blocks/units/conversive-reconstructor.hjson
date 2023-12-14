@@ -1,0 +1,22 @@
+type: reconstructor
+size: 3
+localizedName: Conversive Reconstructor
+category: units
+constructTime: 800
+requirements: [
+silicon/120
+lead/200
+bauxite/60
+]
+consumes: {
+power: 1
+items: [
+metaglass/10
+silicon/20
+]
+}
+research: {
+parent: submarine-factory
+name: submarine Factory
+planet: tantros
+}

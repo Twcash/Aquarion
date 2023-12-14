@@ -1,0 +1,43 @@
+type: flying
+localizedName: Echin
+flying: true
+localizedName: Echin
+lowAltitude: false
+outlineColor: 2f3734
+drag: .2
+speed: 2.5
+rotateSpeed: .8
+createWreck: true
+range: 0
+omniMovement: true
+itemCapacity: 140
+health: 1200
+armor: 3
+engineSize: 0
+hitSize: 20
+abilities: [
+{
+type: ShieldArcAbility
+suffix: -shield
+radius: 25
+y: -10
+angle: 82
+regen: .1
+coolDown: 40
+max: 600
+width: 8
+whenShooting: false
+spawnTime: 600
+}
+{
+type: unitSpawnAbility
+unit: unknown
+spawnTime: 450
+spawnX: 0
+spawnY: -15
+}
+]
+requirements: {
+  previous: carid
+ block: accumulative-reconstructor
+}

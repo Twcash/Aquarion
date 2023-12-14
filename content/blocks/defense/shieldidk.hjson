@@ -1,0 +1,24 @@
+type: DirectionalForceProjector
+localizedName: Shield Projector
+description: defends your strutures
+requirements: [
+sodium/10
+bauxite/40
+lead/120
+]
+width: 15
+shieldHealth: 600
+health: 500
+size: 3
+category: defense
+//What the actual fuck???
+research: {
+requirements: [
+silicon/120
+sodium/40
+bauxite/200
+]
+parent: pyrosilicon-crucible
+name: Shield Projector
+planet: tantros
+}

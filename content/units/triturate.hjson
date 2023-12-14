@@ -1,0 +1,43 @@
+type: tank
+flying: false
+localizedName: Triturate
+health: 250
+armor: 2
+speed: .7
+omniMovement: false
+rotateSpeed: 3.5
+hitSize: 12
+treadPullOffset: 3
+treadRects: [
+{
+x: 0
+y: 0
+width: 1.5
+height: 3
+}
+]
+weapons: [
+{
+name: triturate-weapon
+mirror: true
+reload: 25
+recoil: 2
+flipSprite: true
+shootSound: lasershoot
+rotate: true
+x: 4
+y: -4
+bullet: {
+type: laserBoltBulletType
+speed: 3
+lifeTime: 20
+backColor: 8ca9e8
+frontColor: d1efff
+damage: 10
+}
+}
+]
+requirements: {
+  previous: zoarcid
+ block: conversive-reconstructor
+}

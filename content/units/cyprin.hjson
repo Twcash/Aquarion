@@ -1,0 +1,62 @@
+type: flying
+flying: true
+localizedName: Cyprin
+drag: .2
+speed: 3
+outlineColor: 2f3734
+rotateSpeed: 2
+range: 38
+omniMovement: true
+accel: .1
+itemCapacity: 125
+health: 2300
+engineSize: 0
+armor: 3
+hitSize: 24
+abilities: [
+{
+type: moveEffectAbility
+effect: airBubble
+y: -11
+interval: 30
+}
+]
+weapons: [
+{
+layerOffset: -1
+reload: 40
+shootSound: missileLarge
+x: 12
+Y: 9
+parts: [
+{
+type: RegionPart
+suffix: -idk
+progress: warmup
+moveRot: 30
+under: true
+x: -4
+flipSprite :true
+y: 6
+mirror: true
+}
+]
+name: cyprin-weapon
+rotate: true
+rotateSpeed: .7
+recoil: 1
+rotationLimit: 60
+bullet: {
+spawnUnit: cyprin-missile
+shootEffect: sparkShoot
+smokeEffect: shootSmokeTitan
+shake: 1.2
+speed: 0
+keepVelocity: false
+}
+}
+]
+requirements: {
+  previous: anguilli
+ block: accumulative-reconstructor
+}

@@ -1,0 +1,14 @@
+sector: 30
+planet: tantros
+localizedName: Vast Shallows
+difficulty: 2
+enemyBase: false
+captureWave: 15
+research: {
+parent: algal-feilds
+objectives: [
+algal-feilds,
+blast-kiln,
+]
+}
+

@@ -1,0 +1,95 @@
+type: ItemTurret
+localizedName: Fragment
+targetGround: false
+category: turret
+reload: 10
+recoil: 2
+shootSound: shootBig
+requirements: [
+lead/120
+metaglass/60
+bauxite/50
+]
+health: 1300
+range: 120
+size: 3
+ammoTypes: {
+metaglass: {
+shootSound: shootBig
+shootCone: 30
+type: artilleryBulletType
+status: slow
+damage: 4
+speed: 5
+lifetime: 80
+reloadMultiiplier: .8
+hitSound: none
+ammoMultiplier: 3
+trailLength: 4
+width: 6
+height: 9
+trailColor: ffffff
+backColor: 8b8d8d
+frontColor: ffffff
+shootEffect: shootSmall
+smokeEffect: none
+makeFire: false
+despawnEffect: flakExplosion 
+collidesGround: false
+fragBullets: 5
+fragBullet: {
+type: basicBulletType
+speed: 7
+lifetime: 10
+width: 5
+height: 7
+backColor: 8b8d8d
+damage: 3
+frontColor: ffffff
+despawnEffect: fluxVapor  
+collidesGround: false
+status: slow
+fragBullets: 5
+fragBullet: {
+speed: 7
+lifetime: 5
+type: basicBulletType
+width: 5
+height: 7
+status: slow
+backColor: 8b8d8d
+frontColor: ffffff
+despawnEffect: fluxVapor  
+collidesGround: false
+damage: 2
+}
+}
+}
+}
+drawer: {
+  type: DrawTurret
+  basePrefix: water-
+parts: [
+{
+type: RegionPart
+mirror: true
+x: -5.2
+flipSprite: true
+y: -1.2
+suffix: -blade
+progress: reload
+moveX: -3
+moveY: -1
+moveRot: 15
+}
+]
+}
+research: {
+name: Forment
+parent: core-pike
+requirements: [
+lead/40
+bauxite/20
+]
+planet: tantros
+}

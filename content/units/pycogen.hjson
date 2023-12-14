@@ -1,0 +1,43 @@
+type: flying
+localizedName: pycogen
+flying: true
+drag: .2
+outLineColor: 2f3734
+speed: 1.2
+rotateSpeed: 2
+range: 38
+omniMovement: true
+accel: .1
+range: 130
+itemCapacity: 125
+health: 6400
+engineSize: 0
+armor: 5
+hitSize: 48
+abilities: [
+{
+type: moveEffectAbility
+effect: airBubble
+y: -20
+interval: 30
+}
+]
+weapons: [
+{
+reload: 12
+x: 0
+y: -13
+length: 500
+lifetime: 200
+mirror: false
+bullet: {
+type: railBulletType
+shootEffect: shootTitan
+pointEffect: disperseTrail
+lineEffect: disperseTrail
+pointEffectSpace: 3
+hitEffect: massiveExplosion
+damage: 50
+}
+}
+]

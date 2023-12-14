@@ -1,0 +1,8 @@
+localizedName: Manganese
+color: a0ac9d
+hardness: 5
+cost: 1.5
+research: {
+planet: tantros
+parent: sodium
+}

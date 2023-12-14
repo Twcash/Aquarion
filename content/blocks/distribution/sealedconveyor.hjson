@@ -1,0 +1,17 @@
+category: distribution
+localizedName: Sealed Conveyor
+type: Duct
+speed: 16.2747709476
+underBullets: false
+solid: true
+requirements: [
+lead/3
+]
+research: {
+planet: tantros
+name: Sealed Conveyor
+parent: core-pike
+requirements: [
+lead/5
+]
+}

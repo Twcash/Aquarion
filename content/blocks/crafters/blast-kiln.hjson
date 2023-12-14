@@ -1,0 +1,42 @@
+//name SUCKS
+type: GenericCrafter
+localizedName: Blast Kiln
+squareSprite: false
+description: Refines metaglass from lead, sand and oxide.
+size: 3
+category: crafting
+craftTime: 45
+requirements: [
+lead/60
+bauxite/120
+]
+consumes: {
+power: 5.5
+items: [
+sand/3
+lead/3
+oxide/1
+]
+}
+drawer: [
+{
+type: drawdefault
+}
+{
+type: DrawFlame
+suffix: -top
+}
+]
+outputItem: metaglass/3
+research: {
+requirements: [
+lead/120
+bauxite/60
+]
+parent: geothermal-generator
+name: Blast Kiln
+planet: tantros
+objectives: [
+algal-feilds
+]
+}

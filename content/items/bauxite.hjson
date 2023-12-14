@@ -1,0 +1,11 @@
+localizedName: Bauxite
+color: 895841
+hardness: 3
+cost: 1.1
+planet: [
+tantros
+]
+research: {
+planet: tantros
+parent: core-pike
+}

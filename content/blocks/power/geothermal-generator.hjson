@@ -1,0 +1,29 @@
+type: ThermalGenerator
+size: 3
+localizedName: Geothermal Generator
+displayEfficiencyScale: .1111111111
+generateEffect: airBubble
+effectChance : .011
+hasLiquids: true
+minEfficiency: 8
+baseEfficiency: 0
+displayEfficiency: false
+category: power
+powerProduction: 1.8
+requirements: [
+bauxite/20
+lead/60
+]
+drawer: [
+{
+type: DrawDefault
+}
+]
+research: {
+planet: tantros
+requirements: [
+bauxite/10
+lead/20
+]
+parent: core-pike
+}

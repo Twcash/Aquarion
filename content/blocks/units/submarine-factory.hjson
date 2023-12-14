@@ -1,0 +1,23 @@
+type: unitFactory
+localizedName: Submarine Factory
+category: units
+conductivePower: true
+size: 3
+requirements: [
+silicon/120
+lead/40
+]
+consumes: {
+power: 4
+}
+regionSuffix: -tant
+research: {
+planet: tantros
+name: Submarine Factory
+parent: core-pike
+requirements: [
+silicon/40
+lead/100
+bauxite/60
+]
+}

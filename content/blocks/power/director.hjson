@@ -1,0 +1,20 @@
+type: battery
+localizedName: director
+category: power
+requirements: [
+lead/2
+bauxite/1
+]
+size: 1
+consumes: {
+power: 0
+}
+research: {
+parent: core-pike
+requiremnts: [
+bauxite/10
+lead/20
+]
+name: Director
+planet: tantros
+}

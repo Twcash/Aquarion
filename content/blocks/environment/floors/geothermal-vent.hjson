@@ -1,0 +1,9 @@
+type: SteamVent
+parent: basalt  
+blendGroup: basalt
+variants: 2
+attributes: {
+heat: 1
+}
+effect: airBubble
+effectSpacing: 70

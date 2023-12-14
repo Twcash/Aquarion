@@ -1,0 +1,8 @@
+type: CellLiquid
+cells: 25
+colorFrom: c6eafb
+colorTo: 000000
+color: 60a1ae 
+lightColor: 60a1ae 
+maxSpread: 2
+Viscosity: .80

@@ -1,0 +1,25 @@
+type: UnitCargoLoader
+localizedName: Cargo Dock
+size: 2
+category: distribution
+conductivePower: true
+underBullets: true
+consumePower: .5
+buildTime: 120
+itemCapacity: 100
+polySides: 4
+polyRadius: 4
+solid: false
+unitType: rivulet
+requirements: [
+lead/10
+]
+squareSprite: false
+research: {
+planet: tantros
+name: Cargo Depot
+parent: sealedconveyor
+requirements: [
+lead/20
+]
+}
