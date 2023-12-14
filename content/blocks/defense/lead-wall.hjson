@@ -1,7 +1,0 @@
-category: defense
-type: wall
-size: 1
-health: 60
-requirements: [
-item-lead-plate/12
-]

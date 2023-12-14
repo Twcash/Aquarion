@@ -1,6 +1,0 @@
-damage: 20
-effectChance: 1
-speedMultiplier: .5
-parentizeEffect: true
-applyColor: eef0e4
-effect: fluxVapor      

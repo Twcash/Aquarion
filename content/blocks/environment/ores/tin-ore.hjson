@@ -1,5 +1,0 @@
-type: OreBlock
-variants: 2
-itemDrop: item-tin
-playerUnmineable: true
-hardness: 1
