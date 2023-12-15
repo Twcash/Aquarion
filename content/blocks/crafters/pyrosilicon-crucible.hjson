@@ -46,6 +46,10 @@ type: drawRegion
 suffix: -middle
 }
 {
+type: DrawRegion
+suffix: -top1
+}
+{
 type: DrawHeatInput
 suffix: -heat
 }
