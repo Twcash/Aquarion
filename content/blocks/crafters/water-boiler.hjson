@@ -9,7 +9,7 @@ power: 1
   ]
 }
 description: uses coal to boil water into sodium. Releases heat as a by-product.
-localizedName: Water Boiler
+localizedName: Coal Heater
 category: crafting
 rotateDraw: false
 craftEffect: fluxVapor
