@@ -1,24 +1,23 @@
 type: DirectionalForceProjector
 localizedName: Shield Projector
-description: defends your strutures
+description: A directional force projector. Provides basic defense for structures.
 requirements: [
-sodium/10
-bauxite/40
-lead/120
+sodium/60
+bauxite/80
+lead/400
 ]
-width: 15
-shieldHealth: 600
-health: 500
+width: 13
+shieldHealth: 420
+health: 650
 size: 3
 category: defense
-//What the actual fuck???
 research: {
 requirements: [
 silicon/120
-sodium/40
+sodium/60
 bauxite/200
 ]
-parent: pyrosilicon-crucible
+parent: core-pike
 name: Shield Projector
 planet: tantros
 }
