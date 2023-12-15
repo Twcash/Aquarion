@@ -4,25 +4,25 @@ localizedName: Carid
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
-speed: 3
-rotateSpeed: .9
+speed: 2
+rotateSpeed: 1.2
 createWreck: false
 range: 10
-omniMovement: false
 itemCapacity: 45
-health: 600
-armor: 1
+health: 450
+armor: 2
 engineSize: 0
-hitSize: 14
+hitSize: 17
 abilities: [
 {
 type: SpawnDeathAbility
 unit: unknown
-amount: 2
+amount: 3
 }
 ]
 weapons: [
 {
+name: carid-boom
 shootOnDeath: true
 reload: 24
 shootCone: 360
@@ -32,11 +32,11 @@ mirror: false
 bullet: {
 type: explosionBulletType
 hitSound: explosion
-rangeOverride: 10
 hitEffect: pulverize
-splashDamage:20
-splashDamageRadius : 15
+splashDamage: 60
+splashDamageRadius : 30
 instantDespawn: true
+rotate: false
 }
 }
 ]
