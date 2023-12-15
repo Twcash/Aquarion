@@ -2,15 +2,16 @@ localizedName: Sealed Router
 type: router
 category: distribution
 solid: true
+description: A neccesary evil, can take multiple inputs or outputs.
 underBullets: fale
 requirements: [
-lead/10
+lead/5
 ]
 research: {
 planet: tantros
 name: Sealed Conveyor
 parent: sealedconveyor
 requirements: [
-lead/5
+lead/3
 ]
 }
