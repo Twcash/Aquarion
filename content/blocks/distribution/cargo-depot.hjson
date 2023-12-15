@@ -1,13 +1,11 @@
 type: UnitCargoUnloadPoint
 category: distribution
-conductivePower: true
 localizedName: Cargo Depot
-underBullets: true
-solid: false
 size: 2
-itemCapacity: 50
+description: A unload point for unit based transportation
+itemCapacity: 70
 requirements: [
-lead/10
+lead/15
 ]
 squareSprite: false
 research: {
@@ -15,6 +13,6 @@ planet: tantros
 name: Cargo Depot
 parent: sealedconveyor
 requirements: [
-lead/20
+lead/15
 ]
 }
