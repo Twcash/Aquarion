@@ -22,12 +22,16 @@ amount: 3
 ]
 weapons: [
 {
+shoot: {
+firstShotDelay: 90
+}
 name: carid-boom
 shootOnDeath: true
 reload: 24
 shootCone: 360
 shootEffect: massiveExplosion
 shootSound: explosion
+heatProgress: warmup
 mirror: false
 bullet: {
 type: explosionBulletType
