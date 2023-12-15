@@ -1,6 +1,7 @@
 type: HeatCrafter
 outputItem: silicon/5
 craftEffect: fluxVapor
+squareSprite: false
 category: crafting
 localizedName: pyrosilicon Crucible
 description: Refines silicon at high speeds. Uses heat.
@@ -43,6 +44,14 @@ plasma2: a0d98f
 {
 type: drawRegion
 suffix: -middle
+}
+{
+drawHeatRegion
+suffix: -heat
+}
+{
+type: drawGlowRegion
+suffix: -light
 }
 ]
 research: {
