@@ -1,11 +1,12 @@
 category: distribution
 localizedName: Sealed Conveyor
 type: Duct
+description: Transports items forwards.
 speed: 16.2747709476
 underBullets: false
 solid: true
 requirements: [
-lead/3
+lead/2
 ]
 research: {
 planet: tantros
