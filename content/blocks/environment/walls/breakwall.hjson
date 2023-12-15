@@ -1,8 +1,0 @@
-type: StaticWall
-variants: 1
-breakable: true
-category: distribution
-buildable: false
-requirements: [
-lead/200
-]
