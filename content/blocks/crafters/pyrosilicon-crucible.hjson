@@ -46,7 +46,7 @@ type: drawRegion
 suffix: -middle
 }
 {
-drawHeatRegion
+type: drawHeatRegion
 suffix: -heat
 }
 {
