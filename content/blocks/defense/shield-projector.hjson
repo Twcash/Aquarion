@@ -8,6 +8,7 @@ lead/400
 ]
 width: 13
 shieldHealth: 420
+length: 10
 health: 650
 size: 3
 category: defense
