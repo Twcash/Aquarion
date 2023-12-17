@@ -5,10 +5,11 @@ difficulty: 4
 enemyBase: false
 captureWave: 25
 research: {
-parent: algal-feilds
+VastShallows
 objectives: [
 VastShallows,
 fragment,
+sodium,
 ]
 }
 
