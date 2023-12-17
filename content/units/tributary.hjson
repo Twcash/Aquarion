@@ -6,7 +6,7 @@ faceDirection: true
 omniMovement: false
 accel: .2
 drag: .05
-speed: 5
+speed: 2.5
 controller: CargoAI
 isEnemy: false
 logicControllable: false
@@ -14,7 +14,7 @@ allowedInPayloads: false
 playerControllable: false
 itemCapacity: 120
 engineSize: 4
-engineoffset: 12
+engineoffset: 24
 abilities: [
 {
 type: moveEffectAbility
@@ -24,4 +24,4 @@ interval: 35
 }
 ]
 engineColor: 43fc92
-hitSize: 12
+hitSize: 18
