@@ -22,16 +22,3 @@ planet: tantros
 name: Cargo Depot
 parent: cargo-dock
 }
-drawer: [
-{
-type: drawdefault
-}
-{
-type: DrawRegion
-suffix: -bottom
-}
-{
-type: DrawRegion
-suffix: -top
-}
-]
