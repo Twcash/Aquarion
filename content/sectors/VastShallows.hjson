@@ -8,7 +8,8 @@ research: {
 parent: algal-feilds
 objectives: [
 algal-feilds,
-blast-kiln,
+cargo-depot,
+cargo-dock,
 ]
 }
 
