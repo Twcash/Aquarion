@@ -24,11 +24,11 @@ parent: cargo-dock
 }
 drawer: [
 {
-type: drawRegion
+type: DrawRegion
 suffix: -bottom
 }
 {
-type: drawRegion
+type: DrawRegion
 suffix: -top
 }
 ]
