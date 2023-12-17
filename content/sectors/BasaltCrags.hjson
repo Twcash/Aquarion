@@ -1,1 +1,14 @@
+sector: 62
+planet: tantros
+localizedName: Vast Shallows
+difficulty: 4
+enemyBase: false
+captureWave: 25
+research: {
+parent: algal-feilds
+objectives: [
+VastShallows,
+fragment,
+]
+}
 
