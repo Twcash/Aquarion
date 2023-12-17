@@ -1,0 +1,37 @@
+type: UnitCargoLoader
+localizedName: Cargo Dock
+description: An advanced cargo dock. Faster but uses fuel.
+size: 3
+category: distribution
+buildTime: 600
+itemCapacity: 300
+polySides: 8
+polyRadius: 8
+solid: true
+buildCost: 1200
+unitType: tributary
+requirements: [
+lead/400
+bauxite/250
+silicon/150
+sodium/150
+]
+squareSprite: false
+research: {
+planet: tantros
+name: Cargo Depot
+parent: cargo-dock
+}
+drawer: [
+{
+type: drawDefault
+}
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawRegion
+suffix: -top
+}
+]
