@@ -24,6 +24,9 @@ parent: cargo-dock
 }
 drawer: [
 {
+type: drawdefault
+}
+{
 type: DrawRegion
 suffix: -bottom
 }
