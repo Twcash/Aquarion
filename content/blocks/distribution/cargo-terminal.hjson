@@ -1,5 +1,5 @@
 type: UnitCargoLoader
-localizedName: Cargo Dock
+localizedName: Cargo Terminal
 description: An advanced cargo dock. Faster but uses fuel.
 size: 3
 category: distribution
@@ -23,9 +23,6 @@ name: Cargo Depot
 parent: cargo-dock
 }
 drawer: [
-{
-type: drawDefault
-}
 {
 type: drawRegion
 suffix: -bottom
