@@ -6,6 +6,7 @@ enemyBase: false
 captureWave: 25
 research: {
 VastShallows
+}
 objectives: [
 VastShallows,
 fragment,
