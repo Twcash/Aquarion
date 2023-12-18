@@ -4,7 +4,7 @@ blendGroup: basalt
 variants: 2
 attributes: {
 heat: 1
-steam/1
+steam: 1
 }
 effect: airBubble
 effectSpacing: 70
