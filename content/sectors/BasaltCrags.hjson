@@ -5,7 +5,7 @@ difficulty: 4
 enemyBase: false
 captureWave: 25
 research: {
-VastShallows
+parent: VastShallows
 }
 objectives: [
 VastShallows,
