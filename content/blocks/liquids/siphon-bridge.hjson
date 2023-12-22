@@ -1,1 +1,15 @@
-
+type: liquidBridge
+requirements: [
+lead/20
+bauxite/20
+]
+localizedName: Siphon Bridge
+category: liquid
+research: {
+parent: siphon
+planet: tantros
+requirements: [
+lead/80
+bauxite/40
+]
+}
