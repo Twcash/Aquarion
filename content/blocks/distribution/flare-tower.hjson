@@ -22,11 +22,11 @@ consumes: [
 effect: [
 {
   particles: 5
-    length: 20
-    sizeFrom: 8
-    sizeTo: 10
-    lifeTime: 240
+    length: 60
+    sizeFrom: 6
+    sizeTo: 0
+    lifeTime: 600
     colorFrom: 312a16
-    colorTo: 786424
+    colorTo: 000000
 }
   ]
