@@ -1,4 +1,6 @@
 type: LiquidRouter
+localizedName: Siphon Router
+description: Has inputs and/or outputs in all directions.
 requirements: [
   lead/15
   bauxite/5
