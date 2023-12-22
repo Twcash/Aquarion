@@ -3,7 +3,6 @@ size: 2
 outputItem: sodium/1
 conductivePower: true
 consumes: {
-power: 1
  items: [
     coal/1
   ]
