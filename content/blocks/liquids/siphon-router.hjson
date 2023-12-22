@@ -1,0 +1,13 @@
+type: LiquidRouter
+requirements: [
+  lead/15
+  bauxite/5
+  ]
+  research: {
+parent: siphon
+  planet: tantros
+  requirements: [
+  lead/100
+  bauxite/50
+  ]
+  }
