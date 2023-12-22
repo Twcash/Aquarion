@@ -1,0 +1,31 @@
+type: incinerator
+  size: 2
+  description: Incinerates items and liquids
+category: distribution
+  localizedName: Flare Tower
+consumes: [
+  power: .25
+  ]
+  requirements: [
+  bauxite/20
+  lead/120
+  ]
+  research: {
+  planet: tantros
+    parent: sealedconveyor
+    requirements: [
+    lead/20
+    bauxite/10
+    ]
+}
+effect: [
+{
+  particles: 5
+    length: 20
+    sizeFrom: 8
+    sizeTo: 10
+    lifeTime: 240
+    colorFrom: 312a16
+    colorTo: 786424
+}
+  ]
