@@ -4,6 +4,7 @@ lead/20
 bauxite/20
 ]
 localizedName: Siphon Bridge
+range: 3
 category: liquid
 research: {
 parent: siphon
