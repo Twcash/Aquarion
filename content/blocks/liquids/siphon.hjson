@@ -1,2 +1,15 @@
 type: ArmoredConduit
 localizedName: Siphon
+requirements: [
+lead/2
+bauxite/1
+]
+category: liquid
+research: {
+parent: sealedconveyor
+planet: tantros
+requirements: [
+lead/50
+bauxite/20
+]
+}
