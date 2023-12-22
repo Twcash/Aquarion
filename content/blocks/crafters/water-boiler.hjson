@@ -23,7 +23,7 @@ sizeFrom: 4
 particles: 3
 sizeTo: 0
 baseRotation: 45
-lifetime: 20
+lifetime: 80
 colorFrom: ffbdd4
 colorTo: fc81dd
 }
@@ -33,7 +33,7 @@ sizeFrom: 4
 particles: 3
 sizeTo: 0
 baseRotation: -45
-lifetime: 20
+lifetime: 80
 colorFrom: ffbdd4
 colorTo: fc81dd
 }
@@ -42,8 +42,8 @@ cone: 5
 sizeFrom: 4
 particles: 3
 sizeTo: 0
-baseRotation: -90
-lifetime: 20
+baseRotation: -135
+lifetime: 80
 colorFrom: ffbdd4
 colorTo: fc81dd
 }
@@ -52,8 +52,8 @@ cone: 5
 sizeFrom: 4
 particles: 3
 sizeTo: 0
-baseRotation: 90
-lifetime: 20
+baseRotation: 135
+lifetime: 80
 colorFrom: ffbdd4
 colorTo: fc81dd
 }
