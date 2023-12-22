@@ -7,9 +7,13 @@ power: 1
  items: [
     coal/1
   ]
+liquid: {
+liquid: hydroxide
+amount: .16
 }
-description: uses coal to boil water into sodium. Releases heat as a by-product.
-localizedName: Coal Heater
+}
+description: uses coal to decompose hydroxide into sodium. Releases heat as a by-product.
+localizedName: Hydroxide Reactor
 category: crafting
 rotateDraw: false
 craftEffect: fluxVapor
