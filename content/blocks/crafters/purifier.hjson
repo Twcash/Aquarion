@@ -12,7 +12,7 @@ bauxite/160
 consumes: {
 power: 4
 items: [
-bauxite
+bauxite/1
 ]
 }
 drawer: [

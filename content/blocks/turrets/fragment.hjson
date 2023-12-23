@@ -5,6 +5,7 @@ category: turret
 reload: 10
 recoil: 2
 shootSound: shootBig
+shootCone: 30
 requirements: [
 lead/120
 metaglass/60
@@ -15,8 +16,7 @@ range: 120
 size: 3
 ammoTypes: {
 metaglass: {
-shootSound: shootBig
-shootCone: 30
+
 type: artilleryBulletType
 status: slow
 damage: 4
