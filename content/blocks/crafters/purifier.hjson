@@ -1,0 +1,35 @@
+type: GenericCrafter
+localizedName: Hydroxide Concentrator
+squareSprite: false
+description: Concentrates hydroxide by boiling large amounts of saline water.
+size: 3
+category: crafting
+craftTime: 10
+requirements: [
+lead/200
+bauxite/160
+]
+consumes: {
+power: 4
+items: [
+bauxite
+]
+}
+drawer: [
+{
+type: drawdefault
+}
+{
+type: DrawCrucibleFlame
+}
+]
+outputLiquid: hydroxide/.1
+research: {
+requirements: [
+lead/120
+bauxite/60
+]
+parent: geothermal-generator
+name: Hydroxide-concentrator
+planet: tantros
+}
