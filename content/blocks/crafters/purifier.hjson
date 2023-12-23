@@ -4,7 +4,7 @@ squareSprite: false
 description: Concentrates hydroxide by boiling large amounts of saline water.
 size: 3
 category: crafting
-craftTime: 10
+craftTime: 45
 requirements: [
 lead/200
 bauxite/160
@@ -20,10 +20,18 @@ drawer: [
 type: drawdefault
 }
 {
+type: DrawRegion
+suffix: -bottom
+}
+{
 type: DrawCrucibleFlame
 }
+{
+type: DrawRegion
+suffix: -top
+}
 ]
-outputLiquid: hydroxide/.1
+outputLiquid: hydroxide/.25
 research: {
 requirements: [
 lead/120
