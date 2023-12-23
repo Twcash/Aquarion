@@ -17,9 +17,6 @@ bauxite/1
 }
 drawer: [
 {
-type: drawdefault
-}
-{
 type: DrawRegion
 suffix: -bottom
 }
