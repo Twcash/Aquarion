@@ -4,7 +4,7 @@ localizedName: Algal Fields
 difficulty: 2
 enemyBase: false
 captureWave: 6
+alwaysUnlocked: true
 research: {
 parent: core-pike
-alwaysUnlocked: true
 }
