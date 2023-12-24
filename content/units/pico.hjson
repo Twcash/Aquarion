@@ -11,9 +11,12 @@ rotateSpeed: 15
 engineSize: 0
 localizedName: pico
 requirements: {
-block: utility-factory
-metaglass/30
+  block: utility-factory
+  time: 700
+  requirements: [
 silicon/20
+metaglass/30
+  ]
 }
 research: {
 planet: tantros
