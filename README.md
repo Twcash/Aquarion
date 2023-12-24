@@ -1,7 +1,7 @@
 # Tantros-test
 An Attempt to add tantros
 May or may not be good but I will try my best.
-not compatiable with Foo's client
+not compatiable with Foo's client, New Horizons, and possibly more
 
 Since this is still testing there is a major bug I am currently working on.
 It is simple but many will think that the campaign is locked, it is not.
