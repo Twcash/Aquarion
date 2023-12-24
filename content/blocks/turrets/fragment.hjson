@@ -11,7 +11,7 @@ lead/120
 metaglass/60
 bauxite/50
 ]
-health: 1300
+health: 450
 range: 120
 size: 3
 ammoTypes: {
