@@ -24,6 +24,9 @@ suffix: -bottom
 type: DrawCrucibleFlame
 }
 {
+type: DrawPistons
+}
+{
 type: DrawRegion
 suffix: -top
 }
