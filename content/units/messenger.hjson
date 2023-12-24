@@ -1,8 +1,9 @@
 type: mech
-health: 150
-armor: 2
-hitSize: 7
-speed: .7
+health: 250
+armor: 1
+hitSize: 10
+speed: .6
+localizedName: Messenger
 weapons: [
 {
 name: messenger-mount
