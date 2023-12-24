@@ -1,4 +1,5 @@
 type: wall
+localizedName: Bauxite Wall
   size: 2
 health: 480
   category: defense
