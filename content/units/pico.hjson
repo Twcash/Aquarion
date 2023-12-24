@@ -3,7 +3,7 @@ flying: true
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
-defaultCommand: assistCommand 
+defaultCommand: assist
 hitSize: 4
 buildSpeed: .2
 speed: .5
