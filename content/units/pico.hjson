@@ -19,6 +19,5 @@ research: {
 planet: tantros
 parent: utility-factory
 }
-drawCell: false
 isEnemy: false
 health: 120
