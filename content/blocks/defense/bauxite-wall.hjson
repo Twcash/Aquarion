@@ -1,5 +1,6 @@
 type: wall
 localizedName: Bauxite Wall
+description: A basic wall to defend vulnerable structures.
   size: 2
 health: 480
   category: defense
