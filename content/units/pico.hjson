@@ -12,12 +12,13 @@ engineSize: 0
 localizedName: pico
 requirements: {
 block: utility-factory
-items: [
 metaglass/30
 silicon/20
-]
 }
 research: {
 planet: tantros
 parent: utility-factory
 }
+drawCell: false
+isEnemy: false
+health: 120
