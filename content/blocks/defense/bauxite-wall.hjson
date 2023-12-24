@@ -1,5 +1,6 @@
 type: wall
   size: 2
+health: 480
   category: defense
 requirements: [
   bauxite/36
