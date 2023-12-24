@@ -7,7 +7,7 @@ size: 2
 requirements: [
 silicon/60
 lead/120
-baxite/200
+bauxite/200
 ]
 consumes: {
 power: 2.5
