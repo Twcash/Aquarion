@@ -1,1 +1,23 @@
 type: flying
+flying: true
+lowAltitude: true
+outlineColor: 2f3734
+drag: .2
+defaultCommand: assistCommand 
+hitSize: 4
+buildSpeed: .2
+speed: .5
+rotateSpeed: 15
+engineSize: 0
+localizedName: pico
+requirements: {
+block: utility-factory
+items: [
+metaglass/30
+silicon/20
+]
+}
+research: {
+planet: tantros
+parent: utility-factory
+}
