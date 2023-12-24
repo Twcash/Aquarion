@@ -85,11 +85,12 @@ moveRot: 15
 ]
 }
 research: {
-name: Forment
-parent: core-pike
+name: Fragment
+parent: forment
 requirements: [
-lead/40
-bauxite/20
+lead/200
+metaglass/60
+bauxite/120
 ]
 planet: tantros
 }
