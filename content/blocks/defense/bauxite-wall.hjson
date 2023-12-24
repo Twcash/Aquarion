@@ -1,0 +1,13 @@
+type: wall
+  size: 2
+  category: defense
+requirements: [
+  bauxite/36
+  ]
+  research: {
+  parent: core-pike
+    planet: tantros
+    requirements: [
+    bauxite/150
+    ]
+}
