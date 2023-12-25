@@ -1,0 +1,4 @@
+type: floor
+  itemDrop: sand
+  playerUnmineable: true
+  variants: 3
