@@ -5,8 +5,9 @@ research: {
   parent: core-pike
     planet: tantros
 }
-unitsSpawned: 2
-droneType: huh
+squareSpite: false
+unitsSpawned: 3
+droneType: repair-drone
 size: 2
 droneRange: 70
 requirements: [
