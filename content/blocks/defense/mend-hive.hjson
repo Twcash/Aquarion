@@ -6,7 +6,7 @@ research: {
     planet: tantros
 }
 unitsSpawned: 2
-droneType: repair-drone
+droneType: huh
 size: 2
 droneRange: 70
 requirements: [
