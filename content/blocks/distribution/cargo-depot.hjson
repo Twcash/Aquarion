@@ -2,6 +2,7 @@ type: UnitCargoUnloadPoint
 category: distribution
 localizedName: Cargo Depot
 size: 2
+staleTimeDuration: 1
 description: A unload point for unit based transportation
 itemCapacity: 70
 requirements: [
