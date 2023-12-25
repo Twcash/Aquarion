@@ -2,6 +2,7 @@ type: tether
 flying: true
 localizedName: Repair Drone
 speed: 2
+useUnitCap: false
 faceTarget: true
 rotateSpeed: 2
 health: 30
