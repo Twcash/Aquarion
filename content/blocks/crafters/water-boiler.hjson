@@ -12,7 +12,7 @@ amount: .16
 }
 }
 description: uses coal to decompose hydroxide into sodium. Releases heat as a by-product.
-outputLiquid: hydrogen/1
+outputLiquid: hydrogen/.125
 localizedName: Hydroxide Reactor
 category: crafting
 rotateDraw: false
@@ -61,8 +61,6 @@ colorTo: fc81dd
 aambientSound: extractLoop
 heatOutput: 5
 liquidCapacity: 30
-//HAHAHAHHHAHAHHAHAHAHAHAAHHAHHAHAHA
-outPutLiquid: steam/1.66666
 requirements: [
 metaglass/20
 lead/10
