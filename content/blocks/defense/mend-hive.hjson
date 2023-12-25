@@ -1,0 +1,18 @@
+type: DroneCenter
+  localizedName: Mend Hive
+description: Builds repair drones for repairing damaged structures.
+research: {
+  parent: core-pike
+    planet: tantros
+}
+unitsSpawned: 2
+droneType: repair-drone
+size: 2
+droneRange: 70
+requirements: [
+lead/200
+  sodium/120
+  silicon/40
+  bauxite/120
+]
+category: defense
