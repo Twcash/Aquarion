@@ -1,0 +1,16 @@
+type: wall
+localizedName: Large Bauxite Wall
+description: A basic wall to defend vulnerable structures.
+  size: 3
+health: 1080
+  category: defense
+requirements: [
+  bauxite/54
+  ]
+  research: {
+  parent: bauxite-wall
+    planet: tantros
+    requirements: [
+    bauxite/400
+    ]
+}
