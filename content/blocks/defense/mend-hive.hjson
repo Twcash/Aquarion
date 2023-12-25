@@ -5,7 +5,7 @@ research: {
   parent: core-pike
     planet: tantros
 }
-squareSpite: false
+squareSprite: false
 unitsSpawned: 3
 droneType: repair-drone
 size: 2
