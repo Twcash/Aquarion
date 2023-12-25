@@ -5,7 +5,7 @@ displayEfficiencyScale: .1111111111
 generateEffect: airBubble
 effectChance : .011
 hasLiquids: true
-minEfficiency: 8
+minEfficiency: 6
 baseEfficiency: 0
 displayEfficiency: false
 category: power
