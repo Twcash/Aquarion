@@ -12,16 +12,20 @@ range: 45
 defaultController: RepairAI
 weapons: [
 {
+x: 1
 rotate: false
 mirror: false
 reload: 40
 bullet: {
 damage: 0
-speed: 3
-healPercent: 2
+speed: 2
+height: 3
+width: 1
+healPercent: 5
 collidesTeam: true
 lifetime: 45
-color: 92dd7e
+frontColor: 92dd7e
+backColor: 3a8f64
 type: LaserBoltBulletType
 }
 }
