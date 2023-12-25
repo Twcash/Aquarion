@@ -16,3 +16,10 @@ lead/200
   bauxite/120
 ]
 category: defense
+consumes: {
+power: 5.5
+liquid: {
+liquid: hydroxide
+amount: .25
+}
+}
