@@ -5,7 +5,7 @@ description: A basic wall to defend vulnerable structures.
 health: 480
   category: defense
 requirements: [
-  bauxite/36
+  bauxite/24
   ]
   research: {
   parent: core-pike
