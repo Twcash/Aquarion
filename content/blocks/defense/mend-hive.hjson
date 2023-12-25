@@ -19,7 +19,7 @@ category: defense
 consumes: {
 power: 5.5
 liquid: {
-liquid: hydroxide
+liquid: hydrogen
 amount: .25
 }
 }
