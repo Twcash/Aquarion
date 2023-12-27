@@ -3,6 +3,19 @@ size: 5
 squareSprite: false
 powerProduction: 20.8333333333
 localizedName: Hydroxide Reactor
+health: 1250
+explosionRadius: 45
+explosionDamage: 3500
+explosionEffect: [
+{
+type: explosionEffect
+smokes: 20
+smokeRad: 60
+smokeSize: 15
+sparks: 0
+waveRad: 60
+}
+]
 effectChance: .5
 generateEffect: [
 {
