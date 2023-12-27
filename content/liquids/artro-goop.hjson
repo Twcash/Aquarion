@@ -6,3 +6,4 @@ color: 60a1ae
 lightColor: 60a1ae 
 maxSpread: 2
 Viscosity: .80
+hidden: true
