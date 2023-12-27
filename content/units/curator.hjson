@@ -1,0 +1,122 @@
+type: legs
+speed: .7
+rotateSpeed: 3
+hitSize: 20
+health: 1250
+heatProgress: reload
+legCount: 6
+stepShake: 0
+reload: 200
+cooldownTime: 120
+legLenght: 60
+hovering: true
+groundLayer: 75
+legContinuousMove: true
+legGroupSize: 3
+lockLegBase: true
+legMaxLength: 1.1
+lockLegBase: true
+legMinLength: .9
+legMoveSpace: 1.4
+legExtension: -5
+continuous: true
+parentizeEffects: true
+baseLegStraightness: .6
+shadowElevation: .2
+legBaseOffset: 5
+weapons: [
+{
+name: curator-weapon
+chargeEffect: greenLaserChargeSmall
+shootEffect: greenCloud  
+rotate: false
+mirror: false
+x: 0
+y: 0
+recoil: 4
+heatColor: 3a8f64
+reload: 150
+shoot: {
+firstShotDelay: 60
+shots: 3
+shotDelay: 5
+}
+bullet: {
+chargeEffect: [
+{
+lifetime: 50
+type: waveEffect
+colorFrom: 3a8f64
+colorTo: 92dd7e
+strokeTo: 2
+strokeFrom: 0
+sizeFrom: 10
+sizeTo: 0
+}
+]
+shootEffect: [
+{
+lifetime: 10
+type: particleEffect
+strokeFrom: 2
+strokeTo: 0
+colorFrom: 92dd7e
+colorTo: 3a8f64
+sizeFrom: 2
+sizeTo: 0
+line: true
+}
+]
+speed: 2.5
+lifetime: 60
+fragBullets: 4
+fragBullet: {
+speed: 5
+lifetime: 5
+type: basicBulletType
+fragSpread: 10
+fragRandomSpread: 0
+backColor: 6fb95b
+trailColor: 3a8f64
+frontColor: 92dd7e
+trailLength: 4
+lifeTime: 60
+splashDamage: 4
+splashDamageRadius: 15
+homingRange: 70
+homingPower: 1
+hitEffect: [
+{
+type: ExplosionEffect
+waveColor: 92dd7e
+sparkColor: 3a8f64
+smokes: 0
+}
+]
+despawnEffect: [
+{
+type: ExplosionEffect
+waveColor: 92dd7e
+sparkColor: 3a8f64
+smokes: 0
+}
+]
+}
+type: artilleryBulletType
+shrinkX: -.5
+shrinkY: -2
+backColor: 6fb95b
+trailColor: 3a8f64
+frontColor: 92dd7e
+}
+}
+]
+research: {
+planet: tantros
+parent: yura
+name: Curator
+}
+requirements: {
+previous: yura
+block: correlative-reconstructor
+}
