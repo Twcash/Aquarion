@@ -4,9 +4,18 @@ squareSprite: false
 powerProduction: 20.8333333333
 localizedName: Hydroxide Reactor
 health: 1250
-explosionRadius: 45
+explosionRadius: 25
 explosionDamage: 3500
-explosionEffect: [
+destroyBullet: {
+  type: BulletType
+  speed: 0
+  lifetime: 0
+  damage: 0
+  collides: false
+  absorbable: false
+  hittable: false
+  hitEffect: none
+  despawnEffect: [
 {
 type: explosionEffect
 smokes: 20
@@ -16,6 +25,7 @@ sparks: 0
 waveRad: 60
 }
 ]
+}
 effectChance: .5
 generateEffect: [
 {
