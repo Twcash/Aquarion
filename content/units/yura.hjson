@@ -1,6 +1,6 @@
 type: legs
 flying: false
-localizedName: Yura
+localizedName: Steward
 health: 300
 armor: 2
 speed: .9
@@ -12,6 +12,11 @@ legLength: 9
 legMoveSpace: 2
 legForwardScl: 1.2
 hovering: true
+research: {
+parent: conversive-reconstructor
+name: Steward
+planet: tantros
+}
 requirements: {
   previous: unknown
  block: conversive-reconstructor
