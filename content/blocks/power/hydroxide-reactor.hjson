@@ -1,7 +1,8 @@
 type: ConsumeGenerator
 size: 5
 squareSprite: false
-powerProduction: 55
+powerProduction: 20.8333333333
+localizedName: Hydroxide Reactor
 effectChance: .5
 generateEffect: [
 {
@@ -15,7 +16,7 @@ sizeTo: 0
 offset: 45
 }
 ]
-outputLiquid: hydrogen/.10
+outputLiquid: hydrogen/.25
 consumes: {
 items: [
 bauxite/1
