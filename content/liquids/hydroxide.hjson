@@ -1,3 +1,8 @@
 localizedName: Hydroxide
 color: a97abf
 type: liquid
+research: {
+planet: tantros
+name: Hydroxide
+parent: core-pike
+}
