@@ -14,8 +14,8 @@ colorTo: 91749a
 sizeTo: 0
 offset: 45
 }
-outputLiquid: hydrogen/.10
 ]
+outputLiquid: hydrogen/.10
 consumes: {
 items: [
 bauxite/1
