@@ -5,6 +5,7 @@ dronesCreated: 4
 size: 5
 squareSprite: false
 health: 2000
+droneType: construction-drone
 plans: [
 {
 unit: cyprin
