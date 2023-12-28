@@ -10,6 +10,8 @@ logicControllable: false
 allowedInPayloads: false
 playerControllable: false
 itemCapacity: 40
+findAnyTarget: true
+//does this even work???
 engineSize: 3
 engienoffset: 12
 emptyWaitTime: 5
