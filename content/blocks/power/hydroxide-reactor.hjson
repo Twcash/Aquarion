@@ -8,12 +8,15 @@ explosionRadius: 25
 explosionDamage: 3500
 destroyEffect: [
 {
+lifetime: 320
 type: explosionEffect
 smokes: 20
 smokeRad: 60
 smokeSize: 15
 sparks: 0
-waveRad: 60
+waveRad: 12
+waveLife: 120
+
 }
 ]
 effectChance: .5
