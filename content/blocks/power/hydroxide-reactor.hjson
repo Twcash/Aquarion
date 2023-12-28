@@ -22,12 +22,12 @@ waveStroke: 45
 waveLife: 100
 }
 {
-lifetime: 600
+lifetime: 430
 particles: 35
 colorFrom: dff7ff
 colorTo: 7dbf94
 sizeFrom: 25
-sizeTo: 10
+sizeTo: 5
 }
 ]
 effectChance: .5
