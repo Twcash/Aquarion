@@ -1,0 +1,16 @@
+type: ParticleWeather
+color: a17c3f
+particleRegion: particle
+localizedName: Waste Current
+duration: 45000
+sizeMax: 10
+sizeMin: 1
+density: 1500
+useWindVector: true
+drawNoise: true
+noiseColor: 6d5a3a
+opacityMultiplier: .9
+baseSpeed: 2.5
+soundVol: 0.65
+force: .1
+noisePath: noiseAlpha
