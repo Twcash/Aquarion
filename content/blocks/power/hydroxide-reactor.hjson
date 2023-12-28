@@ -9,12 +9,15 @@ explosionDamage: 3500
 destroyEffect: [
 {
 lifetime: 320
+smokeColor: a362ae
 type: explosionEffect
 smokes: 20
 smokeRad: 60
 smokeSize: 15
 sparks: 0
-waveRad: 12
+waveRad: 120
+waveRadBase: 10
+waveColor: 9ed2e4
 waveLife: 120
 
 }
