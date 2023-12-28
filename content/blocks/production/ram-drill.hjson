@@ -7,6 +7,7 @@ warmupSpeed: .001
 drillTime: 400
 drawMineItem: false
 drillEffect: airBubble
+updateEffect: airBubble
 rotateSpeed: 6
 consumes: {
 power: 1.5
