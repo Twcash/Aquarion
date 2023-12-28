@@ -13,7 +13,7 @@ amount: .16
 }
 description: uses coal to decompose hydroxide into sodium. Releases heat as a by-product.
 outputLiquid: hydrogen/.125
-localizedName: Hydroxide Reactor
+localizedName: Hydroxide Heater
 category: crafting
 rotateDraw: false
 craftEffect: [
