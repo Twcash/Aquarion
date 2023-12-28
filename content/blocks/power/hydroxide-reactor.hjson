@@ -24,8 +24,8 @@ waveLife: 100
 {
 lifetime: 430
 particles: 35
-colorFrom: dff7ff
-colorTo: 7dbf94
+colorFrom: 9ed2e4
+colorTo: 9868aa
 sizeFrom: 25
 sizeTo: 1
 }
