@@ -18,11 +18,10 @@ sparks: 0
 waveRad: 300
 waveRadBase: 40
 waveColor: 9ed2e4
-waveStroke: 20
+waveStroke: 45
 waveLife: 100
 }
 {
-type: particleEffect
 lifetime: 600
 particles: 35
 colorFrom: dff7ff
