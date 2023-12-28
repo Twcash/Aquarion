@@ -4,7 +4,7 @@ squareSprite: false
 localizedName: Ram Drill
 category: production
 warmupSpeed: .001
-drillTime: 400
+drillTime: 260
 drawMineItem: false
 drillEffect: airBubble
 updateEffect: airBubble
