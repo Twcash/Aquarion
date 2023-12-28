@@ -12,6 +12,8 @@ playerControllable: false
 itemCapacity: 40
 engineSize: 3
 engienoffset: 12
+emptyWaitTime: 5
+dropSpacing: 10
 abilities: [
 {
 type: moveEffectAbility
