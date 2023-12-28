@@ -11,12 +11,14 @@ updateEffect: airBubble
 rotateSpeed: 6
 consumes: {
 power: 3
-liquid: {
+liquids: [
+{
 liquid: hydrogen
 booster: false
 optional: false
 amount: .4
 }
+]
 }
 itemCapacity: 60
 size: 3
