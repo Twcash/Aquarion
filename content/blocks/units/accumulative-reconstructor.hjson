@@ -1,4 +1,6 @@
 type: UnitAssembler
+localizedName: Accumulative Assembler
+description: Assembles tier 3 units.
 dronesCreated: 4
 size: 5
 squareSprite: false
@@ -8,8 +10,8 @@ plans: [
 unit: cyprin
 time: 2700
 requirements: [
-anguilli/2
-yura/1
+tantros-test-anguilli/2
+tantros-test-yura/1
 ]
 }
 ]
