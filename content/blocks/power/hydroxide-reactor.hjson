@@ -22,8 +22,10 @@ waveStroke: 45
 waveLife: 100
 }
 {
-lifetime: 430
-particles: 35
+lifetime: 360
+particles: 20
+strokeFrom: 0
+strokeTo: 10
 colorFrom: 9ed2e4
 colorTo: 9868aa
 sizeFrom: 25
