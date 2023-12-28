@@ -4,19 +4,11 @@ size: 5
 health: 2000
 plans: [
 {
-unit: crawler
-time: 5000
+unit: cyprin
+time: 2700
 requirements: [
-router/1
-duo/1
-]
-}
-{
-unit: dagger
-time: 6000
-requirements: [
-scatter/1
-copper-wall/1
+anguilli/2
+yura/1
 ]
 }
 ]
@@ -27,8 +19,9 @@ category: units
 consumes: {
 power: 5.5
 liquids: [
-water/.5
-slag/.25
+hydrogen/.5
+// temp
+//slag/.25
 ]
 }
 areaSize: 7
