@@ -2,6 +2,7 @@ type: legs
 speed: .7
 rotateSpeed: 3
 hitSize: 20
+localizedName: Curator
 health: 1250
 heatProgress: reload
 legCount: 6
