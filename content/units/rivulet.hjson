@@ -11,6 +11,7 @@ allowedInPayloads: false
 playerControllable: false
 itemCapacity: 40
 findAnyTarget: true
+targetIndex: offset
 //does this even work???
 engineSize: 3
 engienoffset: 12
