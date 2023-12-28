@@ -1,7 +1,7 @@
 type: burstDrill
 category: production
 localizedName: Compression Drill
-drillTime: 360
+drillTime: 310
 conductivePower: true
 size: 2
 tier: 4
