@@ -6,7 +6,7 @@ powerProduction: 20.8333333333
 localizedName: Hydroxide Reactor
 health: 1250
 explosionRadius: 25
-explosionDamage: 3500
+explosionDamage: 1500
 destroyEffect: [
 {
 lifetime: 320
