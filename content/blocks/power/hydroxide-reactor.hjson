@@ -16,7 +16,7 @@ smokes: 45
 smokeRad: 60
 smokeSize: 15
 sparks: 0
-waveRad: 300
+waveRad: 100
 waveRadBase: 40
 waveColor: 7ea4b9
 waveStroke: 60
