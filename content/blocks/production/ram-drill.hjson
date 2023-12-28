@@ -1,0 +1,15 @@
+tier: 4
+type: Drill
+category: production
+warmupSpeed: .001
+drillTime: 320
+drawMineItem: false
+rotateSpeed: 6
+consumes: {
+power: 1.5
+}
+itemCapacity: 60
+size: 3
+requirements: [
+lead/10
+]
