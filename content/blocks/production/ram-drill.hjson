@@ -6,6 +6,7 @@ category: production
 warmupSpeed: .001
 drillTime: 400
 drawMineItem: false
+drillEffect: airBubble
 rotateSpeed: 6
 consumes: {
 power: 1.5
