@@ -8,8 +8,11 @@ size: 5
 unitCapModifier: 45
 unitType: cull
 requirements: [
-bauxite/1000
-lead/2000
+bauxite/2000
+sodium/500
+silicon/2500
+metaglass/1500
+lead/3500
 ]
 category: effect
 hasItems: true
