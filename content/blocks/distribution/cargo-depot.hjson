@@ -4,7 +4,7 @@ localizedName: Cargo Depot
 size: 2
 staleTimeDuration: 1
 description: A unload point for unit based transportation
-itemCapacity: 70
+itemCapacity: 30
 requirements: [
 lead/15
 ]
