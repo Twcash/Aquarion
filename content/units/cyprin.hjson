@@ -56,7 +56,3 @@ keepVelocity: false
 }
 }
 ]
-requirements: {
-  previous: anguilli
- block: accumulative-reconstructor
-}
