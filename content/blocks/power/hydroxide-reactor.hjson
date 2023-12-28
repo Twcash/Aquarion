@@ -27,7 +27,7 @@ particles: 35
 colorFrom: dff7ff
 colorTo: 7dbf94
 sizeFrom: 25
-sizeTo: 5
+sizeTo: 1
 }
 ]
 effectChance: .5
