@@ -1,2 +1,6 @@
 type: floor
   variants: 3
+cacheLayer: mud
+walkSound: mud
+walkSoundVolume: .08
+speedMultiplier: .7
