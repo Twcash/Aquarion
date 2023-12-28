@@ -18,7 +18,7 @@ smokeSize: 15
 sparks: 0
 waveRad: 300
 waveRadBase: 40
-waveColor: 9ed2e4
+waveColor: 964fa3
 waveStroke: 20
 waveLife: 100
 }
