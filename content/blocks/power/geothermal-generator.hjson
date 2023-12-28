@@ -9,7 +9,7 @@ minEfficiency: 6
 baseEfficiency: 0
 displayEfficiency: false
 category: power
-powerProduction: 1.8
+powerProduction: 0.55555555555
 requirements: [
 bauxite/20
 lead/60
