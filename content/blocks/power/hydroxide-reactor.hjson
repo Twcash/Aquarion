@@ -19,7 +19,7 @@ sparks: 0
 waveRad: 300
 waveRadBase: 40
 waveColor: 9ed2e4
-waveStroke: 45
+waveStroke: 20
 waveLife: 100
 }
 {
