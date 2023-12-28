@@ -13,7 +13,24 @@ itemCapacity: 40
 engineSize: 3
 engienoffset: 12
 emptyWaitTime: 5
-targetIndex: 1
+targets: [
+5,
+2,
+7,
+12,
+1,
+3,
+20,
+9,
+4,
+11,
+19,
+13,
+6,
+15,
+16
+]
+//STOP BEING BIASED
 dropSpacing: 10
 abilities: [
 {
