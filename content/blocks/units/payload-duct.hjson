@@ -1,5 +1,6 @@
 type: PayloadConveyor
 localizedName: Payload Duct
+interp: elastic
 requirements: [
 lead/10
 metaglass/5
