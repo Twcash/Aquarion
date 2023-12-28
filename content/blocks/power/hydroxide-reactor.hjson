@@ -20,7 +20,7 @@ waveRad: 100
 waveRadBase: 40
 waveColor: 7ea4b9
 waveStroke: 60
-waveLife: 100
+waveLife: 30
 }
 {
 lifetime: 360
