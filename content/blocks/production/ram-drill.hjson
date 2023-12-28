@@ -1,8 +1,10 @@
 tier: 4
 type: Drill
+squareSprite: false
+localizedName: Ram Drill
 category: production
 warmupSpeed: .001
-drillTime: 320
+drillTime: 400
 drawMineItem: false
 rotateSpeed: 6
 consumes: {
@@ -10,6 +12,14 @@ power: 1.5
 }
 itemCapacity: 60
 size: 3
+research: {
+parent: compression-drill
+name: Ram Drill
+planet: tantros
+}
 requirements: [
-lead/10
+lead/120
+silicon/60
+bauxite/200
+sodium/30
 ]
