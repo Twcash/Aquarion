@@ -13,7 +13,7 @@ amount: .16
 }
 description: uses coal to decompose hydroxide into sodium. Releases heat as a by-product.
 outputLiquid: hydrogen/.125
-localizedName: Hydroxide Heater
+localizedName: Reaction Heater
 category: crafting
 rotateDraw: false
 craftEffect: [
@@ -85,6 +85,6 @@ lead/20
 bauxite/30
 ]
 parent: geothermal-generator
-name: Water Boiler
+name: Reaction Heater
 planet: tantros
 }
