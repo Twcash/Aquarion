@@ -10,7 +10,11 @@ drillEffect: airBubble
 updateEffect: airBubble
 rotateSpeed: 6
 consumes: {
-power: 1.5
+power: 3
+liquid: {
+liquid: hydrogen
+amount: .4
+}
 }
 itemCapacity: 60
 size: 3
