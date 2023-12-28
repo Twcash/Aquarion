@@ -1,4 +1,5 @@
 type: ConsumeGenerator
+description: Produces a large amount of power by reacting aluminas and sodium hydroxide as a catalyst. Very hazardous.
 size: 5
 squareSprite: false
 powerProduction: 20.8333333333
