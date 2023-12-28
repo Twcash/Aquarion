@@ -1,0 +1,21 @@
+type: CoreBlock
+localizedName: Core: Cuesta
+description: The core of the Base, once destroyed the sector is lost. More efficient than the first iteration.
+squareSprite: false
+health: 4500
+itemCapacity: 9000
+size: 5
+unitCapModifier: 45
+unitType: cull
+requirements: [
+bauxite/1000
+lead/2000
+]
+category: effect
+hasItems: true
+hasColor: true
+research: {
+root: true
+name: Core: Cuesta
+planet: tantros
+}
