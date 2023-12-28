@@ -1,0 +1,16 @@
+{
+type: RainWeather
+localizedName: Hail
+ySpeed: .3
+density: 2000
+xSpeed: .2
+padding: 20
+sizeMin: 2
+sizeMax: 5
+splashTimeScale: 120
+color: 9bbbcc
+status: slow
+attributes: {
+light: -.4
+}
+}
