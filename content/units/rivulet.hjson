@@ -13,6 +13,7 @@ itemCapacity: 40
 engineSize: 3
 engienoffset: 12
 emptyWaitTime: 5
+targetIndex: 1
 dropSpacing: 10
 abilities: [
 {
