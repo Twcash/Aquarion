@@ -1,4 +1,5 @@
 type: ParticleWeather
+localizedName: Turbulence
 color: 3b6a83
 noiseColor: 305062
 particleRegion: particle
