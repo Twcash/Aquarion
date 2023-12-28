@@ -22,7 +22,7 @@ waveLife: 100
 }
 {
 type: particleEffect
-lifeTime: 400
+lifetime: 600
 particles: 20
 colorFrom: dff7ff
 colorTo: 7dbf94
