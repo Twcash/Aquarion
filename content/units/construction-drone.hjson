@@ -2,6 +2,7 @@ type: tether
 engineSize: 0
 defaultController: AssemblerAI
 playerControllable: false
+localizedName: Construction Drone
 drawCell: false
 speed: 1.4
 drag: 0.1
