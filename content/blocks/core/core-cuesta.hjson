@@ -15,7 +15,7 @@ category: effect
 hasItems: true
 hasColor: true
 research: {
-root: true
+parent: core-pike
 name: Core: Cuesta
 planet: tantros
 }
