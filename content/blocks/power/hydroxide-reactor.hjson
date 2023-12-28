@@ -20,6 +20,7 @@ waveRadBase: 30
 waveColor: 9ed2e4
 waveLife: 100
 }
+{
 type: particleEffect
 lifeTime: 400
 particles: 20
@@ -27,7 +28,6 @@ colorFrom: dff7ff
 colorTo: 7dbf94
 sizeFrom: 20
 sizeTo: 5
-{
 }
 ]
 effectChance: .5
