@@ -1,0 +1,21 @@
+category: distribution
+localizedName: Armored Sealed Conveyor
+type: Duct
+description: Transports items forwards, does not take items from sides.
+speed: 16.2747709476
+underBullets: false
+armored: true
+solid: true
+requirements: [
+lead/3
+sodium/1
+]
+research: {
+planet: tantros
+name: Armored Sealed Conveyor
+parent: sealedconveyor
+requirements: [
+lead/100
+  sodium/10
+]
+}
