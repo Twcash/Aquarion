@@ -14,7 +14,6 @@ findAnyTarget: true
 targetIndex: offset
 //does this even work???
 engineSize: 3
-engienoffset: 12
 emptyWaitTime: 5
 //STOP BEING BIASED
 dropSpacing: 10
