@@ -1,0 +1,258 @@
+type: ItemTurret
+requirements: [
+lead/10
+]
+reload: 10
+warmupSpeed: .5
+warmupMaintainTime: 45
+shootWarmupSpeed: .05
+recoilTime: 10
+recoils: 3
+minWarmup: .75
+category: turret
+range: 200
+size: 4
+shootX: 0
+shoot: {
+type: ShootMulti
+ammoPerShot: 1
+source: ShootAlternate
+dest: [
+{
+type: ShootBarrel
+shots: 3
+shotDelay: 3
+barrels: [
+-2, -3, 0,
+0, -3, 0,
+2, -3, 0,
+]
+}
+]
+}
+ammoTypes: {
+sodium: {
+shootWarmupSpeed: .09
+ammoMultipier: 6
+type: basicBulletType
+lifeTime: 60
+speed: 4
+lifetime: 45
+damage: 5
+trailColor: d06b53
+frontColor: ffa665
+backColor: d06b53
+}
+}
+drawer: {
+type: drawTurret
+  basePrefix: water-
+parts: [
+{
+type: drawPartRegion
+suffix: -back-bottom
+mirror: true
+moveY: 2
+}
+{
+type: drawPartRegion
+suffix: -top-bottom
+mirror: true
+progress: warmup
+moveX: -2
+moveY: -1
+heatColor: 32b3c7
+}
+{
+type: drawPartRegion
+suffix: -core
+mirror: false
+progress: warmup
+x: 0
+y: 4
+moveY: -4
+}
+{
+type: drawPartRegion
+suffix: -cores
+mirror: true
+progress: warmup
+x: 4
+y: 4
+moveY: -4
+moveX: 4
+}
+{
+type: drawPartRegion
+suffix: -blade
+heatColor: 32b3c7
+mirror: true
+progress: warmup
+x: 5
+progress: warmup
+heatProgress: {
+type: warmup
+ops: [
+{
+op: add
+amount: 0.3
+}
+{
+op: min
+other: heat
+}
+]
+}
+y: 9
+moveRot: 120
+mirror: true
+moveX: 3
+moveY: 3
+}
+{
+type: drawPartRegion
+suffix: -blade
+mirror: true
+moveX: 4
+progress: warmup
+x: 10
+progress: warmup
+heatColor: 32b3c7
+heatProgress: {
+type: warmup
+ops: [
+{
+op: add
+amount: 0.3
+}
+{
+op: min
+other: heat
+}
+]
+}
+y: 7
+moveRot: 80
+mirror: true
+heatColor: 32b3c7
+}
+{
+type: drawPartRegion
+suffix: -blade
+mirror: true
+heatColor: 32b3c7
+moveX: 4
+progress: warmup
+x: 10
+heatProgress: {
+type: warmup
+ops: [
+{
+op: add
+amount: 0.3
+}
+{
+op: min
+other: heat
+}
+]
+}
+y: -2
+moveRot: 80
+heatColor: 32b3c7
+mirror: true
+}
+{
+type: drawPartRegion
+suffix: -blade
+heatProgress: {
+type: warmup
+heatColor: 32b3c7
+ops: [
+{
+op: add
+amount: 0.3
+}
+{
+op: min
+other: heat
+}
+]
+}
+alpha: 1
+heatLayerOffset: -1
+mirror: true
+heatColor: 32b3c7
+progress: warmup
+x: 7
+progress: warmup
+heatProgress: {
+type: warmup
+ops: [
+{
+op: add
+amount: 0.3
+}
+{
+op: min
+other: heat
+}
+]
+}
+y: 1
+moveY: -9
+movex: -9
+moveRot: 60
+mirror: true
+}
+{
+type: drawPartRegion
+suffix: -barrel-base
+mirror: false
+y: 10
+}
+{
+type: drawPartRegion
+suffix: -barrel
+mirror: true
+progress: recoil
+y: 10
+x: 3
+moveY: -2
+heatColor: 32b3c7
+}
+{
+type: drawPartRegion
+suffix: -barrel-mid
+mirror: false
+progress: recoil
+y: 10
+moveY: -3
+heatColor: 32b3c7
+}
+{
+type: drawPartRegion
+suffix: -mid
+y: 0
+heatColor: 32b3c7
+}
+{
+type: drawPartRegion
+suffix: -top
+mirror: true
+progress: warmup
+moveX: -3
+moveY: -2
+heatColor: 32b3c7
+}
+{
+type: drawPartRegion
+suffix: -back
+mirror: true
+progress: warmup
+moveY: 4
+moveX: -1
+heatColor: 32b3c7
+}
+]
+}
