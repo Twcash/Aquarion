@@ -40,9 +40,9 @@ type: basicBulletType
 lifeTime: 60
 speed: 4
 lifetime: 45
-damage: 6
-length: 9
-width: 6
+damage: 15
+length: 12
+width: 9
 trailColor: d06b53
 frontColor: ffa665
 backColor: d06b53
