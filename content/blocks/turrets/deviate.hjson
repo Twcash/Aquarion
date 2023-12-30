@@ -256,3 +256,20 @@ heatColor: 32b3c7
 }
 ]
 }
+research: {
+parent: forment
+requirements: [
+lead/1200
+sodium/400
+bauxite/2000
+silicon/600
+metaglass/500
+]
+}
+requirements: [
+lead/1200
+sodium/400
+bauxite/2000
+silicon/600
+metaglass/500
+]
