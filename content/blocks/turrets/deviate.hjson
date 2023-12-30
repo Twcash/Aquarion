@@ -238,6 +238,7 @@ heatColor: 32b3c7
 type: drawPartRegion
 suffix: -mid
 y: 0
+heatProgress: warmup
 heatColor: 32b3c7
 }
 {
@@ -247,6 +248,7 @@ mirror: true
 progress: warmup
 moveX: -3
 moveY: -2
+heatProgress: warmup
 heatColor: 32b3c7
 }
 {
@@ -255,6 +257,7 @@ suffix: -back
 mirror: true
 progress: warmup
 moveY: 4
+heatProgress: warmup
 moveX: -1
 heatColor: 32b3c7
 }
