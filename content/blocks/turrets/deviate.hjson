@@ -1,3 +1,4 @@
+
 type: ItemTurret
 requirements: [
 lead/10
@@ -44,6 +45,7 @@ damage: 15
 length: 12
 width: 9
 trailColor: d06b53
+trailLength: 7
 frontColor: ffa665
 backColor: d06b53
 }
