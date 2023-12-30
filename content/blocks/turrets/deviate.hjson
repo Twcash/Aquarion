@@ -2,6 +2,8 @@ type: ItemTurret
 requirements: [
 lead/10
 ]
+localizedName: deviate
+description: Fires barrages of bullets at enemies
 reload: 10
 warmupSpeed: .5
 warmupMaintainTime: 45
@@ -38,7 +40,9 @@ type: basicBulletType
 lifeTime: 60
 speed: 4
 lifetime: 45
-damage: 5
+damage: 6
+length: 9
+width: 6
 trailColor: d06b53
 frontColor: ffa665
 backColor: d06b53
