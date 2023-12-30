@@ -11,7 +11,7 @@ omniMovement: false
 accel: .1
 itemCapacity: 45
 faceTarget: true
-health: 640
+health: 480
 armor: 2
 engineSize: 0
 hitSize: 18
