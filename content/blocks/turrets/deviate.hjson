@@ -44,10 +44,10 @@ lifetime: 45
 damage: 15
 length: 12
 width: 9
-trailColor: d06b53
+trailColor: 4798a9
 trailLength: 7
-frontColor: ffa665
-backColor: d06b53
+frontColor: 58cde4
+backColor: 4798a9
 }
 }
 drawer: {
