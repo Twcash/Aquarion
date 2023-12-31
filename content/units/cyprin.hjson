@@ -64,7 +64,7 @@ keepVelocity: false
 name: cyprin-sapper
 rotate: true
 mirror: true
-x: 19
+x: 12
 reload: 15
 y: 8
 shoot: {
