@@ -63,11 +63,13 @@ keepVelocity: false
 {
 name: cyprin-sapper
 rotate: true
+continuous: true
 mirror: true
 x: 12
 reload: 15
 y: 8
 shoot: {
+shootY: 2
 source: ShootAlternate
 }
 bullet: {
@@ -89,7 +91,9 @@ reload: 20
 rotate: true
 x: 12
 y: -12
+continuous: true
 shoot: {
+shootY: 2
 source: ShootAlternate
 }
 bullet: {
