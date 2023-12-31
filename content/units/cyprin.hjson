@@ -24,7 +24,11 @@ interval: 30
 weapons: [
 {
 layerOffset: -1
-reload: 40
+reload: 60
+shoot: {
+shots: 3
+shotDelay: 6
+}
 shootSound: missileLarge
 x: 12
 Y: 9
@@ -53,6 +57,42 @@ smokeEffect: shootSmokeTitan
 shake: 1.2
 speed: 0
 keepVelocity: false
+}
+}
+{
+name: cyprin-sapper
+mirror: true
+x: 7
+reload: 15
+y: -9
+bullet: {
+type: SapBulletType
+sapStrength: .9
+length: 55
+damage: 35
+hitColor: bf92f9
+despawnEffect: none
+width: .6
+lifetime: 30
+knockback: -1.5
+}
+}
+{
+name: cyprin-sapper
+mirror: true
+x: 4
+reload: 15
+y: 6
+bullet: {
+type: SapBulletType
+sapStrength: .9
+length: 55
+damage: 35
+hitColor: bf92f9
+despawnEffect: none
+width: .6
+lifetime: 30
+knockback: -1.5
 }
 }
 ]
