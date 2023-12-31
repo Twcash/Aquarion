@@ -61,10 +61,11 @@ keepVelocity: false
 }
 {
 name: cyprin-sapper
+rotate: true
 mirror: true
-x: 12
+x: 19
 reload: 15
-y: -12
+y: 8
 shoot: {
 source: ShootAlternate
 }
@@ -83,10 +84,10 @@ knockback: -1.5
 {
 name: cyprin-sapper
 mirror: true
-x: 19
 reload: 20
-y: 8
 rotate: true
+x: 12
+y: -12
 shoot: {
 source: ShootAlternate
 }
