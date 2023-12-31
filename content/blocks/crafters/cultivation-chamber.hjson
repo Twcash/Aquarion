@@ -23,16 +23,12 @@ type: drawRegion
 suffix: -bottom
 }
 {
-type: DrawCultivator
-bubbles: 50
-sides: 10
-spread: 7
-strokeMin: .4
-plantColor: 96743c
-bottomColor: 8b7552
-plantColorLight: b98d43
-recurrence: 10
-radius: 2
+type: drawCells
+range: 14
+particles: 150
+particleColorFrom: 18c87b
+particleColorTo: 2ca197
+color: 266b4d
 }
 {
 type: drawRegion
