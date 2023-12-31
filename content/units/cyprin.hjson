@@ -81,6 +81,7 @@ hitColor: bf92f9
 despawnEffect: none
 width: .6
 lifetime: 30
+continuous: true
 knockback: -1.5
 }
 }
@@ -104,6 +105,7 @@ damage: 35
 hitColor: bf92f9
 despawnEffect: none
 width: .6
+continuous: true
 lifetime: 30
 knockback: -1.5
 }
