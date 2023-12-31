@@ -41,7 +41,7 @@ particleSizeInterp: one
 }
 {
 type: DrawParticles
-color: 89e8b6
+color: 8d8a65
 alpha: .5
 particleSize: 2
 particles: 30
