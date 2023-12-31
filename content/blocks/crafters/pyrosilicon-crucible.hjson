@@ -40,6 +40,16 @@ particleLife: 200
 particleSizeInterp: one
 }
 {
+type: DrawParticles
+color: 89e8b6
+alpha: .5
+particleSize: 2
+particles: 30
+particleRad: 7
+particleLife: 200
+particleSizeInterp: one
+}
+{
 type: DrawPlasma
 plasmas: 4
 plasma1: 93d49b
