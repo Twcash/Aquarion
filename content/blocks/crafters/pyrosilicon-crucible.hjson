@@ -31,9 +31,16 @@ type: DrawRegion
 suffix: -bottom
 }
 {
-type: DrawCrucibleFlame
-flameColor: baffa6
-midColor: ddffd3
+type: DrawParticles
+colorFrom: a7dfda
+colorTo: b4ad77
+alpha: .7
+particleSize: 2.5
+particles: 10
+particleRad: 7
+particleLife: 200
+reverse: true
+particleSizeInterp: one
 }
 {
 type: DrawPlasma
