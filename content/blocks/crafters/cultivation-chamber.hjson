@@ -34,10 +34,10 @@ color: 266b4d
 }
 {
 type: drawCircles
-timeScl: 60
-amount: 3
-radius: 7
-strokeMax: 2.5
+timeScl: 400
+amount: 5
+radius: 9
+strokeMax: 1.2
 color: 18c87b
 }
 {
