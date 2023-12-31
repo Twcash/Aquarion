@@ -31,8 +31,7 @@ suffix: -bottom
 }
 {
 type: DrawParticles
-colorFrom: 4faa5a
-colorTo: 93d49b
+color: 93d49b
 alpha: .7
 particleSize: 2.5
 particles: 10
