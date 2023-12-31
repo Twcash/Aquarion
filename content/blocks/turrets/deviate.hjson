@@ -35,7 +35,7 @@ barrels: [
 }
 ammoTypes: {
 sodium: {
-shootWarmupSpeed: .09
+shootWarmupSpeed: 2
 ammoMultipier: 6
 type: basicBulletType
 lifeTime: 60
@@ -44,8 +44,8 @@ lifetime: 45
 damage: 15
 length: 12
 width: 9
-homingPower: 120
-homingRange: 300
+homingPower: 90
+homingRange: 60
 trailColor: 4798a9
 trailLength: 7
 frontColor: 58cde4
