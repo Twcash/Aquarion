@@ -32,12 +32,11 @@ suffix: -bottom
 {
 type: DrawParticles
 color: 93d49b
-alpha: .7
-particleSize: 2.5
-particles: 10
+alpha: .5
+particleSize: 2
+particles: 30
 particleRad: 7
 particleLife: 200
-reverse: true
 particleSizeInterp: one
 }
 {
