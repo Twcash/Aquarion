@@ -84,7 +84,7 @@ padding: 3
 type: drawCircles
 color: 8ca9e8
 strokeMax: 1.5
-radius: 45
+radius: 20
 amount: 9
 timeScl: 200
 }
