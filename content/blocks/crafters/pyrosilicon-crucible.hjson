@@ -1,6 +1,5 @@
 type: HeatCrafter
 outputItem: silicon/5
-craftEffect: fluxVapor
 squareSprite: false
 category: crafting
 localizedName: pyrosilicon Crucible
@@ -32,8 +31,8 @@ suffix: -bottom
 }
 {
 type: DrawParticles
-colorFrom: a7dfda
-colorTo: b4ad77
+colorFrom: 4faa5a
+colorTo: 93d49b
 alpha: .7
 particleSize: 2.5
 particles: 10
@@ -45,8 +44,10 @@ particleSizeInterp: one
 {
 type: DrawPlasma
 plasmas: 4
-plasma1: baffa6
-plasma2: a0d98f
+plasma1: 93d49b
+plasma2: 76b87e
+plasma3: 65b96f
+plasma4: 4faa5a
 }
 {
 type: drawRegion
