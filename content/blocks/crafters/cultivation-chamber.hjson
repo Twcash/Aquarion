@@ -24,8 +24,8 @@ suffix: -bottom
 }
 {
 type: drawCells
-range: 14
-particles: 150
+range: 9
+particles: 200
 particleColorFrom: 18c87b
 particleColorTo: 2ca197
 color: 266b4d
