@@ -9,6 +9,19 @@ itemCapacity: 30
 size: 4
 craftTime: 45
 ambientSound: smelter
+craftEffect: [
+{
+particles: 1
+lifetime: 120
+sizeFrom: 3
+cone: 35
+colorFrom: c53720
+colorTo: #d56e47
+alpha: .7
+sizeTo: 0
+offset: 45
+}
+]
 heatRequirement: 10
 consumes: {
 power: 5.5
