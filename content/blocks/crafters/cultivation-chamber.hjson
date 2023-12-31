@@ -4,6 +4,7 @@ localizedName: cultivation Chamber
 squareSprite: false
 size: 3
 conductivePower: true
+craftEffect: greenCloud 
 craftTime: 120
 requirements: [
 lead/40
