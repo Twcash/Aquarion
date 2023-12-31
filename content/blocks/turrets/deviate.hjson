@@ -3,8 +3,8 @@ type: ItemTurret
 requirements: [
 lead/10
 ]
-localizedName: deviate
-description: Fires barrages of bullets at enemies
+localizedName: Deviate
+description: Fires barrages of homing bullets at enemies
 reload: 10
 warmupSpeed: .5
 warmupMaintainTime: 45
@@ -44,6 +44,8 @@ lifetime: 45
 damage: 15
 length: 12
 width: 9
+homingPower: 35
+homingRange: 120
 trailColor: 4798a9
 trailLength: 7
 frontColor: 58cde4
