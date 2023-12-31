@@ -62,9 +62,12 @@ keepVelocity: false
 {
 name: cyprin-sapper
 mirror: true
-x: 7
+x: 12
 reload: 15
-y: -9
+y: -12
+shoot: {
+source: ShootAlternate
+}
 bullet: {
 type: SapBulletType
 sapStrength: .9
@@ -80,9 +83,13 @@ knockback: -1.5
 {
 name: cyprin-sapper
 mirror: true
-x: 4
-reload: 15
-y: 6
+x: 19
+reload: 20
+y: 8
+rotate: true
+shoot: {
+source: ShootAlternate
+}
 bullet: {
 type: SapBulletType
 sapStrength: .9
