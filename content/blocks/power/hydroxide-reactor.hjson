@@ -1,9 +1,12 @@
 type: ConsumeGenerator
-description: Produces a large amount of power by reacting aluminas and sodium hydroxide as a catalyst. Very hazardous.
+description: Produces a large amount of power by reacting aluminas and sodium hydroxide as a catalyst. Very hazardous explodes when destroyed or overpressurized with hydrogen.
 size: 5
+liquidCapacity: 2400
 squareSprite: false
 powerProduction: 20.8333333333
 localizedName: Hydroxide Reactor
+//how to screw a new person over.
+explodeOnFull: true
 health: 1250
 explosionRadius: 25
 explosionDamage: 1500
@@ -76,6 +79,14 @@ suffix: -bottom
 type: DrawLiquidTile
 drawLiquid: hydroxide
 padding: 3
+}
+{
+type: drawCircles
+color: 8ca9e8
+strokeMax: 1.5
+radius: 45
+amount: 9
+timeScl: 200
 }
 {
 type: drawPistons
