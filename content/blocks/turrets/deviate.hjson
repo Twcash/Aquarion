@@ -44,8 +44,8 @@ lifetime: 45
 damage: 15
 length: 12
 width: 9
-homingPower: 35
-homingRange: 120
+homingPower: 60
+homingRange: 300
 trailColor: 4798a9
 trailLength: 7
 frontColor: 58cde4
