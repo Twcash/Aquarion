@@ -2,11 +2,11 @@ type: crawl
 deathSound: squish
 health: 300
 armor: 1
-targetFlag: [
+BlockFlag: [
 reactor,
 generator,
 storage,
-core
+null
 ]
 hitSize: 7
 circleTarget: true
