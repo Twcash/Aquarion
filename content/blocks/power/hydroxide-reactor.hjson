@@ -4,6 +4,7 @@ size: 5
 liquidCapacity: 600
 squareSprite: false
 powerProduction: 20.8333333333
+BlockGroup: generator
 localizedName: Hydroxide Reactor
 //how to screw a new person over.
 explodeOnFull: true
