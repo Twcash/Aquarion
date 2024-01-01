@@ -20,10 +20,10 @@ lockLegBase: true
 segments: 2
 legSplashRange: 20
 legSplashDamage: 5
-targetFlags: [
+targetFlags:
+[
 factory,
 reactor,
-null
 ]
 circleTarget: true
 facetarget: true
