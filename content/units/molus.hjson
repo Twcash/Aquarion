@@ -2,8 +2,10 @@ type: crawl
 deathSound: squish
 health: 300
 armor: 1
-targetFlag: [
-generator
+ targetFlags: 
+[
+reactor,
+generator,
 factory
 ]
 hitSize: 7
