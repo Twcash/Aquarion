@@ -9,6 +9,7 @@ targetFlags:
 reactor
 ]
 hitSize: 7
+engineSize: 0
 circleTarget: true
 outlineColor: b0b0b0
 omniMovement: true
