@@ -3,6 +3,7 @@ deathSound: squish
 health: 300
 armor: 1
 defaultController: FlyingFollowAI
+aiController: FlyingFollowAI
 flyiing: true
 targetFlags: 
 [
