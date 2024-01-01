@@ -2,8 +2,7 @@ type: crawl
 deathSound: squish
 health: 300
 armor: 1
-defaultController: FlyingFollowAI
-flying: true
+defaultController: GroundAI
 targetFlags: 
 [
 reactor
