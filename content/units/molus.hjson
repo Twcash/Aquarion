@@ -5,7 +5,8 @@ armor: 1
 targetFlag: [
 reactor,
 generator,
-storage
+storage,
+core
 ]
 hitSize: 7
 circleTarget: true
