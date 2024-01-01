@@ -6,7 +6,7 @@ targetFlags: [
 reactor,
 generator,
 storage,
-null
+core
 ]
 hitSize: 7
 circleTarget: true
