@@ -15,7 +15,6 @@ omniMovement: true
 rotateSpeed: 1.2
 omniMovement: false
 faceTarget: true
-targetFlag: generator
 targetAir: false
 crushDamage: .1
 segments: 3
