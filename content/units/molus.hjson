@@ -7,6 +7,7 @@ targetFlags: [
 factory
 ]
 hitSize: 7
+circleTarget: true
 outlineColor: b0b0b0
 omniMovement: true
 rotateSpeed: 1.5
