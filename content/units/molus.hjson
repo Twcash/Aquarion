@@ -3,7 +3,7 @@ deathSound: squish
 health: 300
 armor: 1
  targetFlags: [
-generator,
+power,
 factory
 ]
 hitSize: 7
