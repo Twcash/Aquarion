@@ -20,7 +20,11 @@ lockLegBase: true
 segments: 2
 legSplashRange: 20
 legSplashDamage: 5
-defaultController: HugAI
+targetFlags: [
+factory,
+reactor,
+null
+]
 circleTarget: true
 facetarget: true
 drag: .01
