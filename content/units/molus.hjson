@@ -2,7 +2,6 @@ type: crawl
 deathSound: squish
 health: 300
 armor: 1
-defaultController: GroundAI
 targetFlags: 
 [
 reactor
