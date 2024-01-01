@@ -3,15 +3,14 @@ deathSound: squish
 health: 300
 armor: 1
  targetFlags: [
-reactor
-generator
+generator,
 factory
 ]
 hitSize: 7
 circleTarget: true
 outlineColor: b0b0b0
 omniMovement: true
-rotateSpeed: 1.5
+rotateSpeed: 1.2
 omniMovement: false
 faceTarget: true
 targetFlag: generator
@@ -34,7 +33,7 @@ sizeInterp: pow2In
 ]
 drawCell: false
 speed: .5
-drag:.05
+drag:.01
 segmentScl: 3
 segmentPhase: 5
 segmentMag: .5
