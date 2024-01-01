@@ -14,10 +14,7 @@ rotateSpeed: 1.5
 omniMovement: false
 faceTarget: true
 targetFlags: [
-turret,
-battery,
-generator,
-factory
+generator
 ]
 targetAir: false
 crushDamage: .1
