@@ -3,8 +3,7 @@ deathSound: squish
 health: 300
 armor: 1
  targetFlags: [
-power,
-factory
+hydroxide-reactor
 ]
 hitSize: 7
 circleTarget: true
