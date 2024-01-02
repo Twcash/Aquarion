@@ -25,6 +25,11 @@ drawer: [
     suffix: -liquid
 }
 {
+type: drawPistons
+suffix: -piston
+sides: 4
+}
+{
   type: DrawRegion
     suffix: -top
 }
