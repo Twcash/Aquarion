@@ -33,7 +33,7 @@ sides: 4
     suffix: -top
 }
 {
-type: DrawHeatRegion
+type: DrawGlowRegion
 suffix: -heat
 }
 ]
