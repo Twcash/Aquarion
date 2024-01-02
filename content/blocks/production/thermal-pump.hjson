@@ -1,0 +1,31 @@
+type: pump
+  localizedName: Thermal Pump
+description: able to pump liquids from the ocean floor.
+pumpAmount: .11666666666
+  size: 3
+  liquidCapacity: 60
+  hasPower: true
+  requirements: [
+  lead/120
+  metaglass/60
+  silicon/80
+  ]
+  research: {
+  planet: tantros
+    parent: siphon
+    name: Thermal Pump
+}
+drawer: [
+{
+  type: DrawRegion
+    suffix: -bottom
+}
+  {
+  type: DrawPumpLiquid
+    suffix: -liquid
+}
+{
+  type: DrawRegion
+    suffix: -top
+}
+]
