@@ -35,5 +35,9 @@ sides: 4
 {
 type: DrawGlowRegion
 suffix: -heat
+alpha: .4
+glowScale: 5
+glowIntensity: .1
+color: b8683a
 }
 ]
