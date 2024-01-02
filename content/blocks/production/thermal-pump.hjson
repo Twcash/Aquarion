@@ -17,12 +17,11 @@ pumpAmount: .11666666666
 }
 drawer: [
 {
+type: drawDefault
+}
+{
   type: DrawRegion
     suffix: -bottom
-}
-  {
-  type: DrawPumpLiquid
-    suffix: -liquid
 }
 {
 type: drawPistons
@@ -32,5 +31,9 @@ sides: 4
 {
   type: DrawRegion
     suffix: -top
+}
+{
+type: DrawGlowRegion
+suffix: -heat
 }
 ]
