@@ -2,7 +2,7 @@ type: flying
 localizedName: pycogen
 flying: true
 drag: .2
-outLineColor: 2f3734
+outlineColor: 2f3734
 speed: 1.2
 rotateSpeed: 2
 range: 38
