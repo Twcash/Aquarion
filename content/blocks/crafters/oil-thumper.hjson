@@ -6,9 +6,14 @@ type: AttributeCrafter
   lead/150
   metaglass/60
   ]
-  localizedName: Oil Thumper
+craftTime: 60
+localizedName: Oil Thumper
 description: Extracts oil from vents outputs brine as a by-product
 liquidOutputDirections: [1, 3]
+outputLiquids: [
+  oil/0.1
+  liquid-brine/.2
+]
 consumes: [
 power: 5.5
 ]
