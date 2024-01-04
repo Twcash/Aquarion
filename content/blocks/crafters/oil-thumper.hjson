@@ -24,7 +24,7 @@ suffix: -bottom
 }
 {
 type: drawRegion
-suffix: -bottom
+suffix: -top
 }
 {
 type: DrawSideRegion
