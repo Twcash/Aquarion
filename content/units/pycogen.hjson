@@ -24,20 +24,42 @@ interval: 30
 ]
 weapons: [
 {
-reload: 12
-x: 0
-y: -13
-length: 500
-lifetime: 200
-mirror: false
+x: 7
+y: 4
+layerOffset: -1
+reload: 30
+shoot: {
+shots: 5
+shotDelay: 4
+}
+shootSound: missileLarge
+x: 12
+Y: 9
+parts: [
+{
+type: RegionPart
+suffix: -idk
+progress: warmup
+moveRot: 30
+under: true
+x: -4
+flipSprite :true
+y: 6
+mirror: true
+}
+]
+name: cyprin-weapon
+rotate: true
+rotateSpeed: .7
+recoil: 1
+rotationLimit: 45
 bullet: {
-type: railBulletType
-shootEffect: shootTitan
-pointEffect: disperseTrail
-lineEffect: disperseTrail
-pointEffectSpace: 3
-hitEffect: massiveExplosion
-damage: 50
+spawnUnit: cyprin-missile
+shootEffect: sparkShoot
+smokeEffect: shootSmokeTitan
+shake: .6
+speed: 0
+keepVelocity: false
 }
 }
 ]
