@@ -30,11 +30,6 @@ type: drawRegion
 suffix: -top
 }
 {
-type: DrawSideRegion
-suffix: -oil
-}
-{
-type: DrawSideRegion
-suffix: -brine
+type: DrawLiquidOutputs
 }
 ]
