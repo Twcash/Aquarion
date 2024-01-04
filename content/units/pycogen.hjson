@@ -1,5 +1,5 @@
 type: flying
-localizedName: pycogen
+localizedName: Pycogen
 flying: true
 drag: .2
 outlineColor: 232826
