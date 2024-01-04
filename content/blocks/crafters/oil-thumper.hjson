@@ -8,3 +8,21 @@ type: AttributeCrafter
   ]
   localizedName: Oil Thumper
 description: Extracts oil from vents outputs brine as a by-product
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: DrawSideRegion
+suffix: -oil
+}
+{
+type: DrawSideRegion
+suffix: -brine
+}
+]
