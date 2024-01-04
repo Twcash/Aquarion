@@ -1,0 +1,8 @@
+localizedName: Brine
+color: e5f0d5
+type: liquid
+research: {
+planet: tantros
+name: Brine
+parent: hydroxide
+}
