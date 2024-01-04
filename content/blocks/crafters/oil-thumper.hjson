@@ -14,6 +14,7 @@ outputLiquids: [
   oil/0.1
   brine/.2
 ]
+minEfficiency: 2
 consumes: [
 power: 5.5
 sand/1
