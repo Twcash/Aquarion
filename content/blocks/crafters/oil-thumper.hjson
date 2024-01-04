@@ -1,5 +1,6 @@
 type: AttributeCrafter
   size: 3
+regionRotated1: 3
   requirements: [
   sodium/60
   bauxite/200
