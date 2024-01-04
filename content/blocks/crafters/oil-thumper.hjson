@@ -1,0 +1,10 @@
+type: AttributeCrafter
+  size: 3
+  requirements: [
+  sodium/60
+  bauxite/200
+  lead/150
+  metaglass/60
+  ]
+  localizedName: Oil Thumper
+description: Extracts oil from vents outputs brine as a by-product
