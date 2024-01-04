@@ -16,6 +16,7 @@ outputLiquids: [
 ]
 consumes: [
 power: 5.5
+sand/1
 ]
 drawer: [
 {
