@@ -3,6 +3,6 @@ speedMultiplier: 0.1
 variants: 0
 cacheLayer: water
 isLiquid: true
-liquidDrop: water
+liquidDrop: brine
 liquidMultiplier: 1.1
 albedo: 1
