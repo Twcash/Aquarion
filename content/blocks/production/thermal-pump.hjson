@@ -4,6 +4,10 @@ description: able to pump liquids from the ocean floor.
 pumpAmount: .11666666666
 category: liquid
   size: 3
+consumes: [
+power: 3.5
+coal/1
+]
   liquidCapacity: 60
   hasPower: true
   requirements: [
