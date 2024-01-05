@@ -9,13 +9,14 @@ regionRotated1: 3
   ]
 attribute: steam
 rotate: true
+displayEfficiency: false
 craftTime: 60
 localizedName: Oil Thumper
 description: Extracts oil from vents outputs brine as a by-product
 liquidOutputDirections: [1, 3]
 outputLiquids: [
-  oil/0.1
-  brine/.2
+  oil/0.05
+  brine/.1
 ]
 minEfficiency: 2
 consumes: [
