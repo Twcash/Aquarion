@@ -1,0 +1,271 @@
+type: flying
+trailColor: 5454c4
+trailScl: 5
+trailX: 60
+trailLength: 70
+trailColor: 
+speed: .4
+health: 12800
+armor: 16
+hitSize: 120
+flying: true
+deathExplosionEffect: [
+{
+lifetime: 320
+smokeColor: 608083
+type: explosionEffect
+smokes: 45
+smokeRad: 120
+smokeSize: 30
+waveRad: 100
+waveRadBase: 40
+sparks: 40
+waveStroke: 60
+waveLife: 60
+sparkStroke: 5
+sparkRad: 60
+sparkLen: 10
+}
+]
+lowAltitude: true
+rotateSpeed: .6
+outlineColor: 232826
+rotateMoveFirst: true{
+weapons: [
+{
+name: batoid-sapper
+rotate: true
+shootSound: sap
+continuous: true
+mirror: true
+x:80
+reload: 4
+y: -35
+bullet: {
+type: SapBulletType
+sapStrength: .9
+length: 120
+damage: 35
+hitColor: bf92f9
+despawnEffect: none
+width: .4
+lifetime: 30
+continuous: true
+knockback: -1.5
+}
+}
+{
+name: batoid-sapper
+rotate: true
+shootSound: sap
+continuous: true
+mirror: true
+x: 50
+reload: 3
+y: 30
+bullet: {
+type: SapBulletType
+sapStrength: .9
+length: 120
+damage: 35
+hitColor: bf92f9
+despawnEffect: none
+width: .4
+lifetime: 30
+continuous: true
+knockback: -1.5
+}
+}
+{
+shoot: {
+shots: 6
+shotDelay: 5
+}
+reload: 120
+shootY: 32.5
+x: 50
+y: -20
+rotate: true
+name: batoid-weapon
+shootSound: mediumCannon
+mirror: true
+rotateSpeed: .5
+recoil: 3
+cooldownTime: 120
+shadow: 50
+minWarmup: .9
+shootWarmupSpeed: .09
+bullet: {
+width: 10
+hitSize: 7
+lifetime: 80
+speed: 5
+smokeEffect: shootSmokeTitan
+pierceCap: 4
+pierce: true
+pierceBuilding: false
+hitColor: feb380
+frontColor: feb380
+backColor: feb380
+trailWidth: 4
+trailLength: 12
+damage: 60
+hitEffect: massiveExplosion
+shootEffect: [
+{
+type: ExplosionEffect
+lifetime: 20
+waveStroke: 5
+waveColor: feb380
+smokeColor: feb380
+sparks: 8
+sparkRad: 10
+sparkLen: 4
+sparkStroke: 6
+smokeSizeBase: 1
+smokes: 10
+waveRad: 30
+smokeSize: 5
+}
+]
+despawnEffect: [
+{
+type: ExplosionEffect
+lifetime: 60
+waveStroke: 9
+waveColor: feb380
+smokeColor: feb380
+sparks: 8
+sparkRad: 25
+sparkLen: 7
+sparkStroke: 6
+smokeSizeBase: 1
+smokes: 10
+waveRad: 30
+smokeSize: 5
+}
+]
+height: 15
+}
+}
+{
+shoot: {
+shots: 6
+shotDelay: 5
+}
+shootSound: mediumCannon
+reload: 120
+shootY: 32.5
+x: 30
+y: 60
+rotate: true
+name: batoid-weapon
+mirror: true
+rotateSpeed: .5
+recoil: 3
+cooldownTime: 120
+shadow: 50
+minWarmup: .9
+shootWarmupSpeed: .09
+bullet: {
+width: 10
+hitSize: 7
+damage: 60
+lifetime: 80
+speed: 5
+smokeEffect: shootSmokeTitan
+pierceCap: 4
+pierce: true
+pierceBuilding: false
+hitColor: feb380
+frontColor: feb380
+backColor: feb380
+trailWidth: 4
+trailLength: 12
+hitEffect: massiveExplosion
+shootEffect: [
+{
+type: ExplosionEffect
+lifetime: 20
+waveStroke: 5
+waveColor: feb380
+smokeColor: feb380
+sparks: 8
+sparkRad: 10
+sparkLen: 4
+sparkStroke: 6
+smokeSizeBase: 1
+smokes: 10
+waveRad: 30
+smokeSize: 5
+}
+]
+despawnEffect: [
+{
+type: ExplosionEffect
+lifetime: 60
+waveStroke: 9
+waveColor: feb380
+smokeColor: feb380
+sparks: 8
+sparkRad: 25
+sparkLen: 7
+sparkStroke: 6
+smokeSizeBase: 1
+smokes: 10
+waveRad: 30
+smokeSize: 5
+}
+]
+height: 15
+}
+}
+{
+mirror: false
+x: 0
+y: -15
+shootSound: largeCannon
+name: batoid-cannon
+rotate: true
+rotateSpeed: .4
+recoil: 8
+reload: 250
+shoot: {
+shots: 4
+shotDelay: 12
+}
+bullet: {
+type: artilleryBulletType
+width: 15
+height: 20
+speed: 4
+trailLength: 18
+trailWidth: 8
+lifetime: 160
+frontColor: 5454c4
+backColor: 8ca4fc
+trailColor: 8ca4fc
+splashDamageRadius: 120
+splashDamage: 300
+despawnEffect: [
+{
+waveLife: 50
+sparkColor: 8ca4fc
+type: ExplosionEffect
+lifetime: 200
+waveStroke: 8
+waveColor: 5454c4
+smokeColor: 8ca4fc
+sparks: 8
+sparkRad: 25
+sparkLen: 7
+sparkStroke: 6
+smokeSizeBase: 1
+smokes: 10
+waveRad: 45
+smokeSize: 10
+}
+]
+}
+}
+]
