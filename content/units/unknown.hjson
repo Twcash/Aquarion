@@ -26,6 +26,7 @@ parts: [
 type: RegionPart
 suffix: -boom
 heatProgress: warmup
+layerOffset: -.1
 }
 ]
 x: 0
