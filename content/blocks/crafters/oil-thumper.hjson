@@ -7,7 +7,7 @@ regionRotated1: 3
   lead/150
   metaglass/60
   ]
-category: drill
+category: production
 attribute: steam
 rotate: true
 displayEfficiency: false
