@@ -21,7 +21,6 @@ weapons: [
 {
 name: poda
 rotate: false
-drawer: {
 parts: [
 {
 type: RegionPart
@@ -29,7 +28,6 @@ suffix: -boom
 heatProgress: warmup
 }
 ]
-}
 x: 0
 shoot: {
 firstShotDelay: 60
