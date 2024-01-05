@@ -20,6 +20,8 @@ power: 5.5
 liquid: {
 liquid: hydrogen
 amount: .05
+}
+]
 outputLiquids: [
   oil/0.05
   brine/.1
