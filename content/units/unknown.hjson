@@ -18,6 +18,11 @@ armor: 0
 hitSize: 6
 weapons: [
 {
+rotate: false
+heatProgress: warmup
+shoot: {
+firstShotDelay: 60
+}
 shootOnDeath: true
 reload: 24
 shootCone: 360
