@@ -24,7 +24,7 @@ rotate: false
 drawer: {
 parts: [
 {
-type: drawPartRegion
+type: RegionPart
 suffix: -boom
 heatProgress: warmup
 }
