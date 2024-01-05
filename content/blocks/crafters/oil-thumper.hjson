@@ -7,6 +7,7 @@ regionRotated1: 3
   lead/150
   metaglass/60
   ]
+attribute: oil
 rotate: true
 craftTime: 60
 localizedName: Oil Thumper
