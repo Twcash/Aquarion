@@ -1,6 +1,6 @@
 type: pump
   localizedName: Thermal Pump
-description: able to pump liquids from the ocean floor.
+description: Allows for liquids to be pumped from the ocean floor, requires coal.
 pumpAmount: .11666666666
 category: liquid
   size: 3
