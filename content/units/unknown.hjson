@@ -18,13 +18,12 @@ armor: 0
 hitSize: 6
 weapons: [
 {
-name: poda-boom
+name: poda
 rotate: false
 drawer: {
 parts: [
 {
-suffix: -heat
-blending: additive
+suffix: -boom
 heatProgress: warmup
 }
 ]
