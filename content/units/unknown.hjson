@@ -26,7 +26,6 @@ parts: [
 type: RegionPart
 suffix: -boom
 heatProgress: warmup
-layerOffset: -.1
 }
 ]
 x: 0
@@ -46,7 +45,7 @@ rangeOverride: 10
 hitEffect: pulverize
 splashDamage: 20
 splashDamageRadius : 15
-instantDespawn: false
+instantDespawn: true
 }
 }
 ]
