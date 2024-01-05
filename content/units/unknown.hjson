@@ -22,7 +22,6 @@ name: poda-boom
 rotate: false
 heatProgress: warmup
 x: 0
-layerOffset: -.1
 shoot: {
 firstShotDelay: 60
 }
