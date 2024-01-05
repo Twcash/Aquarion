@@ -18,6 +18,7 @@ armor: 0
 hitSize: 6
 weapons: [
 {
+name: poda-boom
 rotate: false
 heatProgress: warmup
 shoot: {
