@@ -4,10 +4,12 @@ description: Allows for liquids to be pumped from the ocean floor, requires coal
 pumpAmount: .11666666666
 category: liquid
   size: 3
-consumes: [
-power: 3.5
+consumes: {
+power: 2.5
+items: [
 coal/1
 ]
+}
   liquidCapacity: 60
   hasPower: true
   requirements: [
