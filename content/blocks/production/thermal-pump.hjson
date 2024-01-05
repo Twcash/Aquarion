@@ -2,6 +2,7 @@ type: pump
   localizedName: Thermal Pump
 description: able to pump liquids from the ocean floor.
 pumpAmount: .11666666666
+category: liquid
   size: 3
   liquidCapacity: 60
   hasPower: true
