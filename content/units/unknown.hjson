@@ -6,6 +6,7 @@ createWreck: false
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
+drawBody: false
 speed: 2
 rotateSpeed: 1.2
 omniMovement: false
