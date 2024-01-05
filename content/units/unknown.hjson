@@ -20,7 +20,15 @@ weapons: [
 {
 name: poda-boom
 rotate: false
+drawer: {
+parts: [
+{
+suffix: -heat
+blending: additive
 heatProgress: warmup
+}
+]
+}
 x: 0
 shoot: {
 firstShotDelay: 60
@@ -38,7 +46,7 @@ rangeOverride: 10
 hitEffect: pulverize
 splashDamage: 20
 splashDamageRadius : 15
-instantDespawn: true
+instantDespawn: false
 }
 }
 ]
