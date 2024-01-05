@@ -3,7 +3,7 @@ description: Produces a large amount of power by reacting aluminas and sodium hy
 size: 5
 liquidCapacity: 600
 squareSprite: false
-powerProduction: 20.8333333333
+powerProduction: 37.5
 group: power
 localizedName: Hydroxide Reactor
 //how to screw a new person over.
