@@ -62,4 +62,76 @@ speed: 0
 keepVelocity: false
 }
 }
+{
+shoot: {
+shots: 4
+shotDelay: 5
+}
+reload: 90
+shootY: 12
+x: 30
+y: -10
+rotate: true
+name: pycogen-weapon
+shootSound: mediumCannon
+mirror: true
+rotateSpeed: .5
+recoil: 3
+cooldownTime: 120
+shadow: 50
+minWarmup: .9
+shootWarmupSpeed: .09
+bullet: {
+width: 10
+hitSize: 7
+lifetime: 50
+speed: 7
+smokeEffect: shootSmokeTitan
+pierceCap: 2
+pierce: true
+pierceBuilding: true
+hitColor: feb380
+frontColor: feb380
+backColor: feb380
+trailWidth: 4
+trailLength: 12
+damage: 25
+hitEffect: massiveExplosion
+shootEffect: [
+{
+type: ExplosionEffect
+lifetime: 10
+waveStroke: 5
+waveColor: feb380
+smokeColor: feb380
+sparks: 8
+sparkRad: 10
+sparkLen: 4
+sparkStroke: 6
+smokeSizeBase: 1
+smokes: 10
+waveRad: 30
+smokeSize: 5
+}
+]
+despawnEffect: [
+{
+type: ExplosionEffect
+lifetime: 20
+waveStroke: 9
+waveColor: feb380
+smokeColor: feb380
+sparks: 8
+sparkRad: 25
+sparkLen: 7
+sparkStroke: 6
+smokeSizeBase: 1
+smokes: 10
+waveRad: 30
+smokeSize: 5
+}
+]
+height: 10
+}
+}
 ]
