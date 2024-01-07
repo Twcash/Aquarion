@@ -3,7 +3,7 @@ localizedName: Pycogen
 flying: true
 drag: .2
 outlineColor: 232826
-lowAltitude: false
+lowAltitude: true
 speed: 1.2
 rotateSpeed: 2
 range: 38
