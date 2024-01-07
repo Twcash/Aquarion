@@ -50,6 +50,8 @@ mirror: true
 }
 ]
 name: cyprin-weapon
+shootSound: missileSmall
+shootY: 40
 rotate: true
 rotateSpeed: .7
 recoil: 1
