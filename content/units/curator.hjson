@@ -81,6 +81,7 @@ backColor: 6fb95b
 trailColor: 3a8f64
 frontColor: 92dd7e
 trailLength: 4
+shootSound: lasershoot
 lifeTime: 60
 splashDamage: 4
 splashDamageRadius: 15
