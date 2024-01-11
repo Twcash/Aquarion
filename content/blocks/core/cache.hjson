@@ -11,6 +11,7 @@ metaglass/350
 sodium/120
 ]
 researh: {
-parent: core-pike
+parent: sealedConveyor
+planet: tantros
 name: cache
   }
