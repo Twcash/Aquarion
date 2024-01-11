@@ -1,0 +1,16 @@
+type: StorageBlock
+itemCapacity: 250
+coreMerge: true
+squareSprite: false
+health: 180
+size: 3
+category: effect
+requirements: [
+lead/200
+metaglass/350
+sodium/120
+]
+researh: {
+parent: core-pike
+name: cache
+  }
