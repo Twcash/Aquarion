@@ -5,7 +5,7 @@ trailX: 60
 trailLength: 70
 trailColor: 
 speed: .4
-health: 12800
+health: 18200
 armor: 16
 hitSize: 120
 flying: true
