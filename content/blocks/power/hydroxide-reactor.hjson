@@ -1,7 +1,7 @@
 type: ConsumeGenerator
 description: Produces a large amount of power by reacting aluminas and sodium hydroxide as a catalyst. Very hazardous explodes when destroyed or overpressurized with hydrogen.
 size: 5
-liquidCapacity: 600
+liquidCapacity: 550
 squareSprite: false
 powerProduction: 37.5
 group: power
@@ -9,8 +9,8 @@ localizedName: Hydroxide Reactor
 //how to screw a new person over.
 explodeOnFull: true
 health: 1250
-explosionRadius: 25
-explosionDamage: 1500
+explosionRadius: 15
+explosionDamage: 1200
 destroyEffect: [
 {
 lifetime: 320
@@ -37,7 +37,7 @@ sizeFrom: 25
 sizeTo: 1
 }
 ]
-effectChance: .5
+effectChance: .7
 generateEffect: [
 {
 particles: 1
