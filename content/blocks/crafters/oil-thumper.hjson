@@ -11,7 +11,7 @@ category: production
 attribute: steam
 rotate: true
 displayEfficiency: false
-craftTime: 60
+craftTime: 45
 localizedName: Oil Thumper
 craftEffect: [
 {
