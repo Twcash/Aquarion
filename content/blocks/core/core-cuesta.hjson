@@ -4,7 +4,7 @@ description: The core of the Base, once destroyed the sector is lost. More effic
 squareSprite: false
 health: 4500
 itemCapacity: 9000
-size: 5
+size: 6
 unitCapModifier: 45
 unitType: cull
 requirements: [
