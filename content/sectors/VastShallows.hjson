@@ -10,6 +10,7 @@ objectives: [
 algal-feilds,
 cargo-depot,
 cargo-dock,
+siphon
 ]
 }
 
