@@ -10,8 +10,8 @@ lead/200
 metaglass/350
 sodium/120
 ]
-researh: {
-parent: sealedConveyor
+research: {
+parent: sealedconveyor
+name: Cache
 planet: tantros
-name: cache
-  }
+}
