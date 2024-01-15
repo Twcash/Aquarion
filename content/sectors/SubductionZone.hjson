@@ -1,1 +1,15 @@
+sector: 42
+planet: tantros
+localizedName: Subdustion Zone
+difficulty: 5
+enemyBase: false
+captureWave: 25
+research: {
+parent: BasaltCrags
+objectives: [
+BasaltCrags,
+silicon,
+thermal-pump,
+]
+}
 
