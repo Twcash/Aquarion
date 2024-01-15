@@ -29,12 +29,12 @@ parent: submarine-factory
 weapons: [
 {
 shoot: {
-shots: 16
-shotDelay: 3
+shots: 3
+shotDelay: 5
 }
 x: 4
 y: 1
-reload: 120
+reload: 15
 bullet: {
 width: 5
 height: 7
