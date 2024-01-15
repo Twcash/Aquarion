@@ -1,54 +1,19 @@
 type: flying
-controller: suicide
 localizedName: Poda
 flying: true
-createWreck: false
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
-drawBody: false
-speed: 2
+speed: .9
+rotateSpeed: 7
 rotateSpeed: 1.2
-omniMovement: false
-range: 10
+omniMovement: true
 itemCapacity: 20
 faceTarget: true
-health: 200
-engineSize: 0
-armor: 0
+health: 350
+engineSize: .5
+armor: 2
 hitSize: 6
-weapons: [
-{
-name: poda
-rotate: false
-parts: [
-{
-type: RegionPart
-suffix: -boom
-heatProgress: warmup
-}
-]
-x: 0
-shoot: {
-firstShotDelay: 60
-}
-shootOnDeath: true
-reload: 24
-shootCone: 360
-shootEffect: massiveExplosion
-shootSound: explosion
-mirror: false
-bullet: {
-type: explosionBulletType
-hitSound: explosion
-rangeOverride: 10
-hitEffect: pulverize
-splashDamage: 20
-splashDamageRadius : 15
-instantDespawn: true
-}
-}
-]
 requirements: {
   block: submarine-factory
   time: 300
@@ -61,3 +26,20 @@ planet: tantros
 name: Zoarcid
 parent: submarine-factory
 }
+weapons: [
+{
+shoot: {
+shots: 2
+shotDelay: 3
+}
+x: 4
+y: 1
+reload: 2
+bullet: {
+width: 5
+height: 7
+trailLength: 3
+homingPower: .5
+lifetime: 45
+}
+]
