@@ -1,0 +1,12 @@
+type: SteamVent
+parent: basalt  
+localizedName: Gabbro vent
+blendGroup: gabbro
+variants: 2
+attributes: {
+heat: 1
+steam: .15
+oil: .15
+}
+effect: airBubble
+effectSpacing: 80
