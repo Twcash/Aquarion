@@ -4,7 +4,7 @@ flying: true
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
-speed: .9
+speed: 1.4
 rotateSpeed: 7
 rotateSpeed: 1.2
 omniMovement: true
@@ -29,12 +29,12 @@ parent: submarine-factory
 weapons: [
 {
 shoot: {
-shots: 2
+shots: 40
 shotDelay: 3
 }
 x: 4
 y: 1
-reload: 2
+reload: 120
 bullet: {
 width: 5
 height: 7
