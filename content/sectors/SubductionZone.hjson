@@ -1,7 +1,7 @@
-sector: 42
+sector: 15
 planet: tantros
-localizedName: Subdustion Zone
-difficulty: 5
+localizedName: Subduction Zone
+difficulty: 6
 enemyBase: false
 captureWave: 25
 research: {
