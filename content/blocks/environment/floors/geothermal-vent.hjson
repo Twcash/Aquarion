@@ -1,5 +1,6 @@
 type: SteamVent
 parent: basalt  
+localizedName: basalt vent
 blendGroup: basalt
 variants: 2
 attributes: {
