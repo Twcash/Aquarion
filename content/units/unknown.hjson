@@ -42,4 +42,5 @@ trailLength: 3
 homingPower: .5
 lifetime: 45
 }
+}
 ]
