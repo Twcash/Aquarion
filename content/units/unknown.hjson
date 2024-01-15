@@ -29,7 +29,7 @@ parent: submarine-factory
 weapons: [
 {
 shoot: {
-shots: 40
+shots: 16
 shotDelay: 3
 }
 x: 4
