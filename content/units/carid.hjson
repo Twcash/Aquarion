@@ -1,46 +1,55 @@
 type: flying
 flying: true
-localizedName: Carid
+localizedName: Enforce
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
-speed: 2
+speed: 1.5
 rotateSpeed: 1.2
-createWreck: false
 range: 10
-itemCapacity: 45
-health: 450
+itemCapacity: 0
+health: 600
 armor: 2
-engineSize: 0
+engineSize: 2
 hitSize: 17
-abilities: [
-{
-type: SpawnDeathAbility
-unit: unknown
-amount: 3
-}
-]
 weapons: [
 {
+name: carid-swarm-weapon
+x: 6
+y
 shoot: {
-firstShotDelay: 90
+shots: 3
+shotDelay: 4
 }
-name: carid-boom
-shootOnDeath: true
-reload: 24
-shootCone: 360
-shootEffect: massiveExplosion
-shootSound: explosion
-heatProgress: warmup
-mirror: false
+reload: 55
 bullet: {
-type: explosionBulletType
-hitSound: explosion
-hitEffect: pulverize
-splashDamage: 60
-splashDamageRadius : 30
-instantDespawn: true
-rotate: false
+type: basicBulletType
+fragBullets: 1
+homingPower: .1
+damage: 4
+height: 9
+width: 5
+lifetime: 40
+speed: 3
+fragBullet: {
+bullet: {
+type: basicBulletType
+fragBullets: 1
+damage: 4
+height: 9
+width: 5
+lifetime: 40
+speed: 3
+homingPower: .1
+fragBullet: {
+bullet: {
+type: basicBulletType
+damage: 4
+height: 9
+width: 5
+lifetime: 40
+speed: 3
+homingPower: .1
 }
 }
 ]
