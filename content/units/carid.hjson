@@ -16,7 +16,7 @@ weapons: [
 {
 name: carid-swarm-weapon
 x: 6
-y
+y: -2
 shoot: {
 shots: 3
 shotDelay: 4
