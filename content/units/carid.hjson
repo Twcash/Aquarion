@@ -32,7 +32,6 @@ width: 5
 lifetime: 40
 speed: 3
 fragBullet: {
-bullet: {
 type: basicBulletType
 fragBullets: 1
 damage: 4
@@ -50,7 +49,6 @@ width: 5
 lifetime: 40
 speed: 3
 homingPower: .1
-}
 }
 }
 }
