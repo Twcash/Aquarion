@@ -55,6 +55,7 @@ homingPower: .1
 }
 }
 }
+}
 ]
 requirements: {
   previous: unknown
