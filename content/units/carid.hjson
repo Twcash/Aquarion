@@ -52,6 +52,9 @@ speed: 3
 homingPower: .1
 }
 }
+}
+}
+}
 ]
 requirements: {
   previous: unknown
