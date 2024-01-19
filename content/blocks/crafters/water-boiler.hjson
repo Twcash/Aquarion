@@ -72,6 +72,22 @@ type: DrawRegion
 suffix: -bottom
 }
 {
+type: drawCells
+range: 9
+particles: 200
+particleColorFrom: 18c87b
+particleColorTo: a38ed9
+color: 494b87
+}
+{
+type: drawCircles
+timeScl: 400
+amount: 5
+radius: 9
+strokeMax: 1.2
+color: 18c87b
+}
+{
 type: DrawHeatOutput
 }
 ]
