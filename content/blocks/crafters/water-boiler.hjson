@@ -72,10 +72,6 @@ type: DrawRegion
 suffix: -bottom
 }
 {
-type: DrawRegion
-suffix: -tope
-}
-{
 type: DrawHeatOutput
 }
 ]
