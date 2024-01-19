@@ -9,10 +9,9 @@ const oxide = Items.oxide
 const silicon = Items.silicon
 const lead = Items.lead
 const thorium = Items.thorium
-const fissileMatter = Items.fissileMatter
 const sodium = Vars.content.item("tantros-test-sodium");
 const metaglass = Items.metaglass
-const tantrosOnlyItems = Seq.with(sand, manganese,  godhelpme, oxide,  lead, sodium, coal, scrap, silicon, metaglass, duralumin, thorium, fissileMatter );
+const tantrosOnlyItems = Seq.with(sand, manganese,  godhelpme, oxide,  lead, sodium, coal, scrap, silicon, metaglass, duralumin, thorium );
 
 Planets.tantros.hiddenItems.addAll(Vars.content.items()).removeAll(tantrosOnlyItems)
 })
