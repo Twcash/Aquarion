@@ -2,12 +2,12 @@ type: HeatCrafter
 outputItem: silicon/5
 squareSprite: false
 category: crafting
-localizedName: pyrosilicon Crucible
-description: Refines silicon at high speeds. Uses heat.
+localizedName: Silicon Blast Furnace
+description: Refines silicon at high speeds. Requires heat to function.
 conductivePower: true
-itemCapacity: 30
+itemCapacity: 60
 size: 4
-craftTime: 45
+craftTime: 60
 ambientSound: smelter
 craftEffect: [
 {
