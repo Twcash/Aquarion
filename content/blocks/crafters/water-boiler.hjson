@@ -85,7 +85,7 @@ timeScl: 400
 amount: 5
 radius: 9
 strokeMax: 1.2
-color: 18c87b
+color: a774e8
 }
 {
 type: DrawHeatOutput
