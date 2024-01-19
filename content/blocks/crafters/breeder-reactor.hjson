@@ -1,0 +1,24 @@
+type: Separator
+size: 3
+localizedName: Breeder Reactor
+reseach: {
+parent: hydroxide-reactor
+planet: tantros
+  }
+requirements: [
+  lead/350
+  thorium/90
+  silicon/150
+  metaglass/160
+  ]
+craftTime: 90
+consumes: {
+items: [
+  thorium/1
+  ]
+  }
+results: [
+  thorium/2
+  fissile-matter/1
+  ]
+  category: crafter
