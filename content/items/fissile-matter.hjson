@@ -1,0 +1,5 @@
+hidden: false
+  research: {
+parent: silicon
+  planet: tantros
+  }
