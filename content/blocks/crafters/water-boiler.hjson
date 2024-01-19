@@ -75,9 +75,9 @@ suffix: -bottom
 type: drawCells
 range: 9
 particles: 200
-particleColorFrom: 18c87b
-particleColorTo: a38ed9
-color: 494b87
+particleColorFrom: e874e0
+particleColorTo: c76ec1
+color: 9f649b
 }
 {
 type: drawCircles
