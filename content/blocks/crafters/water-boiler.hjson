@@ -89,7 +89,7 @@ color: a774e8
 }
 {
 type: drawRegion
-suffix: -top
+suffix: -topest
 }
 {
 type: DrawHeatOutput
