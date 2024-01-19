@@ -88,6 +88,10 @@ strokeMax: 1.2
 color: a774e8
 }
 {
+type: drawRegion
+suffix: -top
+}
+{
 type: DrawHeatOutput
 }
 ]
