@@ -1,5 +1,5 @@
 type: incinerator
-  size: 2
+  size: 1
   description: Incinerates items and liquids
 category: distribution
   localizedName: Flare Tower
