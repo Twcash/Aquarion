@@ -1,5 +1,5 @@
 type: HeatProducer
-size: 2
+size: 3
 outputItem: sodium/1
 conductivePower: true
 consumes: {
