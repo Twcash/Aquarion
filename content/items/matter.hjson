@@ -3,3 +3,5 @@ hidden: false
 parent: silicon
   planet: tantros
   }
+localizedName: Fissile Matter
+radioactivity: 1.2
