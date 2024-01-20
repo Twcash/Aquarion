@@ -1,6 +1,6 @@
 hidden: false
   research: {
-parent: silicon
+parent: plutonium
   planet: tantros
   }
 localizedName: Fissile Matter
