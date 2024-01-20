@@ -55,5 +55,6 @@ name: Cultivation Chamber
 planet: tantros
 objectives: [
 algal-feilds
+vast-shallows
 ]
 }
