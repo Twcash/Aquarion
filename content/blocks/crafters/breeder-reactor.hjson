@@ -1,4 +1,4 @@
-type: Separator
+ type: Separator
 size: 3
 localizedName: Breeder Reactor
 reseach: {
@@ -7,7 +7,7 @@ planet: tantros
   }
 requirements: [
   lead/350
-  thorium/90
+  putonium/90
   silicon/150
   metaglass/160
   ]
