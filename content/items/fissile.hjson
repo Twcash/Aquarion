@@ -5,3 +5,4 @@ parent: silicon
   }
 localizedName: Fissile Matter
 radioactivity: 1.2
+color: 5e988d
