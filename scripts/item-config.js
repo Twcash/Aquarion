@@ -11,7 +11,7 @@ const lead = Items.lead
 const thorium = Items.thorium
 const sodium = Vars.content.item("tantros-test-sodium");
 const fissile = Vars.content.item("tantros-test-fissile");
-const plutonium = Vars.content.item("tantros-test-putonium");
+const plutonium = Vars.content.item("tantros-test-plutonium");
 const metaglass = Items.metaglass
 const tantrosOnlyItems = Seq.with(sand, manganese, godhelpme, oxide,  lead, sodium, coal, scrap, silicon, metaglass, duralumin, plutonium, fissile );
 
