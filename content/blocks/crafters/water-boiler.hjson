@@ -39,6 +39,28 @@ colorFrom: ffbdd4
 colorTo: fc81dd
 offsetX: -5
 }
+{
+cone: 5
+sizeFrom: 4
+particles: 3
+sizeTo: 0
+baseRotation: 90
+lifetime: 80
+colorFrom: ffbdd4
+colorTo: fc81dd
+offsetY: 5
+}
+{
+cone: 5
+sizeFrom: 4
+particles: 3
+sizeTo: 0
+baseRotation: -90
+lifetime: 80
+colorFrom: ffbdd4
+colorTo: fc81dd
+offsetY: -5
+}
 ]
 ambientSound: extractLoop
 heatOutput: 5
