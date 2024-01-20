@@ -38,5 +38,6 @@ name: Blast Kiln
 planet: tantros
 objectives: [
 algal-feilds
+vast-shallows
 ]
 }
