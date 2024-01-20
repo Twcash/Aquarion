@@ -93,4 +93,9 @@ metaglass/30
 parent: blast-kiln
 name: Blast Kiln
 planet: tantros
+objectives: [
+BasaltCrags,
+VastShallows,
+metaglass,
+]
 }
