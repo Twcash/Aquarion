@@ -68,6 +68,9 @@ bauxite/20
 ]
 drawer: [
 {
+type: drawDefault
+}
+{
 type: DrawRegion
 suffix: -bottom
 }
