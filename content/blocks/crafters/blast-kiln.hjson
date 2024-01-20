@@ -37,7 +37,7 @@ parent: geothermal-generator
 name: Blast Kiln
 planet: tantros
 objectives: [
-algal-feilds
-vast-shallows
+algal-feilds,
+vastShallows
 ]
 }
