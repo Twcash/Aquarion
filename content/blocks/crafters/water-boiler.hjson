@@ -26,7 +26,7 @@ baseRotation: 90
 lifetime: 80
 colorFrom: ffbdd4
 colorTo: fc81dd
-offsetX: 2
+offsetX: 4
 }
 {
 cone: 5
@@ -37,7 +37,7 @@ baseRotation: 180
 lifetime: 80
 colorFrom: ffbdd4
 colorTo: fc81dd
-offsetY: 2
+offsetY: 4
 }
 {
 cone: 5
@@ -48,18 +48,18 @@ baseRotation: -90
 lifetime: 80
 colorFrom: ffbdd4
 colorTo: fc81dd
-offsetX: -2
+offsetX: -4
 }
 {
 cone: 5
 sizeFrom: 4
 particles: 3
 sizeTo: 0
-baseRotation: -180
+baseRotation: 0
 lifetime: 80
 colorFrom: ffbdd4
 colorTo: fc81dd
-offsetY: -2
+offsetY: -4
 }
 ]
 aambientSound: extractLoop
