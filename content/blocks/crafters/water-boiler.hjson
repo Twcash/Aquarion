@@ -107,6 +107,6 @@ parent: geothermal-generator
 name: Reaction Heater
 planet: tantros
 objectives: [
-vastShallows
+VastShallows
 ]
 }
