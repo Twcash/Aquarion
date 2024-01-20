@@ -106,4 +106,7 @@ bauxite/30
 parent: geothermal-generator
 name: Reaction Heater
 planet: tantros
+objectives: [
+vastShallows
+]
 }
