@@ -7,7 +7,7 @@ planet: tantros
   }
 requirements: [
   lead/350
-  putonium/90
+  plutonium/90
   silicon/150
   metaglass/160
   ]
