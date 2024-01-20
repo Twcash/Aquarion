@@ -14,11 +14,11 @@ requirements: [
 craftTime: 90
 consumes: {
 items: [
-  thorium/1
+  plutonium/1
   ]
   }
 results: [
-  thorium/2
+  plutonium/2
   fissile-matter/1
   ]
   category: crafting
