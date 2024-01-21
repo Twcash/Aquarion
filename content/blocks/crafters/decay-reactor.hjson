@@ -5,6 +5,7 @@ items: [
 plutonium/3
 ]
 }
+heatOutput: 2
 outputLiquid: hydroxide/.5
 outputItem: fissile/1
 localizedName: Decay Reactor
