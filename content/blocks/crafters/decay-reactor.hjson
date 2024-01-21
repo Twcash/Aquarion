@@ -31,7 +31,7 @@ type: drawRegion: bottom
 {
 type: drawCells
 range: 17
-particles: 200
+particles: 400
 particleColorFrom: e874e0
 particleColorTo: c76ec1
 color: 9f649b
