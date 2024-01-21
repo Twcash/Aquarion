@@ -29,6 +29,10 @@ type: drawDefault
 {
 type: drawRegion: bottom
 }
+type: drawLiquidTile
+liquid: hydroxide
+{
+}
 {
 type: drawCells
 range: 17
