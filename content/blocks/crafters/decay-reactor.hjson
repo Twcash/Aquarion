@@ -30,7 +30,7 @@ type: drawRegion: bottom
 }
 {
 type: drawCells
-range: 9
+range: 17
 particles: 200
 particleColorFrom: e874e0
 particleColorTo: c76ec1
@@ -41,7 +41,7 @@ suffix: -liquid
 type: drawCircles
 timeScl: 400
 amount: 3
-radius: 13
+radius: 15
 strokeMax: 1.2
 color: a774e8
 }
@@ -62,6 +62,7 @@ particleRad: 6
 particleRad: 9
 particleLife: 90
 particles: 30
+interp: powOut
 }
 {
 type: drawRegion
