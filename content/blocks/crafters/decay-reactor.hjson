@@ -30,7 +30,7 @@ type: drawDefault
 type: drawRegion: bottom
 }
 {
-type: drawLiquidTile
+type: drawLiquidRegion
 liquid: hydroxide
 }
 {
