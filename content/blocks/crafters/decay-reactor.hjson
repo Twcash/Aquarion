@@ -5,7 +5,7 @@ items: [
 plutonium/3
 ]
 }
-iquidCapacity: 300
+liquidCapacity: 300
 heatOutput: 2
 outputLiquid: hydroxide/.5
 outputItem: fissile/1
