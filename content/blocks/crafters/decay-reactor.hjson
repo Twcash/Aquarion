@@ -39,12 +39,45 @@ suffix: -liquid
 {
 type: drawCircles
 timeScl: 400
-amount: 5
-radius: 9
+amount: 3
+radius: 13
 strokeMax: 1.2
 color: a774e8
 }
 {
 type: drawRegion
+suffix: -rotator
+spinSprite: true
+rotateSpeed: 1.5
+}
+{
+type: drawRegion
+suffix: -mid
+}
+{
+type: drawSoftParticles
+alpha: .4
+particleRad: 6
+particleRad: 9
+particleLife: 90
+particles: 30
+}
+{
+type: drawRegion
+suffix: -rotator
+spinSprite: true
+rotateSpeed: -2
+}
+{
+type: drawRegion
 suffix: -top
 }
+{
+type: drawGlowRegion
+suffix: -glow
+color: a996dd
+}
+{
+type: DrawHeatInput
+}
+]
