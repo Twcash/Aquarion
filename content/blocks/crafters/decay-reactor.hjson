@@ -1,4 +1,4 @@
- type: GenericCrafter
+ type: HeatProducer
 size: 5
 consumes: {
 items: [
@@ -78,6 +78,10 @@ suffix: -glow
 color: a996dd
 }
 {
-type: DrawHeatInput
+type: DrawSideRegion
+suffix: -p
+}
+{
+type: DrawHeatOutput
 }
 ]
