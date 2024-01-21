@@ -68,10 +68,11 @@ suffix: -mid
 type: drawSoftParticles
 alpha: .4
 particleRad: 6
-particleRad: 12
-particleLife: 90
+particleSize: 12
+particleLife: 120
 particles: 30
 interp: powOut
+reverse: true
 }
 {
 type: drawRegion
