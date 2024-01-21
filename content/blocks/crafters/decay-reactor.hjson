@@ -30,8 +30,9 @@ type: drawDefault
 type: drawRegion: bottom
 }
 {
-type: drawLiquidRegion
-liquid: hydroxide
+type: DrawLiquidTile
+drawLiquid: hydroxide
+padding: 3
 }
 {
 type: drawCells
