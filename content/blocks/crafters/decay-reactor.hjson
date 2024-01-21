@@ -79,10 +79,6 @@ suffix: -glow
 color: a996dd
 }
 {
-type: DrawSideRegion
-suffix: -p
-}
-{
 type: DrawHeatOutput
 }
 ]
