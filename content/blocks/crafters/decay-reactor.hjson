@@ -8,6 +8,7 @@ plutonium/3
 heatOutput: 2
 outputLiquid: hydroxide/.5
 outputItem: fissile/1
+craftEffect: fluxVapor
 localizedName: Decay Reactor
 reseach: {
 parent: hydroxide-reactor
