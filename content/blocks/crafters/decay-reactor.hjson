@@ -4,10 +4,10 @@ consumes: {
 items: [
 plutonium/3
 ]
-liquid: [
+liquid: {
 liquid: cryofluid
 amount: .25
-]
+}
 }
 dumpExtraiquid: true
 liquidCapacity: 150
