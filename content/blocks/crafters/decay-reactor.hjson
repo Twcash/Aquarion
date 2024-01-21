@@ -9,6 +9,7 @@ liquid: cryofluid
 amount: .25
 ]
 }
+dumpExtraiquid: true
 liquidCapacity: 150
 ignoreLiquidFullness: true
 heatOutput: 8
