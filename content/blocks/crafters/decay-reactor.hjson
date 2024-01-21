@@ -4,10 +4,15 @@ consumes: {
 items: [
 plutonium/3
 ]
+liquid: [
+liquid: cryofluid
+amount: .25
+]
 }
-liquidCapacity: 300
-heatOutput: 2
-outputLiquid: hydroxide/.5
+liquidCapacity: 150
+ignoreLiquidFullness: true
+heatOutput: 8
+outputLiquid: hydroxide/.3
 outputItem: fissile/1
 craftEffect: fluxVapor
 localizedName: Decay Reactor
@@ -21,7 +26,7 @@ requirements: [
   silicon/150
   metaglass/160
   ]
-craftTime: 240
+craftTime: 120
 category: crafting
 drawer: [
 {
