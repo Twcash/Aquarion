@@ -1,0 +1,29 @@
+ type: GenericCrafter
+size: 5
+consumes: {
+items: [
+plutonium/3
+]
+}
+outputLiquid: hydroxide/.5
+outputItem: plutonium/1
+localizedName: Decay Reactor
+reseach: {
+parent: hydroxide-reactor
+planet: tantros
+  }
+requirements: [
+  lead/350
+  plutonium/90
+  silicon/150
+  metaglass/160
+  ]
+craftTime: 240
+category: crafting
+drawer: [
+{
+type: drawDefault
+}
+{
+type: drawRegion: bottom
+}
