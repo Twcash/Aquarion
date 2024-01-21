@@ -6,7 +6,7 @@ plutonium/3
 ]
 }
 outputLiquid: hydroxide/.5
-outputItem: plutonium/1
+outputItem: fissile/1
 localizedName: Decay Reactor
 reseach: {
 parent: hydroxide-reactor
