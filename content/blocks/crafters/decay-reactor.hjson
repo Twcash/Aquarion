@@ -27,3 +27,24 @@ type: drawDefault
 {
 type: drawRegion: bottom
 }
+{
+type: drawCells
+range: 9
+particles: 200
+particleColorFrom: 18c87b
+particleColorTo: 2ca197
+color: 266b4d
+suffix: -liquid
+}
+{
+type: drawCircles
+timeScl: 400
+amount: 5
+radius: 9
+strokeMax: 1.2
+color: 18c87b
+}
+{
+type: drawRegion
+suffix: -top
+}
