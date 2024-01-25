@@ -1,0 +1,11 @@
+type: payloadUnloader
+localizedName: small Payload Unloader
+reuirements: {
+lead/40
+metaglass/60
+  }
+size: 1
+  research: {
+planet: tantros
+  parent: payload-duck
+  }
