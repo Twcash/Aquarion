@@ -71,7 +71,7 @@ interval: 4
 deathSound: none
 deathExplosionEffect: [
 {
-dynamicSpikes 
+type: dynamicSpikes 
 color: 8ca4fc
 radius: 6
 }
