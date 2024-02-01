@@ -38,10 +38,23 @@ weaponIndex: 0
 type: HoverPart
 color: 5454c4
 mirror: true
-x: -5
-y: -6
+x: -9
+y: -8
 sides: 8
 circles: 3
+stroke: .5
+radius: 12
+}
+{
+type: HoverPart
+color: 5454c4
+mirror: true
+x: -9
+y: 12
+sides: 8
+circles: 3
+stroke: .5
+radius: 12
 }
 ]
 abilities: [
