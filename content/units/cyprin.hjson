@@ -76,14 +76,15 @@ color: 8ca4fc
 layerOffset: -1
 circle: true
 triLength: 0
-triLengthTo: 20
+triLengthTo: 7
 hollow: true
-haloRadius: 14
+haloRadius: 12
 radius: 6
 haloRotation: 90
-shapes: 2
+shapes: 6
 y: -14
 tri: true
+rotateSpeed: -2
 }
 {
 type: HoverPart
