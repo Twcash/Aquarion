@@ -75,16 +75,14 @@ effect: [
 type: particleEffect
 colorFrom: cbd3f2
 colorTo: 8ca4fc
-particles: 12
-region: orb
-sprite: orb
+particles: 1
 lifetime: 110
 sizeFrom: 2
 sizeTo: 0
 }
 ]
 y: -11
-interval: 45
+interval: 1
 }
 ]
 weapons: [
