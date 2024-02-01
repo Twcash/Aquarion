@@ -7,7 +7,7 @@ outlineColor: 2f3734
 template: MissileUnitType
 drawCell: false
 speed: 4.6
-maxRange: 5
+maxRange: 1
 rotateSpeed: 6
 missileAccelTime: 30
 range: 30
@@ -16,8 +16,6 @@ hitSize: 3
 trailLength: 2
 engineSize: 0
 engineOffset: 0
-trailColor: 8fff82
-engineColor: 8fff82
 abilities: [
 {
 type: moveEffectAbility
@@ -40,8 +38,8 @@ mirror: false
 shootOnDeath: true
 bullet: {
 type: ExplosionBulletType
-splashDamageRadius: 4.5
-splashDamage: 45
+splashDamageRadius: 6
+splashDamage: 60
 }
 shootEffect: massiveExplosion
 }
