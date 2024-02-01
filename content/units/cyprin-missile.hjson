@@ -19,15 +19,56 @@ engineOffset: 0
 abilities: [
 {
 type: moveEffectAbility
-effect: airBubble
-y: -9
-interval: 6
+effect: [
+{
+type: particleEffect
+colorFrom: cbd3f2
+colorTo: 8ca4fc
+particles: 2
+lifetime: 35
+sizeFrom: 2
+sizeTo: 0
+}
+{
+type: particleEffect
+colorFrom: ffffff
+colorTo: 8ca4fc
+particles: 1
+lifetime: 20
+sizeFrom: 1
+sizeTo: 0
+}
+]
+y: -5
+interval: 4
+}
+{
+type: moveEffectAbility
+effect: [
+{
+type: particleEffect
+colorFrom: 586db8
+colorTo: 8ca4fc
+particles: 2
+lifetime: 12
+sizeFrom: 2
+sizeTo: 0
+}
+{
+type: particleEffect
+colorFrom: 586db8
+colorTo: 8ca4fc
+particles: 1
+lifetime: 7
+sizeFrom: 1
+sizeTo: 0
 }
 ]
 deathSound: none
 deathExplosionEffect: none
 weapons: [
 {
+shootSound: dullExplosion
 rotate: true
 rotateSpeed: 0
 mirror: false
@@ -37,6 +78,7 @@ reload: 1
 mirror: false
 shootOnDeath: true
 bullet: {
+shootSound: dullExplosion
 type: ExplosionBulletType
 splashDamageRadius: 6
 splashDamage: 60
