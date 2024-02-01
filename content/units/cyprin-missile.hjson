@@ -1,6 +1,6 @@
 type: missile
 lowAltitude: true
-lifetime: 140
+lifetime: 60
 hidden: true
 health: 90
 outlineColor: 2f3734
