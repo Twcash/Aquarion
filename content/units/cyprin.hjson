@@ -42,6 +42,7 @@ y: -10
 sides: 8
 circles: 3
 stroke: 3
+StrokeTo: 2.5
 radius: 6
 under: true
 layerOffset: -1
@@ -53,43 +54,46 @@ color: 7382f025
 hollow: true
 blending: additive
 y: -14
-stroke: .2
-strokeTo: 1
+progress: SmoothReload
+stroke: 1
+strokeTo: 1.5
 radius: 6
 rotateSpeed: 2
 layerOffset: -1
 layer: 110
-weaponIndex: 2
+weaponIndex: 4
 }
 {
 color: 7382f0
 type: ShapePart
 circle: true
 blending: additive
+progress: SmoothReload
 hollow: true
 y: -14
-stroke: .5
-strokeTo: 1.5
+stroke: 1.5
+strokeTo: 2
 radius: 10
 layer: 110
 rotateSpeed: 3
 layerOffset: -1
-weaponIndex: 2
+weaponIndex: 4
 }
 {
 color: 7382f0
 type: ShapePart
 circle: true
 blending: additive
+progress: SmoothReload
 hollow: false
 y: -14
-stroke: .5
+stroke: 1
 layer: 110
 strokeTo: 2
 radius: 4
 rotateSpeed: 3
 layerOffset: -1
-weaponIndex: 2
+weaponIndex: 4
 }
 {
 type: HaloPart
@@ -135,28 +139,30 @@ circle: true
 blending: additive
 hollow: false
 y: -14
-stroke: .5
-strokeTo: 2
+stroke: 2
+strokeTo: 1.5
+progress: SmoothReload
 layer: 110
 radius: 5
 rotateSpeed: 3
 layerOffset: -1
-weaponIndex: 2
+weaponIndex: 4
 }
 {
 color: ffffff
 type: ShapePart
 circle: true
 blending: additive
+progress: SmoothReload
 hollow: true
 y: -14
-stroke: .5
-strokeTo: 1
+stroke: 1
+strokeTo: 2
 layer: 110
 radius: 3
 rotateSpeed: 3
 layerOffset: -1
-weaponIndex: 2
+weaponIndex: 4
 }
 {
 type: HoverPart
@@ -399,6 +405,31 @@ despawnEffect: none
 layer: 100
 trailLength: 25
 trailWidth: 2
+trailColor: 8ca4fc
+}
+{
+alwaysShooting: true
+alternate: false
+shootY: 0
+recoil: 0
+y: -12
+x: 9
+reload: 30
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 100
+trailLength: 0
+trailWidth: 0
 trailColor: 8ca4fc
 }
 }
