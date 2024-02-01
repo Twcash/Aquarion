@@ -143,6 +143,7 @@ trailLength: 12
 trailWidth: 1.5
 trailColor: 5454c4
 }
+}
 {
 alwaysShooting: true
 alwaysContinuous: true
@@ -168,5 +169,5 @@ trailLength: 15
 trailWidth: 1
 trailColor: 5454c4
 }
-  }
+}
 ]
