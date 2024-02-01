@@ -75,6 +75,15 @@ effect: [
 type: particleEffect
 colorFrom: cbd3f2
 colorTo: 8ca4fc
+particles: 2
+lifetime: 110
+sizeFrom: 4
+sizeTo: 0
+}
+{
+type: particleEffect
+colorFrom: ffffff
+colorTo: 8ca4fc
 particles: 1
 lifetime: 110
 sizeFrom: 2
