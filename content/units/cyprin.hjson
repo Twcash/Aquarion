@@ -14,6 +14,26 @@ health: 2300
 engineSize: 0
 armor: 3
 hitSize: 24
+parts: [
+{ 
+type: RegionPart
+suffix: -glow
+outline: false
+blending: additive
+layer: 91
+color: 7382f0
+colorTo: ffffff
+weaponIndex: 0
+}
+{ 
+type: RegionPart
+suffix: -glow
+outline: false
+layer: 140
+color: 7382f025
+blending: additive
+}
+]
 abilities: [
 {
 type: moveEffectAbility
@@ -48,9 +68,12 @@ mirror: true
 ]
 name: cyprin-weapon
 rotate: true
-rotateSpeed: .7
+rotateSpeed: .9
 recoil: 1
-rotationLimit: 60
+rotationLimit: 45
+shoot: {
+shots: 4
+}
 bullet: {
 spawnUnit: cyprin-missile
 shootEffect: sparkShoot
@@ -60,54 +83,29 @@ speed: 0
 keepVelocity: false
 }
 }
-{
-name: cyprin-sapper
-rotate: true
-continuous: true
-mirror: true
-x: 12
-reload: 15
-y: 8
-shoot: {
-shootY: 2
-source: ShootAlternate
-}
-bullet: {
-type: SapBulletType
-sapStrength: .9
-length: 55
-damage: 35
-hitColor: bf92f9
-despawnEffect: none
-width: .6
-lifetime: 30
-continuous: true
-knockback: -1.5
-}
-}
-{
-name: cyprin-sapper
-mirror: true
-reload: 20
-rotate: true
-x: 12
-y: -12
-continuous: true
-shoot: {
-shootY: 2
-source: ShootAlternate
-}
-bullet: {
-type: SapBulletType
-sapStrength: .9
-length: 55
-damage: 35
-hitColor: bf92f9
-despawnEffect: none
-width: .6
-continuous: true
-lifetime: 30
-knockback: -1.5
-}
-}
+//{
+//name: cyprin-sapper
+//rotate: true
+//continuous: true
+//mirror: true
+//x: 12
+//reload: 15
+//y: 8
+//shoot: {
+//shootY: 2
+//source: ShootAlternate
+//}
+//bullet: {
+//type: SapBulletType
+//sapStrength: .9
+//length: 55
+//damage: 35
+//hitColor: bf92f9
+//despawnEffect: none
+//width: .6
+//lifetime: 30
+//continuous: true
+//knockback: -1.5
+//}
+//}
 ]
