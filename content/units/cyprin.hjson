@@ -62,7 +62,7 @@ radius: 6
 rotateSpeed: 2
 layerOffset: -1
 layer: 110
-weaponIndex: 4
+weaponIndex: 6
 }
 {
 color: 7382f0
@@ -79,7 +79,7 @@ radius: 10
 layer: 110
 rotateSpeed: 3
 layerOffset: -1
-weaponIndex: 4
+weaponIndex: 6
 }
 {
 color: 7382f0
@@ -96,7 +96,7 @@ strokeTo: 2
 radius: 4
 rotateSpeed: 3
 layerOffset: -1
-weaponIndex: 4
+weaponIndex: 6
 }
 {
 type: HaloPart
@@ -150,7 +150,7 @@ layer: 110
 radius: 5
 rotateSpeed: 3
 layerOffset: -1
-weaponIndex: 4
+weaponIndex: 6
 }
 {
 color: ffffff
@@ -167,7 +167,7 @@ radiusTo: 5
 radius: 3
 rotateSpeed: 3
 layerOffset: -1
-weaponIndex: 4
+weaponIndex: 6
 }
 {
 type: HoverPart
