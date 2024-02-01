@@ -54,6 +54,7 @@ color: 7382f025
 hollow: true
 blending: additive
 y: -14
+radiusTo: 7
 progress: recoil
 stroke: 1
 strokeTo: 1.5
@@ -67,6 +68,7 @@ weaponIndex: 4
 color: 7382f0
 type: ShapePart
 circle: true
+radiusTo: 9
 blending: additive
 progress: recoil
 hollow: true
@@ -82,6 +84,7 @@ weaponIndex: 4
 {
 color: 7382f0
 type: ShapePart
+radiusTo: 5
 circle: true
 blending: additive
 progress: recoil
@@ -137,6 +140,7 @@ color: 7382f0
 type: ShapePart
 circle: true
 blending: additive
+radiusTo: 6
 hollow: false
 y: -14
 stroke: 2
@@ -159,6 +163,7 @@ y: -14
 stroke: 1
 strokeTo: 2
 layer: 110
+radiusTo: 5
 radius: 3
 rotateSpeed: 3
 layerOffset: -1
