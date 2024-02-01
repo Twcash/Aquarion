@@ -30,7 +30,7 @@ type: RegionPart
 suffix: -glow
 outline: false
 layer: 140
-color: 7382f025
+color: 7382f0
 blending: additive
 weaponIndex: 0
 }
