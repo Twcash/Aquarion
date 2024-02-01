@@ -95,7 +95,8 @@ rotateSpeed: .9
 recoil: 1
 rotationLimit: 45
 shoot: {
-shots: 4
+shots: 3
+shotDelay: 10
 }
 bullet: {
 spawnUnit: cyprin-missile
