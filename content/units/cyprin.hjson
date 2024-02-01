@@ -34,6 +34,15 @@ color: 7382f025
 blending: additive
 weaponIndex: 0
 }
+{
+type: HoverPart
+color: 5454c4
+mirror: true
+x: -5
+y: -6
+sides: 8
+circles: 3
+}
 ]
 abilities: [
 {
@@ -115,8 +124,8 @@ alwaysContinuous: true
 alternate: false
 shootY: 0
 recoil: 0
-y: -7
-x: 8
+y: -12
+x: 9
 shootSound: none
 bullet: {
 type: BulletType
@@ -130,7 +139,32 @@ smokeEffect: none
 hitEffect: none
 despawnEffect: none
 layer: 100
-trailLength: 8
+trailLength: 12
+trailWidth: 1.5
+trailColor: 5454c4
+}
+{
+alwaysShooting: true
+alwaysContinuous: true
+alternate: false
+shootY: 0
+recoil: 0
+y: -15
+x: 12
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 100
+trailLength: 15
 trailWidth: 1
 trailColor: 5454c4
 }
