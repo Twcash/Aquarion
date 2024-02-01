@@ -442,11 +442,12 @@ trailColor: 8ca4fc
 {
 alwaysShooting: true
 alternate: false
+mirror: false
 shootY: 0
-recoil: 0
+recoil: 5
 y: -12
 x: 9
-reload: 90
+reload: 300
 shootSound: none
 bullet: {
 type: BulletType
