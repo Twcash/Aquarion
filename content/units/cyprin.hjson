@@ -485,7 +485,7 @@ trailColor: 8ca4fc
 {
 mirror: false
 name: cyprin-missiles
-X: -4
+X: 0
 y: 0
 shoot: {
 type: ShootMulti
