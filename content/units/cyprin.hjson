@@ -5,7 +5,7 @@ drag: .2
 speed: 3
 outlineColor: 2f3734
 rotateSpeed: 2
-lowAltitude: true
+lowAltitude: false
 range: 38
 omniMovement: true
 accel: .1
