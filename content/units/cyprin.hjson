@@ -56,6 +56,7 @@ strokeTo: 1
 radius: 6
 rotateSpeed: 2
 layerOffset: -1
+weaponIndex: 1
 }
 {
 color: 5454c4
@@ -68,6 +69,7 @@ strokeTo: 1.5
 radius: 10
 rotateSpeed: 3
 layerOffset: -1
+weaponIndex: 1
 }
 {
 color: 5454c4
@@ -78,13 +80,14 @@ circle: true
 triLength: 0
 triLengthTo: 7
 hollow: true
-haloRadius: 12
-radius: 6
+haloRadius: 4
+radius: 2
 haloRotation: 90
-shapes: 6
+shapes: 12
 y: -14
 tri: true
 rotateSpeed: -2
+weaponIndex: 1
 }
 {
 type: HoverPart
