@@ -9,9 +9,9 @@ rotateSpeed: 7
 omniMovement: true
 itemCapacity: 20
 faceTarget: true
-health: 350
+health:  280
 engineSize: .5
-armor: 2
+armor: 1
 hitSize: 6
 requirements: {
   block: submarine-factory
