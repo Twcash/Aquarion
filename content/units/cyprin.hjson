@@ -82,6 +82,22 @@ layerOffset: -1
 weaponIndex: 7
 }
 {
+type: HoverPart
+color: e5eaff
+blending: additive
+mirror: false
+x: 0
+y: -14
+sides: 64
+circles: 2
+ifetime: 120
+stroke: 4
+StrokeTo: 2
+radius: 10
+under: true
+layerOffset: -1
+}
+{
 color: 7382f0
 type: ShapePart
 radiusTo: 5
@@ -168,21 +184,6 @@ radius: 3
 rotateSpeed: 3
 layerOffset: -1
 weaponIndex: 7
-}
-{
-type: HoverPart
-color: b9c7f9
-mirror: false
-x: 0
-y: -14
-sides: 64
-circles: 2
-ifetime: 120
-stroke: 8
-StrokeTo: 5
-radius: 10
-under: true
-layerOffset: -1
 }
 {
 type: HoverPart
