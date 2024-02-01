@@ -91,7 +91,7 @@ sizeTo: 0
 }
 ]
 y: -11
-interval: 1
+interval: 10
 }
 ]
 weapons: [
