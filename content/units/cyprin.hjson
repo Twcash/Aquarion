@@ -68,6 +68,24 @@ effect: airBubble
 y: -11
 interval: 30
 }
+{
+type: moveEffectAbility
+effect: [
+{
+type: particleEffect
+colorFrom: cbd3f2
+colorTo: 8ca4fc
+particles: 12
+region: orb
+sprite: orb
+lifetime: 110
+sizeFrom: 2
+sizeTo: 0
+}
+]
+y: -11
+interval: 45
+}
 ]
 weapons: [
 {
