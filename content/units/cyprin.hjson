@@ -45,6 +45,7 @@ circles: 3
 stroke: 1
 radius: 6
 under: true
+layerOffset: -1
 }
 {
 type: HoverPart
@@ -57,6 +58,7 @@ circles: 3
 stroke: 1
 radius: 6
 under: true
+layerOffset: -1
 }
 ]
 abilities: [
