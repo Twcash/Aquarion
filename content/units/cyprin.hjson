@@ -42,7 +42,7 @@ x: -13
 y: -10
 sides: 8
 circles: 3
-stroke: 1
+stroke: 3
 radius: 6
 under: true
 layerOffset: -1
@@ -55,7 +55,7 @@ x: -7
 y: 9
 sides: 8
 circles: 3
-stroke: 1
+stroke: 3
 radius: 6
 under: true
 layerOffset: -1
