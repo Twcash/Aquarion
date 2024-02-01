@@ -8,7 +8,6 @@ omniMovement: false
 rotateSpeed: 2
 lowAltitude: false
 range: 38
-omniMovement: true
 accel: .1
 itemCapacity: 125
 health: 2300
