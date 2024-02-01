@@ -35,7 +35,7 @@ weaponIndex: 0
 }
 {
 type: HoverPart
-color: 5454c4
+color: 8ca4fc
 mirror: true
 x: -13
 y: -10
@@ -49,35 +49,35 @@ layerOffset: -1
 {
 type: ShapePart
 circle: true
+color: 7382f025
 hollow: true
 y: -14
-stroke: 0
+stroke: .2
 strokeTo: 1
 radius: 6
 rotateSpeed: 2
 layerOffset: -1
-weaponIndex: 1
+weaponIndex: 2
 }
 {
-color: 5454c4
+color: 7382f025
 type: ShapePart
 circle: true
 hollow: true
 y: -14
-stroke: 0
+stroke: .5
 strokeTo: 1.5
 radius: 10
 rotateSpeed: 3
 layerOffset: -1
-weaponIndex: 1
+weaponIndex: 2
 }
 {
-color: 5454c4
 type: HaloPart
 color: 8ca4fc
 layerOffset: -1
 circle: true
-triLength: 0
+triLength: 1
 triLengthTo: 7
 hollow: true
 haloRadius: 4
@@ -86,8 +86,7 @@ haloRotation: 90
 shapes: 12
 y: -14
 tri: true
-rotateSpeed: -2
-weaponIndex: 1
+weaponIndex: 2
 }
 {
 type: HoverPart
