@@ -157,8 +157,8 @@ smokeEffect: none
 hitEffect: none
 despawnEffect: none
 layer: 100
-trailLength: 12
-trailWidth: 1.5
+trailLength: 30
+trailWidth: 2.5
 trailColor: 5454c4
 }
 }
