@@ -482,4 +482,47 @@ trailWidth: 0
 trailColor: 8ca4fc
 }
 }
+{
+mirror: false
+name: cyprin-missiles
+X: 0
+y: -2
+shoot: {
+type: ShootMulti
+cone: 30
+source: ShootAlternate
+dest: [
+{
+type: ShootBarrel
+shots: 6
+barrels: [
+0, 2, 0,
+3, 2, 0,
+-3, 2, 0,
+]
+}
+]
+}
+reload: 35
+rotate: true
+velocityRnd: .5
+shootSound: missile
+bullet: {
+type: MissileBulletType
+width: 7
+height: 12
+shrinkY: .9
+drag: -.05
+speed: 1.5
+homingRange: 60
+lifetime: 60
+trailColor: ff8b3d
+frontColor: ff771b
+hitEffect: blastExplosion
+despawnEffect: blastExplosion
+weaveScale: 4
+weaveMag: 2
+damage: 12
+}
+}
 ]
