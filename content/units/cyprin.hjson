@@ -21,7 +21,7 @@ suffix: -glow
 outline: false
 blending: additive
 layer: 91
-color: 7382f0
+color: 7382f025
 colorTo: ffffff
 weaponIndex: 0
 }
@@ -32,6 +32,7 @@ outline: false
 layer: 140
 color: 7382f025
 blending: additive
+weaponIndex: 0
 }
 ]
 abilities: [
