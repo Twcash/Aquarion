@@ -388,6 +388,32 @@ alwaysContinuous: true
 alternate: false
 shootY: 0
 recoil: 0
+y: -15
+x: 12
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 100
+trailLength: 9
+trailWidth: .7
+trailColor: 8ca4fc
+}
+}
+{
+alwaysShooting: true
+alwaysContinuous: true
+alternate: false
+shootY: 0
+recoil: 0
 y: -12
 x: 9
 shootSound: none
