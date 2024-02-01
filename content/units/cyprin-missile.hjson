@@ -64,6 +64,10 @@ sizeFrom: 1
 sizeTo: 0
 }
 ]
+y: -5
+interval: 4
+}
+]
 deathSound: none
 deathExplosionEffect: none
 weapons: [
