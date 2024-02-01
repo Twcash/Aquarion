@@ -61,7 +61,7 @@ layerOffset: -1
 weaponIndex: 2
 }
 {
-color: 7382f025
+color: 7382f0
 type: ShapePart
 circle: true
 blending: additive
@@ -75,6 +75,38 @@ layerOffset: -1
 weaponIndex: 2
 }
 {
+color: 7382f0
+type: ShapePart
+circle: true
+blending: additive
+hollow: false
+y: -14
+stroke: .5
+strokeTo: 2
+radius: 4
+rotateSpeed: 3
+layerOffset: -1
+weaponIndex: 2
+}
+{
+type: HaloPart
+color: 5454c4
+blending: additive
+layerOffset: -1
+circle: true
+triLength: 1
+triLengthTo: 9
+hollow: true
+haloRadius: 4
+radius: 2
+haloRotation: 90
+rotateSpeed: 2
+shapes: 12
+y: -14
+tri: true
+weaponIndex: 2
+}
+{
 type: HaloPart
 color: 8ca4fc
 layerOffset: -1
@@ -85,6 +117,7 @@ hollow: true
 haloRadius: 4
 radius: 2
 haloRotation: 90
+rotateSpeed: -2
 shapes: 12
 y: -14
 tri: true
