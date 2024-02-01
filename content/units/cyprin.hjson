@@ -485,7 +485,7 @@ trailColor: 8ca4fc
 {
 mirror: false
 name: cyprin-missiles
-X: 0
+X: -4
 y: 0
 shoot: {
 type: ShootMulti
@@ -495,6 +495,7 @@ dest: [
 {
 type: ShootBarrel
 shots: 6
+shotDelay: 2
 barrels: [
 0, 2, 0,
 3, 2, 0,
@@ -516,7 +517,7 @@ drag: -.05
 layer: 130
 speed: 1.5
 homingRange: 60
-lifetime: 60
+lifetime: 25
 trailColor: ff8b3d
 frontColor: ff771b
 hitEffect: blastExplosion
