@@ -108,4 +108,30 @@ keepVelocity: false
 //knockback: -1.5
 //}
 //}
+{
+alwaysShooting: true
+alwaysContinuous: true
+alternate: false
+shootY: 0
+recoil: 0
+y: -7
+x: 8
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 100
+trailLength: 8
+trailWidth: 1
+trailColor: 5454c4
+}
+  }
 ]
