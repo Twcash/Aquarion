@@ -485,10 +485,8 @@ trailColor: 8ca4fc
 {
 mirror: false
 name: cyprin-missiles
-X: -2
-Y: 0
-X: 0
-Y: 0
+y: -12
+x: 9
 shoot: {
 type: ShootMulti
 cone: 30
@@ -519,12 +517,12 @@ drag: -.05
 layer: 130
 speed: 1.5
 homingRange: 60
-lifetime: 25
+lifetime: 40
 trailColor: ff8b3d
 frontColor: ff771b
 hitEffect: blastExplosion
 despawnEffect: blastExplosion
-weaveScale: 4
+weaveScale: 7
 weaveMag: 2
 damage: 12
 }
