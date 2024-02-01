@@ -4,6 +4,7 @@ localizedName: Cyprin
 drag: .2
 speed: 3
 outlineColor: 2f3734
+omniMovement: false
 rotateSpeed: 2
 lowAltitude: false
 range: 38
