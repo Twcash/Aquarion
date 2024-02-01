@@ -51,6 +51,7 @@ type: ShapePart
 circle: true
 color: 7382f025
 hollow: true
+blending: additive
 y: -14
 stroke: .2
 strokeTo: 1
@@ -63,6 +64,7 @@ weaponIndex: 2
 color: 7382f025
 type: ShapePart
 circle: true
+blending: additive
 hollow: true
 y: -14
 stroke: .5
