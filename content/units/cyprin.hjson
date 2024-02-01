@@ -486,7 +486,7 @@ trailColor: 8ca4fc
 mirror: false
 name: cyprin-missiles
 X: 0
-y: -2
+y: 0
 shoot: {
 type: ShootMulti
 cone: 30
@@ -513,6 +513,7 @@ width: 7
 height: 12
 shrinkY: .9
 drag: -.05
+layer: 130
 speed: 1.5
 homingRange: 60
 lifetime: 60
