@@ -23,7 +23,6 @@ blending: additive
 layer: 91
 color: 7382f025
 colorTo: ffffff
-weaponIndex: 0
 }
 { 
 type: RegionPart
@@ -46,6 +45,40 @@ stroke: 3
 radius: 6
 under: true
 layerOffset: -1
+}
+{
+type: ShapePart
+circle: true
+hollow: true
+y: -10
+stroke: 0
+strokeTo: 2
+radius: 6
+rotateSpeed: 2
+}
+{
+color: 5454c4
+type: ShapePart
+circle: true
+hollow: true
+y: -10
+stroke: 0
+strokeTo: 3
+radius: 10
+rotateSpeed: -2
+}
+{
+color: 5454c4
+type: HaloPart
+color: 8ca4fc
+layerOffset: -1
+circle: true
+hollow: true
+haloRadius: 14
+haloRotation: 80
+shapes: 2
+y: -10
+tri: true
 }
 {
 type: HoverPart
