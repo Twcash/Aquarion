@@ -407,6 +407,7 @@ trailLength: 25
 trailWidth: 2
 trailColor: 8ca4fc
 }
+}
 {
 alwaysShooting: true
 alternate: false
