@@ -171,6 +171,21 @@ weaponIndex: 7
 }
 {
 type: HoverPart
+color: b9c7f9
+mirror: false
+x: 0
+y: -14
+sides: 64
+circles: 2
+ifetime: 120
+stroke: 8
+StrokeTo: 5
+radius: 10
+under: true
+layerOffset: -1
+}
+{
+type: HoverPart
 color: 5454c4
 mirror: true
 x: -7
