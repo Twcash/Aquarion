@@ -366,4 +366,50 @@ trailWidth: 2
 trailColor: 8ca4fc
 }
 }
+{
+alwaysShooting: true
+mirror: false
+alternate: false
+shootY: 0
+recoil: 0
+y: -12
+x: 0
+reload: 2
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: [
+{
+type: particleEffect
+colorFrom: 586db8
+colorTo: 8ca4fc
+particles: 2
+lifetime: 60
+sizeFrom: 4
+sizeTo: 0
+}
+{
+type: particleEffect
+colorFrom: 586db8
+colorTo: 8ca4fc
+particles: 1
+lifetime: 50
+sizeFrom: 2
+sizeTo: 0
+}
+]
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 100
+trailLength: 0
+trailWidth: 0
+trailColor: 8ca4fc
+}
+}
 ]
