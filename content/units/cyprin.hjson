@@ -54,7 +54,7 @@ color: 7382f025
 hollow: true
 blending: additive
 y: -14
-progress: SmoothReload
+progress: recoil
 stroke: 1
 strokeTo: 1.5
 radius: 6
@@ -68,7 +68,7 @@ color: 7382f0
 type: ShapePart
 circle: true
 blending: additive
-progress: SmoothReload
+progress: recoil
 hollow: true
 y: -14
 stroke: 1.5
@@ -84,7 +84,7 @@ color: 7382f0
 type: ShapePart
 circle: true
 blending: additive
-progress: SmoothReload
+progress: recoil
 hollow: false
 y: -14
 stroke: 1
@@ -141,7 +141,7 @@ hollow: false
 y: -14
 stroke: 2
 strokeTo: 1.5
-progress: SmoothReload
+progress: recoil
 layer: 110
 radius: 5
 rotateSpeed: 3
@@ -153,7 +153,7 @@ color: ffffff
 type: ShapePart
 circle: true
 blending: additive
-progress: SmoothReload
+progress: recoil
 hollow: true
 y: -14
 stroke: 1
