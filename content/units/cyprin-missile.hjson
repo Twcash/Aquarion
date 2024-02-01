@@ -69,7 +69,13 @@ interval: 4
 }
 ]
 deathSound: none
-deathExplosionEffect: none
+deathExplosionEffect: [
+{
+dynamicSpikes 
+color: 8ca4fc
+radius: 6
+}
+]
 weapons: [
 {
 shootSound: dullExplosion
