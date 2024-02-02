@@ -1,0 +1,12 @@
+type: DirectionalUnloader
+category: distribution
+size: 1
+requirements: [
+sodium/10
+bauxite/20
+lead/20
+]
+research: {
+planet: tantros
+parent: sealedconveyor
+}
