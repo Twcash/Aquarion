@@ -1,22 +1,37 @@
-type: ContinuousTurret
-size: 2
-loclizedName: Forment
-shootType: {
-type: pointLaserBulletType
-damage: 10
-buildingDamageMultiplier: .2
-hitColor: 6fb29f
-}
-loopSound: laserbeam
-range: 150
-shootWarmupSpeed: .1
+type: ItemTurret
+localizedName: Forment
+category: turret
+reload: 30
+recoil: 2
 requirements: [
-lead/40
-bauxite/60
+lead/80
+bauxite/40
 ]
-shootY: .5
-aimChangeSpeed: 1.2
-rotateSpeed: 1.3
+health: 300
+range: 70
+range: 120
+size: 3
+ammoTypes: {
+lead: {
+damage: 40
+speed: 2.5
+lifetime: 45
+reloadMultiiplier: .8
+ammoMultiplier: 2
+trailLength: 10
+width: 10
+height: 16
+trailColor: d06b53
+frontColor: ffa665
+backColor: d06b53
+shootEffect: shootSmall
+smokeEffect: airBubble
+makeFire: false
+}
+}
+drawer: {
+  type: DrawTurret
+  basePrefix: water-
 research: {
 name: Forment
 parent: core-pike
@@ -25,9 +40,4 @@ lead/40
 bauxite/20
 ]
 planet: tantros
-}
-consumes: {
-items: [
-lead/1
-]
 }
