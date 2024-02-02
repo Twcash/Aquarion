@@ -1,5 +1,6 @@
 type: DirectionalUnloader
 category: distribution
+localizedName: Sealed Unloader
 size: 1
 requirements: [
 sodium/10
