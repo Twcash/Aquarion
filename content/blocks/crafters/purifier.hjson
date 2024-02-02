@@ -52,7 +52,6 @@ particleSize: 4
 color: dc99e4
 alpha: .6
 particles: 6
-reverse: true
 }
 ]
 outputLiquid: hydroxide/.25
