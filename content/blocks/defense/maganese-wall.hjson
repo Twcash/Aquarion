@@ -1,0 +1,16 @@
+type: wall
+localizedName: Maganese Wall
+description: A durable wall to protect vulnerable structures
+size: 2
+health: 480
+category: defense
+requirements: [
+maganese/24
+]
+research: {
+parent: bauxite-wall
+planet: tantros
+requirements: [
+maganese/300
+]
+}
