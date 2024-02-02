@@ -6,7 +6,7 @@ requirements: [
 sodium/60
 bauxite/70
 lead/50
-metagass/80
+metaglass/80
 ]
 consumes: {
 power: 0.66666666666
