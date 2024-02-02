@@ -67,12 +67,14 @@ suffix: -mid
 {
 type: drawSoftParticles
 alpha: .4
-particleRad: 6
-particleSize: 12
-particleLife: 120
+particleRad: 4
+particleSize: 5
+particleLife: 140
 particles: 30
 interp: powOut
 reverse: true
+color: 88d563
+color2: 8834a3
 }
 {
 type: drawRegion
