@@ -66,9 +66,9 @@ suffix: -mid
 }
 {
 type: drawSoftParticles
-alpha: .2
+alpha: .3
 particleRad: 4
-particleSize: 4
+particleSize: 5
 particleLife: 120
 particles: 15
 interp: powOut
