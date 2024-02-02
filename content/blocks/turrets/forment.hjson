@@ -1,37 +1,11 @@
-type: ItemTurret
-localizedName: Forment
-category: turret
-reload: 30
-recoil: 2
-requirements: [
-lead/80
-bauxite/40
-]
-health: 300
-range: 70
-range: 120
-size: 3
-ammoTypes: {
-lead: {
-damage: 40
-speed: 2.5
-lifetime: 45
-reloadMultiiplier: .8
-ammoMultiplier: 2
-trailLength: 10
-width: 10
-height: 16
-trailColor: d06b53
-frontColor: ffa665
-backColor: d06b53
-shootEffect: shootSmall
-smokeEffect: airBubble
-makeFire: false
-}
-}
-drawer: {
-  type: DrawTurret
-  basePrefix: water-
+type: ContinuousTurret
+size: 2
+loclizedName: Forment
+shootType: {
+type: pointLaserBulletType
+damage: 10
+buildingDamageMultiplier: .2
+hitColor: 6fb29f
 }
 research: {
 name: Forment
