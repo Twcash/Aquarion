@@ -2,7 +2,7 @@ type: MassDriver
 category: distribution
 localizedName: Small Mass Driver
 size: 1
-requiremnts: [
+requirements: [
 sodium/60
 bauxite/70
 lead/50
