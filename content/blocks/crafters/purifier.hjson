@@ -33,6 +33,16 @@ type: DrawPistons
 type: DrawRegion
 suffix: -top
 }
+{
+type: drawParticles
+particleLife: 120
+particleRad: 12
+particleSize: 4
+color: fad4ff
+alpha: .6
+particles: 6
+reverse: true
+}
 ]
 outputLiquid: hydroxide/.25
 research: {
