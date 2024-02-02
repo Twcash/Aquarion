@@ -13,6 +13,6 @@ power: 0.66666666666
 }
 knockback: 2
 reload: 140
-range: 5
+range: 30
 bulletSpeed: 2.5
 shake: 0
