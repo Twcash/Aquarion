@@ -34,14 +34,24 @@ type: DrawRegion
 suffix: -top
 }
 {
-type: drawParticles
+type: DrawSoftParticles
 particleLife: 120
 particleRad: 12
 particleSize: 4
-color: fad4ff
-alpha: .6
+color: 644867
+color2: 372f58
+alpha: .4
 particles: 6
 reverse: true
+}
+{
+type: DrawSoftParticles
+particleLife: 120
+particleRad: 12
+particleSize: 4
+color: dc99e4
+alpha: .6
+particles: 6
 }
 ]
 outputLiquid: hydroxide/.25
