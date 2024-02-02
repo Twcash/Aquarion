@@ -10,6 +10,10 @@ hitColor: 6fb29f
 loopSound: laserbeam
 range: 150
 shootWarmupSpeed: .1
+requirements: [
+lead/40
+bauxite/60
+]
 shootY: .5
 aimChangeSpeed: 1.2
 rotateSpeed: 1.3
