@@ -8,6 +8,7 @@ bauxite/70
 lead/50
 metaglass/80
 ]
+squareSprite: true
 consumes: {
 power: 0.66666666666
 }
