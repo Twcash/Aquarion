@@ -11,6 +11,6 @@ research: {
 parent: bauxite-wall
 planet: tantros
 requirements: [
-maganese/300
+manganese/300
 ]
 }
