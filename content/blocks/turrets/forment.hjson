@@ -7,6 +7,12 @@ damage: 10
 buildingDamageMultiplier: .2
 hitColor: 6fb29f
 }
+loopSound: laserbeam
+range: 150
+shootWarmupSpeed: .1
+shootY: .5
+aimChangeSpeed: 1.2
+rotateSpeed: 1.3
 research: {
 name: Forment
 parent: core-pike
@@ -15,4 +21,9 @@ lead/40
 bauxite/20
 ]
 planet: tantros
+}
+consumes: {
+items: [
+lead/1
+]
 }
