@@ -17,3 +17,13 @@ reload: 140
 range: 30
 bulletSpeed: 2.5
 shake: 0
+research: {
+planet: tantros
+parent: sealedconveyor
+requirements: [
+sodium/100
+bauxite/200
+lead/200
+metagass/350
+]
+}
