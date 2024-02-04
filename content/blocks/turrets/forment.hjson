@@ -32,6 +32,7 @@ makeFire: false
 drawer: {
   type: DrawTurret
   basePrefix: water-
+}
 research: {
 name: Forment
 parent: core-pike
