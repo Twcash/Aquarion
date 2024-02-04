@@ -33,3 +33,109 @@ blending: additive
 weaponIndex: 0
 }
 ]
+weapons: [
+{
+alwaysShooting: true
+alwaysContinuous: true
+alternate: false
+shootY: 0
+recoil: 0
+y: -20
+x: 12
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 100
+trailLength: 20
+trailWidth: 1.5
+trailColor: 5454c4
+}
+}
+{
+alwaysShooting: true
+alwaysContinuous: true
+alternate: false
+shootY: 0
+recoil: 0
+y: -20
+x: 12
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 100
+trailLength: 12
+trailWidth: 0.9
+trailColor: 8ca4fc
+}
+}
+{
+alwaysShooting: true
+alwaysContinuous: true
+alternate: false
+shootY: 0
+recoil: 0
+y: -25
+x: 20
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 100
+trailLength: 20
+trailWidth: 1.5
+trailColor: 5454c4
+}
+}
+{
+alwaysShooting: true
+alwaysContinuous: true
+alternate: false
+shootY: 0
+recoil: 0
+y: -25
+x: 20
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 100
+trailLength: 12
+trailWidth: 0.9
+trailColor: 8ca4fc
+}
+}
+]
