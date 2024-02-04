@@ -13,3 +13,23 @@ health: 6800
 engineSize: 0
 armor: 5
 hitSize: 25
+parts: [
+{ 
+type: RegionPart
+suffix: -glow
+outline: false
+blending: additive
+layer: 91
+color: 7382f025
+colorTo: ffffff
+}
+{ 
+type: RegionPart
+suffix: -glow
+outline: false
+layer: 140
+color: 7382f0
+blending: additive
+weaponIndex: 0
+}
+]
