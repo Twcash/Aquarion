@@ -4,8 +4,8 @@ flying: true
 drag: .6
 outlineColor: 232826
 lowAltitude: true
-speed: 2.5
-rotateSpeed: 4
+speed: 4.5
+rotateSpeed: 1.5
 omniMovement: false
 accel: .1
 itemCapacity: 0
