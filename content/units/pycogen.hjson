@@ -19,7 +19,7 @@ type: RegionPart
 suffix: -glow
 outline: false
 blending: additive
-layer: 91
+layer: 71
 color: 7382f025
 colorTo: ffffff
 }
@@ -27,7 +27,7 @@ colorTo: ffffff
 type: RegionPart
 suffix: -glow
 outline: false
-layer: 140
+layer: 71
 color: 7382f0
 blending: additive
 weaponIndex: 0
