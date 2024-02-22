@@ -3,10 +3,10 @@ category: distribution
 localizedName: Small Mass Driver
 size: 1
 requirements: [
-sodium/60
+sodium/15
 bauxite/70
 lead/50
-metaglass/80
+metaglass/10
 ]
 squareSprite: true
 consumes: {

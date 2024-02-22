@@ -1,0 +1,112 @@
+type: flying
+localizedName: Obligate
+flying: true
+lowAltitude: true
+outlineColor: 2f3734
+drag: .05
+rotateSpeed: 4
+speed: 1.4
+rotateSpeed: 7
+omniMovement: truea
+itemCapacity: 20
+faceTarget: true
+health:  260
+engineSize: 0
+drawCell: false
+armor: 1
+hitSize: 6
+requirements: {
+  block: submarine-factory
+  time: 1200
+  requirements: [
+gallium/10
+lead/40
+bauxite/80
+  ]
+}
+research: {
+planet: tantros
+name: Zoarcid
+parent: submarine-factory
+}
+weapons: [
+{
+shoot: {
+shots: 2
+shotDelay: 6
+}
+x: 4
+y: -4
+shootY: 3
+rotate: false
+reload: 30
+bullet: {
+damage: 2
+speed: 1.5
+width: 7
+height: 8
+trailLength: 3
+railWidth: 2
+homingPower: .05
+lifetime: 45
+}
+}
+]
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -2
+rotateEffect: true
+effect: [
+{
+particles: 6
+lifetime: 15
+cone: 30
+length: 3
+baseLength: 15
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 4f4844
+colorTo: 2b272555
+layer: 84.7
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 6
+lifetime: 15
+cone: 30
+length: 1
+baseLength: 5
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 7c5e4d
+colorTo: 54484155
+layer: 84.8
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 5
+lifetime: 15
+cone: 15
+length: 1
+baseLength: 1
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 2
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b5355
+layer: 84.9
+rotWithParent: true
+baseRotation: 180
+}
+]
+}
+]

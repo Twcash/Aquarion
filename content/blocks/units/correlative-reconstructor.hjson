@@ -4,15 +4,19 @@ localizedName: Correlative Reconstructor
 category: units
 constructTime: 900
 requirements: [
-manganese/120
-silicon/200
+metaglass/120
+nitride/200
 bauxite/60
 ]
 consumes: {
 power: 1.5
 items: [
-silicon/80
+nitride/80
 oxide/40
 ]
 }
 regionSuffix: -water
+research: {
+parent: submarine-factory
+planet: tantros
+}

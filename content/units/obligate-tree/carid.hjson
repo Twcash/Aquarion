@@ -1,0 +1,148 @@
+type: flying
+flying: true
+localizedName: Enforce
+lowAltitude: true
+outlineColor: 2f3734
+drag: .2
+targetAir: false
+speed: 1.5
+rotateSpeed: 1.2
+range: 10
+itemCapacity: 0
+health: 650
+armor: 4
+omniMovement: false
+engineSize: 0
+hitSize: 17
+weapons: [
+{
+name: carid-weapon
+rotate: true
+layerOffset: -1
+targetAir: false
+reload: 25
+shootSound: bolt
+rotateSpeed: 1.6
+mirror: true
+x: 7
+rotationLimit: 190
+baseRotation: -90
+bullet: {
+type: basicBulletType
+speed: 5
+lifetime: 25
+length: 0
+height: 0
+hitSize: 4
+homingPower: .08
+damage: 65
+trailInterval: 1
+collidesAir: false
+shootEffect: [
+{
+particles: 5
+lifetime: 20
+length: 4
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b53
+}
+]
+trailEffect: [
+{
+particles: 5
+lifetime: 20
+length: 4
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b53
+}
+{
+particles: 5
+lifetime: 20
+length: 4
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 2
+sizeTo: 0
+colorFrom: 8b5c51
+colorTo: 35252160
+}
+]
+
+pierceDamageFactor: .8
+smokeEffect: colorSpark
+}
+}
+]
+requirements: {
+  previous: unknown
+ block: correlative-reconstructor
+}
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -4
+rotateEffect: true
+effect: [
+{
+particles: 6
+lifetime: 30
+cone: 30
+length: 5
+baseLength: 15
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 4f4844
+colorTo: 2b272555
+layer: 84.7
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 6
+lifetime: 30
+cone: 30
+length: 8
+baseLength: 5
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 7c5e4d
+colorTo: 54484155
+layer: 84.8
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 5
+lifetime: 30
+cone: 15
+length: 4
+baseLength: 3
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 2
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b5355
+layer: 84.9
+rotWithParent: true
+baseRotation: 180
+}
+]
+}
+]

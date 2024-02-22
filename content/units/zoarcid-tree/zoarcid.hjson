@@ -1,0 +1,306 @@
+type: flying
+localizedName: Zoarcid
+flying: true
+lowAltitude: true
+outlineColor: 2f3734
+drag: .05
+drawCell: false
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -3
+rotateEffect: true
+effect: [
+{
+particles: 3
+lifetime: 10
+cone: 15
+length: 2
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 8ca4fc
+colorTo: 8ca4fc
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 16
+cone: 30
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 2
+sizeTo: 1
+colorFrom: 6d5e5e
+colorTo: 312827
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 18
+cone: 15
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 6d5e5e
+colorTo: 46403f
+layer: 83.9
+rotWithParent: true
+}
+]
+}
+]
+speed: 1.5
+rotateSpeed: 7
+accel: .1
+physics: false
+circleTarget: true
+itemCapacity: 0
+health: 120
+engineSize: 1.5
+faceTarget: false
+engineColor: 8ca4fc
+armor: 1
+immunities: [
+slow
+]
+hitSize: 5
+weapons: [
+{
+baseRotation: -15
+parts: [
+{
+suffix: -missile
+color: ffffff
+colorTo: ffffff00
+progress: recoil
+y: 2.25
+}
+]
+inaccuracy: 4
+mirror: true
+ignoreRotation: true
+name: zoarcid-weapon
+x: 3
+layerOffset: -.1
+top: false
+rotate: true
+rotationLimit: 7
+under: true
+y: -.5
+reload: 35
+velocityRnd: .1
+shootSound: missile
+bullet: {
+homingPower: .05
+homingRange: 15
+drag: -.01
+type: MissileBulletType
+width: 5
+height: 5
+shrinkY: 0
+speed: 2
+homingRange: 30
+ignoreRotation: true
+lifetime: 35
+trailColor: 8ca4fc
+frontColor: 8ca4fc
+backColor: 5454c4
+trailEffect: [
+{
+particles: 5
+lifetime: 23
+colorFrom: 5454c4
+colorTo: 8ca4fc
+sizeFrom: 2
+length: 5
+sizeTo: 0
+}
+{
+particles: 10
+lifetime: 25
+colorFrom: 898992
+colorTo: 51515c
+sizeFrom: 3
+length: 6
+sizeTo: 1
+}
+]
+effectInterval: 5
+hitEffect: [
+{
+particles: 7
+lifetime: 20
+colorFrom: 5454c4
+colorTo: 8ca4fc
+sizeFrom: 3
+length: 9
+sizeTo: 0
+}
+{
+particles: 15
+lifetime: 35
+colorFrom: 898992
+colorTo: 51515c
+sizeFrom: 5
+length: 12
+sizeTo: 1
+}
+]
+despawnEffect: [
+{
+particles: 7
+lifetime: 20
+colorFrom: 5454c4
+colorTo: 8ca4fc
+sizeFrom: 3
+length: 9
+sizeTo: 0
+}
+{
+particles: 15
+lifetime: 35
+colorFrom: 898992
+colorTo: 51515c
+sizeFrom: 5
+length: 12
+sizeTo: 1
+}
+]
+weaveScale: 2
+weaveMag: 1
+damage: 8
+}
+}
+{
+baseRotation: -15
+parts: [
+{
+suffix: -missile
+color: ffffff
+colorTo: ffffff00
+progress: recoil
+y: 2.25
+}
+]
+inaccuracy: 4
+mirror: true
+ignoreRotation: true
+name: zoarcid-weapon
+x: 1
+layerOffset: -.1
+top: false
+rotate: true
+rotationLimit: 7
+under: true
+y: .25
+reload: 35
+velocityRnd: .1
+shootSound: missile
+bullet: {
+homingPower: .05
+homingRange: 15
+drag: -.01
+type: MissileBulletType
+width: 5
+height: 5
+shrinkY: 0
+speed: 2
+ignoreRotation: true
+homingRange: 30
+lifetime: 35
+trailColor: 8ca4fc
+frontColor: 8ca4fc
+backColor: 5454c4
+trailEffect: [
+{
+particles: 5
+lifetime: 23
+colorFrom: 5454c4
+colorTo: 8ca4fc
+sizeFrom: 2
+length: 5
+sizeTo: 0
+}
+{
+particles: 10
+lifetime: 25
+colorFrom: 898992
+colorTo: 51515c
+sizeFrom: 3
+length: 6
+sizeTo: 1
+}
+]
+effectInterval: 5
+hitEffect: [
+{
+particles: 7
+lifetime: 20
+colorFrom: 5454c4
+colorTo: 8ca4fc
+sizeFrom: 3
+length: 9
+sizeTo: 0
+}
+{
+particles: 15
+lifetime: 35
+colorFrom: 898992
+colorTo: 51515c
+sizeFrom: 5
+length: 12
+sizeTo: 1
+}
+]
+despawnEffect: [
+{
+particles: 7
+lifetime: 20
+colorFrom: 5454c4
+colorTo: 8ca4fc
+sizeFrom: 3
+length: 9
+sizeTo: 0
+}
+{
+particles: 15
+lifetime: 35
+colorFrom: 898992
+colorTo: 51515c
+sizeFrom: 5
+length: 12
+sizeTo: 1
+}
+]
+weaveScale: 2
+weaveMag: 1
+damage: 8
+}
+}
+
+]
+requirements: {
+  block: submarine-factory
+  time: 1200
+  requirements: [
+gallium/15
+lead/40
+metaglass/20
+  ]
+}
+research: {
+planet: tantros
+name: Zoarcid
+parent: submarine-factory
+}

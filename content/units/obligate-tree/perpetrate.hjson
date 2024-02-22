@@ -1,0 +1,385 @@
+type: flying
+lowAltitude: true
+speed: .75
+rotateSpeed: .5
+drag: .01
+engineOffset: 35
+engineSize: 9.5
+armor: 24
+health: 32000
+drawCell: false
+faceTarget: false
+hitSize: 55
+engineColor: e48149
+flying: true
+outlineColor: 2f3734
+omniMovement: false
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -32
+rotateEffect: true
+effect: [
+{
+particles: 6
+lifetime: 65
+cone: 55
+length: 10
+baseLength: 15
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 6.5
+sizeTo: 0
+colorFrom: 4f4844
+colorTo: 2b272555
+layer: 84.7
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 6
+lifetime: 40
+cone: 45
+length: 8
+baseLength: 5
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 7
+sizeTo: 0
+colorFrom: 7c5e4d
+colorTo: 54484155
+layer: 84.8
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 5
+lifetime: 90
+cone: 30
+length: 4
+baseLength: 3
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b5355
+layer: 84.9
+rotWithParent: true
+baseRotation: 180
+}
+]
+}
+]
+weapons: [
+{
+name: perpetrate-cannon2
+reload: 50
+rotateSpeed: .8
+rotationLimit: 210
+rotate: true
+parts: [
+{
+type: drawPartRegion
+suffix: -barrel
+moveY: -2
+progress: recoil
+under: true
+outline: true
+}
+]
+recoil: 3
+y: 16
+x: 0
+mirror: false
+shoot: {
+type: ShootMulti
+source: ShootAlternate
+dest: [
+{
+type: ShootBarrel
+shots: 2
+shotDelay: 0
+barrels: [
+3, 5, 0
+-3, 5, 0
+]
+}
+]
+}
+bullet: {
+sprite: tantros-test-heavy-shell
+shootSound: bolt
+speed: 3
+lifetime: 60
+width: 9
+height: 12
+damage: 120
+peirceCap: 2
+despawnEffect: blastExplosion
+trailInterval: 1
+trailEffect: [
+{
+particles: 2
+lifetime: 20
+length: 12
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b53
+}
+{
+particles: 3
+lifetime: 20
+length: 12
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 8b5c51
+colorTo: 35252160
+}
+]
+}
+}
+{
+name: perpetrate-cannon2
+baseRotation: 180
+rotationLimit: 210
+reload: 50
+rotateSpeed: .8
+rotate: true
+parts: [
+{
+type: drawPartRegion
+suffix: -barrel
+moveY: -2
+progress: recoil
+under: true
+outline: true
+}
+]
+recoil: 3
+y: -16
+x: 0
+mirror: false
+shoot: {
+type: ShootMulti
+source: ShootAlternate
+dest: [
+{
+type: ShootBarrel
+shots: 2
+shotDelay: 0
+barrels: [
+3, 5, 0
+-3, 5, 0
+]
+}
+]
+}
+bullet: {
+sprite: tantros-test-heavy-shell`
+shootSound: bolt
+speed: 3
+lifetime: 60
+width: 9
+height: 12
+damage: 120
+peirceCap: 2
+despawnEffect: blastExplosion
+trailInterval: 1
+trailEffect: [
+{
+particles: 2
+lifetime: 20
+length: 12
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b53
+}
+{
+particles: 3
+lifetime: 20
+length: 12
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 8b5c51
+colorTo: 35252160
+}
+]
+}
+}
+{
+shootY: 6
+name: perpetrate-main-cannon
+rotate: true
+x: 0
+mirror: false
+reload: 140
+recoil: 4
+rotateSpeed: .7
+parts: [
+{
+type: drawPartRegion
+suffix: -barrel
+moveY: -4
+progress: recoil
+under: true
+outline: true
+}
+]
+shoot: {
+shots: 3
+shotDelay: 10
+}
+bullet: {
+sprite: tantros-test-heavy-shell
+shootSound: mediumCannon
+trailInterval: 3
+trailEffect: [
+{
+particles: 3
+lifetime: 60
+baseRotation: 0
+length: 15
+baseLength: 15
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 7
+sizeTo: 0
+colorFrom: 4f4844
+colorTo: 2b272555
+}
+{
+particles: 4
+rotWithParent: true
+length: 12
+baseLength: 15
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 7
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b5370
+}
+{
+particles: 7
+lifetime: 10
+length: 15
+line: true
+cone: 90
+rotWithParent: true
+baseRotation: 0
+strokeFrom: 3
+strokeTo: 1
+baseLength: 15
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 7
+sizeTo: 0
+colorFrom: c5c5c5
+colorTo: 9a908925
+}
+]
+trailRotation: true
+shootEffect: [
+{
+particles: 12
+lifetime: 40
+cone: 30
+length: 12
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b53
+rotWithParent: true
+baseRotation: 0
+}
+]
+fragRandomSpread: .2
+fragVelocityMin: 1
+fragSpread: 10
+despawnSound: dullExlosion
+sprite: missile-large
+splashDamageRadius: 25
+splashDamage: 390
+fragBullets: 4
+fragBullet: {
+damage: 90
+type: BasicBulletType
+sprite: missile-large
+despawnSound: dullExlosion
+width: 5
+height: 10
+lifetime: 15
+despawnEffect: [
+{
+particles: 12
+lifetime: 20
+cone: 30
+length: 12
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: ffa665
+colorTo: 352521
+},
+blastExplosion
+]
+trailInterval: 1
+trailEffect: [
+{
+particles: 2
+lifetime: 20
+length: 12
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b53
+}
+{
+particles: 3
+lifetime: 20
+length: 12
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 8b5c51
+colorTo: 35252160
+}
+]
+speed: 7
+hitSize: 4
+pierceCap: 5
+}
+type: artilleryBulletType
+speed: 4
+lifetime: 40
+width: 10
+height: 10
+}
+}
+]

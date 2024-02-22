@@ -1,0 +1,12 @@
+localizedName: Gallium
+color: B9CEDC
+planet: [
+tantros
+]
+research: {
+planet: tantros
+parent: bauxite
+}
+Description: A soft brittle resource used forr nitride prduction and ammunition.
+explosiveness: .2
+hardness: 6

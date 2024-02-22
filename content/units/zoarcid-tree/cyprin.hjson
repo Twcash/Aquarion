@@ -1,0 +1,16 @@
+type: flying
+flying: true
+localizedName: Cyprin
+drag: .2
+speed: 3
+outlineColor: 2f3734
+omniMovement: false
+rotateSpeed: 2
+lowAltitude: false
+range: 38
+accel: .1
+itemCapacity: 125
+health: 2300
+engineSize: 0
+armor: 3
+hitSize: 24

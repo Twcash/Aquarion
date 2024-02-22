@@ -13,7 +13,7 @@ droneRange: 70
 requirements: [
 lead/200
   sodium/120
-  silicon/40
+  nitride/40
   bauxite/120
 ]
 category: defense

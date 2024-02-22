@@ -1,8 +1,0 @@
-hidden: false
-  research: {
-parent: plutonium
-  planet: tantros
-  }
-localizedName: Fissile Matter
-radioactivity: 1.2
-color: 5e988d

@@ -13,7 +13,7 @@ unitType: tributary
 requirements: [
 lead/400
 bauxite/250
-silicon/150
+nitride/150
 sodium/150
 ]
 squareSprite: false

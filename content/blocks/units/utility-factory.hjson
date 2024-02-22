@@ -5,7 +5,7 @@ category: units
 conductivePower: true
 size: 2
 requirements: [
-silicon/60
+nitride/60
 lead/120
 bauxite/200
 ]
@@ -18,7 +18,7 @@ planet: tantros
 name: Utility Factory
 parent: submarine-factory
 requirements: [
-silicon/40
+nitride/40
 lead/100
 bauxite/60
 ]

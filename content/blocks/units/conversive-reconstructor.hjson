@@ -4,15 +4,15 @@ localizedName: Conversive Reconstructor
 category: units
 constructTime: 800
 requirements: [
-silicon/120
+gallium/120
 lead/200
 bauxite/60
 ]
 consumes: {
 power: 1
 items: [
-metaglass/10
-silicon/20
+metaglass/15
+bauxite/80
 ]
 }
 research: {

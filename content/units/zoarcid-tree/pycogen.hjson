@@ -1,0 +1,15 @@
+type: flying
+localizedName: Pycogen
+flying: true
+drag: .6
+outlineColor: 232826
+lowAltitude: true
+speed: 4.5
+rotateSpeed: 1.5
+omniMovement: false
+accel: .1
+itemCapacity: 0
+health: 6800
+engineSize: 0
+armor: 5
+hitSize: 25

@@ -4,7 +4,7 @@ outputItem: sodium/1
 conductivePower: true
 consumes: {
  items: [
-    coal/1
+    lead/1
   ]
 liquid: {
 liquid: hydroxide

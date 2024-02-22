@@ -271,16 +271,16 @@ research: {
 parent: forment
 requirements: [
 lead/1200
-sodium/400
+gallium/400
 bauxite/2000
-silicon/600
+nitride/600
 metaglass/500
 ]
 }
 requirements: [
 lead/1200
-sodium/400
+gallium/400
 bauxite/2000
-silicon/600
+nitride/600
 metaglass/500
 ]

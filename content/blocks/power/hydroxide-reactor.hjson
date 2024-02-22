@@ -63,10 +63,10 @@ amount: .5
 }
 category: power
 requirements: [
-bauxite/250
-lead/400
-metaglass/160
-silicon/200
+bauxite/300
+lead/450
+metaglass/90
+nitride/120
 ]
 drawer: [
 {

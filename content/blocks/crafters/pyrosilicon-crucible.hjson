@@ -1,9 +1,9 @@
 type: HeatCrafter
-outputItem: silicon/5
+outputItem: nitride/3
 squareSprite: false
 category: crafting
-localizedName: Silicon Blast Furnace
-description: Refines silicon at high speeds. Requires heat to function.
+localizedName: Nitride injection Crucible
+description: Injects ammonia into molten gallium to make nitride.
 conductivePower: true
 itemCapacity: 60
 size: 4
@@ -24,18 +24,21 @@ offset: 45
 ]
 heatRequirement: 10
 consumes: {
-power: 5.5
+power: 3.5
 items: [
-oxide/2
-coal/3
-sand/4
+nitride/1
 ]
+liquid: {
+liquid: ammonia
+amount: .15
+}
 }
 requirements: [
 bauxite/40
 lead/60
 metaglass/40
 sodium/10
+gallium/60
 ]
 drawer: [
 {

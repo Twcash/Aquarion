@@ -1,4 +1,4 @@
-tier: 4
+tier: 6
 type: Drill
 squareSprite: false
 localizedName: Ram Drill
@@ -16,7 +16,7 @@ liquids: [
 liquid: hydrogen
 booster: false
 optional: false
-amount: .4
+amount: .2
 }
 ]
 }
@@ -29,7 +29,7 @@ planet: tantros
 }
 requirements: [
 lead/120
-silicon/60
+metaglass/60
 bauxite/200
 sodium/30
 ]

@@ -6,8 +6,9 @@ size: 3
 category: crafting
 craftTime: 45
 requirements: [
-lead/200
-bauxite/160
+lead/70
+metaglass/40
+bauxite/80
 ]
 consumes: {
 power: 4

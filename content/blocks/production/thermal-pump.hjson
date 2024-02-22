@@ -15,7 +15,7 @@ coal/1
   requirements: [
   lead/120
   metaglass/60
-  silicon/80
+  nitride/80
   ]
   research: {
   planet: tantros

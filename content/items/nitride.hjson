@@ -1,0 +1,11 @@
+localizedName: Nitride
+color: B9CEDC
+planet: [
+tantros
+]
+research: {
+planet: tantros
+parent: bauxite
+}
+Description: A semiconductor used in unit production and advanced buildings.
+explosiveness: .2
