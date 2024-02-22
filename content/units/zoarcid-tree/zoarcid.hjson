@@ -5,6 +5,7 @@ lowAltitude: true
 outlineColor: 2f3734
 drag: .05
 drawCell: false
+faceTarget: true
 abilities: [
 {
 display: false

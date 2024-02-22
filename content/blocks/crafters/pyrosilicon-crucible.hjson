@@ -26,7 +26,7 @@ heatRequirement: 10
 consumes: {
 power: 3.5
 items: [
-nitride/1
+gallium/1
 ]
 liquid: {
 liquid: ammonia

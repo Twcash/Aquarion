@@ -5,7 +5,7 @@ category: units
 conductivePower: true
 size: 2
 requirements: [
-nitride/60
+gallium/60
 lead/120
 bauxite/200
 ]
