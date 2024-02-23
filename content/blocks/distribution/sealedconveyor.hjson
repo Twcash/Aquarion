@@ -2,11 +2,14 @@ category: distribution
 localizedName: Sealed Conveyor
 type: Duct
 description: Transports items forwards.
-speed: 16.2747709476
+speed: 18
+itemCapacity: 2
+bridgeReplacement: small-mass-driver
 underBullets: false
 solid: true
 requirements: [
-lead/2
+lead/1
+bauxite/1
 ]
 research: {
 planet: tantros
