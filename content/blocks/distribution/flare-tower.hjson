@@ -8,8 +8,8 @@ consumes: [
   power: .25
   ]
   requirements: [
-  bauxite/20
-  lead/120
+  bauxite/5
+  lead/25
   ]
   research: {
   planet: tantros
