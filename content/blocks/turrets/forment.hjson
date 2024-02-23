@@ -13,7 +13,7 @@ range: 120
 size: 3
 ammoTypes: {
 lead: {
-damage: 40
+damage: 15
 speed: 2.5
 lifetime: 45
 reloadMultiiplier: .8
@@ -25,6 +25,22 @@ trailColor: d06b53
 frontColor: ffa665
 backColor: d06b53
 shootEffect: shootSmall
+smokeEffect: airBubble
+makeFire: false
+}
+gallium: {
+damage: 40
+speed: 2.5
+lifetime: 40
+reloadMultiiplier: .6
+ammoMultiplier: 2
+trailLength: 10
+width: 10
+height: 16
+trailColor: d06b53
+frontColor: ffa665
+backColor: d06b53
+shootEffect: none
 smokeEffect: airBubble
 makeFire: false
 }
