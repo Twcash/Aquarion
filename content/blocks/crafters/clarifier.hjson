@@ -15,7 +15,7 @@ consumes: {
 power: 4
 liquid: {
 liquid: brine
-amount: .15
+amount: 0.2875
 }
 }
 drawer: [
