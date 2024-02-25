@@ -1,0 +1,10 @@
+type: liquidContainer 
+liquidCapacity: 850
+size: 2
+solid: true
+requirements: [
+metaglass/40
+lead/20
+bauxite/40
+  ]
+  category: liquid
