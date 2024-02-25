@@ -1,0 +1,19 @@
+type: consumeGenerator
+consumes: {
+  liquid: {
+    liquid: ammonia
+      amount: .15
+      }
+}
+powerProduction: 37.5
+category: power
+requirements: {
+sodium/40
+metaglass/60
+lead/200
+bauxite/120
+}
+research: {
+planet: tantros
+parent: geothermal-generator
+}
