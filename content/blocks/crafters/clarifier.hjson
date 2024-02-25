@@ -13,10 +13,10 @@ nitride/80
 ]
 consumes: {
 power: 4
-liquid: [
+liquid: {
 liquid: brine
 amount: .15
-]
+}
 }
 drawer: [
 {
