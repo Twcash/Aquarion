@@ -31,8 +31,9 @@ type: DrawRegion
 suffix: -bottom
 }
 {
-type: drawLiquidRegion
-liquid: brine
+type: DrawLiquidTile
+drawLiquid: brine
+padding: 2
 }
 {
 type: DrawParticles
