@@ -1,8 +1,5 @@
 
 type: ItemTurret
-requirements: [
-lead/10
-]
 localizedName: Deviate
 description: Fires barrages of homing bullets at enemies
 reload: 10
@@ -270,18 +267,12 @@ heatColor: 32b3c7
 }
 research: {
 parent: forment
-requirements: [
-lead/1200
-gallium/400
-bauxite/2000
-nitride/600
-metaglass/500
-]
+planet: tantros
 }
 requirements: [
-lead/1200
-gallium/400
-bauxite/2000
-nitride/600
-metaglass/500
+lead/480
+gallium/120
+bauxite/200
+nitride/120
+metaglass/120
 ]
