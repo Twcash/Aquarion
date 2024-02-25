@@ -24,7 +24,20 @@ height: 16
 trailColor: d06b53
 frontColor: ffa665
 backColor: d06b53
-shootEffect: shootSmall
+shootEffect: [
+{
+particles: 12
+lifetime: 45
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 4
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b53
+}
+]
 smokeEffect: airBubble
 makeFire: false
 }
@@ -40,9 +53,22 @@ height: 16
 trailColor: 637e8e
 frontColor: b2d3cf
 backColor: 8db3ba
-shootEffect: none
 smokeEffect: airBubble
 makeFire: false
+shootEffect: [
+{
+particles: 12
+lifetime: 45
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 4
+sizeTo: 0
+colorFrom: b2d3cf
+colorTo: 637e8e
+}
+]
 }
 nitride: {
 damage: 25
@@ -58,7 +84,20 @@ height: 14
 trailColor: aba397
 frontColor: ffffff
 backColor: ded6ca
-shootEffect: none
+shootEffect: [
+{
+particles: 15
+lifetime: 45
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 4
+sizeTo: 0
+colorFrom: ffffff
+colorTo: aba397
+}
+]
 smokeEffect: none
 makeFire: false
 }
