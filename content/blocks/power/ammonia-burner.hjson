@@ -23,7 +23,34 @@ type: drawRegion
 suffix: -bottom
 }
 {
-type: drawRegion
+type: DrawLiquidTile
+drawLiquid: ammonia
+padding: 3
+}
+{
+type: DrawSoftParticles
+particleLife: 120
+particleRad: 16
+particleSize: 5
+color: 687a73
+color2: 9eb0a9
+alpha: .7
+particles: 35
+reverse: true
+}
+
+{
+type: DrawRegion
 suffix: -top
+}
+{
+type: DrawSoftParticles
+particleLife: 90
+particleRad: 16
+particleSize: 5
+color: 687a73
+color2: 9eb0a9
+alpha: .4
+particles: 20
 }
 ]
