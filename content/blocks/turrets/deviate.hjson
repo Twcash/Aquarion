@@ -12,6 +12,7 @@ shootWarmupSpeed: .05
 recoilTime: 10
 recoils: 3
 minWarmup: .75
+health: 240
 category: turret
 range: 200
 size: 4
