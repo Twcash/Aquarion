@@ -61,6 +61,10 @@ type: DrawRegion
 suffix: -top
 }
 {
+type: DrawGlowRegion
+suffix: -glow
+}
+{
 type: DrawSoftParticles
 particleLife: 90
 particleRad: 16
