@@ -44,7 +44,7 @@ sizeTo: 0
 }
 ]
 requirements: [
-metglass/80
+metaglass/80
 lead/80
 bauxite/120
 sodium/40
