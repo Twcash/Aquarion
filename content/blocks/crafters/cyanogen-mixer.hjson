@@ -10,6 +10,8 @@ liquid: {
   amount: .5
     }
 }
+size: 3
+liquidCapacity: 70
 category: crafting
 outputLiquid: cyan/.2
 health: 100
