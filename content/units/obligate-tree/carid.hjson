@@ -13,7 +13,7 @@ health: 650
 armor: 4
 omniMovement: false
 engineSize: 0
-hitSize: 17
+hitSize: 12
 weapons: [
 {
 name: carid-weapon
