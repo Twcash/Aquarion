@@ -1,1 +1,59 @@
-
+type: GenericCrafter
+localizedName: Clarifier
+squareSprite: false
+description: Directly harvests hydroxide by electrolyzing brine.
+size: 4
+category: crafting
+craftTime: 80
+requirements: [
+lead/160
+metaglass/60
+bauxite/90
+nitride/80
+]
+consumes: {
+power: 4
+liquid: [
+liquid: brine
+amount: .15
+]
+}
+drawer: [
+{
+type: drawDefault
+}
+{
+type: DrawRegion
+suffix: -bottom
+}
+{
+type: DrawRegion
+suffix: -top
+}
+{
+type: DrawSoftParticles
+particleLife: 120
+particleRad: 16
+particleSize: 5
+color: 644867
+color2: 372f58
+alpha: .4
+particles: 12
+reverse: true
+}
+{
+type: DrawParticles
+particleLife: 120
+particleRad: 12
+particleSize: 4
+color: dc99e4
+alpha: .6
+particles: 8
+}
+]
+outputLiquid: hydroxide/.55
+research: {
+parent: hydroxide-concentrator
+name: Clarifier
+planet: tantros
+}
