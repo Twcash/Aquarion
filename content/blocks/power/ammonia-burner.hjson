@@ -7,12 +7,12 @@ consumes: {
 }
 powerProduction: 37.5
 category: power
-requirements: {
+requirements: [
 sodium/40
 metaglass/60
 lead/200
 bauxite/120
-}
+]
 research: {
 planet: tantros
 parent: geothermal-generator
