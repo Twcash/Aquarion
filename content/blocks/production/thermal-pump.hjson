@@ -28,20 +28,20 @@ type: drawDefault
     suffix: -bottom
 }
 {
-type: drawPistons
-suffix: -piston
-sides: 4
+type: drawRegion
+suffix: -rotator
+rotateSprite: true
+rotateSpeed: 5
+}
+{
+type: drawRegion
+suffix: -rotator
+rotateSprite: true
+rotateSpeed: 5
+rotation: 45
 }
 {
   type: DrawRegion
     suffix: -top
-}
-{
-type: DrawGlowRegion
-suffix: -heat
-alpha: .4
-glowScale: 5
-glowIntensity: .1
-color: b8683a
 }
 ]
