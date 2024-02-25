@@ -106,12 +106,12 @@ particleRad: 16
 }
 {
 type: DrawLiquidTile
-drawLiquid: nitrogen
+drawLiquid: hydroxide
 padding: 3
 }
 {
 type: DrawLiquidTile
-drawLiquid: cyan
+drawLiquid: hydrogen
 padding: 3
 }
 {
