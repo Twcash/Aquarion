@@ -31,19 +31,8 @@ type: DrawRegion
 suffix: -bottom
 }
 {
-type: DrawRegion
-suffix: -top
-}
-{
-type: DrawSoftParticles
-particleLife: 120
-particleRad: 16
-particleSize: 5
-color: 644867
-color2: 372f58
-alpha: .4
-particles: 12
-reverse: true
+type: drawLiquidRegion
+liquid: brine
 }
 {
 type: DrawParticles
@@ -53,6 +42,33 @@ particleSize: 4
 color: dc99e4
 alpha: .6
 particles: 8
+}
+{
+type: DrawSoftParticles
+particleLife: 120
+particleRad: 16
+particleSize: 5
+color: 644867
+color2: 372f58
+alpha: .6
+particles: 20
+reverse: true
+}
+
+{
+type: DrawRegion
+suffix: -top
+}
+{
+type: DrawSoftParticles
+particleLife: 90
+particleRad: 16
+particleSize: 5
+color: 644867
+color2: 372f58
+alpha: .4
+particles: 12
+reverse: true
 }
 ]
 outputLiquid: hydroxide/.55
