@@ -7,3 +7,5 @@ lightColor: 60a1ae
 maxSpread: 2
 Viscosity: .80
 hidden: true
+coolant: false
+heaCapacity: 0
