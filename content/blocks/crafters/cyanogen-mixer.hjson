@@ -20,11 +20,6 @@ drawer: [
 type: drawRegion
   suffix: -bottom
   }
-  {
-type: DrawLiquidTile
-drawLiquid: nitrogen
-padding: 3
-}
 {
 type: DrawLiquidTile
 drawLiquid: cyanogen
