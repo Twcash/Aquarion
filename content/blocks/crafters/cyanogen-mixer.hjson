@@ -43,3 +43,9 @@ colorTo: adf7d0
 sizeTo: 0
 }
 ]
+requirements: [
+metglass/80
+lead/80
+bauxite/120
+sodium/40
+]
