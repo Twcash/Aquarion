@@ -9,7 +9,7 @@ bauxite/40
 ]
 health: 180
 range: 70
-coolantMultiplier: 2
+coolantMultiplier: 5
 consumes: {
 coolant: {
 amount: 0.1
