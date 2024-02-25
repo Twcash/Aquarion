@@ -17,3 +17,13 @@ research: {
 planet: tantros
 parent: geothermal-generator
 }
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawRegion
+suffix: -top
+}
+]
