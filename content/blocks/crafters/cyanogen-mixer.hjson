@@ -22,7 +22,12 @@ type: drawRegion
   }
 {
 type: DrawLiquidTile
-drawLiquid: cyanogen
+drawLiquid: nitrogen
+padding: 3
+}
+{
+type: DrawLiquidTile
+drawLiquid: cyan
 padding: 3
 }
 {
