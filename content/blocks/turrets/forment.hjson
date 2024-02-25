@@ -7,7 +7,7 @@ requirements: [
 lead/80
 bauxite/40
 ]
-health: 300
+health: 180
 range: 70
 range: 120
 size: 3
