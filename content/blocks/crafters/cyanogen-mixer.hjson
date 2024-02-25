@@ -1,0 +1,35 @@
+type: genericCrafter
+craftTime: 240
+consumes: {
+  power: 2.5
+items: [
+sodium/1
+]
+liquid: {
+  liquid: nitrogen
+  amount: .5
+    }
+}
+category: crafting
+outputLiquid: cyan/.2
+health: 100
+drawer: [
+{
+type: drawRegion
+  suffix: -bottom
+  }
+  {
+type: DrawLiquidTile
+drawLiquid: nitrogen
+padding: 3
+}
+{
+type: DrawLiquidTile
+drawLiquid: cyanogen
+padding: 3
+}
+{
+type: drawRegion
+  suffix: -top
+  }
+]
