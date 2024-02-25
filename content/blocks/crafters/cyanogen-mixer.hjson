@@ -37,7 +37,7 @@ craftEffect: [
 {
 particles: 10
 lifetime: 180
-sizeFrom: 5
+sizeFrom: 3
 colorFrom: 5ec1bf
 colorTo: adf7d0
 sizeTo: 0
