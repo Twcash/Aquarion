@@ -6,3 +6,5 @@ planet: tantros
 name: Hydroxide
 parent: core-pike
 }
+coolant: false
+heaCapacity: 0
