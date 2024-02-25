@@ -75,7 +75,7 @@ damage: 25
 speed: 3
 lifetime: 45
 homingPower: .1
-homingRange: 30
+homingRange: 70
 reloadMultiiplier: 1
 ammoMultiplier: 4
 trailLength: 8
