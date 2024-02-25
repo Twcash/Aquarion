@@ -74,7 +74,7 @@ nitride: {
 damage: 25
 speed: 3
 lifetime: 45
-homingPower: .02
+homingPower: .1
 homingRange: 30
 reloadMultiiplier: 1
 ammoMultiplier: 4
