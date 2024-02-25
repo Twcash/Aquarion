@@ -2,6 +2,7 @@ type: liquidContainer
 liquidCapacity: 850
 size: 2
 solid: true
+squareSprite: false
 requirements: [
 metaglass/40
 lead/20
