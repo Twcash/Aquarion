@@ -37,14 +37,33 @@ ammoMultiplier: 2
 trailLength: 10
 width: 10
 height: 16
-trailColor: d06b53
-frontColor: ffa665
-backColor: d06b53
+trailColor: 637e8e
+frontColor: b2d3cf
+backColor: 8db3ba
 shootEffect: none
 smokeEffect: airBubble
 makeFire: false
 }
+nitride: {
+damage: 25
+speed: 3
+lifetime: 45
+homingPower: .02
+homingRange: 30
+reloadMultiiplier: 1
+ammoMultiplier: 4
+trailLength: 8
+width: 9
+height: 14
+trailColor: aba397
+frontColor: ffffff
+backColor: ded6ca
+shootEffect: none
+smokeEffect: none
+makeFire: false
 }
+}
+
 drawer: {
   type: DrawTurret
   basePrefix: water-
