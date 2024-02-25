@@ -33,3 +33,13 @@ type: drawRegion
   suffix: -top
   }
 ]
+craftEffect: [
+{
+particles: 10
+lifetime: 180
+sizeFrom: 5
+colorFrom: 5ec1bf
+colorTo: adf7d0
+sizeTo: 0
+}
+]
