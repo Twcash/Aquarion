@@ -3,6 +3,7 @@ liquidCapacity: 850
 size: 2
 solid: true
 squareSprite: false
+liquidPadding: 3
 requirements: [
 metaglass/40
 lead/20
