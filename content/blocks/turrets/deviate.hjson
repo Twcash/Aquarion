@@ -1,7 +1,5 @@
 
 type: ItemTurret
-localizedName: Deviate
-description: Fires barrages of homing bullets at enemies
 reload: 10
 warmupSpeed: .5
 warmupMaintainTime: 45
