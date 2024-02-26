@@ -6,6 +6,7 @@ warmupSpeed: .02
 drillTime: 130
 drawMineItem: false
 drillEffect: airBubble
+drawRim: true
 updateEffect: airBubble
 rotateSpeed: 12
 consumes: {
