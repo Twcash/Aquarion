@@ -36,7 +36,7 @@ shoot: {
   ]
 }
 consumes: {
-power: 2.5
+power: 7.5
 }
 drawer: {
 type: drawTurret
