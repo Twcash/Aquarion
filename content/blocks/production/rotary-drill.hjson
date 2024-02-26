@@ -19,12 +19,7 @@ booster: true
 optional: true
 }
 liquids: [
-{
-liquid: hydrogen
-amount: .1
-booster: false
-optional: false
-}
+hydrogen/.1
 ]
 }
 itemCapacity: 75
