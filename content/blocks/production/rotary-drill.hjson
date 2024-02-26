@@ -3,6 +3,7 @@ type: Drill
 squareSprite: false
 category: production
 warmupSpeed: .005
+liquidBoostIntensity: 1.4
 drillTime: 110
 drawMineItem: false
 drillEffect: airBubble
@@ -11,18 +12,21 @@ updateEffect: airBubble
 rotateSpeed: 12
 consumes: {
 power: 3
-liquid: {
+liquids: [
+{
 liquid: hydrogen
 booster: false
 optional: false
 amount: .25
 }
-liquid: {
+{
 liquid: nitrogen
 amount: .3
 booster: true
 optional: true
 }
+}
+]
 }
 itemCapacity: 75
 size: 3
