@@ -5,7 +5,10 @@ health: 180
 range: 160
 rotateSpeed: .65
 requirements: [
-lead/1
+lead/120
+bauxite/90
+nitride/90
+metaglass/120
 ]
 shoot: {
 }
