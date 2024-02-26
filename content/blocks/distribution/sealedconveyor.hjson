@@ -1,13 +1,10 @@
 category: distribution
 type: Duct
-<<<<<<< HEAD
 speed: 16.2747709476
-=======
 description: Transports items forwards.
 speed: 18
 itemCapacity: 2
 bridgeReplacement: small-mass-driver
->>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 underBullets: false
 solid: true
 requirements: [
