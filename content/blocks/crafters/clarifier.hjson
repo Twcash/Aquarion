@@ -26,10 +26,6 @@ type: DrawRegion
 suffix: -bottom
 }
 {
-type: DrawRegion
-suffix: -bottom
-}
-{
 type: DrawLiquidTile
 drawLiquid: brine
 padding: 2
