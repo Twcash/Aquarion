@@ -4,7 +4,6 @@ localizedName: Enforce
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
-<<<<<<< HEAD
 speed: 1.5
 rotateSpeed: 1.2
 range: 10
@@ -53,7 +52,6 @@ homingPower: .1
 }
 }
 }
-=======
 targetAir: false
 speed: 1.5
 rotateSpeed: 1.2
@@ -132,7 +130,6 @@ colorTo: 35252160
 
 pierceDamageFactor: .8
 smokeEffect: colorSpark
->>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 }
 }
 ]
@@ -140,8 +137,6 @@ requirements: {
   previous: unknown
  block: correlative-reconstructor
 }
-<<<<<<< HEAD
-=======
 abilities: [
 {
 display: false
@@ -200,4 +195,3 @@ baseRotation: 180
 ]
 }
 ]
->>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
