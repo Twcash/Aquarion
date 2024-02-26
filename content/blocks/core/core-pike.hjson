@@ -1,8 +1,5 @@
 type: CoreBlock
-<<<<<<< HEAD
-=======
 description: The core of the base. small, once destroyed the sector is lost.
->>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 squareSprite: false
 health: 1500
 itemCapacity: 6000
