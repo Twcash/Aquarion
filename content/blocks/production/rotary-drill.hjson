@@ -1,9 +1,9 @@
-tier: 7
+tier: 8
 type: Drill
 squareSprite: false
 category: production
 warmupSpeed: .005
-drillTime: 90
+drillTime: 110
 drawMineItem: false
 drillEffect: airBubble
 drawRim: true
@@ -18,9 +18,9 @@ booster: false
 optional: false
 amount: .25
 }
-  {
+{
 liquid: nitrogen
-amount: 3
+amount: .3
 booster: true
 optional: true
 }
