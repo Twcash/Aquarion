@@ -27,9 +27,6 @@ requirements: {
   block: submarine-factory
   time: 300
   requirements: [
-silicon/10
-  time: 1200
-  requirements: [
 gallium/10
 lead/40
 bauxite/80
