@@ -1,6 +1,10 @@
 type: pump
+<<<<<<< HEAD
+
+=======
   localizedName: Thermal Pump
 description: Allows for liquids to be pumped from the ocean floor.
+>>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 pumpAmount: .11666666666
 category: liquid
   size: 3

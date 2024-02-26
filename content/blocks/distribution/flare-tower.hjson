@@ -1,8 +1,6 @@
 type: incinerator
   size: 1
-  description: Incinerates items and liquids
 category: distribution
-  localizedName: Flare Tower
 squareSprite: false
 consumes: [
   power: .25

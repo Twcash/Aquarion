@@ -1,5 +1,8 @@
 type: CoreBlock
+<<<<<<< HEAD
+=======
 description: The core of the Base, once destroyed the sector is lost. More efficient than the first iteration.
+>>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 squareSprite: false
 health: 4500
 itemCapacity: 9000

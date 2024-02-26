@@ -1,6 +1,4 @@
 type: DroneCenter
-  localizedName: Mend Hive
-description: Builds repair drones for repairing damaged structures.
 research: {
   parent: core-pike
     planet: tantros

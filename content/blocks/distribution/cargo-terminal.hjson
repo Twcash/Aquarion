@@ -1,6 +1,4 @@
 type: UnitCargoLoader
-localizedName: Cargo Terminal
-description: An advanced cargo dock. Faster but uses fuel.
 size: 3
 category: distribution
 buildTime: 600

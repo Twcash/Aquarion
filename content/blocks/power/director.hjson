@@ -1,5 +1,4 @@
 type: battery
-localizedName: director
 category: power
 requirements: [
 lead/2

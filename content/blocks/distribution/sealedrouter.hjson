@@ -1,9 +1,8 @@
-localizedName: Sealed Router
+
 type: router
 category: distribution
 solid: true
-description: A neccesary evil, can take multiple inputs or outputs.
-underBullets: fale
+underBullets: false
 requirements: [
 lead/5
 ]

@@ -1,6 +1,5 @@
 type: ThermalGenerator
 size: 3
-localizedName: Geothermal Generator
 displayEfficiencyScale: .1111111111
 generateEffect: airBubble
 effectChance : .011

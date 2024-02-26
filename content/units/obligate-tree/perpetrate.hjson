@@ -6,7 +6,11 @@ drag: .01
 engineOffset: 35
 engineSize: 9.5
 armor: 24
+<<<<<<< HEAD
+health: 129000
+=======
 health: 32000
+>>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 drawCell: false
 faceTarget: false
 hitSize: 55
@@ -109,7 +113,10 @@ barrels: [
 ]
 }
 bullet: {
+<<<<<<< HEAD
+=======
 sprite: tantros-test-heavy-shell
+>>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 shootSound: bolt
 speed: 3
 lifetime: 60
@@ -184,7 +191,10 @@ barrels: [
 ]
 }
 bullet: {
+<<<<<<< HEAD
+=======
 sprite: tantros-test-heavy-shell`
+>>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 shootSound: bolt
 speed: 3
 lifetime: 60
@@ -246,7 +256,10 @@ shots: 3
 shotDelay: 10
 }
 bullet: {
+<<<<<<< HEAD
+=======
 sprite: tantros-test-heavy-shell
+>>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 shootSound: mediumCannon
 trailInterval: 3
 trailEffect: [

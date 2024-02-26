@@ -1,6 +1,5 @@
 type: burstDrill
 category: production
-localizedName: Compression Drill
 drillTime: 310
 conductivePower: true
 size: 2

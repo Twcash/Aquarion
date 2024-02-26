@@ -1,7 +1,5 @@
 category: distribution
-localizedName: Armored Sealed Conveyor
 type: Duct
-description: Transports items forwards, does not take items from sides.
 speed: 16.2747709476
 underBullets: false
 armored: true

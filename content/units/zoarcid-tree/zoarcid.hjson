@@ -5,7 +5,10 @@ lowAltitude: true
 outlineColor: 2f3734
 drag: .05
 drawCell: false
+<<<<<<< HEAD
+=======
 faceTarget: true
+>>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 abilities: [
 {
 display: false
@@ -295,7 +298,11 @@ requirements: {
   block: submarine-factory
   time: 1200
   requirements: [
+<<<<<<< HEAD
+silicon/30
+=======
 gallium/15
+>>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 lead/40
 metaglass/20
   ]

@@ -1,7 +1,5 @@
 type: sorter
-localizedName: Sealed Sorter
 solid: true
-description: Only allows the specified item forwards, outputs blacklisted items to the sides.
 category: distribution
 requirements: [
 lead/10

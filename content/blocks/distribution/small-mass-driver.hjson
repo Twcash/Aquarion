@@ -1,6 +1,5 @@
 type: MassDriver
 category: distribution
-localizedName: Small Mass Driver
 size: 1
 requirements: [
 sodium/15

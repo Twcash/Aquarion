@@ -1,6 +1,4 @@
 type: UnitCargoLoader
-localizedName: Cargo Dock
-description: A basic loading point for unit based distribution.
 size: 2
 category: distribution
 buildTime: 240
