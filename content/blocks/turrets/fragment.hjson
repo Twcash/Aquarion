@@ -1,5 +1,4 @@
 type: ItemTurret
-localizedName: Fragment
 targetGround: false
 category: turret
 reload: 10
