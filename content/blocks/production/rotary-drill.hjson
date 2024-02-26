@@ -25,7 +25,6 @@ amount: .3
 booster: true
 optional: true
 }
-}
 ]
 }
 itemCapacity: 75
