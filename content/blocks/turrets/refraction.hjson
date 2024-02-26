@@ -1,0 +1,53 @@
+type: ContinuousTurret
+category: turret
+size: 3
+health: 180
+range: 160
+rotateSpeed: .65
+requirements: [
+lead/1
+]
+shoot: {
+}
+shootType: {
+type: PointLaserBulletType
+damage: 10
+fragBullets: 2
+oscScl: 2.5
+oscMag: .5
+minRange: 30
+maxRange: 180
+}
+shoot: {
+  type: ShootMulti
+  source: ShootAlternate
+  dest: [
+    {
+      type: ShootBarrel
+      shots: 2
+      barrels: [
+        5.5, -4, 0,
+        -5.5, -4, 0,
+      ]
+    }
+  ]
+}
+consumes: {
+power: 2.5
+}
+drawer: {
+type: drawTurret
+basePrefix: water-
+parts: [
+{
+type: drawPartRegion
+suffix: -side
+moveRot: -15
+moveX: 2.5
+moveY: -1
+mirror: true
+under: true
+top: false
+}
+]
+}
