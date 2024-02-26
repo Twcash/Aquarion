@@ -19,8 +19,6 @@ amount: .25
 }
   {
 liquid: nitrogen
-booster: true
-optional: true
 amount: .4
 }
 ]
