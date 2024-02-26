@@ -4,6 +4,7 @@ localizedName: Enforce
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
+crashDamageMultiplier: 0
 targetAir: false
 speed: 1.5
 rotateSpeed: 1.2
