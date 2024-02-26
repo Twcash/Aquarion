@@ -1,5 +1,4 @@
 type: ItemTurret
-localizedName: Forment
 category: turret
 reload: 30
 recoil: 2
