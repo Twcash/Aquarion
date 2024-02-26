@@ -14,12 +14,14 @@ consumes: {
 power: 3
 liquids: [
 {
-nitrogen/.2
+liquid: nitrogen
+amount: .15
 booster: true
 optional: true
 }
 {
-hydrogen/.1
+liquid: hydrogen
+amount: .1
 booster: false
 optional: false
 }
