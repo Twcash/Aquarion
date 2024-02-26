@@ -6,6 +6,7 @@ outlineColor: 2f3734
 drag: .2
 speed: 1.4
 rotateSpeed: 7
+crashDamageMultiplier: .15
 omniMovement: false
 itemCapacity: 20
 faceTarget: true
