@@ -15,11 +15,14 @@ liquids: [
 {
 liquid: hydrogen
 booster: false
+optional: false
 amount: .25
 }
   {
 liquid: nitrogen
-amount: .4
+amount: 3
+booster: true
+optional: true
 }
 ]
 }
