@@ -1,6 +1,6 @@
   type: flying
   flying: true
-  localizedName: Enforce
+crashDamageMultiplier: .1
   lowAltitude: true
   outlineColor: 2f3734
   drag: .2
