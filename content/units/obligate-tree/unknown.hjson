@@ -3,42 +3,36 @@ localizedName: Obligate
 flying: true
 lowAltitude: true
 outlineColor: 2f3734
-<<<<<<< HEAD
 drag: .2
 speed: 1.4
 rotateSpeed: 7
-omniMovement: true
+omniMovement: false
 itemCapacity: 20
 faceTarget: true
 health:  280
 engineSize: .5
-=======
 drag: .05
 rotateSpeed: 4
 speed: 1.4
 rotateSpeed: 7
-omniMovement: truea
+omniMovement: false
 itemCapacity: 20
 faceTarget: true
 health:  260
 engineSize: 0
 drawCell: false
->>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 armor: 1
 hitSize: 6
 requirements: {
   block: submarine-factory
-<<<<<<< HEAD
   time: 300
   requirements: [
 silicon/10
-=======
   time: 1200
   requirements: [
 gallium/10
 lead/40
 bauxite/80
->>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
   ]
 }
 research: {
@@ -49,7 +43,6 @@ parent: submarine-factory
 weapons: [
 {
 shoot: {
-<<<<<<< HEAD
 shots: 3
 shotDelay: 5
 }
@@ -66,7 +59,6 @@ speed: 1.5
 width: 5
 height: 7
 trailLength: 3
-=======
 shots: 2
 shotDelay: 6
 }
@@ -82,14 +74,11 @@ width: 7
 height: 8
 trailLength: 3
 railWidth: 2
->>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
 homingPower: .05
 lifetime: 45
 }
 }
 ]
-<<<<<<< HEAD
-=======
 abilities: [
 {
 display: false
@@ -148,4 +137,3 @@ baseRotation: 180
 ]
 }
 ]
->>>>>>> 9b031d5dd0eb2e2ec9c5642999020f4e0c6afcb7
