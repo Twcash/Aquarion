@@ -13,18 +13,8 @@ rotateSpeed: 12
 consumes: {
 power: 3
 liquids: [
-{
-liquid: hydrogen
-booster: false
-optional: false
-amount: .25
-}
-{
-liquid: nitrogen
-amount: .3
-booster: true
-optional: true
-}
+nitrogen/.2
+hydrogen/.15
 ]
 }
 itemCapacity: 75
