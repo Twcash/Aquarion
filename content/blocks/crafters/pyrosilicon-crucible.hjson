@@ -2,7 +2,6 @@ type: HeatCrafter
 outputItem: nitride/3
 squareSprite: false
 category: crafting
-localizedName: Nitride injection Crucible
 description: Injects ammonia into molten gallium to make nitride.
 conductivePower: true
 itemCapacity: 60

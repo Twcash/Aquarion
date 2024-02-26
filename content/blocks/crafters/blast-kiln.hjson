@@ -1,8 +1,6 @@
 //name SUCKS
 type: GenericCrafter
-localizedName: Blast Kiln
 squareSprite: false
-description: Refines metaglass from lead, sand and oxide.
 size: 3
 category: crafting
 craftTime: 45

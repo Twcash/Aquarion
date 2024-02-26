@@ -1,5 +1,4 @@
 type: GenericCrafter
-localizedName: Clarifier
 squareSprite: false
 description: Directly harvests hydroxide by electrolyzing brine.
 size: 4

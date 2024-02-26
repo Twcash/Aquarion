@@ -1,7 +1,6 @@
 
 type: GenericCrafter
 description: Uses chemoautotrophic bacteria to oxidize bauxite.
-localizedName: cultivation Chamber
 squareSprite: false
 size: 3
 conductivePower: true

@@ -1,5 +1,4 @@
 type: GenericCrafter
-localizedName: Hydroxide Concentrator
 squareSprite: false
 description: Concentrates hydroxide by boiling large amounts of saline water.
 size: 3

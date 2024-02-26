@@ -1,5 +1,4 @@
 type: CoreBlock
-localizedName: Core: Cuesta
 description: The core of the Base, once destroyed the sector is lost. More efficient than the first iteration.
 squareSprite: false
 health: 4500
