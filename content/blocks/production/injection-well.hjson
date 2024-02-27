@@ -29,9 +29,9 @@ name: Rotary drill
 planet: tantros
 }
 requirements: [
-lead/160
+lead/340
 bauxite/200
 sodium/60
 nitride/180
-manganese/80
+gallium/200
 ]
