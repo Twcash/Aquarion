@@ -2,10 +2,10 @@ type: consumeGenerator
 consumes: {
   liquid: {
     liquid: ammonia
-      amount: .15
+      amount: .075
       }
 }
-powerProduction: 37.5
+powerProduction: 6.5
 category: power
 requirements: [
 sodium/40
