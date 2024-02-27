@@ -1,4 +1,4 @@
-localizedName: Sodium
+
 color: B9CEDC
 planet: [
 tantros
@@ -8,5 +8,4 @@ research: {
 planet: tantros
 parent: bauxite
 }
-Description: A highly reactive element which is maleable, useful in many structures.
 explosiveness: .2

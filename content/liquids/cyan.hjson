@@ -1,7 +1,6 @@
 explosiveness: 1.5
 color: 8deebb
 heatCapacity: .75
-localizedName: Cyanogen
 research: {
 planet: tantros
 parent: nitrogen
