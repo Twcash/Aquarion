@@ -1,0 +1,46 @@
+type: GenericCrafter
+squareSprite: false
+size: 4
+requirements: [
+lead/10
+]
+category: crafting
+liquidCapacity: 100
+craftTime: 90
+outputItem: sodium/2
+outputLiquid: hydrogen-chloride/.17
+consumes: {
+power: 3.5
+liquid: {
+liquid: hydroxide
+amount: .5
+}
+}
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: DrawLiquidTile
+drawLiquid: hydroxide
+padding: 2
+}
+{
+type: drawRegion
+suffix: -mid
+}
+{
+type: DrawGlowRegion
+suffix: -glow
+}
+{
+type: DrawLiquidTile
+drawLiquid: hydrogen-chloride
+padding: 2
+}
+{
+type: drawRegion
+suffix: -top
+}
+]
