@@ -1,0 +1,37 @@
+tier: 10
+type: Drill
+squareSprite: false
+category: production
+warmupSpeed: .003
+liquidBoostIntensity: 1.3
+drillTime: 60
+drawMineItem: false
+drillEffect: airBubble
+drawRim: false
+updateEffect: airBubble
+rotateSpeed: 1.2
+consumes: {
+power: 8
+liquids: [
+{
+liquid: hydrogen-chloride
+booster: false
+optional: false
+amount: .085
+}
+]
+}
+itemCapacity: 120
+size: 5
+research: {
+parent: ram-drill
+name: Rotary drill
+planet: tantros
+}
+requirements: [
+lead/160
+bauxite/200
+sodium/60
+nitride/180
+manganese/80
+]
