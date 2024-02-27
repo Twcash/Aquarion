@@ -2,7 +2,11 @@ type: GenericCrafter
 squareSprite: false
 size: 4
 requirements: [
-lead/10
+lead/240
+bauxite/80
+metaglass/120
+nitride/90
+gallium/120
 ]
 category: crafting
 liquidCapacity: 100
