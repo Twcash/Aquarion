@@ -5,7 +5,7 @@ requirements: [
 lead/120
 metaglass/60
 nitride/80
-managnese/90
+manganese/90
 ]
 reload: 150
 recoil: 4
@@ -13,7 +13,7 @@ shoot: {
 firstShotDelay: 25
 }
 ammoTypes: {
-managanese: {
+manganese: {
 spawnUnit: banshee-missile
 shake: .7
 speed: 0
