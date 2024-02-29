@@ -92,8 +92,8 @@ bullet: {
 shootEffect: none
 shootSound: dullExplosion
 type: ExplosionBulletType
-splashDamageRadius: 25
-splashDamage: 60
+splashDamageRadius: 35
+splashDamage: 180
 collidesGround: false
 }
 shootEffect: none
