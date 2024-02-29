@@ -1,0 +1,86 @@
+type: itemTurret
+range: 260
+size: 2
+requirements: [
+lead/120
+metaglass/60
+nitride/80
+managnese/90
+]
+reload: 150
+recoil: 4
+shoot: {
+firstShotDelay: 25
+}
+ammoTypes: {
+managanese: {
+spawnUnit: banshee-missile
+shake: .7
+speed: 0
+keepVelocity: false
+shootEffect: shootBig
+smokeEffect: [
+{
+colorFrom: 55967e90
+colorTo: 55967e55
+cone: 45
+length: 30
+lifetime: 75
+baseRotation: 180
+sizeFrom: 6
+sizeTo: 0
+rotWithParent: true
+}
+]
+}
+}
+category: turret
+drawer: {
+type: drawTurret
+basePrefix: water-
+parts: [
+{
+suffix: -plate
+under: true
+y: 2
+}
+{
+type: drawPartRegion
+suffix: -missile
+color: ffffff
+colorTo: ffffff00
+progress: reload
+under: true
+top: false
+y: -1
+moveY: -2
+moves: [
+{
+progress: warmup
+y: 1
+}
+]
+}
+{
+type: drawPartRegion
+suffix: -side
+mirror: true
+y: -.5
+x: 2
+moveRot: -5
+moves: [
+{
+progress: warmup
+rot: -15
+}
+{
+rotation: -30
+rot: -30
+progress: recoil
+}
+]
+progress: warmup
+}
+]
+}
+recoilTime: 60

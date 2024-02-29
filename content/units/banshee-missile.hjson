@@ -1,12 +1,12 @@
 type: missile
 lowAltitude: true
-lifetime: 60
+lifetime: 90
 hidden: true
-health: 90
+health: 110
 outlineColor: 2f3734
 template: MissileUnitType
 drawCell: false
-speed: 4.6
+speed: 5
 maxRange: 1
 rotateSpeed: 6
 missileAccelTime: 60
@@ -22,20 +22,20 @@ type: moveEffectAbility
 effect: [
 {
 type: particleEffect
-colorFrom: cbd3f2
-colorTo: 8ca4fc
+colorFrom: 55967e90
+colorTo: 55967e55
 particles: 2
 lifetime: 35
-sizeFrom: 2
+sizeFrom: 4
 sizeTo: 0
 }
 {
 type: particleEffect
-colorFrom: ffffff
-colorTo: 8ca4fc
-particles: 1
+colorFrom: 55967e90
+colorTo: 55967e55
+particles: 2
 lifetime: 20
-sizeFrom: 1
+sizeFrom: 3
 sizeTo: 0
 }
 ]
@@ -47,8 +47,8 @@ type: moveEffectAbility
 effect: [
 {
 type: particleEffect
-colorFrom: 586db8
-colorTo: 8ca4fc
+colorFrom: 55967e90
+colorTo: 55967e55
 particles: 2
 lifetime: 12
 sizeFrom: 2
@@ -56,8 +56,8 @@ sizeTo: 0
 }
 {
 type: particleEffect
-colorFrom: 586db8
-colorTo: 8ca4fc
+colorFrom: 55967e90
+colorTo: 55967e55
 particles: 1
 lifetime: 7
 sizeFrom: 1
@@ -92,9 +92,11 @@ bullet: {
 shootEffect: none
 shootSound: dullExplosion
 type: ExplosionBulletType
-splashDamageRadius: 6
+splashDamageRadius: 25
 splashDamage: 60
+collidesGround: false
 }
 shootEffect: none
 }
 ]
+targetGround: false
