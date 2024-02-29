@@ -1,0 +1,175 @@
+type: itemTurret
+heatColor: ff3504
+range: 180
+shootY: 2
+consumes: {
+power: 2.5
+liquid: {
+liquid: hydroxide
+amount: .25
+}
+coolant: {
+amount: .3
+}
+}
+ammoTypes: {
+nitride: {
+lifetime: 55
+smokeEffect: shootSmokeSquareSparse
+shootEffect: shootBigColor
+pierceCap: 3
+fragOnHit: false
+shrinkX: 0
+damage: 60
+trailLength: 10
+traiWidth: 2.4
+despawnSound: dullExplosion
+bulletInterval: 5
+speed: 5
+intervalBullet: {
+splashDamage: 25
+splashDamageRadius: 25
+despawnSound: dullExplosion
+lifetime: 0
+fragBullets: 10
+fragBullet: {
+width: 10
+height: 12
+lifetime: 8
+speed: 4
+damage: 25
+despawnEffect: none
+backColor: ff5f04
+frontColor:ff9c64
+}
+hitEffect: [
+{
+type: ExplosionEffect
+waveColor: ff9c64
+smokeColor: ff5f04
+lifeTime: 60
+sparks: 3
+sparkColor: ff5f04
+strokeFrom: 3
+strokeTo: 1
+smokes: 6
+waveRad: 35
+waveLife: 45
+}
+]
+despawnEffect: [
+{
+type: ExplosionEffect
+waveColor: ff5f04
+smokeColor: ff5f04
+lifeTime: 60
+sparks: 3
+sparkColor: 5454c4
+strokeFrom: 3
+strokeTo: 1
+smokes: 6
+waveRad: 35
+waveLife: 45
+}
+]
+}
+sprite: large-orb
+trailInterval: 3
+trailEffect: [
+{
+lightOpacity: 0
+baseLength: 10
+
+length: 25
+lifetime: 90
+particles: 25
+colorFrom: 9f9f9f
+colorTo: 785e5e
+sizeFrom: 7
+sizeTo: 0
+layer: 84.9
+}
+{
+length: 30
+baseLength: 10
+lifetime: 90
+particles: 15
+colorFrom: f5f5f5
+colorTo: b4a4a4
+sizeFrom: 5
+sizeTo: 0
+layer: 84.8
+}
+{
+length: 15
+lifetime: 130
+particles: 30
+colorFrom: 8b6767
+colorTo: 694b4b
+sizeFrom: 10
+sizeTo: 0
+layer: 84.7
+}
+]
+}
+}
+size: 4
+requirements: [
+lead/250
+bauxite/150
+metaglass/300
+nitride/500
+]
+category: turret
+cooldownTime: 60
+reload: 95
+recoil: 4
+outlineColor: 2f3734
+drawer: {
+type: drawTurret
+outlineColor: 2f3734
+basePrefix: water-
+parts: [
+{
+type: drawPartRegion
+suffix: -side
+progress: recoil
+moveX: 1
+moveY: .5
+mirror: true
+under :true
+top: false
+heatColor: ff3504
+}
+{
+type: drawPartRegion
+suffix: -bottom
+progress: warmup
+moveX: 1
+moveY: 1
+mirror: true
+under :true
+top: false
+moves: [
+{
+x: -.5
+y: -2
+progress: {
+type: recoil
+op: curve
+interp: pow3
+}
+}
+]
+}
+{
+type: drawPartRegion
+suffix: -barrel
+progress: recoil
+moveY: -4
+mirror: true
+under :true
+top: false
+}
+]
+}
