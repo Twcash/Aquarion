@@ -1,26 +1,27 @@
 type: mech
 health: 450
 armor: 6
-hitSize: 8
-speed: .75
+hitSize: 11
+speed: .40
+rotateSpeed: .55
 weapons: [
 {
 name: ambassador-mount
 mirror: true
 x: 8.5
-recoil: 5
-reload: 120
+recoil: 5.5
+reload: 65
 rotate: true
-rotateSpeed: .5
-rotationLimit: 45
-shootX: 0
+rotateSpeed: .65
+rotationLimit: 70
+shootY: 4
 shootSound: shotgun
 bullet: {
 shootSound: shotgun
 type: shrapnelBulletType
-damage: 45
-length: 40
-width: 5
+damage: 25
+length: 35
+width: 6
 toColor: d1efff
 }
 }]
