@@ -54,3 +54,4 @@ requirements: {
  block: conversive-reconstructor
 }
 drawCell: false
+outlineColor: 2f3734

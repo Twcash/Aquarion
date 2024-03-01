@@ -1,0 +1,32 @@
+type: mech
+health: 450
+armor: 6
+hitSize: 8
+speed: .75
+weapons: [
+{
+name: ambassador-mount
+mirror: true
+x: 8.5
+recoil: 5
+reload: 120
+rotate: true
+rotateSpeed: .5
+rotationLimit: 45
+shootX: 0
+shootSound: shotgun
+bullet: {
+shootSound: shotgun
+type: shrapnelBulletType
+damage: 45
+length: 40
+width: 5
+toColor: d1efff
+}
+}]
+requirements: {
+  previous: messenger
+ block: conversive-reconstructor
+}
+drawCell: false
+outlineColor: 2f3734
