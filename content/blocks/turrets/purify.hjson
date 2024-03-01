@@ -26,6 +26,30 @@ traiWidth: 2.4
 despawnSound: dullExplosion
 bulletInterval: 5
 speed: 5
+despawnEffect: [
+{
+type: ExplosionEffect
+waveColor: ff5f04
+smokeColor: ff5f04
+lifeTime: 120
+sparks: 3
+sparkColor: 5454c4
+strokeFrom: 3
+strokeTo: 1
+smokes: 6
+waveRad: 35
+waveLife: 45
+}
+{
+particles: 15
+length: 50
+lifetime: 180
+sizeFrom: 15
+sizeTo: 0
+colorFrom: 
+colorTo: 
+}
+]  
 intervalBullet: {
 splashDamage: 25
 splashDamageRadius: 25
