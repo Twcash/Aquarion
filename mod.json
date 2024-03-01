@@ -1,0 +1,10 @@
+
+{
+  "name": "Twcash/Tantros-test",
+  "displayName": "Tantros-test",
+  "author": "Twcash",
+  "description": "A WIP Tantros Campaign",
+  "version": "1.0",
+  "minGameVersion": "146",
+  "hidden": "false"
+}
