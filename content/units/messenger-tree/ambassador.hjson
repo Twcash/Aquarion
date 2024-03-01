@@ -27,7 +27,7 @@ toColor: d1efff
 }]
 requirements: {
   previous: messenger
- block: conversive-reconstructor
+ block: correlative-reconstructor
 }
 drawCell: false
 outlineColor: 2f3734
