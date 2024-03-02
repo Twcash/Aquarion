@@ -1,0 +1,9 @@
+type: storageBlock
+coreMerge: false
+requirements: [
+lead/80
+bauxite/40
+]
+itemCapacity: 40
+liquidCapacity: 40
+category: distribution

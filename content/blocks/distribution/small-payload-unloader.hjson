@@ -1,0 +1,15 @@
+type: PayloadUnloader
+size: 1
+maxBlockSize: 1
+category: units
+requirements: [
+lead/25
+bauxite/10
+metaglass/50
+sodium/5
+]
+consumes: {
+power: 1
+}
+category: distribution
+offloadSpeed: 1

@@ -1,0 +1,8 @@
+type: payloadConveyor
+size: 1
+requirements: [
+lead/5
+bauxite/10
+sodium/1
+]
+category: distribution

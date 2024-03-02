@@ -7,7 +7,7 @@ lead/200
 bauxite/120
 ]
 category: crafting
-craftTime: 85
+craftTime: 180
 size: 4
 outputItem: duralumin/1
 heatRequirement: 15
