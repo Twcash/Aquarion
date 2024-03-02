@@ -35,7 +35,7 @@ range: 120
 size: 3
 ammoTypes: {
 lead: {
-damage: 15
+damage: 10
 speed: 2.5
 lifetime: 45
 reloadMultiiplier: .8
@@ -64,9 +64,9 @@ smokeEffect: airBubble
 makeFire: false
 }
 gallium: {
-damage: 40
-speed: 2.5
-lifetime: 40
+damage: 30
+speed: 2
+lifetime: 45
 reloadMultiiplier: .6
 ammoMultiplier: 2
 trailLength: 10
@@ -93,7 +93,7 @@ colorTo: 637e8e
 ]
 }
 nitride: {
-damage: 25
+damage: 15
 speed: 3
 lifetime: 45
 homingPower: .1
