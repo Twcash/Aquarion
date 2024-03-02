@@ -14,7 +14,7 @@ faceTarget: true
 health: 480
 armor: 2
 engineSize: 0
-hitSize: 18
+hitSize: 8
 abilities: [
 {
 display: false

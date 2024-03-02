@@ -1,7 +1,24 @@
 type: ItemTurret
 category: turret
-reload: 30
-recoil: 2
+reload: 55
+shoot: {
+type: ShootMulti
+source: ShootAlternate
+dest: [
+{
+type: ShootBarrel
+shots: 3
+shotDelay: 5
+barrels: [
+0, -1, 0,
+5, -1.5, 0,
+-5, -1.5, 0,
+]
+}
+]
+}
+recoil: 2.5
+recoilTime: 25
 requirements: [
 lead/80
 bauxite/40
@@ -111,6 +128,45 @@ makeFire: false
 drawer: {
   type: DrawTurret
   basePrefix: water-
+parts: [
+{
+type: drawPartRegion
+suffix: -barrel
+mirror: false
+progress: recoil
+moveY: -2.5
+under: true
+}
+{
+type: drawPartRegion
+suffix: -sides
+mirror: false
+progress: recoil
+moveY: -3
+moves: [
+{
+progress: warmup
+y: -1
+}
+]
+}
+{
+type: drawPartRegion
+suffix: -mid
+mirror: true
+progress: recoil
+moveY: -4.5
+moves: [
+{
+progress: warmup
+x: -1.5
+y: -1.5
+rot: -5
+}
+]
+}
+
+]
 }
 research: {
 name: Forment
