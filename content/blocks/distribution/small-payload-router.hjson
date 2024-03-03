@@ -1,0 +1,8 @@
+type: payloadRouter
+requirements: [
+lead/10
+bauxite/10
+nitride/2
+]
+category: distribution
+size: 1

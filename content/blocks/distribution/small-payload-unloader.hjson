@@ -6,7 +6,7 @@ requirements: [
 lead/25
 bauxite/10
 metaglass/50
-sodium/5
+nitride/5
 ]
 consumes: {
 power: 1

@@ -1,0 +1,17 @@
+type: PayloadMassDriver
+size: 2
+range: 170
+rotateSpeed: .2
+chargeTime: 120
+maxPayloadSize: 2
+grabWidth: 2.5
+length: 3
+grabHeight: 1
+shake: 1
+requirements: [
+manganese/70
+nitride/80
+lead/120
+bauxite/60
+]
+category: distribution
