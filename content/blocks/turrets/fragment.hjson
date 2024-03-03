@@ -1,88 +1,18 @@
 type: ItemTurret
 targetGround: false
+recoil :.5
+reload: 25
+shootSound: shootAltLong
+size: 3
+ammoUseEffect: casing2
+ammoEjectBack: 5
 category: turret
-reload: 10
-recoil: 2
-shootSound: shootBig
-shootCone: 30
 requirements: [
 lead/120
-metaglass/60
-bauxite/50
+bauxite/80
+metaglass/180
+gallium/40
 ]
-health: 180
-range: 120
-size: 3
-ammoTypes: {
-metaglass: {
-
-type: artilleryBulletType
-status: slow
-damage: 4
-speed: 5
-lifetime: 80
-reloadMultiiplier: .8
-hitSound: none
-ammoMultiplier: 3
-trailLength: 4
-width: 6
-height: 9
-trailColor: ffffff
-backColor: 8b8d8d
-frontColor: ffffff
-shootEffect: shootSmall
-smokeEffect: none
-makeFire: false
-despawnEffect: flakExplosion 
-collidesGround: false
-fragBullets: 5
-fragBullet: {
-type: basicBulletType
-speed: 7
-lifetime: 10
-width: 5
-height: 7
-backColor: 8b8d8d
-damage: 3
-frontColor: ffffff
-despawnEffect: fluxVapor  
-collidesGround: false
-status: slow
-fragBullets: 5
-fragBullet: {
-speed: 7
-lifetime: 5
-type: basicBulletType
-width: 5
-height: 7
-status: slow
-backColor: 8b8d8d
-frontColor: ffffff
-despawnEffect: fluxVapor  
-collidesGround: false
-damage: 2
-}
-}
-}
-}
-drawer: {
-  type: DrawTurret
-  basePrefix: water-
-parts: [
-{
-type: RegionPart
-mirror: true
-x: -5.2
-flipSprite: true
-y: -1.2
-suffix: -blade
-progress: reload
-moveX: -3
-moveY: -1
-moveRot: 15
-}
-]
-}
 research: {
 name: Fragment
 parent: forment
@@ -92,4 +22,220 @@ metaglass/60
 bauxite/120
 ]
 planet: tantros
+}
+recoils: 3
+drawer: {
+type: drawTurret
+basePrefix: water-
+parts: [
+{
+type: drawPartRegion
+recoilIndex: 2
+moveY: -2.5
+suffix: -barrel-r
+under: true
+heatProgress: recoil
+progress: recoil
+}
+{
+type: drawPartRegion
+recoilIndex: 0
+moveY: -2.5
+suffix: -barrel-l
+heatProgress: recoil
+under: true
+progress: recoil
+}
+{
+type: drawPartRegion
+recoilIndex: 1
+moveY: -2.5
+suffix: -mid
+heatProgress: recoil
+under: true
+progress: recoil
+}
+{
+type: drawPartRegion
+recoilIndex: 0
+moveY: -2.5
+suffix: -back-l
+fipSprite: true
+under: true
+heatProgress: recoil
+progress: recoil
+flipSprite: true
+}
+{
+type: drawPartRegion
+recoilIndex: 2
+moveY: -2.5
+suffix: -back-r
+heatProgress: recoil
+under: true
+progress: recoil
+}
+]
+}
+shootY: 4
+shoot: {
+type: ShootBarrel
+shotDelay: 60
+barrels: [
+-4, 4, 0,
+0, 4, 0,
+4, 4, 0,
+]
+}
+range: 180
+ammoTypes: {
+metaglass: {
+type: artilleryBulletType
+width: 15
+height: 17
+trailLength: 7
+frontColor: fafafa
+backColor: b6ced3
+trailColor: b6ced3
+hitColor: fafafa
+particles: 2
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 3.5
+sizeTo: 0
+cone: 15
+baseRotation: 180
+rotWithParent: true
+length: 15
+lifetime: 45
+despawnSound: none
+hitSound: none
+hitEffect: [
+{
+particles: 10
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 7
+sizeTo: 0
+length: 40
+lifetime: 60
+}
+]
+trailEffect: [
+{
+particles: 2
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 3.5
+sizeTo: 0
+cone: 15
+baseRotation: 180
+rotWithParent: true
+length: 15
+lifetime: 45
+}
+{
+line: true
+particles: 7
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 2
+strokeFrom: 1
+strokeTo: 0
+sizeTo: 0
+cone: 30
+baseRotation: 180
+rotWithParent: true
+length: 15
+lifetime: 45
+}
+]
+trailInterval: 4
+trailRotation: true
+damage: 10
+collidesGround: false
+lifetime: 65
+speed: 3
+homingPower: .02
+hitSize: 5
+fragBullets: 3
+collidesGround: false
+fragBullet: {
+trailEffect: [
+{
+particles: 2
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 2
+sizeTo: 0
+cone: 10
+baseRotation: 180
+rotWithParent: true
+length: 10
+lifetime: 30
+}
+{
+line: true
+particles: 4
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 1
+strokeFrom: 1
+strokeTo: 0
+sizeTo: 0
+cone: 25
+baseRotation: 180
+rotWithParent: true
+length: 10
+lifetime: 30
+}
+]
+damage: 15
+trailInterval: 3
+trailRotation: true
+collidesGround: false
+lifetime: 30
+speed: 5
+homingPower: .07
+splashDamageRadius: 10
+splashDamage: 10
+hitSize: 3
+width: 10
+collidesGround: false
+height: 12
+frontColor: fafafa
+backColor: b6ced3
+trailColor: b6ced3
+hitColor: fafafa
+}
+shootEffect: [
+{
+particles: 4
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 2
+sizeTo: 0
+cone: 15
+baseRotation: 0
+rotWithParent: true
+length: 30
+lifetime: 45
+}
+{
+line: true
+particles: 7
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 3
+strokeFrom: 4
+strokeTo: 0
+sizeTo: 0
+cone: 30
+baseRotation: 0
+rotWithParent: true
+length: 15
+lifetime: 45
+}
+]
+}
 }
