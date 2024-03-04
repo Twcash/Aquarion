@@ -2,6 +2,7 @@ type: ItemTurret
 category: turret
 reload: 55
 shoot: {
+firstShotDelay: 35
 type: ShootMulti
 source: ShootAlternate
 dest: [
