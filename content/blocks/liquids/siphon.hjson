@@ -12,3 +12,5 @@ lead/50
 bauxite/20
 ]
 }
+junctionReplacement: siphon-junction
+bridgeReplacement: siphon-bridge
