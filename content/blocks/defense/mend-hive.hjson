@@ -4,15 +4,15 @@ research: {
     planet: tantros
 }
 squareSprite: false
-unitsSpawned: 3
+unitsSpawned: 2
 droneType: repair-drone
 size: 2
 droneRange: 70
 requirements: [
-lead/200
-  sodium/120
-  nitride/40
-  bauxite/120
+lead/70
+  sodium/60
+  gallium/40
+  bauxite/80
 ]
 category: defense
 consumes: {
