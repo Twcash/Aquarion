@@ -1,4 +1,5 @@
 type: ItemTurret
+ammoPerShot: 1
 targetGround: false
 recoil :.5
 reload: 25
