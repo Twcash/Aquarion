@@ -1,13 +1,12 @@
 type: flying
 lowAltitude: true
-speed: .75
+speed: .8
 rotateSpeed: .5
 drag: .01
 engineOffset: 35
 engineSize: 9.5
-armor: 24
-health: 129000
-health: 32000
+armor: 16
+health: 4200
 drawCell: false
 faceTarget: false
 hitSize: 55
@@ -116,7 +115,7 @@ speed: 3
 lifetime: 60
 width: 9
 height: 12
-damage: 120
+damage: 45
 peirceCap: 2
 despawnEffect: blastExplosion
 trailInterval: 1
@@ -191,7 +190,7 @@ speed: 3
 lifetime: 60
 width: 9
 height: 12
-damage: 120
+damage: 45
 peirceCap: 2
 despawnEffect: blastExplosion
 trailInterval: 1
@@ -322,7 +321,7 @@ splashDamageRadius: 25
 splashDamage: 390
 fragBullets: 4
 fragBullet: {
-damage: 90
+damage: 45
 type: BasicBulletType
 sprite: missile-large
 despawnSound: dullExlosion
