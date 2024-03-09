@@ -29,8 +29,8 @@ requirements: {
   time: 300
   requirements: [
 gallium/10
-lead/40
-bauxite/80
+lead/15
+bauxite/20
   ]
 }
 research: {

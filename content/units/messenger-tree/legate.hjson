@@ -1,0 +1,58 @@
+type: legs
+health: 4200
+range: 75
+armor: 24
+legContinuousMove: true
+hovering: true
+legGroupSize: 2
+rotateSpeed: 1.1
+legCount: 4
+lockLegBase: true
+legMaxLength: 1.1
+legLength: 24
+legPairOffset: 1
+continuous: true
+lockLegBase: true
+legMinLength: .9
+legMoveSpace: 1
+legExtension: 6
+hitSize: 24
+speed: .6
+rotateSpeed: 1.3
+outlineColor: 2f3734
+legColor: 444b49
+drawCell: false
+legBaseOffset: 7
+weapons: [
+{
+name: legate-weapon
+layerOffset: -.01
+rotationLimit: 45
+rotate: True
+ignoreRotation: true
+rotateSpeed: .5
+mirror: true
+shootStatus: slow
+shootStatusDuration: 25
+alternate: false
+continuous: true
+length: 1
+alwaysContinuous: true
+shootY: 20
+x: 20
+y: 5
+bullet: {
+type: ContinuousLaserBulletType
+damage: 20
+shootSound: 
+damageInterval: 5
+incendChance: 0
+length: 110
+colors: [
+8ca9e8,
+5c5e9f
+d1efff,
+]
+}
+}
+]
