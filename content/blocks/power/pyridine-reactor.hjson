@@ -1,7 +1,7 @@
 type: consumeGenerator
 consumes: {
   liquid: {
-    liquid: ammonia
+    liquid: pyridine
       amount: .075
       }
 }
@@ -24,7 +24,7 @@ suffix: -bottom
 }
 {
 type: DrawLiquidTile
-drawLiquid: ammonia
+drawLiquid: pyridine
 padding: 3
 }
 {

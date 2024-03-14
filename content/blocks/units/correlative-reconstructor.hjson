@@ -1,21 +1,25 @@
 type: reconstructor
 size: 3
-localizedName: Correlative Reconstructor
 category: units
-constructTime: 900
+constructTime: 750
+squareSprite: false
 requirements: [
-metaglass/120
-nitride/200
-bauxite/60
+metaglass/40
+nitride/80
+bauxite/80
+lead/60
 ]
 consumes: {
-power: 1.5
+power: 2.5
 items: [
-nitride/80
-oxide/40
+nitride/50
+metaglass/40
 ]
+liquid: {
+liquid: nitrogen
+amount: .15
 }
-regionSuffix: -water
+}
 research: {
 parent: submarine-factory
 planet: tantros

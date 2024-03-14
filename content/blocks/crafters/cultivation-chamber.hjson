@@ -4,7 +4,7 @@ description: Uses chemoautotrophic bacteria to oxidize bauxite.
 squareSprite: false
 size: 3
 conductivePower: true
-outputLiquid: ammonia/.15
+outputLiquid: pyridine/.15
 craftEffect: greenCloud 
 craftTime: 120
 requirements: [
