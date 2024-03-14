@@ -1,0 +1,25 @@
+type: flying
+localizedName: Yamet
+flying: true
+lowAltitude: false
+drag: .05
+speed: 2
+rotateSpeed: 1
+range: 50
+omniMovement: true
+drawCell: false
+accel: .1
+faceTarget: true
+circletarget: true
+health: 350
+engineSize: 0
+armor: 2
+hitSize: 18
+abilities: [
+{
+type: moveEffectAbility
+effect: airBubble
+y: -9
+interval: 15
+}
+]

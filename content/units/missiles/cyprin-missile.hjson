@@ -1,0 +1,105 @@
+type: missile
+lowAltitude: false
+lifetime: 75
+hidden: true
+health: 95
+outlineColor: 2f3734
+template: MissileUnitType
+drawCell: false
+speed: 6
+maxRange: 1
+rotateSpeed: 7
+missileAccelTime: 90
+range: 30
+homingDelay: 10
+hitSize: 3
+trailLength: 2
+engineSize: 0
+engineOffset: 0
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -3
+rotateEffect: true
+effect: [
+{
+particles: 3
+lifetime: 10
+cone: 15
+length: 2
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 8ca4fc
+colorTo: 8ca4fc
+layer: 110.3
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 16
+cone: 30
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 2
+sizeTo: 1
+colorFrom: 6d5e5e
+colorTo: 312827
+layer: 110.2
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 18
+cone: 15
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 6d5e5e
+colorTo: 46403f
+layer: 110.1
+rotWithParent: true
+}
+]
+}
+]
+deathSound: none
+deathExplosionEffect: [
+{
+type: explosionEffect
+waveColor: 6d5e5e
+strokeFrom: 4
+strokeTo: 2
+}
+]
+weapons: [
+{
+shootSound: dullExplosion
+rotate: true
+rotateSpeed: 0
+mirror: false
+shootCone: 360
+shootOnDeath: true
+reload: 1
+mirror: false
+shootOnDeath: true
+bullet: {
+shootEffect: none
+shootSound: dullExplosion
+type: ExplosionBulletType
+splashDamageRadius: 25
+splashDamage: 50
+collidesGround: false
+}
+shootEffect: none
+}
+]
+targetGround: false

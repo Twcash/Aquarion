@@ -1,0 +1,34 @@
+type: flying
+localizedName: cull
+flying: true
+isEnemy: false
+envDisabled: 0
+outlineColor: 2f3734
+lowAltitude: false
+mineTier: 3
+mineSpeed: 4
+buildSpeed: 1.2
+drag: .1
+speed: 2.5
+rotateSpeed: 5
+accel: .1
+itemCapacity: 20
+health: 120
+engineOffset: 10
+engineSize: 3
+armor: 1
+hitSize: 9
+engineColor: 43fc92
+payloadCapacity: 2
+targetable: false
+fogradius: 0
+hittable: false
+allowedInPayloads: false
+abilities: [
+{
+type: moveEffectAbility
+effect: airBubble
+y: -9
+interval: 10
+}
+]

@@ -13,4 +13,233 @@ itemCapacity: 125
 health: 2300
 engineSize: 0
 armor: 3
-hitSize: 24
+hitSize: 16
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -6
+x: 5
+rotateEffect: true
+effect: [
+{
+particles: 3
+lifetime: 10
+cone: 15
+length: 5
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 8ca4fc
+colorTo: 8ca4fc50
+layer: 110.3
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 16
+cone: 30
+length: 8
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 6
+sizeTo: 1
+colorFrom: 6d5e5e
+colorTo: 31282750
+layer: 110.2
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 18
+cone: 15
+length: 8
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 6d5e5e
+colorTo: 46403f50
+layer: 110.1
+rotWithParent: true
+}
+]
+}
+{
+display: false
+type: MoveEffectAbility
+y: -6
+x: -5
+rotateEffect: true
+effect: [
+{
+particles: 3
+lifetime: 10
+cone: 15
+length: 5
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 8ca4fc
+colorTo: 8ca4fc50
+layer: 110.3
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 16
+cone: 30
+length: 8
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 6
+sizeTo: 1
+colorFrom: 6d5e5e
+colorTo: 31282750
+layer: 110.2
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 18
+cone: 15
+length: 8
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 6d5e5e
+colorTo: 46403f50
+layer: 110.1
+rotWithParent: true
+}
+]
+}
+
+]
+
+weapons: [
+{
+rotate: true
+rotateSpeed: .5
+rotationLimit: 35
+shootY: 15
+mirror: false
+x: 0
+targetAir: false
+name: cyprin-weapon
+reload: 45
+recoils: 2
+bullet: {
+shootEffect: [
+{
+particles: 12
+lifetime: 45
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 4
+sizeTo: 0
+colorFrom: b2d3cf
+colorTo: 637e8e
+}
+]
+smokeEffect: none
+lifetime: 20
+speed: 6
+collidesAir: false
+splashDamage: 35
+pierce: true
+pierceCap: 5
+damage: 45
+splashDamageradius: 15
+width: 10
+height: 16
+frontColor: 8ca4fc
+backColor: 5c5e9f
+}
+shoot: {
+type: ShootBarrel
+barrels: [
+-3.5, 0, 0
+3.5, 0, 0
+]
+}
+parts: [
+{
+suffix: -barrel-r
+moveY: -3
+progress: recoil
+under: true
+recoilIndex: 0
+}
+{
+suffix: -barrel-l
+flipSprite: true
+moveY: -3
+progress: recoil
+under: true
+recoilIndex: 1
+}
+{
+suffix: -buffer-r
+moveY: -.5
+progress: recoil
+under: true
+recoilIndex: 0
+}
+{
+suffix: -buffer-l
+flipSprite: true
+moveY: -.5
+progress: recoil
+under: true
+recoilIndex: 1
+}
+]
+}
+{
+name: missile-battery
+layerOffset: -.01
+shoot: {
+type: ShootBarrel
+barrels: [
+7, -1, 0
+7, -4, 0
+]
+}
+ignoreRotation: true
+reload: 35
+rotate: false
+shootCone: 360
+x: 0
+mirror: true
+range: 60
+bullet: {
+spawnUnit: tantros-test-cyprin-missile
+shootEffect: [
+{
+particles: 15
+lifetime: 45
+length: 12
+baseLength: 0
+sizeFrom: 3
+sizeTo: 0
+colorFrom: b2d3cf
+colorTo: 637e8e50
+layer: 210
+}
+]
+smokeEffect: none
+}
+}
+]
