@@ -30,7 +30,6 @@ research: {
 requirements: [
 lead/120
 bauxite/60
-gallium/40
 ]
 parent: geothermal-generator
 name: Blast Kiln
