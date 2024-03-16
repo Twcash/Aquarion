@@ -1,0 +1,145 @@
+type: consumeGenerator
+consumes: {
+liquids: [
+nitrogen/.25
+hydrogen/.15
+]
+items: [
+oxide/1
+]
+}
+category: power
+size: 5
+requirements: [
+nitride/350
+duralumin/120
+bauxite/800
+metaglass/400
+]
+warmupSpeed: .01
+effectChance: .1
+generateEffect: [
+{
+type: RadialEffect
+lengthOffset: 17
+rotationSpacing: 45
+amount: 8
+effect: {
+line: true
+interp: reverse
+length: 20
+colorFrom: ffffff90
+colorTo: ffffff140
+lifetime: 30
+particles: 1
+cone: 30
+layer: 80
+sizeFrom: 6
+sizeTo: 0
+}
+}
+{
+type: RadialEffect
+lengthOffset: 17
+rotationSpacing: 90
+amount: 4
+effect: {
+length: 35
+colorFrom: 424d7790
+colorTo: 424d7710
+lifetime: 60
+particles: 1
+cone: 45
+layer: 80
+sizeFrom: 0
+sizeTo: 5
+}
+}
+]
+powerProduction: 45
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: DrawParticles
+reverse: true
+interp: reverse
+color: d4816b
+particleRad: 20
+particleSize: 4
+particles: 90
+particleLife: 60
+}
+{
+type: drawRegion
+rotation: -45
+suffix: -fan
+rotateSprite: true
+rotateSpeed: 1.5
+}
+{
+type: drawRegion
+rotation: 0
+suffix: -fan
+rotateSprite: true
+rotateSpeed: 1.5
+}
+{
+type: DrawSoftParticles
+reverse: true
+interp: reverse
+particleInterp: reverse
+color: 8ca9e8
+color: eab678
+particleRad: 14
+particleSize: 5
+particles: 80
+particleLife: 70
+}
+{
+type: DrawSoftParticles
+reverse: true
+interp: reverse
+particleInterp: reverse
+color: ffd37f
+color2: eab678
+particleRad: 14
+particleSize: 5
+particles: 80
+particleLife: 70
+}
+{
+type: DrawParticles
+reverse: true
+interp: reverse
+particleInterp: reverse
+color: 5c5e9f
+particleRad: 12
+particleSize: 2.5
+particles: 65
+particleLife: 60
+}
+{
+type: DrawParticles
+reverse: true
+interp: reverse
+particleInterp: reverse
+color: d1efff
+particleRad: 14
+particleSize: 3.5
+particles: 55
+particleLife: 50
+}
+{
+type: drawRegion
+suffix: -tope
+}
+{
+type: drawGlowRegion
+suffix: -glow
+glowScale: 5
+}
+]
+ambientSound: bioLoop

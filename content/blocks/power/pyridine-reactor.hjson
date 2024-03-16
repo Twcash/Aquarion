@@ -13,6 +13,7 @@ metaglass/60
 lead/200
 bauxite/120
 ]
+ambientSound: smelter
 research: {
 planet: tantros
 parent: geothermal-generator
@@ -24,6 +25,7 @@ suffix: -bottom
 }
 {
 type: DrawLiquidTile
+ambientSoundVolume: .01
 drawLiquid: pyridine
 padding: 3
 }

@@ -4,7 +4,7 @@ squareSprite: false
 category: production
 warmupSpeed: .003
 liquidBoostIntensity: 1.3
-drillTime: 60
+drillTime: 90
 drawMineItem: false
 drillEffect: airBubble
 drawRim: false

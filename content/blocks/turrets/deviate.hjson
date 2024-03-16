@@ -72,9 +72,9 @@ length: 25
 lifetime: 50
 }
 ]
-ammoMultipier: 4
 type: basicBulletType
 lifeTime: 45
+ammoMultiplier: 6
 speed: 5.5
 lifetime: 45
 damage: 25
@@ -88,6 +88,7 @@ frontColor: d1efff
 backColor: 8ca9e8
 }
 manganese: {
+ammoMultiplier: 10
 shootEffect: [
 {
 particles: 3
