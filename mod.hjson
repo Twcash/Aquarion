@@ -4,5 +4,5 @@ displayName: "Tantros-test"
 author: "twcash"
 description: "A WIP Tantros Campaign"
 version: "2.0"
-minGameVersion: "146
+minGameVersion: "146"
 hidden: "false"
