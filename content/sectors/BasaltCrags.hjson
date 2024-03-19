@@ -8,7 +8,7 @@ research: {
 parent: VastShallows
 objectives: [
 VastShallows,
-fragment,
+ram-drill,
 sodium,
 ]
 }
