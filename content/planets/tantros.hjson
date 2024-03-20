@@ -24,7 +24,7 @@ minZoom: 0.9
 startSector: 10
 atmosphereRadIn: -.01
 atmosphereRadOut: 0.3
-atmosphereColor: 3db899
+atmosphereColor: 35808750
 iconColor: 597be3
 orbitRadius: 110
 bloom: false
@@ -40,7 +40,7 @@ mesh: [
 bloom: false
 type: SunMesh 
 divisions: 5
-radius: 1.2
+radius: 3
 octaves: 1
 persistence: .5
 scl: 2
@@ -57,35 +57,18 @@ colors: [
 bloom: false
 type: NoiseMesh
 divisions: 6
-radius: 0.55
-color1: 8b8584
-color2: 8b8584
-octaves: 4.2
-persistence: 0.9
-scale: 0.7
-mag: 1.7
-coct: 2
-cper: .7
-cscl: 0.5
+radius: 0.45
+color1: c8cdce
+color2: a0babf
+octaves: 3
+persistence: 1.1
+scale: 1.1
+mag: 3.9
+coct: 1.5
+cper: 1.1
+cscl: 0.7
 cthresh: .4
 bloom: false
-}
-{
-bloom: false
-type: NoiseMesh
-divisions: 6
-radius: 0.5
-color1: 8b8584
-color2: 8b8584
-octaves: 4.3
-persistence: 0.9
-scale: 0.7
-mag: 3.2
-coct: 1
-cper: .6
-cscl: .16
-bloom: false
-cthresh: 5
 }
 ]
 bloom: false
@@ -100,11 +83,11 @@ bloom: false
     speed: 2
     divisions: 6
     radius: 0.11
-    color: 60606030
+    color: c5dbdd65
     octaves: 2
     persistence: 0.6
-    scl: 0.9
-    thresh: 0.6
+    scl: 1.1
+    thresh: 0.4
   }
   {
 bloom: false
@@ -112,35 +95,10 @@ bloom: false
     speed: 2
     divisions: 6
     radius: 0.12
-    color: 60606040
+    color: 9bb4bf065
     octaves: 2
-    persistence: 0.6
-    scl: 0.9
-    thresh: 0.5
+    persistence: 0.5
+    scl: 1.0
+    thresh: 0.3
   }
-  {
-bloom: false
-    type: HexSkyMesh
-    speed: 2
-    divisions: 6
-    radius: 0.13
-    color: 60606030
-    octaves: 2
-    persistence: 0.6
-    scl: 0.9
-    thresh: 0.4
-  }
-{
-bloom: false
-    type: HexSkyMesh
-    speed: 1.5
-    divisions: 6
-    radius: 0.05
-    color: 60606070
-    octaves: 1
-    persistence: 0.2
-    scl: 0.5
-    thresh: 0.2
-  }
-
 ]
