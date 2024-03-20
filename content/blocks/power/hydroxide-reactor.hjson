@@ -1,4 +1,4 @@
-type: ConsumeGenerator
+type: HeaterGenerator
 size: 5
 liquidCapacity: 250
 squareSprite: false
@@ -101,6 +101,14 @@ glowScale: 7
 color: d1efff
 glowIntensity: .2
 alpha: .4
+}
+{
+type: drawSideRegion
+suffix: -top
+}
+{
+type: DrawHeatOutput
+suffix: -heat
 }
 ]
 research: {

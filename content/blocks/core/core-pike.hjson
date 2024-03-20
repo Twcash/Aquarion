@@ -18,5 +18,5 @@ research: {
 root: true
 name: Tantros
 alwaysUnlocked: true
-planet: tantros
+planet: tantros-test-tantros
 }

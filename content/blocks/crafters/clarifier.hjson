@@ -70,5 +70,5 @@ outputLiquid: hydroxide/.55
 research: {
 parent: hydroxide-concentrator
 name: Clarifier
-planet: tantros
+planet: tantros-test-tantros
 }

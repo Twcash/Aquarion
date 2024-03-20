@@ -1,0 +1,146 @@
+localizedName: Tantros
+generator: asteroidGenerator
+defaultCore: core-pike
+itemWhitelist: [
+sand,
+lead,
+metaglass,
+thorium,
+bauxite,
+nitride,
+gallium,
+manganese,
+duralumin,
+oxide,
+]
+clearSectorOnLose: true
+orbitTime: 32
+allowLaunchSchematics: false
+allowLaunchLoadout: false
+allowWaveSimulation: false
+parent: sun
+radius: 0.7
+minZoom: 0.9
+startSector: 10
+atmosphereRadIn: -.01
+atmosphereRadOut: 0.3
+atmosphereColor: 3db899
+iconColor: 597be3
+orbitRadius: 110
+bloom: false
+orbitOffset: 115
+alwaysUnlocked: true
+accessible: true
+allowLaunchToNumbered: false
+sectorSize: 2.1
+totalRadius: 1.8
+defaultEnv: 4
+mesh: [
+{
+bloom: false
+type: SunMesh 
+divisions: 5
+radius: 1.2
+octaves: 1
+persistence: .5
+scl: 2
+pow: 2.2
+mag: 3
+colorScale: 1
+colors: [
+415571,
+314867
+304056,
+]
+}
+ {
+bloom: false
+type: NoiseMesh
+divisions: 6
+radius: 0.55
+color1: 8b8584
+color2: 8b8584
+octaves: 4.2
+persistence: 0.9
+scale: 0.7
+mag: 1.7
+coct: 2
+cper: .7
+cscl: 0.5
+cthresh: .4
+bloom: false
+}
+{
+bloom: false
+type: NoiseMesh
+divisions: 6
+radius: 0.5
+color1: 8b8584
+color2: 8b8584
+octaves: 4.3
+persistence: 0.9
+scale: 0.7
+mag: 3.2
+coct: 1
+cper: .6
+cscl: .16
+bloom: false
+cthresh: 5
+}
+]
+bloom: false
+alwaysUnlocked: true
+research: {
+alwaysUnlocked: true
+}
+cloudMesh: [
+  {
+bloom: false
+    type: HexSkyMesh
+    speed: 2
+    divisions: 6
+    radius: 0.11
+    color: 60606030
+    octaves: 2
+    persistence: 0.6
+    scl: 0.9
+    thresh: 0.6
+  }
+  {
+bloom: false
+    type: HexSkyMesh
+    speed: 2
+    divisions: 6
+    radius: 0.12
+    color: 60606040
+    octaves: 2
+    persistence: 0.6
+    scl: 0.9
+    thresh: 0.5
+  }
+  {
+bloom: false
+    type: HexSkyMesh
+    speed: 2
+    divisions: 6
+    radius: 0.13
+    color: 60606030
+    octaves: 2
+    persistence: 0.6
+    scl: 0.9
+    thresh: 0.4
+  }
+{
+bloom: false
+    type: HexSkyMesh
+    speed: 1.5
+    divisions: 6
+    radius: 0.05
+    color: 60606070
+    octaves: 1
+    persistence: 0.2
+    scl: 0.5
+    thresh: 0.2
+  }
+
+]

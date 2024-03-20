@@ -13,5 +13,5 @@ sodium/120
 research: {
 parent: sealedconveyor
 name: Cache
-planet: tantros
+planet: tantros-test-tantros
 }

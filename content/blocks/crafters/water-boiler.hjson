@@ -12,75 +12,25 @@ amount: .16
 }
 }
 description: uses coal to decompose hydroxide into sodium. Releases heat as a by-product.
-outputLiquid: hydrogen/.125
+outputLiquid: hydrogen/.15
 category: crafting
 rotateDraw: false
 craftEffect: [
 {
-cone: 5
+type: radialEffect
+lengthOffset: 4
+rotationSpacing: 90
+amount: 4
+effect: {
+line: true
+cone: 45
 sizeFrom: 4
 particles: 3
 sizeTo: 0
-baseRotation: 90
 lifetime: 80
 colorFrom: ffbdd4
 colorTo: fc81dd
-offsetX: 5
 }
-{
-cone: 5
-sizeFrom: 4
-particles: 3
-sizeTo: 0
-baseRotation: 360
-lifetime: 80
-colorFrom: ffbdd4
-colorTo: fc81dd
-offsetX: 5
-}
-{
-cone: 5
-sizeFrom: 4
-particles: 3
-sizeTo: 0
-baseRotation: -270
-lifetime: 80
-colorFrom: ffbdd4
-colorTo: fc81dd
-offsetX: 5
-}
-{
-cone: 5
-sizeFrom: 4
-particles: 3
-sizeTo: 0
-baseRotation: -90
-lifetime: 80
-colorFrom: ffbdd4
-colorTo: fc81dd
-offsetX: 5
-}
-{
-cone: 5
-sizeFrom: 4
-particles: 3
-sizeTo: 0
-baseRotation: 180
-lifetime: 80
-colorFrom: ffbdd4
-colorTo: fc81dd
-offsetX: 5
-}
-{
-cone: 5
-sizeFrom: 4
-particles: 3
-sizeTo: 0
-baseRotation: 270
-lifetime: 80
-colorFrom: ffbdd4
-colorTo: fc81dd
-offsetX: 5
 }
 ]
 ambientSound: electricHum
@@ -130,7 +80,7 @@ bauxite/30
 ]
 parent: geothermal-generator
 name: Reaction Heater
-planet: tantros
+planet: tantros-test-tantros
 objectives: [
 VastShallows
 ]

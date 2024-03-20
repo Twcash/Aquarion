@@ -11,6 +11,7 @@ buildSpeed: 1.2
 drag: .1
 speed: 2.5
 rotateSpeed: 5
+envEnabled: 4
 accel: .1
 itemCapacity: 20
 health: 120

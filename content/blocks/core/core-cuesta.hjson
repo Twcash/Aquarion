@@ -19,5 +19,5 @@ hasColor: true
 research: {
 parent: core-pike
 name: Core: Cuesta
-planet: tantros
+planet: tantros-test-tantros
 }

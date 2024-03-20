@@ -33,7 +33,7 @@ bauxite/60
 ]
 parent: geothermal-generator
 name: Blast Kiln
-planet: tantros
+planet: tantros-test-tantros
 objectives: [
 algal-feilds,
 VastShallows

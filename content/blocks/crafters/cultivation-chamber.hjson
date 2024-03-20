@@ -52,7 +52,7 @@ bauxite/30
 ]
 parent: geothermal-generator
 name: Cultivation Chamber
-planet: tantros
+planet: tantros-test-tantros
 objectives: [
 algal-feilds
 VastShallows
