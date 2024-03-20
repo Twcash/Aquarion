@@ -1,8 +1,7 @@
 category: distribution
 type: Duct
-speed: 16.2747709476
+speed: 10.9
 description: Transports items forwards.
-speed: 18
 itemCapacity: 2
 bridgeReplacement: small-mass-driver
 underBullets: false

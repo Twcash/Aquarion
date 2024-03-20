@@ -11,10 +11,10 @@ oxide/1
 category: power
 size: 5
 requirements: [
-nitride/350
-duralumin/120
-bauxite/800
-metaglass/400
+nitride/250
+manganese/120
+bauxite/150
+metaglass/240
 ]
 warmupSpeed: .01
 effectChance: .1
@@ -56,7 +56,7 @@ sizeTo: 5
 }
 }
 ]
-powerProduction: 45
+powerProduction: 35
 drawer: [
 {
 type: drawRegion

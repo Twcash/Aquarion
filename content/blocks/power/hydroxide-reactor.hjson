@@ -1,14 +1,14 @@
 type: ConsumeGenerator
 size: 5
-liquidCapacity: 550
+liquidCapacity: 250
 squareSprite: false
-powerProduction: 37.5
+powerProduction: 20.8333333
 group: power
 //how to screw a new person over.
 explodeOnFull: true
-health: 1250
-explosionRadius: 15
-explosionDamage: 1200
+health: 650
+explosionRadius: 25
+explosionDamage: 750
 destroyEffect: [
 {
 lifetime: 320
@@ -35,20 +35,9 @@ sizeFrom: 25
 sizeTo: 1
 }
 ]
-effectChance: .7
-generateEffect: [
-{
-particles: 1
-lifetime: 120
-sizeFrom: 5
-cone: 35
-colorFrom: adcdd0
-colorTo: 91749a
-sizeTo: 0
-offset: 45
-}
-]
-outputLiquid: hydrogen/.25
+effectChance: .1
+generateEffect: none
+outputLiquid: hydrogen/.3
 consumes: {
 items: [
 bauxite/1
@@ -61,9 +50,9 @@ amount: .5
 }
 category: power
 requirements: [
-bauxite/300
-lead/450
-metaglass/90
+bauxite/120
+lead/250
+metaglass/100
 nitride/120
 ]
 drawer: [
@@ -81,9 +70,9 @@ padding: 3
 }
 {
 type: drawCircles
-color: 8ca9e8
+color: 8ca9e870
 strokeMax: 1.5
-radius: 20
+radius: 16
 amount: 9
 timeScl: 200
 }
@@ -91,30 +80,27 @@ timeScl: 200
 type: drawPistons
 sideOffset: 2
 suffix: -piston
-sides: 4
-}
-{
-type: DrawCrucibleFlame
-alpha: 1
-particles: 120
-flameColor: d1efff
-midColor: 8ca9e8
-flameRad: 4
-particleRad: 16
-}
-{
-type: DrawLiquidTile
-drawLiquid: hydroxide
-padding: 3
+sides: 8
+sinMag: 3
+sinScl: 5
+
 }
 {
 type: DrawLiquidTile
 drawLiquid: hydrogen
-padding: 3
+padding: 4
 }
 {
 type: drawRegion
 suffix: -top
+}
+{
+type: drawGlowRegion
+suffix: -glow
+glowScale: 7
+color: d1efff
+glowIntensity: .2
+alpha: .4
 }
 ]
 research: {
