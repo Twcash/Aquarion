@@ -1,0 +1,22 @@
+type: forceProjector
+shieldHealth: 550
+size: 5
+
+cooldownNormal: 2
+cooldownLiquid: 1.5
+cooldownBrokenBase: .2
+coolantConsumption: .15
+sheildRotaion: 45
+radius: 120
+sides: 4
+consumes: {
+power: 6.5
+}
+requirements: [
+lead/80
+duralumin/120
+metaglass/90
+nitride/150
+]
+category: defense
+envEnabled: 4

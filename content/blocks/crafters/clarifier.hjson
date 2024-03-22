@@ -72,3 +72,4 @@ parent: hydroxide-concentrator
 name: Clarifier
 planet: tantros-test-tantros
 }
+envEnabled: 4

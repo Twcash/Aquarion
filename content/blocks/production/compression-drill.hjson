@@ -33,3 +33,4 @@ requirements: [
 bauxite/10
 ]
 }
+envEnabled: 4

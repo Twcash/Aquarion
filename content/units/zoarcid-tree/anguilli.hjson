@@ -2,6 +2,7 @@ type: flying
 flying: true
 lowAltitude: true
 outlineColor: 2f3734
+envEnabled: 4
 drag: .2
 localizedName: Anguilli
 speed: 3

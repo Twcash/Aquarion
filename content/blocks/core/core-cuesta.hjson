@@ -21,3 +21,4 @@ parent: core-pike
 name: Core: Cuesta
 planet: tantros-test-tantros
 }
+envEnabled: 4

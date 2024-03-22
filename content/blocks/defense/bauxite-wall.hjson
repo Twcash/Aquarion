@@ -12,3 +12,4 @@ requirements: [
     bauxite/150
     ]
 }
+envEnabled: 4

@@ -13,4 +13,5 @@ bauxite/20
 ]
 }
 junctionReplacement: siphon-junction
+envEnabled: 4
 bridgeReplacement: siphon-bridge

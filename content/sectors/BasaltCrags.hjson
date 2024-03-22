@@ -4,12 +4,15 @@ localizedName: Basalt Crags
 difficulty: 4
 enemyBase: false
 captureWave: 25
-research: {
+research:{
 parent: VastShallows
-objectives: [
-VastShallows,
-ram-drill,
-sodium,
+objectives:[
+{
+type:SectorComplete
+preset: VastShallows
+}
+sodium
 ]
 }
+
 

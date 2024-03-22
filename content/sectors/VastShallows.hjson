@@ -4,13 +4,12 @@ localizedName: Vast Shallows
 difficulty: 2
 enemyBase: false
 captureWave: 15
-research: {
+research:{
 parent: algal-feilds
-objectives: [
-algal-feilds,
-cargo-depot,
-cargo-dock,
-siphon
+objectives:[
+{
+type:SectorComplete
+preset: algal-feilds
+}
 ]
 }
-

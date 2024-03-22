@@ -24,3 +24,4 @@ parent: utility-factory
 }
 isEnemy: false
 health: 120
+envEnabled: 4

@@ -1,5 +1,6 @@
 type: flying
 localizedName: Yamet
+envEnabled: 4
 flying: true
 lowAltitude: false
 drag: .05

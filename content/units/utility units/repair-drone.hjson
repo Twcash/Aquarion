@@ -30,3 +30,4 @@ type: LaserBoltBulletType
 }
 }
 ]
+envEnabled: 4

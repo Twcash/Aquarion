@@ -1,6 +1,7 @@
 type: flying
 localizedName: Pycogen
 flying: true
+envEnabled: 4
 drag: .6
 outlineColor: 232826
 lowAltitude: true

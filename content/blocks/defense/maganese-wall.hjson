@@ -12,3 +12,4 @@ requirements: [
 manganese/300
 ]
 }
+envEnabled: 4

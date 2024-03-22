@@ -1,5 +1,6 @@
 type: flying
 trailColor: 5454c4
+envEnabled: 4
 trailScl: 5
 trailX: 60
 trailLength: 70

@@ -61,3 +61,4 @@ parent: geothermal-generator
 name: Hydroxide-concentrator
 planet: tantros-test-tantros
 }
+envEnabled: 4

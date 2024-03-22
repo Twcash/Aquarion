@@ -13,3 +13,4 @@ power: 1
 }
 category: distribution
 offloadSpeed: 1
+envEnabled: 4

@@ -1,6 +1,7 @@
 type: crawl
 deathSound: squish
 health: 300
+envEnabled: 4
 armor: 1
 targetFlags: [
 reactor

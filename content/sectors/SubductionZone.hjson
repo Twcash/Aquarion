@@ -4,12 +4,12 @@ localizedName: Subduction Zone
 difficulty: 6
 enemyBase: false
 captureWave: 25
-research: {
+research:{
 parent: BasaltCrags
-objectives: [
-BasaltCrags,
-silicon,
-thermal-pump,
+objectives:[
+{
+type:SectorComplete
+preset: BasaltCrags
+}
 ]
 }
-

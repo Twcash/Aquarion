@@ -1,0 +1,53 @@
+type: heatCrafter
+reatRequirement: 30
+maxEfficiency: 3
+consumes: {
+power: 10.5
+items: [
+oxide/2
+]
+}
+outputLiquid: nitrogen/1.5
+size: 5
+squareSprite: true
+requirements: [
+nitride/150
+metaglass/90
+lead/120
+sodium/110
+]
+craftTime: 65
+craftEffect: [
+{
+line: true
+particles: 15
+sizeFrom: 5
+sizeTo: 0
+lifetime: 75
+length: 35
+colorFrom: ffffff
+colorTo: ffffff50
+interp: pow5Out
+}
+]
+drawer: [
+{
+type: drawDefault
+}
+{
+type: drawParticles
+reverse: true
+interp: reverse
+color: ffffff
+alpha: .2
+particles: 60
+particleSize: 3
+particleRad: 17
+}
+{
+type: DrawHeatInput
+suffix: -heat
+}
+]
+envEnabled: 4
+

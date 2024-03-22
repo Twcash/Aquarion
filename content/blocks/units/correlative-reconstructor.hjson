@@ -24,3 +24,4 @@ research: {
 parent: submarine-factory
 planet: tantros
 }
+envEnabled: 4

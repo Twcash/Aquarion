@@ -1,15 +1,15 @@
 type: flying
 flying: true
+envEnabled: 4
 localizedName: Cyprin
 drag: .2
 speed: 3
 outlineColor: 2f3734
-omniMovement: false
 rotateSpeed: 2
 lowAltitude: false
-range: 38
 accel: .1
 itemCapacity: 125
+faceTarget: true
 health: 2300
 engineSize: 0
 armor: 3
@@ -130,7 +130,7 @@ weapons: [
 {
 rotate: true
 rotateSpeed: .5
-rotationLimit: 35
+rotationLimit: 60
 shootY: 15
 mirror: false
 x: 0

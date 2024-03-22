@@ -1,5 +1,6 @@
 type: flying
 localizedName: Zoarcid
+envEnabled: 4
 flying: true
 lowAltitude: true
 outlineColor: 2f3734
@@ -295,9 +296,8 @@ requirements: {
   block: submarine-factory
   time: 1200
   requirements: [
-silicon/30
 gallium/15
-lead/40
+lead/35
 metaglass/20
   ]
 }

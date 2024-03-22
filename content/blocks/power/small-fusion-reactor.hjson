@@ -143,3 +143,4 @@ glowScale: 5
 }
 ]
 ambientSound: bioLoop
+envEnabled: 4

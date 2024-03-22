@@ -8,3 +8,4 @@ lead/10
 buildVisibility: sandboxOnly
 configurable: false
 unitCapModifier: 5
+envEnabled: 4

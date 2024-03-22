@@ -5,13 +5,22 @@ itemWhitelist: [
 sand,
 lead,
 metaglass,
-thorium,
 bauxite,
 nitride,
 gallium,
 manganese,
 duralumin,
 oxide,
+]
+itemBlacklist: [
+beryllium,
+tungsten,
+copper,
+scrap,
+thorium,
+phase-fabric,
+surge-alloy,
+graphite,
 ]
 clearSectorOnLose: true
 orbitTime: 32

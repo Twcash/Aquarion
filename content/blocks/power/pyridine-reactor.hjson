@@ -57,3 +57,4 @@ particles: 20
 ]
 outputLiquid: nitrogen/.25
 size: 3
+envEnabled: 4

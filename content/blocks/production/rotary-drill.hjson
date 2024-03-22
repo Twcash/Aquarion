@@ -17,7 +17,7 @@ liquids: [
 liquid: nitrogen
 booster: false
 optional: false
-amount: .15
+amount: 0.125
 }
 ]
 }
@@ -35,3 +35,4 @@ bauxite/200
 sodium/60
 nitride/80
 ]
+envEnabled: 4

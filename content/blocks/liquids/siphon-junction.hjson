@@ -9,3 +9,4 @@ research: {
 parent: siphon
 planet: tantros
 }
+envEnabled: 4

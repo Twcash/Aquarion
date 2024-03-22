@@ -1,0 +1,21 @@
+targetInterval: 5
+buildSpeed: 1.5
+buildBeamOffset: 6
+rotateSpeed: 3
+category: effect
+requirements: [
+lead/80
+metaglass/20
+bauxite/60
+]
+type: buildTurret
+consumes: {
+power: 1.25
+liquid: {
+liquid: nitrogen
+amount: 0.125
+}
+}
+size: 3
+range: 150
+envEnabled: 4

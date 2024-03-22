@@ -15,7 +15,7 @@ liquids: [
 liquid: hydrogen
 booster: false
 optional: false
-amount: .2
+amount: .075
 }
 ]
 }
@@ -32,3 +32,4 @@ metaglass/60
 bauxite/200
 sodium/30
 ]
+envEnabled: 4

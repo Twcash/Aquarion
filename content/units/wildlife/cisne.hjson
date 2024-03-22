@@ -40,3 +40,4 @@ sizeInterp: pow2In
 }
 ]
 lightRadius: 0
+envEnabled: 4

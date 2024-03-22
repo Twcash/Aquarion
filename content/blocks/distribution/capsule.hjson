@@ -7,3 +7,4 @@ bauxite/40
 itemCapacity: 40
 liquidCapacity: 40
 category: distribution
+envEnabled: 4

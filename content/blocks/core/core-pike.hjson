@@ -20,3 +20,4 @@ name: Tantros
 alwaysUnlocked: true
 planet: tantros-test-tantros
 }
+envEnabled: 4

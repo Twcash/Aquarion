@@ -1,0 +1,18 @@
+type: battery
+baseExplosiveness: 7
+consumes: {
+powerBuffered: 24500
+}
+requirements: [
+sodium/50
+lead/150
+bauxite/120
+metaglass/80
+]
+research: {
+planet: tantros
+parent: beam-node
+}
+size: 5
+category: power
+envEnabled: 4

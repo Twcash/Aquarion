@@ -28,9 +28,9 @@ requirements: {
   block: submarine-factory
   time: 300
   requirements: [
-gallium/10
-lead/15
-bauxite/20
+gallium/15
+metaglass/15
+bauxite/25
   ]
 }
 research: {
@@ -135,3 +135,4 @@ baseRotation: 180
 ]
 }
 ]
+envEnabled: 4

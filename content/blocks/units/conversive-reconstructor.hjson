@@ -20,3 +20,4 @@ parent: submarine-factory
 name: submarine Factory
 planet: tantros
 }
+envEnabled: 4

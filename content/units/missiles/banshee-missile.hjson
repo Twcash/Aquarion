@@ -100,3 +100,4 @@ shootEffect: none
 }
 ]
 targetGround: false
+envEnabled: 4

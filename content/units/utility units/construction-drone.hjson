@@ -10,3 +10,4 @@ buildSpeed: 1
 buildBeamOffset: -4
 hidden: true
 flying: true
+envEnabled: 4

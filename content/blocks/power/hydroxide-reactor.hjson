@@ -11,28 +11,25 @@ explosionRadius: 25
 explosionDamage: 750
 destroyEffect: [
 {
-lifetime: 320
-smokeColor: 80437d92
-type: explosionEffect
-smokes: 45
-smokeRad: 60
-smokeSize: 15
-sparks: 0
-waveRad: 100
-waveRadBase: 40
-waveColor: 79b1e4
-waveStroke: 60
-waveLife: 30
+line: true
+length: 120
+lifetime: 140
+sizeFrom: 9
+sizeTo: 0
+lenFrom: 7
+lenTo: 4
+colorFrom: ffffff
+colorTo: 8ca9e860
+particles: 60
 }
 {
-lifetime: 360
-particles: 20
-strokeFrom: 0
-strokeTo: 10
-colorFrom: 9ed2e4
-colorTo: 9868aa
-sizeFrom: 25
-sizeTo: 1
+length: 150
+lifetime: 160
+colorFrom: ffffff
+colorTo: d1efff
+sizeFrom: 20
+sizeTo: 0
+particles: 35
 }
 ]
 effectChance: .1
@@ -116,3 +113,4 @@ parent: geothermal-generator
 planet: tantros
 name: Hydroxide Reactor
 }
+envEnabled: 4
