@@ -6,7 +6,7 @@ envEnabled: 4
 drag: .2
 localizedName: Anguilli
 speed: 3
-rotateSpeed: .9
+rotateSpeed: 1.6
 range: 60
 omniMovement: false
 accel: .1

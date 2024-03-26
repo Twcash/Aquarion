@@ -1,6 +1,6 @@
 type: burstDrill
 category: production
-drillTime: 310
+drillTime: 250
 conductivePower: true
 size: 2
 tier: 4

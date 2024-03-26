@@ -3,7 +3,8 @@ type: Drill
 squareSprite: false
 category: production
 warmupSpeed: .001
-drillTime: 260
+drillTime: 220
+hardnessMultiplier: 30
 drawMineItem: false
 drillEffect: airBubble
 updateEffect: airBubble

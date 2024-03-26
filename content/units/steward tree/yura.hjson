@@ -1,17 +1,20 @@
-type: legs
+type: tank
 flying: false
 localizedName: Steward
-health: 300
-armor: 2
-speed: .9
-omniMovement: true
-rotateSpeed: 3
+treadRects: [
+{
+x: 6
+y: 4
+width: 4.25
+height: 7
+}
+]
+health: 350
+armor: 3
+speed: 1.2
+omniMovement: false
+rotateSpeed: 4.5
 hitSize: 7
-legCount: 4
-legLength: 9
-legMoveSpace: 2
-legForwardScl: 1.2
-hovering: true
 research: {
 parent: conversive-reconstructor
 name: Steward
@@ -25,10 +28,10 @@ weapons: [
 {
 name: yura-weapon
 mirror: true
-reload: 80
+reload: 95
 shoot: {
 shots: 6
-shotDelay: 3
+shotDelay: 4
 }
 recoil: 2
 flipSprite: true
@@ -42,9 +45,9 @@ speed: 3
 lifeTime: 20
 backColor: 70bd6b
 frontColor: daffd8
-damage: 7
+damage: 15
 collidesTeam: true
-healPercent: 2
+healPercent: 2.5
 }
 }
 ]
