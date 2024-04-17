@@ -1,0 +1,25 @@
+type: missile
+lowAltitude: true
+lifetime: 10
+hidden: true
+health: 110
+outlineColor: 2f3734
+template: MissileUnitType
+drawCell: false
+drawBody: false
+speed: 0
+maxRange: 1
+rotateSpeed: 6
+missileAccelTime: 60
+range: 30
+homingDelay: 10
+hitSize: 0
+trailLength: 2
+engineSize: 0
+engineOffset: 0
+abilities: [
+{
+type: spawnDeathAbility
+unit: heavy-gerb
+}
+]

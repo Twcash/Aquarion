@@ -4,3 +4,4 @@ cacheLayer: mud
 walkSound: mud
 walkSoundVolume: .08
 speedMultiplier: .7
+decoration: kelp

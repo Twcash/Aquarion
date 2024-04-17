@@ -1,0 +1,14 @@
+type: flying
+hitSize: 18
+speed: 1.5
+rotateSpeed: 3
+parts: [
+{
+color: b3c3fb
+suffix: -glow
+blending: additive
+outline: false
+}
+]
+drawCell: false
+outlineColor: 2f3734

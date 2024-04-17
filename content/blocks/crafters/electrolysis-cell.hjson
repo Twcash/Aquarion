@@ -2,23 +2,23 @@ type: GenericCrafter
 squareSprite: false
 size: 4
 requirements: [
-lead/240
-bauxite/80
-metaglass/120
+lead/120
+bauxite/100
+metaglass/110
 nitride/90
-gallium/120
+gallium/90
 ]
 category: crafting
 liquidCapacity: 100
 craftTime: 90
 outputItem: sodium/2
-outputLiquid: hydrogen-chloride/.17
+outputLiquid: hydrogen-chloride/.25
 consumes: {
-power: 3.5
-liquid: {
-liquid: hydroxide
-amount: .5
-}
+power: 6
+liquids: [
+hydrogen/.25
+hydroxide/.64
+]
 }
 drawer: [
 {
@@ -28,24 +28,24 @@ suffix: -bottom
 {
 type: DrawLiquidTile
 drawLiquid: hydroxide
-padding: 2
-}
-{
-type: drawRegion
-suffix: -mid
-}
-{
-type: DrawGlowRegion
-suffix: -glow
+padding: 3
 }
 {
 type: DrawLiquidTile
 drawLiquid: hydrogen-chloride
-padding: 2
+padding: 3
 }
 {
 type: drawRegion
 suffix: -top
 }
+{
+type: DrawGlowRegion
+suffix: -glow
+}
 ]
 envEnabled: 4
+research: {
+parent: purifier
+planet: aquarion-tantros
+}

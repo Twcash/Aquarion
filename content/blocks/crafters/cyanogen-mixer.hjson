@@ -52,3 +52,7 @@ bauxite/120
 sodium/40
 ]
 envEnabled: 4
+research: {
+parent: water-boiler
+planet: aquarion-tantros
+}

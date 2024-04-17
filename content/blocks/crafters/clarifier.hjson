@@ -3,73 +3,53 @@ squareSprite: false
 description: Directly harvests hydroxide by electrolyzing brine.
 size: 4
 category: crafting
-craftTime: 80
+craftTime: 10
+craftEffect: {
+particles: 2
+length: 110
+lifetime: 340
+cone: 30
+baseRotation: 25
+sizeFrom: 0
+sizeTo: 12
+colorFrom: bf92f980
+colorTo: 8c879410
+sizeInterp: pow3Out
+interp: pow3Out
+} 
+
 requirements: [
-lead/160
-metaglass/60
+lead/100
+metaglass/80
 bauxite/90
 nitride/80
 ]
 consumes: {
-power: 4
+power: 6.5
 liquid: {
 liquid: brine
-amount: 0.2875
+amount: 0.55
 }
 }
 drawer: [
-{
-type: drawDefault
-}
 {
 type: DrawRegion
 suffix: -bottom
 }
 {
 type: DrawLiquidTile
-drawLiquid: brine
-padding: 2
+drawLiquid: hydroxide
+padding: 3
 }
 {
-type: DrawParticles
-particleLife: 120
-particleRad: 12
-particleSize: 4
-color: dc99e4
-alpha: .6
-particles: 8
-}
-{
-type: DrawSoftParticles
-particleLife: 120
-particleRad: 16
-particleSize: 5
-color: 644867
-color2: 372f58
-alpha: .6
-particles: 20
-reverse: true
-}
-{
-type: DrawRegion
+type: drawRegion
 suffix: -top
 }
-{
-type: DrawSoftParticles
-particleLife: 90
-particleRad: 16
-particleSize: 5
-color: 644867
-color2: 372f58
-alpha: .4
-particles: 12
-reverse: true
-}
 ]
-outputLiquid: hydroxide/.55
+outputLiquid: hydroxide/.32
 research: {
 parent: hydroxide-concentrator
 name: Clarifier
-planet: tantros-test-tantros
+planet:aquarion-tantros
 }
 envEnabled: 4

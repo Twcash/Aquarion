@@ -5,7 +5,7 @@ tantros
 ]
 research: {
 planet: tantros
-parent: bauxite
+parent: gallium
 }
 
 explosiveness: .2

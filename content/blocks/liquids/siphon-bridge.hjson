@@ -14,3 +14,4 @@ bauxite/40
 ]
 }
 envEnabled: 4
+hasPower: false

@@ -1,5 +1,6 @@
 type: itemTurret
 heatColor: ff3504
+squareSprite: false
 range: 180
 shootY: 2
 consumes: {
@@ -152,7 +153,6 @@ outlineColor: 2f3734
 drawer: {
 type: drawTurret
 outlineColor: 2f3734
-basePrefix: water-
 parts: [
 {
 type: drawPartRegion
@@ -198,3 +198,7 @@ top: false
 ]
 }
 envEnabled: 4
+research: {
+parent: deviate
+planet: tantros
+}

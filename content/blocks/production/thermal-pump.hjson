@@ -1,18 +1,18 @@
 type: pump
-  localizedName: Thermal Pump
+localizedName: Thermal Pump
 description: Allows for liquids to be pumped from the ocean floor.
-pumpAmount: .11666666666
+pumpAmount: 0.12222222222
 category: liquid
-  size: 3
+size: 3
 consumes: {
-power: 1.5
+power: 9.5
 }
   liquidCapacity: 60
   hasPower: true
   requirements: [
   lead/120
   metaglass/60
-  nitride/80
+  nitride/90
   ]
   research: {
   planet: tantros

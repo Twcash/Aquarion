@@ -1,9 +1,10 @@
 type: ContinuousTurret
 category: turret
+squareSprite: false
 size: 3
 health: 180
 range: 160
-rotateSpeed: .65
+rotateSpeed: 10
 requirements: [
 lead/120
 bauxite/90
@@ -14,7 +15,7 @@ shoot: {
 }
 shootType: {
 type: PointLaserBulletType
-damage: 10
+damage: 5
 fragBullets: 2
 oscScl: 2.5
 oscMag: .5
@@ -36,11 +37,10 @@ shoot: {
   ]
 }
 consumes: {
-power: 7.5
+power: 12
 }
 drawer: {
 type: drawTurret
-basePrefix: water-
 parts: [
 {
 type: drawPartRegion
@@ -55,3 +55,7 @@ top: false
 ]
 }
 envEnabled: 4
+research: {
+parent: forment
+planet: tantros
+}

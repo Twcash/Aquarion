@@ -1,5 +1,5 @@
 localizedName: Tantros
-generator: asteroidGenerator
+generator: tantPlanetGenerator
 defaultCore: core-pike
 itemWhitelist: [
 sand,
@@ -10,8 +10,7 @@ nitride,
 gallium,
 sodium
 manganese,
-duralumin,
-oxide,
+duralumin
 ]
 itemBlacklist: [
 beryllium,

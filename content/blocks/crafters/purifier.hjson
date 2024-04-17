@@ -1,19 +1,30 @@
 type: GenericCrafter
 squareSprite: false
-description: Concentrates hydroxide by boiling large amounts of saline water.
 size: 3
+squareSprite: false
 category: crafting
-craftTime: 45
+craftTime: 15
+craftEffect: {
+particles: 1
+length: 95
+lifetime: 270
+cone: 45
+baseRotation: 35
+sizeFrom: 0
+sizeTo: 8
+colorFrom: bf92f990
+colorTo: 9883b210
+sizeInterp: pow3Out
+interp: pow3Out
+} 
+
 requirements: [
-lead/70
-metaglass/40
-bauxite/80
+lead/60
+metaglass/30
+bauxite/45
 ]
 consumes: {
-power: 4
-items: [
-bauxite/1
-]
+power: 5.5
 }
 drawer: [
 {
@@ -25,33 +36,21 @@ suffix: -bottom
 }
 {
 type: DrawPistons
+sides: 4
+sinMag: 1.2
+sinScl: 2
+sideOffset: 10
 }
 {
 type: DrawRegion
 suffix: -top
 }
 {
-type: DrawSoftParticles
-particleLife: 120
-particleRad: 16
-particleSize: 5
-color: 644867
-color2: 372f58
-alpha: .4
-particles: 6
-reverse: true
-}
-{
-type: DrawParticles
-particleLife: 120
-particleRad: 12
-particleSize: 4
-color: dc99e4
-alpha: .6
-particles: 6
+type: drawGlowRegion
+color: 8a73c6
 }
 ]
-outputLiquid: hydroxide/.25
+outputLiquid: hydroxide/.16
 research: {
 requirements: [
 lead/120
@@ -59,6 +58,6 @@ bauxite/60
 ]
 parent: geothermal-generator
 name: Hydroxide-concentrator
-planet: tantros-test-tantros
+planet: aquarion-tantros
 }
 envEnabled: 4

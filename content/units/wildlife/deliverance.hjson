@@ -1,0 +1,102 @@
+type: tank
+template: TankUnitType
+shadowElevation: 0.3
+crushDamage: .9
+hitSize: 26
+health: 15000
+armor: 26
+rotateSpeed: .9
+faceTarget: false
+speed: .9
+accel: 0.05
+omniMovement: false
+drag: 0.2
+drownTimeMultiplier: 10
+treadPullOffset: 7
+treadFrames: 24
+drawOutline: false
+outline: false
+treadRects: [
+{
+x: 62
+y: -90
+width: 32
+height: 176
+}
+]
+weapons: [
+{
+type: PointDefenseWeapon
+name: deliverance-point-defence
+x: 12
+y: 9
+shootSound: lasershoot
+reload: 20
+}
+{
+type: PointDefenseWeapon
+name: deliverance-point-defence
+x: 12
+y: -12
+shootSound: lasershoot
+reload: 20
+}
+{
+name: deliverance-turret
+rotate: true
+rotateSpeed: .7
+reload: 90
+parts: [
+{
+suffix: -barrel
+moveY: -5
+progress: recoil
+under: true
+outline: true
+}
+]
+mirror: false
+x: 0
+y: -4
+bullet: {
+trailInterval: 5
+speed: 4
+maxRange: 120
+pierce: true
+pierceCap: 4
+damage: 75
+trailInterval: 2
+trailEffect: [
+{
+colorFrom: 8ca4fc
+colorTo: 8ca4fc
+sizeFrom: 5
+sizeTo: 1
+particles: 5
+lifetime: 40
+}
+]
+shootEffect: [
+{
+colorFrom: 8ca4fc
+colorTo: 8ca4fc
+sizeFrom: 3
+sizeTo: 1
+particles: 10
+lifetime: 40
+}
+]
+hitEffect: [
+{
+colorFrom: 8ca4fc
+colorTo: 8ca4fc
+sizeFrom: 7
+sizeTo: 1
+particles: 5
+lifetime: 40
+}
+]
+}
+}
+
+]

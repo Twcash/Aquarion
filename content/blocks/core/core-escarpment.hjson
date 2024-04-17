@@ -1,0 +1,23 @@
+type: CoreBlock
+description: The core of the base. small, once destroyed the sector is lost.
+squareSprite: false
+itemCapacity: 12000
+size: 6
+unitCapModifier: 50
+unitType: cull
+alwaysUnlocked: true
+requirements: [
+nitride/3500
+duralumin/2500
+metaglass/1200
+lead/5000
+]
+category: effect
+hasItems: true
+hasColor: true
+research: {
+name: Tantros
+parent: core-cuesta
+planet: aquarion-tantros
+}
+envEnabled: 4

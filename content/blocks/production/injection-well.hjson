@@ -3,21 +3,74 @@ type: Drill
 squareSprite: false
 category: production
 warmupSpeed: .003
-liquidBoostIntensity: 1.3
-drillTime: 90
-drawMineItem: false
-drillEffect: airBubble
+ hardnessDrillMultiplier: 5
+liquidBoostIntensity: 1
+drillTime: 110
+drillEffectChance: .1
+drillEffect: [
+{
+particles: 5
+length: 120
+lifetime: 450
+cone: 29
+baseRotation: 17
+sizeFrom: 0
+sizeTo: 13
+colorFrom: beab69150
+colorTo: 322c1710
+sizeInterp: pow3Out
+interp: pow3Out
+} 
+{
+particles: 5
+length: 90
+lifetime: 450
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: 5a5352100
+colorTo: 31232010
+sizeInterp: pow5Out
+interp: pow5Out
+}
+]
 drawRim: false
-updateEffect: airBubble
+updateEffect: [
+{
+particles: 5
+length: 95
+lifetime: 270
+cone: 29
+baseRotation: 17
+sizeFrom: 0
+sizeTo: 13
+colorFrom: beab69150
+colorTo: 322c1710
+sizeInterp: pow3Out
+interp: pow3Out
+} 
+{
+particles: 5
+length: 45
+lifetime: 270
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: 5a5352100
+colorTo: 31232010
+sizeInterp: pow5Out
+interp: pow5Out
+}
+]
 rotateSpeed: 1.2
 consumes: {
-power: 8
+power: 6.5
 liquids: [
 {
 liquid: hydrogen-chloride
 booster: false
 optional: false
-amount: .085
+amount: .05
 }
 ]
 }

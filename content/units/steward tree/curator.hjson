@@ -1,125 +1,114 @@
-type: legs
-speed: .7
+type: mech
+speed: .5
+omniMoveement: false
+health: 650
+drawCell: false
+baseRotationSpeed: 12
+armor: 4
+boostMultiplier: 1.6
+mechLegColor: 232826
 rotateSpeed: 3
-hitSize: 20
-localizedName: Curator
-health: 1250
-heatProgress: reload
-legCount: 6
-stepShake: 0
-reload: 200
-cooldownTime: 120
-legLenght: 60
-hovering: true
-groundLayer: 75
-legContinuousMove: true
-legGroupSize: 3
-lockLegBase: true
-legMaxLength: 1.1
-lockLegBase: true
-legMinLength: .9
-legMoveSpace: 1.4
-legExtension: -5
-continuous: true
-parentizeEffects: true
-baseLegStraightness: .6
-shadowElevation: .2
-legBaseOffset: 5
+canBoost : true
+outlineColor: 232826
+research: {
+parent: steward
+planet: tantros
+}
+requirements: {
+  previous: steward
+ block: correlative-reconstructor
+}
 weapons: [
 {
 name: curator-weapon
-chargeEffect: greenLaserChargeSmall
-shootEffect: greenCloud  
-rotate: false
-mirror: false
+shootCone: 45
+top: false
+layerOffset: -.001
+reload: 60
 x: 0
-y: 0
-recoil: 4
-heatColor: 3a8f64
-reload: 150
-shoot: {
-firstShotDelay: 60
-shots: 3
-shotDelay: 5
-}
+shootX: 12
+shootSound: artillery
+shootStatus: slow
+shootStatusDuration: 45
 bullet: {
-chargeEffect: [
+type: artilleryBulletType
+splashDamage: 35
+splashDamageRadius: 25
+speed: 1.5
+trailEffect: [
 {
-lifetime: 50
-type: waveEffect
-colorFrom: 3a8f64
-colorTo: 92dd7e
-strokeTo: 2
-strokeFrom: 0
-sizeFrom: 10
+particles: 3
+rotWithParent: true
+lifetime: 120
+cone: 30
+interp: pow3Out
+length: 25
+sizeFrom: 5
+sizeInterp: pow3Out
 sizeTo: 0
+colorFrom: 47524d
+colorTo: 47524d
+layer: 80
 }
-]
-shootEffect: [
 {
-lifetime: 10
-type: particleEffect
-strokeFrom: 2
-strokeTo: 0
+particles: 3
+rotWithParent: true
+lifetime: 120
+cone: 15
+sizeInterp: pow3Out
+interp: pow3Out
+length: 25
+sizeFrom: 3
+sizeTo: 0
 colorFrom: 92dd7e
 colorTo: 3a8f64
-sizeFrom: 2
-sizeTo: 0
+layer: 80.1
+}
+ {
+particles: 2
+offsetY: 2
 line: true
+rotWithParent: true
+lifetime: 15
+cone: 30
+length: 15
+baseRotation: 135
+spin: 1
+sizeFrom: 2
+sizeTo: 2
+lenFrom: 6
+lenTo: 0
+colorFrom: 92dd7e
+colorTo: 92dd7e50
+}
+ {
+particles: 2
+line: true
+offsetY: 2
+rotWithParent: true
+lifetime: 15
+cone: 30
+length: 15
+spin: 1
+baseRotation: -135
+sizeFrom: 2
+sizeTo: 2
+lenFrom: 6
+lenTo: 0
+colorFrom: 92dd7e
+colorTo: 92dd7e50
 }
 ]
-speed: 2.5
-lifetime: 60
-fragBullets: 4
-fragBullet: {
-speed: 5
-lifetime: 5
-type: basicBulletType
-fragSpread: 10
-fragRandomSpread: 0
-backColor: 6fb95b
-trailColor: 3a8f64
+trailInterval: 5
+trailRotation: true
+lifetime: 65
+width: 12
+height: 12
 frontColor: 92dd7e
-trailLength: 4
-shootSound: lasershoot
-lifeTime: 60
-splashDamage: 4
-splashDamageRadius: 15
-homingRange: 70
-homingPower: 1
-hitEffect: [
-{
-type: ExplosionEffect
-waveColor: 92dd7e
-sparkColor: 3a8f64
-smokes: 0
-}
-]
-despawnEffect: [
-{
-type: ExplosionEffect
-waveColor: 92dd7e
-sparkColor: 3a8f64
-smokes: 0
-}
-]
-}
-type: artilleryBulletType
-shrinkX: -.5
-shrinkY: -2
-backColor: 6fb95b
 trailColor: 3a8f64
-frontColor: 92dd7e
+lightColor: 92dd7e
+backColor: 3a8f64
+hitColor: 3a8f64
 }
 }
 ]
-research: {
-planet: tantros
-parent: yura
-name: Curator
-}
-requirements: {
-previous: yura
-block: correlative-reconstructor
-}
-envEnabled: 4

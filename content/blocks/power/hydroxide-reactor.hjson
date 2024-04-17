@@ -4,11 +4,13 @@ liquidCapacity: 250
 squareSprite: false
 powerProduction: 20.8333333
 group: power
-//how to screw a new person over.
-explodeOnFull: true
+outputLiquid: hydrogen/0.3
 health: 650
 explosionRadius: 25
+ambientSound: techLoop
+ambientSoundVolume: .3
 explosionDamage: 750
+canOverdrive: false
 destroyEffect: [
 {
 line: true
@@ -32,17 +34,28 @@ sizeTo: 0
 particles: 35
 }
 ]
-effectChance: .1
-generateEffect: none
-outputLiquid: hydrogen/.3
+effectChance: .03
+generateEffect: {
+particles: 3
+length: 35
+lifetime: 340
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: ebf7ff150
+colorTo: 6a829200
+sizeInterp: pow5Out
+interp: pow5Out
+} 
+
 consumes: {
 items: [
-bauxite/1
-oxide/1
+bauxite/2
+gallium/1
 ]
 liquid: {
 liquid: hydroxide
-amount: .5
+amount: .64
 }
 }
 category: power
@@ -90,14 +103,6 @@ padding: 4
 {
 type: drawRegion
 suffix: -top
-}
-{
-type: drawGlowRegion
-suffix: -glow
-glowScale: 7
-color: d1efff
-glowIntensity: .2
-alpha: .4
 }
 {
 type: drawSideRegion

@@ -1,0 +1,91 @@
+type: legs
+legCount: 6
+legGroupSize: 3
+legLength: 20
+legPairOffset: 3
+lockLegBase: true
+hitSize: 16
+parts: [
+{
+suffix: -eye
+blending: additive
+progress: warmup
+weaponIndex: 0
+color: d0daff20
+colorTo: d0daff100
+}
+]
+speed: .7
+legStraightness: .1
+faceTarget: true
+legMinLength: .8
+legMaxLength: 1.1
+legExtension: -2.5
+deathExplosionEffect: [
+dynamicExplosion
+{
+particles: 1
+sizeFrom: 5
+layer: 80
+sizeTo: 0
+colorFrom: 65d453
+colorTo: 48903c
+}
+]
+abilities: [
+{
+type: LiquidExplodeAbility
+liquid: gerb-goop
+}
+]
+
+health: 1500
+armor: 3
+drawCell: false
+fying: false
+baseLegStraightness: .3
+flipLegSide: true
+rotateSpeed: 5
+legContinuousMove: true
+lockLegBase: true
+outlineColor: 2f3734
+weapons: [
+{
+layerOffset: -.01
+shoot: {
+type: ShootBarrel
+barrels: [
+7, -1, 0
+7, -4, 0
+]
+}
+ignoreRotation: true
+reload: 15
+rotate: false
+alternate: false
+shootCone: 360
+x: 0
+shootSound: missile
+mirror: true
+range: 60
+bullet: {
+shootSound: missile
+maxRange: 85
+spawnUnit: aquarion-cyprin-missile
+shootEffect: [
+{
+particles: 15
+lifetime: 45
+length: 12
+baseLength: 0
+sizeFrom: 3
+sizeTo: 0
+colorFrom: b2d3cf
+colorTo: 637e8e50
+layer: 210
+}
+]
+smokeEffect: none
+}
+}
+]

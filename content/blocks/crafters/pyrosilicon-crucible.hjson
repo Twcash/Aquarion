@@ -29,7 +29,7 @@ gallium/1
 ]
 liquid: {
 liquid: pyridine
-amount: .15
+amount: .3
 }
 }
 requirements: [
@@ -94,7 +94,7 @@ metaglass/30
 ]
 parent: blast-kiln
 name: Blast Kiln
-planet: tantros-test-tantros
+planet: aquarion-tantros
 objectives: [
 BasaltCrags,
 VastShallows,

@@ -8,6 +8,7 @@ legCount: 6
 legGroupSize: 2
 legLength: 14
 legForwardScl: 1.5
+drawCell: false
 legStraightness: 0.5
 legLengthScl: 0.9
 legContinuousMove: true

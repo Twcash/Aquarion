@@ -1,25 +1,46 @@
 tier: 6
 type: Drill
+optionalBoostIntensity: 1.8
 squareSprite: false
 category: production
-warmupSpeed: .001
+warmupSpeed: .1
 drillTime: 220
-hardnessMultiplier: 30
-drawMineItem: false
-drillEffect: airBubble
-updateEffect: airBubble
-rotateSpeed: 6
+hardnessDrillMultiplier: 10
 consumes: {
 power: 3
 liquids: [
 {
 liquid: hydrogen
-booster: false
-optional: false
 amount: .075
 }
 ]
 }
+drillEffect: {
+particles: 5
+length: 45
+lifetime: 270
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: 5a5352100
+colorTo: 31232010
+sizeInterp: pow5Out
+interp: pow5Out
+} 
+updateEffect: {
+particles: 5
+length: 45
+lifetime: 270
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: 5a5352100
+colorTo: 31232010
+sizeInterp: pow5Out
+interp: pow5Out
+}
+
+rotateSpeed: 6
 itemCapacity: 60
 size: 3
 research: {
@@ -28,9 +49,9 @@ name: Ram Drill
 planet: tantros
 }
 requirements: [
-lead/120
+lead/70
 metaglass/60
-bauxite/200
+bauxite/80
 sodium/30
 ]
 envEnabled: 4

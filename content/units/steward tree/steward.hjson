@@ -1,0 +1,90 @@
+type: mech
+speed: .8
+health: 250
+drawCell: false
+baseRotationSpeed: 6
+armor: 3
+boostMultiplier: 1.3
+mechLegColor: 232826
+rotateSpeed: 2.5
+canBoost : true
+outlineColor: 232826
+research: {
+parent: conversive-reconstructor
+name: Steward
+planet: tantros
+}
+requirements: {
+  previous: unknown
+ block: conversive-reconstructor
+}
+weapons: [
+{
+name: steward-weapon
+mirror: true
+reload: 65
+shoot: {
+shots: 3
+shotDelay: 4
+}
+recoil: 2
+flipSprite: true
+shootSound: lasershoot
+rotate: false
+shootCone: 90
+x: 7
+y: 1.5
+bullet: {
+type: laserBoltBulletType
+speed: 3
+lifeTime: 15
+fragBullets: 3
+fragBullet: {
+backColor: 70bd6b
+frontColor: daffd8
+damage: 10
+collidesTeam: true
+healPercent: .5
+type: laserBoltBulletType
+speed: 3
+lifetime: 3
+shootEffect: [
+{
+particles: 3
+sizeFrom: 5
+sizeTo: 0
+lifetime: 45
+colorFrom: daffd8
+colorTo: 70bd6b
+}
+]
+despawnEffect: [
+{
+particles: 3
+line: true
+sizeFrom: 5
+length: 35
+lifetime: 25
+sizeTo: 0
+colorFrom: daffd8
+colorTo: 70bd6b
+}
+{
+particles: 3
+sizeFrom: 5
+sizeTo: 0
+lifetime: 45
+colorFrom: daffd8
+colorTo: 70bd6b
+}
+]
+}
+backColor: 70bd6b
+frontColor: daffd8
+damage: 25
+collidesTeam: true
+healPercent: 1
+}
+}
+]
+envEnabled: 4

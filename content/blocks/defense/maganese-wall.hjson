@@ -1,12 +1,13 @@
 type: wall
 size: 2
-health: 480
+health: 1500
+armor: 6
 category: defense
 requirements: [
 manganese/24
 ]
 research: {
-parent: bauxite-wall
+parent: gallium-wall
 planet: tantros
 requirements: [
 manganese/300

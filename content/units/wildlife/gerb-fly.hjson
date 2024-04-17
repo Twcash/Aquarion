@@ -1,0 +1,35 @@
+type: mech
+lockLegBase: true
+hitSize: 16
+boostMultiplier: 1.4
+speed: .8
+canBoost: true
+faceTarget: true
+deathExplosionEffect: [
+dynamicExplosion
+{
+particles: 1
+sizeFrom: 5
+layer: 80
+sizeTo: 0
+colorFrom: 65d453
+colorTo: 48903c
+}
+]
+abilities: [
+{
+type: LiquidExplodeAbility
+liquid: gerb-goop
+}
+]
+
+health: 1500
+armor: 3
+drawCell: false
+fying: false
+baseLegStraightness: .3
+flipLegSide: true
+rotateSpeed: 5
+legContinuousMove: true
+lockLegBase: true
+outlineColor: 2f3734

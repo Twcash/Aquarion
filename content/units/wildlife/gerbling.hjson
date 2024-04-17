@@ -1,0 +1,108 @@
+type: legs
+legCount: 6
+legGroupSize: 3
+legLength: 9
+legBaseOffset: 1
+lockLegBase: true
+speed: 1
+legStraightness: .25
+deathSound: gerbDeath
+
+faceTarget: true
+legMinLength: .8
+legMaxLength: 1.1
+legExtension: -2.5
+envEnabled: 4
+deathExplosionEffect: [
+{
+particles: 1
+sizeFrom: 5
+layer: 80
+sizeTo: 0
+colorFrom: 65d453
+colorTo: 48903c
+}
+]
+abilities: [
+{
+type: LiquidExplodeAbility
+liquid: gerb-goop
+}
+]
+
+health: 340
+armor: 0
+drawCell: false
+fying: false
+allowLegStep: false
+baseLegStraightness: .3
+flipLegSide: true
+rotateSpeed: 5
+legContinuousMove: true
+lockLegBase: true
+outlineColor: 312318
+weapons: [
+{
+parts: [
+{
+moveRot: -7
+mirror: true
+moveX: -.25
+suffix: -fang
+progress: recoil
+under: true
+}
+{
+suffix: -sac
+growX: .1
+progress: recoil
+under: true
+moveY: 1
+}
+]
+layerOffset: -.001
+x: 0
+y: 0
+mirror: false
+bullet: {
+speed: 1.5
+width: 5
+height: 6
+frontColor: 65d453
+backColor: 48903c
+hitColor: 65d453
+trailColor: 48903c
+traillength: 4
+trailWidth: .2
+smokeEffec: none
+trailInterval: 5
+damage: 45
+recoil: 1
+homingPower: .1
+shootEffect: [
+{
+particles: 4
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 65d453
+colorTo: 48903c
+}
+]
+trailEffect: [
+{
+particles: 3
+sizeFrom: 2
+sizeTo: 0
+colorFrom: 65d453
+colorTo: 48903c
+lifetime: 10
+length: 15
+}
+]
+}
+name: fang
+recoil: 0
+reload: 55
+shootCone: 40
+}
+]

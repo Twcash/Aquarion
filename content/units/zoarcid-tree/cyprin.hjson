@@ -225,7 +225,7 @@ x: 0
 mirror: true
 range: 60
 bullet: {
-spawnUnit: tantros-test-cyprin-missile
+spawnUnit: aquarion-cyprin-missile
 shootEffect: [
 {
 particles: 15
@@ -243,3 +243,8 @@ smokeEffect: none
 }
 }
 ]
+envEnabled: 4
+research: {
+planet: aquarion-tantros
+parent: anguilli
+}

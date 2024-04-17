@@ -5,7 +5,19 @@ squareSprite: false
 size: 3
 conductivePower: true
 outputLiquid: pyridine/.15
-craftEffect: greenCloud 
+craftEffect: {
+particles: 5
+length: 90
+lifetime: 270
+cone: 25
+baseRotation: 17
+sizeFrom: 0
+sizeTo: 6
+colorFrom: caffbb80
+colorTo: 68836110
+sizeInterp: pow2Out
+interp: pow2Out
+} 
 craftTime: 120
 requirements: [
 lead/40
@@ -17,7 +29,6 @@ items: [
 bauxite/1
 ]
 }
-outputItem: oxide/2
 category: crafting
 drawer: [
 {
@@ -52,7 +63,7 @@ bauxite/30
 ]
 parent: geothermal-generator
 name: Cultivation Chamber
-planet: tantros-test-tantros
+planet: aquarion-tantros
 objectives: [
 algal-feilds
 VastShallows

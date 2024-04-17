@@ -1,0 +1,10 @@
+tier: 2
+size: 2
+acceptsPayload: false
+requirements: [
+lead/120
+bauxite/40
+]
+type: unitAssemblerModule
+category: units
+size: 3

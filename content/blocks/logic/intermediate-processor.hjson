@@ -1,0 +1,12 @@
+type: logicBlock
+instructionsPerTick: 10
+size: 2
+requirements: [
+nitride/75
+manganese/40
+gallium/35
+oxide/60
+]
+category: logic
+baseExplosiveness: 1.2
+range: 190

@@ -1,6 +1,6 @@
 type: StorageBlock
 itemCapacity: 250
-coreMerge: true
+coreMerge: false
 squareSprite: false
 health: 180
 size: 3
@@ -13,6 +13,6 @@ sodium/120
 research: {
 parent: sealedconveyor
 name: Cache
-planet: tantros-test-tantros
+planet: aquarion-tantros
 }
 envEnabled: 4

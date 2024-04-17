@@ -19,3 +19,7 @@ amount: 0.125
 size: 3
 range: 150
 envEnabled: 4
+research: {
+parent: core-pike
+planet: tantros
+}

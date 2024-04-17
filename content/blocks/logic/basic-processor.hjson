@@ -1,0 +1,12 @@
+type: logicBlock
+instructionsPerTick: 4
+size: 1
+requirements: [
+gallium/60
+oxide/30
+lead/30
+metaglass/20
+]
+category: logic
+baseExplosiveness: .8
+range: 90

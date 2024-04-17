@@ -2,13 +2,35 @@ tier: 8
 type: Drill
 squareSprite: false
 category: production
-warmupSpeed: .005
-liquidBoostIntensity: 1.4
+warmupSpeed: .025
+ hardnessDrillMultiplier: 5
+liquidBoostIntensity: 1
 drillTime: 110
 drawMineItem: false
-drillEffect: airBubble
-drawRim: true
-updateEffect: airBubble
+drillEffect: {
+particles: 5
+length: 45
+lifetime: 270
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: 5a5352100
+colorTo: 31232010
+sizeInterp: pow5Out
+interp: pow5Out
+} 
+updateEffect: {
+particles: 5
+length: 45
+lifetime: 270
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: 5a5352100
+colorTo: 31232010
+sizeInterp: pow5Out
+interp: pow5Out
+}
 rotateSpeed: 12
 consumes: {
 power: 4.5

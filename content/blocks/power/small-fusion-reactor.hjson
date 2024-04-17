@@ -1,20 +1,23 @@
-type: consumeGenerator
+type: HeaterGenerator
+heatOutput: 15
 consumes: {
 liquids: [
-nitrogen/.25
-hydrogen/.15
+nitrogen/.75
+cyan/.1
 ]
 items: [
-oxide/1
+gallium/2
 ]
 }
 category: power
 size: 5
+canOverdrive: false
 requirements: [
-nitride/250
-manganese/120
-bauxite/150
-metaglass/240
+nitride/400
+manganese/240
+bauxite/250
+metaglass/120
+duralumin/90
 ]
 warmupSpeed: .01
 effectChance: .1
@@ -56,7 +59,8 @@ sizeTo: 5
 }
 }
 ]
-powerProduction: 35
+powerProduction: 10
+outputLiquid: pyridine/.5
 drawer: [
 {
 type: drawRegion
@@ -140,6 +144,18 @@ suffix: -tope
 type: drawGlowRegion
 suffix: -glow
 glowScale: 5
+}
+{
+type: drawGlowRegion
+suffix: -glow
+glowScale: 10
+}
+{
+type: drawSideRegion
+suffix: -top
+}
+{
+type: drawHeatOutput
 }
 ]
 ambientSound: bioLoop

@@ -1,0 +1,51 @@
+type: powerTurret
+shootCone: 360
+rotateSpeed: 0
+
+shootType: {
+type: ExplosionBulletType
+fragBullets: 1
+fragBullet: {
+lifetime: 80
+speed: 1.5
+shrinkY: .1
+shrinkX: .1
+sprite: none
+width: 60
+sprite: aquarion-target
+height: 60
+fragBullets: 4
+fragBullet: {
+width: 20
+shrinkX: .1
+shrinkY: .1
+height: 20
+fragBullets: 1
+sprite: aquarion-target
+despawnEffect: [
+{
+spin: 1
+lifetime: 60
+layer: 80
+sizeFrom: 15
+sizeTo: 14
+colorFrom: ffffff
+region: aquarion-pod
+length: 0
+particles: 1
+colorTo: ffffff00
+}
+]
+fragBullet: {
+spawnUnit: aquarion-heavy-gerb
+}
+}
+}
+}
+size: 1
+range: 100000000000
+requirements: [
+lead/10
+]
+envEnabled: 4
+buildVisibility: editorOnly

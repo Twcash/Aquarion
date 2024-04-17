@@ -1,0 +1,22 @@
+type: SteamVent
+parent: shale
+blendGroup: shale
+variants: 3
+attributes: {
+heat: 1
+steam: .15
+}
+effect: {
+particles: 3
+length: 125
+lifetime: 340
+cone: 20
+baseRotation: 50
+sizeFrom: 0
+sizeTo: 12
+colorFrom: 18161c90
+colorTo: 2a282d10
+sizeInterp: pow3Out
+interp: pow3Out
+} 
+effectSpacing: 15

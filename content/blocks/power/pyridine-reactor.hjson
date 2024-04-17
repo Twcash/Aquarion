@@ -6,7 +6,10 @@ consumes: {
       }
 }
 powerProduction: 6.5
+effectChance: 0.1
+canOverdrive: false
 category: power
+squareSprite: false
 requirements: [
 sodium/40
 metaglass/60
@@ -18,6 +21,20 @@ research: {
 planet: tantros
 parent: geothermal-generator
 }
+generateEffect: {
+particles: 1
+length: 80
+lifetime: 340
+cone: 35
+baseRotation: 15
+sizeFrom: 0
+sizeTo: 7.5
+colorFrom: e5e0ec80
+colorTo: 877e9210
+sizeInterp: pow3Out
+interp: pow3Out
+}
+
 drawer: [
 {
 type: drawRegion
@@ -32,7 +49,7 @@ padding: 3
 {
 type: DrawSoftParticles
 particleLife: 120
-particleRad: 16
+particleRad: 1
 particleSize: 5
 color: 687a73
 color2: 9eb0a9
@@ -41,18 +58,23 @@ particles: 35
 reverse: true
 }
 {
-type: DrawRegion
-suffix: -top
+type: drawPistons
+sides: 4
+sinMag: 1.2
+sinScl: 2
+sideOffset: 6
 }
 {
-type: DrawSoftParticles
-particleLife: 90
-particleRad: 16
-particleSize: 5
-color: 687a73
-color2: 9eb0a9
-alpha: .4
-particles: 20
+type: drawPistons
+suffix: -pistons
+sides: 4
+sinMag: 1.2
+sinScl: 2
+sideOffset: 3
+}
+{
+type: DrawRegion
+suffix: -top
 }
 ]
 outputLiquid: nitrogen/.25

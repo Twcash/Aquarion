@@ -1,6 +1,6 @@
 type: legs
-health: 600
-armor: 14
+health: 2400
+armor: 18
 legContinuousMove: true
 hovering: true
 legGroupSize: 2
@@ -12,8 +12,8 @@ lockLegBase: true
 legMinLength: .9
 legMoveSpace: 1.5
 hitSize: 17
-speed: .5
-rotateSpeed: 1.1
+speed: .65
+rotateSpeed: 1.7
 outlineColor: 2f3734
 legColor: 444b49
 drawCell: false

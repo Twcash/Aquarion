@@ -4,5 +4,5 @@ hardness: 8
 cost: 1.5
 research: {
 planet: tantros
-parent: sodium
+parent: gallium
 }

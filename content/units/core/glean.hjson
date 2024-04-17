@@ -1,0 +1,83 @@
+type: flying
+flying: true
+isEnemy: false
+drawCell: false
+envDisabled: 0
+outlineColor: 2f3734
+lowAltitude: false
+mineTier: 3
+mineSpeed: 10
+buildSpeed: 2.5
+drag: .1
+speed: 5
+rotateSpeed: 15
+envEnabled: 4
+accel: .05
+itemCapacity: 90
+health: 340
+engineSize: 0
+armor: 4
+hitSize: 14
+payloadCapacity: 6
+targetable: false
+fogradius: 0
+hittable: false
+allowedInPayloads: false
+abilities: [
+]
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -12
+rotateEffect: true
+effect: [
+{
+particles: 3
+lifetime: 10
+cone: 15
+length: 1
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 4
+sizeTo: 0
+colorFrom: ffd37f
+colorTo: eab678
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 16
+cone: 30
+length: 15
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: eab678
+colorTo: d4816b
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 18
+cone: 15
+length: 30
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 6d5e5e
+colorTo: 46403f
+layer: 83.9
+rotWithParent: true
+}
+]
+}
+]
+

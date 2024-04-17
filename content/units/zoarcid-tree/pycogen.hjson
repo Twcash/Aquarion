@@ -122,4 +122,7 @@ trailLength: 12
 }
 }
 ]
-
+research: {
+parent: cyprin
+planet: aquarion-tantros
+}

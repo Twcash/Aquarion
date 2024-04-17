@@ -7,3 +7,4 @@ sodium/1
 ]
 category: distribution
 envEnabled: 4
+payloadLimit: 3

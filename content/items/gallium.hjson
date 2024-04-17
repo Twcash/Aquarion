@@ -5,7 +5,7 @@ tantros
 ]
 research: {
 planet: tantros
-parent: bauxite
+parent: sodium
 }
 explosiveness: .2
 hardness: 6

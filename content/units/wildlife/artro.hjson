@@ -1,0 +1,148 @@
+type: legs
+legCount: 6
+legGroupSize: 3
+legLength: 8
+lockLegBase: true
+speed: 1.2
+legStraightness: .4
+deathSound: squish
+envEnabled: 4
+blockFlag: [
+generator,
+core,
+]
+deathExplosionEffect: [
+{
+particles: 1
+sizeFrom: 5
+layer: 80
+sizeTo: 0
+colorFrom: c6eafb
+colorTo: 5c819250
+}
+]
+abilities: [
+{
+type: LiquidExplodeAbility
+liquid: artro-goop
+}
+]
+faceTarget: true
+legMinLength: .7
+legMaxLength: 1.2
+health: 340
+armor: 0
+drawCell: false
+fying: false
+allowLegStep: false
+singleTarget: true
+baseLegStraightness: .3
+flipLegSide: true
+omniMovement: false
+rotateSpeed: 5
+legContinuousMove: true
+lockLegBase: true
+outlineColor: 2c6b71
+legSplashRange: 6
+legSplashDamage: 16
+weapons: [
+{
+recoil: 0
+reload: 90
+mirror: true
+y: 4.5
+name: artro-eye
+outline: false
+x: 1.5
+rotate: true
+top: false
+rotationLimit: 45
+shootSound: none
+bullet: {
+recoil: -2
+width: 0
+height: 0
+shootEffect: none
+shootSound: none
+smokeEffect: none
+lifetime: 5
+trailInterval: 5
+despawnEffect: none
+trailEffect: [
+{
+particles: 2
+colorFrom: ffffff50
+colorTo: ffffff00
+sizeFrom: 1
+sizeTo: 0
+}
+]
+}
+}
+{
+reload: 90
+mirror: true
+y: 3.5
+name: artro-eye
+outline: false
+x: 3
+top: false
+rotate: true
+rotationLimit: 45
+recoil: 0
+shootSound: none
+bullet: {
+recoil: -2
+width: 0
+height: 0
+shootEffect: none
+shootSound: none
+smokeEffect: none
+lifetime: 5
+trailInterval: 5
+despawnEffect: none
+trailEffect: [
+{
+particles: 2
+colorFrom: ffffff50
+colorTo: ffffff00
+sizeFrom: 1
+sizeTo: 0
+}
+]
+}
+}
+{
+reload: 90
+recoil: 0
+mirror: true
+y: 2
+top: false
+name: artro-eye
+outline: false
+x: 4
+rotate: true
+rotationLimit: 45
+shootSound: none
+bullet: {
+recoil: -2
+width: 0
+height: 0
+shootEffect: none
+shootSound: none
+smokeEffect: none
+lifetime: 5
+trailInterval: 5
+despawnEffect: none
+trailEffect: [
+{
+particles: 2
+colorFrom: ffffff50
+colorTo: ffffff00
+sizeFrom: 1
+sizeTo: 0
+}
+]
+}
+}
+]

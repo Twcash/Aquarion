@@ -1,16 +1,20 @@
-
 type: ItemTurret
 reload: 6
-warmupSpeed: .5
+warmupSpeed: 0.5
+squareSprite: false
 warmupMaintainTime: 45
-shootWarmupSpeed: .05
+shootWarmupSpeed: 0.05
 recoilTime: 10
 ammoPerShot: 1
 ammoUseEffect: casing2
+inaccuracy: 5
+velocityRnd: 0.25
+minWarmup: 0.75
+targetUnderBlocks: false
+elevation: 0.3
+shake: 0.2
 ammoEjectBack: 6
 recoils: 4
-minWarmup: .75
-recoil: 1
 health: 240
 shootSound: shootAlt
 category: turret
@@ -18,157 +22,262 @@ range: 200
 size: 4
 shootX: 0
 shoot: {
-type: ShootBarrel
-shotDelay: 3
-barrels: [
-3, -6, 0,
--3, -6, 0,
--8, -6, 0,
-8, -6, 0,
-]
+    type: ShootBarrel
+    shotDelay: 3
+    barrels: [
+        3, -6, 0,
+        -3, -6, 0,
+        -8, -6, 0,
+        8, -6, 0
+    ]
 }
 ammoTypes: {
-bauxite: {
-shootEffect: [
-{
-particles: 3
-colorFrom: f29389
-colorTo: b95d53
-sizeFrom: 3.5
-sizeTo: 0
-cone: 30
-baseRotation: 0
-rotWithParent: true
-length: 25
-lifetime: 50
-}
-]
-ammoMultipier: 2
-type: basicBulletType
-lifeTime: 45
-speed: 5.5
-lifetime: 45
-damage: 45
-reloadMultiplier: .85
-length: 13
-width: 10
-trailColor: b95d53
-trailLength: 3
-frontColor: f29389
-backColor: b95d53
-}
-sodium: {
-shootEffect: [
-{
-particles: 3
-colorFrom: c08787
-colorTo: e7e0e0
-sizeFrom: 4
-sizeTo: 0
-cone: 30
-baseRotation: 0
-rotWithParent: true
-length: 25
-lifetime: 50
-}
-]
-type: basicBulletType
-lifeTime: 45
-ammoMultiplier: 6
-speed: 5.5
-lifetime: 45
-damage: 25
-length: 14
-width: 10
-homingPower: .1
-homingRange: 60
-trailColor: 8ca9e8
-trailLength: 7
-frontColor: d1efff
-backColor: 8ca9e8
-}
-manganese: {
-ammoMultiplier: 10
-shootEffect: [
-{
-particles: 3
-colorFrom: d3f2b5
-colorTo: 729f67
-sizeFrom: 3.5
-sizeTo: 0
-cone: 30
-baseRotation: 0
-rotWithParent: true
-length: 25
-lifetime: 50
-}
-]
-ammoMultipier: 5
-type: basicBulletType
-lifeTime: 45
-speed: 5.5
-lifetime: 45
-damage: 50
-reloadMultiplier: 1.2
-length: 14
-width: 11
-trailColor: 729f67
-trailLength: 3
-frontColor: d3f2b5
-backColor: 729f67
-}
+    bauxite: {
+        fragBullets: 3
+        pierce: true
+	buildingDamageMultiplier: .2
+        pierceCap: 2
+	damage: 15
+        length: 14
+        width: 11
+        trailColor: b95d53
+        trailLength: 3
+        frontColor: f29389
+        backColor: b95d53
+	lightColor: f29389
+        shootEffect: {
+		particles: 3
+		colorFrom: f29389
+		colorTo: f29389
+		sizeFrom: 3.5
+		sizeTo: 0
+		cone: 30
+		baseRotation: 0
+		rotWithParent: true
+		length: 25
+		lifetime: 50
+        }
+        removeAfterPierce: false
+        fragRandomSpread: 1.5
+        fragSpread: 30
+	damage: 15
+	speed: 5.5
+        fragBullet: {
+            height: 6
+            width: 6
+            trailColor: b95d53
+            trailLength: 3
+            frontColor: f29389
+            backColor: b95d53
+            lifetime: 15
+            hitSize: 3
+            speed: 4
+        hitEffect: {
+            particles: 4
+            line: true
+            lenFrom: 6
+            lenTo: 0
+            colorFrom: f29389
+            colorTo: f29389
+            sizeFrom: 4
+            sizeTo: 0
+            cone: 45
+            baseRotation: 0
+            rotWithParent: true
+            length: 30
+            lifetime: 70
+        }
+        despawnEffect: {
+            particles: 4
+            line: true
+            lenFrom: 6
+            lenTo: 0
+            colorFrom: f29389
+            colorTo: f29389
+            sizeFrom: 4
+            sizeTo: 0
+            cone: 45
+            baseRotation: 0
+            rotWithParent: true
+            length: 30
+            lifetime: 70
+        } 
+        }
+        hitEffect: none
+	despawnEffect: none
+    }
+    sodium: {
+        weaveMag: 1
+        waveScale: 1.5
+        shootEffect: {
+            particles: 3
+            sprite: bullet
+            colorFrom: d1efff
+            colorTo: d1efff
+	    }
+            despawnEffect: {
+                particles: 4
+                line: true
+                lenFrom: 6
+                lenTo: 0
+                colorFrom: d1efff
+                colorTo: d1efff
+                sizeFrom: 4
+                sizeTo: 0
+                cone: 45
+                baseRotation: 0
+                rotWithParent: true
+                length: 30
+                lifetime: 70
+            }
+            hitEffect: {
+                particles: 4
+                line: true
+                lenFrom: 6
+                lenTo: 0
+                colorFrom: d1efff
+                colorTo: d1efff
+                sizeFrom: 4
+                sizeTo: 0
+                cone: 45
+                baseRotation: 0
+                rotWithParent: true
+                length: 30
+                lifetime: 70
+            }
+        type: MissileBulletType
+	trailEffect: none
+        lifeTime: 45
+        ammoMultiplier: 6
+        speed: 5.5
+        lifetime: 45
+        weaveScale: 1.7
+        weaveMag: 2
+        damage: 25
+	homingPower: .05
+	homingRange: 50
+        length: 14
+        width: 10
+        homingPower: 0.1
+        homingRange: 60
+        trailColor: 8ca9e8
+        trailLength: 7
+        frontColor: d1efff
+        backColor: 8ca9e8
+	buildingDamageMultiplier: .2
+    }
+    manganese: {
+        ammoMultiplier: 6
+	pierce: true
+	buildingDamageMultiplier: .2
+	pierceCap: 4
+        shootEffect: {
+            particles: 3
+            colorFrom: d3f2b5
+            colorTo: d3f2b550
+            sizeFrom: 3.5
+            sizeTo: 0
+            cone: 30
+            baseRotation: 0
+            rotWithParent: true
+            length: 25
+            lifetime: 50
+        }
+        despawnEffect: {
+            particles: 4
+            line: true
+            lenFrom: 6
+            lenTo: 0
+            colorFrom: d3f2b5
+            colorTo: d3f2b5
+            sizeFrom: 4
+            sizeTo: 0
+            cone: 45
+            baseRotation: 0
+            rotWithParent: true
+            length: 30
+            lifetime: 70
+        }
+        hitEffect: {
+            particles: 4
+            line: true
+            lenFrom: 6
+            lenTo: 0
+            colorFrom: d3f2b5
+            colorTo: d3f2b5
+            sizeFrom: 4
+            sizeTo: 0
+            cone: 45
+            baseRotation: 0
+            rotWithParent: true
+            length: 30
+            lifetime: 70
+        }
+        ammoMultiplier: 5
+        type: basicBulletType
+        lifeTime: 45
+        speed: 5.5
+        lifetime: 45
+        damage: 50
+        reloadMultiplier: 1.2
+        length: 14
+        width: 11
+        trailColor: 729f67
+        trailLength: 3
+        frontColor: d3f2b5
+        backColor: 729f67
+    }
 }
 drawer: {
-type: drawTurret
-basePrefix: water-
-parts: [
-{
-type: drawPartRegion
-recoilIndex: 0
-moveY: -1.5
-suffix: -barrel-r
-heatProgress: recoil
-progress: recoil
-}
-{
-type: drawPartRegion
-recoilIndex: 1
-moveY: -1.5
-suffix: -barrel-l
-heatProgress: recoil
-progress: recoil
-}
-{
-type: drawPartRegion
-recoilIndex: 2
-moveY: -1
-suffix: -side-r
-heatProgress: recoil
-progress: recoil
-moveRot: -5
-moveX: -.25
-}
-{
-type: drawPartRegion
-recoilIndex: 3
-moveY: -1
-suffix: -side-l
-heatProgress: recoil
-progress: recoil
-moveRot: 5
-moveX: .25
-}
-]
+    type: drawTurret
+    parts: [
+        {
+            type: drawPartRegion
+            recoilIndex: 0
+            moveY: -1.5
+            suffix: -barrel-r
+            heatProgress: recoil
+            progress: recoil
+        }
+        {
+            type: drawPartRegion
+            recoilIndex: 1
+            moveY: -1.5
+            suffix: -barrel-l
+            heatProgress: recoil
+            progress: recoil
+        }
+        {
+            type: drawPartRegion
+            recoilIndex: 2
+            moveY: -1
+            suffix: -side-r
+            heatProgress: recoil
+            progress: recoil
+            moveRot: -5
+            moveX: -0.25
+        }
+        {
+            type: drawPartRegion
+            recoilIndex: 3
+            moveY: -1
+            suffix: -side-l
+            heatProgress: recoil
+            progress: recoil
+            moveRot: 5
+            moveX: 0.25
+        }
+    ]
 }
 research: {
-parent: forment
-planet: tantros
+    parent: forment
+    planet: tantros
 }
 requirements: [
-lead/480
-gallium/120
-bauxite/200
-nitride/120
-metaglass/120
+    lead/480
+    gallium/120
+    bauxite/200
+    nitride/120
+    metaglass/120
 ]
 envEnabled: 4

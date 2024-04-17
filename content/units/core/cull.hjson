@@ -1,35 +1,175 @@
 type: flying
 localizedName: cull
 flying: true
-isEnemy: false
+drawCell: false
 envDisabled: 0
 outlineColor: 2f3734
-lowAltitude: false
+lowAltitude: true
 mineTier: 3
-mineSpeed: 4
-buildSpeed: 1.2
+mineSpeed: 6
+buildSpeed: 1.8
+itemCapacity: 80
 drag: .1
-speed: 2.5
-rotateSpeed: 5
+speed: 3.5
+rotateSpeed: 12
 envEnabled: 4
-accel: .1
-itemCapacity: 20
-health: 120
+accel: .08
+health: 250
 engineOffset: 10
-engineSize: 3
-armor: 1
+engineSize: 0
+armor: 2
+drawBuildBeam: false
 hitSize: 9
 engineColor: 43fc92
-payloadCapacity: 2
-targetable: false
-fogradius: 0
-hittable: false
+payloadCapacity: 6
+fogradius: 1
+coreUnitDock: true
 allowedInPayloads: false
-abilities: [
+drawBody: false
+weapons: [
+  {
+alwaysShooting: true
+alwaysContinuous: true
+mirror: false
+alternate: false
+shootY: 0
+recoil: 0
+y: -1
+x: 0
+shootSound: none
+bullet: {
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+layer: 80
+width: 0
+height: 0
+despawnEffect: none
+trailLength: 9
+trailWidth: 1
+trailColor: ffd37f
+}
+}
 {
-type: moveEffectAbility
-effect: airBubble
-y: -9
-interval: 10
+noAttack: false
+type: BuildWeapon
+mirror: false
+x: 0
+y: 0
+rotate: true
+recoil :0
+}
+{
+mirror: true
+x: .5
+y: 0
+reload: 60
+bullet: {
+type: missileBulletType
+damage: 25
+frontColor: ffd37f
+backColor: ffd37f
+trailWidth: .2
+width: 5
+height: 5
+speed: 2.5
+trailLength: 10
+lifetime: 35
+homingPower: .08
+maxRange: 45
+buildingDamageMultiplier: .01
+hitColor: ffd37f
+hitEffect: [
+{
+line: true
+particles: 5
+sizeFrom: 2
+sizeTo: 0
+colorFrom: ffd37f
+colorTo: ffd37f00
+}
+]
+despawnEffect: [
+{
+line: true
+particles: 5
+sizeFrom: 2
+sizeTo: 0
+colorFrom: ffd37f
+colorTo: ffd37f00
+}
+]
+}
+}
+{
+mirror: false
+x: 0
+y: 0
+shootSound: none
+shootCone: 45
+aimDst: 0
+beamWidth: .6
+autoTarget: true
+targetUnits: true
+targetBuildings: true
+shootY: 1
+repairSpeed: .5
+fractionRepairSpeed: .01
+continuous: true
+rotate: false
+type: RepairBeamWeapon
+name: cull-b
+widthSinMag: .11
+reload: 20
+healColor: ffd37f
+laserColor: ffd37f
+bullet: {
+maxRange: 50
+minRange: 10
+}
+parts: [
+{
+suffix: -front
+moveY: .5
+progress: warmup
+}
+{
+suffix: -crystal1
+moveY: -2
+moveX: 1
+moveRot: 15
+progress: warmup
+mirror: true
+heatColor: fbdb9f
+heatProgress: warmup
+}
+{
+suffix: -mid
+progress: warmup
+}
+{
+suffix: -side
+moveY: -1
+moveX: 1
+moveRot: 10
+progress: warmup
+mirror: true
+}
+{
+suffix: -crystal2
+moveY: -.5
+moveX: -1
+moveRot: 10
+progress: warmup
+mirror: true
+heatColor: fbdb9f
+heatProgress: warmup
+}
+]
 }
 ]

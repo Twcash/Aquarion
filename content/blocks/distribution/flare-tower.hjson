@@ -17,15 +17,17 @@ consumes: [
     bauxite/10
     ]
 }
-effect: [
-{
-  particles: 5
-    length: 60
-    sizeFrom: 6
-    sizeTo: 0
-    lifeTime: 600
-    colorFrom: 312a16
-    colorTo: 000000
-}
-  ]
+effect: {
+particles: 5
+length: 95
+lifetime: 270
+cone: 29
+baseRotation: 17
+sizeFrom: 0
+sizeTo: 8
+colorFrom: dce3d280
+colorTo: 83757210
+sizeInterp: pow3Out
+interp: pow3Out
+} 
 envEnabled: 4

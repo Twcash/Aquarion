@@ -1,15 +1,13 @@
 type: CoreBlock
-description: The core of the Base, once destroyed the sector is lost. More efficient than the first iteration.
 squareSprite: false
-health: 4500
 itemCapacity: 9000
-size: 6
-unitCapModifier: 45
+size: 5
+unitCapModifier: 35
 unitType: cull
 requirements: [
 bauxite/2000
 sodium/500
-silicon/2500
+nitride/2500
 metaglass/1500
 lead/3500
 ]
@@ -19,6 +17,6 @@ hasColor: true
 research: {
 parent: core-pike
 name: Core: Cuesta
-planet: tantros-test-tantros
+planet: aquarion-tantros
 }
 envEnabled: 4

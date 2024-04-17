@@ -1,0 +1,74 @@
+type: flying
+envEnabled: 4
+flying: true
+lowAltitude: true
+outlineColor: 2f3734
+drag: .05
+drawCell: false
+faceTarget: true
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -6
+rotateEffect: true
+effect: [
+{
+particles: 3
+lifetime: 10
+cone: 15
+length: 2
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 8
+sizeTo: 0
+colorFrom: 8ca4fc
+colorTo: 8ca4fc
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 16
+cone: 30
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 8
+sizeTo: 1
+colorFrom: 6d5e5e
+colorTo: 312827
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 18
+cone: 15
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 8
+sizeTo: 0
+colorFrom: 6d5e5e
+colorTo: 46403f
+layer: 83.9
+rotWithParent: true
+}
+]
+}
+]
+speed: 1.5
+rotateSpeed: 7
+accel: .1
+physics: false
+circleTarget: true
+itemCapacity: 0
+health: 120
+engineSize: 1.5
+faceTarget: false
+engineColor: 8ca4fc
+armor: 1

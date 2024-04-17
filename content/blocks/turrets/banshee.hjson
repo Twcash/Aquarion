@@ -1,6 +1,7 @@
 type: itemTurret
 range: 260
 size: 2
+squareSprite: false
 requirements: [
 lead/120
 metaglass/60
@@ -37,7 +38,6 @@ rotWithParent: true
 category: turret
 drawer: {
 type: drawTurret
-basePrefix: water-
 parts: [
 {
 suffix: -plate

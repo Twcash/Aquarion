@@ -183,3 +183,8 @@ backColor: 5454c4
 }
 }
 ]
+envEnabled: 4
+research: {
+parent: zoarcid
+planet: aquarion-tantros
+}

@@ -1,0 +1,133 @@
+type: flying
+lowAltitude: true
+speed:  1.45
+rotateSpeed: 3
+drag: .05
+engineOffset: 10
+engineSize: 3.5
+armor: 10
+health: 2500
+drawCell: false
+hitSize: 16
+engineColor: e48149
+flying: true
+outlineColor: 2f3734
+omniMovement: true
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -15
+x: 6
+rotateEffect: true
+effect: [
+{
+particles: 6
+lifetime: 65
+cone: 55
+length: 10
+baseLength: 15
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3.5
+sizeTo: 0
+colorFrom: 4f4844
+colorTo: 2b272555
+layer: 84.7
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 6
+lifetime: 40
+cone: 45
+length: 8
+baseLength: 5
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 7c5e4d
+colorTo: 54484155
+layer: 84.8
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 5
+lifetime: 90
+cone: 30
+length: 4
+baseLength: 3
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3.5
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b5355
+layer: 84.9
+rotWithParent: true
+baseRotation: 180
+}
+]
+}
+{
+display: false
+type: MoveEffectAbility
+y: -15
+x: -6
+rotateEffect: true
+effect: [
+{
+particles: 6
+lifetime: 65
+cone: 55
+length: 10
+baseLength: 15
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3.5
+sizeTo: 0
+colorFrom: 4f4844
+colorTo: 2b272555
+layer: 84.7
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 6
+lifetime: 40
+cone: 45
+length: 8
+baseLength: 5
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 7c5e4d
+colorTo: 54484155
+layer: 84.8
+rotWithParent: true
+baseRotation: 180
+}
+{
+particles: 5
+lifetime: 90
+cone: 30
+length: 4
+baseLength: 3
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3.5
+sizeTo: 0
+colorFrom: ffa665
+colorTo: d06b5355
+layer: 84.9
+rotWithParent: true
+baseRotation: 180
+}
+]
+}
+
+]
+

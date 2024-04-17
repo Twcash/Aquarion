@@ -1,0 +1,16 @@
+type: wall
+  size: 2
+health: 1280
+armor: 4
+  category: defense
+requirements: [
+  gallium/24
+  ]
+  research: {
+  parent: bauxite-wall
+    planet: tantros
+    requirements: [
+    gallium/150
+    ]
+}
+envEnabled: 4

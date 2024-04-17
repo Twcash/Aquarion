@@ -1,15 +1,14 @@
 type: missile
+template: MissileUnitType
 lowAltitude: false
-lifetime: 90
+lifetime: 55
 hidden: true
 health: 95
 outlineColor: 2f3734
-template: MissileUnitType
 drawCell: false
-speed: 6
-maxRange: 1
+speed: 4
 rotateSpeed: 7
-missileAccelTime: 80
+missileAccelTime: 10
 range: 5
 homingDelay: 10
 hitSize: 3
@@ -95,9 +94,8 @@ bullet: {
 shootEffect: none
 shootSound: dullExplosion
 type: ExplosionBulletType
-splashDamageRadius: 25
-splashDamage: 50
-collidesGround: false
+splashDamageRadius: 15
+splashDamage: 5
 }
 shootEffect: none
 }

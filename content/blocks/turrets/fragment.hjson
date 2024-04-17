@@ -1,7 +1,9 @@
 type: ItemTurret
+squareSprite: false
 ammoPerShot: 1
 targetGround: false
 recoil :.5
+inaccuracy: 4
 reload: 25
 shootSound: shootAltLong
 size: 3
@@ -27,7 +29,6 @@ planet: tantros
 recoils: 3
 drawer: {
 type: drawTurret
-basePrefix: water-
 parts: [
 {
 type: drawPartRegion

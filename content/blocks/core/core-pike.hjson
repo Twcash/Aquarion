@@ -18,6 +18,6 @@ research: {
 root: true
 name: Tantros
 alwaysUnlocked: true
-planet: tantros-test-tantros
+planet: aquarion-tantros
 }
 envEnabled: 4
