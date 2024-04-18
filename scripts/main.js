@@ -25,7 +25,7 @@ Events.on(ClientLoadEvent, (event) => {
                     Log.info("Error: " + err.toString());
                 }
             } else {
-                Log.info("Aquaria - up to   date");
+                Log.info("Aquaria - up to date");
             }
         },
         (err) => {
