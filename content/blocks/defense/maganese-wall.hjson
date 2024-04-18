@@ -1,7 +1,7 @@
 type: wall
 size: 2
 health: 1500
-armor: 6
+armor: 1
 category: defense
 requirements: [
 manganese/24

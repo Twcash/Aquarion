@@ -81,3 +81,4 @@ baseRotation: 0
 }
 category: turret
 shootY: -1
+envEnabled: 4

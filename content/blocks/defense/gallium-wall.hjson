@@ -1,7 +1,6 @@
 type: wall
   size: 2
 health: 1280
-armor: 4
   category: defense
 requirements: [
   gallium/24

@@ -75,14 +75,15 @@ amount: .05
 ]
 }
 itemCapacity: 120
+liquidCapacity: 80
 size: 5
 research: {
-parent: ram-drill
-name: Rotary drill
+parent: roatry-drill
 planet: tantros
 }
 requirements: [
 lead/340
+duralumin/90
 bauxite/200
 sodium/60
 nitride/180

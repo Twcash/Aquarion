@@ -41,7 +41,7 @@ type: DrawFlame
 suffix: -top
 }
 ]
-outputItem: metaglass/3
+outputItem: metaglass/4
 research: {
 requirements: [
 lead/120
