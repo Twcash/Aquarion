@@ -1,7 +1,9 @@
 type: itemTurret
 ammoPerShot: 5
 size: 3
+range: 140
 reload: 120
+squareSprite: false
 shootSound: bolt
 ammoUseEffect: casing2
 rotateSpeed: .6
@@ -26,7 +28,7 @@ ammoTypes: {
 sodium: {
 trailRotation: true
 type: railBulletType
-length: 120
+length: 140
 damage: 35
 pointEffectSpace: 6
 ammoMultiplier: 1
@@ -34,6 +36,7 @@ shootEffect: none
 ejectEffect: casing2
 smokeEffect: {
 line: true
+shootSound: bolt
 cone: 60
 particles: 4
 lenFrom: 7

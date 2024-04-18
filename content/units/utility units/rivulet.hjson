@@ -12,7 +12,7 @@ itemCapacity: 60
 omniMovement: false
 speed: 1.5
 rotateSpeed: 6
-drawCell: false
+drawCell: false   
 findAnyTarget: true
 targetIndex: offset
 //does this even work???

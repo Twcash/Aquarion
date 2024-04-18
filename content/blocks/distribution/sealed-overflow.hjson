@@ -1,0 +1,11 @@
+type: OverflowGate
+requirements: [
+lead/5
+bauxite/5
+]
+size: 1
+envEnabled: 4
+research: {
+planet: tantros
+parent: sealedconveyor
+}

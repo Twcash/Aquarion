@@ -43,6 +43,7 @@ ammoTypes: {
         trailEffect: none
         sprite: bullet
         shootSound: shootSnap
+	homingPower: 0
         damage: 35
         speed: 3
         weaveScale: 1.7
@@ -113,6 +114,7 @@ ammoTypes: {
     gallium: {
         type: MissileBulletType
         trailEffect: none
+	homingPower: 0
         sprite: bullet
         shootSound: shootSnap
         damage: 45

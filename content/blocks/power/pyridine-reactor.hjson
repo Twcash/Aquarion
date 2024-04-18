@@ -1,11 +1,10 @@
 type: consumeGenerator
 consumes: {
-  liquid: {
-    liquid: pyridine
-      amount: .075
-      }
+  liquids: [
+pyridine/.075
+hydrogen/.075
 }
-powerProduction: 6.5
+powerProduction: 3
 effectChance: 0.1
 canOverdrive: false
 category: power

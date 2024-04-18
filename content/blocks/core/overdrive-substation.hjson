@@ -15,3 +15,7 @@ category: effect
 baseColor: f6675b
 phaseColor: ffcf65
 envEnabled: 4
+category: effect
+consumes: {
+power: 12
+}
