@@ -23,7 +23,7 @@ surge-alloy,
 graphite,
 ]
 clearSectorOnLose: true
-orbitTime: 32
+orbitTime: 320
 allowLaunchSchematics: false
 allowLaunchLoadout: false
 allowWaveSimulation: false

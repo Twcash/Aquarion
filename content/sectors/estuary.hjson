@@ -1,0 +1,14 @@
+sector: 90
+planet: aquarion-tantros
+localizedName: Vast Shallows
+difficulty: 4
+enemyBase: true
+research:{
+parent: VastShallows
+objectives:[
+{
+type:SectorComplete
+preset: VastShallows
+}
+]
+}

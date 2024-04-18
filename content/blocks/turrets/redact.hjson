@@ -1,0 +1,80 @@
+type: itemTurret
+ammoPerShot: 5
+size: 3
+reload: 120
+shootSound: bolt
+ammoUseEffect: casing2
+rotateSpeed: .6
+shoot: {
+shots: 3
+shotDelay: 15
+}
+consumes: {
+power: 4
+}
+requirements: [
+lead/120
+bauxite/250
+sodium/120
+metaglass/90
+]
+research: {
+planet: tantros
+parent: forment
+}
+ammoTypes: {
+sodium: {
+trailRotation: true
+type: railBulletType
+length: 120
+damage: 35
+pointEffectSpace: 6
+ammoMultiplier: 1
+shootEffect: none
+ejectEffect: casing2
+smokeEffect: {
+line: true
+cone: 60
+particles: 4
+lenFrom: 7
+lifetime: 80
+lenTo: 0
+sizeFrom: 10
+sizeTo: 0
+colorFrom: d1efff
+colorTo: d1efff
+rotWithParent: true
+baseRotation: 0
+}
+endEffect: {
+line: true
+cone: 60
+particles: 4
+lenFrom: 7
+lifetime: 80
+lenTo: 0
+sizeFrom: 10
+sizeTo: 0
+colorFrom: d1efff
+colorTo: d1efff
+rotWithParent: true
+baseRotation: 0
+}
+pointEffect: {
+line: true
+cone: 0
+particles: 1
+lenFrom: 10
+lifetime: 60
+lenTo: 0
+sizeFrom: 10
+sizeTo: 0
+colorFrom: d1efff
+colorTo: d1efff
+rotWithParent: true
+baseRotation: 0
+}
+}
+}
+category: turret
+shootY: -1
