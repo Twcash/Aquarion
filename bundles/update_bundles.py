@@ -163,8 +163,9 @@ for f in bundleNames:
 
         for entry in bundleItems:
             if all(entry[0] != x[0] for x in curBundle):
-                print(f' - Creating entry "{entry[0]} = {entry[1]} <TODO: LOCALIZE>"')
-                curBundle.append((entry[0], entry[1] + " <TODO: LOCALIZE>"))
+                TO_DO = "<TODO: LOCALIZE>"
+                print(f' - Creating entry "{entry[0]} = {entry[1]} {TO_DO}"')
+                curBundle.append((entry[0], entry[1] + f" {TO_DO}"))
 
     newfile = ""
 
