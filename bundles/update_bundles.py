@@ -163,8 +163,8 @@ for f in bundleNames:
 
         for entry in bundleItems:
             if all(entry[0] != x[0] for x in curBundle):
-                print(f' - Creating entry "{entry[0]} = {entry[1]}"')
-                curBundle.append(tuple(entry))
+                print(f' - Creating entry "{entry[0]} = {entry[1]} <TODO: LOCALIZE>"')
+                curBundle.append((entry[0], entry[1] + " <NOT LOCALIZED>"))
 
     newfile = ""
 
