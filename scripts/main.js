@@ -18,6 +18,7 @@ Events.on(ClientLoadEvent, (event) => {
                 try {
                     Vars.ui.showOkText(
                         "[#22CCFF]Aquarion[white]",
+                        Core.bundle.get("scripts.update-aquaria"),
                         "[green]Update available[white], please reinstall Aquarion for latest content!",
                         () => {}
                     );
