@@ -18,14 +18,14 @@ Events.on(ClientLoadEvent, (event) => {
                 try {
                     Vars.ui.showOkText(
                         "[#22CCFF]Aquarion[white]",
-                        "[green]Update available[white], please reinstall Aquaria for latest content!",
+                        Core.bundle.get("scripts.update-aquaria"),
                         () => {}
                     );
                 } catch (err) {
                     Log.info("Error: " + err.toString());
                 }
             } else {
-                Log.info("Aquaria - up to date");
+                Log.info("Aquaria - up to   date");
             }
         },
         (err) => {
