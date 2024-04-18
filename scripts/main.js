@@ -13,12 +13,12 @@ var req = new Http.get(
         Log.info("Aquaria - local version: " + vers);
 
         if (!vers.equals(json.get("version"))) {
+            Log.warn("Aquaria - not up to date");
             Vars.ui.showOkText(
                 "[#22CCFF]Aquarion[white]",
                 "[green]Update available[white], please reinstall Aquaria for latest content!",
                 () => {}
             );
-            Log.warn("Aquaria - not up to date");
         } else {
             Log.info("Aquaria - up to date");
         }
