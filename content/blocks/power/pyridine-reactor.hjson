@@ -3,6 +3,7 @@ consumes: {
   liquids: [
 pyridine/.075
 hydrogen/.075
+]
 }
 powerProduction: 3
 effectChance: 0.1

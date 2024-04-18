@@ -1,14 +1,17 @@
 sector: 90
 planet: aquarion-tantros
-localizedName: Vast Shallows
+localizedName: Estuary
 difficulty: 4
 enemyBase: true
 research:{
-parent: VastShallows
+parent: BasaltCrags
 objectives:[
+nitride,
+submarine-factory
+BasaltCrags
 {
 type:SectorComplete
-preset: VastShallows
+preset: BasaltCrags
 }
 ]
 }
