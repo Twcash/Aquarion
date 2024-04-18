@@ -1,0 +1,16 @@
+type: wall
+  size: 2
+health: 3500
+armor: 16
+  category: defense
+requirements: [
+  duralumin/24
+  ]
+  research: {
+  parent: maganese-wall
+    planet: tantros
+    requirements: [
+    duralumin/150
+    ]
+}
+envEnabled: 4

@@ -3,17 +3,20 @@ name: rivulet
 flying: true
 outlineColor: 2f3734
 faceDirection: true
-omniMovement: false
 controller: CargoAI
 isEnemy: false
 logicControllable: false
 allowedInPayloads: false
 playerControllable: false
-itemCapacity: 40
+itemCapacity: 60
+omniMovement: false
+speed: 1.5
+rotateSpeed: 6
+drawCell: false
 findAnyTarget: true
 targetIndex: offset
 //does this even work???
-engineSize: 3
+engineSize: 0
 emptyWaitTime: 5
 //STOP BEING BIASED
 dropSpacing: 10
@@ -21,10 +24,9 @@ abilities: [
 {
 type: moveEffectAbility
 effect: airBubble
-y: -12
+y: -7
 interval: 15
 }
 ]
-engineColor: 43fc92
 hitSize: 6
 envEnabled: 4
