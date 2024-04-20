@@ -53,6 +53,14 @@ with open("bundle.properties") as f:
                 print(f"Comment: {comment}")
             continue
 
+        if line.startswith("#"):
+            comment = line.strip().split("#")[-1].strip().upper()
+            comments.append(comment)
+            master_bundle.append(("comments", comments[-1]))
+            if debug:
+                print(f"Comment Small: {comment}")
+            continue
+
         bundleName = line.split("=")[0].strip()
         if all([x[0] != bundleName for x in bundleItems]):
             bundleArr = line.strip().split(" = ")
@@ -75,6 +83,9 @@ for item in master_bundle:
     match item[0]:
         case "comment":
             newfile += "\n## "
+            newfile += item[1]
+        case "comments":
+            newfile += "\n# "
             newfile += item[1]
         case "entry":
             newfile += item[1][0]
@@ -139,8 +150,7 @@ for f in bundleNames:
     with open(f) as file:
         for line in file.readlines():
             line = line.strip()
-
-            if line.startswith("##"):
+            if line.startswith("#"):
                 continue
             if line.strip() == "":
                 continue
@@ -173,6 +183,9 @@ for f in bundleNames:
         match item[0]:
             case "comment":
                 newfile += "\n## "
+                newfile += item[1]
+            case "comments":
+                newfile += "\n#"
                 newfile += item[1]
             case "entry":
                 entry = []
