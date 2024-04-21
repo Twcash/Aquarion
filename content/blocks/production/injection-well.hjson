@@ -64,7 +64,7 @@ interp: pow5Out
 ]
 rotateSpeed: 1.2
 consumes: {
-power: 6.5
+power: 12
 liquids: [
 {
 liquid: hydrogen-chloride

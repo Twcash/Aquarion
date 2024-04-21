@@ -14,7 +14,7 @@ craftTime: 90
 outputItem: sodium/2
 outputLiquid: hydrogen-chloride/.25
 consumes: {
-power: 6
+power: 10
 liquids: [
 hydrogen/.25
 hydroxide/.64
