@@ -16,7 +16,6 @@ category: turret
 range: 200
 size: 4
 shootX: 0
-}
 ammoTypes: {
     nitride: {
         fragBullets: 3
@@ -159,8 +158,8 @@ ammoTypes: {
 	pierceCap: 4
         shootEffect: {
             particles: 3
-            colorFrom: fffff
-            colorTo: ffff24
+            colorFrom: ffffff
+            colorTo: ffffff24
             sizeFrom: 3.5
             sizeTo: 0
             cone: 30
@@ -174,8 +173,8 @@ ammoTypes: {
             line: true
             lenFrom: 6
             lenTo: 0
-            colorFrom: fff56
-            colorTo: fff56
+            colorFrom: ffffff
+            colorTo: ffffff10
             sizeFrom: 4
             sizeTo: 0
             cone: 49
@@ -189,8 +188,8 @@ ammoTypes: {
             line: true
             lenFrom: 6
             lenTo: 0
-            colorFrom: fff56
-            colorTo: fffff
+            colorFrom: ffffff
+            colorTo: ffffff
             sizeFrom: 4
             sizeTo: 0
             cone: 45
@@ -201,13 +200,15 @@ ammoTypes: {
         }
         ammoMultiplier: 5
         type: SappingBulletType
-        lifeTime: 45
+        lifetime: 45
         speed: 5.5
         lifetime: 45
         damage: 67
         reloadMultiplier: 1.2
         length: 14
         width: 16
+}
+}
 research: {
     parent: deviate
     planet: tantros
