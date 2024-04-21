@@ -3,6 +3,7 @@ reload: 25
 squareSprite: false
 targetAir: false
 ammoPerShot: 1
+envEnabled: 4
 ammoUseEffect: casing2
 inaccuracy: 9
 useAmmoOnce: true

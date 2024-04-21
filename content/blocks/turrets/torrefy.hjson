@@ -1,0 +1,225 @@
+type: itemTurret
+size: 4
+requirements: [
+bauxite/350
+metaglass/900
+gallium/450
+lead/550
+]
+category: turret
+research: {
+planet: tantros
+parent: forment
+}
+range: 130
+shootY: 4
+reload: 45
+envEnabled: 4
+targetAir: false
+consumes: {
+liquid: {
+liquid: hydroxide
+amount: .15
+}
+}
+shoot: {
+shots: 3
+shootCone: 45
+}
+inaccuracy: 12
+squareSprite: false
+minWarmup: .9
+warmupSpeed: .01
+ammoTypes: {
+sodium: {
+shootEffect: none
+width: 12
+height: 19
+hitSize: 7
+pierce: true
+status: burning
+damage: 45
+statusDuration: 190
+warmupMaintainTime: 45
+makeFire: true
+pierceCap: 3
+trailInterval: 6
+trailRotation: true
+lifetime: 35
+speed: 3
+trailEffect: [
+{
+cone: 10
+length: 60
+lifetime: 90
+layer: 45
+particles: 5
+sizeFrom: 2
+particles: 3
+sizeTo: 0
+colorFrom: 625f57
+colorTo: 2a2824
+rotWithParent: true
+}
+{
+cone: 10
+length: 45
+lifetime: 60
+layer: 100
+particles: 2
+sizeFrom: 4
+sizeTo: 0
+rotWithParent: true
+colorFrom: ffbbab
+colorTo: 90716a
+}
+{
+cone: 15
+length: 30
+lifetime: 60
+particles: 3
+sizeFrom: 3
+sizeTo: 0
+particles: 2
+rotWithParent: true
+colorFrom: ffd4af
+colorTo: e89955
+}
+{
+cone: 25
+length: 35
+lifetime: 60
+interp: pow10Out
+particles: 3
+sizeFrom: 2
+sizeTo: 0
+rotWithParent: true
+colorFrom: ffffff
+colorTo: fcd97d
+}
+]
+smokeEffect: [
+{
+cone: 25
+length: 120
+lifetime: 90
+layer: 45
+particles: 4
+sizeFrom: 3
+sizeTo: 0
+rotWithParent: true
+colorFrom: 625f57
+colorTo: 2a2824
+}
+{
+cone: 25
+length: 120
+lifetime: 90
+layer: 100
+particles: 7
+sizeFrom: 6
+sizeTo: 0
+rotWithParent: true
+splashDamageRadius: 15
+collidesAir: false
+splashDamage: 35
+colorFrom: ffbbab
+colorTo: 90716a
+}
+{
+cone: 15
+length: 65
+lifetime: 80
+particles: 3
+sizeFrom: 6
+sizeTo: 0
+colorFrom: ffd4af
+rotWithParent: true
+colorTo: e89955
+}
+{
+cone: 45
+length: 65
+lifetime: 90
+interp: pow10Out
+rotWithParent: true
+particles: 5
+sizeFrom: 7
+sizeTo: 0
+colorFrom: ffffff
+colorTo: fcd97d
+}
+{
+line: true
+lenFrom: 9
+rotWithParent: true
+lineTo: 9
+cone: 45
+length: 80
+lifetime: 110
+interp: pow5Out
+particles: 10
+sizeFrom: 7
+sizeTo: 0
+colorFrom: ffffff
+colorTo: fcd97d
+}
+]
+}
+}
+drawer: {
+type: drawTurret
+parts: [
+{
+suffix: -back
+moveY: -3.75
+y: .25
+progress: warmup
+moves: [
+{
+progress: recoil
+y: 4
+}
+]
+}
+{
+suffix: -backside
+mirror: true
+moveRot: 10
+moveY: .75
+moveX: -.5
+moves: [
+{
+progress: recoil
+y: .5
+}
+]
+}
+{
+suffix: -side
+mirror: true
+moveRot: -10
+moveY: -1
+moveX: 1
+progress: warmup
+moves: [
+{
+progress: recoil
+y: -.5
+rot: 5
+}
+]
+}
+{
+suffix: -mid
+moveY: 2
+progress: warmup
+moves: [
+{
+progress: recoil
+y: 2
+}
+]
+}
+]
+}
