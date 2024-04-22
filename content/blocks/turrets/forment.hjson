@@ -302,6 +302,7 @@ drawer: {
 }
 research: {
     name: Forment
+depth: 2
     parent: core-pike
     requirements: [
         lead/40
