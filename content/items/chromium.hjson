@@ -1,0 +1,7 @@
+
+color: FFFFF
+hardness: 4
+cost: 3
+research: {
+parent: duralumium
+}
