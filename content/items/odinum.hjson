@@ -1,0 +1,12 @@
+
+color: 24636B
+planet: [
+tantros
+]
+research: {
+planet: tantros
+parent: chromium
+}
+explosiveness: 2
+hardness: 6
+radioactivity: 7
