@@ -1,7 +1,7 @@
 repo: "Twcash/Tantros-test"
 name: "Aquarion"
 displayName: "Aquarion"
-author: "twcash"
+author: "twcash and mr fisho"
 description: "Aquarion is a campaign extension to recreate tantros including a custom campaign planet, units and blocks."
 version: "2.0.1"
 minGameVersion: "146"
