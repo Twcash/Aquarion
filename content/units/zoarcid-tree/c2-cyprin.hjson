@@ -6,8 +6,9 @@ drag: .2
 speed: 3
 outlineColor: 2f3734
 rotateSpeed: 2
-lowAltitude: false
+lowAltitude: true
 accel: .1
+targetAir: false
 itemCapacity: 125
 faceTarget: true
 health: 2300
@@ -34,7 +35,7 @@ sizeFrom: 5
 sizeTo: 0
 colorFrom: 8ca4fc
 colorTo: 8ca4fc50
-layer: 110.3
+layer: 80.3
 rotWithParent: true
 }
 {
@@ -49,7 +50,7 @@ sizeFrom: 6
 sizeTo: 1
 colorFrom: 6d5e5e
 colorTo: 31282750
-layer: 110.2
+layer: 80.2
 rotWithParent: true
 }
 {
@@ -64,7 +65,7 @@ sizeFrom: 5
 sizeTo: 0
 colorFrom: 6d5e5e
 colorTo: 46403f50
-layer: 110.1
+layer: 80.1
 rotWithParent: true
 }
 ]
@@ -88,7 +89,7 @@ sizeFrom: 5
 sizeTo: 0
 colorFrom: 8ca4fc
 colorTo: 8ca4fc50
-layer: 110.3
+layer: 80.3
 rotWithParent: true
 }
 {
@@ -103,7 +104,7 @@ sizeFrom: 6
 sizeTo: 1
 colorFrom: 6d5e5e
 colorTo: 31282750
-layer: 110.2
+layer: 80.2
 rotWithParent: true
 }
 {
@@ -118,7 +119,7 @@ sizeFrom: 5
 sizeTo: 0
 colorFrom: 6d5e5e
 colorTo: 46403f50
-layer: 110.1
+layer: 80.1
 rotWithParent: true
 }
 ]
@@ -210,6 +211,7 @@ recoilIndex: 1
 {
 name: missile-battery
 layerOffset: -.01
+targetAir: false
 shoot: {
 type: ShootBarrel
 barrels: [
@@ -219,6 +221,7 @@ barrels: [
 }
 ignoreRotation: true
 reload: 35
+targetAir: false
 rotate: false
 shootCone: 360
 x: 0

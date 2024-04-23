@@ -1,0 +1,38 @@
+type: regenProjector
+range: 50
+healPercent: .06
+consumes: {
+liquid: {
+liquid: hydrogen
+amount: .2
+}
+power: 9
+}
+size: 2
+requirements: [
+nitride/120
+lead/90
+metaglass/120
+]
+envEnabled: 4
+research: {
+parent: mend-hive
+planet: tantros
+}
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawRegion
+suffix: -rotator
+spinSprite: true
+rotateSPeed: 2
+}
+{
+type: drawRegion
+suffix: -top
+}
+]
+category: defense

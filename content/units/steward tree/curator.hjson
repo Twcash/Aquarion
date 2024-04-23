@@ -1,14 +1,25 @@
-type: mech
+type: legs
+legCount: 4
+lockLegBase: true
 speed: .5
-omniMoveement: false
+omniMovement: false
 health: 650
+targetGround: false
 drawCell: false
+abilities: [
+{
+type: RepairFieldAbility
+reload: 150
+range: 45
+amount: 50
+}
+]
 baseRotationSpeed: 12
-armor: 4
-boostMultiplier: 1.6
+armor: 3
 mechLegColor: 232826
 rotateSpeed: 3
-canBoost : true
+hitSize: 11
+legExtension: -1
 outlineColor: 232826
 research: {
 parent: steward
@@ -22,19 +33,46 @@ weapons: [
 {
 name: curator-weapon
 shootCone: 45
-top: false
-layerOffset: -.001
-reload: 60
-x: 0
-shootX: 12
+shootSound: bolt
+reload: 30
+rotate: true
+inaccuracy: 5
+rotateSpeed: 1.1
+mirror: false
+x: -.5
+shoot: {
+shots: 2
+type: shootMulti
+source: shootBarrel
+dest: [
+{
+type: shootBarrel
+shots: 2
+barrels: [
+2, 4, 0
+-2, 4, 0
+]
+}
+]
+}
+parts: [
+{
+suffix: -barrels
+progress: recoil
+moveY: -2
+under: true
+}
+]
 shootSound: artillery
-shootStatus: slow
-shootStatusDuration: 45
 bullet: {
-type: artilleryBulletType
-splashDamage: 35
-splashDamageRadius: 25
-speed: 1.5
+sprite: bullet
+splashDamage: 30
+collidesTiles: false
+collidesGround: false
+collidesAir: true
+splashDamageRadius: 15
+homingPower: .1
+speed: 3
 trailEffect: [
 {
 particles: 3
