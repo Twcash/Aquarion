@@ -179,7 +179,7 @@ sizeTo: 1
 ]
 weaveScale: 2
 weaveMag: 1
-damage: 35
+damage: 12
 shootCone: 90
 }
 }
@@ -285,7 +285,7 @@ sizeTo: 1
 ]
 weaveScale: 2
 weaveMag: 1
-damage: 35
+damage: 12
 shootCone: 90
 }
 }

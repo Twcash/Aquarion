@@ -7,10 +7,10 @@ squareSprite: false
 droneType: construction-drone
 plans: [
 {
-unit: cyprin
+unit: c2-cyprin
 time: 1500
 requirements: [
-anguilli/1
+b1-anguilli/1
 bauxite-wall/5
 basic-processor/3
 ]

@@ -1,0 +1,116 @@
+type: flying
+drawCell: false
+flying: true
+lowAltitude: true
+outlineColor: 2f3734
+targetAir: false
+envEnabled: 4
+drag: .2
+localizedName: Anguilli
+speed: 3
+rotateSpeed: 2.1
+omniMovement: false
+accel: .1
+itemCapacity: 45
+faceTarget: true
+health: 480
+armor: 2
+engineSize: 0
+hitSize: 8
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -6
+rotateEffect: true
+effect: [
+{
+particles: 3
+lifetime: 10
+cone: 15
+length: 2
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 8ca4fc
+colorTo: 8ca4fc
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 16
+cone: 30
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 2
+sizeTo: 1
+colorFrom: 6d5e5e
+colorTo: 312827
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 5
+lifetime: 18
+cone: 15
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 3
+sizeTo: 0
+colorFrom: 6d5e5e
+colorTo: 46403f
+layer: 83.9
+rotWithParent: true
+}
+]
+}
+]
+requirements: {
+  previous: a0-zoarcid
+ block: correlative-reconstructor
+}
+weapons: [
+{
+x: 4
+y: 2
+naccuracy: 7
+rotate: false
+shootCone: 180
+reload: 30
+shoot: {
+type: shootSine
+source: shootPattern
+shots: 2
+}
+bullet: {
+type: missileBulletType
+lifetime: 35
+speed: 3
+damage: 12
+splashDamage: 5
+homingPower: .1
+homingRange: 50
+weaveScale: 6
+weaveMag: 1.5
+splashDamageRadius: 15
+trailLength: 5
+frontColor: 8ca4fc
+backColor: 5c5e9f
+hitColor: 8ca4fc
+trailColor: 5c5e9f
+lightColor: 8ca4fc
+}
+}
+]
+envEnabled: 4
+research: {
+parent: a0-zoarcid
+planet: aquarion-tantros
+}

@@ -1,35 +1,31 @@
 type: flying
-localizedName: Obligate
 flying: true
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
-speed: 1.4
 rotateSpeed: 7
 crashDamageMultiplier: .15
 omniMovement: false
 itemCapacity: 20
 faceTarget: true
-health:  280
+health:  220
 engineSize: .5
-drag: .05
 rotateSpeed: 4
-speed: 1.4
+speed: 1.2
 rotateSpeed: 7
 omniMovement: false
-itemCapacity: 20
+itemCapacity: 0
 faceTarget: true
 health:  260
 engineSize: 0
 drawCell: false
-armor: 1
-hitSize: 6
+armor: 0
+hitSize: 7
 requirements: {
   block: submarine-factory
   time: 300
   requirements: [
 gallium/15
-metaglass/15
 bauxite/25
   ]
 }
