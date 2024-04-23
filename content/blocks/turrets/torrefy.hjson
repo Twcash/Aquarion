@@ -1,10 +1,10 @@
 type: itemTurret
 size: 4
 requirements: [
-bauxite/350
-metaglass/900
-gallium/450
-lead/550
+bauxite/110
+metaglass/120
+gallium/90
+lead/130
 ]
 category: turret
 research: {

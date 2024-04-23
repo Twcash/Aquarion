@@ -7,7 +7,7 @@ outlineColor: 2f3734
 lowAltitude: true
 mineTier: 3
 mineSpeed: 6
-buildSpeed: 1.8
+buildSpeed: 1
 itemCapacity: 80
 drag: .1
 speed: 3.5
