@@ -112,7 +112,7 @@ ammoTypes: {
 	buildingDamageMultiplier: .15
     }
     gallium: {
-        type: ShrapnelBulletType
+        type: MissleBulletType
         trailEffect: none
 	homingPower: 0
         sprite: bullet
@@ -186,7 +186,7 @@ ammoTypes: {
         makeFire: false
     }
     nitride: {
-        type: LaserBulletType
+        type: MissleBulletType
         trailEffect: none
         sprite: bullet
 	buildingDamageMultiplier: .15
