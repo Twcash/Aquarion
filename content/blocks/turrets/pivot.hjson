@@ -1,4 +1,4 @@
-type: ItemTurret
+
 reload: 25
 squareSprite: false
 targetAir: false

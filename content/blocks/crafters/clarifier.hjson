@@ -1,4 +1,4 @@
-type: GenericCrafter
+
 squareSprite: false
 description: Directly harvests hydroxide by electrolyzing brine.
 size: 4

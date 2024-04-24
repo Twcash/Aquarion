@@ -1,4 +1,4 @@
-type: ThermalGenerator
+
 size: 3
 displayEfficiencyScale: .1111111111
 effectChance: 0.1

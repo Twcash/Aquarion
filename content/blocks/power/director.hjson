@@ -1,4 +1,4 @@
-type: battery
+
 category: power
 requirements: [
 lead/2

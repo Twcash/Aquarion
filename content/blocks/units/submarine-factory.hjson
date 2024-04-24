@@ -1,5 +1,4 @@
-type: unitFactory
-localizedName: Submarine Factory
+
 category: units
 conductivePower: true
 size: 3

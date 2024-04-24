@@ -1,4 +1,4 @@
-type: ItemTurret
+
 category: turret
 squareSprite: false
 inaccuracy: 2

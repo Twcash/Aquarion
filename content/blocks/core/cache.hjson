@@ -1,4 +1,4 @@
-type: StorageBlock
+
 itemCapacity: 250
 coreMerge: false
 squareSprite: false

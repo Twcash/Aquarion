@@ -1,5 +1,5 @@
 category: distribution
-type: Duct
+
 speed: 10.9
 description: Transports items forwards.
 itemCapacity: 2

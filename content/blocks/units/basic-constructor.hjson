@@ -7,7 +7,6 @@ consumes: {
 power: 2.5
 }
 size: 3
-type: constructor
 maxBlockSize: 3
 minBlockSize: 1
 category: units

@@ -1,8 +1,7 @@
-type: HeatCrafter
+
 outputItem: nitride/3
 squareSprite: false
 category: crafting
-description: Injects ammonia from pyridines into molten gallium to make nitride.
 conductivePower: true
 itemCapacity: 60
 size: 4

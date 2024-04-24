@@ -1,4 +1,4 @@
-type: CoreBlock
+
 description: The core of the base. small, once destroyed the sector is lost.
 squareSprite: false
 itemCapacity: 12000

@@ -1,4 +1,4 @@
-type: ItemTurret
+
 reload: 6
 warmupSpeed: 0.5
 squareSprite: false

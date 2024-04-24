@@ -1,4 +1,4 @@
-type: consumeGenerator
+
 consumes: {
   liquids: [
 pyridine/.075

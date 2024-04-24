@@ -5,6 +5,5 @@ requirements: [
 lead/120
 bauxite/40
 ]
-type: unitAssemblerModule
 category: units
 size: 3

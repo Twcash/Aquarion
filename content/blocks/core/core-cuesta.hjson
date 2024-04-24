@@ -1,4 +1,3 @@
-type: CoreBlock
 squareSprite: false
 itemCapacity: 9000
 size: 5

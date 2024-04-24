@@ -1,4 +1,4 @@
-type: HeatProducer
+
 size: 3
 outputItem: sodium/2
 conductivePower: true

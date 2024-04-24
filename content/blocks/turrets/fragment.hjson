@@ -1,4 +1,4 @@
-type: ItemTurret
+
 squareSprite: false
 ammoPerShot: 1
 targetGround: false

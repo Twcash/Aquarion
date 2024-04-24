@@ -1,4 +1,4 @@
-type: HeaterGenerator
+
 size: 5
 liquidCapacity: 250
 squareSprite: false

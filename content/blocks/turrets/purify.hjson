@@ -1,4 +1,4 @@
-type: itemTurret
+
 heatColor: ff3504
 squareSprite: false
 range: 180

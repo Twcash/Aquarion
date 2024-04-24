@@ -1,4 +1,4 @@
-type: VariableReactor
+
 powerProduction: 750
 explosionRadius: 34
 warmupSpeed: .01

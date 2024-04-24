@@ -1,4 +1,4 @@
-type: HeaterGenerator
+
 heatOutput: 12
 consumes: {
 liquids: [

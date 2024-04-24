@@ -1,4 +1,4 @@
-type: battery
+
 baseExplosiveness: 7
 consumes: {
 powerBuffered: 24500

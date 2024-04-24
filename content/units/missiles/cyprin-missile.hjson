@@ -95,8 +95,8 @@ shootEffect: none
 collidesAir: false
 shootSound: dullExplosion
 type: ExplosionBulletType
-splashDamageRadius: 15
-splashDamage: 5
+splashDamageRadius: 30
+splashDamage: 45
 }
 shootEffect: none
 }

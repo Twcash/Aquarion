@@ -1,4 +1,4 @@
-type: genericCrafter
+
 craftTime: 240
 consumes: {
   power: 15

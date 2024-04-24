@@ -1,5 +1,4 @@
-type: UnitAssembler
-localizedName: Accumulative Assembler
+
 description: Assembles tier 3 units.
 dronesCreated: 4
 size: 5
@@ -10,36 +9,36 @@ plans: [
 unit: c2-cyprin
 time: 1500
 requirements: [
-b1-anguilli/1
-bauxite-wall/5
-basic-processor/3
+aquarion-b1-anguilli/1
+aquarion-bauxite-wall/5
+aquarion-basic-processor/3
 ]
 }
 {
 unit: consul
 time: 1500
 requirements: [
-ambassador/1
-bauxite-wall/5
-basic-processor/3
+aquarion-ambassador/1
+aquarion-bauxite-wall/5
+aquarion-basic-processor/3
 ]
 }
 {
 unit: custodian
 time: 1500
 requirements: [
-curator/1
-bauxite-wall/5
-basic-processor/3
+aquarion-curator/1
+aquarion-bauxite-wall/5
+aquarion-basic-processor/3
 ]
 }
 {
 unit: impel
 time: 1500
 requirements: [
-carid/1
-bauxite-wall/5
-basic-processor/3
+aquarion-carid/1
+aquarion-bauxite-wall/5
+aquarion-basic-processor/3
 ]
 }
 ]
@@ -58,5 +57,5 @@ hydrogen/.3
 nitrogen/.15
 ]
 }
-areaSize: 6
+areaSize: 9
 envEnabled: 4

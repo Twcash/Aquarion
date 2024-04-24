@@ -1,4 +1,6 @@
-type: payloadRouter
+size: 1
+payloadLimit: 1
+
 requirements: [
 lead/10
 bauxite/10

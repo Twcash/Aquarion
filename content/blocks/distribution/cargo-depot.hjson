@@ -1,4 +1,4 @@
-type: UnitCargoUnloadPoint
+
 category: distribution
 size: 2
 staleTimeDuration: 1

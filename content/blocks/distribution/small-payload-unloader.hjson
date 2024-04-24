@@ -1,4 +1,4 @@
-type: PayloadUnloader
+
 size: 1
 maxBlockSize: 1
 category: units

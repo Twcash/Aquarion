@@ -1,4 +1,4 @@
-type: OverdriveProjector
+
 size: 4
 requirements: [
 manganese/120

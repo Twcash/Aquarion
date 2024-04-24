@@ -1,5 +1,4 @@
 tier: 10
-type: Drill
 squareSprite: false
 category: production
 warmupSpeed: .003

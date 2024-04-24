@@ -8,7 +8,6 @@ lead/80
 metaglass/20
 bauxite/60
 ]
-type: buildTurret
 consumes: {
 power: 1.25
 liquid: {

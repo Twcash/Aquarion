@@ -1,4 +1,4 @@
-type: regenProjector
+
 range: 50
 healPercent: .06
 consumes: {
