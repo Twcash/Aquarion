@@ -97,13 +97,13 @@ explodeEffect: [
 line: true
 particles: 13
 layer: 10
-colorFrom: ea8e40180
-colorTo: 1b150f
+colorFrom: 241f1f
+colorTo: 242424
 lenFrom: 60
-lifetime: 900
+lifetime: 1800
 sizeFrom: 40
-sizeTo: 0
-lenTo: 60
+sizeTo: 40
+lenTo: 0
 }
 {
 type: seqEffect
