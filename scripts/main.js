@@ -9,6 +9,7 @@ extend(GenericCrafter, "cyanogen-mixer", {});
 extend(HeatCrafter, "nitrogen-distillery", {});
 extend(HeatCrafter, "pyrosilicon-crucible", {});
 extend(HeatCrafter, "duralumin-crucible", {});
+extend(Wall, "bauxite-wall", {});
 extend(Wall, "gallium-wall", {});
 extend(Wall, "maganese-wall", {});
 extend(Wall, "duralumin-wall", {});
