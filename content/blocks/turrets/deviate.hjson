@@ -15,7 +15,6 @@ elevation: 0.3
 shake: 0.2
 ammoEjectBack: 6
 recoils: 4
-health: 240
 shootSound: shootAlt
 category: turret
 range: 200
@@ -274,10 +273,10 @@ research: {
     planet: tantros
 }
 requirements: [
-    lead/480
-    gallium/120
-    bauxite/200
-    nitride/120
+    lead/250
+    gallium/110
+    bauxite/110
+    nitride/90
     metaglass/120
 ]
 envEnabled: 4

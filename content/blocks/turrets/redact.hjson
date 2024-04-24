@@ -2,22 +2,22 @@ type: itemTurret
 ammoPerShot: 5
 size: 3
 range: 140
-reload: 120
+reload: 100
 squareSprite: false
 shootSound: bolt
 ammoUseEffect: casing2
-rotateSpeed: .6
+rotateSpeed: .9
 shoot: {
-shots: 3
-shotDelay: 15
+shots: 5
+shotDelay: 8
 }
 consumes: {
 power: 4
 }
 requirements: [
-lead/120
-bauxite/250
-sodium/120
+lead/110
+bauxite/110
+sodium/90
 metaglass/90
 ]
 research: {
@@ -29,7 +29,7 @@ sodium: {
 trailRotation: true
 type: railBulletType
 length: 140
-damage: 35
+damage: 40
 pointEffectSpace: 6
 ammoMultiplier: 1
 shootEffect: none

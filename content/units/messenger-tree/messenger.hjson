@@ -50,7 +50,7 @@ waveLife: 3
 }
 ]
 requirements: {
-  previous: zoarcid
+  previous: a0-zoarcid
  block: conversive-reconstructor
 }
 drawCell: false

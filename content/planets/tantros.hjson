@@ -26,7 +26,8 @@ clearSectorOnLose: true
 orbitTime: 320
 allowLaunchSchematics: false
 allowLaunchLoadout: false
-allowWaveSimulation: false
+//  YOU SUCK ERIKIR
+allowWaveSimulation: true
 parent: sun
 radius: 0.7
 minZoom: 0.9

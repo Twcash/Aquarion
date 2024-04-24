@@ -1,5 +1,5 @@
 type: HeaterGenerator
-heatOutput: 15
+heatOutput: 12
 consumes: {
 liquids: [
 nitrogen/.75
@@ -59,8 +59,7 @@ sizeTo: 5
 }
 }
 ]
-powerProduction: 10
-outputLiquid: pyridine/.5
+powerProduction: 5
 drawer: [
 {
 type: drawRegion
@@ -78,16 +77,16 @@ particleLife: 60
 }
 {
 type: drawRegion
-rotation: -45
+rotation: 45
 suffix: -fan
-rotateSprite: true
+spinSprite: true
 rotateSpeed: 1.5
 }
 {
 type: drawRegion
 rotation: 0
 suffix: -fan
-rotateSprite: true
+spinSprite: true
 rotateSpeed: 1.5
 }
 {

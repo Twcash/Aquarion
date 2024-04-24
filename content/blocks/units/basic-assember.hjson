@@ -7,42 +7,41 @@ squareSprite: false
 droneType: construction-drone
 plans: [
 {
-unit: cyprin
+unit: c2-cyprin
 time: 1500
 requirements: [
-tantros-test-anguilli/1
-tantros-test-bauxite-wall/5
-tantros-test-basic-processor/3
+b1-anguilli/1
+bauxite-wall/5
+basic-processor/3
 ]
 }
 {
 unit: consul
 time: 1500
 requirements: [
-tantros-test-ambassador/1
-tantros-test-bauxite-wall/5
-tantros-test-basic-processor/3
+ambassador/1
+bauxite-wall/5
+basic-processor/3
 ]
 }
 {
 unit: custodian
 time: 1500
 requirements: [
-tantros-test-curator/1
-tantros-test-bauxite-wall/5
-tantros-test-basic-processor/3
+curator/1
+bauxite-wall/5
+basic-processor/3
 ]
 }
 {
 unit: impel
 time: 1500
 requirements: [
-tantros-test-carid/1
-tantros-test-bauxite-wall/5
-tantros-test-basic-processor/3
+carid/1
+bauxite-wall/5
+basic-processor/3
 ]
 }
-
 ]
 requirements: [
 manganese/330

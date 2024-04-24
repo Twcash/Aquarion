@@ -25,10 +25,9 @@ ammoPerShot: 2
 recoil: 2.5
 recoilTime: 25
 requirements: [
-    lead/80
-    bauxite/40
+    lead/90
+    bauxite/60
 ]
-health: 180
 range: 120
 coolantMultiplier: 5
 consumes: {
@@ -44,7 +43,7 @@ ammoTypes: {
         sprite: bullet
         shootSound: shootSnap
 	homingPower: 0
-        damage: 35
+        damage: 30
         speed: 3
         weaveScale: 1.7
         weaveMag: 2
@@ -112,7 +111,7 @@ ammoTypes: {
 	buildingDamageMultiplier: .15
     }
     gallium: {
-        type: MissileBulletType
+        type: MissleBulletType
         trailEffect: none
 	homingPower: 0
         sprite: bullet
@@ -186,18 +185,16 @@ ammoTypes: {
         makeFire: false
     }
     nitride: {
-        type: MissileBulletType
+        type: MissleBulletType
         trailEffect: none
         sprite: bullet
 	buildingDamageMultiplier: .15
         shootSound: shootSnap
-        damage: 30
+        damage: 45
         speed: 3
         weaveScale: 2
         weaveMag: 2.5
         lifetime: 45
-        homingPower: .1
-        homingRange: 70
         reloadMultiiplier: 1
         ammoMultiplier: 4
         trailLength: 8
@@ -302,10 +299,11 @@ drawer: {
 }
 research: {
     name: Forment
+depth: 2
     parent: core-pike
     requirements: [
-        lead/40
-        bauxite/20
+        lead/35
+        bauxite/25
     ]
     planet: tantros
 }

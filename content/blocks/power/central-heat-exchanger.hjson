@@ -1,0 +1,650 @@
+type: VariableReactor
+powerProduction: 750
+explosionRadius: 34
+warmupSpeed: .01
+explosionDamage: 5500
+ambientSound: bioLoop
+category: power
+itemDuration: 120
+envEnabled: 4
+destroyBullet: {
+type: basicBulletType
+collides: false
+despawnEffect: none
+lifetime: 65
+delayFrags: true
+fragAngle: 10
+fragLifeMin: .7
+fragVelocityMin: 1
+fragVelocityMax: 1.1
+fragBullets: 4
+fragBullet: {
+type: artilleryBulletType
+lifetime: 700
+collides: false
+trailInterval: 2
+speed: 1
+trailRotation: true
+splashDamage: 1200
+splashDamageRadius: 120
+pierceBuilding: true
+pierce: true
+despawnEffect: [
+{
+type: seqEffect
+layer: 10
+effect: [
+{
+type: waveEffect
+interp: pow5Out
+sizeFrom: 0
+sizeTo: 60
+colorFrom: ffffff
+colorTo: ffffff
+strokeFrom: 2
+stroketo: 2
+}
+{
+type: waveEffect
+interp: pow10Out
+sizeFrom: 60
+sizeTo: 65
+colorFrom: ffffff
+colorTo: ffffff10
+strokeFrom: 2
+stroketo: 0
+}
+]
+}
+{
+particles: 15
+sizeFrom: 15
+sizeTo: 0
+length: 90
+layer: 80
+lifetime: 430
+colorFrom: 484949
+colorTo: 25252510
+}
+{
+particles: 15
+sizeFrom: 15
+sizeTo: 0
+length: 85
+lifetime: 380
+layer: 110
+colorFrom: ffd8ad
+colorTo: ffd8ad
+}
+]
+trailEffect: [
+{
+sizeFrom: 15
+rotWithParent: true
+cone: 25
+layer: 100.3
+sizeTo: 15
+line: true
+lenFrom: 15
+lenTo: 0
+colorFrom: ffe7d2
+colorTo: a0744f
+length: 70
+baseRotation: 0
+lifetime: 120
+}
+{
+sizeFrom: 15
+rotWithParent: true
+cone: 25
+layer: 100.2
+sizeTo: 0
+colorFrom: ffe7d2
+colorTo: a0744f
+length: 70
+baseRotation: 0
+lifetime: 120
+}
+{
+sizeFrom: 30
+rotWithParent: true
+cone: 40
+sizeTo: 0
+layer: 100.1
+colorFrom: cf8445
+colorTo: 6c4421
+baseRotation: 0
+length: 80
+lifetime: 120
+}
+{
+sizeFrom: 20
+layer: 83
+rotWithParent: true
+cone: 55
+sizeTo: 0
+colorFrom: 975924
+baseRotation: 0
+length: 90
+lifetime: 120
+colorTo: 593b21
+}
+{
+sizeFrom: 30
+layer: 82
+sizeTo: 0
+cone: 60
+rotWithParent: true
+colorFrom: 342e29
+colorTo: 282019
+length: 100
+lifetime: 120
+baseRotation: 0
+}
+]
+}
+}
+explodeEffect: [
+{
+line: true
+particles: 13
+layer: 10
+colorFrom: 241f1f
+colorTo: 242424
+lenFrom: 60
+lifetime: 1800
+sizeFrom: 40
+sizeTo: 40
+lenTo: 0
+}
+{
+type: seqEffect
+effects: [
+{
+particles: 1
+lifetime: 60
+colorFrom: ffffff00
+colorTo: ffffff00
+}
+{
+particles: 340
+line: true
+interp: pow5Out
+sizeFrom: 30
+sizeT0: 30
+lifetime: 500
+length: 350
+colorFrom: ffe600
+colorTo: ffffff
+lenFrom: 45
+lenTo: 0
+}
+]
+}
+{
+type: seqEffect
+layer: 100
+effects: [
+{
+particles: 55
+interp: reverse
+length: 120
+lifetime: 60
+sizeFrom: 0
+sizeTo: 35
+colorFrom: ffffff00
+colorTo: ffffff00
+}
+{
+particles: 50
+length: 240
+lifetime: 700
+sizeFrom: 60
+sizeTo: 0
+colorFrom: ff9b22
+colorTo: ff9b22
+}
+]
+}
+{
+type: seqEffect
+layer: 102
+effects: [
+{
+particles: 55
+interp: reverse
+length: 120
+lifetime: 60
+sizeFrom: 0
+sizeTo: 35
+colorFrom: ffffff00
+colorTo: ffffff00
+}
+{
+line: true
+lenFrom: 20
+lenTo: 30
+particles: 50
+length: 240
+lifetime: 700
+sizeFrom: 80
+sizeTo: 0
+colorFrom: ffdcb1
+colorTo: ff9b22
+}
+]
+}
+{
+type: seqEffect
+layer: 101
+effects: [
+{
+particles: 55
+interp: reverse
+length: 120
+lifetime: 60
+sizeFrom: 0
+sizeTo: 35
+colorFrom: efb268
+colorTo: f9b563
+}
+{
+particles: 160
+length: 340
+lifetime: 650
+sizeFrom: 40
+sizeTo: 0
+colorFrom: ff9b22
+colorTo: ff9b22
+}
+]
+}
+{
+layer: 80
+type: seqEffect
+effects: [
+{
+particles: 75
+interp: reverse
+length: 120
+lifetime: 60
+sizeFrom: 0
+sizeTo: 40
+colorFrom: 212e2a10
+colorTo: f1b762
+}
+{
+particles: 160
+length: 380
+lifetime: 800
+sizeFrom: 65
+sizeTo: 0
+colorFrom: f1b762
+colorTo: 1f1b14
+}
+]
+}
+{
+type: seqEffect
+layer: 350
+effects: [
+{
+type: waveEffect
+interp: reverse
+lifetime: 45
+strokeFrom: 3
+colorFrom: 8bd7c1
+colorTo: 8bd7c1
+strokeTo: 0
+sizeFrom: 3
+sizeTo: 200
+}
+{
+sizeFrom: 4000
+sizeTo: 4000
+length: 0
+clipSize: 400
+lifetime: 450
+colorFrom: ffffff250
+colorTo: 80777410
+}
+]
+}
+{
+type: seqEffect
+layer: 10
+effects: [
+{
+type: waveEffect
+interp: reverse
+lifetime: 45
+strokeFrom: 3
+colorFrom: 8bd7c1
+colorTo: 8bd7c1
+strokeTo: 0
+sizeFrom: 3
+sizeTo: 200
+}
+{
+type: waveEffect
+lifetime: 240
+colorFrom: 8bd7c1
+colorTo: fcfcfc
+strokeFrom: 0
+strokeTo: 10
+sizeFrom: 0
+sizeTo: 300
+layer: 10
+}
+{
+type: waveEffect
+lifetime: 120
+colorFrom: fcfcfc
+colorTo: fcfcfc00
+strokeFrom: 10
+strokeTo: 0
+sizeFrom: 300
+sizeTo: 350
+layer: 10
+interp: pow10Out
+}
+]
+}
+]
+effect: [
+{
+particles: 3
+length: 120
+lifetime: 350
+cone: 29
+baseRotation: 17
+sizeFrom: 0
+sizeTo: 15
+colorFrom: dce3d280
+colorTo: 83757210
+sizeInterp: pow3Out
+interp: pow3Out
+} 
+{
+type: radialEffect
+amount: 3
+rotationOffset: 15
+lengthOffset: 30
+rotationSpacing: 8
+effect: {
+line: true
+length: 40
+particles: 1
+cone: 3
+baseRotation: 90
+lifetime: 60
+lenFrom: 5
+lenTo: 0
+colorFrom: ffffff
+colorTo: ffffff00
+useRotation: false
+}
+}
+{
+type: radialEffect
+amount: 3
+rotationOffset: 285
+lengthOffset: 30
+rotationSpacing: 8
+effect: {
+line: true
+length: 40
+cone: 3
+baseRotation: 90
+lifetime: 60
+particles: 1
+lenFrom: 5
+lenTo: 0
+colorFrom: ffffff
+colorTo: ffffff00
+useRotation: false
+}
+}
+{
+type: radialEffect
+amount: 3
+rotationOffset: 105
+lengthOffset: 30
+rotationSpacing: 8
+effect: {
+line: true
+length: 40
+cone: 3
+particles: 1
+baseRotation: 90
+lifetime: 60
+lenFrom: 5
+lenTo: 0
+colorFrom: ffffff
+colorTo: ffffff00
+useRotation: false
+}
+}
+{
+type: radialEffect
+amount: 3
+rotationOffset: 195
+lengthOffset: 30
+rotationSpacing: 8
+effect: {
+line: true
+length: 40
+cone: 3
+baseRotation: 90
+lifetime: 60
+lenFrom: 5
+lenTo: 0
+particles: 1
+colorFrom: ffffff
+colorTo: ffffff00
+useRotation: false
+}
+}
+
+{
+type: radialEffect
+amount: 3
+rotationOffset: 55
+lengthOffset: 30
+rotationSpacing: 8
+effect: {
+line: true
+length: 40
+particles: 1
+cone: 3
+baseRotation: 90
+lifetime: 60
+lenFrom: 5
+lenTo: 0
+colorFrom: ffffff
+colorTo: ffffff00
+useRotation: false
+}
+}
+{
+type: radialEffect
+amount: 3
+rotationOffset: 145
+lengthOffset: 30
+rotationSpacing: 8
+effect: {
+line: true
+length: 40
+cone: 3
+baseRotation: 90
+lifetime: 60
+lenFrom: 5
+lenTo: 0
+particles: 1
+colorFrom: ffffff
+colorTo: ffffff00
+useRotation: false
+}
+}
+{
+type: radialEffect
+amount: 3
+rotationOffset: 235
+lengthOffset: 30
+rotationSpacing: 8
+effect: {
+line: true
+length: 40
+cone: 3
+baseRotation: 90
+lifetime: 60
+lenFrom: 5
+lenTo: 0
+colorFrom: ffffff
+colorTo: ffffff00
+particles: 1
+useRotation: false
+}
+}
+{
+type: radialEffect
+amount: 3
+rotationOffset: 325
+lengthOffset: 30
+rotationSpacing: 8
+effect: {
+line: true
+length: 40
+cone: 3
+baseRotation: 90
+particles: 1
+lifetime: 60
+lenFrom: 5
+lenTo: 0
+colorFrom: ffffff
+colorTo: ffffff00
+useRotation: false
+}
+}
+]
+size: 10
+maxHeat: 240
+liquidCapacity: 120
+consumes: {
+liquids: [
+cyan/.6
+nitrogen/1.5
+]
+}
+requirements: [
+ lead/6500
+duralumin/2500
+nitride/6000
+metaglass/9500
+sodium/3500
+]
+drawer: [
+{
+type: drawDefault
+}
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: DrawLiquidTile
+padding: 2
+drawLiquid: aquarion-cyan
+liquid: aquarion-cyan
+}
+{
+type: drawRegion
+suffix: -mid
+}
+{
+type: drawSoftParticles
+alpha: .4
+particleRad: 35
+particleSize: 9
+particleLife: 340
+reverse: true
+particless: 90
+}
+{
+type: drawRegion
+suffix: -blade
+spinSprite: true
+rotateSpeed: 3
+}
+{
+type: drawRegion
+suffix: -blade
+spinSprite: true
+rotateSpeed: 3
+rotation: 30
+}
+{
+type: drawRegion
+suffix: -blade
+spinSprite: true
+rotateSpeed: 3
+rotation: 60
+}
+{
+type: DrawPistons
+sides: 4
+suffix: -2
+sideOffset: 3
+}
+{
+type: drawBlurSpin
+blurThresh: .75
+suffix: -fan
+rotateSprite: true
+rotateSpeed: 3
+}
+{
+type: drawBlurSpin
+blurThresh: .8
+suffix: -fan
+rotateSprite: true
+rotateSpeed: 3
+}
+{
+type: drawBlurSpin
+blurThresh: .85
+suffix: -fan
+rotateSprite: true
+rotateSpeed: 3
+}
+{
+type: drawBlurSpin
+blurThresh: .5
+suffix: -spinnybit
+rotateSprite: true
+rotateSpeed: 3
+}
+{
+type: drawRegion
+suffix: -spinnybit
+spinSprite: true
+rotateSpeed: 3
+}
+{
+type: DrawPistons
+sides: 4
+sideOffset: 3
+}
+{
+type: drawRegion
+suffix: -top
+}
+{
+type: drawGlowRegion
+suffix: -glow
+color: d1efff70
+}
+{
+type: DrawHeatInput
+}
+]

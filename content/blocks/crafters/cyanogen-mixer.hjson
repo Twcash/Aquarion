@@ -1,7 +1,7 @@
 type: genericCrafter
 craftTime: 240
 consumes: {
-  power: 2.5
+  power: 15
 items: [
 sodium/1
 ]

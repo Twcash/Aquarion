@@ -1,6 +1,6 @@
 explosiveness: 1.5
 color: 8deebb
-heatCapacity: .75
+heatCapacity: 1
 research: {
 planet: tantros
 parent: nitrogen

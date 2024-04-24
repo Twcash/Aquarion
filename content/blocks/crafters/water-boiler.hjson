@@ -3,7 +3,7 @@ size: 3
 outputItem: sodium/2
 conductivePower: true
 consumes: {
-power: 1.5
+power: 3.5
  items: [
     lead/1
   ]

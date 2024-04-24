@@ -1,0 +1,218 @@
+type: ItemTurret
+reload: 25
+squareSprite: false
+targetAir: false
+ammoPerShot: 1
+envEnabled: 4
+ammoUseEffect: casing2
+inaccuracy: 9
+useAmmoOnce: true
+warmupSpeed: .1
+velocityRnd: 0.4
+shootY: -1
+minWarmup: 0.9
+targetUnderBlocks: false
+elevation: 0.3
+shake: 0.3
+ammoEjectBack: 5
+health: 300
+shootSound: shootAlt
+category: turret
+range: 120
+shoot: {
+shots: 8
+shootCone: 60
+}
+shootCone: 60
+size: 4
+shootX: 0
+ammoTypes: {
+    nitride: {
+	collidesAir: false
+	buildingDamageMultiplier: .2
+	damage: 10
+        height: 12
+        width: 7
+	lifetime:30
+	knockback: 2
+        trailColor: aaaaaa
+        trailLength: 5
+	homingPower: .01
+	homingRange: 10
+        frontColor: ffffff
+        backColor: aaaaaa
+	lightColor: ffffff
+	hitColor: ffffff
+	despawnEffect: {
+	line: true
+	lifetime: 45
+	length: 35
+	colorFrom: ffffff
+	colorTo: ffffff
+	sizeFrom: 6
+	sizeTo: 6
+	lenFrom: 9
+	lenTo: 0
+	interp: pow5Out
+	}
+	hitEffect: {
+	line: true
+	lifetime: 45
+	length: 35
+	colorFrom: ffffff
+	colorTo: ffffff
+	sizeFrom: 6
+	sizeTo: 6
+	lenFrom: 9
+	lenTo: 0
+	interp: pow5Out
+	}
+        shootEffect: {
+		particles: 3
+		colorFrom: ffffff
+		colorTo: aaaaaa
+		sizeFrom: 3.5
+		sizeTo: 0
+		cone: 30
+		baseRotation: 0
+		rotWithParent: true
+		length: 25
+		lifetime: 50
+        }
+        removeAfterPierce: false
+	speed: 5
+    }
+    sodium: {
+	collidesAir: false
+	buildingDamageMultiplier: .2
+	damage: 20
+        height: 14
+        width: 8
+	lifetime: 24
+	knockback: 2
+        trailColor: 8ca9e8
+        trailLength: 5
+	weaveMag: 2
+	weaveScale: 1.5
+        frontColor: d1efff
+        backColor: 8ca9e8
+	lightColor: d1efff
+	hitColor: 8ca9e8
+	despawnEffect: {
+	line: true
+	lifetime: 45
+	length: 35
+	colorFrom: d1efff
+	colorTo: d1efff
+	sizeFrom: 6
+	sizeTo: 6
+	lenFrom: 7
+	cone: 45
+	rotWithParent: true
+	lenTo: 0
+	interp: pow5Out
+	}
+	hitEffect: {
+	line: true
+	lifetime: 45
+	length: 35
+	colorFrom: d1efff
+	colorTo: d1efff
+	sizeFrom: 6
+	sizeTo: 6
+	lenFrom: 7
+	cone: 45
+	rotWithParent: true
+	lenTo: 0
+	interp: pow5Out
+	}
+        shootEffect: {
+		particles: 3
+		colorFrom: d1efff
+		colorTo: 8ca9e8
+		sizeFrom: 3.5
+		sizeTo: 0
+		cone: 30
+		baseRotation: 0
+		rotWithParent: true
+		length: 30
+		lifetime: 45
+        }
+	speed: 6.5
+    }
+    manganese: {
+	collidesAir: false
+	buildingDamageMultiplier: .2
+	damage: 35
+        height: 16
+        width: 9
+	lifetime: 45
+	knockback: 4
+	speed: 4
+        trailColor: 729f67
+        trailLength: 7
+        frontColor: d3f2b5
+        backColor: 8ca9e8
+	lightColor: 729f67
+	hitColor: 729f67
+	despawnEffect: {
+	line: true
+	lifetime: 45
+	length: 35
+	colorFrom: d3f2b5
+	colorTo: d3f2b5
+	sizeFrom: 6
+	sizeTo: 6
+	lenFrom: 7
+	cone: 45
+	rotWithParent: true
+	lenTo: 0
+	interp: pow5Out
+	}
+	hitEffect: {
+	line: true
+	lifetime: 45
+	length: 35
+	colorFrom: d3f2b5
+	colorTo: d3f2b5
+	sizeFrom: 6
+	sizeTo: 6
+	lenFrom: 7
+	cone: 45
+	rotWithParent: true
+	lenTo: 0
+	interp: pow5Out
+	}
+}
+}
+research: {
+    parent: redact
+    planet: tantros
+}
+requirements: [
+    lead/120
+    gallium/60
+    bauxite/90
+    sodium/90
+    metaglass/120
+]
+envEnabled: 4
+drawer: {
+type: drawTurret
+parts: [
+{
+suffix: -side
+moveRot: 5
+mirror: true
+moveX: -.5
+progress: warmup
+moves: [
+{
+progress: recoil
+y: 2
+x: .4
+}
+]
+}
+]
+}

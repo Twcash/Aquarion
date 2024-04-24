@@ -1,128 +1,150 @@
-type: legs
+envEnabled: 4
+hitSize: 18
 speed: .6
-hitSize: 16
-health: 2150
-armor: 4
 rotateSpeed: 1.1
-legCount: 6
-legGroupSize: 2
-legLength: 14
-legForwardScl: 1.5
+targetGround: false
+template: TankUnitType
 drawCell: false
-legStraightness: 0.5
-legLengthScl: 0.9
-legContinuousMove: true
-shadowElevation: .4
-legBaseOffset: 14
-legExtension: -7
-stepShake: .2
-outlineColor: 2f3734
+crushDamage: 1
+health: 980
+armor: 6
+faceTarget: false
+accel: .2
+deag: .6
+treadPullOffset: 1
+abilities: [
+{
+type: ShieldRegenFieldAbility
+amount: 10
+max: 120
+reload: 90
+range: 80
+}
+{
+type: regenAbility
+percentAmount: .01
+}
+]
+treadFrames: 24
+type: tank
+treadRects: [
+{
+width: 13
+height: 92
+x: 24
+y: -54
+}
+]
 weapons: [
 {
-name: custodian-laser
-mirror: false
-recoil: 0
-x: 0
-shoot: {
-parentizeEffects: true
-}
-cooldownTime: 120
-reload: 320
-shootSound: beam
-shake: .5
-continuous: true
-rotate: false
-bullet: {
-type: ContinuousLaserBulletType
-length: 120
-status: melting
-damage: 10
-drawSize: 5
-lifetime: 240
-shootSound: beam
-width: 4
-oscScl: 1.2
-oscMag: 2
-fadeTime: 50
-hitEffect: hitMeltHeal
-shootEffect: shootHeal
-smokeEffect: none
-healPercent: .5
-collidesTeam: true
-pierceCap: 3
-incendChance: 0
-colors: [
-3a8f64,
-6fb95b,
-92dd7e
-]
-}
-}
-{
-name: custodian-plasma-mount
-mirror: true
-shootY: 7
-parentizeEffects: true
-shake: .1
-cooldownTime: 120
-x: 9
-y: 1
-rotateSpeed: .9
-controllable: false
-autoTarget: true
-targetInterval: 20
-shootY: 2
-shoot: {
-parentizeEffects: true
-shootY: 7
-}
-reload: 90
-
+name: custodian-weapon
+shootCone: 90
 recoil: 1
-shootSound: beam
-parentizeEffects: true
-continuous: true
+recoilTime: 20
+inaccuracy: 6
+mirror: false
+shootSound: missile
+y: .25
 rotate: true
-bullet: {
-shootY: 6
-type: ContinuousLaserBulletType
-length: 75
-status: melting
-damage: 7
-drawSize: 2
-lifetime: 340
-shootSound: beam
-width: 1
-oscScl: 1
-oscMag: 1
-timeScaleDamage: true
-fadeTime: 30
-hitEffect: hitMeltHeal
-shootEffect: shootHeal
-smokeEffect: none
-healPercent: .5
-collidesTeam: true
-pierceCap: 3
-incendChance: 0
-colors: [
-3a8f64,
-6fb95b,
-92dd7e
+x: 0
+rotateSpeed: .9
+recoils: 4
+shoot: {
+type: shootBarrel
+recoils: 4
+source: shootMulti
+barrels: [
+-4, -1, 0,
+4, -1, 0,
+-4, 6, 0
+4, 6, 0
 ]
 }
+reload: 5
+parts: [
+{
+suffix: -1
+moveY: -3
+progress: recoil
+recoilIndex: 0
 }
 {
-name: custodian-repair-beam
-type: RepairBeamWeapon
-mirror: true
-x: 7
-y: -8
-shootY: 4
-beamWidth: .7
-repairSpeed: .9
+suffix: -2
+moveY: -2
+progress: recoil
+recoilIndex: 1
+}
+{
+suffix: -3
+moveY: -2
+under: true
+top: false
+progress: recoil
+recoilIndex: 2
+}
+{
+suffix: -4
+moveY: -2
+under: true
+top: false
+progress: recoil
+recoilIndex: 3
+}
+]
 bullet: {
-maxRange: 90
+type: missileBulletType
+shootEffect: {
+particles: 5
+sizeFrom: 4
+sizeTo: 0
+colorFrom: 92dd7e
+length: 10
+lifetime: 25
+colorTo: 3a8f64
+}
+speed: 4
+damage: 25
+frontColor: 92dd7e
+backColor: 3a8f64
+trailColor: 3a8f64
+lightColor: 92dd7e
+hitColor:  92dd7e
+collidesTiles: false
+collidesGround: false
+homingPower: .1
+trailLength: 12
+lifetime: 45
+weaveMag: 1.5
+weaveScale: 1
+smokeEffect: none
+shootSound: missile
+hitEffect: {
+line: true
+cone: 35
+particles: 5
+sizeFrom: 4
+sizeTo: 0
+colorFrom: 92dd7e
+length: 15
+lenFrom: 6
+lenTo: 6
+lifetime: 30
+colorTo: 3a8f64
+}
+
+despawnEffect: {
+line: true
+cone: 35
+particles: 5
+sizeFrom: 4
+sizeTo: 0
+colorFrom: 92dd7e
+length: 15
+lenFrom: 6
+lenTo: 6
+lifetime: 30
+colorTo: 3a8f64
+}
 }
 }
 ]
-envEnabled: 4

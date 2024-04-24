@@ -1,16 +1,15 @@
 type: missile
 template: MissileUnitType
 lowAltitude: false
-lifetime: 55
+lifetime: 30
 hidden: true
-health: 95
+health: 70
 outlineColor: 2f3734
 drawCell: false
-speed: 4
+speed: 2
+targetAir: false
 rotateSpeed: 7
-missileAccelTime: 10
-range: 5
-homingDelay: 10
+range: 3
 hitSize: 3
 trailLength: 2
 engineSize: 0
@@ -75,6 +74,7 @@ deathExplosionEffect: [
 {
 type: explosionEffect
 waveColor: 6d5e5e
+collidesAir: false
 strokeFrom: 4
 strokeTo: 2
 }
@@ -92,6 +92,7 @@ mirror: false
 shootOnDeath: true
 bullet: {
 shootEffect: none
+collidesAir: false
 shootSound: dullExplosion
 type: ExplosionBulletType
 splashDamageRadius: 15

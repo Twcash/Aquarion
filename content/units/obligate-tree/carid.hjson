@@ -1,87 +1,95 @@
 type: flying
 flying: true
-localizedName: Enforce
 lowAltitude: true
 outlineColor: 2f3734
 drag: .2
+accel: .06
+drag: .06
+drawCell: false
+targetAir: false
 crashDamageMultiplier: 0
 targetAir: false
 speed: 1.5
-rotateSpeed: 1.2
-range: 10
+rotateSpeed: 1.7
 itemCapacity: 0
-health: 650
-armor: 4
+health: 540
+armor: 3
 omniMovement: false
 engineSize: 0
 hitSize: 17
 weapons: [
 {
-name: carid-weapon
 rotate: true
-layerOffset: -1
-targetAir: false
+x: 0
+mirror: false
+rotateSpeed: 1.4
+inaccuracy: 7
+shootSound: shootAlt
 reload: 25
-shootSound: bolt
-rotateSpeed: 1.6
-mirror: true
-x: 7
-rotationLimit: 190
-baseRotation: -90
+shootCone: 35
+shoot: {
+shots: 2
+type: shootMulti
+source: shootAlternate
+dest: [
+{
+shots: 2
+type: shootBarrel
+barrels: [
+2, 4, 0
+-2, 4, 0
+]
+}
+]
+}
+name: carid-weapon
+parts: [
+{
+suffix: -barrel
+moveY: -2
+progress: recoil
+under: true
+}
+]
 bullet: {
-type: basicBulletType
-speed: 5
-lifetime: 25
-length: 0
-height: 0
-hitSize: 4
-homingPower: .08
-damage: 65
-trailInterval: 1
+speed: 3
+damage: 10
+frontColor: d4816b
+backColor: 924c39
+trailLength: 6
+width: 7
+height: 12
+sprite: missile
+trailColor: 924c39
+hitColor: d4816b
 collidesAir: false
-shootEffect: [
-{
-particles: 5
-lifetime: 20
-length: 4
-baseLength: 0
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 3
-sizeTo: 0
-colorFrom: ffa665
-colorTo: d06b53
+lightColor: d4816b
+hitEffect: {
+line: true
+enFrom: 6
+lenTo: 0
+sieFrom: 7
+sizeTo: 7
+length: 25
+lifetime: 45
+colorFrom: d4816b
+cone: 15
+particles: 3
+colorTo: d4816b
 }
-]
-trailEffect: [
-{
-particles: 5
-lifetime: 20
-length: 4
-baseLength: 0
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 3
-sizeTo: 0
-colorFrom: ffa665
-colorTo: d06b53
+despawnEffect: {
+line: true
+enFrom: 6
+lenTo: 0
+sieFrom: 7
+sizeTo: 7
+length: 25
+lifetime: 45
+colorFrom: d4816b
+cone: 15
+particles: 3
+colorTo: d4816b
 }
-{
-particles: 5
-lifetime: 20
-length: 4
-baseLength: 0
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 2
-sizeTo: 0
-colorFrom: 8b5c51
-colorTo: 35252160
-}
-]
-
-pierceDamageFactor: .8
-smokeEffect: colorSpark
 }
 }
 ]
