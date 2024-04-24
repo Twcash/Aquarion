@@ -12,9 +12,9 @@ accel: .1
 targetAir: false
 itemCapacity: 125
 faceTarget: true
-health: 2300
+health: 1280
 engineSize: 0
-armor: 3
+armor: 5
 hitSize: 16
 abilities: [
 {

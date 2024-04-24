@@ -103,7 +103,7 @@ lifetime: 25
 colorTo: 3a8f64
 }
 speed: 4
-damage: 15
+damage: 25
 frontColor: 92dd7e
 backColor: 3a8f64
 trailColor: 3a8f64
