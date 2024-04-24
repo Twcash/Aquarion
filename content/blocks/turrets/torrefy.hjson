@@ -33,6 +33,7 @@ warmupSpeed: .01
 ammoTypes: {
 sodium: {
 shootEffect: none
+shootsound: shoot-heavy-cannon
 width: 12
 height: 19
 hitSize: 7
