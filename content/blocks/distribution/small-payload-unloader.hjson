@@ -12,5 +12,6 @@ consumes: {
 power: 1
 }
 category: distribution
+parent: small-payload-mass-driver
 offloadSpeed: 1
 envEnabled: 4
