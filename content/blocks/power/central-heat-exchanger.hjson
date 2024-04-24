@@ -234,6 +234,32 @@ colorTo: 1f1b14
 }
 {
 type: seqEffect
+layer: 350
+effects: [
+{
+type: waveEffect
+interp: reverse
+lifetime: 45
+strokeFrom: 3
+colorFrom: 8bd7c1
+colorTo: 8bd7c1
+strokeTo: 0
+sizeFrom: 3
+sizeTo: 200
+}
+{
+sizeFrom: 4000
+sizeTo: 4000
+length: 0
+clipSize: 400
+lifetime: 450
+colorFrom: ffffff250
+colorTo: 80777410
+}
+]
+}
+{
+type: seqEffect
 layer: 10
 effects: [
 {
@@ -244,8 +270,8 @@ strokeFrom: 3
 colorFrom: 8bd7c1
 colorTo: 8bd7c1
 strokeTo: 0
-sizeFrom: 0
-sizeTo: 100
+sizeFrom: 3
+sizeTo: 200
 }
 {
 type: waveEffect
