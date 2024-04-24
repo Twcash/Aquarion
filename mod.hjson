@@ -6,4 +6,3 @@ description: "Aquarion is a campaign extension to recreate tantros including a c
 version: "2.0.11"
 minGameVersion: "146"
 hidden: "false"
-contentOrder: ["sealedconveyor", "armored-sealed-conveyor", "sealedrouter", "sealedsorter", "sealed-overflow", "sealed-unloader"]
