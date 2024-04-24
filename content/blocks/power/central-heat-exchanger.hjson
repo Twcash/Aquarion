@@ -19,12 +19,64 @@ fragVelocityMin: 1
 fragVelocityMax: 1.1
 fragBullets: 4
 fragBullet: {
-type: basicBulletType
+type: artilleryBulletType
 lifetime: 700
 collides: false
 trailInterval: 2
 speed: 1
 trailRotation: true
+splashDamage: 1200
+splashDamageRadius: 120
+pierceBuilding: true
+pierce: true
+despawnEffect: [
+{
+type: seqEffect
+layer: 10
+effect: [
+{
+type: waveEffect
+interp: pow5Out
+sizeFrom: 0
+sizeTo: 60
+colorFrom: ffffff
+colorTo: ffffff
+strokeFrom: 2
+stroketo: 2
+}
+{
+type: waveEffect
+interp: pow10Out
+sizeFrom: 60
+sizeTo: 65
+colorFrom: ffffff
+colorTo: ffffff10
+strokeFrom: 2
+stroketo: 0
+}
+]
+}
+{
+particles: 15
+sizeFrom: 15
+sizeTo: 0
+length: 90
+layer: 80
+lifetime: 430
+colorFrom: 484949
+colorTo: 25252510
+}
+{
+particles: 15
+sizeFrom: 15
+sizeTo: 0
+length: 85
+lifetime: 380
+layer: 110
+colorFrom: ffd8ad
+colorTo: ffd8ad
+}
+]
 trailEffect: [
 {
 sizeFrom: 15

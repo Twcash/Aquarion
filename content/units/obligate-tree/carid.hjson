@@ -6,6 +6,7 @@ drag: .2
 accel: .06
 drag: .06
 drawCell: false
+targetAir: false
 crashDamageMultiplier: 0
 targetAir: false
 speed: 1.5
@@ -61,6 +62,7 @@ height: 12
 sprite: missile
 trailColor: 924c39
 hitColor: d4816b
+collidesAir: false
 lightColor: d4816b
 hitEffect: {
 line: true
