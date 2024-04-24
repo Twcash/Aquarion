@@ -14,7 +14,7 @@ shootWarmupSpeed: .025
 shootY: -2
 minWarmup: .95
 moveWhileCharging: false
-shootSound: railgun
+shootSound: shoot-railgun
 ammoPerShot: 10
 ammoTypes: {
 duralumin: {
@@ -170,6 +170,20 @@ length: 160
 lifetime: 250
 rotWithParent: true
 baseRotation: 0
+intervalBullets: 2
+intervalSpread: 90
+intervalBullet
+{      type: LaserBulletType
+      despawnSound: spark
+      colors: [eab678, ffd27e, ffffff]
+      sideWidth: 2
+      sideLength: 16
+      sideAngle: 45
+      length: 60
+      width: 4
+      damage: 75
+      pierce: true
+}
 }
 {
 colorFrom: e8d6ff
