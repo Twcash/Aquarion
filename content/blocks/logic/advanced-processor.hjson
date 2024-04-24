@@ -4,7 +4,6 @@ size: 3
 requirements: [
 nitride/60
 sodium/90
-oxide/90
 duralumin/60
 ]
 category: logic

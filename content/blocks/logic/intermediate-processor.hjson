@@ -5,7 +5,6 @@ requirements: [
 nitride/75
 manganese/40
 gallium/35
-oxide/60
 ]
 category: logic
 baseExplosiveness: 1.2

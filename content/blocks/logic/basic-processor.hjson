@@ -3,7 +3,6 @@ instructionsPerTick: 4
 size: 1
 requirements: [
 gallium/60
-oxide/30
 lead/30
 metaglass/20
 ]
