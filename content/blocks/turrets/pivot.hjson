@@ -190,10 +190,10 @@ research: {
     planet: tantros
 }
 requirements: [
-    lead/250
-    gallium/120
-    bauxite/200
-    sodium/240
+    lead/120
+    gallium/60
+    bauxite/90
+    sodium/90
     metaglass/120
 ]
 envEnabled: 4

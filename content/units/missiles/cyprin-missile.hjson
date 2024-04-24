@@ -7,8 +7,9 @@ health: 70
 outlineColor: 2f3734
 drawCell: false
 speed: 2
+targetAir: false
 rotateSpeed: 7
-range: 5
+range: 3
 hitSize: 3
 trailLength: 2
 engineSize: 0
@@ -91,6 +92,7 @@ mirror: false
 shootOnDeath: true
 bullet: {
 shootEffect: none
+collidesAir: false
 shootSound: dullExplosion
 type: ExplosionBulletType
 splashDamageRadius: 15

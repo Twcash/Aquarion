@@ -25,10 +25,9 @@ ammoPerShot: 2
 recoil: 2.5
 recoilTime: 25
 requirements: [
-    lead/80
-    bauxite/40
+    lead/90
+    bauxite/60
 ]
-health: 180
 range: 120
 coolantMultiplier: 5
 consumes: {

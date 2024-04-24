@@ -15,9 +15,9 @@ consumes: {
 power: 4
 }
 requirements: [
-lead/120
-bauxite/250
-sodium/120
+lead/110
+bauxite/110
+sodium/90
 metaglass/90
 ]
 research: {

@@ -19,12 +19,64 @@ fragVelocityMin: 1
 fragVelocityMax: 1.1
 fragBullets: 4
 fragBullet: {
-type: basicBulletType
+type: artilleryBulletType
 lifetime: 700
 collides: false
 trailInterval: 2
 speed: 1
 trailRotation: true
+splashDamage: 1200
+splashDamageRadius: 120
+pierceBuilding: true
+pierce: true
+despawnEffect: [
+{
+type: seqEffect
+layer: 10
+effect: [
+{
+type: waveEffect
+interp: pow5Out
+sizeFrom: 0
+sizeTo: 60
+colorFrom: ffffff
+colorTo: ffffff
+strokeFrom: 2
+stroketo: 2
+}
+{
+type: waveEffect
+interp: pow10Out
+sizeFrom: 60
+sizeTo: 65
+colorFrom: ffffff
+colorTo: ffffff10
+strokeFrom: 2
+stroketo: 0
+}
+]
+}
+{
+particles: 15
+sizeFrom: 15
+sizeTo: 0
+length: 90
+layer: 80
+lifetime: 430
+colorFrom: 484949
+colorTo: 25252510
+}
+{
+particles: 15
+sizeFrom: 15
+sizeTo: 0
+length: 85
+lifetime: 380
+layer: 110
+colorFrom: ffd8ad
+colorTo: ffd8ad
+}
+]
 trailEffect: [
 {
 sizeFrom: 15
@@ -97,13 +149,13 @@ explodeEffect: [
 line: true
 particles: 13
 layer: 10
-colorFrom: ea8e40180
-colorTo: 1b150f
+colorFrom: 241f1f
+colorTo: 242424
 lenFrom: 60
-lifetime: 900
+lifetime: 1800
 sizeFrom: 40
-sizeTo: 0
-lenTo: 60
+sizeTo: 40
+lenTo: 0
 }
 {
 type: seqEffect
@@ -234,6 +286,32 @@ colorTo: 1f1b14
 }
 {
 type: seqEffect
+layer: 350
+effects: [
+{
+type: waveEffect
+interp: reverse
+lifetime: 45
+strokeFrom: 3
+colorFrom: 8bd7c1
+colorTo: 8bd7c1
+strokeTo: 0
+sizeFrom: 3
+sizeTo: 200
+}
+{
+sizeFrom: 4000
+sizeTo: 4000
+length: 0
+clipSize: 400
+lifetime: 450
+colorFrom: ffffff250
+colorTo: 80777410
+}
+]
+}
+{
+type: seqEffect
 layer: 10
 effects: [
 {
@@ -244,8 +322,8 @@ strokeFrom: 3
 colorFrom: 8bd7c1
 colorTo: 8bd7c1
 strokeTo: 0
-sizeFrom: 0
-sizeTo: 100
+sizeFrom: 3
+sizeTo: 200
 }
 {
 type: waveEffect

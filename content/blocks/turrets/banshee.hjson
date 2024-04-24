@@ -3,10 +3,10 @@ range: 260
 size: 2
 squareSprite: false
 requirements: [
-lead/120
-metaglass/60
-nitride/80
-manganese/90
+lead/60
+metaglass/70
+nitride/90
+manganese/50
 ]
 reload: 150
 recoil: 4

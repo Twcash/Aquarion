@@ -12,6 +12,19 @@ faceTarget: false
 accel: .2
 deag: .6
 treadPullOffset: 1
+abilities: [
+{
+type: ShieldRegenFieldAbility
+amount: 10
+max: 120
+reload: 90
+range: 80
+}
+{
+type: regenAbility
+percentAmount: .01
+}
+]
 treadFrames: 24
 type: tank
 treadRects: [
@@ -26,6 +39,8 @@ weapons: [
 {
 name: custodian-weapon
 shootCone: 90
+recoil: 1
+recoilTime: 20
 inaccuracy: 6
 mirror: false
 shootSound: missile
@@ -88,11 +103,14 @@ lifetime: 25
 colorTo: 3a8f64
 }
 speed: 4
+damage: 25
 frontColor: 92dd7e
 backColor: 3a8f64
 trailColor: 3a8f64
 lightColor: 92dd7e
 hitColor:  92dd7e
+collidesTiles: false
+collidesGround: false
 homingPower: .1
 trailLength: 12
 lifetime: 45
