@@ -304,9 +304,9 @@ sizeFrom: 4000
 sizeTo: 4000
 length: 0
 clipSize: 400
-lifetime: 450
-colorFrom: ffffff250
-colorTo: 80777410
+lifetime: 200
+colorFrom: ffffff
+colorTo: ffffff00
 }
 ]
 }
