@@ -5,7 +5,7 @@ pyridine/.075
 hydrogen/.075
 ]
 }
-powerProduction: 3
+powerProduction: 5.5
 effectChance: 0.1
 canOverdrive: false
 category: power
