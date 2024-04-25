@@ -155,4 +155,8 @@ baseRotation: 180
 ]
 }
 ]
+research: {
+planet: tantros
+parent: unknown
+}
 envEnabled: 4

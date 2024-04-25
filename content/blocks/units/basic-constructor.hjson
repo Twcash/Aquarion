@@ -18,3 +18,7 @@ intermediate-processor
 ]
 envEnabled: 4
 squareSprite: false
+research: {
+planet: tantros
+parent: core-pike
+}

@@ -150,3 +150,8 @@ colorTo: 3a8f64
 }
 }
 ]
+envEnabled: 4
+research: {
+parent: curator
+planet: tantros
+}

@@ -150,3 +150,7 @@ hitColor: 3a8f64
 }
 }
 ]
+research: {
+planet: tantros
+parent: steward
+}

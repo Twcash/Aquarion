@@ -292,3 +292,7 @@ baseRotation: 180
 }
 
 ]
+research: {
+planet: tantros
+parent: carid
+}

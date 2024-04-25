@@ -55,3 +55,7 @@ power: 15
 }
 areaSize: 9
 envEnabled: 4
+research: {
+parent: correlative-reconstructor
+planet: tantros
+}

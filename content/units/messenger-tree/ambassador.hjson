@@ -35,6 +35,10 @@ requirements: {
   previous: messenger
  block: correlative-reconstructor
 }
+research: {
+planet: tantros
+parent: messenger
+}
 drawCell: false
 outlineColor: 2f3734
 envEnabled: 4

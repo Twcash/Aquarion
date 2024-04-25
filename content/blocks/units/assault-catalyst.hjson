@@ -7,3 +7,7 @@ bauxite/40
 ]
 category: units
 size: 3
+research: {
+planet: tantros
+parent: basic assember
+}

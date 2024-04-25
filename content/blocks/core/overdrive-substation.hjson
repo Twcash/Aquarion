@@ -17,5 +17,5 @@ phaseColor: ffcf65
 envEnabled: 4
 category: effect
 consumes: {
-power: 12
+power: 25
 }

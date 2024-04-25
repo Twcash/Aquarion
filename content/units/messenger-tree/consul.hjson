@@ -143,3 +143,7 @@ baseRotation: 0
 }
 ]
 envEnabled: 4
+research: {
+parent: ambassador
+planet: tantros
+}
