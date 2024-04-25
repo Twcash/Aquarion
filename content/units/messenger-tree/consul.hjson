@@ -1,12 +1,13 @@
 type: legs
-health: 2400
-armor: 18
+health: 1250
+armor: 4
 legContinuousMove: true
 hovering: true
 legGroupSize: 2
 legCount: 4
 lockLegBase: true
 legMaxLength: 1.2
+targetAir: false
 legLength: 18
 lockLegBase: true
 legMinLength: .9
@@ -20,63 +21,124 @@ drawCell: false
 weapons: [
 {
 name: consul-weapon
-under: true
-mirror: true
+layerOffset: -.001
+recoil: 0
 rotate: true
-rotationLimit: 75
-x: 15
-y: 6
-recoil: 5.5
-top: false
-reload: 20
-layerOffset: -.01
-rotateSpeed: .9
-shootY: 12
-shootX: 1
-shootSound: shootAltLong
+rotationLimit: 45
+shootY: 8
+rotateSpeed: 1.2
+x: 10
+y: 2
+reload: 18
 parts: [
 {
-suffix: -panel
-moveY: -3.5
-progress: recoil
+suffix: -barrel
+moveX: 3
+progress: reload
+under: true
+}
+{
+suffix: -barrel
+moveX: 3
+x: -3
+progress: reload
+under: true
+mixColor: 444b4950
+mixColorTo: 444b49
+colorFrom: 444b49
+ColorTo: 444b49
+}
+{
+suffix: -barrel
+moveX: -3
+x: 3
+progress: reload
+under: true
+mixColor: 444b4950
+mixColorTo: 82919400
+colorFrom: 829194
+ColorTo: 444b49
+}
+{
+suffix: -barrel
+moveX: -3
+progress: reload
+under: true
+mixColor: 82919400
+mixColorTo: 444b49
+colorFrom: 444b49
+ColorTo: 829194
 }
 ]
 bullet: {
-shootEffect: [
-{
-colorFrom: d1efff
-colorTo: 8ca9e8
-length: 20
-lifetime: 25
+trailRotation: true
+type: railBulletType
+length: 90
+damage: 25
+collidesAir: false
+pointEffectSpace: 6
+ammoMultiplier: 1
+shootEffect: none
+ejectEffect: casing2
+smokeEffect: {
+line: true
+shootSound: bolt
+cone: 60
+particles: 4
+lenFrom: 7
+lifetime: 80
+lenTo: 0
+sizeFrom: 10
+sizeTo: 0
+colorFrom: ff5656
+colorTo: ff5656
 rotWithParent: true
-sizeFrom: 4
+baseRotation: 0
+}
+endEffect: {
+line: true
+cone: 60
+particles: 4
+lenFrom: 7
+lifetime: 80
+lenTo: 0
+sizeFrom: 10
+sizeTo: 0
+colorFrom: ff5656
+colorTo: ff5656
+rotWithParent: true
+baseRotation: 0
+}
+pointEffect:[
+ {
+line: true
+cone: 0
+particles: 1
+lenFrom: 10
+lifetime: 45
+lenTo: 0
+sizeFrom: 7
+sizeTo: 0
+colorFrom: ffa9a9
+colorTo: ffa9a9
+rotWithParent: true
+baseRotation: 0
+}
+ {
+line: true
+cone: 0
+particles: 1
+lenFrom: 10
+lifetime: 60
+lenTo: 0
+sizeFrom: 10
+sizeTo: 0
+colorFrom: ff5656
+colorTo: ff5656
+rotWithParent: true
+baseRotation: 0
 }
 ]
-speed: 4.5
-lifetime: 25
-frontColor: d1efff
-backColor: 8ca9e8
-trailColor: 8ca9e8
-pierce: true
-pierceCap: 3
-damage: 15
-width: 15
-height: 18
-trailLength: 5
-homingPower: .05
-fragBullets: 3
-fragBullet: {
-speed: 5
-lifetime: 45
-frontColor: d1efff
-backColor: 8ca9e8
-trailColor: 8ca9e8
-width: 9
-height: 13
-trailLength: 3
-homingPower: .1
-damage: 10
-}
 }
 }
 ]
