@@ -10,7 +10,7 @@ unit: c2-cyprin
 time: 1500
 requirements: [
 aquarion-b1-anguilli/1
-aquarion-bauxite-wall/5
+aquarion-bauxite-wall/4
 aquarion-basic-processor/3
 ]
 }
@@ -19,7 +19,7 @@ unit: consul
 time: 1500
 requirements: [
 aquarion-ambassador/1
-aquarion-bauxite-wall/5
+aquarion-bauxite-wall/4
 aquarion-basic-processor/3
 ]
 }
@@ -28,7 +28,7 @@ unit: custodian
 time: 1500
 requirements: [
 aquarion-curator/1
-aquarion-bauxite-wall/5
+aquarion-bauxite-wall/4
 aquarion-basic-processor/3
 ]
 }
@@ -51,11 +51,7 @@ sodium/150
 ]
 category: units
 consumes: {
-power: 5.5
-liquids: [
-hydrogen/.3
-nitrogen/.15
-]
+power: 15
 }
 areaSize: 9
 envEnabled: 4

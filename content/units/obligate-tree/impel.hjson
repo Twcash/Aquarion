@@ -1,31 +1,193 @@
 type: flying
-lowAltitude: true
-speed:  1.45
-rotateSpeed: 3
-drag: .05
-engineOffset: 10
-engineSize: 3.5
-armor: 10
-health: 2500
-drawCell: false
-hitSize: 16
-engineColor: e48149
+faceTarget: false
 flying: true
 outlineColor: 2f3734
-omniMovement: true
+lowAltitude: true
+armor: 4
+health: 1200
+targetAir: false
+hitSize: 18
+speed: 1.2
+rotateSpeed: 3
+accel: .08
+drag: .08
+drawCell: false
+weapons: [
+{
+mirror: false
+name: impel-silo
+x: 0
+y: 0
+alwaysShooting: true
+shoot: {
+firstShotDelay: 70
+type: shootAlternate
+source: shootMulti
+dest: [
+{
+type: shootBarrel
+barrels: [
+0, 6, 0
+0, -8, 0
+]
+}
+]
+}
+reload: 550
+bullet: {
+spawnUnit: butler
+}
+recoil: 2
+parts: [
+{
+suffix: -1
+moveY: -5
+recoilIndex: 1
+progress: charge
+}
+{
+suffix: -2
+moveY: -5
+recoilIndex: 2
+progress: charge
+}
+]
+}
+{
+name: impel-cannon
+targetAir: false
+inaccuracy: 9
+rotate: true
+x: 0
+y: -8
+mirror: false
+rotateSpeed: .7
+parts: [
+{
+suffix: -barrels
+moveY: -4
+progress: recoil
+under: true
+top: false
+outline: false
+}
+]
+reload: 60
+shoot: {
+shots: 2
+type: shootMulti
+source: shootAlternate
+dest: [
+{
+type: shootBarrel
+shots: 2
+barrels: [
+5, 9, 0
+-5, 9, 0
+]
+}
+]
+}
+bullet: {
+speed: 5
+type: artilleryBulletType
+lifetime: 30
+splashDamage: 15
+frontColor: ffd37f
+backColor: d4816b
+trailColor: d4816b
+hitColor: d4816b
+lightColor: d4816b
+splashDamageRadius: 25
+shrinkX: 1.2
+trailLength: 7
+width: 7
+height: 9
+despawnEffect: {
+particles: 5
+colorFrom: ffd37f
+colorTo: ffd37f
+length: 40
+lifetime: 45
+}
+}
+}
+{
+name: impel-cannon
+targetAir: false
+shootCone: 40
+inaccuracy: 9
+rotate: true
+x: 0
+layerOffset: -.001
+y: -8
+mirror: false
+rotateSpeed: .5
+parts: [
+{
+suffix: -barrels
+moveY: -4
+progress: recoil
+under: true
+top: false
+outline: false
+}
+]
+reload: 75
+shoot: {
+firstShotDelay: 10
+shots: 2
+type: shootMulti
+source: shootAlternate
+dest: [
+{
+type: shootBarrel
+shots: 2
+barrels: [
+5, 9, 0
+-5, 9, 0
+]
+}
+]
+}
+bullet: {
+speed: 5
+type: artilleryBulletType
+lifetime: 30
+splashDamage: 15
+frontColor: ffd37f
+backColor: d4816b
+trailColor: d4816b
+hitColor: d4816b
+lightColor: d4816b
+splashDamageRadius: 25
+shrinkX: 1.2
+trailLength: 7
+width: 7
+height: 9
+despawnEffect: {
+particles: 5
+colorFrom: ffd37f
+colorTo: ffd37f
+length: 40
+lifetime: 45
+}
+}
+}
+]
 abilities: [
 {
 display: false
 type: MoveEffectAbility
-y: -15
+y: -12
 x: 6
 rotateEffect: true
 effect: [
 {
 particles: 6
-lifetime: 65
+lifetime: 40
 cone: 55
-length: 10
+length: 5
 baseLength: 15
 interp: pow10Out
 sizeInterp: linear
@@ -41,7 +203,7 @@ baseRotation: 180
 particles: 6
 lifetime: 40
 cone: 45
-length: 8
+length: 4
 baseLength: 5
 interp: pow10Out
 sizeInterp: linear
@@ -55,9 +217,9 @@ baseRotation: 180
 }
 {
 particles: 5
-lifetime: 90
+lifetime: 40
 cone: 30
-length: 4
+length: 2
 baseLength: 3
 interp: pow10Out
 sizeInterp: linear
@@ -74,15 +236,15 @@ baseRotation: 180
 {
 display: false
 type: MoveEffectAbility
-y: -15
+y: -12
 x: -6
 rotateEffect: true
 effect: [
 {
 particles: 6
-lifetime: 65
+lifetime: 40
 cone: 55
-length: 10
+length: 5
 baseLength: 15
 interp: pow10Out
 sizeInterp: linear
@@ -98,7 +260,7 @@ baseRotation: 180
 particles: 6
 lifetime: 40
 cone: 45
-length: 8
+length: 4
 baseLength: 5
 interp: pow10Out
 sizeInterp: linear
@@ -112,9 +274,9 @@ baseRotation: 180
 }
 {
 particles: 5
-lifetime: 90
+lifetime: 40
 cone: 30
-length: 4
+length: 2
 baseLength: 3
 interp: pow10Out
 sizeInterp: linear
@@ -130,4 +292,3 @@ baseRotation: 180
 }
 
 ]
-

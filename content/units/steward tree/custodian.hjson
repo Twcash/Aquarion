@@ -103,7 +103,7 @@ lifetime: 25
 colorTo: 3a8f64
 }
 speed: 4
-damage: 25
+damage: 35
 frontColor: 92dd7e
 backColor: 3a8f64
 trailColor: 3a8f64
@@ -113,9 +113,11 @@ collidesTiles: false
 collidesGround: false
 homingPower: .1
 trailLength: 12
-lifetime: 45
+lifetime: 50
+pierce: true
+piercCap: 2
 weaveMag: 1.5
-weaveScale: 1
+weaveScale: 3
 smokeEffect: none
 shootSound: missile
 hitEffect: {

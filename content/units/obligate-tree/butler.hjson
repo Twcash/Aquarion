@@ -1,0 +1,106 @@
+type: missile
+flying: true
+lowAltitude: false
+hidden: true
+health: 180
+hitSize: 4
+commandable: false
+controllable: false
+envEnabled: 4
+faceTarget: true
+lifetime: 650
+defaultController: FlyingAI
+speed: 8
+rnge: 240
+circleTarget: true
+targetAir: false
+outlineColor: 2f3734
+engineSize: 0
+drawCell: false
+targetFlags: [
+generator,
+storage,
+core
+]
+accel: .1
+rotateSpeed: 6
+weapons: [
+{
+alwaysContinuous: true
+alternate: false
+shootY: 0
+recoil: 0
+y: -1
+shootCone: 180
+shootStatus: fast
+shootStatusDuration: 5
+x: 5
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 109
+trailLength: 12
+trailWidth: 1.1
+trailColor: 332c2c
+lifetime: 5
+}
+}
+{
+alwaysContinuous: true
+alternate: false
+shootY: 0
+recoil: 0
+y: -1
+shootCone: 180
+shootStatus: fast
+shootStatusDuration: 5
+x: 5
+shootSound: none
+bullet: {
+type: BulletType
+keepVelocity: false
+speed: 0
+collides: false
+hittable: false
+absorbable: false
+shootEffect: none
+smokeEffect: none
+hitEffect: none
+despawnEffect: none
+layer: 110
+trailLength: 9
+trailWidth: 1
+trailColor: ee9f6b
+lifetime: 5
+}
+}
+{
+shootCone: 180
+x: 3
+inaccuracy: 25
+shootSound: none
+reload: 65
+targetAir: false
+bullet: {
+type: BombBulletType
+sprite: bullet
+width: 10
+height: 14
+lifetime: 30
+speed: .5
+keepVelocity: false
+collidesAir: false
+splashDamage: 10
+splashDamageRadius: 35
+}
+}
+]

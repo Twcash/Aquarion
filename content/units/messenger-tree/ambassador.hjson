@@ -1,30 +1,36 @@
-type: mech
+type: legs
+legCount: 4
+lockLegbase: true
+legLength: 17
 health: 450
-armor: 6
+armor: 3
+range: 75
 hitSize: 11
-speed: .40
-rotateSpeed: .55
+legPairOffset: 2
+speed: .75
+rotateSpeed: 1.7
 weapons: [
 {
-name: ambassador-mount
+name: ambassador-weapon
 mirror: true
-x: 8.5
-recoil: 5.5
-reload: 65
-rotate: true
-rotateSpeed: .65
-rotationLimit: 70
+range: 75
+x: 8.75
+recoil: 3
+reload: 70
+rotate: false
+layerOffset: -.001
 shootY: 4
 shootSound: shotgun
 bullet: {
 shootSound: shotgun
 type: shrapnelBulletType
-damage: 25
-length: 35
+damage: 50
+length: 75
 width: 6
 toColor: d1efff
 }
-}]
+}
+]
 requirements: {
   previous: messenger
  block: correlative-reconstructor
