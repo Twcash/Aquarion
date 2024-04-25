@@ -7,7 +7,7 @@ lead/10
 research: {
 planet: tantros
 name: Sealed Sorter
-parent: sealedconveyor
+parent: sealedrouter
 requirements: [
 lead/5
 ]

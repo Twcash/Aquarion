@@ -11,7 +11,7 @@ consumes: [
   ]
   research: {
   planet: tantros
-    parent: sealedconveyor
+    parent: geothermal-generator
     requirements: [
     lead/20
     bauxite/10

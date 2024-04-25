@@ -5,7 +5,7 @@ bauxite/1
 ]
 category: liquid
 research: {
-parent: sealedconveyor
+parent: core-pike
 planet: tantros
 requirements: [
 lead/50

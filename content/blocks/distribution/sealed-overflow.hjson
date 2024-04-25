@@ -7,5 +7,5 @@ size: 1
 envEnabled: 4
 research: {
 planet: tantros
-parent: sealedconveyor
+parent: sealedsorter
 }

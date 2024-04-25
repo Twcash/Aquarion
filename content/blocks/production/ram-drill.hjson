@@ -1,5 +1,5 @@
 tier: 6
-optionalBoostIntensity: 1.8
+liquidBoostIntensity: 1
 squareSprite: false
 category: production
 warmupSpeed: .1

@@ -11,7 +11,7 @@ metaglass/350
 sodium/120
 ]
 research: {
-parent: sealedconveyor
+parent: core-pike
 name: Cache
 planet: aquarion-tantros
 }

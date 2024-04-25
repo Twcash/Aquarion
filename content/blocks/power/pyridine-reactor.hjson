@@ -1,11 +1,11 @@
 
 consumes: {
   liquids: [
-pyridine/.075
-hydrogen/.075
+pyridine/.0375
+hydrogen/.0375
 ]
 }
-powerProduction: 5.5
+powerProduction: 7
 effectChance: 0.1
 canOverdrive: false
 category: power

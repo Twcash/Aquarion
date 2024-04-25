@@ -3,17 +3,18 @@ category: distribution
 size: 1
 requirements: [
 sodium/15
-bauxite/70
+bauxite/30
 lead/50
 metaglass/10
 ]
-squareSprite: true
+squareSprite: false
 consumes: {
 power: 0.66666666666
 }
 knockback: 2
 reload: 140
-range: 30
+range: 60
+itemCapacity: 15
 bulletSpeed: 2.5
 shake: 0
 research: {
