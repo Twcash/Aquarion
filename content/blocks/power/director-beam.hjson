@@ -1,10 +1,10 @@
 
 size: 1
 maxNodes: 3
-laserRange: 4
+laserRange: 6
 requirements: [
 bauxite/10
-lead/20
+lead/15
 ]
 category: power
 research: {
