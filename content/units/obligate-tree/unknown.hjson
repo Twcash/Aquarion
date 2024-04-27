@@ -67,7 +67,7 @@ speed: 1.5
 width: 7
 height: 8
 trailLength: 3
-railWidth: 2
+trailWidth: 2
 homingPower: .05
 lifetime: 45
 }

@@ -33,7 +33,7 @@ liquid: gerb-goop
 health: 1200
 armor: 12
 drawCell: true
-fying: false
+flying: false
 baseLegStraightness: .3
 flipLegSide: true
 rotateSpeed: 5
@@ -65,7 +65,7 @@ frontColor: 65d453
 backColor: 48903c
 hitColor: 65d453
 trailColor: 48903c
-traillength: 4
+trailLength: 4
 trailWidth: .2
 smokeEffect: none
 trailInterval: 4
@@ -110,7 +110,6 @@ shootY: 4
 shootSound: shotgun
 bullet: {
 recoil: 3
-shootSound: shotgun
 type: shrapnelBulletType
 damage: 40
 length: 40

@@ -53,6 +53,10 @@ requirements: {
   previous: a0-zoarcid
  block: conversive-reconstructor
 }
+research: {
+parent: conversive-reconstructor
+planet: tantros
+}
 drawCell: false
 outlineColor: 2f3734
 envEnabled: 4

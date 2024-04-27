@@ -278,5 +278,5 @@ smokeEffect: none
 envEnabled: 4
 research: {
 planet: aquarion-tantros
-parent: anguilli
+parent: b1-anguilli
 }

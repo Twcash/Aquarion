@@ -48,7 +48,7 @@ suffix: -top
 ]
 outputLiquid: hydroxide/.32
 research: {
-parent: hydroxide-concentrator
+parent: purifier
 name: Clarifier
 planet:aquarion-tantros
 }

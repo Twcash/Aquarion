@@ -30,13 +30,13 @@ type: drawDefault
 {
 type: drawRegion
 suffix: -rotator
-rotateSprite: true
+spinSprite: true
 rotateSpeed: 5
 }
 {
 type: drawRegion
 suffix: -rotator
-rotateSprite: true
+spinSprite: true
 rotateSpeed: 5
 rotation: 45
 }

@@ -77,7 +77,7 @@ itemCapacity: 120
 liquidCapacity: 80
 size: 5
 research: {
-parent: roatry-drill
+parent: rotary-drill
 planet: tantros
 }
 requirements: [

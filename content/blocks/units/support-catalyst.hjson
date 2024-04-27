@@ -1,5 +1,4 @@
 tier: 2
-size: 2
 acceptsPayload: false
 requirements: [
 lead/120
@@ -9,5 +8,5 @@ category: units
 size: 3
 research: {
 planet: tantros
-parent: basic assember
+parent: basic-assember
 }

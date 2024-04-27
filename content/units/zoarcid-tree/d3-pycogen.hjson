@@ -123,6 +123,6 @@ trailLength: 12
 }
 ]
 research: {
-parent: cyprin
+parent: c2-cyprin
 planet: aquarion-tantros
 }

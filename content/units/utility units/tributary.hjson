@@ -2,7 +2,6 @@ type: tether
 name: Tributary
 flying: true
 outlineColor: 2f3734
-faceDirection: true
 omniMovement: false
 accel: .2
 drag: .05
@@ -14,7 +13,6 @@ allowedInPayloads: false
 playerControllable: false
 itemCapacity: 120
 engineSize: 4
-engineoffset: 24
 abilities: [
 {
 type: moveEffectAbility

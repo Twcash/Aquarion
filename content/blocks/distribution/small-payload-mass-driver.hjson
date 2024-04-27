@@ -1,13 +1,13 @@
 
-size: 2
-range: 170
-rotateSpeed: .2
-chargeTime: 120
-maxPayloadSize: 2
-grabWidth: 2.5
-length: 3
-grabHeight: 1
-shake: 1
+size: 1
+range: 250
+rotateSpeed: .4
+chargeTime: 160
+maxPayloadSize: 1
+grabWidth: 2
+length: 2
+grabHeight: 2
+shake: 0
 requirements: [
 manganese/70
 nitride/80
