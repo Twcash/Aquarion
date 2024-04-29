@@ -1,0 +1,649 @@
+type: flying
+envEnabled: 4
+flying: true
+faceTarget: false
+lowAltitude: false
+shadowElevation: 1.5
+speed: .9
+rotateSpeed: .7
+accel: .02
+drag: .01
+hitSize: 120
+outlineColor: 2f3734
+drawCell: false
+parts: [
+{
+suffix: -small-mount
+mirror: true
+x: 30
+y: -15
+}
+{
+suffix: -small-mount
+mirror: true
+x: 25
+y: 60
+}
+{
+suffix: -small-mount
+mirror: true
+x: 30
+y: 20
+}
+]
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -95
+rotateEffect: true
+effect: [
+{
+sizeFrom: 15
+sizeTo: 0
+interp: linear
+cone: 20
+layer: 110
+sizeInterp: linear
+colorFrom: ffd37f
+colorTo: d4816b
+baseRotation: -180
+length: 25
+rotWithParent: true
+lifetime: 60
+}
+{
+sizeFrom: 20
+sizeTo: 0
+interp: linear
+cone: 18
+layer: 90.2
+sizeInterp: linear
+colorFrom: d4816b
+colorTo: 873c28
+baseRotation: -180
+length: 40
+rotWithParent: true
+lifetime: 75
+}
+{
+sizeFrom: 25
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90.1
+sizeInterp: linear
+colorFrom: 7a7777
+colorTo: 201e1e80
+baseRotation: -180
+length: 50
+rotWithParent: true
+lifetime: 85
+}
+{
+sizeFrom: 30
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90
+sizeInterp: linear
+colorFrom: 544f4f
+colorTo: 201e1e80
+baseRotation: -180
+length: 150
+rotWithParent: true
+lifetime: 90
+}
+]
+}
+{
+display: false
+type: MoveEffectAbility
+y: -100
+x: 45
+rotateEffect: true
+effect: [
+{
+sizeFrom: 10
+sizeTo: 0
+interp: linear
+cone: 20
+layer: 110
+sizeInterp: linear
+colorFrom: ffd37f
+colorTo: d4816b
+baseRotation: -180
+length: 15
+rotWithParent: true
+lifetime: 60
+}
+{
+sizeFrom: 15
+sizeTo: 0
+interp: linear
+cone: 18
+layer: 90.2
+sizeInterp: linear
+colorFrom: d4816b
+colorTo: 873c28
+baseRotation: -180
+length: 20
+rotWithParent: true
+lifetime: 75
+}
+{
+sizeFrom: 20
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90.1
+sizeInterp: linear
+colorFrom: 7a7777
+colorTo: 201e1e80
+baseRotation: -180
+length: 40
+rotWithParent: true
+lifetime: 85
+}
+{
+sizeFrom: 25
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90
+sizeInterp: linear
+colorFrom: 544f4f
+colorTo: 201e1e80
+baseRotation: -180
+length: 110
+rotWithParent: true
+lifetime: 90
+}
+]
+
+}
+{
+display: false
+type: MoveEffectAbility
+y: -100
+x: -45
+rotateEffect: true
+effect: [
+{
+sizeFrom: 10
+sizeTo: 0
+interp: linear
+cone: 20
+layer: 110
+sizeInterp: linear
+colorFrom: ffd37f
+colorTo: d4816b
+baseRotation: -180
+length: 15
+rotWithParent: true
+lifetime: 60
+}
+{
+sizeFrom: 15
+sizeTo: 0
+interp: linear
+cone: 18
+layer: 90.2
+sizeInterp: linear
+colorFrom: d4816b
+colorTo: 873c28
+baseRotation: -180
+length: 20
+rotWithParent: true
+lifetime: 75
+}
+{
+sizeFrom: 20
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90.1
+sizeInterp: linear
+colorFrom: 7a7777
+colorTo: 201e1e80
+baseRotation: -180
+length: 40
+rotWithParent: true
+lifetime: 85
+}
+{
+sizeFrom: 25
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90
+sizeInterp: linear
+colorFrom: 544f4f
+colorTo: 201e1e80
+baseRotation: -180
+length: 110
+rotWithParent: true
+lifetime: 90
+}
+]
+}
+{
+display: false
+type: MoveEffectAbility
+y: 30
+x: 55
+rotateEffect: true
+effect: [
+{
+sizeFrom: 5
+sizeTo: 0
+interp: linear
+cone: 20
+layer: 110
+sizeInterp: linear
+colorFrom: ffd37f
+colorTo: d4816b
+baseRotation: -90
+length: 20
+rotWithParent: true
+lifetime: 60
+}
+{
+sizeFrom: 10
+sizeTo: 0
+interp: linear
+cone: 18
+layer: 90.2
+sizeInterp: linear
+colorFrom: d4816b
+colorTo: 873c280
+baseRotation: -90
+length: 30
+rotWithParent: true
+lifetime: 75
+}
+{
+sizeFrom: 12
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90.1
+sizeInterp: linear
+colorFrom: 7a7777
+colorTo: 201e1e80
+baseRotation: -90
+length: 60
+rotWithParent: true
+lifetime: 85
+}
+]
+}
+{
+display: false
+type: MoveEffectAbility
+y: 30
+x: -55
+rotateEffect: true
+effect: [
+{
+sizeFrom: 5
+sizeTo: 0
+interp: linear
+cone: 20
+layer: 110
+sizeInterp: linear
+colorFrom: ffd37f
+colorTo: d4816b
+baseRotation: 90
+length: 10
+rotWithParent: true
+lifetime: 60
+}
+{
+sizeFrom: 10
+sizeTo: 0
+interp: linear
+cone: 18
+layer: 90.2
+sizeInterp: linear
+colorFrom: d4816b
+colorTo: 873c28
+baseRotation: 90
+length: 20
+rotWithParent: true
+lifetime: 75
+}
+{
+sizeFrom: 12
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90.1
+sizeInterp: linear
+colorFrom: 7a7777
+colorTo: 201e1e80
+baseRotation: 90
+length: 60
+rotWithParent: true
+lifetime: 85
+}
+]
+}
+{
+display: false
+type: MoveEffectAbility
+y: 55
+x: 55
+rotateEffect: true
+effect: [
+{
+sizeFrom: 5
+sizeTo: 0
+interp: linear
+cone: 20
+layer: 110
+sizeInterp: linear
+colorFrom: ffd37f
+colorTo: d4816b
+baseRotation: 90
+length: 10
+rotWithParent: true
+lifetime: 60
+}
+{
+sizeFrom: 10
+sizeTo: 0
+interp: linear
+cone: 18
+layer: 90.2
+sizeInterp: linear
+colorFrom: d4816b
+colorTo: 873c28
+baseRotation: -90
+length: 20
+rotWithParent: true
+lifetime: 75
+}
+{
+sizeFrom: 12
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90.1
+sizeInterp: linear
+colorFrom: 7a7777
+colorTo: 201e1e80
+baseRotation: -90
+length: 30
+rotWithParent: true
+lifetime: 85
+}
+{
+sizeFrom: 15
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90
+sizeInterp: linear
+colorFrom: 544f4f
+colorTo: 201e1e80
+baseRotation: -90
+length: 60
+rotWithParent: true
+lifetime: 90
+}
+]
+}
+{
+display: false
+type: MoveEffectAbility
+y: 55
+x: -55
+rotateEffect: true
+effect: [
+{
+sizeFrom: 5
+sizeTo: 0
+interp: linear
+cone: 20
+layer: 110
+sizeInterp: linear
+colorFrom: ffd37f
+colorTo: d4816b
+baseRotation: 90
+length: 10
+rotWithParent: true
+lifetime: 60
+}
+{
+sizeFrom: 10
+sizeTo: 0
+interp: linear
+cone: 18
+layer: 90.29
+sizeInterp: linear
+colorFrom: d4816b
+colorTo: 873c28
+baseRotation: 90
+length: 20
+rotWithParent: true
+lifetime: 75
+}
+{
+sizeFrom: 12
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90.1
+sizeInterp: linear
+colorFrom: 7a7777
+colorTo: 201e1e80
+baseRotation: 90
+length: 30
+rotWithParent: true
+lifetime: 85
+}
+{
+sizeFrom: 15
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90
+sizeInterp: linear
+colorFrom: 544f4f
+colorTo: 201e1e80
+baseRotation: 90
+length: 60
+rotWithParent: true
+lifetime: 90
+}
+]
+}
+]
+weapons: [
+{
+alwaysShooting: true
+shootCone: 180
+mirror: false
+x: 0
+y: -100
+baseRotation: 180
+reload: 5
+shootSound: none
+shootY: 0
+bullet: {
+width: 0
+height: 0
+shootEffect: none
+smokeEffect: [
+{
+sizeFrom: 5
+sizeTo: 0
+interp: linear
+cone: 20
+layer: 110
+sizeInterp: linear
+colorFrom: ffd37f
+colorTo: d4816b
+length: 10
+rotWithParent: true
+lifetime: 60
+}
+{
+sizeFrom: 10
+sizeTo: 0
+interp: linear
+cone: 18
+layer: 90.2
+sizeInterp: linear
+colorFrom: d4816b
+colorTo: 873c28
+length: 20
+rotWithParent: true
+lifetime: 75
+}
+{
+sizeFrom: 12
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90.1
+sizeInterp: linear
+colorFrom: 7a7777
+colorTo: 201e1e80
+length: 30
+rotWithParent: true
+lifetime: 85
+}
+{
+sizeFrom: 15
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90
+sizeInterp: linear
+colorFrom: 544f4f
+colorTo: 201e1e80
+length: 60
+rotWithParent: true
+lifetime: 90
+}
+]
+collides: false
+targetable: false
+despawnEffect: none
+}
+}
+{
+alwaysShooting: true
+shootCone: 1
+rotate: false
+mirror: true
+x: 45
+y: -110
+baseRotation: 180
+reload: 5
+shootSound: none
+shootY: 0
+bullet: {
+width: 0
+height: 0
+shootEffect: none
+smokeEffect: [
+{
+sizeFrom: 5
+sizeTo: 0
+interp: linear
+cone: 20
+layer: 110
+sizeInterp: linear
+colorFrom: ffd37f
+colorTo: d4816b
+length: 10
+rotWithParent: true
+lifetime: 60
+}
+{
+sizeFrom: 10
+sizeTo: 0
+interp: linear
+cone: 18
+layer: 90.2
+sizeInterp: linear
+colorFrom: d4816b
+colorTo: 873c28
+length: 20
+rotWithParent: true
+lifetime: 75
+}
+{
+sizeFrom: 12
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90.1
+sizeInterp: linear
+colorFrom: 7a7777
+colorTo: 201e1e80
+length: 30
+rotWithParent: true
+lifetime: 85
+}
+{
+sizeFrom: 15
+sizeTo: 0
+interp: linear
+cone: 15
+layer: 90
+sizeInterp: linear
+colorFrom: 544f4f
+colorTo: 201e1e80
+length: 60
+rotWithParent: true
+lifetime: 60
+}
+]
+collides: true
+hitColor: ffffff00
+collidesAir: false
+targetable: false
+lifetime: 70
+speed: 2
+hitSize: 16
+knockback: 4
+despawnEffect:none
+}
+}
+{
+name: resurgence-small-railgun
+mirror: true
+layerOffset: 1
+shadow: 2.3
+rotate: true
+x: 25
+rotateSpeed: .6
+y: 60
+reload: 240
+shoot: {
+shots: 1
+shotDelay: 60
+firstShotDelay: 1
+}
+recoil: 7
+recoilTime: 120
+shootSound: railgun
+parts: [
+{
+suffix: -ignitor
+moveY: -8
+progress: charge
+moves: [
+{
+progress: recoil
+y: 10
+}
+]
+}
+]
+}
+]

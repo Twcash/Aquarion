@@ -12,45 +12,34 @@ sodium
 manganese,
 duralumin
 ]
-itemBlacklist: [
-beryllium,
-tungsten,
-copper,
-scrap,
-thorium,
-phase-fabric,
-surge-alloy,
-graphite,
-]
 clearSectorOnLose: true
-orbitTime: 320
+orbitTime: 540
 allowLaunchSchematics: false
 allowLaunchLoadout: false
 //  YOU SUCK ERIKIR
 allowWaveSimulation: true
 parent: sun
-radius: 0.7
-minZoom: 0.9
+radius: 1.4
+minZoom: .9
+sectorSize: 3.5
 startSector: 10
 atmosphereRadIn: -.01
-atmosphereRadOut: 0.3
+atmosphereRadOut: 0.35
 atmosphereColor: 35808750
 iconColor: 597be3
-orbitRadius: 110
+orbitRadius: 120
 bloom: false
-orbitOffset: 115
+orbitOffset: 130
 alwaysUnlocked: true
 accessible: true
 allowLaunchToNumbered: false
-sectorSize: 2.1
-totalRadius: 1.8
 defaultEnv: 4
 mesh: [
 {
 bloom: false
 type: SunMesh 
 divisions: 5
-radius: 3
+radius: 3.6
 octaves: 1
 persistence: .5
 scl: 2
@@ -58,16 +47,50 @@ pow: 2.2
 mag: 3
 colorScale: 1
 colors: [
-415571,
-314867
-304056,
+43718e,
+437b8e
+468f92,
+]
+}
+{
+bloom: false
+type: SunMesh 
+divisions: 5
+radius: 3.9
+octaves: 1
+persistence: .5
+scl: 2
+pow: 2.2
+mag: 3
+colorScale: 1
+colors: [
+43718e70,
+437b8e70
+468f9270,
+]
+}
+{
+bloom: false
+type: SunMesh 
+divisions: 5
+radius: 4.2
+octaves: 1
+persistence: .5
+scl: 2
+pow: 2.2
+mag: 3
+colorScale: 1
+colors: [
+43718e50,
+437b8e50
+468f9250,
 ]
 }
  {
 bloom: false
 type: NoiseMesh
 divisions: 6
-radius: 0.45
+radius: .9
 color1: c8cdce
 color2: a0babf
 octaves: 3
@@ -89,7 +112,7 @@ bloom: false
     type: HexSkyMesh
     speed: 2
     divisions: 6
-    radius: 0.11
+    radius: 0.07
     color: c5dbdd65
     octaves: 2
     persistence: 0.6

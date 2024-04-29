@@ -9,9 +9,9 @@ reactor
 hitSize: 7
 engineSize: 0
 circleTarget: true
-outlineColor: b0b0b0
+outlineColor: 727c81
 omniMovement: true
-rotateSpeed: 1.2
+rotateSpeed: 1.1
 omniMovement: false
 faceTarget: true
 targetAir: false
@@ -33,10 +33,11 @@ sizeInterp: pow2In
 ]
 drawCell: false
 speed: .5
-drag:.01
-segmentScl: 3
-segmentPhase: 5
-segmentMag: .5
+drag:.06
+accel: .06
+segmentScl: 5
+segmentPhase: 7
+segmentMag: .7
 range:0
 requirements: {
   block: molus-den
