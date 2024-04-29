@@ -1,9 +1,15 @@
 size: 1
 requirements: [
-lead/5
-bauxite/10
+lead/2
+bauxite/2
 sodium/1
 ]
 category: distribution
 envEnabled: 4
 payloadLimit: 3
+moveTime: 45
+interp: smoother
+research: {
+parent: core-pike
+planet: tantros
+}
