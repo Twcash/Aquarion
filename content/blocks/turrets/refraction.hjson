@@ -19,7 +19,6 @@ damage: 5
 fragBullets: 2
 oscScl: 2.5
 oscMag: .5
-minRange: 30
 maxRange: 180
 }
 shoot: {
@@ -43,14 +42,13 @@ drawer: {
 type: drawTurret
 parts: [
 {
-type: drawPartRegion
+type: regionPart
 suffix: -side
 moveRot: -15
 moveX: 2.5
 moveY: -1
 mirror: true
 under: true
-top: false
 }
 ]
 }

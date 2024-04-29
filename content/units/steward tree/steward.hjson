@@ -2,7 +2,6 @@ type: mech
 speed: .8
 health: 250
 drawCell: false
-baseRotationSpeed: 6
 armor: 3
 boostMultiplier: 1.3
 mechLegColor: 232826
@@ -37,7 +36,7 @@ y: 1.5
 bullet: {
 type: laserBoltBulletType
 speed: 3
-lifeTime: 15
+lifetime: 15
 fragBullets: 3
 fragBullet: {
 backColor: 70bd6b

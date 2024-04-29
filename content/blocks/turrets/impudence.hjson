@@ -172,17 +172,17 @@ rotWithParent: true
 baseRotation: 0
 intervalBullets: 2
 intervalSpread: 90
-intervalBullet
-{      type: LaserBulletType
-      despawnSound: spark
-      colors: [eab678, ffd27e, ffffff]
-      sideWidth: 2
-      sideLength: 16
-      sideAngle: 45
-      length: 60
-      width: 4
-      damage: 75
-      pierce: true
+intervalBullet: {    
+  type: LaserBulletType
+despawnSound: spark
+colors: [eab678, ffd27e, ffffff]
+sideWidth: 2
+sideLength: 16
+sideAngle: 45
+length: 60
+width: 4
+damage: 75
+pierce: true
 }
 }
 {

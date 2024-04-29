@@ -59,7 +59,7 @@ sizeTo: 5
 }
 }
 ]
-powerProduction: 5
+powerProduction: 8
 drawer: [
 {
 type: drawRegion
@@ -68,7 +68,6 @@ suffix: -bottom
 {
 type: DrawParticles
 reverse: true
-interp: reverse
 color: d4816b
 particleRad: 20
 particleSize: 4
@@ -91,8 +90,6 @@ rotateSpeed: 1.5
 }
 {
 type: DrawSoftParticles
-reverse: true
-interp: reverse
 particleInterp: reverse
 color: 8ca9e8
 color: eab678
@@ -103,8 +100,6 @@ particleLife: 70
 }
 {
 type: DrawSoftParticles
-reverse: true
-interp: reverse
 particleInterp: reverse
 color: ffd37f
 color2: eab678
@@ -115,8 +110,6 @@ particleLife: 70
 }
 {
 type: DrawParticles
-reverse: true
-interp: reverse
 particleInterp: reverse
 color: 5c5e9f
 particleRad: 12
@@ -126,8 +119,6 @@ particleLife: 60
 }
 {
 type: DrawParticles
-reverse: true
-interp: reverse
 particleInterp: reverse
 color: d1efff
 particleRad: 14
@@ -151,7 +142,6 @@ glowScale: 10
 }
 {
 type: drawSideRegion
-suffix: -top
 }
 {
 type: drawHeatOutput

@@ -7,8 +7,8 @@ bauxite/10
 metaglass/50
 nitride/5
 ]
-consume: {
-power: 1
+consumes: {
+power: 3.5
 }
 category: distribution
 itemsLoaded: 1

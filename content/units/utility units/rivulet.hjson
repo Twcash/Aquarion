@@ -2,7 +2,6 @@ type: tether
 name: rivulet
 flying: true
 outlineColor: 2f3734
-faceDirection: true
 controller: CargoAI
 isEnemy: false
 logicControllable: false
@@ -13,13 +12,7 @@ omniMovement: false
 speed: 1.5
 rotateSpeed: 6
 drawCell: false   
-findAnyTarget: true
-targetIndex: offset
-//does this even work???
 engineSize: 0
-emptyWaitTime: 5
-//STOP BEING BIASED
-dropSpacing: 10
 abilities: [
 {
 type: moveEffectAbility

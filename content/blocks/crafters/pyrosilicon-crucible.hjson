@@ -15,7 +15,6 @@ sizeFrom: 3
 cone: 35
 colorFrom: c53720
 colorTo: #d56e47
-alpha: .7
 sizeTo: 0
 offset: 45
 }
@@ -66,10 +65,6 @@ particleSizeInterp: one
 {
 type: DrawPlasma
 plasmas: 4
-plasma1: 93d49b
-plasma2: 76b87e
-plasma3: 65b96f
-plasma4: 4faa5a
 }
 {
 type: drawRegion
@@ -78,7 +73,7 @@ suffix: -middle
 {
 type: drawGlowRegion
 suffix: -top-heat
-slpha: .5
+alpha: .5
 }
 {
 type: DrawHeatInput

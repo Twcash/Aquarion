@@ -1,8 +1,5 @@
 
 color: B9CEDC
-planet: [
-tantros
-]
 cost: 1.5
 research: {
 planet: tantros

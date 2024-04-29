@@ -530,7 +530,6 @@ lifetime: 90
 }
 ]
 collides: false
-targetable: false
 despawnEffect: none
 }
 }
@@ -606,7 +605,6 @@ lifetime: 60
 collides: true
 hitColor: ffffff00
 collidesAir: false
-targetable: false
 lifetime: 70
 speed: 2
 hitSize: 16
