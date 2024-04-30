@@ -21,60 +21,98 @@ drawCell: false
 weapons: [
 {
 name: consul-weapon
+shootSound: bolt
 layerOffset: -.001
 recoil: 0
 rotate: true
-rotationLimit: 45
+rotationLimit: 50
 shootY: 8
-rotateSpeed: 1.2
+rotateSpeed: 1.3
 x: 10
 y: 2
-reload: 18
+reload: 15
 parts: [
 {
 suffix: -barrel
 moveX: 3
-progress: reload
+progress: {
+type: reload
+op: curve
+start: 0
+end: 1
+interp: pow5In
+}
 under: true
+mixColor: 444b4990
+mixColorTo: 444b4990
+colorFrom: 829194
+ColorTo: 829194
 }
 {
 suffix: -barrel
 moveX: 3
 x: -3
-progress: reload
+progress: {
+type: reload
+op: curve
+start: 0
+end: 1
+interp: pow5In
+}
 under: true
-mixColor: 444b4950
-mixColorTo: 444b49
+mixColor: 444b4990
+mixColorTo: 444b4990
 colorFrom: 444b49
 ColorTo: 444b49
 }
 {
+//middle to right
 suffix: -barrel
 moveX: -3
+moveY: .5
 x: 3
-progress: reload
+progress: {
+type: reload
+op: curve
+start: 0
+end: 1
+interp: pow5In
+}
 under: true
-mixColor: 444b4950
-mixColorTo: 82919400
+mixColor: 444b4990
+mixColorTo: 444b4900
+colorFrom: 444b49
+ColorTo: 444b49
+}
+{
+//left to middle
+suffix: -barrel
+moveY: -.5
+moveX: -3
+progress: {
+type: reload
+op: curve
+start: 0
+end: 1
+interp: pow5In
+}
+under: true
+mixColor: 82919400
+mixColorTo: 444b4990
 colorFrom: 829194
 ColorTo: 444b49
 }
-{
-suffix: -barrel
-moveX: -3
-progress: reload
-under: true
-mixColor: 82919400
-mixColorTo: 444b49
-colorFrom: 444b49
-ColorTo: 829194
-}
 ]
+//DONT JUDGE THIS IS A TEMPLATE
+//mixColor: 444b4950
+//mixColorTo: 82919400
+//colorFrom: 829194
+//ColorTo: 444b49
 bullet: {
 trailRotation: true
 type: railBulletType
 length: 90
-damage: 25
+damage: 40
 collidesAir: false
 pointEffectSpace: 6
 ammoMultiplier: 1
@@ -86,7 +124,7 @@ shootSound: bolt
 cone: 60
 particles: 4
 lenFrom: 7
-lifetime: 80
+lifetime: 30
 lenTo: 0
 sizeFrom: 10
 sizeTo: 0
@@ -100,7 +138,7 @@ line: true
 cone: 60
 particles: 4
 lenFrom: 7
-lifetime: 80
+lifetime: 30
 lenTo: 0
 sizeFrom: 10
 sizeTo: 0
@@ -115,7 +153,7 @@ line: true
 cone: 0
 particles: 1
 lenFrom: 10
-lifetime: 45
+lifetime: 20
 lenTo: 0
 sizeFrom: 7
 sizeTo: 0
@@ -129,7 +167,7 @@ line: true
 cone: 0
 particles: 1
 lenFrom: 10
-lifetime: 60
+lifetime: 20
 lenTo: 0
 sizeFrom: 10
 sizeTo: 0
