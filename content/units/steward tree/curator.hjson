@@ -6,6 +6,7 @@ omniMovement: false
 health: 650
 targetGround: false
 drawCell: false
+envEnabled: 4
 abilities: [
 {
 type: RepairFieldAbility

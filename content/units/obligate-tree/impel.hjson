@@ -5,6 +5,7 @@ outlineColor: 2f3734
 lowAltitude: true
 armor: 4
 health: 1200
+envEnabled: 4
 targetAir: false
 hitSize: 18
 speed: 1.2

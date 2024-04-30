@@ -1,18 +1,18 @@
 
-range: 50
-healPercent: .06
+range: 45
+healPercent: .02
 consumes: {
 liquid: {
 liquid: hydrogen
 amount: .2
 }
-power: 9
+power: 11
 }
 size: 2
 requirements: [
-nitride/120
+nitride/90
 lead/90
-metaglass/120
+metaglass/60
 ]
 envEnabled: 4
 research: {

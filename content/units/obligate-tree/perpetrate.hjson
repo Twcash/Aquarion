@@ -2,6 +2,7 @@ type: flying
 lowAltitude: true
 speed: .8
 rotateSpeed: .5
+envEnabled: 4
 drag: .01
 engineOffset: 35
 engineSize: 9.5
