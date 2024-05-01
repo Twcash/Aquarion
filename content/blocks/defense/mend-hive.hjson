@@ -16,7 +16,7 @@ lead/70
 ]
 category: defense
 consumes: {
-power: 5.5
+power: 6.66666666667
 liquid: {
 liquid: hydrogen
 amount: .25

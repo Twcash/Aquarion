@@ -51,7 +51,7 @@ sodium/150
 ]
 category: units
 consumes: {
-power: 15
+power: 20.8333333333
 }
 areaSize: 9
 envEnabled: 4

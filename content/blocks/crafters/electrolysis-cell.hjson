@@ -2,10 +2,10 @@
 squareSprite: false
 size: 4
 requirements: [
-lead/120
-bauxite/100
+lead/90
+bauxite/110
 metaglass/110
-nitride/90
+nitride/110
 gallium/90
 ]
 category: crafting
@@ -14,7 +14,7 @@ craftTime: 90
 outputItem: sodium/2
 outputLiquid: hydrogen-chloride/.25
 consumes: {
-power: 10
+power: 6.25
 liquids: [
 hydrogen/.25
 hydroxide/.64

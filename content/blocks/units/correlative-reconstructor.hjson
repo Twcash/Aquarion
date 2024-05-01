@@ -10,10 +10,10 @@ bauxite/80
 lead/60
 ]
 consumes: {
-power: 2.5
+power: 5
 items: [
-nitride/50
-metaglass/40
+nitride/25
+metaglass/30
 ]
 liquid: {
 liquid: nitrogen

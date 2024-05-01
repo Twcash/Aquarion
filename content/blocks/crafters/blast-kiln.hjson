@@ -2,7 +2,7 @@
 squareSprite: false
 size: 3
 category: crafting
-craftTime: 45
+craftTime: 60
 craftEffect: {
 particles: 5
 length: 95
@@ -21,7 +21,7 @@ lead/60
 bauxite/120
 ]
 consumes: {
-power: 5.5
+power: 2.08333333333
 liquid: {
 liquid: pyridine
 amount: .3

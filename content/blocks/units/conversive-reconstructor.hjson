@@ -9,7 +9,7 @@ lead/200
 bauxite/60
 ]
 consumes: {
-power: 1
+power: 2.5
 items: [
 metaglass/15
 bauxite/80

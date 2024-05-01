@@ -6,7 +6,7 @@ warmupSpeed: .2
 drillTime: 230
 hardnessDrillMultiplier: 5
 consumes: {
-power: 4.5
+power: 0.83333333333
 liquid: {
 liquid: hydrogen
 amount: .075

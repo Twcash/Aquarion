@@ -8,9 +8,9 @@ cooldownBrokenBase: .2
 coolantConsumption: .15
 sheildRotaion: 45
 radius: 120
-sides: 4
+sides: 5
 consumes: {
-power: 6.5
+power: 12.5
 }
 requirements: [
 lead/80

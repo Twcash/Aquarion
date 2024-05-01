@@ -24,7 +24,7 @@ metaglass/30
 bauxite/45
 ]
 consumes: {
-power: 7
+power: 0.83333333333
 }
 drawer: [
 {

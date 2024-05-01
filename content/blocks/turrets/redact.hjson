@@ -12,7 +12,7 @@ shots: 5
 shotDelay: 8
 }
 consumes: {
-power: 4
+power: 4.16666666667
 }
 requirements: [
 lead/110

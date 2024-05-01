@@ -24,7 +24,7 @@ baseEfficiency: 0
 warmupSpeed: 0.1
 displayEfficiency: false
 category: power
-powerProduction: 0.55555555555
+powerProduction: 0.46296296296
 
 requirements: [
 bauxite/20

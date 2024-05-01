@@ -9,7 +9,7 @@ metaglass/10
 ]
 squareSprite: false
 consumes: {
-power: 0.66666666666
+power: 0.08333333333
 }
 knockback: 2
 reload: 140

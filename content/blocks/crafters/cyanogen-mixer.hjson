@@ -1,7 +1,7 @@
 
 craftTime: 240
 consumes: {
-  power: 15
+  power: 4.16666666667
 items: [
 sodium/1
 ]

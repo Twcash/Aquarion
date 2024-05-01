@@ -21,7 +21,7 @@ offset: 45
 ]
 heatRequirement: 10
 consumes: {
-power: 6.5
+power: 4.16666666667
 items: [
 gallium/1
 ]

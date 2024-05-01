@@ -6,7 +6,7 @@ liquid: {
 liquid: hydrogen
 amount: .2
 }
-power: 11
+power: 8.33333333333
 }
 size: 2
 requirements: [

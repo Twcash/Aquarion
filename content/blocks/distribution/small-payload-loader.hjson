@@ -8,7 +8,7 @@ metaglass/50
 nitride/5
 ]
 consumes: {
-power: 3.5
+power: 0.08333333333
 }
 category: distribution
 itemsLoaded: 1

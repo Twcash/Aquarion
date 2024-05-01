@@ -9,7 +9,7 @@ metaglass/20
 bauxite/60
 ]
 consumes: {
-power: 1.25
+power: 4.16666666667
 liquid: {
 liquid: nitrogen
 amount: 0.125

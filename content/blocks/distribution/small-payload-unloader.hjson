@@ -9,7 +9,7 @@ metaglass/50
 nitride/5
 ]
 consumes: {
-power: 1
+power: 0.08333333333
 }
 category: distribution
 offloadSpeed: 1

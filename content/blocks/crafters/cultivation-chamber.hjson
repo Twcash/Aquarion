@@ -23,7 +23,7 @@ lead/40
 bauxite/20
 ]
 consumes: {
-power: 2
+power: 1.04166666667
 items: [
 bauxite/1
 ]

@@ -32,7 +32,7 @@ interp: pow5Out
 }
 rotateSpeed: 12
 consumes: {
-power: 6
+power: 2.08333333333
 liquids: [
 {
 liquid: nitrogen

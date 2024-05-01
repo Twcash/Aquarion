@@ -2,7 +2,7 @@
 reatRequirement: 30
 maxEfficiency: 3
 consumes: {
-power: 10.5
+power: 16.6666666667
 liquids: [
 pyridine/.45
 cyan/.1

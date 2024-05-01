@@ -9,7 +9,7 @@ length: 3
 grabHeight: 3
 shake: 0
 consumes: {
-power: 3
+power: 0.08333333333
 }
 requirements: [
 manganese/35

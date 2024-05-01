@@ -12,7 +12,7 @@ size: 4
 outputItem: duralumin/1
 heatRequirement: 15
 consumes: {
-power: 15
+power: 12.5
 liquid: {
 liquid: hydrogen-chloride
 amount: .05
