@@ -1,10 +1,10 @@
 type: legs
 legCount: 4
 lockLegbase: true
-legLength: 17
-health: 450
-armor: 3
-range: 75
+legLength: 15
+health: 650
+armor: 4
+range: 60
 hitSize: 11
 legPairOffset: 2
 speed: .75
@@ -24,7 +24,7 @@ shootSound: shotgun
 bullet: {
 shootSound: shotgun
 type: shrapnelBulletType
-damage: 50
+damage: 40
 length: 75
 width: 6
 toColor: d1efff
