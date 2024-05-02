@@ -42,6 +42,14 @@ drawLiquid: hydroxide
 padding: 3
 }
 {
+type: RegionPart
+suffix: -rotator
+moves: [
+rot: 360
+progress: time
+]
+}
+{
 type: drawRegion
 suffix: -top
 }
