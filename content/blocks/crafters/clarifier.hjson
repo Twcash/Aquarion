@@ -42,11 +42,11 @@ drawLiquid: hydroxide
 padding: 3
 }
 {
-type: RegionPart
+type: DrawBlurSpin
 suffix: -rotator
 moves: [
 rot: 360
-progress: time
+blurThresh
 ]
 }
 {
