@@ -26,11 +26,11 @@ layerOffset: -.001
 recoil: 0
 rotate: true
 rotationLimit: 50
-shootY: 8
+shootY: 10
 rotateSpeed: 1.3
 x: 10
 y: 2
-reload: 15
+reload: 10
 parts: [
 {
 suffix: -barrel
@@ -40,7 +40,7 @@ type: reload
 op: curve
 start: 0
 end: 1
-interp: pow5In
+interp: sineIn
 }
 under: true
 mixColor: 444b4990
@@ -57,7 +57,7 @@ type: reload
 op: curve
 start: 0
 end: 1
-interp: pow5In
+interp: sineIn
 }
 under: true
 mixColor: 444b4990
@@ -76,7 +76,7 @@ type: reload
 op: curve
 start: 0
 end: 1
-interp: pow5In
+interp: sineIn
 }
 under: true
 mixColor: 444b4990
@@ -94,7 +94,7 @@ type: reload
 op: curve
 start: 0
 end: 1
-interp: pow5In
+interp: sineIn
 }
 under: true
 mixColor: 82919400
@@ -112,19 +112,46 @@ bullet: {
 trailRotation: true
 type: railBulletType
 length: 90
-damage: 40
+damage: 35
+pierceCap: 2
+pierceDamageFactor: .5
 collidesAir: false
 pointEffectSpace: 6
 ammoMultiplier: 1
 shootEffect: none
-ejectEffect: casing2
+hitEffect: [
+{
+line: true
+shootSound: bolt
+particles: 6
+lenFrom: 7
+lifetime: 10
+lenTo: 0
+sizeFrom: 10
+sizeTo: 0
+colorFrom: ff5656
+colorTo: ff5656
+rotWithParent: true
+baseRotation: 0
+}
+{
+type: waveEffect
+strokeFrom: 1
+strokTo: 0
+colorFrom: ff5656
+colorTo: ff565600
+lifetime: 12
+sizeFrom: 1
+sizeTo: 10
+}
+]
 smokeEffect: {
 line: true
 shootSound: bolt
 cone: 60
 particles: 4
 lenFrom: 7
-lifetime: 30
+lifetime: 10
 lenTo: 0
 sizeFrom: 10
 sizeTo: 0
@@ -138,7 +165,7 @@ line: true
 cone: 60
 particles: 4
 lenFrom: 7
-lifetime: 30
+lifetime: 10
 lenTo: 0
 sizeFrom: 10
 sizeTo: 0
@@ -153,7 +180,7 @@ line: true
 cone: 0
 particles: 1
 lenFrom: 10
-lifetime: 20
+lifetime: 10
 lenTo: 0
 sizeFrom: 7
 sizeTo: 0
@@ -167,7 +194,7 @@ line: true
 cone: 0
 particles: 1
 lenFrom: 10
-lifetime: 20
+lifetime: 10
 lenTo: 0
 sizeFrom: 10
 sizeTo: 0
