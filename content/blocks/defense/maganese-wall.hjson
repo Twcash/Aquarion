@@ -7,7 +7,7 @@ requirements: [
 manganese/24
 ]
 research: {
-parent: gallium-wall
+parent: small-manganese-wall
 planet: tantros
 requirements: [
 manganese/300

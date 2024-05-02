@@ -9,9 +9,13 @@ extend(GenericCrafter, "cyanogen-mixer", {});
 extend(HeatCrafter, "nitrogen-distillery", {});
 extend(HeatCrafter, "pyrosilicon-crucible", {});
 extend(HeatCrafter, "duralumin-crucible", {});
+extend(Wall, "small-bauxite-wall", {});
 extend(Wall, "bauxite-wall", {});
+extend(Wall, "small-gallium-wall", {});
 extend(Wall, "gallium-wall", {});
+extend(Wall, "small-manganese-wall", {});
 extend(Wall, "maganese-wall", {});
+extend(Wall, "small-duralumin-wall", {});
 extend(Wall, "duralumin-wall", {});
 extend(DroneCenter, "mend-hive", {});
 extend(RegenProjector, "regen-pylon", {})
@@ -20,6 +24,8 @@ extend(OverdriveProjector, "overdrive-substation", {})
 extend(BuildTurret, "build-sentry", {})
 extend(Duct, "sealedconveyor", {});
 extend(Duct, "armored-sealed-conveyor", {});
+extend(Conveyor, "manganese-conveyor", {});
+extend(BufferedItemBridge, "manganese-bridge", {});
 extend(MassDriver, "small-mass-driver", {});
 extend(Router, "sealedrouter", {});
 extend(OverflowGate, "sealed-overflow", {});
@@ -35,7 +41,9 @@ extend(PayloadLoader, "small-payload-loader", {});
 extend(PayloadUnloader, "small-payload-unloader", {});
 extend(PayloadMassDriver, "small-payload-mass-driver", {});
 extend(ArmoredConduit, "siphon", {})
+extend(ArmoredConduit, "pulse-siphon", {})
 extend(LiquidBridge, "siphon-bridge", {})
+extend(LiquidBridge, "pulse-siphon-bridge", {})
 extend(LiquidRouter, "siphon-distributor", {})
 extend(LiquidJunction, "siphon-junction", {})
 extend(LiquidRouter, "siphon-router", {})

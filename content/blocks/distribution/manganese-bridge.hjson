@@ -1,0 +1,19 @@
+range: 5
+arrowSpacing: 4
+bufferedCapacity: 25
+fadeIn: true
+moveArrows: true
+spee: 90
+pulse: true
+consumes: {
+power: 0.08333333333
+}
+category: distribution
+requirements: [
+gallium/60
+manganese/15
+]
+research: {
+parent: manganese-conveyor
+planet: tantros
+}

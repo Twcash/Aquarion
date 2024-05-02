@@ -11,3 +11,4 @@ planet: tantros
 parent: sealedrouter
 }
 envEnabled: 4
+speed: 4.5
