@@ -1,8 +1,9 @@
 type: legs
-health: 1250
-armor: 4
+health: 1200
+armor: 5
 legContinuousMove: true
 hovering: true
+shadowElevation: .2
 legGroupSize: 2
 legCount: 4
 lockLegBase: true
