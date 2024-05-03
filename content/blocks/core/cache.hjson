@@ -12,7 +12,6 @@ sodium/120
 ]
 research: {
 parent: core-pike
-name: Cache
 planet: aquarion-tantros
 }
 envEnabled: 4
