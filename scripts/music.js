@@ -33,13 +33,13 @@ musicRoot.list().forEach((cat) => {
     });
 });
 
-Events.on(MusicRegisterEvent.class, (e) => {
+Events.on(MusicRegisterEvent, (e) => {
     vAmbient = control.ambientMusic.copy().toArray();
     vDark = control.darkMusic.copy().toArray();
     vBoss = control.bossMusic.copy().toArray();
 });
 
-Events.on(WorldLoadEvent.class, (e) => {
+Events.on(WorldLoadEvent, (e) => {
     if (Vars.state.rules.planet == Vars.content.planet("aquarion-tantros")) {
         control.ambientMusic = modAmbient.concat(vAmbient);
         control.darkMusic = modDark.concat(vDark);
@@ -47,7 +47,7 @@ Events.on(WorldLoadEvent.class, (e) => {
     }
 });
 
-Events.on(StateChangeEvent.class, (e) => {
+Events.on(StateChangeEvent, (e) => {
     if (e.from != GameState.State.menu && e.to == GameState.State.menu) {
         control.ambientMusic = vAmbient;
         control.darkMusic = vDark;
