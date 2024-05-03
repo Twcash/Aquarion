@@ -4,4 +4,6 @@ modAmbient = [];
 modDark = [];
 modBoss = [];
 
+Log.info("music");
+
 Log.info(musicRoot);
