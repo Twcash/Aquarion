@@ -37,6 +37,8 @@ Events.on(MusicRegisterEvent, (e) => {
     vAmbient = control.ambientMusic.copy().toArray();
     vDark = control.darkMusic.copy().toArray();
     vBoss = control.bossMusic.copy().toArray();
+
+    vAmbient = [];
 });
 
 Events.on(WorldLoadEvent, (e) => {
