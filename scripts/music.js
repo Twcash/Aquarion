@@ -1,8 +1,8 @@
-musicRoot = Vars.mods.locateMod("aquarion").root.child("music");
+var musicRoot = Vars.mods.locateMod("aquarion").root.child("music");
 
-modAmbient = [];
-modDark = [];
-modBoss = [];
+var modAmbient = [];
+var modDark = [];
+var modBoss = [];
 
 Log.info("music");
 
