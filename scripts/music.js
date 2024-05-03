@@ -4,6 +4,53 @@ var modAmbient = [];
 var modDark = [];
 var modBoss = [];
 
-Log.info("music");
+var control = Vars.control.sound;
 
-Log.info(musicRoot);
+var vAmbient;
+var vDark;
+var vBoss;
+
+function loadMusic(name) {
+    return Vars.tree.loadMusic(name);
+}
+
+musicRoot.list().forEach((cat) => {
+    cat.findAll((f) => {
+        f.extEquals("ogg") || f.extEquals("mp3");
+    }).forEach((mFile) => {
+        var music = loadMusic(cat.name() + "/" + mFile.nameWithoutExtension());
+        switch (cat.name()) {
+            case "ambient":
+                modAmbient.add(music);
+                break;
+            case "dark":
+                modDark.add(music);
+                break;
+            case "boss":
+                modBoss.add(music);
+                break;
+        }
+    });
+});
+
+Events.on(MusicRegisterEvent.class, (e) => {
+    vAmbient = control.ambientMusic.copy().toArray();
+    vDark = control.darkMusic.copy().toArray();
+    vBoss = control.bossMusic.copy().toArray();
+});
+
+Events.on(WorldLoadEvent.class, (e) => {
+    if (Vars.state.rules.planet == Vars.content.planet("aquarion-tantros")) {
+        control.ambientMusic = modAmbient.concat(vAmbient);
+        control.darkMusic = modDark.concat(vDark);
+        control.bossMusic = modBoss.concat(vBoss);
+    }
+});
+
+Events.on(StateChangeEvent.class, (e) => {
+    if (e.from != GameState.State.menu && e.to == GameState.State.menu) {
+        control.ambientMusic = vAmbient;
+        control.darkMusic = vDark;
+        control.bossMusic = vBoss;
+    }
+});
