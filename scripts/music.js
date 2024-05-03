@@ -36,11 +36,9 @@ musicRoot.list().forEach((cat) => {
 });
 
 Events.on(MusicRegisterEvent, (e) => {
-    vAmbient = control.ambientMusic.copy().toArray();
-    vDark = control.darkMusic.copy().toArray();
-    vBoss = control.bossMusic.copy().toArray();
-
-    vAmbient = [];
+    vAmbient = control.ambientMusic.copy();
+    vDark = control.darkMusic.copy();
+    vBoss = control.bossMusic.copy();
 });
 
 Events.on(WorldLoadEvent, (e) => {
