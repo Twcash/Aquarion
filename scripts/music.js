@@ -16,7 +16,7 @@ function loadMusic(name) {
 
 musicRoot.list().forEach((cat) => {
     cat.findAll((f) => {
-        f.extEquals("ogg") || f.extEquals("mp3");
+        return f.extEquals("ogg") || f.extEquals("mp3");
     }).forEach((mFile) => {
         var music = loadMusic(cat.name() + "/" + mFile.nameWithoutExtension());
         switch (cat.name()) {
