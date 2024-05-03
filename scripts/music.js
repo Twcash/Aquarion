@@ -15,9 +15,11 @@ function loadMusic(name) {
 }
 
 musicRoot.list().forEach((cat) => {
+    Log.info(cat);
     cat.findAll((f) => {
         return f.extEquals("ogg") || f.extEquals("mp3");
     }).forEach((mFile) => {
+        Log.info(mFile);
         var music = loadMusic(cat.name() + "/" + mFile.nameWithoutExtension());
         switch (cat.name()) {
             case "ambient":
