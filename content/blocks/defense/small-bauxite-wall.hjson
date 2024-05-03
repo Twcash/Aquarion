@@ -1,12 +1,12 @@
 
-  size: 2
-health: 680
+  size: 1
+health: 170
   category: defense
 requirements: [
-  bauxite/24
+  bauxite/6
   ]
   research: {
-  parent: small-bauxite-wall
+  parent: core-pike
     planet: tantros
     requirements: [
     bauxite/150

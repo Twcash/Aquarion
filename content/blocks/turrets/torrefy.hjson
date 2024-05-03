@@ -6,7 +6,7 @@ metaglass/120
 gallium/90
 lead/130
 ]
-warmupMaintainTime: 45
+
 category: turret
 research: {
 planet: tantros
@@ -14,21 +14,20 @@ parent: forment
 }
 range: 130
 shootY: 4
-reload: 45
+reload: 20
 envEnabled: 4
-targetAir: false
 consumes: {
 liquid: {
 liquid: hydroxide
-amount: .15
+amount: .5
 }
 }
 shoot: {
 shots: 3
 }
-inaccuracy: 12
+inaccuracy: 15
 squareSprite: false
-minWarmup: .9
+minWarmup: .85
 ammoTypes: {
 sodium: {
 shootEffect: none
@@ -37,17 +36,16 @@ height: 19
 hitSize: 7
 pierce: true
 status: burning
-damage: 45
+damage: 10
 splashDamageRadius: 15
-collidesAir: false
-splashDamage: 35
-statusDuration: 190
+splashDamage: 10
+statusDuration: 120
 makeFire: true
-pierceCap: 3
-trailInterval: 6
+pierceCap: 2
+trailInterval: 4
 trailRotation: true
 lifetime: 35
-speed: 3
+speed: 4
 trailEffect: [
 {
 cone: 10

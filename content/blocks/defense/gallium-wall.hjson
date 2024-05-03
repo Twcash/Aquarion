@@ -1,12 +1,12 @@
 
   size: 2
-health: 1280
+health: 1200
   category: defense
 requirements: [
   gallium/24
   ]
   research: {
-  parent: bauxite-wall
+  parent: small-gallium-wall
     planet: tantros
     requirements: [
     gallium/150

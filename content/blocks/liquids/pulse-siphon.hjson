@@ -1,0 +1,19 @@
+
+requirements: [
+lead/3
+manganese/1
+]
+category: liquid
+research: {
+parent: siphon
+planet: tantros
+requirements: [
+lead/120
+manganese/20
+]
+}
+junctionReplacement: siphon-junction
+envEnabled: 4
+liquidCapacity: 20
+liquidPressure: 1.5
+bridgeReplacement: pulse-siphon-bridge

@@ -7,7 +7,7 @@ requirements: [
   duralumin/24
   ]
   research: {
-  parent: maganese-wall
+  parent: small-duralumin-wall
     planet: tantros
     requirements: [
     duralumin/150

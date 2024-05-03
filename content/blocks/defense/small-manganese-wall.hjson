@@ -1,15 +1,16 @@
 
-  size: 2
-health: 680
+  size: 1
+health: 375
+armor: 1
   category: defense
 requirements: [
-  bauxite/24
+  manganese/6
   ]
   research: {
-  parent: small-bauxite-wall
+  parent: gallium-wall
     planet: tantros
     requirements: [
-    bauxite/150
+    manganese/150
     ]
 }
 envEnabled: 4

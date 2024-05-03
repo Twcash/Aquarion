@@ -1,0 +1,17 @@
+
+requirements: [
+lead/35
+manganese/15
+]
+range: 5
+category: liquid
+research: {
+parent: pulse-siphon
+planet: tantros
+requirements: [
+lead/80
+manganese/40
+]
+}
+envEnabled: 4
+hasPower: false

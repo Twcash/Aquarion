@@ -1,0 +1,19 @@
+category: distribution
+speed: 0.12
+displayedSpeed : 15.5
+underBullets: false
+solid: false
+requirements: [
+manganese/1
+gallium/1
+]
+research: {
+planet: tantros
+parent: sealedconveyor
+requirements: [
+manganese/100
+  gallium/10
+]
+}
+envEnabled: 4
+capacity: 4
