@@ -45,9 +45,9 @@ Events.on(MusicRegisterEvent, (e) => {
 
 Events.on(WorldLoadEvent, (e) => {
     if (Vars.state.rules.planet == Vars.content.planet("aquarion-tantros")) {
-        control.ambientMusic = modAmbient.concat(vAmbient);
-        control.darkMusic = modDark.concat(vDark);
-        control.bossMusic = modBoss.concat(vBoss);
+        control.ambientMusic = modAmbient;
+        control.darkMusic = modDark;
+        control.bossMusic = modBoss;
     }
 });
 
