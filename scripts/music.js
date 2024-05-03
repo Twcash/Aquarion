@@ -23,13 +23,13 @@ musicRoot.list().forEach((cat) => {
         var music = loadMusic(cat.name() + "/" + mFile.nameWithoutExtension());
         switch (cat.name()) {
             case "ambient":
-                modAmbient.add(music);
+                modAmbient.push(music);
                 break;
             case "dark":
-                modDark.add(music);
+                modDark.push(music);
                 break;
             case "boss":
-                modBoss.add(music);
+                modBoss.push(music);
                 break;
         }
     });
@@ -45,9 +45,9 @@ Events.on(MusicRegisterEvent, (e) => {
 
 Events.on(WorldLoadEvent, (e) => {
     if (Vars.state.rules.planet == Vars.content.planet("aquarion-tantros")) {
-        control.ambientMusic = modAmbient;
-        control.darkMusic = modDark;
-        control.bossMusic = modBoss;
+        control.ambientMusic = Seq.with(modAmbient);
+        control.darkMusic = Seq.with(modDark);
+        control.bossMusic = Seq.with(modBoss);
     }
 });
 
