@@ -14,11 +14,11 @@ function loadMusic(name) {
     return Vars.tree.loadMusic(name);
 }
 
-musicRoot.list().forEach((cat) => {
+musicRoot.list().each((cat) => {
     Log.info(cat);
     cat.findAll((f) => {
         return f.extEquals("ogg") || f.extEquals("mp3");
-    }).forEach((mFile) => {
+    }).each((mFile) => {
         Log.info(mFile);
         var music = loadMusic(cat.name() + "/" + mFile.nameWithoutExtension());
         switch (cat.name()) {
