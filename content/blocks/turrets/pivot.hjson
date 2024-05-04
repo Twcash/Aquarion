@@ -13,6 +13,12 @@ shootY: -1
 minWarmup: 0.9
 targetUnderBlocks: false
 elevation: 0.3
+coolantMultiplier: 25
+consumes: {
+    coolant: {
+        amount: 0.03333333333
+    }
+}
 shake: 0.3
 ammoEjectBack: 5
 health: 300

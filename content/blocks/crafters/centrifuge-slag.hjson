@@ -1,0 +1,48 @@
+
+craftTime: 45
+results: [
+lead/1
+sand/2
+lithium/2
+gallium/1
+]
+consumes: {
+power: 1.04166666667
+liquid: {
+liquid: slag
+amount: .25
+}
+}
+size: 3
+drawer: [
+{
+type: DrawRegion
+suffix: -bottom
+}
+{
+type: DrawLiquidTile
+drawLiquid: slag
+padding: 3
+}
+{
+type: DrawRegion
+suffix: -rotator
+spinSprite: true
+rotateSpeed: 5
+}
+{
+type: DrawRegion
+suffix: -top
+}
+]
+envEnabled: 4
+category: crafting
+requirements: [
+lead/90
+gallium/90
+metaglass/40
+]
+research: {
+parent: melting-crucible
+planet: tantros
+}

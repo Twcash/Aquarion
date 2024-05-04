@@ -1,8 +1,14 @@
-type: itemTurret
+
 size: 5
 requirements: [
 lead/10
 ]
+coolantMultiplier: 25
+consumes: {
+    coolant: {
+        amount: 0.044444
+    }
+}
 category: turret
 rotateSpeed: 1.2
 ammoEjectBack: 5

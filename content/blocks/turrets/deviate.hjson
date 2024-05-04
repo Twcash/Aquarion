@@ -3,6 +3,12 @@ reload: 6
 warmupSpeed: 0.5
 squareSprite: false
 warmupMaintainTime: 45
+coolantMultiplier: 15
+consumes: {
+    coolant: {
+        amount: 0.0666666
+    }
+}
 shootWarmupSpeed: 0.05
 recoilTime: 10
 ammoPerShot: 1

@@ -11,9 +11,6 @@ shoot: {
 shots: 5
 shotDelay: 8
 }
-consumes: {
-power: 4.16666666667
-}
 requirements: [
 lead/110
 bauxite/110
@@ -80,3 +77,9 @@ baseRotation: 0
 category: turret
 shootY: -1
 envEnabled: 4
+coolantMultiplier: 15
+consumes: {
+    coolant: {
+        amount: 0.03333333333
+    }
+}

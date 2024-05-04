@@ -29,10 +29,10 @@ requirements: [
     bauxite/60
 ]
 range: 120
-coolantMultiplier: 5
+coolantMultiplier: 20
 consumes: {
     coolant: {
-        amount: 0.1
+        amount: 0.03333333333
     }
 }
 size: 3

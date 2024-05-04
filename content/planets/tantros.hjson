@@ -10,7 +10,8 @@ nitride,
 gallium,
 sodium
 manganese,
-duralumin
+duralumin,
+lithium
 ]
 clearSectorOnLose: true
 orbitTime: 540
