@@ -79,21 +79,12 @@ drawLiquid: hydroxide
 padding: 3
 }
 {
-type: drawCircles
-color: 8ca9e870
-strokeMax: 1.5
-radius: 16
-amount: 9
-timeScl: 200
-}
-{
 type: drawPistons
 sideOffset: 2
 suffix: -piston
 sides: 8
 sinMag: 3
 sinScl: 5
-
 }
 {
 type: DrawLiquidTile

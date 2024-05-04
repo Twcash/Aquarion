@@ -1,0 +1,8 @@
+
+color: d07b7b
+cost: 2
+research: {
+planet: tantros
+parent: bauxite
+}
+explosiveness: .5

@@ -7,6 +7,12 @@ shake: 8
 loopSound: techLoop
 targetAir: false
 chargeSound: spellLoop
+coolantMultiplier: 10
+consumes: {
+    coolant: {
+        amount: 1
+    }
+}
 shoot: {
   firstShotDelay: 80
 }

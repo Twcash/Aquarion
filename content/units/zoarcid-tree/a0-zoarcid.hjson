@@ -1,12 +1,81 @@
 
 localizedName: Zoarcid
 envEnabled: 4
+rotateSpeed: 5
 flying: true
 lowAltitude: true
 outlineColor: 2f3734
 drag: .05
+createScorch: false
+fallSpeed: .01
+deathExplosionEffect: [
+{
+region: aquarion-t1-scorch
+lifetime: 2500
+interp: pow5Out
+sizeFrom: 10
+sizeTo: 10
+length: 0
+colorFrom: ffffff
+colorTo: ffffff00
+layer: 20
+}
+{
+line: true
+length: 40
+lifetime: 35
+lenFrom: 9
+lenTo: 0
+sizeFrom: 5
+sizeTo: 0
+colorFrom: bfc1ff
+colorTo: 787cf5
+}
+{
+length: 35
+lifetime: 45
+sizeFrom: 5
+sizeTo: 0
+colorFrom: 555669
+colorTo: 2c2d35
+}
+]
 drawCell: false
-faceTarget: true
+forceMultiTarget: true
+fallEffect  : [
+{
+sizeFrom: 4
+sizeTo: 0
+particles: 3
+lifetime: 80
+length: 10
+colorFrom: 555669
+colorTo: 2c2d35
+layer: 80.1
+}
+{
+sizeFrom: 5
+sizeTo: 0
+particles: 3
+lifetime: 80
+length: 12
+layer: 80
+colorFrom: 383842
+colorTo: 22222b
+}
+]
+fallEngineEffect: [
+{
+sizeFrom: 4
+sizeTo: 0
+particles: 3
+lifetime: 80
+length: 4
+layer: 80
+colorFrom: bfc1ff
+colorTo: 787cf5
+}
+]
 abilities: [
 {
 display: false

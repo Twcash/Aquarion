@@ -6,6 +6,12 @@ recoil :.5
 inaccuracy: 4
 reload: 25
 shootSound: shootAltLong
+coolantMultiplier: 15
+consumes: {
+    coolant: {
+        amount: 0.066666
+    }
+}
 size: 3
 ammoUseEffect: casing2
 ammoEjectBack: 5

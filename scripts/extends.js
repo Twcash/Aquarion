@@ -8,6 +8,8 @@ extend(GenericCrafter, "cyanogen-mixer", {});
 extend(HeatCrafter, "nitrogen-distillery", {});
 extend(HeatCrafter, "pyrosilicon-crucible", {});
 extend(HeatCrafter, "duralumin-crucible", {});
+extend(GenericCrafter, "melting-crucible", {});
+extend(Separator, "centrifuge-slag", {});
 extend(Wall, "small-bauxite-wall", {});
 extend(Wall, "bauxite-wall", {});
 extend(Wall, "small-gallium-wall", {});
@@ -71,6 +73,7 @@ extend(ContinuousTurret, "refraction", {});
 extend(ItemTurret, "banshee", {});
 extend(ItemTurret, "deviate", {});
 extend(ItemTurret, "purify", {});
+extend(ItemTurret, "clarity", {});
 extend(ItemTurret, "impudence", {});
 
 extend(UnitFactory, "submarine-factory", {});
