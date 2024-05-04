@@ -14,7 +14,7 @@ function loadMusic(name) {
     return Vars.tree.loadMusic(name);
 }
 
-musicRoot.list().each((cat) => {
+musicRoot.list().forEach((cat) => {
     Log.info(cat);
     cat.findAll((f) => {
         return f.extEquals("ogg") || f.extEquals("mp3");
