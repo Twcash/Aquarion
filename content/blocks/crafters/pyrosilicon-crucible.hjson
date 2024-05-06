@@ -1,6 +1,7 @@
 
 outputItem: nitride/3
 squareSprite: false
+researchCostMultiplier: .25
 category: crafting
 conductivePower: true
 itemCapacity: 60

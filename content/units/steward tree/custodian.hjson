@@ -1,3 +1,5 @@
+
+researchCostMultiplier: .25
 envEnabled: 4
 hitSize: 18
 speed: .6
@@ -94,6 +96,7 @@ recoilIndex: 3
 ]
 bullet: {
 type: missileBulletType
+lightColor: daffd8
 shootEffect: {
 particles: 5
 sizeFrom: 4
@@ -102,6 +105,7 @@ colorFrom: 92dd7e
 length: 10
 lifetime: 25
 colorTo: 3a8f64
+lightColor: daffd8
 }
 speed: 4
 damage: 35
@@ -120,6 +124,7 @@ piercCap: 2
 weaveMag: 1.5
 weaveScale: 3
 smokeEffect: none
+lightColor: daffd8
 shootSound: missile
 hitEffect: {
 line: true
@@ -127,6 +132,7 @@ cone: 35
 particles: 5
 sizeFrom: 4
 sizeTo: 0
+lightColor: daffd8
 colorFrom: 92dd7e
 length: 15
 lenFrom: 6
@@ -138,6 +144,7 @@ colorTo: 3a8f64
 despawnEffect: {
 line: true
 cone: 35
+lightColor: daffd8
 particles: 5
 sizeFrom: 4
 sizeTo: 0
@@ -155,4 +162,8 @@ envEnabled: 4
 research: {
 parent: curator
 planet: tantros
+objectives: [
+basic-assember,
+manganese
+]
 }

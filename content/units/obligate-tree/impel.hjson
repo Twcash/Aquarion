@@ -1,6 +1,7 @@
 type: flying
 faceTarget: false
 flying: true
+researchCostMultiplier: .25
 outlineColor: 2f3734
 lowAltitude: true
 armor: 4
@@ -296,4 +297,8 @@ baseRotation: 180
 research: {
 planet: tantros
 parent: carid
+objectives: [
+basic-assember,
+manganese
+]
 }

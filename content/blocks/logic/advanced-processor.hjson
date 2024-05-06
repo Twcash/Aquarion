@@ -9,3 +9,4 @@ duralumin/60
 category: logic
 baseExplosiveness: 1.5
 range: 260
+researchCostMultiplier: .25

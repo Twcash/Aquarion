@@ -7,4 +7,4 @@ name: Hydroxide
 parent: core-pike
 }
 coolant: false
-heaCapacity: 0
+heatCapacity: 0

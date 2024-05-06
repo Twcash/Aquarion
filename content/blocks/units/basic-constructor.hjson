@@ -22,3 +22,4 @@ research: {
 planet: tantros
 parent: core-pike
 }
+researchCostMultiplier: .25

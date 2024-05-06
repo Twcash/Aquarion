@@ -9,3 +9,4 @@ gallium/35
 category: logic
 baseExplosiveness: 1.2
 range: 190
+researchCostMultiplier: .25

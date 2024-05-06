@@ -2,6 +2,7 @@
 squareSprite: false
 description: Directly harvests hydroxide by electrolyzing brine.
 size: 4
+researchCostMultiplier: .25
 category: crafting
 craftTime: 10
 craftEffect: {

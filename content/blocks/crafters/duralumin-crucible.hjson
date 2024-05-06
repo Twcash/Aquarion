@@ -6,6 +6,7 @@ metaglass/180
 lead/200
 bauxite/120
 ]
+researchCostMultiplier: .25
 category: crafting
 craftTime: 180
 size: 4

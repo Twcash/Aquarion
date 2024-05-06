@@ -1,4 +1,4 @@
-
+researchCostMultiplier: .25
 itemCapacity: 250
 coreMerge: false
 squareSprite: false

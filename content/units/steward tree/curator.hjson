@@ -1,3 +1,5 @@
+researchCostMultiplier: .25
+
 type: legs
 legCount: 4
 lockLegBase: true
@@ -70,6 +72,7 @@ sprite: bullet
 splashDamage: 30
 collidesTiles: false
 collidesGround: false
+lightColor: daffd8
 collidesAir: true
 splashDamageRadius: 15
 homingPower: .1
@@ -81,6 +84,7 @@ rotWithParent: true
 lifetime: 120
 cone: 30
 interp: pow3Out
+lightColor: daffd8
 length: 25
 sizeFrom: 5
 sizeInterp: pow3Out
@@ -92,6 +96,7 @@ layer: 80
 {
 particles: 3
 rotWithParent: true
+lightColor: daffd8
 lifetime: 120
 cone: 15
 sizeInterp: pow3Out
@@ -109,6 +114,7 @@ offsetY: 2
 line: true
 rotWithParent: true
 lifetime: 15
+lightColor: daffd8
 cone: 30
 length: 15
 baseRotation: 135
@@ -134,6 +140,7 @@ sizeFrom: 2
 sizeTo: 2
 lenFrom: 6
 lenTo: 0
+lightColor: daffd8
 colorFrom: 92dd7e
 colorTo: 92dd7e50
 }
@@ -145,7 +152,7 @@ width: 12
 height: 12
 frontColor: 92dd7e
 trailColor: 3a8f64
-lightColor: 92dd7e
+lightColor: daffd8
 backColor: 3a8f64
 hitColor: 3a8f64
 }

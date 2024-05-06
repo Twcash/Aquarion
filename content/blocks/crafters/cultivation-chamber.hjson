@@ -1,7 +1,7 @@
 
-description: Uses chemoautotrophic bacteria to oxidize bauxite.
 squareSprite: false
 size: 3
+researchCostMultiplier: .25
 conductivePower: true
 outputLiquid: pyridine/.15
 craftEffect: {

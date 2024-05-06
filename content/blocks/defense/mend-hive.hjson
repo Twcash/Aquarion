@@ -5,6 +5,7 @@ research: {
 }
 squareSprite: false
 unitsSpawned: 2
+researchCostMultiplier: .25
 droneType: repair-drone
 size: 2
 droneRange: 70

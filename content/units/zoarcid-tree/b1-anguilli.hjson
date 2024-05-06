@@ -1,6 +1,7 @@
 type: flying
 drawCell: false
 flying: true
+researchCostMultiplier: .25
 lowAltitude: true
 outlineColor: 2f3734
 targetAir: false

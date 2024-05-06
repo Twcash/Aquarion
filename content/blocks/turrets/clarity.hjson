@@ -1,4 +1,4 @@
-
+researchCostMultiplier: .25
 size: 5
 requirements: [
 lead/10

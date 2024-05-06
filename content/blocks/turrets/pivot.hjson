@@ -2,6 +2,7 @@
 reload: 25
 squareSprite: false
 targetAir: false
+researchCostMultiplier: .25
 ammoPerShot: 1
 envEnabled: 4
 ammoUseEffect: casing2

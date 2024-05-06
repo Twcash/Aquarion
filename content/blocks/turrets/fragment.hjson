@@ -1,5 +1,6 @@
 
 squareSprite: false
+researchCostMultiplier: .25
 ammoPerShot: 1
 targetGround: false
 recoil :.5

@@ -3,6 +3,7 @@ squareSprite: false
 size: 3
 squareSprite: false
 category: crafting
+researchCostMultiplier: .25
 craftTime: 15
 craftEffect: {
 particles: 1

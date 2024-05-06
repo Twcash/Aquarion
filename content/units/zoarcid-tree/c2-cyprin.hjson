@@ -1,20 +1,21 @@
 type: flying
 flying: true
+researchCostMultiplier: .25
 envEnabled: 4
 localizedName: Cyprin
-drag: .2
-speed: 3
-rotateSpeed: 4
+drag: .05
+accel: .05
+speed: 2.5
+rotateSpeed: 3
 outlineColor: 2f3734
-rotateSpeed: 2
 lowAltitude: true
 accel: .1
 targetAir: false
 itemCapacity: 125
 faceTarget: true
-health: 1280
+health: 1200
 engineSize: 0
-armor: 5
+armor: 3
 hitSize: 16
 abilities: [
 {
@@ -133,61 +134,86 @@ weapons: [
 rotate: true
 rotateSpeed: .5
 rotationLimit: 60
-shootY: 15
+shootY: 7
 mirror: false
+knockback: 1
 x: 0
 targetAir: false
 name: cyprin-weapon
 reload: 45
 recoils: 2
 bullet: {
-shootEffect: [
+shootEffect: shootSmall
+smokeEffect: [
 {
-particles: 12
-lifetime: 45
-length: 6
-baseLength: 0
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 4
-sizeTo: 0
+lifetime: 30
+line: true
+rotWithParent: true
+lenFrom: 0
+lenTo: 4
+sizeFrom: 3
+sizeTo: 5
+particles: 5
+cone: 25
 colorFrom: b2d3cf
-colorTo: 637e8e
+colorTo: b2d3cf
+}
+{
+lifetime: 45
+rotWithParent: true
+sizeFrom: 0
+sizeTo: 3
+particles: 5
+cone: 25
+colorFrom: b2d3cf
+colorTo: b2d3cf00
+layer: 109
 }
 ]
-smokeEffect: none
 lifetime: 20
 speed: 6
 collidesAir: false
 splashDamage: 35
-despawnEffect: {
-line: true
-particles: 12
-lifetime: 45
-length: 6
-baseLength: 0
-interp: pow10Out
-sizeInterp: linear
-cone: 45
-sizeFrom: 4
-sizeTo: 0
+despawnEffect: [
+{
+type: waveEffect
+sizeFrom: 0
+sizeTo: 4
+lifetime: 15
 colorFrom: b2d3cf
-colorTo: 637e8e
+colorTo: b2d3cf
 }
-hitEffect: {
+{
 line: true
-particles: 12
-lifetime: 45
-length: 6
-baseLength: 0
-interp: pow10Out
-sizeInterp: linear
-cone: 45
-sizeFrom: 4
-sizeTo: 0
+lenFrom: 3
+lenTo: 0
+lifetime: 20
+sizeFrom: 0
+sizeTo: 10
 colorFrom: b2d3cf
-colorTo: 637e8e
+colorTo: b2d3cf
 }
+]
+hitEffect: [
+{
+type: waveEffect
+sizeFrom: 0
+sizeTo: 4
+lifetime: 15
+colorFrom: b2d3cf
+colorTo: b2d3cf
+}
+{
+line: true
+lenFrom: 3
+lenTo: 0
+lifetime: 20
+sizeFrom: 0
+sizeTo: 10
+colorFrom: b2d3cf
+colorTo: b2d3cf
+}
+]
 pierce: true
 pierceCap: 5
 damage: 55
@@ -199,6 +225,9 @@ backColor: 5c5e9f
 }
 shoot: {
 type: ShootBarrel
+source: shootAlternate
+shots: 2
+shotDelay: 10
 barrels: [
 -3.5, 0, 0
 3.5, 0, 0
@@ -252,25 +281,13 @@ ignoreRotation: true
 reload: 35
 targetAir: false
 rotate: false
-shootCone: 360
+shootCone: 15
 x: 0
 mirror: true
 range: 60
 bullet: {
 spawnUnit: aquarion-cyprin-missile
-shootEffect: [
-{
-particles: 15
-lifetime: 45
-length: 12
-baseLength: 0
-sizeFrom: 3
-sizeTo: 0
-colorFrom: b2d3cf
-colorTo: 637e8e50
-layer: 210
-}
-]
+shootEffect: shootSmall
 smokeEffect: none
 }
 }
@@ -279,4 +296,8 @@ envEnabled: 4
 research: {
 planet: aquarion-tantros
 parent: b1-anguilli
+objectives: [
+basic-assember,
+manganese
+]
 }

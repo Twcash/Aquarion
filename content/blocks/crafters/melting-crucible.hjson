@@ -5,6 +5,7 @@ bauxite/60
 lead/60
 metaglass/80
 ]
+researchCostMultiplier: .25
 craftTime: 20
 consumes: {
 power: 0.12
@@ -33,3 +34,4 @@ research: {
 parent: water-boiler
 planet: tantros
 }
+envEnabled: 4

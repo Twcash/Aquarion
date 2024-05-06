@@ -2,6 +2,7 @@
 category: turret
 squareSprite: false
 inaccuracy: 2
+researchCostMultiplier: .25
 reload: 55
 shoot: {
     firstShotDelay: 35

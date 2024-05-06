@@ -25,3 +25,4 @@ parent: submarine-factory
 planet: tantros
 }
 envEnabled: 4
+researchCostMultiplier: .25

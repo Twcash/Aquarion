@@ -1,4 +1,4 @@
-
+researchCostMultiplier: .25
 consumes: {
   liquids: [
 pyridine/.0375

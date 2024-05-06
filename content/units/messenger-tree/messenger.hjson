@@ -2,6 +2,7 @@ type: mech
 health: 200
 armor: 2
 hitSize: 4
+researchCostMultiplier: .25
 speed: .5
 localizedName: Messenger
 weapons: [

@@ -3,6 +3,7 @@ category: turret
 squareSprite: false
 size: 3
 health: 180
+researchCostMultiplier: .25
 range: 160
 rotateSpeed: 10
 requirements: [

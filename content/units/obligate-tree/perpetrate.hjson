@@ -1,6 +1,7 @@
 type: flying
 lowAltitude: true
 speed: .8
+researchCostMultiplier: .25
 rotateSpeed: .5
 envEnabled: 4
 drag: .01

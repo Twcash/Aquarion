@@ -208,8 +208,13 @@ baseRotation: 0
 }
 }
 ]
+researchCostMultiplier: .25
 envEnabled: 4
 research: {
+objectives: [
+basic-assember,
+manganese
+]
 parent: ambassador
 planet: tantros
 }

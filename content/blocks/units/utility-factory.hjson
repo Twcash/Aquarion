@@ -24,3 +24,4 @@ bauxite/60
 ]
 }
 envEnabled: 4
+researchCostMultiplier: .25

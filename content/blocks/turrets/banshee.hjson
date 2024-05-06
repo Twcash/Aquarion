@@ -1,6 +1,7 @@
 
 range: 260
 coolantMultiplier: 25
+researchCostMultiplier: .25
 consumes: {
     coolant: {
         amount: 0.03333333333

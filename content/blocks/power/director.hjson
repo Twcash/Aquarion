@@ -1,4 +1,4 @@
-
+researchCostMultiplier: .25
 category: power
 requirements: [
 lead/2

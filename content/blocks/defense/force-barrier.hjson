@@ -1,7 +1,7 @@
 
 shieldHealth: 550
 size: 5
-
+researchCostMultiplier: .25
 cooldownNormal: 2
 cooldownLiquid: 1.5
 cooldownBrokenBase: .2

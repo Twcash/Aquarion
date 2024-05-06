@@ -56,3 +56,4 @@ research: {
 parent: water-boiler
 planet: aquarion-tantros
 }
+researchCostMultiplier: .25

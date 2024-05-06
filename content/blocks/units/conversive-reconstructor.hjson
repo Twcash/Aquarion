@@ -21,3 +21,4 @@ name: submarine Factory
 planet: tantros
 }
 envEnabled: 4
+researchCostMultiplier: .25

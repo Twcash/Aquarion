@@ -2,6 +2,7 @@
 size: 3
 outputItem: sodium/2
 conductivePower: true
+researchCostMultiplier: .25
 consumes: {
 power: 0.41666666666
  items: [

@@ -1,5 +1,6 @@
 type: legs
 legCount: 4
+researchCostMultiplier: .25
 lockLegbase: true
 legLength: 15
 health: 650

@@ -1,4 +1,5 @@
 targetInterval: 5
+researchCostMultiplier: .25
 buildSpeed: 1.5
 buildBeamOffset: 6
 rotateSpeed: 3

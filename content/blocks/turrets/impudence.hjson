@@ -1,6 +1,7 @@
 
 range: 430
 size: 5
+researchCostMultiplier: .25
 reload: 120
 rotateSpeed: .7
 shake: 8

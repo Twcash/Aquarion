@@ -13,6 +13,7 @@ liquidCapacity: 100
 craftTime: 90
 outputItem: sodium/2
 outputLiquid: hydrogen-chloride/.25
+researchCostMultiplier: .25
 consumes: {
 power: 6.25
 liquids: [

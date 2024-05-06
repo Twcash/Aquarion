@@ -1,5 +1,6 @@
 
 baseExplosiveness: 7
+researchCostMultiplier: .25
 consumes: {
 powerBuffered: 24500
 }

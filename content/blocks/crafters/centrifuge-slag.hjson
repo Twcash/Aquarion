@@ -46,3 +46,4 @@ research: {
 parent: melting-crucible
 planet: tantros
 }
+researchCostMultiplier: .25

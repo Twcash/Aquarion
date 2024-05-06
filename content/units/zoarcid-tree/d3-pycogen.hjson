@@ -1,8 +1,8 @@
 type: flying
-localizedName: Pycogen
 flying: true
 envEnabled: 4
 drag: .6
+researchCostMultiplier: .25
 outlineColor: 232826
 lowAltitude: true
 speed: 4.5

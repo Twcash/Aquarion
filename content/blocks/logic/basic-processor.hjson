@@ -1,6 +1,7 @@
 type: logicBlock
 instructionsPerTick: 4
 size: 1
+researchCostMultiplier: .25
 requirements: [
 gallium/60
 lead/30

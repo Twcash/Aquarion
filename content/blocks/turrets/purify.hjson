@@ -2,6 +2,7 @@
 heatColor: ff3504
 squareSprite: false
 range: 180
+researchCostMultiplier: .25
 shootY: 2
 consumes: {
 liquid: {

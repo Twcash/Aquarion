@@ -10,3 +10,4 @@ research: {
 planet: tantros
 parent: basic-assember
 }
+researchCostMultiplier: .25

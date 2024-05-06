@@ -2,6 +2,7 @@
 ammoPerShot: 5
 size: 3
 range: 140
+researchCostMultiplier: .25
 reload: 100
 squareSprite: false
 shootSound: bolt

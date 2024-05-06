@@ -1,3 +1,4 @@
+researchCostMultiplier: .25
 
 description: The core of the base. small, once destroyed the sector is lost.
 squareSprite: false

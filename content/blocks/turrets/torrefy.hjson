@@ -6,7 +6,7 @@ metaglass/120
 gallium/90
 lead/130
 ]
-
+researchCostMultiplier: .25
 category: turret
 research: {
 planet: tantros

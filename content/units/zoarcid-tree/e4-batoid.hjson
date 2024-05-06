@@ -1,5 +1,6 @@
 type: flying
 trailColor: 5454c4
+researchCostMultiplier: .25
 envEnabled: 4
 trailScl: 5
 trailX: 60

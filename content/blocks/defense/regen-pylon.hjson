@@ -1,4 +1,4 @@
-
+researchCostMultiplier: .25
 range: 45
 healPercent: .02
 consumes: {

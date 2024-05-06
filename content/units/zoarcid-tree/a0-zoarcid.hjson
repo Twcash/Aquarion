@@ -1,5 +1,6 @@
 
 localizedName: Zoarcid
+researchCostMultiplier: .25
 envEnabled: 4
 rotateSpeed: 5
 flying: true

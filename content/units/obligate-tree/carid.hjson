@@ -1,6 +1,7 @@
 type: flying
 flying: true
 lowAltitude: true
+researchCostMultiplier: .25
 outlineColor: 2f3734
 drag: .2
 accel: .06
