@@ -215,9 +215,8 @@ colorTo: b2d3cf
 }
 ]
 pierce: true
-pierceCap: 5
-damage: 55
-splashDamageRadius: 15
+pierceCap: 2
+damage: 35
 width: 10
 height: 16
 frontColor: 8ca4fc
