@@ -89,9 +89,11 @@ hitColor: bc6262
 width: 8
 height: 12
 sprite: missile-large
-splashDamage: 35
-splashDamageRadius: 45
-inaccuracy: 18
+splashDamage: 15
+splashDamageRadius: 10
+inaccuracy: 12
+homingPower: .01
+homingRange: 15
 ammoMultiplier: 2
 smokeEffect: [
 {
