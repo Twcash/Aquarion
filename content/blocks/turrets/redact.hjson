@@ -75,10 +75,12 @@ baseRotation: 0
 }
 }
 lithium: {
+collidesAir: true
 type: artilleryBulletType
 rangeChange: 210
 lifetime: 70
 speed: 3.5
+reoadMultiplier: .8
 frontColor: ffc3c3
 lightColor: ffc3c3
 trailColor: bc6262
