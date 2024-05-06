@@ -25,10 +25,157 @@ amount: .5
 shoot: {
 shots: 3
 }
-inaccuracy: 15
+inaccuracy: 10
 squareSprite: false
 minWarmup: .85
 ammoTypes: {
+lithium: {
+width: 17
+sprite: missile-large
+height: 19
+rangeChange: 95
+inaccuracy: 12
+lifetime: 45
+pierce: true
+pierceCap: 1
+damage: 50
+shrinkX: 1.5
+shrinkY: 1.9
+drag: -.04
+trailInterval: 5
+trailEffect: [
+{
+layer: 80
+sizeFrom: 5
+colorFrom: ffd9c2
+colorTo: ffc8c800
+sizeInterp: linear
+interp: linear
+particles: 1
+lifetime: 90
+}
+]
+speed: 1.5
+reloadMultiplier: .3
+fragBullets: 3
+despawnEffect: none
+hitEffect: none
+homingRange: 180
+homingPower: .05
+fragVelocityMin: 1
+trailLength: 12
+trailWidth: 3
+frontColor: ffd9c2
+lightColor: ffd9c2
+hitColor: ffac79
+trailColor: ffac79
+backColor: ffac79
+status: burning
+statusDuration: 340
+fragBullet: {
+splashDamage: 10
+status: burning
+statusDuration: 120
+splashDamageRadius: 15
+width: 10
+frontColor: ffd9c2
+lightColor: ffd9c2
+hitColor: ffac79
+trailColor: ffac79
+backColor: ffac79
+height: 12
+sprite: missile
+hitEffect: [
+{
+type: waveEffect
+colorFrom: ffd9c2
+lifetime: 15
+colorTo: ffac79
+sizeFrom: 0
+sizeTo: 8
+lightColor: ffd9c2
+}
+{
+line: true
+lenFrom: 0
+lenTo: 8
+colorFrom: ffd9c2
+lifetime: 40
+colorTo: ffac79
+sizeFrom: 6
+sizeTo: 0
+lightColor: ffd9c2
+}
+{
+colorFrom: ffd9c2
+lifetime: 40
+colorTo: ffac79
+sizeFrom: 6
+sizeTo: 0
+lightColor: ffd9c2
+}
+{
+colorFrom: 645858
+colorTo: 2c2626
+layer: 80
+sizeFrom: 12
+lifetime: 45
+sizeTo: 0
+}
+]
+despawnEffect: [
+{
+type: waveEffect
+colorFrom: ffd9c2
+lifetime: 15
+colorTo: ffac79
+sizeFrom: 0
+sizeTo: 8
+lightColor: ffd9c2
+}
+{
+line: true
+lenFrom: 0
+lenTo: 8
+colorFrom: ffd9c2
+lifetime: 40
+colorTo: ffac79
+sizeFrom: 6
+sizeTo: 0
+lightColor: ffd9c2
+}
+{
+colorFrom: ffd9c2
+lifetime: 40
+colorTo: ffac79
+sizeFrom: 6
+sizeTo: 0
+lightColor: ffd9c2
+}
+{
+colorFrom: 645858
+colorTo: 2c2626
+sizeFrom: 12
+layer: 80
+lifetime: 45
+sizeTo: 0
+}
+]
+
+homingPower: .1
+homingRange: 60
+trailLength: 8
+trailWidth: 2.5
+weaveMag: 4
+weaveScale: 12
+lifetime: 35
+splashDamage: 10
+splashDamageRadius: 15
+drag: -.01
+speed: 1.5
+hitSize: 9
+}
+}
 sodium: {
 shootEffect: none
 width: 12

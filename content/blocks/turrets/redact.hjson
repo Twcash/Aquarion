@@ -74,6 +74,131 @@ rotWithParent: true
 baseRotation: 0
 }
 }
+lithium: {
+type: artilleryBulletType
+rangeChange: 210
+lifetime: 70
+speed: 3.5
+frontColor: ffc3c3
+lightColor: ffc3c3
+trailColor: bc6262
+backColor: bc6262
+hitColor: bc6262
+width: 8
+height: 12
+sprite: missile-large
+splashDamage: 35
+splashDamageRadius: 45
+inaccuracy: 18
+ammoMultiplier: 2
+smokeEffect: [
+{
+line: true
+particles: 2
+lenFrom: 0
+lenTo: 4
+lifetime: 40
+sizeFrom: 3
+sizeTo: 4
+colorFrom: ffc3c3
+colorTo: ffc3c300
+cone: 15
+}
+{
+layer: 80
+particles: 4
+sizeFrom: 0
+sizeTo: 5
+lifetime: 45
+interp: pow5Out
+colorFrom: 645e5e
+colorTo: 342d2d00
+cone: 17
+}
+]
+trailInterval: 5
+trailRotation: true
+trailEffect: [
+{
+rotWithParent: true
+line: true
+particles: 4
+lenFrom: 0
+lenTo: 4
+sizeFrom: 6
+sizeTo: 7
+lifetime: 35
+colorFrom: ffc3c3
+colorTo: ffc3c300
+}
+]
+hitEffect: [
+{
+type: waveEffect
+sizeFrom: 0
+sizeTo: 15
+strokeFrom: 4
+lifetime: 15
+interp: pow10Out
+colorFrom: ffc3c3
+colorTo: ffc3c3
+}
+{
+line: true
+particles: 12
+lenFrom: 0
+lenTo: 4
+sizeFrom: 6
+sizeTo: 7
+lifetime: 35
+colorFrom: ffc3c3
+colorTo: ffc3c300
+}
+{
+layer: 80
+particles: 7
+sizeFrom: 0
+sizeTo: 6
+lifetime: 45
+interp: pow5Out
+colorFrom: 645e5e
+colorTo: 342d2d00
+}
+]
+
+despawnEffect: [
+{
+type: waveEffect
+sizeFrom: 0
+sizeTo: 5
+lifetime: 15
+colorFrom: ffc3c3
+colorTo: ffc3c3
+}
+{
+line: true
+particles: 6
+lenFrom: 0
+lenTo: 4
+sizeFrom: 3
+sizeTo: 4
+lifetime: 15
+colorFrom: ffc3c3
+colorTo: ffc3c300
+}
+{
+layer: 80
+particles: 4
+sizeFrom: 0
+sizeTo: 5
+lifetime: 20
+interp: pow5Out
+colorFrom: 645e5e
+colorTo: 342d2d00
+}
+]
+knockback: 1.2
+}
 }
 category: turret
 shootY: -1
