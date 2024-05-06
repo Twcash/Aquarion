@@ -7,7 +7,7 @@ reload: 100
 squareSprite: false
 shootSound: bolt
 ammoUseEffect: casing2
-rotateSpeed: .9
+rotateSpeed: 1.2
 shoot: {
 shots: 5
 shotDelay: 8
