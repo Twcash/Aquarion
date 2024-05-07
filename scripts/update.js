@@ -15,10 +15,39 @@ Events.on(ClientLoadEvent, (event) => {
             if (!vers.equals(json.get("version"))) {
                 Log.warn("Aquarion - not up to date");
                 try {
-                    Vars.ui.showOkText(
+                    Vars.ui.showMenu(
                         "[#22CCFF]Aquarion[white]",
                         Core.bundle.get("scripts.update-aquaria"),
-                        () => {}
+                        [["[gray]Ok"], ["[green]Reinstall"]],
+                        (option) => {
+                            if (option == 1) {
+                                Vars.ui.mods.githubImportMod(
+                                    Vars.mods.locateMod("aquarion").getRepo(),
+                                    Vars.mods.locateMod("aquarion").isJava()
+                                );
+
+                                var shown = false;
+
+                                Timer.schedule(
+                                    () => {
+                                        if (
+                                            Vars.mods.requiresReload() &&
+                                            !shown
+                                        ) {
+                                            shown = true;
+                                            Vars.ui.showInfoOnHidden(
+                                                "@mods.reloadexit",
+                                                () => {
+                                                    Core.app.exit();
+                                                }
+                                            );
+                                        }
+                                    },
+                                    2,
+                                    1
+                                );
+                            }
+                        }
                     );
                 } catch (err) {
                     Log.info("Error: " + err.toString());
