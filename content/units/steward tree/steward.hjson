@@ -1,12 +1,12 @@
 researchCostMultiplier: .25
 type: mech
-speed: .75
-health: 300
+speed: .6
+health: 260
 drawCell: false
-armor: 1
-boostMultiplier: 1.3
+armor: 0
+boostMultiplier: 1.2
 mechLegColor: 232826
-rotateSpeed: 2.5
+rotateSpeed: 2
 canBoost : true
 outlineColor: 232826
 research: {
@@ -22,7 +22,7 @@ weapons: [
 {
 name: steward-weapon
 mirror: true
-reload: 70
+reload: 95
 top: false
 shoot: {
 shots: 2
@@ -39,18 +39,18 @@ shootX: 4
 bullet: {
 type: laserBoltBulletType
 speed: 3
-lifetime: 15
-fragBullets: 3
+lifetime: 25
+fragBullets: 2
 fragBullet: {
 backColor: 70bd6b
 frontColor: daffd8
 lightColor: daffd8
-damage: 10
+damage: 5
 collidesTeam: true
 healPercent: .5
 type: laserBoltBulletType
-speed: 3
-lifetime: 8
+speed: 2
+lifetime: 12
 despawnEffect: [
 {
 particles: 3
@@ -76,7 +76,7 @@ lightColor: daffd8
 }
 backColor: 70bd6b
 frontColor: daffd8
-damage: 25
+damage: 15
 pierce: true
 pierceCap: 2
 collidesTeam: true
