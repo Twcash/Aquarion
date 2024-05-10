@@ -363,11 +363,10 @@ shootCone: 90
 ]
 requirements: {
   block: submarine-factory
-  time: 1200
+  time: 420
   requirements: [
 gallium/15
-lead/35
-metaglass/20
+lead/20
   ]
 }
 research: {

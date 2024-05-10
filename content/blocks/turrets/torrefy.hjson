@@ -32,6 +32,9 @@ ammoTypes: {
 lithium: {
 width: 17
 sprite: missile-large
+pierce: true
+pierceCap: 3
+pierceBuilding: true
 height: 19
 rangeChange: 95
 inaccuracy: 12
@@ -44,6 +47,7 @@ shrinkY: 1.9
 drag: -.04
 trailInterval: 5
 trailEffect: [
+hitSquaresColor,
 {
 layer: 80
 sizeFrom: 5
@@ -57,6 +61,9 @@ lifetime: 90
 ]
 speed: 1.5
 reloadMultiplier: .3
+fragSpread: 15
+fragRandomSpread: 0
+fragOnHit: true
 fragBullets: 3
 despawnEffect: none
 hitEffect: none
@@ -161,7 +168,8 @@ lifetime: 45
 sizeTo: 0
 }
 ]
-
+trailEffect: hitSquaresColor
+trailInterval: 7
 homingPower: .1
 homingRange: 60
 trailLength: 8
