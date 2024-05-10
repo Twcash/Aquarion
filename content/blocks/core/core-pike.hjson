@@ -2,14 +2,14 @@
 description: The core of the base. small, once destroyed the sector is lost.
 squareSprite: false
 health: 1500
-itemCapacity: 6000
+itemCapacity: 7500
 size: 4
-unitCapModifier: 20
+unitCapModifier: 25
 unitType: cull
 alwaysUnlocked: true
 requirements: [
-bauxite/1000
-lead/2000
+bauxite/750
+lead/1250
 ]
 category: effect
 hasItems: true
