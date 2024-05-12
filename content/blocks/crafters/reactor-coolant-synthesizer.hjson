@@ -18,7 +18,7 @@ category: power
 requirements: [
 lead/10
 ]
-outputLiquid: reactor-coolant/50
+outputLiquid: reactor-coolant/25
 regionRotated: 1
 liquidOutputDirections: [1]
 liquidCapacity: 500

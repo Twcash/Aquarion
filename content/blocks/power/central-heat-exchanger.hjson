@@ -533,6 +533,7 @@ liquidCapacity: 120
 consumes: {
 liquids: [
 cyan/.6
+reactor-coolant/50
 nitrogen/1.5
 ]
 }
