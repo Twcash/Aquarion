@@ -1,0 +1,195 @@
+size: 10
+type: HeaterGenerator
+heatOutput: 120
+itemDuration: 180
+itemCapacity: 15
+explosionRadius: 150
+liquidCapacity: 240
+rotate: true
+sizeOffset: 1
+offset: 1
+category: power
+consumes: {
+liquids: [
+cyan/.5
+hydroxide/1.5
+reactor-coolant/100
+]
+items: [
+manganese/5
+]
+}
+requirements: [
+lead/10
+]
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: DrawLiquidTile
+drawLiquid: hydroxide
+padding: 2
+alpha: 0.7
+}
+{
+type: DrawBubbles
+color: bf92f970
+timeScl: 15
+sides: 12
+recurrence: 4
+spread: 35
+radius: 1
+amount: 600
+strokeMin: 0
+}
+{
+type: DrawCrucibleFlame
+particles: 150
+particleLife: 160
+particleRad: 20
+particleSize: 13
+fadeMargin: .2
+rotateScl: 15
+interp: pow10Out
+flameRadiusMag: 1.5
+circleStroke: 2.5
+alpha: .8
+circleSpace: 15
+flameRad: 15
+flameColor: a371e3
+midColor: a371e3
+}
+{
+type: DrawCrucibleFlame
+particles: 100
+particleLife: 160
+particleRad: 20
+particleSize: 10
+fadeMargin: .2
+rotateScl: 15
+interp: pow10Out
+flameRadiusMag: 2
+circleStroke: 1.5
+alpha: .6
+circleSpace: 15
+flameRad: 15
+flameColor: f185e3
+midColor: f185e3
+}
+{
+type: DrawCrucibleFlame
+particles: 50
+particleLife: 160
+particleRad: 20
+particleSize: 5
+fadeMargin: .2
+rotateScl: 10
+interp: pow10Out
+flameRadiusMag: 2.5
+circleStroke: 1
+alpha: .4
+circleSpace: 15
+flameRad: 15
+flameColor: ffafe3
+midColor: ffafe3
+}
+{
+type: drawRegion
+suffix: -basin
+}
+{
+type: DrawCells
+color: ffffff50
+suffix: -middle
+ particleColorFrom: 8d95c2
+range: 20
+particles: 250
+particleColorTo: 549b80
+}
+{
+type: DrawCrucibleFlame
+particles: 20
+particleLife: 240
+particleRad: 26
+particleSize: 13
+fadeMargin: .3
+rotateScl: 4
+interp: pow10Out
+flameRadiusMag: 1.5
+circleStroke: 4
+circleSpace: 8
+flameRad: 13
+flameColor: bed6e0
+midColor: bed6e0
+}
+
+{
+type: drawRegion
+spinSprite: true
+rotateSpeed: 2.5
+suffix: -rotator
+}
+{
+type: DrawCrucibleFlame
+particles: 120
+particleLife: 160
+particleRad: 25
+particleSize: 10
+fadeMargin: .2
+rotateScl: 5
+interp: pow10Out
+flameRadiusMag: 1.2
+circleStroke: 2
+circleSpace: 4
+flameRad: 5
+flameColor: ffffff90
+midColor: ffffff90
+}
+{
+type: DrawLiquidTile
+drawLiquid: cyan
+padding: 18
+alpha: 0.7
+}
+{
+type: DrawCells
+color: ffffff10
+suffix: -middle
+ particleColorFrom: 8d95c2
+range: 20
+particles: 200
+particleColorTo: 549b80
+}
+{
+type: drawRegion
+suffix: -top
+}
+{
+type: drawHeatRegion
+suffix: -glow1
+pulse: 6
+pulseScl: 20
+}
+{
+type: drawHeatRegion
+suffix: -glow
+pulse: 6
+pulseScl: 20
+}
+{
+type: DrawSideRegion
+}
+{
+type: drawHeatOutput
+}
+{
+sides: 4
+angleOffset: 135
+sinScl: 20
+sinMag: 12
+sideOffset: 3.14
+type: drawPistons
+}
+]

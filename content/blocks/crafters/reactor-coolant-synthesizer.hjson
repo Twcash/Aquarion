@@ -1,0 +1,63 @@
+envEnabled: 4
+size: 5
+type: genericCrafter
+craftTime: 5
+rotate: true
+ambientSound: bioLoop
+craftEffect: {
+sieFrom: 8
+sizeTo: 0
+lifetime: 180
+length: 170
+cone: 15
+baseRotation: 35
+colorFrom: 898490
+colorTo: 26242910
+}
+category: power
+requirements: [
+lead/10
+]
+outputLiquid: reactor-coolant/50
+regionRotated: 1
+liquidOutputDirections: [1]
+liquidCapacity: 500
+consumes: {
+power: 12
+liquids: [
+cyan/.5
+hydrogen/1
+]
+}
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawLiquidTile
+drawLiquid: hydroxide
+padding: 2
+alpha: 0.7
+}
+{
+type: drawRegion
+suffix: -fan
+spinSprite: true
+rotateSpeed: 10
+}
+{
+type: drawRegion
+suffix: -fan
+rotation: 45
+spinSprite: true
+rotateSpeed: 10
+}
+{
+type: drawRegion
+suffix: -top
+}
+{
+type: drawLiquidOutputs
+}
+]
