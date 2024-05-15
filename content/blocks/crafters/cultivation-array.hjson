@@ -1,0 +1,84 @@
+
+squareSprite: false
+size: 5
+researchCostMultiplier: .25
+conductivePower: true
+outputLiquid: pyridine/.45
+liquidCapacity: 120
+craftEffect: {
+particles: 5
+length: 150
+lifetime: 340
+cone: 29
+baseRotation: 19
+sizeFrom: 0
+sizeTo: 9
+colorFrom: caffbb80
+colorTo: 68836110
+sizeInterp: pow2Out
+interp: pow2Out
+} 
+craftTime: 180
+requirements: [
+lead/40
+bauxite/20
+]
+consumes: {
+power: 2.082
+liquid: {
+liquid: hydrogen
+amount: .15
+}
+items: [
+bauxite/2
+]
+}
+category: crafting
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawCells
+range: 17
+particles: 200
+particleColorFrom: 18c87b
+particleColorTo: 2ca197
+color: 266b4d
+}
+{
+type: drawCircles
+timeScl: 500
+amount: 5
+radius: 20
+strokeMax: 1.2
+color: 18c87b
+}
+{
+type: drawRegion
+suffix: -basin
+}
+{
+type: drawLiquidTile
+padding: 12
+alpha: .7
+drawLiquid: pyridine
+}
+{
+type: drawRegion
+suffix: -top
+}
+]
+research: {
+requirements: [
+lead/110
+bauxite/90
+nitride/60
+metaglass/120
+]
+parent: cultivation-chamber
+planet: aquarion-tantros
+}
+envEnabled: 4
+

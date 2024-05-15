@@ -1,0 +1,52 @@
+type: variableReactor
+maxHeat: 24
+size: 5
+liquidCapacity: 3000
+requirements: [
+manganese/120
+bauxite/600
+lead/600
+nitride/850
+]
+category: power
+consumes: {
+liquid: {
+liquid: reactor-coolant
+amount: 25
+}
+}
+envEnabled: 4
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawRegion
+suffix: -fan
+spinSprite: true
+rotateSpeed: 5
+}
+{
+type: drawRegion
+suffix: -fan
+spinSprite: true
+rotateSpeed: 5
+rotation: 45
+}
+{
+type: drawRegion
+suffix: -tope
+}
+{
+type: drawPistons
+sides: 8
+sideOffset: 2.5
+sinMag: 1.5
+lenOffset: .7
+}
+{
+type: drawRegion
+suffix: -top
+}
+]

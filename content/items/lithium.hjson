@@ -1,8 +1,9 @@
 
 color: d07b7b
-cost: 2
+cost: 4
 research: {
 planet: tantros
-parent: bauxite
+parent: sodium
 }
-explosiveness: .5
+explosiveness: .8
+hardness: 9

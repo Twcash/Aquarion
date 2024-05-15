@@ -2,6 +2,11 @@ type: flying
 flying: true
 lowAltitude: true
 researchCostMultiplier: .25
+targetFlags: [
+turret,
+factory
+generator
+]
 outlineColor: 2f3734
 drag: .2
 accel: .06

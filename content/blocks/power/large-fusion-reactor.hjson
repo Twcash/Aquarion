@@ -1,5 +1,4 @@
 size: 10
-type: HeaterGenerator
 heatOutput: 120
 itemDuration: 180
 itemCapacity: 15

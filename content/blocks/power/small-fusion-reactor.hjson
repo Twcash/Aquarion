@@ -6,15 +6,13 @@ planet: tantros
 heatOutput: 12
 consumes: {
 liquids: [
-nitrogen/.75
-cyan/.1
-]
-items: [
-gallium/2
+reactor-coolant/50
+hydrogen/1.5
 ]
 }
 category: power
 size: 5
+liquidCapacity: 1500
 canOverdrive: false
 requirements: [
 nitride/400
@@ -25,44 +23,6 @@ duralumin/90
 ]
 warmupSpeed: .01
 effectChance: .1
-generateEffect: [
-{
-type: RadialEffect
-lengthOffset: 17
-rotationSpacing: 45
-amount: 8
-effect: {
-line: true
-interp: reverse
-length: 20
-colorFrom: ffffff90
-colorTo: ffffff140
-lifetime: 30
-particles: 1
-cone: 30
-layer: 80
-sizeFrom: 6
-sizeTo: 0
-}
-}
-{
-type: RadialEffect
-lengthOffset: 17
-rotationSpacing: 90
-amount: 4
-effect: {
-length: 35
-colorFrom: 424d7790
-colorTo: 424d7710
-lifetime: 60
-particles: 1
-cone: 45
-layer: 80
-sizeFrom: 0
-sizeTo: 5
-}
-}
-]
 powerProduction: 12.5
 drawer: [
 {
@@ -70,13 +30,29 @@ type: drawRegion
 suffix: -bottom
 }
 {
-type: DrawParticles
-reverse: true
-color: d4816b
-particleRad: 20
-particleSize: 4
-particles: 90
-particleLife: 60
+type: drawLiquidTile
+drawLiquid: hydrogen
+alpha: .9
+padding: 2
+}
+{
+type: DrawCells
+color: ffffff00
+suffix: -middle
+ particleColorFrom: 8d95c2
+range: 17
+particles: 200
+particleColorTo: 549b80
+}
+{
+type: DrawArcSmelt
+flameRad: 8
+circleSpace: 7
+flameRadiusMag: .9
+particles: 40
+particleLife: 45
+particleRad: 14
+alpha: .5
 }
 {
 type: drawRegion
@@ -93,56 +69,33 @@ spinSprite: true
 rotateSpeed: 1.5
 }
 {
-type: DrawSoftParticles
-particleInterp: reverse
-color: 8ca9e8
-color: eab678
-particleRad: 14
-particleSize: 5
-particles: 80
-particleLife: 70
+type: DrawArcSmelt
+flameRad: 9
+circleSpace: 8
+flameRadiusMag: .7
+particles: 60
+particleLife: 65
+particleRad: 15
+alpha: .6
 }
 {
-type: DrawSoftParticles
-particleInterp: reverse
-color: ffd37f
-color2: eab678
-particleRad: 14
-particleSize: 5
-particles: 80
-particleLife: 70
+type: DrawCells
+color: ffffff00
+suffix: -middle
+ particleColorFrom: 8d95c2
+range: 17
+particles: 200
+particleColorTo: 549b80
 }
 {
-type: DrawParticles
-particleInterp: reverse
-color: 5c5e9f
-particleRad: 12
-particleSize: 2.5
-particles: 65
-particleLife: 60
-}
-{
-type: DrawParticles
-particleInterp: reverse
-color: d1efff
-particleRad: 14
-particleSize: 3.5
-particles: 55
-particleLife: 50
+type: drawLiquidTile
+drawLiquid: hydrogen
+ alpha: .7
+padding: 2
 }
 {
 type: drawRegion
 suffix: -tope
-}
-{
-type: drawGlowRegion
-suffix: -glow
-glowScale: 5
-}
-{
-type: drawGlowRegion
-suffix: -glow
-glowScale: 10
 }
 {
 type: drawSideRegion

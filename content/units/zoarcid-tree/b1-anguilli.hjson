@@ -3,6 +3,10 @@ drawCell: false
 flying: true
 researchCostMultiplier: .25
 lowAltitude: true
+targetFlags: [
+turret,
+core
+]
 outlineColor: 2f3734
 targetAir: false
 envEnabled: 4

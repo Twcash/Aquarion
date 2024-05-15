@@ -10,6 +10,10 @@ omniMovement: false
 itemCapacity: 20
 faceTarget: true
 health:  220
+targetFlags: [
+turret,
+generator
+]
 engineSize: .5
 rotateSpeed: 4
 speed: 1.2

@@ -346,6 +346,7 @@ baseRotation: 0
 ]
 }
 }
+outlineIcon: false
 requirements: [
 duralumin/2500
 manganese/3000
@@ -354,9 +355,18 @@ lead/7500
 bauxite/1200
 ]
 category: turret
-drawer: {
+drawer: [
+{
+type: drawRegion
+suffix: -base
+}
+{
+type: drawGlowRegion
+color: e8c9ff
+suffix: -base-glow
+}
+{
 type: drawTurret
-basePrefix: water-
 parts: [
 {
 suffix: -back
@@ -618,6 +628,7 @@ y: -.5
 }
 ]
 }
+]
 research: {
 planet: tantros
 parent: deviate

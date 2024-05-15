@@ -5,6 +5,11 @@ envEnabled: 4
 rotateSpeed: 5
 flying: true
 lowAltitude: true
+targetFlags: [
+factory,
+generator
+core
+]
 outlineColor: 2f3734
 drag: .05
 createScorch: false

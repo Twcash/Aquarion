@@ -2,7 +2,7 @@
 baseExplosiveness: 7
 researchCostMultiplier: .25
 consumes: {
-powerBuffered: 24500
+powerBuffered: 80000
 }
 requirements: [
 sodium/50
@@ -12,7 +12,7 @@ metaglass/80
 ]
 research: {
 planet: tantros
-parent: beam-node
+parent: director-beam
 }
 size: 5
 category: power

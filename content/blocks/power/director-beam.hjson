@@ -1,14 +1,15 @@
 researchCostMultiplier: .25
 size: 1
 maxNodes: 3
-laserRange: 6
+laserRange: 8
+laserColor1: ffffff90
+laserColor2: 7d4f9d10
 requirements: [
-bauxite/10
-lead/15
+bauxite/15
+lead/10
 ]
 category: power
 research: {
-name: Director node
 parent: director
 research: [
 lead/50
@@ -17,3 +18,7 @@ bauxite/20
 planet: tantros
 }
 envEnabled: 4
+consumes: {
+power: 0.08333333333
+}
+consumesPower: true

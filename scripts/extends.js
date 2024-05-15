@@ -1,5 +1,6 @@
 extend(GenericCrafter, "blast-kiln", {});
 extend(GenericCrafter, "cultivation-chamber", {});
+extend(GenericCrafter, "cultivation-array", {});
 extend(HeatProducer, "water-boiler", {});
 extend(GenericCrafter, "purifier", {});
 extend(GenericCrafter, "clarifier", {});
@@ -56,6 +57,7 @@ extend(ConsumeGenerator, "pyridine-reactor", {});
 extend(HeaterGenerator, "hydroxide-reactor", {});
 extend(HeaterGenerator, "small-fusion-reactor", {});
 extend(VariableReactor, "central-heat-exchanger", {});
+extend(HeaterGenerator, "large-fusion-reactor", {});
 extend(BurstDrill, "compression-drill", {});
 extend(Drill, "ram-drill", {});
 extend(Drill, "rotary-drill", {});
