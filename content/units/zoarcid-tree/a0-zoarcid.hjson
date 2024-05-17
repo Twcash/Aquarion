@@ -46,7 +46,7 @@ colorFrom: 555669
 colorTo: 2c2d35
 }
 ]
-drawCell: false
+drawCell: true
 forceMultiTarget: true
 fallEffect  : [
 {
