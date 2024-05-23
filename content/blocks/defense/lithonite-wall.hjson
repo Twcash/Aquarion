@@ -1,0 +1,16 @@
+
+  size: 2
+health: 2500
+armor: 2
+  category: defense
+requirements: [
+  lithonite-alloy/6
+  ]
+  research: {
+  parent: small-lithonite-wall
+    planet: tantros
+    requirements: [
+    lithonite-alloy/150
+    ]
+}
+envEnabled: 4

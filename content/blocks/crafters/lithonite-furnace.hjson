@@ -1,0 +1,108 @@
+size: 5
+liquidCapacity: 200
+outputItem: lithonite-alloy/10
+itemCapacity: 30
+craftTime: 240
+consumes: {
+power: 10
+items: [
+lead/8
+bauxite/5
+manganese/5
+lithium/8
+]
+liquid: {
+liquid: helium
+amount: .75
+}
+}
+requirements: [
+duralumin/900
+gallium/3500
+metaglass/2000
+bauxite/3500
+nitride/1200
+]
+envEnabled: 4
+envDisabled: 0
+category: crafting
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawCells
+range: 16
+particles: 250
+particleColorFrom: d07b7b
+particleColorTo: 713633
+color: a9554d
+}
+{
+type: drawCircles
+timeScl: 500
+amount: 7
+radius: 20
+strokeMax: 1.2
+color: 713633
+}
+{
+type: drawCrucibleFlame
+particleLife: 180
+particleRad: 16
+particleSize: 2.5
+rotateScl: 4.5
+flameColor: f9938a
+particleInterp: pow5Out
+particles: 120
+}
+{
+type: drawCells
+range: 16
+particles: 100
+particleColorFrom: 444b49
+particleColorTo: 232826
+color: a9554d
+}
+{
+type: drawRegion
+suffix: -rotator
+spinSprite: true
+rotateSpeed: 1.5
+}
+{
+type: drawRegion
+suffix: -rotator
+rotation: 22.5
+spinSprite: true
+rotateSpeed: 1.5
+}
+{
+type: drawRegion
+suffix: -rotator
+rotation: 45
+spinSprite: true
+rotateSpeed: 1.5
+}
+{
+type: drawRegion
+suffix: -rotator
+rotation: 67.5
+spinSprite: true
+rotateSpeed: 1.5
+}
+{
+type: drawLiquidTile
+drawLiquid: helium
+}
+{
+type: drawRegion
+suffix: -top
+}
+]
+research: {
+parent: duralumin-crucible
+planet: tantros
+}
+researchCostMultiplier: .25

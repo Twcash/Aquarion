@@ -1,25 +1,29 @@
 size: 10
-heatOutput: 120
-itemDuration: 180
+heatOutput: 48
+itemDuration: 360
+envDisabled: 0
+envEnabled: 4
 itemCapacity: 15
 explosionRadius: 150
+powerProduction: 60
 liquidCapacity: 240
 rotate: true
 sizeOffset: 1
 offset: 1
 category: power
+outputLiquid: helium/.75
 consumes: {
 liquids: [
 cyan/.5
-hydroxide/1.5
+tritium/.125
 reactor-coolant/100
-]
-items: [
-manganese/5
 ]
 }
 requirements: [
-lead/10
+lithonite-alloy/900
+duralumin/1500
+lead/5000
+metaglass/3500
 ]
 drawer: [
 {
@@ -28,7 +32,7 @@ suffix: -bottom
 }
 {
 type: DrawLiquidTile
-drawLiquid: hydroxide
+drawLiquid: reactor-coolant
 padding: 2
 alpha: 0.7
 }
@@ -51,7 +55,6 @@ particleRad: 20
 particleSize: 13
 fadeMargin: .2
 rotateScl: 15
-interp: pow10Out
 flameRadiusMag: 1.5
 circleStroke: 2.5
 alpha: .8
@@ -68,7 +71,6 @@ particleRad: 20
 particleSize: 10
 fadeMargin: .2
 rotateScl: 15
-interp: pow10Out
 flameRadiusMag: 2
 circleStroke: 1.5
 alpha: .6
@@ -85,7 +87,6 @@ particleRad: 20
 particleSize: 5
 fadeMargin: .2
 rotateScl: 10
-interp: pow10Out
 flameRadiusMag: 2.5
 circleStroke: 1
 alpha: .4
@@ -115,7 +116,6 @@ particleRad: 26
 particleSize: 13
 fadeMargin: .3
 rotateScl: 4
-interp: pow10Out
 flameRadiusMag: 1.5
 circleStroke: 4
 circleSpace: 8
@@ -138,7 +138,6 @@ particleRad: 25
 particleSize: 10
 fadeMargin: .2
 rotateScl: 5
-interp: pow10Out
 flameRadiusMag: 1.2
 circleStroke: 2
 circleSpace: 4
@@ -192,3 +191,8 @@ sideOffset: 3.14
 type: drawPistons
 }
 ]
+research: {
+parent: small-fusion-reactor
+planet: tantros
+}
+researchCostMultiplier: .25

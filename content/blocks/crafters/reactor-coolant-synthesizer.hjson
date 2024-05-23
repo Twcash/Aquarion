@@ -1,9 +1,12 @@
 envEnabled: 4
 size: 5
-type: genericCrafter
 craftTime: 5
+craftTime: 90
+researchCostMultiplier: .25
 rotate: true
 ambientSound: bioLoop
+envDisabled: 0
+envEnabled: 4
 craftEffect: {
 sieFrom: 8
 sizeTo: 0
@@ -16,7 +19,10 @@ colorTo: 26242910
 }
 category: power
 requirements: [
-lead/10
+lead/1500
+manganese/600
+sodium/90
+gallium/1500
 ]
 outputLiquid: reactor-coolant/25
 regionRotated: 1
@@ -24,10 +30,13 @@ liquidOutputDirections: [1]
 liquidCapacity: 500
 consumes: {
 power: 12
-liquids: [
-cyan/.5
-hydrogen/1
+items: [
+gallium/1
 ]
+liquid: {
+liquid: hydrogen
+amount: .025
+}
 }
 drawer: [
 {

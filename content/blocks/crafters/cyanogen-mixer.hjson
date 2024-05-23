@@ -1,7 +1,7 @@
 
 craftTime: 240
 consumes: {
-  power: 4.16666666667
+  power: 6
 items: [
 sodium/1
 ]
@@ -13,7 +13,7 @@ liquid: {
 size: 3
 liquidCapacity: 70
 category: crafting
-outputLiquid: cyan/.2
+outputLiquid: cyan/1.5
 health: 100
 drawer: [
 {
@@ -24,11 +24,13 @@ type: drawRegion
 type: DrawLiquidTile
 drawLiquid: nitrogen
 padding: 3
+alpha: .95
 }
 {
 type: DrawLiquidTile
 drawLiquid: cyan
 padding: 3
+alpha: .7
 }
 {
 type: drawRegion

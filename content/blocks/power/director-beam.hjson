@@ -3,6 +3,7 @@ size: 1
 maxNodes: 3
 laserRange: 8
 laserColor1: ffffff90
+customShadow: true
 laserColor2: 7d4f9d10
 requirements: [
 bauxite/15

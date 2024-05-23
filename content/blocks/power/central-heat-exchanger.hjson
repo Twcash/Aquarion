@@ -1,11 +1,13 @@
 researchCostMultiplier: .25
-powerProduction: 750
-explosionRadius: 34
-warmupSpeed: .01
-explosionDamage: 5500
+powerProduction: 583.333333333
+explosionRadius: 75
+warmupSpeed: .015
+envDisabled: 0
+explosionMinWarmup: .9
+explosionDamage: 10000
 ambientSound: bioLoop
 category: power
-itemDuration: 120
+itemDuration: 240
 envEnabled: 4
 destroyBullet: {
 	type: basicBulletType
@@ -703,21 +705,18 @@ effect: [
 }
 ]
 size: 10
-maxHeat: 240
-liquidCapacity: 120
+maxHeat: 96
+liquidCapacity: 5500
 consumes: {
 	liquids: [
-	cyan/.6
 	reactor-coolant/50
-	nitrogen/1.5
 	]
 }
 requirements: [
-lead/6500
+lithonite-alloy/1200
 duralumin/2500
-nitride/6000
-metaglass/9500
-sodium/3500
+nitride/5000
+sodium/2500
 ]
 drawer: [
 {
@@ -824,3 +823,8 @@ drawer: [
 	type: DrawHeatInput
 }
 ]
+research: {
+parent: small-heat-exchanger
+planet: tantros
+}
+researchCostMultiplier: .25

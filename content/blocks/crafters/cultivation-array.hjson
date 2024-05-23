@@ -1,6 +1,8 @@
 
 squareSprite: false
 size: 5
+envDisabled: 0
+envEnabled: 4
 researchCostMultiplier: .25
 conductivePower: true
 outputLiquid: pyridine/.45

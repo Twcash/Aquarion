@@ -1,13 +1,14 @@
-type: variableReactor
 maxHeat: 24
 size: 5
 liquidCapacity: 3000
 requirements: [
-manganese/120
-bauxite/600
-lead/600
-nitride/850
+duralumin/240
+nitride/1200
+sodium/900
+lead/3500
 ]
+powerProduction: 108.333333333
+explosionMinWarmup: .75
 category: power
 consumes: {
 liquid: {
@@ -41,12 +42,17 @@ suffix: -tope
 {
 type: drawPistons
 sides: 8
-sideOffset: 2.5
-sinMag: 1.5
-lenOffset: .7
+sideOffset: 15
+sinMag: 1
+lenOffset: 1.5
 }
 {
 type: drawRegion
 suffix: -top
 }
 ]
+research: {
+parent: small-fusion-reactor
+planet: tantros
+}
+researchCostMultiplier: .25

@@ -4,6 +4,11 @@ envEnabled: 4
 hitSize: 18
 speed: .6
 rotateSpeed: 1.1
+groundLayer: 85
+crushDamage: .25
+drag: .1
+accel: .15
+faceTarget: false
 targetGround: false
 template: TankUnitType
 drawCell: false
@@ -16,6 +21,22 @@ accel: .2
 deag: .6
 treadPullOffset: 1
 abilities: [
+{
+type: EnergyFieldAbility 
+damage: 45
+maxTargets: 2
+healPercent: .5
+statusDuration: 10
+status: melting
+range: 70
+sectorRad: .3
+sectors: 3
+blinkSize: .3
+reload: 180
+layer: 25
+rotateSpeed: .35
+effectRadius: 10
+}
 {
 type: ShieldRegenFieldAbility
 amount: 10
@@ -42,6 +63,7 @@ weapons: [
 {
 name: custodian-weapon
 shootCone: 90
+layerOffset: 1
 recoil: 1
 recoilTime: 20
 inaccuracy: 6

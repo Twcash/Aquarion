@@ -37,7 +37,8 @@ ammoTypes: {
     nitride: {
 	collidesAir: false
 	buildingDamageMultiplier: .2
-	damage: 10
+	damage: 20
+	reloadMultiplier: .1
         height: 12
         width: 7
 	lifetime:30
@@ -92,7 +93,7 @@ ammoTypes: {
     sodium: {
 	collidesAir: false
 	buildingDamageMultiplier: .2
-	damage: 20
+	damage: 15
         height: 14
         width: 8
 	lifetime: 24
@@ -150,11 +151,11 @@ ammoTypes: {
     manganese: {
 	collidesAir: false
 	buildingDamageMultiplier: .2
-	damage: 35
+	damage: 45
         height: 16
         width: 9
 	lifetime: 45
-	knockback: 4
+	knockback: 6
 	speed: 4
         trailColor: 729f67
         trailLength: 7

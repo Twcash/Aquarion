@@ -3,11 +3,15 @@ research: {
 parent: hydroxide-reactor
 planet: tantros
 }
+envDisabled: 0
+envEnabled: 4
 heatOutput: 12
+outputLiquid: helium/.2
 consumes: {
 liquids: [
-reactor-coolant/50
-hydrogen/1.5
+reactor-coolant/25
+hydrogen/0.075
+tritium/.0625
 ]
 }
 category: power
@@ -18,8 +22,8 @@ requirements: [
 nitride/400
 manganese/240
 bauxite/250
-metaglass/120
-duralumin/90
+metaglass/160
+duralumin/280
 ]
 warmupSpeed: .01
 effectChance: .1
@@ -106,3 +110,8 @@ type: drawHeatOutput
 ]
 ambientSound: bioLoop
 envEnabled: 4
+research: {
+parent: hydroxide-reactor
+planet: tantros
+}
+researchCostMultiplier: .25
