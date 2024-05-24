@@ -17,14 +17,14 @@ hitSize: 17
 speed: .65
 rotateSpeed: 1.7
 outlineColor: 2f3734
-legColor: 444b49
 drawCell: false
 weapons: [
 {
 name: consul-weapon
 shootSound: bolt
 layerOffset: -.001
-recoil: 0
+recoil: 1.5
+recoilTime: 15
 rotate: true
 rotationLimit: 50
 shootY: 10
@@ -44,10 +44,8 @@ end: 1
 interp: sineIn
 }
 under: true
-mixColor: 444b4990
-mixColorTo: 444b4990
-colorFrom: 829194
-ColorTo: 829194
+mixColor: 2f3734
+mixColorTo: 5f6b68
 }
 {
 suffix: -barrel
@@ -61,16 +59,13 @@ end: 1
 interp: sineIn
 }
 under: true
-mixColor: 444b4990
-mixColorTo: 444b4990
-colorFrom: 444b49
-ColorTo: 444b49
+mixColor: 5f6b68
+mixColorTo: 2f3734
 }
 {
 //middle to right
 suffix: -barrel
 moveX: -3
-moveY: .5
 x: 3
 progress: {
 type: reload
@@ -80,16 +75,14 @@ end: 1
 interp: sineIn
 }
 under: true
-mixColor: 444b4990
-mixColorTo: 444b4900
-colorFrom: 444b49
-ColorTo: 444b49
+mixColor: 5f6b68
+mixColorTo: 5f6b6800
 }
 {
 //left to middle
 suffix: -barrel
-moveY: -.5
 moveX: -3
+moveY: -2
 progress: {
 type: reload
 op: curve
@@ -97,11 +90,9 @@ start: 0
 end: 1
 interp: sineIn
 }
+mixColor: 5f6b6800
+mixColorTo: 5f6b68
 under: true
-mixColor: 82919400
-mixColorTo: 444b4990
-colorFrom: 829194
-ColorTo: 444b49
 }
 ]
 //DONT JUDGE THIS IS A TEMPLATE
@@ -123,7 +114,6 @@ shootEffect: none
 hitEffect: [
 {
 line: true
-shootSound: bolt
 particles: 6
 lenFrom: 7
 lifetime: 10
@@ -138,7 +128,7 @@ baseRotation: 0
 {
 type: waveEffect
 strokeFrom: 1
-strokTo: 0
+strokeTo: 0
 colorFrom: ff5656
 colorTo: ff565600
 lifetime: 12
@@ -148,7 +138,6 @@ sizeTo: 10
 ]
 smokeEffect: {
 line: true
-shootSound: bolt
 cone: 60
 particles: 4
 lenFrom: 7

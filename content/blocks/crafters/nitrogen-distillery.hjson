@@ -1,5 +1,5 @@
 
-reatRequirement: 30
+heatRequirement: 30
 maxEfficiency: 3
 consumes: {
 power: 16.6666666667

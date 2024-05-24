@@ -35,7 +35,7 @@ orbitOffset: 130
 alwaysUnlocked: true
 accessible: true
 allowLaunchToNumbered: false
-defaultEnv: 4
+defaultEnv: 5
 mesh: [
 {
 bloom: false

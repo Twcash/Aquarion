@@ -1,4 +1,5 @@
-
+invertFlip: true
+regionRotated1: 1
 category: crafting
 liquidCapacity: 500
 rotate: true

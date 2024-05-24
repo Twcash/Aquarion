@@ -5,7 +5,7 @@ colorTo: a2bfcc
 color: 92287d
 lightColor: f21fc8
 maxSpread: 2
-Viscosity: .80
+viscosity: .80
 hidden: true
 coolant: false
-heaCapacity: 0
+heatCapacity: 0

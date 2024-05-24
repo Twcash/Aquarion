@@ -7,8 +7,6 @@ ammoPerShot: 1
 envEnabled: 4
 ammoUseEffect: casing2
 inaccuracy: 9
-useAmmoOnce: true
-warmupSpeed: .1
 velocityRnd: 0.4
 shootY: -1
 minWarmup: 0.9
@@ -28,7 +26,6 @@ category: turret
 range: 120
 shoot: {
 shots: 8
-shootCone: 60
 }
 shootCone: 60
 size: 4

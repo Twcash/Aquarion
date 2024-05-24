@@ -1,8 +1,5 @@
 
 color: ded6ca
-planet: [
-tantros
-]
 research: {
 planet: tantros
 parent: gallium

@@ -83,7 +83,6 @@ rotationLimit: 210
 rotate: true
 parts: [
 {
-type: drawPartRegion
 suffix: -barrel
 moveY: -2
 progress: recoil
@@ -112,13 +111,12 @@ barrels: [
 }
 bullet: {
 sprite: tantros-test-heavy-shell
-shootSound: bolt
 speed: 3
 lifetime: 60
 width: 9
 height: 12
 damage: 45
-peirceCap: 2
+pierceCap: 2
 despawnEffect: blastExplosion
 trailInterval: 1
 trailEffect: [
@@ -158,7 +156,6 @@ rotateSpeed: .8
 rotate: true
 parts: [
 {
-type: drawPartRegion
 suffix: -barrel
 moveY: -2
 progress: recoil
@@ -187,13 +184,12 @@ barrels: [
 }
 bullet: {
 sprite: tantros-test-heavy-shell`
-shootSound: bolt
 speed: 3
 lifetime: 60
 width: 9
 height: 12
 damage: 45
-peirceCap: 2
+pierceCap: 2
 despawnEffect: blastExplosion
 trailInterval: 1
 trailEffect: [
@@ -235,7 +231,6 @@ recoil: 4
 rotateSpeed: .7
 parts: [
 {
-type: drawPartRegion
 suffix: -barrel
 moveY: -4
 progress: recoil
@@ -249,7 +244,6 @@ shotDelay: 10
 }
 bullet: {
 sprite: tantros-test-heavy-shell
-shootSound: mediumCannon
 trailInterval: 3
 trailEffect: [
 {
@@ -375,7 +369,6 @@ colorTo: 35252160
 ]
 speed: 7
 hitSize: 4
-pierceCap: 5
 }
 type: artilleryBulletType
 speed: 4

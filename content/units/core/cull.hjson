@@ -67,10 +67,10 @@ recoil :0
 mirror: true
 x: .5
 y: 0
-reload: 60
+reload: 45
 bullet: {
 type: missileBulletType
-damage: 25
+damage: 40
 frontColor: ffd37f
 backColor: ffd37f
 trailWidth: .2

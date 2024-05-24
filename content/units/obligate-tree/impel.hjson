@@ -4,7 +4,7 @@ flying: true
 researchCostMultiplier: .25
 outlineColor: 2f3734
 lowAltitude: true
-armor: 4
+armor: 5
 health: 1200
 envEnabled: 4
 targetAir: false
@@ -35,7 +35,7 @@ barrels: [
 }
 ]
 }
-reload: 550
+reload: 750
 bullet: {
 spawnUnit: butler
 }
@@ -101,6 +101,7 @@ trailColor: d4816b
 hitColor: d4816b
 lightColor: d4816b
 splashDamageRadius: 25
+splashDamage: 35
 shrinkX: 1.2
 trailLength: 7
 width: 7
@@ -167,6 +168,7 @@ shrinkX: 1.2
 trailLength: 7
 width: 7
 height: 9
+splashDamage: 35
 despawnEffect: {
 particles: 5
 colorFrom: ffd37f
@@ -178,6 +180,16 @@ lifetime: 45
 }
 ]
 abilities: [
+{
+type: SuppressionFieldAbility
+y: -12
+color: d4816b
+layer: 80
+orbRadius: 3.5
+particleSize: 2.5
+particleColor: d4816b
+effectColor: d4816b
+}
 {
 display: false
 type: MoveEffectAbility

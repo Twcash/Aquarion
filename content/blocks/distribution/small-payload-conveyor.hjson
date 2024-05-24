@@ -6,7 +6,7 @@ sodium/1
 ]
 category: distribution
 envEnabled: 4
-payloadLimit: 3
+payloadLimit: 1
 moveTime: 45
 interp: smoother
 research: {

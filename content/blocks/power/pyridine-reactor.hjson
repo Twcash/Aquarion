@@ -1,3 +1,4 @@
+ambientSoundVolume: .01
 researchCostMultiplier: .25
 consumes: {
   liquids: [
@@ -42,7 +43,6 @@ suffix: -bottom
 }
 {
 type: DrawLiquidTile
-ambientSoundVolume: .01
 drawLiquid: pyridine
 padding: 3
 }
@@ -55,7 +55,6 @@ color: 687a73
 color2: 9eb0a9
 alpha: .7
 particles: 35
-reverse: true
 }
 {
 type: drawPistons

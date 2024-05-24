@@ -7,14 +7,12 @@ explosionMinWarmup: .9
 explosionDamage: 10000
 ambientSound: bioLoop
 category: power
-itemDuration: 240
 envEnabled: 4
 destroyBullet: {
 	type: basicBulletType
 	collides: false
 	despawnEffect: none
 	lifetime: 65
-	delayFrags: true
 	fragAngle: 10
 	fragLifeMin: .7
 	fragVelocityMin: 1
@@ -37,7 +35,7 @@ destroyBullet: {
 		{
 			type: seqEffect
 			layer: 1
-			effect: [
+			effects: [
 			{
 				type: waveEffect
 				interp: pow5Out
@@ -47,7 +45,7 @@ destroyBullet: {
 				colorTo: ffffff
 				strokeFrom: 2
 				lifetime: 120
-				stroketo: 2
+				strokeTo: 2
 			}
 			{
 				type: waveEffect
@@ -58,7 +56,7 @@ destroyBullet: {
 				colorTo: ffffff10
 				lifetime: 35
 				strokeFrom: 2
-				stroketo: 0
+				strokeTo: 0
 			}
 			]
 		}
@@ -160,7 +158,7 @@ spin: 2.5
 lifetime: 75
 length: 85
 interp: linear
-sizeinterp: pow10Out
+sizeInterp: pow10Out
 particles: 2
 cone: 20
 }
@@ -178,7 +176,7 @@ lifetime: 75
 length: 85
 layer: 80.6
 interp: linear
-sizeinterp: pow10Out
+sizeInterp: pow10Out
 particles: 2
 cone: 20
 }
@@ -200,7 +198,7 @@ colorTo: 969696
 lifetime: 85
 length: 90
 interp: linear
-sizeinterp: linear
+sizeInterp: linear
 particles: 2
 cone: 10
 }
@@ -214,7 +212,7 @@ colorTo: 969696
 lifetime: 85
 length: 90
 interp: linear
-sizeinterp: linear
+sizeInterp: linear
 particles: 2
 cone: 10
 }
@@ -229,7 +227,7 @@ spin: 2.5
 lifetime: 85
 length: 90
 interp: linear
-sizeinterp: linear
+sizeInterp: linear
 particles: 3
 cone: 25
 }
@@ -244,7 +242,7 @@ spin: 2.5
 lifetime: 85
 length: 90
 interp: linear
-sizeinterp: linear
+sizeInterp: linear
 particles: 3
 cone: 25
 }
@@ -268,7 +266,7 @@ spin: 2.5
 lifetime: 85
 length: 90
 interp: linear
-sizeinterp: pow10Out
+sizeInterp: pow10Out
 particles: 3
 cone: 25
 }
@@ -286,7 +284,7 @@ spin: 2.5
 lifetime: 75
 length: 85
 interp: linear
-sizeinterp: pow10Out
+sizeInterp: pow10Out
 particles: 2
 cone: 20
 }
@@ -304,7 +302,7 @@ lifetime: 75
 length: 85
 layer: 80.7
 interp: linear
-sizeinterp: pow10Out
+sizeInterp: pow10Out
 particles: 2
 cone: 20
 }
@@ -320,7 +318,7 @@ explodeEffect: [
 	line: true
 	particles: 13
 	layer: 10
-srtrokeFrom: 10
+strokeFrom: 10
 strokeTo: 0
 	colorFrom: 241f1f
 	colorTo: 242424
@@ -346,7 +344,7 @@ strokeTo: 0
 		strokeTo: 0
 		interp: pow5Out
 		sizeFrom: 30
-		sizeT0: 30
+		sizeTo: 30
 		lifetime: 500
 		length: 350
 		colorFrom: ffe600
@@ -480,7 +478,6 @@ strokeTo: 0
 		sizeFrom: 4000
 		sizeTo: 4000
 		length: 0
-		clipSize: 400
 		lifetime: 200
 		colorFrom: ffffff
 		colorTo: ffffff00
@@ -730,7 +727,6 @@ drawer: [
 	type: DrawLiquidTile
 	padding: 2
 	drawLiquid: aquarion-cyan
-	liquid: aquarion-cyan
 }
 {
 	type: drawRegion
@@ -742,8 +738,7 @@ drawer: [
 	particleRad: 35
 	particleSize: 9
 	particleLife: 340
-	reverse: true
-	particless: 90
+	particles: 90
 }
 {
 	type: drawRegion
@@ -775,28 +770,24 @@ drawer: [
 	type: drawBlurSpin
 	blurThresh: .75
 	suffix: -fan
-	rotateSprite: true
 	rotateSpeed: 3
 }
 {
 	type: drawBlurSpin
 	blurThresh: .8
 	suffix: -fan
-	rotateSprite: true
 	rotateSpeed: 3
 }
 {
 	type: drawBlurSpin
 	blurThresh: .85
 	suffix: -fan
-	rotateSprite: true
 	rotateSpeed: 3
 }
 {
 	type: drawBlurSpin
 	blurThresh: .5
 	suffix: -spinnybit
-	rotateSprite: true
 	rotateSpeed: 3
 }
 {

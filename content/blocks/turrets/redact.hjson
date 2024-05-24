@@ -26,9 +26,9 @@ ammoTypes: {
 sodium: {
 trailRotation: true
 type: railBulletType
-length: 140
-damage: 40
-pointEffectSpace: 6
+length: 145
+damage: 35
+pointEffectSpace: 5
 ammoMultiplier: 1
 shootEffect: none
 smokeEffect: {
@@ -38,8 +38,7 @@ particles: 4
 lenFrom: 7
 lifetime: 80
 lenTo: 0
-sizeFrom: 10
-sizeTo: 0
+strokeFrom: 2
 colorFrom: d1efff
 colorTo: d1efff
 rotWithParent: true
@@ -80,7 +79,6 @@ type: artilleryBulletType
 rangeChange: 210
 lifetime: 70
 speed: 3.5
-reoadMultiplier: .8
 frontColor: ffc3c3
 lightColor: ffc3c3
 trailColor: bc6262

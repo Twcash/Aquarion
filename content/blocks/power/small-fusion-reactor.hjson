@@ -42,7 +42,6 @@ padding: 2
 {
 type: DrawCells
 color: ffffff00
-suffix: -middle
  particleColorFrom: 8d95c2
 range: 17
 particles: 200
@@ -85,7 +84,6 @@ alpha: .6
 {
 type: DrawCells
 color: ffffff00
-suffix: -middle
  particleColorFrom: 8d95c2
 range: 17
 particles: 200

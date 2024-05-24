@@ -23,7 +23,7 @@ fragOnHit: false
 shrinkX: 0
 damage: 60
 trailLength: 10
-traiWidth: 2.4
+trailWidth: 2.4
 despawnSound: dullExplosion
 bulletInterval: 5
 speed: 5
@@ -32,11 +32,9 @@ despawnEffect: [
 type: ExplosionEffect
 waveColor: ff5f04
 smokeColor: ff5f04
-lifeTime: 120
+lifetime: 120
 sparks: 3
 sparkColor: 5454c4
-strokeFrom: 3
-strokeTo: 1
 smokes: 6
 waveRad: 35
 waveLife: 45
@@ -72,11 +70,9 @@ hitEffect: [
 type: ExplosionEffect
 waveColor: ff9c64
 smokeColor: ff5f04
-lifeTime: 60
+lifetime: 60
 sparks: 3
 sparkColor: ff5f04
-strokeFrom: 3
-strokeTo: 1
 smokes: 6
 waveRad: 35
 waveLife: 45
@@ -87,11 +83,9 @@ despawnEffect: [
 type: ExplosionEffect
 waveColor: ff5f04
 smokeColor: ff5f04
-lifeTime: 60
+lifetime: 60
 sparks: 3
 sparkColor: 5454c4
-strokeFrom: 3
-strokeTo: 1
 smokes: 6
 waveRad: 35
 waveLife: 45
@@ -152,28 +146,23 @@ recoil: 4
 outlineColor: 2f3734
 drawer: {
 type: drawTurret
-outlineColor: 2f3734
 parts: [
 {
-type: drawPartRegion
 suffix: -side
 progress: recoil
 moveX: 1
 moveY: .5
 mirror: true
 under :true
-top: false
 heatColor: ff3504
 }
 {
-type: drawPartRegion
 suffix: -bottom
 progress: warmup
 moveX: 1
 moveY: 1
 mirror: true
 under :true
-top: false
 moves: [
 {
 x: -.5
@@ -187,13 +176,11 @@ interp: pow3
 ]
 }
 {
-type: drawPartRegion
 suffix: -barrel
 progress: recoil
 moveY: -4
 mirror: true
 under :true
-top: false
 }
 ]
 }

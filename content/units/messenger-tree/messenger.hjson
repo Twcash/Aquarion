@@ -9,6 +9,7 @@ weapons: [
 {
 name: messenger-mount
 mirror: true
+shootSound: laser
 x: 3
 reload: 150
 rotate: true
@@ -21,12 +22,11 @@ shotDelay: 12
 }
 bullet: {
 shootEffect: none
-shootSound: laser
 type: artilleryBulletType
 lifetime: 75
 collidesAir: true
 speed: 1.2
-length: 10
+height: 10
 splashDamage: 15
 splashDamageRadius: 18
 damage: 25
@@ -40,7 +40,7 @@ despawnEffect: [
 type: ExplosionEffect
 waveColor: d1efff
 smokeColor: 5454c4
-lifeTime: 44
+lifeime: 44
 sparks: 0
 smokes: 8
 waveRad: 20

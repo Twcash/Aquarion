@@ -8,7 +8,7 @@ ambientSound: bioLoop
 envDisabled: 0
 envEnabled: 4
 craftEffect: {
-sieFrom: 8
+sizeFrom: 8
 sizeTo: 0
 lifetime: 180
 length: 170
@@ -25,7 +25,8 @@ sodium/90
 gallium/1500
 ]
 outputLiquid: reactor-coolant/25
-regionRotated: 1
+invertFlip: true
+regionRotated1: 1
 liquidOutputDirections: [1]
 liquidCapacity: 500
 consumes: {
