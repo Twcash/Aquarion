@@ -3,12 +3,13 @@ legCount: 4
 researchCostMultiplier: .25
 lockLegbase: true
 legLength: 15
-health: 650
-armor: 4
+health: 720
+armor: 6
 range: 60
-hitSize: 11
+hitSize: 13
 legPairOffset: 2
-speed: .75
+speed: .9
+accel: .2
 rotateSpeed: 1.7
 weapons: [
 {
@@ -16,19 +17,49 @@ name: ambassador-weapon
 mirror: true
 range: 75
 x: 8.75
-recoil: 3
-reload: 70
+recoil: .5
+parts: [
+{
+suffix: -blade
+moveRot: -9
+moveX: 1
+progress: warmup
+}
+{
+suffix: -panel
+moveX: 1.25
+moveY: -1.25
+progress: warmup
+}
+]
+alternate: false
+continuous: true
+alwaysContinuous: true
+shootStatus: slow
+shootStatusDuration: 25
 rotate: false
-layerOffset: -.001
+top: false
 shootY: 4
-shootSound: shotgun
+loopSound: torch
+shootSound: torch
+shootCone: 45
 bullet: {
-shootSound: shotgun
-type: shrapnelBulletType
-damage: 40
+type: ContinuousFlameBulletType
+lightStroke: 35
+divsions: 40
+lifetime: 10
+width: 3
+drawFlare: false
 length: 75
-width: 6
-toColor: d1efff
+knockback: 1
+pierceCap: 1
+damage: 10
+colors: [
+465ab850,
+66a6d290,
+98d5ff,
+d1efff
+]
 }
 }
 ]

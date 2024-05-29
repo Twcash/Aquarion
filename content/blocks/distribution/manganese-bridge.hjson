@@ -3,7 +3,8 @@ arrowSpacing: 4
 fadeIn: true
 moveArrows: true
 speed: 90
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
 pulse: true
 consumes: {
 power: 0.08333333333

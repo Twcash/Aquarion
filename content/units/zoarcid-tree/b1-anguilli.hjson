@@ -89,6 +89,7 @@ naccuracy: 7
 rotate: false
 shootCone: 180
 reload: 30
+shootSound: missile
 shoot: {
 type: shootSine
 source: shootPattern

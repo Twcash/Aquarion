@@ -10,5 +10,6 @@ research: {
 planet: tantros
 parent: sealedrouter
 }
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
 speed: 4.5

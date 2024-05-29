@@ -1,6 +1,5 @@
 size: 1
 payloadLimit: 1
-
 requirements: [
 lead/10
 bauxite/10
@@ -8,4 +7,9 @@ nitride/2
 ]
 category: distribution
 size: 1
-envEnabled: 4
+research: {
+parent: small-payload-conveyor
+planet: tantros
+}
+envEnabled: 5
+envDisabled: 0

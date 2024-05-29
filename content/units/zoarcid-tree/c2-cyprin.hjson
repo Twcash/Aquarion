@@ -1,22 +1,22 @@
 type: flying
 flying: true
 researchCostMultiplier: .25
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
 localizedName: Cyprin
-drag: .05
-accel: .05
-speed: 2.5
-rotateSpeed: 3
+drag: .06
+accel: .06
+speed: 2
+rotateSpeed: 6
 outlineColor: 2f3734
 lowAltitude: true
-accel: .1
 targetAir: false
-itemCapacity: 125
+itemCapacity: 0
 faceTarget: true
 health: 1200
 engineSize: 0
-armor: 3
-hitSize: 16
+armor: 9
+hitSize: 18
 abilities: [
 {
 display: false
@@ -36,7 +36,7 @@ sizeInterp: linear
 sizeFrom: 5
 sizeTo: 0
 colorFrom: 8ca4fc
-colorTo: 8ca4fc50
+colorTo: 8ca4fc
 layer: 80.3
 rotWithParent: true
 }
@@ -51,7 +51,7 @@ sizeInterp: linear
 sizeFrom: 6
 sizeTo: 1
 colorFrom: 6d5e5e
-colorTo: 31282750
+colorTo: 312827
 layer: 80.2
 rotWithParent: true
 }
@@ -66,7 +66,7 @@ sizeInterp: linear
 sizeFrom: 5
 sizeTo: 0
 colorFrom: 6d5e5e
-colorTo: 46403f50
+colorTo: 46403f
 layer: 80.1
 rotWithParent: true
 }
@@ -90,7 +90,7 @@ sizeInterp: linear
 sizeFrom: 5
 sizeTo: 0
 colorFrom: 8ca4fc
-colorTo: 8ca4fc50
+colorTo: 8ca4fc
 layer: 80.3
 rotWithParent: true
 }
@@ -105,7 +105,7 @@ sizeInterp: linear
 sizeFrom: 6
 sizeTo: 1
 colorFrom: 6d5e5e
-colorTo: 31282750
+colorTo: 312827
 layer: 80.2
 rotWithParent: true
 }
@@ -120,7 +120,7 @@ sizeInterp: linear
 sizeFrom: 5
 sizeTo: 0
 colorFrom: 6d5e5e
-colorTo: 46403f50
+colorTo: 46403f
 layer: 80.1
 rotWithParent: true
 }
@@ -132,6 +132,7 @@ rotWithParent: true
 weapons: [
 {
 rotate: true
+shootSound: mediumCannon
 rotateSpeed: .5
 rotationLimit: 60
 shootY: 7
@@ -141,7 +142,6 @@ x: 0
 targetAir: false
 name: cyprin-weapon
 reload: 45
-recoils: 2
 bullet: {
 shootEffect: shootSmall
 smokeEffect: [
@@ -194,6 +194,7 @@ colorFrom: b2d3cf
 colorTo: b2d3cf
 }
 ]
+knockback: 1
 hitEffect: [
 {
 type: waveEffect
@@ -216,27 +217,31 @@ colorTo: b2d3cf
 ]
 pierce: true
 pierceCap: 2
-damage: 35
+damage:65
+pierceBuilding: true
 width: 10
 height: 16
 frontColor: 8ca4fc
 backColor: 5c5e9f
+trailColor: 5c5e9f
+lightColor: 8ca4fc
 }
 shoot: {
-type: ShootBarrel
-source: shootAlternate
-shots: 2
-shotDelay: 10
+type: shootBarrel
+recoils: 2
+source: shootMulti
 barrels: [
--3.5, 0, 0
-3.5, 0, 0
+3.5, 0, 0,
+-3.5, 0, 0,
 ]
 }
+recoils: 2
 parts: [
 {
 suffix: -barrel-r
 moveY: -3
 progress: recoil
+type: RegionPart
 under: true
 recoilIndex: 0
 }
@@ -244,6 +249,7 @@ recoilIndex: 0
 suffix: -barrel-l
 flipSprite: true
 moveY: -3
+type: RegionPart
 progress: recoil
 under: true
 recoilIndex: 1
@@ -251,6 +257,7 @@ recoilIndex: 1
 {
 suffix: -buffer-r
 moveY: -.5
+type: RegionPart
 progress: recoil
 under: true
 recoilIndex: 0
@@ -258,7 +265,8 @@ recoilIndex: 0
 {
 suffix: -buffer-l
 flipSprite: true
-moveY: -.5
+moveY: -1
+type: RegionPart
 progress: recoil
 under: true
 recoilIndex: 1
@@ -268,6 +276,7 @@ recoilIndex: 1
 {
 name: missile-battery
 layerOffset: -.01
+shootSound: missileSmall
 targetAir: false
 shoot: {
 type: ShootBarrel
@@ -277,7 +286,7 @@ barrels: [
 ]
 }
 ignoreRotation: true
-reload: 35
+reload: 40
 targetAir: false
 rotate: false
 shootCone: 15

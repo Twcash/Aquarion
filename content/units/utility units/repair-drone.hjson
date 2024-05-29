@@ -1,33 +1,92 @@
 type: tether
 flying: true
 localizedName: Repair Drone
-speed: 2
+speed: 1.5
 useUnitCap: false
 faceTarget: true
 rotateSpeed: 2
-health: 30
+health: 55
+engineSize: 0
 playerControllable: false
 armor: 0
-range: 45
 defaultController: RepairAI
+outlineColor: 2f3734
 weapons: [
 {
-x: 1
+x: 0
 rotate: false
 mirror: false
-reload: 40
+reload: 55
+shootSound: blaster
 bullet: {
 damage: 0
 speed: 2
 height: 3
-width: 1
+width: 1.5
 healPercent: 5
 collidesTeam: true
-lifetime: 45
+lifetime: 40
 frontColor: 92dd7e
 backColor: 3a8f64
 type: LaserBoltBulletType
 }
 }
 ]
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
+abilities: [
+{
+display: false
+type: MoveEffectAbility
+y: -4
+interval: 1
+rotateEffect: true
+effect: [
+{
+particles: 3
+lifetime: 10
+cone: 15
+length: 2
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 1
+sizeTo: 0
+colorFrom: 92dd7e
+colorTo: 92dd7e
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 16
+cone: 30
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 1
+sizeTo: 1
+colorFrom: 616d5e
+colorTo: 616d5e
+layer: 84.9
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 18
+cone: 15
+length: 6
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 2
+sizeTo: 0
+colorFrom: 606d5e
+colorTo: 606d5e
+layer: 83.9
+rotWithParent: true
+}
+]
+}
+]

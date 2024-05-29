@@ -5,11 +5,12 @@ bauxite/2
 sodium/1
 ]
 category: distribution
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
 payloadLimit: 1
 moveTime: 45
 interp: smoother
 research: {
-parent: core-pike
+parent: submarine-factory
 planet: tantros
 }

@@ -1,9 +1,7 @@
 
-localizedName: Utility Factory
-description: Produces units for aiding construction and mining
 category: units
 conductivePower: true
-size: 2
+size: 3
 requirements: [
 gallium/60
 lead/120
@@ -12,7 +10,6 @@ bauxite/200
 consumes: {
 power: 2.5
 }
-regionSuffix: -tant
 research: {
 planet: tantros
 name: Utility Factory
@@ -23,5 +20,5 @@ lead/100
 bauxite/60
 ]
 }
-envEnabled: 4
+envEnabled: 5
 researchCostMultiplier: .25

@@ -1,7 +1,7 @@
 type: missile
 template: MissileUnitType
 lowAltitude: false
-lifetime: 30
+lifetime: 90
 hidden: true
 health: 70
 outlineColor: 2f3734
@@ -95,7 +95,7 @@ shootEffect: none
 collidesAir: false
 shootSound: dullExplosion
 type: ExplosionBulletType
-splashDamageRadius: 30
+splashDamageRadius: 15
 splashDamage: 45
 }
 shootEffect: none

@@ -3,34 +3,26 @@ flying: true
 lowAltitude: true
 researchCostMultiplier: .25
 outlineColor: 2f3734
-drag: .2
-rotateSpeed: 7
-crashDamageMultiplier: .15
-omniMovement: false
-itemCapacity: 20
+drag: .15
+rotateSpeed: 3.5
+engineSize: 0
+drawCell: false
+crashDamageMultiplier: .1
+itemCapacity: 0
 faceTarget: true
-health:  220
+health:  270
+speed: 1.2
 targetFlags: [
 turret,
 generator
 ]
-engineSize: .5
-rotateSpeed: 4
-speed: 1.2
-rotateSpeed: 7
-omniMovement: false
-itemCapacity: 0
-faceTarget: true
-health:  260
-engineSize: 0
-drawCell: false
 armor: 0
 hitSize: 7
 requirements: {
   block: submarine-factory
-  time: 300
+  time: 450
   requirements: [
-gallium/15
+gallium/20
 bauxite/25
   ]
 }
@@ -42,39 +34,97 @@ parent: submarine-factory
 weapons: [
 {
 shoot: {
-shots: 3
-shotDelay: 5
-}
-name: unknown-weapon
-x: 4
-y: -4
-shootY: 3
-rotate: true
-rotateSpeed: 1.3
-reload: 15
-bullet: {
-damage: 1
-speed: 1.5
-width: 5
-height: 7
-trailLength: 3
 shots: 2
-shotDelay: 6
+type: shootBarrel
+source: shootAlternate
+barrels: [
+1, 1, 0
+-1, 1, 0
+]
 }
-x: 4
-y: -4
-shootY: 3
+shotDelay: 5
+reload: 55
+layerOffset: -.01
+shootSound: blaster
+name: unknown-weapon
+x: 0
 rotate: false
-reload: 30
+mirror: false
 bullet: {
-damage: 2
-speed: 1.5
-width: 7
-height: 8
-trailLength: 3
-trailWidth: 2
-homingPower: .05
-lifetime: 45
+weaveScale: 6
+weaveMag: 4
+pierceDamageFactor: .9
+despawnEffect: [
+{
+type: waveEffect
+sizeFrom: 0
+sizeTo: 8
+lifetime: 15
+colorFrom: ffffff
+colorTo: ffa665
+lightColor: ffa665
+}
+{
+particles: 5
+line: true
+lifetime: 25
+colorFrom: ffffff
+colorTo: ffa665
+lightColor: ffa665
+lenFrom: 2
+lenTo: 4
+strokeFrom: 2.5
+strokeTo: 0
+length: 9
+}
+]
+hitEffect: [
+{
+type: waveEffect
+sizeFrom: 0
+sizeTo: 8
+lifetime: 15
+colorFrom: ffffff
+colorTo: ffa665
+lightColor: ffa665
+}
+{
+particles: 5
+line: true
+lifetime: 25
+colorFrom: ffffff
+colorTo: ffa665
+lightColor: ffa665
+lenFrom: 2
+lenTo: 4
+strokeFrom: 2.5
+strokeTo: 0
+length: 9
+}
+]
+frontColor: ffffff
+backColor: ffa665
+trailColor: ffa665
+lightColor: ffa665
+hitColor: ffa665
+drag: -.02
+lifetime: 35
+keepVelocity: false
+sprite: missile-large
+damage: 15
+shrinkX: .1
+shrinkY: .2
+pierce: true
+pierceCap: 2
+pierceBuilding: true
+speed: 1
+homingRange: 25
+width: 5
+height: 6
+trailWidth: 1.5
+hitSize: 3
+trailLength: 7
+homingPower: .02
 }
 }
 ]

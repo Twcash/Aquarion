@@ -3,10 +3,10 @@ size: 3
 category: distribution
 buildTime: 600
 itemCapacity: 300
-polySides: 8
-polyRadius: 8
+polySides: 12
+polyRadius: 10
 solid: true
-buildCost: 1200
+buildCost: 900
 unitType: tributary
 requirements: [
 lead/400
@@ -27,4 +27,6 @@ liquid: hydrogen
 amount: .25
 }
 }
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
+researchCostMultiplier: .25

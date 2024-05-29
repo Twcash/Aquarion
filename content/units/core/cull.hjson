@@ -1,10 +1,14 @@
+
 type: flying
-localizedName: cull
 flying: true
+buildRange: 60
 drawCell: false
+targetable: false
+hittable: false
 outlineColor: 2f3734
 lowAltitude: true
 mineTier: 3
+defaultController: BuilderAI
 mineSpeed: 6
 buildSpeed: 1
 itemCapacity: 80
@@ -26,89 +30,11 @@ coreUnitDock: true
 allowedInPayloads: false
 drawBody: false
 weapons: [
-  {
-alwaysShooting: true
-alwaysContinuous: true
-mirror: false
-alternate: false
-shootY: 0
-recoil: 0
-y: -1
-x: 0
-shootSound: none
-bullet: {
-keepVelocity: false
-speed: 0
-collides: false
-hittable: false
-absorbable: false
-shootEffect: none
-smokeEffect: none
-hitEffect: none
-layer: 80
-width: 0
-height: 0
-despawnEffect: none
-trailLength: 9
-trailWidth: 1
-trailColor: ffd37f
-}
-}
-{
-noAttack: false
-type: BuildWeapon
-mirror: false
-x: 0
-y: 0
-rotate: true
-recoil :0
-}
-{
-mirror: true
-x: .5
-y: 0
-reload: 45
-bullet: {
-type: missileBulletType
-damage: 40
-frontColor: ffd37f
-backColor: ffd37f
-trailWidth: .2
-width: 5
-height: 5
-speed: 2.5
-trailLength: 10
-lifetime: 35
-homingPower: .08
-maxRange: 45
-buildingDamageMultiplier: .01
-hitColor: ffd37f
-hitEffect: [
-{
-line: true
-particles: 5
-sizeFrom: 2
-sizeTo: 0
-colorFrom: ffd37f
-colorTo: ffd37f00
-}
-]
-despawnEffect: [
-{
-line: true
-particles: 5
-sizeFrom: 2
-sizeTo: 0
-colorFrom: ffd37f
-colorTo: ffd37f00
-}
-]
-}
-}
 {
 mirror: false
 x: 0
 y: 0
+noAttack: true
 shootSound: none
 shootCone: 45
 aimDst: 0
@@ -123,6 +49,7 @@ continuous: true
 rotate: false
 type: RepairBeamWeapon
 name: cull-b
+noAttack: true
 widthSinMag: .11
 reload: 20
 healColor: ffd37f

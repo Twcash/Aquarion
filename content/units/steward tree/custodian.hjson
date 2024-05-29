@@ -1,4 +1,4 @@
-
+type: tank
 researchCostMultiplier: .25
 envEnabled: 4
 hitSize: 18
@@ -50,7 +50,6 @@ percentAmount: .01
 }
 ]
 treadFrames: 24
-type: tank
 treadRects: [
 {
 width: 13

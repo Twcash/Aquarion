@@ -5,7 +5,8 @@ bauxite/15
 sodium/5
 ]
 category: distribution
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
 payloadLimit: 3
 moveTime: 35
 interp: smoother

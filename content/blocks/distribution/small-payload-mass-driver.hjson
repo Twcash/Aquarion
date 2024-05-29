@@ -18,4 +18,9 @@ lead/30
 bauxite/40
 ]
 category: distribution
-envEnabled: 4
+research: {
+parent: small-payload-loader
+planet: tantros
+}
+envEnabled: 5
+envDisabled: 0

@@ -4,7 +4,8 @@ lead/5
 bauxite/5
 ]
 size: 1
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
 research: {
 planet: tantros
 parent: sealedsorter

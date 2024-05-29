@@ -30,4 +30,5 @@ colorTo: 83757210
 sizeInterp: pow3Out
 interp: pow3Out
 } 
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0

@@ -12,4 +12,9 @@ power: 0.08333333333
 }
 category: distribution
 itemsLoaded: 1
-envEnabled: 4
+research: {
+parent: small-payload-conveyor
+planet: tantros
+}
+envEnabled: 5
+envDisabled: 0

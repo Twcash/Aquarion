@@ -13,4 +13,9 @@ power: 0.08333333333
 }
 category: distribution
 offloadSpeed: 1
-envEnabled: 4
+research: {
+parent: small-payload-unloader
+planet: tantros
+}
+envEnabled: 5
+envDisabled: 0
