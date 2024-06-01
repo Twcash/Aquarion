@@ -3,15 +3,14 @@ flying: true
 lowAltitude: false
 hidden: true
 health: 180
-hitSize: 4
-commandable: false
-controllable: false
-envEnabled: 4
+hitSize: 6
+envEnabled: 5
+envDisabled: 0
 faceTarget: true
 lifetime: 650
 defaultController: FlyingAI
 speed: 8
-rnge: 240
+range: 240
 circleTarget: true
 targetAir: false
 outlineColor: 2f3734
@@ -88,8 +87,7 @@ shootCone: 180
 x: 3
 inaccuracy: 25
 shootSound: none
-reload: 65
-targetAir: false
+reload: 15
 bullet: {
 type: BombBulletType
 sprite: bullet
@@ -99,7 +97,7 @@ lifetime: 30
 speed: .5
 keepVelocity: false
 collidesAir: false
-splashDamage: 10
+splashDamage: 12
 splashDamageRadius: 35
 }
 }

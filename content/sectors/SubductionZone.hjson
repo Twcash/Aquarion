@@ -2,7 +2,6 @@ sector: 15
 planet: aquarion-tantros
 localizedName: Subduction Zone
 difficulty: 6
-enemyBase: false
 captureWave: 25
 research:{
 parent: BasaltCrags

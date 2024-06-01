@@ -2,7 +2,6 @@ sector: 62
 planet:aquarion-tantros
 localizedName: Basalt Crags
 difficulty: 4
-enemyBase: false
 captureWave: 25
 research:{
 parent: VastShallows

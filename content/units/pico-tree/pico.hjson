@@ -1,31 +1,32 @@
 
 flying: true
-drawCell: false
-outlineColor: 2f3734
 lowAltitude: true
-mineTier: 3
-mineSpeed: 5
-defaultController: MinerAI
-commandable: false
-controllable: false
-mineRange: 45
-mineItems: [
-bauxite,
-copper,
-beryllium,
-titanium,
-lead
-]
-drag: .1
-speed: 1.5
-rotateSpeed: 4
-envEnabled: 4
-accel: .1
-drag: .08
-health: 90
-engineSize: 0
-drawBuildBeam: false
+researchCostMultiplier: .25
+outlineColor: 2f3734
+drag: .2
+drawCell: false
+defaultCommand: assist
 hitSize: 5
+buildSpeed: .2
+speed: 3
+rotateSpeed: 15
+engineSize: 0
+localizedName: pico
+requirements: {
+  block: utility-factory
+  time: 700
+  requirements: [
+gallium/20
+metaglass/30
+  ]
+}
+research: {
+planet: tantros
+parent: utility-factory
+}
+isEnemy: false
+health: 120
+envEnabled: 4
 abilities: [
 {
 display: false
@@ -82,20 +83,3 @@ rotWithParent: true
 ]
 }
 ]
-envEnabled: 5
-envDisabled: 0
-controllable: false
-isEnemy: false
-itemCapacity: 10
-research: {
-planet: tantros
-parent: utility-factory
-}
-requirements: {
-  block: utility-factory
-  time: 850
-  requirements: [
-bauxite/20
-nitride/35
-  ]
-}

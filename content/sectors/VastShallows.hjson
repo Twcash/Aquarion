@@ -2,7 +2,6 @@ sector: 6
 planet: aquarion-tantros
 localizedName: Vast Shallows
 difficulty: 2
-enemyBase: false
 captureWave: 15
 research:{
 parent: algal-feilds

@@ -5,7 +5,6 @@ colorTo: 5c8192
 color: 8cae8e80
 lightColor: 60a1ae 
 maxSpread: 2
-Viscosity: .80
 hidden: true
 coolant: false
-heaCapacity: 0
+heatCapacity: 0

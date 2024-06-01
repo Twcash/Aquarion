@@ -6,11 +6,8 @@ lockLegBase: true
 speed: 1.2
 legStraightness: .4
 deathSound: squish
-envEnabled: 4
-blockFlag: [
-generator,
-core,
-]
+envEnabled: 5
+envDisabled: 0
 deathExplosionEffect: [
 {
 particles: 1
@@ -33,7 +30,7 @@ legMaxLength: 1.2
 health: 340
 armor: 0
 drawCell: false
-fying: false
+flying: false
 allowLegStep: false
 singleTarget: true
 baseLegStraightness: .3
@@ -52,7 +49,6 @@ reload: 90
 mirror: true
 y: 4.5
 name: artro-eye
-outline: false
 x: 1.5
 rotate: true
 top: false
@@ -63,7 +59,6 @@ recoil: -2
 width: 0
 height: 0
 shootEffect: none
-shootSound: none
 smokeEffect: none
 lifetime: 5
 trailInterval: 5
@@ -84,7 +79,6 @@ reload: 90
 mirror: true
 y: 3.5
 name: artro-eye
-outline: false
 x: 3
 top: false
 rotate: true
@@ -96,7 +90,6 @@ recoil: -2
 width: 0
 height: 0
 shootEffect: none
-shootSound: none
 smokeEffect: none
 lifetime: 5
 trailInterval: 5
@@ -119,7 +112,6 @@ mirror: true
 y: 2
 top: false
 name: artro-eye
-outline: false
 x: 4
 rotate: true
 rotationLimit: 45
@@ -129,7 +121,6 @@ recoil: -2
 width: 0
 height: 0
 shootEffect: none
-shootSound: none
 smokeEffect: none
 lifetime: 5
 trailInterval: 5

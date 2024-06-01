@@ -1,8 +1,8 @@
 
-localizedName: Zoarcid
 researchCostMultiplier: .25
-envEnabled: 4
-rotateSpeed: 5
+envEnabled: 5
+envDisabled: 0
+rotateSpeed: 6
 flying: true
 lowAltitude: true
 targetFlags: [
@@ -12,20 +12,8 @@ core
 ]
 outlineColor: 2f3734
 drag: .05
-createScorch: false
 fallSpeed: .01
 deathExplosionEffect: [
-{
-region: aquarion-t1-scorch
-lifetime: 2500
-interp: pow5Out
-sizeFrom: 10
-sizeTo: 10
-length: 0
-colorFrom: ffffff
-colorTo: ffffff00
-layer: 20
-}
 {
 line: true
 length: 40
@@ -165,7 +153,7 @@ y: 2.25
 recoilIndex: 0
 }
 {
-rotaton: -15
+rotation: -15
 suffix: -missile
 color: ffffff
 colorTo: ffffff00
@@ -181,15 +169,12 @@ name: zoarcid-weapon
 x: 3
 layerOffset: -.1
 top: false
-rotate: true
-rotationLimit: 7
+rotate: false
 shootCone: 90
-under: true
 y: -.5
 reload: 25
 shoot: {
 type: shootBarrel
-source: shootAlternate
 barrels: [
 -2, 0, 0
 -4, -1, 15

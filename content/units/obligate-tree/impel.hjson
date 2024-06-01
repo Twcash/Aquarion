@@ -1,4 +1,3 @@
-type: flying
 faceTarget: false
 flying: true
 researchCostMultiplier: .25
@@ -24,7 +23,6 @@ alwaysShooting: true
 shoot: {
 firstShotDelay: 70
 type: shootAlternate
-source: shootMulti
 dest: [
 {
 type: shootBarrel
@@ -35,7 +33,8 @@ barrels: [
 }
 ]
 }
-reload: 750
+reload: 900
+recoils: 2
 bullet: {
 spawnUnit: butler
 }
@@ -44,25 +43,25 @@ parts: [
 {
 suffix: -1
 moveY: -5
-recoilIndex: 1
+recoilIndex: 0
 progress: charge
 }
 {
 suffix: -2
 moveY: -5
-recoilIndex: 2
+recoilIndex: 1
 progress: charge
 }
 ]
 }
 {
 name: impel-cannon
-targetAir: false
 inaccuracy: 9
 rotate: true
 x: 0
 y: -8
 mirror: false
+layerOffset: 1
 rotateSpeed: .7
 parts: [
 {
@@ -70,12 +69,15 @@ suffix: -barrels
 moveY: -4
 progress: recoil
 under: true
-top: false
-outline: false
+outlineLayerOffset: .1
+layerOffset: -.1
+under: true
+outline: true
 }
 ]
 reload: 60
 shoot: {
+firstShotDelay: 10
 shots: 2
 type: shootMulti
 source: shootAlternate
@@ -188,7 +190,6 @@ layer: 80
 orbRadius: 3.5
 particleSize: 2.5
 particleColor: d4816b
-effectColor: d4816b
 }
 {
 display: false
@@ -198,52 +199,37 @@ x: 6
 rotateEffect: true
 effect: [
 {
-particles: 6
-lifetime: 40
-cone: 55
-length: 5
-baseLength: 15
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 3.5
+particles: 3
+lifetime: 20
+length: 6
+cone: 20
+colorFrom: d4816b
+colorTo: d4816b
+layer: 84.3
+sizeFrom: 3
 sizeTo: 0
-colorFrom: 4f4844
-colorTo: 2b272555
-layer: 84.7
-rotWithParent: true
-baseRotation: 180
 }
 {
-particles: 6
-lifetime: 40
-cone: 45
-length: 4
-baseLength: 5
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 5
-sizeTo: 0
-colorFrom: 7c5e4d
-colorTo: 54484155
-layer: 84.8
-rotWithParent: true
-baseRotation: 180
-}
-{
-particles: 5
-lifetime: 40
-cone: 30
-length: 2
-baseLength: 3
-interp: pow10Out
-sizeInterp: linear
+particles: 4
+lifetime: 25
+length: 9
+colorFrom: 65514e
+colorTo: 65514e
+cone: 29
+layer: 84.2
 sizeFrom: 3.5
 sizeTo: 0
-colorFrom: ffa665
-colorTo: d06b5355
-layer: 84.9
-rotWithParent: true
-baseRotation: 180
+}
+{
+particles: 4
+lifetime: 30
+length: 12
+cone: 35
+colorFrom: 423837
+colorTo: 423837
+layer: 84.1
+sizeFrom: 4.5
+sizeTo: 0
 }
 ]
 }
@@ -255,56 +241,40 @@ x: -6
 rotateEffect: true
 effect: [
 {
-particles: 6
-lifetime: 40
-cone: 55
-length: 5
-baseLength: 15
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 3.5
+particles: 3
+lifetime: 20
+length: 6
+cone: 20
+colorFrom: d4816b
+colorTo: d4816b
+layer: 84.3
+sizeFrom: 3
 sizeTo: 0
-colorFrom: 4f4844
-colorTo: 2b272555
-layer: 84.7
-rotWithParent: true
-baseRotation: 180
 }
 {
-particles: 6
-lifetime: 40
-cone: 45
-length: 4
-baseLength: 5
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 5
-sizeTo: 0
-colorFrom: 7c5e4d
-colorTo: 54484155
-layer: 84.8
-rotWithParent: true
-baseRotation: 180
-}
-{
-particles: 5
-lifetime: 40
-cone: 30
-length: 2
-baseLength: 3
-interp: pow10Out
-sizeInterp: linear
+particles: 4
+lifetime: 25
+length: 9
+colorFrom: 65514e
+colorTo: 65514e
+cone: 29
+layer: 84.2
 sizeFrom: 3.5
 sizeTo: 0
-colorFrom: ffa665
-colorTo: d06b5355
-layer: 84.9
-rotWithParent: true
-baseRotation: 180
+}
+{
+particles: 4
+lifetime: 30
+length: 12
+cone: 35
+colorFrom: 423837
+colorTo: 423837
+layer: 84.1
+sizeFrom: 4.5
+sizeTo: 0
 }
 ]
 }
-
 ]
 research: {
 planet: tantros

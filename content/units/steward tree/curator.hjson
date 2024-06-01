@@ -1,6 +1,6 @@
 researchCostMultiplier: .25
-
 type: legs
+outlineColor: 232826
 legCount: 4
 lockLegBase: true
 speed: .5
@@ -8,7 +8,8 @@ omniMovement: false
 health: 650
 targetGround: false
 drawCell: false
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
 abilities: [
 {
 type: RepairFieldAbility
@@ -17,8 +18,7 @@ range: 45
 amount: 50
 }
 ]
-baseRotationSpeed: 12
-armor: 3
+armor: 5
 mechLegColor: 232826
 rotateSpeed: 3
 hitSize: 11

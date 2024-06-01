@@ -1,3 +1,4 @@
+squareSprite: false
 requirements: [
 lead/120
 bauxite/90
@@ -12,9 +13,16 @@ minBlockSize: 1
 category: units
 filter: [
 bauxite-wall
+small-bauxite-wall
+gallium-wall
+small-gallium-wall
+duralumin-wall
+small-duralumin-wall
+lithonite-wall
+small-lithonite-wall
 maganese-wall
+small-manganese-wall
 basic-processor
-intermediate-processor
 ]
 envEnabled: 4
 squareSprite: false

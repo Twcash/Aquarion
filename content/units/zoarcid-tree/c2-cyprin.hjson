@@ -1,4 +1,3 @@
-type: flying
 flying: true
 researchCostMultiplier: .25
 envEnabled: 5
@@ -137,9 +136,7 @@ rotateSpeed: .5
 rotationLimit: 60
 shootY: 7
 mirror: false
-knockback: 1
 x: 0
-targetAir: false
 name: cyprin-weapon
 reload: 45
 bullet: {
@@ -228,8 +225,6 @@ lightColor: 8ca4fc
 }
 shoot: {
 type: shootBarrel
-recoils: 2
-source: shootMulti
 barrels: [
 3.5, 0, 0,
 -3.5, 0, 0,
@@ -247,7 +242,6 @@ recoilIndex: 0
 }
 {
 suffix: -barrel-l
-flipSprite: true
 moveY: -3
 type: RegionPart
 progress: recoil
@@ -264,7 +258,6 @@ recoilIndex: 0
 }
 {
 suffix: -buffer-l
-flipSprite: true
 moveY: -1
 type: RegionPart
 progress: recoil
@@ -277,7 +270,6 @@ recoilIndex: 1
 name: missile-battery
 layerOffset: -.01
 shootSound: missileSmall
-targetAir: false
 shoot: {
 type: ShootBarrel
 barrels: [
@@ -287,12 +279,10 @@ barrels: [
 }
 ignoreRotation: true
 reload: 40
-targetAir: false
 rotate: false
 shootCone: 15
 x: 0
 mirror: true
-range: 60
 bullet: {
 spawnUnit: aquarion-cyprin-missile
 shootEffect: shootSmall

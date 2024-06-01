@@ -73,8 +73,6 @@ deathExplosionEffect: [
 {
 type: explosionEffect
 waveColor: 8ca4fc
-strokeFrom: 4
-strokeTo: 2
 }
 ]
 weapons: [
@@ -90,13 +88,11 @@ mirror: false
 shootOnDeath: true
 bullet: {
 shootEffect: none
-shootSound: dullExplosion
 type: ExplosionBulletType
 splashDamageRadius: 35
 splashDamage: 180
 collidesGround: false
 }
-shootEffect: none
 }
 ]
 targetGround: false

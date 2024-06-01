@@ -1,7 +1,6 @@
 
-type: flying
 flying: true
-buildRange: 60
+buildRange: 150
 drawCell: false
 targetable: false
 hittable: false
@@ -21,11 +20,10 @@ health: 250
 engineOffset: 10
 engineSize: 0
 armor: 2
-drawBuildBeam: false
 hitSize: 9
 engineColor: 43fc92
 payloadCapacity: 6
-fogradius: 1
+fogRadius: 0
 coreUnitDock: true
 allowedInPayloads: false
 drawBody: false
@@ -37,7 +35,6 @@ y: 0
 noAttack: true
 shootSound: none
 shootCone: 45
-aimDst: 0
 beamWidth: .6
 autoTarget: true
 targetUnits: true
@@ -56,7 +53,6 @@ healColor: ffd37f
 laserColor: ffd37f
 bullet: {
 maxRange: 50
-minRange: 10
 }
 parts: [
 {

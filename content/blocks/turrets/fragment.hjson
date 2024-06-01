@@ -38,7 +38,7 @@ drawer: {
 type: drawTurret
 parts: [
 {
-type: drawPartRegion
+type: RegionPart
 recoilIndex: 2
 moveY: -2.5
 suffix: -barrel-r
@@ -47,7 +47,7 @@ heatProgress: recoil
 progress: recoil
 }
 {
-type: drawPartRegion
+type: RegionPart
 recoilIndex: 0
 moveY: -2.5
 suffix: -barrel-l
@@ -56,7 +56,7 @@ under: true
 progress: recoil
 }
 {
-type: drawPartRegion
+type: RegionPart
 recoilIndex: 1
 moveY: -2.5
 suffix: -mid
@@ -65,7 +65,7 @@ under: true
 progress: recoil
 }
 {
-type: drawPartRegion
+type: RegionPart
 recoilIndex: 0
 moveY: -2.5
 suffix: -back-l
@@ -76,7 +76,7 @@ progress: recoil
 flipSprite: true
 }
 {
-type: drawPartRegion
+type: RegionPart
 recoilIndex: 2
 moveY: -2.5
 suffix: -back-r
@@ -107,15 +107,7 @@ frontColor: fafafa
 backColor: b6ced3
 trailColor: b6ced3
 hitColor: fafafa
-particles: 2
-colorFrom: c08787
-colorTo: e7e0e0
-sizeFrom: 3.5
-sizeTo: 0
-cone: 15
-baseRotation: 180
-rotWithParent: true
-length: 15
+trailRotation: true
 lifetime: 45
 despawnSound: none
 hitSound: none

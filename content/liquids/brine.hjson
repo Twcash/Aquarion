@@ -1,7 +1,7 @@
 
 color: e5f0d5
 coolant: false
-heaCapacity: 0
+heatCapacity: 0
 type: liquid
 research: {
 planet: tantros

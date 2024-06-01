@@ -1,7 +1,6 @@
 type: legs
 legCount: 4
 researchCostMultiplier: .25
-lockLegbase: true
 legLength: 15
 health: 720
 armor: 6
@@ -15,7 +14,6 @@ weapons: [
 {
 name: ambassador-weapon
 mirror: true
-range: 75
 x: 8.75
 recoil: .5
 parts: [
@@ -40,13 +38,12 @@ shootStatusDuration: 25
 rotate: false
 top: false
 shootY: 4
-loopSound: torch
 shootSound: torch
 shootCone: 45
 bullet: {
 type: ContinuousFlameBulletType
 lightStroke: 35
-divsions: 40
+divisions: 40
 lifetime: 10
 width: 3
 drawFlare: false

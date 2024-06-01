@@ -1,13 +1,12 @@
-type: flying
 flying: true
 lowAltitude: true
 researchCostMultiplier: .25
 targetFlags: [
-turret,
-factory
-generator
+  turret
+  factory
+  generator
 ]
-outlineColor: 2f3734
+outlineColor: 232826
 drag: .2
 accel: .06
 drag: .06
@@ -15,154 +14,152 @@ drawCell: false
 targetAir: false
 crashDamageMultiplier: 0
 targetAir: false
-speed: 1.5
-rotateSpeed: 1.7
+speed: 1.3
+rotateSpeed: 4.5
 itemCapacity: 0
 health: 540
 armor: 3
-omniMovement: false
 engineSize: 0
-hitSize: 17
+hitSize: 10
 weapons: [
-{
-rotate: true
-x: 0
-mirror: false
-rotateSpeed: 1.4
-inaccuracy: 7
-shootSound: shootAlt
-reload: 25
-shootCone: 35
-shoot: {
-shots: 2
-type: shootMulti
-source: shootAlternate
-dest: [
-{
-shots: 2
-type: shootBarrel
-barrels: [
-2, 4, 0
--2, 4, 0
-]
-}
-]
-}
-name: carid-weapon
-parts: [
-{
-suffix: -barrel
-moveY: -2
-progress: recoil
-under: true
-}
-]
-bullet: {
-speed: 3
-damage: 10
-frontColor: d4816b
-backColor: 924c39
-trailLength: 6
-width: 7
-height: 12
-sprite: missile
-trailColor: 924c39
-hitColor: d4816b
-collidesAir: false
-lightColor: d4816b
-hitEffect: {
-line: true
-enFrom: 6
-lenTo: 0
-sieFrom: 7
-sizeTo: 7
-length: 25
-lifetime: 45
-colorFrom: d4816b
-cone: 15
-particles: 3
-colorTo: d4816b
-}
-despawnEffect: {
-line: true
-enFrom: 6
-lenTo: 0
-sieFrom: 7
-sizeTo: 7
-length: 25
-lifetime: 45
-colorFrom: d4816b
-cone: 15
-particles: 3
-colorTo: d4816b
-}
-}
-}
+  {
+    rotate: true
+    x: 0
+    mirror: false
+    rotateSpeed: 1.4
+    inaccuracy: 7
+    shootSound: shootAlt
+    reload: 25
+    shootCone: 35
+    shoot: {
+      shots: 2
+      type: shootMulti
+      source: shootAlternate
+      dest: [
+        {
+          shots: 2
+          type: shootBarrel
+          barrels: [
+            2, 4, 0
+            -2, 4, 0
+          ]
+        }
+      ]
+    }
+    name: carid-weapon
+    layerOffset: 1
+    parts: [
+      {
+        suffix: -barrel
+        moveY: -2
+        progress: recoil
+        outlineLayerOffset: .1
+        layerOffset: -.1
+        under: true
+        outline: true
+        growY: -.1
+        moves: [
+          {
+            progress: warmup
+            y: .25
+          }
+        ]
+        growProgress: warmup
+        type: regionPart
+      }
+    ]
+    bullet: {
+      speed: 3
+      damage: 10
+      frontColor: d4816b
+      backColor: 924c39
+      trailLength: 6
+      width: 7
+      height: 12
+      sprite: missile
+      trailColor: 924c39
+      hitColor: d4816b
+      collidesAir: false
+      lightColor: d4816b
+      hitEffect: {
+        line: true
+        lenFrom: 6
+        lenTo: 0
+        sizeFrom: 7
+        sizeTo: 7
+        length: 25
+        lifetime: 45
+        colorFrom: d4816b
+        cone: 15
+        particles: 3
+        colorTo: d4816b
+      }
+      despawnEffect: {
+        line: true
+        lenFrom: 6
+        lenTo: 0
+        sizeFrom: 7
+        sizeTo: 7
+        length: 25
+        lifetime: 45
+        colorFrom: d4816b
+        cone: 15
+        particles: 3
+        colorTo: d4816b
+      }
+    }
+  }
 ]
 requirements: {
   previous: unknown
- block: correlative-reconstructor
+  block: correlative-reconstructor
 }
 abilities: [
-{
-display: false
-type: MoveEffectAbility
-y: -4
-rotateEffect: true
-effect: [
-{
-particles: 6
-lifetime: 30
-cone: 30
-length: 5
-baseLength: 15
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 3
-sizeTo: 0
-colorFrom: 4f4844
-colorTo: 2b272555
-layer: 84.7
-rotWithParent: true
-baseRotation: 180
-}
-{
-particles: 6
-lifetime: 30
-cone: 30
-length: 8
-baseLength: 5
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 3
-sizeTo: 0
-colorFrom: 7c5e4d
-colorTo: 54484155
-layer: 84.8
-rotWithParent: true
-baseRotation: 180
-}
-{
-particles: 5
-lifetime: 30
-cone: 15
-length: 4
-baseLength: 3
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 2
-sizeTo: 0
-colorFrom: ffa665
-colorTo: d06b5355
-layer: 84.9
-rotWithParent: true
-baseRotation: 180
-}
-]
-}
+  {
+    display: false
+    type: MoveEffectAbility
+    y: -4
+    rotateEffect: true
+    effect: [
+      {
+        particles: 3
+        lifetime: 20
+        length: 6
+        cone: 20
+        colorFrom: d4816b
+        colorTo: d4816b
+        layer: 84.3
+        sizeFrom: 3
+        sizeTo: 0
+      }
+      {
+        particles: 4
+        lifetime: 25
+        length: 9
+        colorFrom: 65514e
+        colorTo: 65514e
+        cone: 29
+        layer: 84.2
+        sizeFrom: 3.5
+        sizeTo: 0
+      }
+      {
+        particles: 4
+        lifetime: 30
+        length: 12
+        cone: 35
+        colorFrom: 423837
+        colorTo: 423837
+        layer: 84.1
+        sizeFrom: 4.5
+        sizeTo: 0
+      }
+    ]
+  }
 ]
 research: {
-planet: tantros
-parent: unknown
+  planet: tantros
+  parent: unknown
 }
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0

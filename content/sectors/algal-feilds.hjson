@@ -2,7 +2,6 @@ sector: 10
 planet: aquarion-tantros
 localizedName: Algal Fields
 difficulty: 2
-enemyBase: false
 captureWave: 6
 alwaysUnlocked: true
 research: {

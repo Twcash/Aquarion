@@ -33,11 +33,10 @@ lead/3
 }
 drawer: [
 {
-type: drawdefault
+type: drawDefault
 }
 {
 type: DrawFlame
-suffix: -top
 }
 ]
 outputItem: metaglass/4

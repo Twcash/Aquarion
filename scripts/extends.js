@@ -47,8 +47,8 @@ extend(PayloadLoader, "small-payload-loader", {});
 extend(PayloadUnloader, "small-payload-unloader", {});
 extend(PayloadMassDriver, "small-payload-mass-driver", {});
 extend(ArmoredConduit, "siphon", {});
-extend(ArmoredConduit, "pulse-siphon", {});
 extend(LiquidBridge, "siphon-bridge", {});
+extend(ArmoredConduit, "pulse-siphon", {});
 extend(LiquidBridge, "pulse-siphon-bridge", {});
 extend(LiquidRouter, "siphon-distributor", {});
 extend(LiquidJunction, "siphon-junction", {});
@@ -83,7 +83,6 @@ extend(ItemTurret, "deviate", {});
 extend(ItemTurret, "purify", {});
 extend(ItemTurret, "clarity", {});
 extend(ItemTurret, "impudence", {});
-
 extend(UnitFactory, "submarine-factory", {});
 extend(UnitFactory, "utility-factory", {});
 extend(Reconstructor, "conversive-reconstructor", {});
@@ -93,3 +92,79 @@ extend(UnitAssembler, "basic-assember", {});
 extend(UnitAssemblerModule, "mech-catalyst", {});
 extend(UnitAssemblerModule, "support-catalyst", {});
 extend(UnitAssemblerModule, "assault-catalyst", {});
+
+//for mechs, replace UnitEntity with MechUnit, for legs it's LegsUnit and for naval is UnitWaterMove.tank = TankUnit, crawl = CrawlUnit, missile = TimedKillUnit,  THANKS LIZ!
+
+//core tree
+
+const cull = extend(UnitType, "cull", {});
+cull.constructor = () => extend(UnitEntity, {}); 
+
+//zoarcid tree
+
+const zoarcid = extend(UnitType, "a0-zoarcid", {});
+zoarcid.constructor = () => extend(UnitEntity, {}); 
+
+const anguilli = extend(UnitType, "b1-anguilli", {});
+anguilli.constructor = () => extend(UnitEntity, {}); 
+
+const cyprin = extend(UnitType, "c2-cyprin", {});
+cyprin.constructor = () => extend(UnitEntity, {}); 
+
+const pycogen = extend(UnitType, "d3-pycogen", {});
+pycogen.constructor = () => extend(UnitEntity, {}); 
+
+const batoid = extend(UnitType, "e4-batoid", {});
+batoid.constructor = () => extend(UnitEntity, {}); 
+
+//Obligate tree
+
+const obligate = extend(UnitType, "unknown", {});
+obligate.constructor = () => extend(UnitEntity, {});
+
+const enforce = extend(UnitType, "carid", {});
+enforce.constructor = () => extend(UnitEntity, {});
+
+const impel = extend(UnitType, "impel", {});
+impel.constructor = () => extend(UnitEntity, {});
+
+const perpetrate = extend(UnitType, "perpetrate", {});
+perpetrate.constructor = () => extend(UnitEntity, {});
+
+//steward tree
+
+const steward = extend(UnitType, "steward", {});
+steward.constructor = () => extend(MechUnit, {});
+
+const curator = extend(UnitType, "curator", {});
+curator.constructor = () => extend(LegsUnit, {});
+
+const custodian = extend(UnitType, "custodian", {});
+custodian.constructor = () => extend(TankUnit, {});
+
+//messenger tree
+
+const messenger = extend(UnitType, "messenger", {});
+messenger.constructor = () => extend(MechUnit, {});
+
+const ambassador = extend(UnitType, "ambassador", {});
+ambassador.constructor = () => extend(LegsUnit, {});
+
+const consul = extend(UnitType, "consul", {});
+consul.constructor = () => extend(LegsUnit, {});
+
+const legate = extend(UnitType, "legate", {});
+legate.constructor = () => extend(LegsUnit, {});
+
+// filament tree
+
+const filament = extend(UnitType, "filament", {});
+filament.constructor = () => extend(UnitEntity, {});
+
+// pico Tree
+
+const pico = extend(UnitType, "pico", {});
+pico.constructor = () => extend(UnitEntity, {});
+
+const byte = extend(UnitType, "byte", {});
+byte.constructor = () => extend(UnitEntity, {});

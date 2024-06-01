@@ -1,83 +1,97 @@
-type: flying
+
 flying: true
 lowAltitude: true
 researchCostMultiplier: .25
 outlineColor: 2f3734
-drag: .2
+drag: .09
+accel: .1
 drawCell: false
 defaultCommand: assist
-hitSize: 5
-buildSpeed: .2
-speed: 3
-rotateSpeed: 15
+hitSize: 8
+buildSpeed: .5
+buildRange: 75
+rotateToBuilding: false
+rotateMoveFirst: true
+drawBuildBeam: false
+speed: 2.5
+rotateSpeed: 7
 engineSize: 0
-localizedName: pico
+targetPriority: -1
+weapons: [
+{
+type: BuildWeapon
+rotate: true
+x: 4
+mirror: true
+y: 0
+shootY: 2
+name: byte-buildweapon
+
+}
+]
 requirements: {
-  block: utility-factory
-  time: 700
-  requirements: [
-gallium/20
-metaglass/30
-  ]
+  previous: a0-zoarcid
+ block: correlative-reconstructor
 }
 research: {
 planet: tantros
-parent: utility-factory
+parent: pico
 }
 isEnemy: false
-health: 120
-envEnabled: 4
+health: 240
+envEnabled: 5
+envDisabled: 0
 abilities: [
 {
 display: false
 type: MoveEffectAbility
-y: -4
+y: -5
 interval: 1
 rotateEffect: true
 effect: [
 {
 particles: 3
 lifetime: 10
-cone: 15
-length: 2
+cone: 17
+length: 4
 baseLength: 0
 interp: pow10Out
 sizeInterp: linear
-sizeFrom: 1
+sizeFrom: 1.5
 sizeTo: 0
 colorFrom: 92dd7e
 colorTo: 92dd7e
-layer: 84.9
+layer: 84.3
 rotWithParent: true
 }
 {
 particles: 3
 lifetime: 16
-cone: 30
-length: 6
-baseLength: 0
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 1
-sizeTo: 1
-colorFrom: 616d5e
-colorTo: 616d5e
-layer: 84.9
-rotWithParent: true
-}
-{
-particles: 3
-lifetime: 18
-cone: 15
-length: 6
+cone: 34
+length: 9
 baseLength: 0
 interp: pow10Out
 sizeInterp: linear
 sizeFrom: 2
+sizeTo: 1
+colorFrom: 616d5e
+colorTo: 616d5e
+layer: 84.2
+rotWithParent: true
+}
+{
+particles: 3
+lifetime: 24
+cone: 18
+length: 9
+baseLength: 0
+interp: pow10Out
+sizeInterp: linear
+sizeFrom: 2.5
 sizeTo: 0
 colorFrom: 606d5e
 colorTo: 606d5e
-layer: 83.9
+layer: 84.1
 rotWithParent: true
 }
 ]

@@ -1,189 +1,172 @@
-type: flying
-flying: true
-lowAltitude: true
-researchCostMultiplier: .25
-outlineColor: 2f3734
-drag: .15
-rotateSpeed: 3.5
-engineSize: 0
-drawCell: false
-crashDamageMultiplier: .1
-itemCapacity: 0
-faceTarget: true
-health:  270
-speed: 1.2
-targetFlags: [
-turret,
-generator
-]
-armor: 0
-hitSize: 7
-requirements: {
-  block: submarine-factory
-  time: 450
-  requirements: [
-gallium/20
-bauxite/25
+  flying: true
+  lowAltitude: true
+  researchCostMultiplier: 0.25
+  outlineColor: 2f3734
+  drag: 0.15
+  rotateSpeed: 3.5
+  engineSize: 0
+  drawCell: false
+  crashDamageMultiplier: 0.1
+  itemCapacity: 0
+  faceTarget: true
+  health: 270
+  speed: 1.2
+  targetFlags: [
+    turret
+    generator
   ]
-}
-research: {
-planet: tantros
-name: Zoarcid
-parent: submarine-factory
-}
-weapons: [
-{
-shoot: {
-shots: 2
-type: shootBarrel
-source: shootAlternate
-barrels: [
-1, 1, 0
--1, 1, 0
-]
-}
-shotDelay: 5
-reload: 55
-layerOffset: -.01
-shootSound: blaster
-name: unknown-weapon
-x: 0
-rotate: false
-mirror: false
-bullet: {
-weaveScale: 6
-weaveMag: 4
-pierceDamageFactor: .9
-despawnEffect: [
-{
-type: waveEffect
-sizeFrom: 0
-sizeTo: 8
-lifetime: 15
-colorFrom: ffffff
-colorTo: ffa665
-lightColor: ffa665
-}
-{
-particles: 5
-line: true
-lifetime: 25
-colorFrom: ffffff
-colorTo: ffa665
-lightColor: ffa665
-lenFrom: 2
-lenTo: 4
-strokeFrom: 2.5
-strokeTo: 0
-length: 9
-}
-]
-hitEffect: [
-{
-type: waveEffect
-sizeFrom: 0
-sizeTo: 8
-lifetime: 15
-colorFrom: ffffff
-colorTo: ffa665
-lightColor: ffa665
-}
-{
-particles: 5
-line: true
-lifetime: 25
-colorFrom: ffffff
-colorTo: ffa665
-lightColor: ffa665
-lenFrom: 2
-lenTo: 4
-strokeFrom: 2.5
-strokeTo: 0
-length: 9
-}
-]
-frontColor: ffffff
-backColor: ffa665
-trailColor: ffa665
-lightColor: ffa665
-hitColor: ffa665
-drag: -.02
-lifetime: 35
-keepVelocity: false
-sprite: missile-large
-damage: 15
-shrinkX: .1
-shrinkY: .2
-pierce: true
-pierceCap: 2
-pierceBuilding: true
-speed: 1
-homingRange: 25
-width: 5
-height: 6
-trailWidth: 1.5
-hitSize: 3
-trailLength: 7
-homingPower: .02
-}
-}
-]
-abilities: [
-{
-display: false
-type: MoveEffectAbility
-y: -2
-rotateEffect: true
-effect: [
-{
-particles: 6
-lifetime: 15
-cone: 30
-length: 3
-baseLength: 15
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 3
-sizeTo: 0
-colorFrom: 4f4844
-colorTo: 2b272555
-layer: 84.7
-rotWithParent: true
-baseRotation: 180
-}
-{
-particles: 6
-lifetime: 15
-cone: 30
-length: 1
-baseLength: 5
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 3
-sizeTo: 0
-colorFrom: 7c5e4d
-colorTo: 54484155
-layer: 84.8
-rotWithParent: true
-baseRotation: 180
-}
-{
-particles: 5
-lifetime: 15
-cone: 15
-length: 1
-baseLength: 1
-interp: pow10Out
-sizeInterp: linear
-sizeFrom: 2
-sizeTo: 0
-colorFrom: ffa665
-colorTo: d06b5355
-layer: 84.9
-rotWithParent: true
-baseRotation: 180
-}
-]
-}
-]
-envEnabled: 4
+  armor: 0
+  hitSize: 7
+  requirements: {
+    block: submarine-factory
+    time: 450
+    requirements: [
+      gallium/20
+      bauxite/25
+    ]
+  }
+  research: {
+    planet: tantros
+    name: Zoarcid
+    parent: submarine-factory
+  }
+  weapons: [
+    {
+      shoot: {
+        shots: 2
+        type: shootBarrel
+        barrels: [
+          1, 1, 0
+          -1, 1, 0
+        ]
+      }
+      reload: 55
+      layerOffset: -0.01
+      shootSound: blaster
+      name: unknown-weapon
+      x: 0
+      rotate: false
+      mirror: false
+      bullet: {
+        weaveScale: 6
+        weaveMag: 4
+        pierceDamageFactor: 0.9
+        despawnEffect: [
+          {
+            type: waveEffect
+            sizeFrom: 0
+            sizeTo: 8
+            lifetime: 15
+            colorFrom: ffffff
+            colorTo: ffa665
+            lightColor: ffa665
+          }
+          {
+            particles: 5
+            line: true
+            lifetime: 25
+            colorFrom: ffffff
+            colorTo: ffa665
+            lightColor: ffa665
+            lenFrom: 2
+            lenTo: 4
+            strokeFrom: 2.5
+            strokeTo: 0
+            length: 9
+          }
+        ]
+        hitEffect: [
+          {
+            type: waveEffect
+            sizeFrom: 0
+            sizeTo: 8
+            lifetime: 15
+            colorFrom: ffffff
+            colorTo: ffa665
+            lightColor: ffa665
+          }
+          {
+            particles: 5
+            line: true
+            lifetime: 25
+            colorFrom: ffffff
+            colorTo: ffa665
+            lightColor: ffa665
+            lenFrom: 2
+            lenTo: 4
+            strokeFrom: 2.5
+            strokeTo: 0
+            length: 9
+          }
+        ]
+        frontColor: ffffff
+        backColor: ffa665
+        trailColor: ffa665
+        lightColor: ffa665
+        hitColor: ffa665
+        drag: -0.02
+        lifetime: 35
+        keepVelocity: false
+        sprite: missile-large
+        damage: 15
+        shrinkX: 0.1
+        shrinkY: 0.2
+        pierce: true
+        pierceCap: 2
+        pierceBuilding: true
+        speed: 1
+        homingRange: 25
+        width: 5
+        height: 6
+        trailWidth: 1.5
+        hitSize: 3
+        trailLength: 7
+        homingPower: 0.02
+      }
+    }
+  ]
+  abilities: [
+    {
+      display: false
+      type: MoveEffectAbility
+      y: -3
+      rotateEffect: true
+      effect: [
+        {
+          particles: 3
+          lifetime: 15
+          length: 5
+          cone: 13
+          colorFrom: d4816b
+          colorTo: d4816b
+          layer: 84.3
+          sizeFrom: 2
+          sizeTo: 0
+        }
+        {
+          particles: 3
+          lifetime: 20
+          length: 7
+          colorFrom: 65514e
+          colorTo: 65514e
+          cone: 19
+          layer: 84.2
+          sizeFrom: 2.5
+          sizeTo: 0
+        }
+        {
+          particles: 3
+          lifetime: 25
+          length: 9
+          cone: 24
+          colorFrom: 423837
+          colorTo: 423837
+          layer: 84.1
+          sizeFrom: 3.5
+          sizeTo: 0
+        }
+      ]
+    }
+  ]
+  envEnabled: 5
+  envDisabled: 0

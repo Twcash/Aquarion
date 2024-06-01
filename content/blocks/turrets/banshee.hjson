@@ -23,7 +23,6 @@ firstShotDelay: 25
 ammoTypes: {
 manganese: {
 spawnUnit: banshee-missile
-shake: .7
 speed: 0
 keepVelocity: false
 shootEffect: shootBig
@@ -52,13 +51,12 @@ under: true
 y: 2
 }
 {
-type: drawPartRegion
+type: regionPart
 suffix: -missile
 color: ffffff
 colorTo: ffffff00
 progress: reload
 under: true
-top: false
 y: -1
 moveY: -2
 moves: [
@@ -69,7 +67,7 @@ y: 1
 ]
 }
 {
-type: drawPartRegion
+type: regionPart
 suffix: -side
 mirror: true
 y: -.5

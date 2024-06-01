@@ -1,4 +1,5 @@
 type: tank
+outlineColor: 232826
 researchCostMultiplier: .25
 envEnabled: 4
 hitSize: 18
@@ -10,7 +11,6 @@ drag: .1
 accel: .15
 faceTarget: false
 targetGround: false
-template: TankUnitType
 drawCell: false
 envEnabled: 4
 crushDamage: 1
@@ -18,7 +18,7 @@ health: 980
 armor: 6
 faceTarget: false
 accel: .2
-deag: .6
+drag: .6
 treadPullOffset: 1
 abilities: [
 {
@@ -76,7 +76,6 @@ recoils: 4
 shoot: {
 type: shootBarrel
 recoils: 4
-source: shootMulti
 barrels: [
 -4, -1, 0,
 4, -1, 0,
@@ -102,7 +101,6 @@ recoilIndex: 1
 suffix: -3
 moveY: -2
 under: true
-top: false
 progress: recoil
 recoilIndex: 2
 }
@@ -110,7 +108,6 @@ recoilIndex: 2
 suffix: -4
 moveY: -2
 under: true
-top: false
 progress: recoil
 recoilIndex: 3
 }
@@ -141,12 +138,11 @@ homingPower: .1
 trailLength: 12
 lifetime: 50
 pierce: true
-piercCap: 2
+pierceCap: 2
 weaveMag: 1.5
 weaveScale: 3
 smokeEffect: none
 lightColor: daffd8
-shootSound: missile
 hitEffect: {
 line: true
 cone: 35

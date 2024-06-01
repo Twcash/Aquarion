@@ -2,7 +2,6 @@ sector: 90
 planet: aquarion-tantros
 localizedName: Estuary
 difficulty: 4
-enemyBase: true
 research:{
 parent: BasaltCrags
 objectives:[
