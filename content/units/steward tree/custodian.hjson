@@ -1,12 +1,15 @@
 type: tank
 outlineColor: 232826
 researchCostMultiplier: .25
+omniMovement: false
+rotateMoveFirst: true
 envEnabled: 4
 hitSize: 18
 speed: .6
 rotateSpeed: 1.1
 groundLayer: 85
 crushDamage: .25
+shadowElevation: .05
 drag: .1
 accel: .15
 faceTarget: false

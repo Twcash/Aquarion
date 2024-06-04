@@ -1,3 +1,6 @@
+consumesPower: true
+conductivePower: true
+outputsPower: true
 researchCostMultiplier: .25
 size: 1
 maxNodes: 3
@@ -11,7 +14,7 @@ lead/10
 ]
 category: power
 research: {
-parent: director
+parent: conductor
 research: [
 lead/50
 bauxite/20
@@ -21,5 +24,6 @@ planet: tantros
 envEnabled: 4
 consumes: {
 power: 0.08333333333
+powerBuffered: 120
 }
 consumesPower: true

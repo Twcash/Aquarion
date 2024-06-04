@@ -1,0 +1,26 @@
+
+size: 3
+range: 550
+rotateSpeed: .2
+chargeTime: 90
+maxPayloadSize: 3
+grabWidth: 3
+length: 3
+grabHeight: 3
+shake: 1
+consumes: {
+power: 2.5
+}
+requirements: [
+manganese/35
+nitride/30
+lead/30
+bauxite/40
+]
+category: distribution
+research: {
+parent: small-payload-mass-driver
+planet: tantros
+}
+envEnabled: 5
+envDisabled: 0

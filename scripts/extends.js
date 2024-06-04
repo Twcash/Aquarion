@@ -33,6 +33,7 @@ extend(Duct, "armored-sealed-conveyor", {});
 extend(Conveyor, "manganese-conveyor", {});
 extend(BufferedItemBridge, "manganese-bridge", {});
 extend(MassDriver, "small-mass-driver", {});
+extend(MassDriver, "large-mass-driver", {});
 extend(Router, "sealedrouter", {});
 extend(OverflowGate, "sealed-overflow", {});
 extend(Sorter, "sealedsorter", {});
@@ -46,6 +47,7 @@ extend(PayloadRouter, "small-payload-router", {});
 extend(PayloadLoader, "small-payload-loader", {});
 extend(PayloadUnloader, "small-payload-unloader", {});
 extend(PayloadMassDriver, "small-payload-mass-driver", {});
+extend(PayloadMassDriver, "intermediate-payload-mass-driver", {});
 extend(ArmoredConduit, "siphon", {});
 extend(LiquidBridge, "siphon-bridge", {});
 extend(ArmoredConduit, "pulse-siphon", {});
@@ -53,8 +55,9 @@ extend(LiquidBridge, "pulse-siphon-bridge", {});
 extend(LiquidRouter, "siphon-distributor", {});
 extend(LiquidJunction, "siphon-junction", {});
 extend(LiquidRouter, "siphon-router", {});
-extend(Battery, "director", {});
+extend(Battery, "conductor", {});
 extend(PowerNode, "director-beam", {});
+extend(PowerNode, "large-director-beam", {});
 extend(Battery, "capacitor", {});
 extend(ThermalGenerator, "geothermal-generator", {});
 extend(ConsumeGenerator, "pyridine-reactor", {});
@@ -141,6 +144,9 @@ curator.constructor = () => extend(LegsUnit, {});
 
 const custodian = extend(UnitType, "custodian", {});
 custodian.constructor = () => extend(TankUnit, {});
+
+const caretaker = extend(UnitType, "caretaker", {});
+caretaker.constructor = () => extend(TankUnit, {});
 
 //messenger tree
 

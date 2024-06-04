@@ -1,0 +1,22 @@
+rotateSpeed: .7
+category: distribution
+size: 3
+squareSprite: false
+consumes: {
+power: 1.5
+}
+knockback: 3
+reload: 60
+range: 240
+itemCapacity: 30
+bulletSpeed: 6
+shake: .5
+research: {
+planet: tantros
+parent: small-mass-driver
+}
+envEnabled: 5
+envDisabled: 0
+requirements: [
+lead/10
+]

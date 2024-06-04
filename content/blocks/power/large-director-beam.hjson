@@ -1,0 +1,32 @@
+consumesPower: true
+conductivePower: true
+outputsPower: true
+researchCostMultiplier: .25
+size: 3
+maxNodes: 10
+laserRange: 15
+laserColor1: ffffff90
+customShadow: true
+laserColor2: 7d4f9d10
+requirements: [
+nitride/60
+manganese/30
+bauxite/90
+]
+category: power
+research: {
+parent: director-beam
+research: [
+lead/50
+bauxite/20
+manganese/120
+]
+planet: tantros
+}
+envEnabled: 5
+envDisabled: 0
+consumes: {
+power: 0.25
+powerBuffered: 240
+}
+consumesPower: true

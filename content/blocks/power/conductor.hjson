@@ -1,0 +1,43 @@
+health: 50
+consumesPower: true
+conductivePower: true
+outputsPower: true
+researchCostMultiplier: .25
+category: power
+range: 3
+requirements: [
+lead/2
+bauxite/1
+]
+size: 1
+consumes: {
+power: 0
+}
+research: {
+parent: core-pike
+requiremnts: [
+bauxite/10
+lead/20
+]
+name: Director
+planet: tantros
+}
+envEnabled: 5
+envDisabled: 0
+drawer: [
+{
+}
+{
+type: drawPower
+mixcol: false
+}
+{
+type: drawGlowRegion
+color: d1efff
+color: 8ca4fc
+}
+]
+powerBuffered: 900
+consumes: {
+powerBuffered: 900
+}

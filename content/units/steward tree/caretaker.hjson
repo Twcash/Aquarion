@@ -1,0 +1,83 @@
+type: tank
+outlineColor: 232826
+researchCostMultiplier: .25
+envEnabled: 5
+envDisabled: 0
+hitSize: 18
+speed: 1.2
+rotateMoveFirst: true
+omniMovement: false
+drag: .1
+rotateSpeed: 1.5
+groundLayer: 87
+shadowElevation: .1
+drag: .1
+accel: .15
+faceTarget: false
+targetGround: false
+drawCell: false
+envEnabled: 4
+crushDamage: 1
+health: 980
+armor: 6
+faceTarget: false
+accel: .2
+drag: .6
+treadPullOffset: 1.5
+treadFrames: 16
+treadRects: [
+{
+x: 20
+y: -68
+height: 144
+width: 15
+}
+{
+x: 48
+y: -53
+height: 96
+width: 15
+}
+]
+weapons: [
+{
+rotate: true
+rotateSpeed: .6
+mirror: false
+x: 0
+y: -.5
+name: caretaker-weapon
+shadowElevation: .25
+parts: [
+{
+suffix: -boink
+progress: {
+type: smoothReload
+op: curve
+start: 0
+end: 1
+interp: pow5In
+}
+moveY: -10
+moves: [
+{
+progress: {
+type: charge
+op: curve
+start: 0
+end: 1
+interp: pow10In
+}
+y: 10
+}
+]
+}
+]
+reload: 220
+shootY: 20
+shoot: {
+firstShotDelay: 80
+}
+recoil: 5
+}
+]
