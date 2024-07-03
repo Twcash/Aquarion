@@ -20,7 +20,7 @@ import static mindustry.Vars.*;
 
 import implosion.content.*;
 //this isnt a real generation is just for the mesh.
-public class TantrosGenerator extends TantrosPlanetGenerator {
+public class TantrosPlanetGen extends TantrosPlanetGenerator {
 
     Block[] terrain = {Tantros-Test.algal-carpet, Tantros-Test.brine-liquid, Tantros-Test.Coral-floor, Tantros-Test.feldspar };
     {
