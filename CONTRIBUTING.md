@@ -10,7 +10,7 @@ I want to sync my `main` to the repository's `main`
 
 Click `Sync` > select `Compare` from `your-fork-main` to `twcash01-main`. Always check this to prevent syncing the wrong branches.
 
-After you have finished development and want to contribute, open a pull request to the `twast` repository. You will see an indicator saying this repository is ahead of the `twcash01` repository by several updates. That is when you should do a pull request. After that, wait for your pull request to be "merged" (accepted).
+After you have finished development and want to contribute, open a pull request to the `twcash01` repository. You will see an indicator saying this repository is ahead of the `twcash01` repository by {ammount} updates. That is when you should do a pull request. After that, wait for your pull request to be "merged" (accepted).
 
 ## CONTRIBUTING RULES
 1. If you have anything concerning early game bridges, don't.
