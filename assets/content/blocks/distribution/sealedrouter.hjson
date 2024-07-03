@@ -1,0 +1,17 @@
+
+category: distribution
+solid: true
+underBullets: false
+requirements: [
+lead/5
+]
+research: {
+planet: tantros
+name: Sealed Conveyor
+parent: sealedconveyor
+requirements: [
+lead/3
+]
+}
+envEnabled: 5
+envDisabled: 0

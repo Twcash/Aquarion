@@ -1,0 +1,99 @@
+
+outputItem: nitride/3
+squareSprite: false
+researchCostMultiplier: .25
+category: crafting
+conductivePower: true
+itemCapacity: 60
+size: 4
+craftTime: 60
+ambientSound: flux
+craftEffect: [
+{
+particles: 1
+lifetime: 120
+sizeFrom: 3
+cone: 35
+colorFrom: c53720
+colorTo: #d56e47
+sizeTo: 0
+offset: 45
+}
+]
+heatRequirement: 10
+consumes: {
+power: 4.16666666667
+items: [
+gallium/1
+]
+liquid: {
+liquid: pyridine
+amount: .3
+}
+}
+requirements: [
+bauxite/40
+lead/60
+metaglass/40
+sodium/10
+gallium/60
+]
+drawer: [
+{
+type: DrawRegion
+suffix: -bottom
+}
+{
+type: DrawParticles
+color: 93d49b
+alpha: .5
+particleSize: 2
+particles: 30
+particleRad: 7
+particleLife: 200
+particleSizeInterp: one
+}
+{
+type: DrawParticles
+color: 8d8a65
+alpha: .5
+particleSize: 2
+particles: 30
+particleRad: 7
+particleLife: 200
+particleSizeInterp: one
+}
+{
+type: DrawPlasma
+plasmas: 4
+}
+{
+type: drawRegion
+suffix: -middle
+}
+{
+type: drawGlowRegion
+suffix: -top-heat
+alpha: .5
+}
+{
+type: DrawHeatInput
+suffix: -heat
+}
+]
+research: {
+requirements: [
+lead/120
+bauxite/60
+metaglass/30
+]
+parent: blast-kiln
+name: Blast Kiln
+planet: aquarion-tantros
+objectives: [
+BasaltCrags,
+VastShallows,
+metaglass,
+]
+}
+envEnabled: 4

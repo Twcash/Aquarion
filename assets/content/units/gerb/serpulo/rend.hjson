@@ -1,0 +1,123 @@
+type: naval
+hitSize: 15
+speed: .6
+faceTarget: false
+drawCell: false
+waveTrailX: 6
+waveTrailY : -10
+trailLength: 22
+rotateSpeed: 1.5
+accel: .15
+drag: .14
+weapons: [
+{
+name: rend-missiles
+shootSound: missile
+shoot: {
+shots: 2
+}
+mirror: false
+x: 0
+y: 10
+inaccuracy: 8
+shadow: 8
+reload: 50
+rotate: true
+rotateSpeed: 1.6
+recoil: 3
+bullet: {
+damage: 45
+lifetime: 65
+speed: 2.5
+homingPower: .1
+homingRange: 30
+hitSize: 4
+despawnEffect: blastExplosion
+hitEffect: blastExplosion
+shootSound: missile
+ejectEffect: casing3
+width: 8
+height: 7
+shrinkX: .5
+hitShake: 4
+trailSize: 6
+trailLength: 12
+frontColor: 8ca4fc
+backColor: 797bc7
+trailColor: 797bc7
+lightColor: 8ca4fc
+weaveMag: 4
+weaveScale: 2
+}
+}
+{
+name: rend-missiles
+shootSound: missile
+shoot: {
+shots: 2
+}
+mirror: false
+x: 0
+y: -12
+inaccuracy: 8
+shadow: 8
+reload: 50
+rotate: true
+rotateSpeed: 1.6
+recoil: 3
+bullet: {
+damage: 45
+lifetime: 65
+speed: 2.5
+homingPower: .1
+homingRange: 30
+hitSize: 4
+despawnEffect: blastExplosion
+hitEffect: blastExplosion
+shootSound: missile
+ejectEffect: casing3
+width: 8
+height: 7
+shrinkX: .5
+hitShake: 4
+trailSize: 6
+trailLength: 12
+frontColor: 8ca4fc
+backColor: 797bc7
+trailColor: 797bc7
+lightColor: 8ca4fc
+weaveMag: 4
+weaveScale: 2
+}
+}
+{
+name: rend-cannon
+shootSound: mediumCannon
+rotate: true
+inaccuracy: 4
+shadow: 12
+x: 0
+mirror: false
+rotateSpeed: 1.2
+reload: 85
+bullet: {
+damage: 160
+speed: 7
+lifetime: 35
+hitSize: 6
+despawnEffect: blastExplosion
+hitEffect: blastExplosion
+ejectEffect: casing3
+width: 15
+height: 15.5
+hitShake: 4
+trailSize: 6
+trailLength: 12
+trailEffect: artilleryTrail
+frontColor: 8ca4fc
+backColor: 797bc7
+trailColor: 797bc7
+lightColor: 8ca4fc
+}
+}
+]

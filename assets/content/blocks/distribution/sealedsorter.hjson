@@ -1,0 +1,16 @@
+
+solid: true
+category: distribution
+requirements: [
+lead/10
+]
+research: {
+planet: tantros
+name: Sealed Sorter
+parent: sealedrouter
+requirements: [
+lead/5
+]
+}
+envEnabled: 5
+envDisabled: 0

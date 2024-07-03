@@ -1,0 +1,12 @@
+type: unitFactory
+localizedName: Molus Den
+category: units
+size: 3
+requirements: [
+lead/10
+]
+buildVisibility: sandboxOnly
+configurable: false
+unitCapModifier: 5
+envEnabled: 4
+researchCostMultiplier: .25

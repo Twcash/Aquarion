@@ -1,0 +1,19 @@
+
+category: distribution
+size: 2
+staleTimeDuration: 1
+itemCapacity: 30
+requirements: [
+lead/15
+]
+squareSprite: false
+research: {
+planet: tantros
+name: Cargo Depot
+parent: sealedconveyor
+requirements: [
+lead/15
+]
+}
+envEnabled: 5
+envDisabled: 0

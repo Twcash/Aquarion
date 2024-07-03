@@ -1,0 +1,308 @@
+category: turret
+squareSprite: false
+inaccuracy: 2
+researchCostMultiplier: 0.25
+reload: 55
+shoot: {
+  firstShotDelay: 35
+  type: ShootMulti
+  source: ShootAlternate
+  dest: [
+    {
+      type: ShootBarrel
+      shots: 3
+      shotDelay: 5
+      barrels: [
+        0, -1, 0,
+        5, -1.5, 0,
+        -5, -1.5, 0
+      ]
+    }
+  ]
+}
+consumeAmmoOnce: true
+ammoPerShot: 2
+recoil: 2.5
+recoilTime: 25
+requirements: [
+  lead/90
+  bauxite/60
+]
+range: 120
+coolantMultiplier: 20
+consumes: {
+  coolant: {
+    amount: 0.03333333333
+  }
+}
+size: 3
+ammoTypes: {
+  lead: {
+    type: MissileBulletType
+    trailEffect: none
+    sprite: bullet
+    homingPower: 0
+    damage: 30
+    speed: 3
+    weaveScale: 1.7
+    weaveMag: 2
+    lifetime: 45
+    reloadMuliiplier: .8
+    ammoMultiplier: 2
+    shrinkX: 0.2
+    shrinkY: 0.8
+    trailLength: 10
+    width: 10
+    height: 16
+    trailColor: d06b53
+    frontColor: ffa665
+    backColor: d06b53
+    lightColor: ffa665
+    hitColor: ffa665
+    shootEffect: {
+      particles: 12
+      lifetime: 45
+      length: 6
+      baseLength: 0
+      interp: pow10Out
+      sizeInterp: linear
+      sizeFrom: 4
+      sizeTo: 0
+      colorFrom: ffa665
+      colorTo: d06b53
+    }
+    despawnEffect: {
+      particles: 6
+      line: true
+      lifetime: 90
+      length: 30
+      baseLength: 0
+      interp: pow3Out
+      sizeInterp: pow3Out
+      sizeFrom: 3
+      lenFrom: 6
+      lenTo: 0
+      rotWithParent: true
+      cone: 45
+      sizeTo: 3
+      colorFrom: ffa665
+      colorTo: ffa665
+    }
+    hitEffect: {
+      particles: 6
+      line: true
+      lifetime: 90
+      length: 30
+      baseLength: 0
+      interp: pow3Out
+      sizeInterp: pow3Out
+      sizeFrom: 3
+      lenFrom: 6
+      lenTo: 0
+      rotWithParent: true
+      cone: 45
+      sizeTo: 3
+      colorFrom: ffa665
+      colorTo: ffa665
+    }
+    smokeEffect: airBubble
+    makeFire: false
+    buildingDamageMultiplier: 0.15
+  }
+  gallium: {
+    type: MissileBulletType
+    trailEffect: none
+    homingPower: 0
+    sprite: bullet
+    damage: 45
+    pierce: true
+    pierceCap: 3
+    buildingDamageMultiplier: 0.15
+    lifetime: 45
+    speed: 3
+    reloadMultiplier: 0.6
+    weaveScale: 1.7
+    weaveMag: 2
+    ammoMultiplier: 2
+    trailLength: 10
+    width: 10
+    height: 16
+    trailColor: 637e8e
+    frontColor: b2d3cf
+    backColor: 8db3ba
+    smokeEffect: airBubble
+    lightColor: b2d3cf
+    makeFire: false
+    shootEffect: {
+      particles: 12
+      lifetime: 45
+      length: 6
+      baseLength: 0
+      interp: pow10Out
+      sizeInterp: linear
+      sizeFrom: 4
+      sizeTo: 0
+      colorFrom: b2d3cf
+      colorTo: 8db3ba
+    }
+    despawnEffect: {
+      particles: 6
+      line: true
+      lifetime: 90
+      length: 30
+      baseLength: 0
+      interp: pow3Out
+      sizeInterp: pow3Out
+      sizeFrom: 3
+      lenFrom: 6
+      lenTo: 0
+      rotWithParent: true
+      cone: 45
+      sizeTo: 3
+      colorFrom: b2d3cf
+      colorTo: b2d3cf
+    }
+    hitEffect: {
+      particles: 6
+      line: true
+      lifetime: 90
+      length: 30
+      baseLength: 0
+      interp: pow3Out
+      sizeInterp: pow3Out
+      sizeFrom: 3
+      lenFrom: 6
+      lenTo: 0
+      rotWithParent: true
+      cone: 45
+      sizeTo: 3
+      colorFrom: b2d3cf
+      colorTo: b2d3cf
+    }
+    smokeEffect: airBubble
+    makeFire: false
+  }
+  nitride: {
+    type: MissileBulletType
+    trailEffect: none
+    sprite: bullet
+    buildingDamageMultiplier: 0.15
+    damage: 45
+    speed: 3
+    weaveScale: 2
+    weaveMag: 2.5
+    lifetime: 45
+    reloadMuliiplier: 1
+    ammoMultiplier: 4
+    trailLength: 8
+    lightColor: ffffff
+    width: 9
+    height: 14
+    weaveScale: 1.5
+    trailColor: aba397
+    frontColor: ffffff
+    lightColor: ffffff
+    backColor: ded6ca
+    shootEffect: {
+      particles: 12
+      lifetime: 45
+      length: 6
+      baseLength: 0
+      interp: pow10Out
+      sizeInterp: linear
+      sizeFrom: 4
+      sizeTo: 0
+      colorFrom: ffffff
+      colorTo: ded6ca
+    }
+    despawnEffect: {
+      particles: 6
+      line: true
+      lifetime: 90
+      length: 30
+      baseLength: 0
+      interp: pow3Out
+      sizeInterp: pow3Out
+      sizeFrom: 3
+      lenFrom: 6
+      lenTo: 0
+      rotWithParent: true
+      cone: 45
+      sizeTo: 3
+      colorFrom: ffffff
+      colorTo: ffffff
+      }
+hitEffect: {
+  particles: 6
+  line: true
+  lifetime: 90
+  length: 30
+  baseLength: 0
+  interp: pow3Out
+  sizeInterp: pow3Out
+  sizeFrom: 3
+  lenFrom: 6
+  lenTo: 0
+  rotWithParent: true
+  cone: 45
+  sizeTo: 3
+  colorFrom: ffffff
+  colorTo: ffffff
+}
+smokeEffect: airBubble
+makeFire: false
+}
+}
+drawer: {
+type: DrawTurret
+parts: [
+{
+type: RegionPart
+suffix: -barrel
+mirror: false
+progress: recoil
+moveY: -2.5
+under: true
+}
+{
+type: RegionPart
+suffix: -sides
+mirror: false
+progress: recoil
+moveY: -3
+moves: [
+{
+progress: warmup
+y: -1
+}
+]
+}
+{
+type: RegionPart
+suffix: -mid
+mirror: true
+progress: recoil
+moveY: -4.5
+moves: [
+{
+progress: warmup
+x: -1.5
+y: -1.5
+rot: -5
+}
+]
+}
+]
+}
+research: {
+name: Forment
+depth: 2
+parent: core-pike
+requirements: [
+lead/35
+bauxite/25
+]
+planet: tantros
+}
+envEnabled: 5
+envDisabled: 0

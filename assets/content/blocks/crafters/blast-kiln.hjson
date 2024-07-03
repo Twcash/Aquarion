@@ -1,0 +1,56 @@
+//name SUCKS
+squareSprite: false
+size: 3
+category: crafting
+craftTime: 60
+craftEffect: {
+particles: 5
+length: 95
+lifetime: 270
+cone: 29
+baseRotation: 17
+sizeFrom: 0
+sizeTo: 8
+colorFrom: dce3d280
+colorTo: 83757210
+sizeInterp: pow3Out
+interp: pow3Out
+} 
+requirements: [
+lead/60
+bauxite/120
+]
+consumes: {
+power: 2.08333333333
+liquid: {
+liquid: pyridine
+amount: .3
+}
+items: [
+sand/3
+lead/3
+]
+}
+drawer: [
+{
+type: drawDefault
+}
+{
+type: DrawFlame
+}
+]
+outputItem: metaglass/4
+research: {
+requirements: [
+lead/120
+bauxite/60
+]
+parent: geothermal-generator
+name: Blast Kiln
+planet: aquarion-tantros
+objectives: [
+algal-feilds,
+VastShallows
+]
+}
+envEnabled: 4

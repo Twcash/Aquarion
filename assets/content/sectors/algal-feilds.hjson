@@ -1,0 +1,9 @@
+sector: 10
+planet: aquarion-tantros
+localizedName: Algal Fields
+difficulty: 2
+captureWave: 6
+alwaysUnlocked: true
+research: {
+parent: core-pike
+}

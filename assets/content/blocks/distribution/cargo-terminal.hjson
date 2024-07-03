@@ -1,0 +1,32 @@
+
+size: 3
+category: distribution
+buildTime: 600
+itemCapacity: 300
+polySides: 12
+polyRadius: 10
+solid: true
+buildCost: 900
+unitType: tributary
+requirements: [
+lead/400
+bauxite/250
+nitride/150
+sodium/150
+]
+squareSprite: false
+research: {
+planet: tantros
+name: Cargo Depot
+parent: cargo-dock
+}
+consumes: {
+power: 2.5
+liquid: {
+liquid: hydrogen
+amount: .25
+}
+}
+envEnabled: 5
+envDisabled: 0
+researchCostMultiplier: .25

@@ -1,0 +1,54 @@
+tier: 6
+liquidBoostIntensity: 1
+squareSprite: false
+category: production
+warmupSpeed: .2
+drillTime: 230
+hardnessDrillMultiplier: 5
+consumes: {
+power: 0.83333333333
+liquid: {
+liquid: hydrogen
+amount: .075
+}
+}
+drillEffect: {
+particles: 5
+length: 45
+lifetime: 270
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: 5a5352100
+colorTo: 31232010
+sizeInterp: pow5Out
+interp: pow5Out
+} 
+updateEffect: {
+particles: 5
+length: 45
+lifetime: 270
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: 5a5352100
+colorTo: 31232010
+sizeInterp: pow5Out
+interp: pow5Out
+}
+
+rotateSpeed: 6
+itemCapacity: 60
+size: 3
+research: {
+parent: compression-drill
+name: Ram Drill
+planet: tantros
+}
+requirements: [
+lead/70
+metaglass/60
+bauxite/80
+sodium/30
+]
+envEnabled: 4

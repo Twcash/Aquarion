@@ -1,0 +1,14 @@
+sector: 6
+planet: aquarion-tantros
+localizedName: Vast Shallows
+difficulty: 2
+captureWave: 15
+research:{
+parent: algal-feilds
+objectives:[
+{
+type:SectorComplete
+preset: algal-feilds
+}
+]
+}

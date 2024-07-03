@@ -1,0 +1,24 @@
+size: 2
+category: distribution
+buildTime: 240
+itemCapacity: 120
+polySides: 5
+polyRadius: 3
+solid: true
+buildCost: 240
+unitType: rivulet
+requirements: [
+lead/40
+bauxite/5
+]
+squareSprite: false
+research: {
+planet: tantros
+name: Cargo Depot
+parent: sealedconveyor
+requirements: [
+lead/25
+]
+}
+envEnabled: 5
+envDisabled: 0

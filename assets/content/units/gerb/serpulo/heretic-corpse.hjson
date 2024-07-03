@@ -1,0 +1,74 @@
+type: flying
+hitSize: 20
+flying: false
+speed: 0
+hidden: true
+rotateSpeed: 0
+drag: .1
+deathSound: squish
+drawCell: false
+abilities: [
+{
+type: LiquidExplodeAbility
+liquid: gerb-goop
+amount: 180
+radAmountScale: 7
+noiseMag: 1
+noiseScl: 2
+radScale: 1.5
+}
+]
+weapons: [
+{
+name: heretic-weapon
+x: 6
+y: 5
+mirror: false
+shootSound: flame
+reload: 15
+rotate: true
+rotateSpeed: 1.2
+shootY: 8
+bullet: {
+height: 0
+width: 0
+status: burning
+statusDuration: 460
+damage: 25
+pierceBuilding: true
+pierce: true
+pierceCap: 3
+hitEffect: hitFlameSmall
+despawnEffect: none
+shootEffect: shootSmallFlame
+keepVelocity: false
+hittable: false
+makeFire: true
+hitSize: 8
+speed: 5
+lifetime: 10
+trailInterval: 1
+trailRotation: true
+trailEffect: [
+{
+particles: 5
+cone: 45
+colorFrom: 322f2e
+colorTo: 776d68
+sizeFrom: 2
+sizeTo: 0
+layer: 81
+}
+{
+particles: 4
+cone: 30
+colorFrom: fc723c
+colorTo: fc723c
+sizeFrom: 1.5
+sizeTo: 0
+}
+]
+}
+}
+
+]

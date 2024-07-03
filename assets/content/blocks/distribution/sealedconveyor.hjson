@@ -1,0 +1,22 @@
+category: distribution
+
+speed: 10.9
+description: Transports items forwards.
+itemCapacity: 2
+bridgeReplacement: small-mass-driver
+underBullets: false
+solid: true
+requirements: [
+lead/1
+bauxite/1
+]
+research: {
+planet: tantros
+name: Sealed Conveyor
+parent: core-pike
+requirements: [
+lead/5
+]
+}
+envEnabled: 5
+envDisabled: 0

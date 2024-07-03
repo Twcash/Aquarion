@@ -1,0 +1,29 @@
+consumesPower: true
+conductivePower: true
+outputsPower: true
+researchCostMultiplier: .25
+size: 1
+maxNodes: 3
+laserRange: 8
+laserColor1: ffffff90
+customShadow: true
+laserColor2: 7d4f9d10
+requirements: [
+bauxite/15
+lead/10
+]
+category: power
+research: {
+parent: conductor
+research: [
+lead/50
+bauxite/20
+]
+planet: tantros
+}
+envEnabled: 4
+consumes: {
+power: 0.08333333333
+powerBuffered: 120
+}
+consumesPower: true

@@ -1,0 +1,64 @@
+mtype: legs
+shadowElevation: .07
+legCount: 6
+legGroupSize: 3
+legLength: 16
+drawCell: false
+legBaseOffset: 1.2
+lockLegBase: true
+hitSize: 14
+speed: .65
+legPairOffset: 6
+legStraightness: .1
+immunities: [
+burning
+]
+deathSound: gerbDeath
+faceTarget: true
+legMinLength: .8
+legMaxLength: 1.1
+legExtension: -2.5
+deathExplosionEffect: [
+{
+particles: 1
+sizeFrom: 5
+layer: 80
+sizeTo: 0
+colorFrom: 65d453
+colorTo: 48903c
+}
+]
+abilities: [
+{
+type: LiquidExplodeAbility
+liquid: gerb-goop
+}
+]
+health: 1400
+armor: 12
+flying: false
+baseLegStraightness: .3
+flipLegSide: true
+rotateSpeed: 3.5
+legContinuousMove: true
+lockLegBase: true
+abilitiess: [
+{
+type: EnergyFieldAbility 
+damage: 25
+color: 8ca4fc
+
+maxTargets: 5
+healPercent: 0
+statusDuration: 10
+status: melting
+range: 40
+sectorRad: .3
+sectors: 6
+blinkSize: .3
+reload: 5
+layer: 25
+rotateSpeed: .35
+effectRadius: 35
+}
+]

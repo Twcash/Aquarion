@@ -1,0 +1,105 @@
+researchCostMultiplier: .25
+size: 5
+liquidCapacity: 250
+squareSprite: false
+powerProduction: 20.8333333
+group: power
+outputLiquid: hydrogen/0.3
+health: 650
+explosionRadius: 50
+ambientSound: techLoop
+ambientSoundVolume: .3
+explosionDamage: 1250
+canOverdrive: false
+destroyEffect: [
+{
+line: true
+length: 120
+lifetime: 140
+sizeFrom: 9
+sizeTo: 0
+lenFrom: 7
+lenTo: 4
+colorFrom: ffffff
+colorTo: 8ca9e860
+particles: 60
+}
+{
+length: 150
+lifetime: 160
+colorFrom: ffffff
+colorTo: d1efff
+sizeFrom: 20
+sizeTo: 0
+particles: 35
+}
+]
+effectChance: .03
+generateEffect: {
+particles: 3
+length: 35
+lifetime: 340
+layer: 28
+sizeFrom: 0
+sizeTo: 8
+colorFrom: ebf7ff150
+colorTo: 6a829200
+sizeInterp: pow5Out
+interp: pow5Out
+} 
+consumes: {
+items: [
+bauxite/2
+gallium/1
+]
+liquid: {
+liquid: hydroxide
+amount: .64
+}
+}
+category: power
+requirements: [
+bauxite/120
+lead/250
+metaglass/100
+nitride/120
+]
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: DrawLiquidTile
+drawLiquid: hydroxide
+padding: 3
+}
+{
+type: drawPistons
+sideOffset: 2
+suffix: -piston
+sides: 8
+sinMag: 3
+sinScl: 5
+}
+{
+type: DrawLiquidTile
+drawLiquid: hydrogen
+padding: 4
+}
+{
+type: drawRegion
+suffix: -top
+}
+{
+type: drawSideRegion
+}
+{
+type: DrawHeatOutput
+}
+]
+research: {
+parent: geothermal-generator
+planet: tantros
+}
+envEnabled: 4

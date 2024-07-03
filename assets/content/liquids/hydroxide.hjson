@@ -1,0 +1,10 @@
+
+color: a97abf
+type: liquid
+research: {
+planet: tantros
+name: Hydroxide
+parent: core-pike
+}
+coolant: false
+heatCapacity: 0

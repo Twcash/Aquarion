@@ -1,0 +1,11 @@
+type: CellLiquid
+cells: 32
+colorFrom: c6eafb
+colorTo: a2bfcc
+color: 92287d
+lightColor: f21fc8
+maxSpread: 2
+viscosity: .80
+hidden: true
+coolant: false
+heatCapacity: 0

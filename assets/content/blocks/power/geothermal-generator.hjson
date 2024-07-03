@@ -1,0 +1,64 @@
+
+size: 3
+displayEfficiencyScale: .1111111111
+effectChance: 0.1
+canOverdrive: false
+generateEffectRange: 12
+generateEffect: {
+particles: 1
+length: 80
+lifetime: 340
+cone: 35
+baseRotation: 15
+sizeFrom: 0
+
+sizeTo: 7.5
+colorFrom: e5e0ec80
+colorTo: 877e9210
+sizeInterp: pow3Out
+interp: pow3Out
+}
+hasLiquids: true
+minEfficiency: 6
+baseEfficiency: 0
+warmupSpeed: 0.1
+displayEfficiency: false
+category: power
+powerProduction: 0.46296296296
+
+requirements: [
+bauxite/20
+lead/60
+]
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawBlurSpin
+suffix: -rotator
+rotateSpeed: 3
+rotateSpeed: 140
+blurThresh: .5
+}
+{
+type: drawDefault
+}
+{
+type: drawGlowRegion
+color: ffa665
+alpha: .5
+glowIntensity: 1.1
+glowScale: 12
+}
+]
+research: {
+planet: tantros
+requirements: [
+bauxite/10
+lead/20
+]
+parent: core-pike
+}
+envEnabled: 4

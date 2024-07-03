@@ -1,0 +1,21 @@
+
+category: units
+conductivePower: true
+size: 3
+requirements: [
+gallium/120
+lead/40
+]
+consumes: {
+power: 2.5
+}
+research: {
+planet: tantros
+parent: core-pike
+requirements: [
+gallium/40
+lead/100
+bauxite/60
+]
+}
+envEnabled: 4

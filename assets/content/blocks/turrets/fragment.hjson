@@ -1,0 +1,243 @@
+
+squareSprite: false
+researchCostMultiplier: .25
+ammoPerShot: 1
+targetGround: false
+recoil :.5
+inaccuracy: 4
+reload: 25
+shootSound: shootAltLong
+coolantMultiplier: 15
+consumes: {
+    coolant: {
+        amount: 0.066666
+    }
+}
+size: 3
+ammoUseEffect: casing2
+ammoEjectBack: 5
+category: turret
+requirements: [
+lead/120
+bauxite/80
+metaglass/180
+gallium/40
+]
+research: {
+name: Fragment
+parent: forment
+requirements: [
+lead/200
+metaglass/60
+bauxite/120
+]
+planet: tantros
+}
+recoils: 3
+drawer: {
+type: drawTurret
+parts: [
+{
+type: RegionPart
+recoilIndex: 2
+moveY: -2.5
+suffix: -barrel-r
+under: true
+heatProgress: recoil
+progress: recoil
+}
+{
+type: RegionPart
+recoilIndex: 0
+moveY: -2.5
+suffix: -barrel-l
+heatProgress: recoil
+under: true
+progress: recoil
+}
+{
+type: RegionPart
+recoilIndex: 1
+moveY: -2.5
+suffix: -mid
+heatProgress: recoil
+under: true
+progress: recoil
+}
+{
+type: RegionPart
+recoilIndex: 0
+moveY: -2.5
+suffix: -back-l
+fipSprite: true
+under: true
+heatProgress: recoil
+progress: recoil
+flipSprite: true
+}
+{
+type: RegionPart
+recoilIndex: 2
+moveY: -2.5
+suffix: -back-r
+heatProgress: recoil
+under: true
+progress: recoil
+}
+]
+}
+shootY: 4
+shoot: {
+type: ShootBarrel
+shotDelay: 60
+barrels: [
+-4, 4, 0,
+0, 4, 0,
+4, 4, 0,
+]
+}
+range: 180
+ammoTypes: {
+metaglass: {
+type: artilleryBulletType
+width: 15
+height: 17
+trailLength: 7
+frontColor: fafafa
+backColor: b6ced3
+trailColor: b6ced3
+hitColor: fafafa
+trailRotation: true
+lifetime: 45
+despawnSound: none
+hitSound: none
+hitEffect: [
+{
+particles: 10
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 7
+sizeTo: 0
+length: 40
+lifetime: 60
+}
+]
+trailEffect: [
+{
+particles: 2
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 3.5
+sizeTo: 0
+cone: 15
+baseRotation: 180
+rotWithParent: true
+length: 15
+lifetime: 45
+}
+{
+line: true
+particles: 7
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 2
+strokeFrom: 1
+strokeTo: 0
+sizeTo: 0
+cone: 30
+baseRotation: 180
+rotWithParent: true
+length: 15
+lifetime: 45
+}
+]
+trailInterval: 4
+trailRotation: true
+damage: 10
+collidesGround: false
+lifetime: 65
+speed: 3
+homingPower: .02
+hitSize: 5
+fragBullets: 3
+collidesGround: false
+fragBullet: {
+trailEffect: [
+{
+particles: 2
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 2
+sizeTo: 0
+cone: 10
+baseRotation: 180
+rotWithParent: true
+length: 10
+lifetime: 30
+}
+{
+line: true
+particles: 4
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 1
+strokeFrom: 1
+strokeTo: 0
+sizeTo: 0
+cone: 25
+baseRotation: 180
+rotWithParent: true
+length: 10
+lifetime: 30
+}
+]
+damage: 15
+trailInterval: 3
+trailRotation: true
+collidesGround: false
+lifetime: 30
+speed: 5
+homingPower: .07
+splashDamageRadius: 10
+splashDamage: 10
+hitSize: 3
+width: 10
+collidesGround: false
+height: 12
+frontColor: fafafa
+backColor: b6ced3
+trailColor: b6ced3
+hitColor: fafafa
+}
+shootEffect: [
+{
+particles: 4
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 2
+sizeTo: 0
+cone: 15
+baseRotation: 0
+rotWithParent: true
+length: 30
+lifetime: 45
+}
+{
+line: true
+particles: 7
+colorFrom: c08787
+colorTo: e7e0e0
+sizeFrom: 3
+strokeFrom: 4
+strokeTo: 0
+sizeTo: 0
+cone: 30
+baseRotation: 0
+rotWithParent: true
+length: 15
+lifetime: 45
+}
+]
+}
+}
+envEnabled: 4

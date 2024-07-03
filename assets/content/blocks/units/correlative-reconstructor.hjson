@@ -1,0 +1,28 @@
+
+size: 3
+category: units
+constructTime: 750
+squareSprite: false
+requirements: [
+metaglass/40
+nitride/80
+bauxite/80
+lead/60
+]
+consumes: {
+power: 5
+items: [
+nitride/25
+metaglass/30
+]
+liquid: {
+liquid: nitrogen
+amount: .15
+}
+}
+research: {
+parent: submarine-factory
+planet: tantros
+}
+envEnabled: 4
+researchCostMultiplier: .25

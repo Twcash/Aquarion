@@ -1,0 +1,18 @@
+researchCostMultiplier: .25
+itemCapacity: 250
+coreMerge: false
+squareSprite: false
+health: 180
+size: 3
+category: effect
+requirements: [
+lead/200
+metaglass/350
+sodium/120
+]
+research: {
+parent: core-pike
+planet: aquarion-tantros
+}
+envEnabled: 5
+envDisabled: 0

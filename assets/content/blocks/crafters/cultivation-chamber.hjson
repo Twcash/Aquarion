@@ -1,0 +1,72 @@
+
+squareSprite: false
+size: 3
+researchCostMultiplier: .25
+conductivePower: true
+outputLiquid: pyridine/.15
+craftEffect: {
+particles: 5
+length: 90
+lifetime: 270
+cone: 25
+baseRotation: 17
+sizeFrom: 0
+sizeTo: 6
+colorFrom: caffbb80
+colorTo: 68836110
+sizeInterp: pow2Out
+interp: pow2Out
+} 
+craftTime: 120
+requirements: [
+lead/40
+bauxite/20
+]
+consumes: {
+power: 1.04166666667
+items: [
+bauxite/1
+]
+}
+category: crafting
+drawer: [
+{
+type: drawRegion
+suffix: -bottom
+}
+{
+type: drawCells
+range: 9
+particles: 200
+particleColorFrom: 18c87b
+particleColorTo: 2ca197
+color: 266b4d
+}
+{
+type: drawCircles
+timeScl: 400
+amount: 5
+radius: 9
+strokeMax: 1.2
+color: 18c87b
+}
+{
+type: drawRegion
+suffix: -top
+}
+]
+research: {
+requirements: [
+lead/60
+bauxite/30
+]
+parent: geothermal-generator
+name: Cultivation Chamber
+planet: aquarion-tantros
+objectives: [
+algal-feilds
+VastShallows
+]
+}
+envEnabled: 4
+

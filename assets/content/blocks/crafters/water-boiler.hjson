@@ -1,0 +1,94 @@
+
+size: 3
+outputItem: sodium/2
+conductivePower: true
+researchCostMultiplier: .25
+consumes: {
+power: 0.41666666666
+ items: [
+    lead/1
+  ]
+liquid: {
+liquid: hydroxide
+amount: .08
+}
+}
+description: uses coal to decompose hydroxide into sodium. Releases heat as a by-product.
+outputLiquid: hydrogen/.15
+category: crafting
+rotateDraw: false
+dumpExtraLiquid: true
+ignoreLiquidFullness: true
+craftEffect: [
+{
+type: radialEffect
+lengthOffset: 4
+rotationSpacing: 90
+amount: 4
+effect: {
+line: true
+cone: 30
+sizeFrom: 4
+particles: 4
+sizeTo: 4
+interp: pow3Out
+sizeInterp: pow3Out
+lifetime: 80
+colorFrom: ffbdd4
+colorTo: fc81dd10
+}
+}
+]
+ambientSound: electricHum
+heatOutput: 5
+liquidCapacity: 30
+requirements: [
+metaglass/20
+lead/10
+bauxite/20
+]
+drawer: [
+{
+type: drawDefault
+}
+{
+type: DrawRegion
+suffix: -bottom
+}
+{
+type: drawCells
+range: 9
+particles: 200
+particleColorFrom: e874e0
+particleColorTo: c76ec1
+color: 9f649b
+}
+{
+type: drawCircles
+timeScl: 400
+amount: 5
+radius: 9
+strokeMax: 1.2
+color: a774e8
+}
+{
+type: drawRegion
+suffix: -topest
+}
+{
+type: DrawHeatOutput
+}
+]
+research: {
+requirements: [
+lead/20
+bauxite/30
+]
+parent: geothermal-generator
+name: Reaction Heater
+planet: aquarion-tantros
+objectives: [
+VastShallows
+]
+}
+envEnabled: 4
