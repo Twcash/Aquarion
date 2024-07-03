@@ -19,6 +19,8 @@ An Attempt to recreate Tantros, adding a whole new campaign with custom blocks, 
 * May or may not be good but I will try my best.
 
 ## Contributors
+### To contribute read [contributing.md](https://github.com/Twcash/Tantros-Test/blob/2.3.0-beta/CONTRIBUTING.md)
+
 * MrApple
 * Jamespire
 * [LeoMathGuy](https://github.com/Leo-MathGuy/)
@@ -27,3 +29,5 @@ An Attempt to recreate Tantros, adding a whole new campaign with custom blocks, 
 * skeledragon
 * sh1penfire
 * ColdCore/MrFisho
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Twcash/Tantros-Test&type=Date)](https://star-history.com/#Twcash/Tantros-Test&Date)
