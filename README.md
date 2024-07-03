@@ -3,9 +3,8 @@
   <a href="https://github.com/Twcash/Tantros-Test/releases/latest"><img src="https://img.shields.io/github/v/release/Twcash/Tantros-Test?colorA=46479e&colorB=b0b1f5&style=for-the-badge&logo=github&logoColor=cad3f5"></a>
   <a href="https://github.com/Twcash/Tantros-Test/issues"><img src="https://img.shields.io/github/issues/Twcash/Tantros-Test?colorA=46479e&colorB=b0b1f5&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij4KPHBhdGggZD0iTTIxNiwzMlYxOTJhOCw4LDAsMCwxLTgsOEg3MmExNiwxNiwwLDAsMC0xNiwxNkgxOTJhOCw4LDAsMCwxLDAsMTZINDhhOCw4LDAsMCwxLTgtOFY1NkEzMiwzMiwwLDAsMSw3MiwyNEgyMDhBOCw4LDAsMCwxLDIxNiwzMloiIHN0eWxlPSJmaWxsOiAjQ0FEM0Y1OyIvPgo8L3N2Zz4="></a>
   
-  
-  <!-- <a href="https://discord.com/invite/SbFhxYD797"><img src="https://img.shields.io/discord/907385605422448742?style=for-the-badge&color=c6a0f6&labelColor=46479e&logo=discord&logoColor=cad3f5"></a> -->
-  <!--COMMENTED CAUSE I HAVE NO FUCKING CLUE WHY IT DOESNT WORK :D -->
+  <p align="center">
+<a href="https://discord.com/invite/SbFhxYD797"><img src="https://img.shields.io/discord/907385605422448742?style=for-the-badge&color=c6a0f6&labelColor=46479e&logo=discord&logoColor=cad3f5">
 
 </p>
 
