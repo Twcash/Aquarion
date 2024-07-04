@@ -1,8 +1,0 @@
-
-color: B9CEDC
-cost: 1.5
-research: {
-planet: tantros
-parent: bauxite
-}
-explosiveness: .2

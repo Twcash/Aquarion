@@ -1,8 +1,0 @@
-type: cellLiquid
-colorFrom: ac8e76
-colorTo: 85664c
-color: 65d45390
-lightColor: 65d453 
-viscosity: .95
-coolant: false
-heatCapacity: 0
