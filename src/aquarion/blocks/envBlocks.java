@@ -1,5 +1,7 @@
 package aquarion.blocks;
 
+import arc.graphics.Color;
+import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.CacheLayer;
 import mindustry.type.Liquid;
 import mindustry.world.Block;
@@ -10,8 +12,7 @@ import aquarion.aquarionLiquids.*;
 
 import static aquarion.aquarionItems.*;
 import static aquarion.aquarionLiquids.brine;
-import static mindustry.content.Blocks.stone;
-import static mindustry.content.Blocks.yellowCoral;
+import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.lead;
 
 
@@ -21,7 +22,7 @@ public class envBlocks {
     public static Block algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin;
 
     // Floors
-    public static Block algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, laterite, phylite_floor;
+    public static Block algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, laterite, phylite_floor, slate;
 
     // Ore blocks
     public static Block leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese;
@@ -86,13 +87,26 @@ public class envBlocks {
 
         coral_floor = new Floor("coral-floor", 4) {{
             decoration = yellowCoral;
-            //blendGroup = coral-floor
 
         }};
 
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
-
+            parent = blendGroup = feldspar;
+            effectSpacing = 15f;
+            effect = new ParticleEffect(){{
+                particles = 3;
+                lifetime = 340;
+                length = 125;
+                cone = 20;
+                baseRotation = 50;
+                sizeFrom = 0f;
+                sizeTo = 12f;
+                colorFrom = Color.valueOf("18161c90");
+                colorTo = Color.valueOf("2a282d10");
+                sizeInterp = interp.pow3Out;
+                interp = interp.pow3Out;
+            }};
         }};
 
         feldspar = new Floor("feldspar", 3) {{
@@ -109,7 +123,21 @@ public class envBlocks {
 
         gabbro_vent = new SteamVent("gabbro-vent") {{
             attributes.set(Attribute.steam, 1f);
-
+            parent = blendGroup = gabbro;
+            effectSpacing = 15f;
+            effect = new ParticleEffect(){{
+                particles = 3;
+                lifetime = 340;
+                length = 125;
+                cone = 20;
+                baseRotation = 50;
+                sizeFrom = 0f;
+                sizeTo = 12f;
+                colorFrom = Color.valueOf("18161c90");
+                colorTo = Color.valueOf("2a282d10");
+                sizeInterp = interp.pow3Out;
+                interp = interp.pow3Out;
+            }};
         }};
 
         gabbro = new Floor("gabbro", 3) {{
@@ -119,7 +147,21 @@ public class envBlocks {
 
         geothermal_vent = new SteamVent("geothermal-vent") {{
             attributes.set(Attribute.steam, 1f);
-
+            parent = blendGroup = basalt;
+            effectSpacing = 15f;
+            effect = new ParticleEffect(){{
+                particles = 3;
+                lifetime = 340;
+                length = 125;
+                cone = 20;
+                baseRotation = 50;
+                sizeFrom = 0f;
+                sizeTo = 12f;
+                colorFrom = Color.valueOf("18161c90");
+                colorTo = Color.valueOf("2a282d10");
+                sizeInterp = interp.pow3Out;
+                interp = interp.pow3Out;
+            }};
         }};
 
         kelp_floor = new Floor("kelp-floor", 2) {{
@@ -132,6 +174,9 @@ public class envBlocks {
         }};
 
         phylite_floor = new Floor("phylite-floor", 2) {{
+
+        }};
+        slate = new Floor("slate", 3) {{
 
         }};
 
