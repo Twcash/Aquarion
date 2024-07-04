@@ -2,10 +2,11 @@
 category: turret
 squareSprite: false
 size: 3
-health: 180
+health: 240
 researchCostMultiplier: .25
-range: 160
-rotateSpeed: 10
+range: 235
+targetGround: false
+rotateSpeed: 20
 requirements: [
 lead/70
 bauxite/90
@@ -16,11 +17,11 @@ shoot: {
 }
 shootType: {
 type: PointLaserBulletType
-damage: 5
-fragBullets: 2
-oscScl: 2.5
+damage: 8
+oscScl: 1.5
+collidesGround: false
 oscMag: .5
-maxRange: 180
+maxRange: 240
 }
 shoot: {
   type: ShootMulti
@@ -30,14 +31,14 @@ shoot: {
       type: ShootBarrel
       shots: 2
       barrels: [
-        5.5, -4, 0,
-        -5.5, -4, 0,
+        5.5, -3, 0,
+        -5.5, -3, 0,
       ]
     }
   ]
 }
 consumes: {
-power: 12
+power: 2
 }
 drawer: {
 type: drawTurret
@@ -53,7 +54,8 @@ under: true
 }
 ]
 }
-envEnabled: 4
+envEnabled: 5
+envDisabled: 0
 research: {
 parent: forment
 planet: tantros
