@@ -1,8 +1,0 @@
-type: Floor
-speedMultiplier: 0.1
-variants: 0
-cacheLayer: water
-isLiquid: true
-liquidDrop: brine
-liquidMultiplier: 1.1
-albedo: 1

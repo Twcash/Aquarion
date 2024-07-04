@@ -1,9 +1,0 @@
-
-color: d07b7b
-cost: 4
-research: {
-planet: tantros
-parent: sodium
-}
-explosiveness: .8
-hardness: 9
