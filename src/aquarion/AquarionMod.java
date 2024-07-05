@@ -19,6 +19,8 @@ public class AquarionMod extends Mod {
     @Override
     public void loadContent() {
         AquaItems.loadContent();
+        AquaDistribution.loadContent();
+        AquaLiquid.loadContent();
         AquaLiquids.loadContent();
         AquaEnv.loadContent();
         AquaDefense.loadContent();
