@@ -14,7 +14,7 @@ import static mindustry.type.ItemStack.with;
 
 public class coreBlocks {
     public static Block cache, coreCuesta, coreEscarpment, corePike, overdriveSubstation, overdriveTerminus;
-    
+
     public static void loadContent(){
         cache = new CoreBlock("cache") {{
             requirements(Category.crafting, with(lead, 120, metaglass, 350, sodium, 90, bauxite, 90));
@@ -75,6 +75,7 @@ public class coreBlocks {
         overdriveSubstation = new OverdriveProjector("overdrive-substation") {{
             requirements(Category.effect, with(manganese, 120, nitride, 250, lead, 450, bauxite, 120));
             reload = 90;
+            size = 4;
             range = 110;
             useTime = 420;
             category = Category.effect;
@@ -90,6 +91,7 @@ public class coreBlocks {
             //TODO actually make the thing
             requirements(Category.effect, with(manganese, 120, nitride, 250, lead, 450, bauxite, 120));
             reload = 90;
+            size = 5;
             range = 110;
             useTime = 420;
             category = Category.effect;
