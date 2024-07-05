@@ -1,6 +1,7 @@
 package aquarion.blocks;
 
 import arc.graphics.Color;
+import mindustry.content.Blocks;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.CacheLayer;
 import mindustry.type.Liquid;
@@ -22,7 +23,7 @@ public class envBlocks {
     public static Block algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin;
 
     // Floors
-    public static Block algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, laterite, phylite_floor, slate;
+    public static Block algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, laterite, phylite_floor, slate, shaleVent;
 
     // Ore blocks
     public static Block leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese;
@@ -90,9 +91,14 @@ public class envBlocks {
 
         }};
 
+
+        feldspar = new Floor("feldspar", 3) {{
+            decoration = feldsparBoulder;
+        }};
+
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = feldspar;
+            parent = blendGroup = envBlocks.feldspar;
             effectSpacing = 15f;
             effect = new ParticleEffect(){{
                 particles = 3;
@@ -107,10 +113,6 @@ public class envBlocks {
                 sizeInterp = interp.pow3Out;
                 interp = interp.pow3Out;
             }};
-        }};
-
-        feldspar = new Floor("feldspar", 3) {{
-            decoration = feldsparBoulder;
         }};
 
         ferric_extrusions = new Floor("ferric-extrusions", 2) {{
@@ -121,9 +123,14 @@ public class envBlocks {
 
         }};
 
-        gabbro_vent = new SteamVent("gabbro-vent") {{
+        gabbro = new Floor("gabbro", 3) {{
+            decoration = gabbroBoulder;
+
+        }};
+
+        shaleVent = new SteamVent("shale-vent") {{
             attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = gabbro;
+            parent = blendGroup = Blocks.shale;
             effectSpacing = 15f;
             effect = new ParticleEffect(){{
                 particles = 3;
@@ -140,14 +147,28 @@ public class envBlocks {
             }};
         }};
 
-        gabbro = new Floor("gabbro", 3) {{
-            decoration = gabbroBoulder;
-
+        gabbro_vent = new SteamVent("gabbro-vent") {{
+            attributes.set(Attribute.steam, 1f);
+            parent = blendGroup = envBlocks.gabbro;
+            effectSpacing = 15f;
+            effect = new ParticleEffect(){{
+                particles = 3;
+                lifetime = 340;
+                length = 125;
+                cone = 20;
+                baseRotation = 50;
+                sizeFrom = 0f;
+                sizeTo = 12f;
+                colorFrom = Color.valueOf("18161c90");
+                colorTo = Color.valueOf("2a282d10");
+                sizeInterp = interp.pow3Out;
+                interp = interp.pow3Out;
+            }};
         }};
 
         geothermal_vent = new SteamVent("geothermal-vent") {{
             attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = basalt;
+            parent = blendGroup = Blocks.basalt;
             effectSpacing = 15f;
             effect = new ParticleEffect(){{
                 particles = 3;
