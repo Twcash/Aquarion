@@ -9,7 +9,7 @@ import mindustry.world.blocks.defense.ForceProjector;
 import mindustry.world.blocks.defense.RegenProjector;
 import mindustry.world.blocks.defense.Wall;
 
-import static aquarion.aquarionItems.*;
+import static aquarion.AquaItems.*;
 import static mindustry.content.Items.lead;
 import static mindustry.content.Items.metaglass;
 import static mindustry.content.Liquids.hydrogen;
@@ -23,7 +23,7 @@ import mindustry.world.meta.Env;
 
 import javax.print.attribute.standard.Sides;
 
-public class defenseBlocks {
+public class AquaDefense {
     public static Block bauxiteWall, duraluminWall, forceBarrier, galliumWall, lithoniteWall, manganeseWall, mendHive, regenPylon, smallBauxiteWall, smallDuraluminWall, smallGalliumWall, smallLithoniteWall, smallManganeseWall;
 
 

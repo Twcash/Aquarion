@@ -1,5 +1,7 @@
 package aquarion.blocks;
 
+import aquarion.AquaItems;
+import aquarion.AquaLiquids;
 import arc.graphics.Color;
 import mindustry.content.Blocks;
 import mindustry.entities.effect.ParticleEffect;
@@ -8,16 +10,14 @@ import mindustry.type.Liquid;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
-import aquarion.aquarionItems.*;
-import aquarion.aquarionLiquids.*;
+import aquarion.AquaItems.*;
+import aquarion.AquaLiquids.*;
 
-import static aquarion.aquarionItems.*;
-import static aquarion.aquarionLiquids.brine;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.lead;
 
 
-public class envBlocks {
+public class AquaEnv {
 
     // Boulders
     public static Block algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin;
@@ -75,7 +75,7 @@ public class envBlocks {
         brine_liquid = new Floor("brine-liquid"){{
             speedMultiplier = 0.1f;
             variants = 0;
-            liquidDrop = brine;
+            liquidDrop = AquaLiquids.brine;
             liquidMultiplier = 1.1f;
             isLiquid = true;
             // status = StatusEffects.wet;
@@ -98,7 +98,7 @@ public class envBlocks {
 
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = envBlocks.feldspar;
+            parent = blendGroup = AquaEnv.feldspar;
             effectSpacing = 15f;
             effect = new ParticleEffect(){{
                 particles = 3;
@@ -149,7 +149,7 @@ public class envBlocks {
 
         gabbro_vent = new SteamVent("gabbro-vent") {{
             attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = envBlocks.gabbro;
+            parent = blendGroup = AquaEnv.gabbro;
             effectSpacing = 15f;
             effect = new ParticleEffect(){{
                 particles = 3;
@@ -203,10 +203,10 @@ public class envBlocks {
 
         // Ore blocks
         leadNodules = new OreBlock("lead-nodules", lead);
-        oreBauxite = new OreBlock("ore-bauxite", bauxite);
-        oreGallium= new OreBlock("ore-gallium", gallium);
-        oreLithium= new OreBlock("ore-lithium", lithium);
-        oreManganese= new OreBlock("ore-manganese", manganese);
+        oreBauxite = new OreBlock("ore-bauxite", AquaItems.bauxite);
+        oreGallium= new OreBlock("ore-gallium", AquaItems.gallium);
+        oreLithium= new OreBlock("ore-lithium", AquaItems.lithium);
+        oreManganese= new OreBlock("ore-manganese", AquaItems.manganese);
 
         // Walls & blocks
 

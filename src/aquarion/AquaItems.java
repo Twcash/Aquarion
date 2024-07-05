@@ -3,7 +3,7 @@ package aquarion;
 import arc.graphics.Color;
 import mindustry.type.Item;
 
-public class aquarionItems {
+public class AquaItems {
     public static Item bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium;
 
     public static void loadContent() {

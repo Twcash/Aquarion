@@ -4,7 +4,7 @@ import arc.graphics.Color;
 import mindustry.type.CellLiquid;
 import mindustry.type.Liquid;
 
-public class aquarionLiquids {
+public class AquaLiquids {
     public static Liquid artroGoop, brine, cyan, gerbGoop, helium, hydrogenChloride, hydroxide, molusGoop, pyridine, reactorCoolant, tritium;
 
     public static void loadContent() {
