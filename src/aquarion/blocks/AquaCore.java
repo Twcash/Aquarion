@@ -1,5 +1,6 @@
 package aquarion.blocks;
 
+import aquarion.units.AquaUnitTypes;
 import arc.graphics.Color;
 import mindustry.type.Category;
 import mindustry.world.Block;
@@ -19,7 +20,7 @@ public class AquaCore {
     public static void loadContent(){
         //TODO remove?
         cache = new StorageBlock("cache") {{
-            requirements(Category.crafting, with(lead, 120, metaglass, 350, sodium, 90, bauxite, 90));
+            requirements(Category.effect, with(lead, 120, metaglass, 350, sodium, 90, bauxite, 90));
             itemCapacity = 300;
             coreMerge = false;
             squareSprite = false;
@@ -34,7 +35,7 @@ public class AquaCore {
             itemCapacity = 7500;
             size = 4;
             unitCapModifier = 25;
-            // unitType = AquaUnits.cull;
+            unitType = AquaUnitTypes.cull;
             alwaysUnlocked = true;
             category = Category.effect;
             hasItems = true;
@@ -49,7 +50,7 @@ public class AquaCore {
             itemCapacity = 12000;
             size = 5;
             unitCapModifier = 50;
-            // unitType: cull // Commented out as per your request
+            unitType = AquaUnitTypes.cull;
             //P.S Norax you do not have to press enter after every resource /:
             category = Category.effect;
             hasItems = true;
@@ -63,7 +64,7 @@ public class AquaCore {
             itemCapacity = 12000;
             size = 6;
             unitCapModifier = 50;
-            // unitType = UnitTypes.cull;
+            unitType = AquaUnitTypes.cull;
             category = Category.effect;
             hasItems = true;
             hasColor = true;

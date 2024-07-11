@@ -1,5 +1,6 @@
 package aquarion;
 
+import aquarion.units.AquaUnitTypes;
 import mindustry.mod.*;
 import aquarion.blocks.*;
 
@@ -20,11 +21,13 @@ public class AquarionMod extends Mod {
     public void loadContent() {
         AquaItems.loadContent();
         AquaDistribution.loadContent();
+        AquaPayload.loadContent();
         AquaLiquid.loadContent();
         AquaLiquids.loadContent();
         AquaEnv.loadContent();
         AquaDefense.loadContent();
         AquaEffect.loadContent();
+        AquaUnitTypes.loadContent();
         AquaCore.loadContent();
     }
 }
