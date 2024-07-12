@@ -11,16 +11,6 @@ An Attempt to recreate Tantros, adding a whole new campaign with custom blocks, 
 * Remember to reinstall the mod once in a while so new content loads. Updates are often but mainly small.
 * May or may not be good but I will try my best.
 
-## Contributors
 ### To contribute read [contributing.md](https://github.com/Twcash/Tantros-Test/blob/2.3.0-beta/CONTRIBUTING.md)
-
-* MrApple
-* Jamespire
-* [LeoMathGuy](https://github.com/Leo-MathGuy/)
-* Kazpduke
-* stormrider
-* skeledragon
-* sh1penfire
-* ColdCore/MrFisho
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Twcash/Tantros-Test&type=Date)](https://star-history.com/#Twcash/Tantros-Test&Date)
