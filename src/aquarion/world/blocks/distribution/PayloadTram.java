@@ -26,26 +26,31 @@ import arc.util.io.*;
 import mindustry.entities.units.*;
 import mindustry.world.meta.*;
 
+import static arc.graphics.g2d.Draw.scl;
 import static arc.util.ArcNativesLoader.loaded;
 import static mindustry.Vars.*;
 import static mindustry.gen.TimeItem.time;
 import static mindustry.io.TypeIO.readPayload;
-
+// Addressing those who are 1: going to modify the code for a PR or 2: wishing to use the code for yourself
+// good luck and try not to break stuff. I don't really care if you use this code as long as you credit me. twcash.
 public class PayloadTram extends PayloadBlock {
     public TextureRegion baseRegion;
     public TextureRegion topRegion;
     public TextureRegion bridgeRegion;
     public TextureRegion capRegion;
     public TextureRegion endRegion;
+    public float thicc;
     public TextureRegion arrowRegion;
+    public float grabWidth = 8f, grabHeight = 11/4f;
+    public float targetSize = grabWidth*2f, curSize = targetSize;
     public float speed;
     public float maxPayloadSize = 3;
     public float range;
     public float distMultiplier = 1f;
     public float maxConnections = 2f;
-
     public PayloadTram(String name) {
         super(name);
+        thicc = 8;
         update = true;
         solid = true;
         configurable = true;
@@ -53,7 +58,7 @@ public class PayloadTram extends PayloadBlock {
         //clipSize has to be massive or visual bugs
         clipSize = 300;
         rotate = true;
-        payloadSpeed = 0.8f;
+        payloadSpeed = 0.7f;
         outputsPayload = true;
         group = BlockGroup.units;
         config(Point2.class, (PayloadTramBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));
@@ -126,39 +131,16 @@ public class PayloadTram extends PayloadBlock {
         public float progress, itemRotation, animation;
         public float curInterp, lastInterp;
         public int step = -1, stepAccepted = -1;
+        public float payLength = 0f;
         public Payload recPayload;
         public Queue<Building> waitingTram = new Queue<>();
         public boolean sending;
-        public boolean dumping = false;
+        public boolean dumping;
+        public boolean sent;
+        public boolean accepting = false;
+        public boolean f = false;
         public boolean loaded;
-
-        public void dumpPayload() {
-            if (dumping) {
-
-                //translate payload forward slightly
-                float tx = Angles.trnsx(payload.rotation(), 0.1f), ty = Angles.trnsy(payload.rotation(), 0.1f);
-                payload.set(payload.x() + tx, payload.y() + ty, payload.rotation());
-
-                if (payload.dump()) {
-                    payload = null;
-                } else {
-                    payload.set(payload.x() - tx, payload.y() - ty, payload.rotation());
-                }
-            }
-        }
-        /** @return true if the payload is in position. */
-        public boolean moveInPayload(boolean rotate){
-            if(payload == null) return false;
-
-            updatePayload();
-
-            if(rotate){
-                payRotation = Angles.moveToward(payRotation, block.rotate ? rotdeg() : 90f, payloadRotateSpeed * delta());
-            }
-            payVector.approach(Vec2.ZERO, payloadSpeed * delta());
-
-            return hasArrived();
-        }
+        public boolean received = false;
 
         @Override
         public Payload getPayload() {
@@ -168,75 +150,81 @@ public class PayloadTram extends PayloadBlock {
         public Building currentShooter() {
             return waitingTram.isEmpty() ? null : waitingTram.first();
         }
-
         //Seeing this will always awaken a deep trauma inside of me. Life is meaningless and cruel
         @Override
         public void updateTile() {
             super.updateTile();
-
+            if(received && linkValid() == false){
+                dumping = true;
+                accepting = true;
+                loaded = false;
+            }
+            if(!linkValid()){
+                moveOutPayload();
+            }
             Building link = world.build(this.link);
             var other = (PayloadTramBuild) link;
-            boolean isSendingPayload = other != null && other.sending;
-
-            if (linkValid() && isSendingPayload) {
-                // Stop progress but do not reset it
-                return;
-            }
-
-            if (linkValid()) {
-                if (other.payload == null) {
-                    int dist = (int) (link.dst(x, y));
-                    if (payload != null) {
+            if(linkValid()){
+                if(payload != null) {
+                    updatePayload();
+                    accepting = true;
+                    if(other.payload == null){
+                        int dist = (int) (link.dst(x, y));
                         float requiredProgress = 1f + (dist * distMultiplier); // Adjust multiplier as needed
-
-                        if (!sending) {
-                            other.sending = true;
-                        }
-
                         progress += edelta();
-
+                        sent = true;
+                        loaded = true;
                         if (progress >= requiredProgress) {
                             // Handle the payload to the linked tram
-                            other.updatePayload();
                             other.handlePayload(this, payload);
                             this.updatePayload();
                             payload = null;
-                            other.recPayload = null;
+                            other.updatePayload();
+                            other.payVector.setZero();
                             other.loaded = true;
+                            loaded = false;
+                            sent = false;
                             progress = 0;
+                            other.received = true;
                             sending = false;
-                            other.moveOutPayload();
+                            other.recPayload = null;
                         }
-                    } else {
-                        // No payload to move, NO
+                }else{
+                        //other link already has payload
+                        loaded = false;
+                        sending = false;
                         return;
                     }
-                } else {
-                    // The other tram has a payload, reset progress
+                }else{
+                    //no payload
+                    loaded = false;
+                    if(moveInPayload()) {
+                        loaded = true;
+                    }
                     return;
                 }
-            } else {
-                // No valid link, move out payload if any
+                }else{
+                //no link dump payloads
                 moveOutPayload();
-                dumping = true;
-                progress = 0;
-                loaded = false;
                 sending = false;
+                loaded = false;
+                return;
             }
         }
-
         @Override
-        public void updatePayload() {
-            if (payload != null) {
-                if (loaded) {
-                    payload.set(x + Angles.trnsx(0, 1), y + Angles.trnsy(0, 1), payRotation);
-                } else {
-                    payload.set(x + payVector.x, y + payVector.y, payRotation);
-                }
+        public void updatePayload(){
+            if(payload != null){
+            if(sending) {
+            return;
+            }else {
+                payload.set(x + payVector.x, y + payVector.y, payRotation);
+            }
             }
         }
-
-
+        @Override
+        public boolean acceptPayload(Building source, Payload payload){
+            return super.acceptPayload(source, payload) && payload.size() <= maxPayloadSize * tilesize;
+        }
         @Override
         public void draw() {
             Draw.rect(region, x, y);
@@ -247,14 +235,21 @@ public class PayloadTram extends PayloadBlock {
                 }
             }
             Draw.rect(outRegion, x, y, rotdeg());
+            if(payload != null) {
+                if(loaded){
+                    Draw.z(Layer.blockOver);
+                    Draw.alpha(0);
+                    drawPayload();
+                    Draw.reset();
+                }else{
+                drawPayload();
+                }
+            }
             Draw.z(Layer.blockOver + 0.1f);
             Draw.rect(topRegion, x, y);
+            Draw.z(Layer.flyingUnitLow - 0.1f);
             Draw.rect(capRegion, x, y);
-            if(payload != null){
-                drawPayload();
-            }
             if (linkValid()) {
-                updatePayload();
                 Building link = world.build(this.link);
                 var other = (PayloadTramBuild) link;
                 float x1 = this.x;
@@ -265,11 +260,12 @@ public class PayloadTram extends PayloadBlock {
                 float requiredProgress = 1f + (dist * distMultiplier);
                 float lerpX = Mathf.lerp(x1, x2, progress / requiredProgress);
                 float lerpY = Mathf.lerp(y1, y2, progress / requiredProgress);
-                if (payload != null) {
+                if (payload != null && sent) {
                     Draw.z(Layer.flyingUnitLow - 0.3f);
                     TextureRegion payloadthing = payload.content().uiIcon;
                     Draw.rect(payloadthing, lerpX, lerpY);
                 }
+                updatePayload();
             }
             Building target = world.build(link);
             if (linkValid()) {
@@ -278,13 +274,18 @@ public class PayloadTram extends PayloadBlock {
                 //Until I find a better way this is hardcoded
                 if (angle >= 0f && angle < 180f) Draw.yscl = -1f;
                 float thickness = 8f;
-                if (angle >= 0f && angle < 180f) thickness = -8f;
+                if (angle >= 0f && angle < 180f){
+                    thickness = thicc * -1;
+                }else{
+                    thickness = thicc;
+                }
                 Lines.stroke(thickness);
+                Draw.z(Layer.flyingUnitLow - 0.3f);
                 Draw.alpha(Renderer.bridgeOpacity);
                 Lines.line(bridgeRegion, this.x, this.y, target.x, target.y, false);
                 Draw.rect(endRegion, this.x, this.y, angle + 90f);
                 Draw.xscl = -1f;
-                Draw.z(Layer.blockOver + 0.5f);
+                Draw.z(Layer.flyingUnitLow - 0.2f);
                 Draw.rect(endRegion, target.x, target.y, angle + 90f);
                 Draw.xscl = Draw.yscl = 1f;
             }
@@ -333,11 +334,17 @@ public class PayloadTram extends PayloadBlock {
 
             return true;
         }
-
         @Override
-        public Point2 config() {
-            if (tile == null) return null;
-            return Point2.unpack(link).sub(tile.x, tile.y);
+        public void drawPayload() {
+            if (payload != null) {
+                if (!loaded) {
+                    updatePayload();
+                    Draw.z(Layer.blockOver);
+                    payload.draw();
+                } else {
+                    return;
+                }
+            }
         }
 
         @Override

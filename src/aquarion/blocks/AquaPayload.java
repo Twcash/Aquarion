@@ -12,14 +12,25 @@ import static mindustry.content.Items.metaglass;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPayload {
-    public static Block payloadTram;
+    public static Block payloadTram, largePayloadTram;
     public static void loadContent() {
         payloadTram = new PayloadTram("payload-tram"){{
-            requirements(Category.units, with(lead, 120, metaglass, 350, sodium, 90, bauxite, 90));
+            requirements(Category.units, with(lead, 70, bauxite, 50));
             size = 3;
-            range = tilesize  * 20;
-            speed = 30;
+            range = tilesize  * 25;
+            speed = 15;
+            thicc = 8;
+            distMultiplier = 1.1f;
+            maxPayloadSize = 2.75f;
+        }};
+        largePayloadTram = new PayloadTram("large-payload-tram"){{
+            requirements(Category.units, with(lead, 500, metaglass, 350, sodium, 90, bauxite, 90));
+            size = 5;
+            range = tilesize * 60;
+            thicc = 17.5f;
+            clipSize = 1000;
             distMultiplier = 0.9f;
+            maxPayloadSize = 4.5f;
         }};
     }
 }
