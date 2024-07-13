@@ -3,6 +3,8 @@ package aquarion.blocks;
 import aquarion.world.blocks.distribution.PayloadTram;
 import mindustry.type.Category;
 import mindustry.world.Block;
+import mindustry.world.blocks.payloads.PayloadSource;
+import mindustry.world.meta.BuildVisibility;
 
 import static aquarion.AquaItems.bauxite;
 import static aquarion.AquaItems.sodium;
@@ -12,7 +14,7 @@ import static mindustry.content.Items.metaglass;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPayload {
-    public static Block payloadTram, largePayloadTram;
+    public static Block payloadTram, largePayloadTram, largePayloadSource;
     public static void loadContent() {
         payloadTram = new PayloadTram("payload-tram"){{
             requirements(Category.units, with(lead, 70, bauxite, 50));
@@ -31,6 +33,12 @@ public class AquaPayload {
             clipSize = 1000;
             distMultiplier = 0.9f;
             maxPayloadSize = 4.5f;
+        }};
+
+        largePayloadSource = new PayloadSource("large-payload-source"){{
+            requirements(Category.units, BuildVisibility.sandboxOnly, with());
+            size = 10;
+            alwaysUnlocked = true;
         }};
     }
 }

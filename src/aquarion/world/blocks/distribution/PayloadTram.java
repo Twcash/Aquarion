@@ -47,6 +47,7 @@ public class PayloadTram extends PayloadBlock {
     public float maxPayloadSize = 3;
     public float range;
     public float distMultiplier = 1f;
+    //TODO implement max links for a payload tram 3-5 at least
     public float maxConnections = 2f;
     public PayloadTram(String name) {
         super(name);
