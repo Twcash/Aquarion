@@ -1,5 +1,6 @@
 package aquarion.blocks;
 
+import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaLiquids;
 import aquarion.world.blocks.environment.PineTree;
@@ -15,6 +16,7 @@ import mindustry.world.meta.Attribute;
 import aquarion.AquaItems.*;
 import aquarion.AquaLiquids.*;
 
+import static aquarion.AquaItems.bauxite;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.lead;
 import static mindustry.world.meta.BuildVisibility.sandboxOnly;
@@ -26,13 +28,13 @@ public class AquaEnv {
     public static Block algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin;
 
     // Floors
-    public static Block algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
+    public static Block andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
 
     // Ore blocks
     public static Block leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese;
 
     // Walls
-    public static Block algalBloom, parzilPine, algalWall, bloom, coralWall, feldsparWall, gabbroWall, andesiteExtrusions;
+    public static Block bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, coralWall, feldsparWall, gabbroWall, andesiteExtrusions;
 
     public static void loadContent() {
 
@@ -63,6 +65,9 @@ public class AquaEnv {
 
         feldspar = new Floor("feldspar", 3) {{
             decoration = feldsparBoulder;
+        }};
+        andesiteLayers = new Floor("andesite-layers", 4){{
+
         }};
 
         feldspar_vent = new SteamVent("feldspar-vent") {{
@@ -196,6 +201,9 @@ public class AquaEnv {
         slate = new Floor("slate", 3) {{
 
         }};
+        basaltSpikes = new Floor("basalt-spikes", 4) {{
+
+        }};
         andesiteExtrusions = new TallBlock("andesite-extrusions"){{
             variants = 2;
             clipSize = 128f;
@@ -205,12 +213,16 @@ public class AquaEnv {
 
         // Ore blocks
         leadNodules = new OreBlock("lead-nodules", lead);
-        oreBauxite = new OreBlock("ore-bauxite", AquaItems.bauxite);
+        oreBauxite = new OreBlock("ore-bauxite", bauxite);
         oreGallium= new OreBlock("ore-gallium", AquaItems.gallium);
         oreLithium= new OreBlock("ore-lithium", AquaItems.lithium);
         oreManganese= new OreBlock("ore-manganese", AquaItems.manganese);
 
         // Walls & blocks
+        bauxiticWall = new StaticWall("bauxitic-wall"){{
+            variants = 3;
+            itemDrop = bauxite;
+        }};
 
 
         algalBloom = new StaticWall("algal-bloom") {{

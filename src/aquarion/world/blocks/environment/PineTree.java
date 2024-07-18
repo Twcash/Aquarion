@@ -13,7 +13,7 @@ import mindustry.world.blocks.environment.Floor;
 public class PineTree extends Block {
     public float shadowOffset = -4f;
     public float layer = Layer.power + 10;
-    public Effect effect = Fx.ventSteam;
+    public Effect effect = Fx.impactReactorExplosion;
     public float effectSpacing = 15f;
     public float shadowLayer = Layer.power - 1;
     public float updateEffectChance = 0.5f;

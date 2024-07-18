@@ -28,6 +28,7 @@ public class AquarionMod extends Mod {
         AquaDefense.loadContent();
         AquaEffect.loadContent();
         AquaUnitTypes.loadContent();
+        TorqueBlocks.loadContent();
         AquaCore.loadContent();
     }
 }
