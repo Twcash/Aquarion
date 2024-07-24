@@ -18,12 +18,12 @@ public class AquaItems {
         }};
 
         gallium = new Item("gallium", Color.valueOf("#b2d3cf")) {{
-            hardness = 3;
+            hardness = 6;
             cost = 2;
         }};
 
         lithium = new Item("lithium", Color.valueOf("#b2d3cf")) {{
-            hardness = 6;
+            hardness = 8;
             explosiveness = 0.2F;
         }};
 
@@ -33,7 +33,7 @@ public class AquaItems {
 
         manganese = new Item("manganese", Color.valueOf("#a0ac9d")) {{
             cost = 1.5F;
-            hardness = 8;
+            hardness = 7;
         }};
 
         nitride = new Item("nitride", Color.valueOf("#ded6ca")) {{

@@ -1,8 +1,10 @@
 package aquarion.units;
 
+import aquarion.type.GerbUnitType;
 import mindustry.ai.types.BuilderAI;
 import mindustry.entities.bullet.BulletType;
 import mindustry.entities.part.RegionPart;
+import mindustry.gen.LegsUnit;
 import mindustry.gen.UnitEntity;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
@@ -14,7 +16,7 @@ import mindustry.world.meta.Env;
 import static mindustry.Vars.tilePayload;
 
 public class AquaUnitTypes {
-    public static UnitType cull, glean;
+    public static UnitType cull, glean, gerbTest;
     public static void loadContent() {
         cull = new UnitType("cull"){{
             constructor = UnitEntity::create;
@@ -173,5 +175,25 @@ public class AquaUnitTypes {
                     }}
             );
         }};
+        gerbTest = new GerbUnitType("gerb"){{
+            constructor = LegsUnit::create;
+            legCount = 6;
+            legStraightness = 0.1f;
+            legContinuousMove = true;
+            speed = 1;
+            legMinLength = 0.8f;
+            legMaxLength = 1.1f;
+            hitSize = 12;
+            legLength = 14;
+            legExtension = -2.5f;
+            flipLegSide = true;
+            flipBackLegs = true;
+            lockLegBase = true;
+            variants = 7;
+            rotateSpeed = 6;
+
+
+        }};
     }
 }
+

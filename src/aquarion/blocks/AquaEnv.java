@@ -64,10 +64,10 @@ public class AquaEnv {
 
 
         feldspar = new Floor("feldspar", 3) {{
-            decoration = feldsparBoulder;
+            wall = feldsparWall;
         }};
         andesiteLayers = new Floor("andesite-layers", 4){{
-
+            wall = daciteWall;
         }};
 
         feldspar_vent = new SteamVent("feldspar-vent") {{
@@ -89,8 +89,10 @@ public class AquaEnv {
             }};
         }};
         andesiteRubble = new Floor("andesite-rubble-", 4) {{
+            wall = daciteWall;
         }};
         andesite = new Floor("andesite-", 4) {{
+            wall = daciteWall;
         }};
 
         ferric_extrusions = new Floor("ferric-extrusions", 2) {{
@@ -192,17 +194,18 @@ public class AquaEnv {
             walkSound = mindustry.gen.Sounds.mud;
         }};
 
-        roughFeldspar = new Floor("rough-feldspar", 4) {{
+        roughFeldspar = new Floor(" rough-feldspar", 4) {{
+            wall = feldsparWall;
         }};
 
         phylite_floor = new Floor("phylite-floor", 2) {{
-
+            wall = shaleWall;
         }};
         slate = new Floor("slate", 3) {{
-
+            wall = shaleWall;
         }};
         basaltSpikes = new Floor("basalt-spikes", 4) {{
-
+            wall = duneWall;
         }};
         andesiteExtrusions = new TallBlock("andesite-extrusions"){{
             variants = 2;
@@ -230,11 +233,11 @@ public class AquaEnv {
         }};
 
         feldsparWall = new StaticWall("feldspar-wall") {{
-            variants = 2;
+            variants = 4;
         }};
 
         gabbroWall = new StaticWall("gabbro-wall") {{
-            variants = 2;
+            variants = 4;
         }};
 
 
@@ -262,10 +265,6 @@ public class AquaEnv {
             shadowOffset = -1;
         }};
         //boulders
-        daciteBoulder = new Prop("dacite-boulder"){{
-            variants = 2;
-            dacite.asFloor().decoration = andesite.asFloor().decoration = andesiteRubble.asFloor().decoration = this;
-        }};
         algalBoulder = new Prop("algal-boulder"){{
             variants = 2;
             algal_carpet.asFloor().decoration = kelp_floor.asFloor().decoration;

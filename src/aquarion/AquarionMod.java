@@ -1,5 +1,6 @@
 package aquarion;
 
+import aquarion.planets.AquaPlanets;
 import aquarion.units.AquaUnitTypes;
 import mindustry.mod.*;
 import aquarion.blocks.*;
@@ -30,5 +31,6 @@ public class AquarionMod extends Mod {
         AquaUnitTypes.loadContent();
         TorqueBlocks.loadContent();
         AquaCore.loadContent();
+        AquaPlanets.loadContent();
     }
 }
