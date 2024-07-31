@@ -1,6 +1,7 @@
 package aquarion.world.blocks.rotPower;
 
-import arc.math.*;
+import arc.graphics.g2d.*;
+import arc.math.Mathf;
 import arc.util.io.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
@@ -8,11 +9,11 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
-public class TorqueProducer extends GenericCrafter{
+public class TorqueProducer extends GenericCrafter {
     public float torqueOutput = 10f;
     public float warmupRate = 0.15f;
 
-    public TorqueProducer(String name){
+    public TorqueProducer(String name) {
         super(name);
 
         drawer = new DrawMulti(new DrawDefault());
@@ -23,48 +24,54 @@ public class TorqueProducer extends GenericCrafter{
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
-
         stats.add(Stat.output, torqueOutput, StatUnit.heatUnits);
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
-
-        addBar("torque", (TorqueProducerBuild entity) -> new Bar("bar.torque", Pal.thoriumPink, () -> entity.torque / torqueOutput));
+        addBar("torque", (TorqueProducerBuild entity) -> new Bar("bar.torque", Pal.thoriumPink, () -> entity.getTorque() / torqueOutput));
     }
 
-    public class TorqueProducerBuild extends GenericCrafterBuild implements TorqueBlock{
-        public float torque;
+    public class TorqueProducerBuild extends GenericCrafterBuild implements TorqueBlock {
+        private float torque;
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             super.updateTile();
 
-            //heat approaches target at the same speed regardless of efficiency
+            // Update the torque and propagate it to connected TorqueBlocks
             torque = Mathf.approachDelta(torque, torqueOutput * efficiency, warmupRate * delta());
+            setTorque(torque);
         }
 
         @Override
-        public float torqueFract(){
-            return torque / torqueOutput;
-        }
-
-        @Override
-        public float torque(){
+        public float torque() {
             return torque;
         }
 
         @Override
-        public void write(Writes write){
+        public float getTorque() {
+            return torque;
+        }
+
+        @Override
+        public void setTorque(float newTorque) {
+            this.torque = newTorque;
+            // Optionally, update connected TorqueBlocks if needed
+            // In this case, TorqueProducer does not inherently connect to other blocks
+        }
+
+        @Override
+        public void write(Writes write) {
             super.write(write);
             write.f(torque);
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             torque = read.f();
         }

@@ -1,25 +1,17 @@
 package aquarion.world.blocks.rotPower;
 
-import aquarion.blocks.TorqueBlocks;
-import arc.math.Mathf;
 import arc.struct.IntSet;
-import arc.util.Nullable;
 import mindustry.gen.Building;
-import mindustry.world.Tile;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static mindustry.Vars.tilesize;
-
-public class TorqueBuildingComp extends Building {
+public class TorqueNetwork {
     private List<TorqueBlock> connectedTorqueBlocks = new ArrayList<>();
     private float sharedTorque = 0f; // Shared torque value
 
-    public List<TorqueBlock> getConnectedTorqueBlocks() {
+    public List<TorqueBlock> getConnectedTorqueBlocks(Building start) {
         connectedTorqueBlocks.clear();
-        collectConnectedTorqueBlocks(this, new IntSet());
+        collectConnectedTorqueBlocks(start, new IntSet());
         return connectedTorqueBlocks;
     }
 
@@ -33,23 +25,27 @@ public class TorqueBuildingComp extends Building {
         for (var build : start.proximity) {
             if (build != null && build.team == start.team && build instanceof TorqueBlock torqueE) {
                 if (!build.block.rotate || relativeTo(build) == build.rotation) {
-                    collectConnectedTorqueBlocks((Building) torqueE, cameFrom);
+                    collectConnectedTorqueBlocks(build, cameFrom);
                 }
             }
         }
     }
 
-    public void setSharedTorque(float torque) {
+    public void setSharedTorque(Building start, float torque) {
         this.sharedTorque = torque;
         // Propagate torque to all connected blocks
-        for (TorqueBlock block : getConnectedTorqueBlocks()) {
-            if (block instanceof TorqueShaft.TorqueShaftBuild build) {
-                build.setTorque(torque);
-            }
+        for (TorqueBlock block : getConnectedTorqueBlocks(start)) {
+            block.setTorque(torque);
         }
     }
 
     public float getSharedTorque() {
         return sharedTorque;
+    }
+
+    // Helper method to determine relative direction
+    private int relativeTo(Building build) {
+        // Implementation of relativeTo method
+        return 0; // Placeholder
     }
 }

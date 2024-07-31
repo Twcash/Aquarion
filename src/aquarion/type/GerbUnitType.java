@@ -81,7 +81,7 @@ public class GerbUnitType extends UnitType {
         TextureRegion[] regions;
         TextureRegion armorRegion;
 
-        //buh what the hell is this??? I have no words to describe my confusion.
+        //Why won't this work??? I have no words to describe my confusion.
         if (unit.health < unit.maxHealth * severeDamageThreshold) {
             // huh huh huh huh
             regions = getDamagedVariantRegions();

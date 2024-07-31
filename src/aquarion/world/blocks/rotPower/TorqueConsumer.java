@@ -1,6 +1,6 @@
 package aquarion.world.blocks.rotPower;
 
-public interface TorqueConsumer{
+public interface TorqueConsumer {
     float[] torqueSide();
     float torqueRequirement();
 }

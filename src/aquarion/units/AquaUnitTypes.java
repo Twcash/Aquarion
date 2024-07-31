@@ -186,14 +186,13 @@ public class AquaUnitTypes {
             hitSize = 12;
             legLength = 14;
             legExtension = -2.5f;
-            flipLegSide = true;
-            flipBackLegs = true;
             lockLegBase = true;
-            variants = 7;
+         variants = 7;
             rotateSpeed = 6;
+            legPairOffset = 12f;
+            legMoveSpace = 1.5f;
 
 
         }};
     }
 }
-

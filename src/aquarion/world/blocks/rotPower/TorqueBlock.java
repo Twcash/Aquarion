@@ -1,8 +1,18 @@
 package aquarion.world.blocks.rotPower;
 
 public interface TorqueBlock {
+    /**
+     * Returns the current amount of torque.
+     */
     float torque();
-    public boolean hasTorque = true;
-    /** @return rotPower as a fraction of max heat */
-    float torqueFract();
+
+    /**
+     * Sets the current amount of torque.
+     */
+    void setTorque(float newTorque);
+
+    /**
+     * Returns the current amount of torque.
+     */
+    float getTorque();
 }

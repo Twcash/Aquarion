@@ -2,6 +2,9 @@ package aquarion;
 
 import aquarion.planets.AquaPlanets;
 import aquarion.units.AquaUnitTypes;
+import arc.Core;
+import arc.util.Log;
+import mindustry.Vars;
 import mindustry.mod.*;
 import aquarion.blocks.*;
 
@@ -20,17 +23,19 @@ public class AquarionMod extends Mod {
     //logic
     @Override
     public void loadContent() {
+        AquaAttributes.load();
+        AquaEffect.loadContent();
+        AquaLiquid.loadContent();
         AquaItems.loadContent();
         AquaDistribution.loadContent();
         AquaPayload.loadContent();
-        AquaLiquid.loadContent();
         AquaLiquids.loadContent();
         AquaEnv.loadContent();
         AquaDefense.loadContent();
-        AquaEffect.loadContent();
         AquaUnitTypes.loadContent();
         TorqueBlocks.loadContent();
         AquaCore.loadContent();
+        AquaCrafters.loadContent();
         AquaPlanets.loadContent();
     }
 }

@@ -225,6 +225,7 @@ public class AquaEnv {
         bauxiticWall = new StaticWall("bauxitic-wall"){{
             variants = 3;
             itemDrop = bauxite;
+            attributes.set(AquaAttributes.bauxite, 1f);
         }};
 
 

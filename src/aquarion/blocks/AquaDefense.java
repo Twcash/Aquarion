@@ -1,8 +1,5 @@
 package aquarion.blocks;
 
-import arc.graphics.Color;
-import mindustry.content.Liquids;
-import mindustry.graphics.Layer;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.ForceProjector;
@@ -14,14 +11,10 @@ import static mindustry.content.Items.lead;
 import static mindustry.content.Items.metaglass;
 import static mindustry.content.Liquids.hydrogen;
 import static mindustry.type.ItemStack.with;
-import static mindustry.world.blocks.logic.LogicDisplay.GraphicsType.col;
 
 import mindustry.type.Category;
-import mindustry.world.blocks.units.DroneCenter;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Env;
-
-import javax.print.attribute.standard.Sides;
 
 public class AquaDefense {
     public static Block bauxiteWall, duraluminWall, forceBarrier, galliumWall, lithoniteWall, manganeseWall, mendHive, regenPylon, smallBauxiteWall, smallDuraluminWall, smallGalliumWall, smallLithoniteWall, smallManganeseWall;

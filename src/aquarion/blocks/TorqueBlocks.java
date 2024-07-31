@@ -18,9 +18,11 @@ public class TorqueBlocks {
         torqueSource = new TorqueProducer("torque-source"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             size = 1;
-            torqueOutput = 30000;
+            torqueOutput = 10;
             warmupRate = 1000f;
             ambientSound = Sounds.none;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled|= Env.spores | Env.scorching;
         }};
         torqueShaft = new TorqueShaft("torque-shaft"){{
             requirements(Category.crafting, with(bauxite, 2));
