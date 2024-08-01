@@ -1,0 +1,28 @@
+package aquarion.world.meta;
+
+import aquarion.world.interfaces.HasRT;
+import aquarion.world.meta.AquaStat;
+import arc.*;
+import arc.graphics.*;
+import mindustry.graphics.*;
+import mindustry.ui.*;
+import mindustry.world.*;
+import mindustry.world.meta.*;
+
+public class RTConfig {
+    public int tier = 0;
+    public float rotationPower = 0f;
+    public boolean graphs = true;
+    Color color = Color.valueOf("92dd7e");
+
+    public void addBars(Block block) {
+        block.addBar("rotation-power", b -> {
+            HasRT build = (HasRT) b;
+            return new Bar(
+                    () -> Core.bundle.get("rotation-power", "Rotation Power") + ": " + build.rTGraph().getRT(),
+                    () -> color.cpy().lerp(color, build.rTGraph().getRT() / 100f),
+                    () -> build.rTGraph().getRT() / 100f
+            );
+        });
+    }
+}

@@ -1,21 +1,20 @@
 package aquarion.world.blocks.rotPower;
 
 import aquarion.utilities.AquaUtil;
-import arc.Core;
+import aquarion.world.interfaces.HasRT;
+import aquarion.world.meta.RTConfig;
+import aquarion.world.meta.RTModule;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
-import arc.math.Mathf;
 import arc.util.*;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.ui.*;
 import mindustry.world.*;
 
 import static arc.Core.atlas;
 
 public class TorqueShaft extends Block {
+    public RTConfig rTConfig = new RTConfig();
     public float maxVisualTorque = 15f;
     public TextureRegion botRegion;
     public TextureRegion bit;
@@ -36,9 +35,19 @@ public class TorqueShaft extends Block {
         update = solid = rotate = true;
         rotateDraw = false;
         replaceable = true;
-        sync = true;
         size = 1;
     }
+    @Override
+    public void setBars() {
+        super.setBars();
+        rTConfig.addBars(this);
+    }
+    @Override
+    public boolean canReplace(Block other) {
+        return other instanceof TorqueShaft || super.canReplace(other);
+    }
+
+
 
     @Override
     public void load() {
@@ -51,44 +60,19 @@ public class TorqueShaft extends Block {
         gear = atlas.find(name + "-gear");
     }
 
-    @Override
-    public void setBars() {
-        super.setBars();
-        addBar("torque", (TorqueShaftBuild entity) -> new Bar(() -> Core.bundle.format("bar.TorqueAmount", (int) (entity.getTorque() + 0.001f)), () -> Pal.thoriumPink, () -> entity.getTorque() / maxVisualTorque));
-    }
-
-    public class TorqueShaftBuild extends Building implements TorqueBlock {
-        private float torque = 0f;
+    public class TorqueShaftBuild extends Building implements HasRT {
         public int tiling = 0;
-
-        @Override
-        public float torque() {
-            return torque;
+        public RTModule rotationPower = new RTModule();
+        @Override public RTModule rotationPower() {
+            return rotationPower;
         }
-
-        @Override
-        public float getTorque() {
-            return torque;
+        @Override public RTConfig rTConfig() {
+            return rTConfig;
         }
-
-        @Override
-        public void setTorque(float newTorque) {
-            this.torque = newTorque;
-            TorqueNetwork network = new TorqueNetwork();
-            network.setSharedTorque(this, newTorque);
-        }
-
-        @Override
-        public void update() {
-            super.update();
-            TorqueNetwork network = new TorqueNetwork();
-            setTorque(network.getSharedTorque());
-        }
-
         @Override
         public void draw() {
-            float torque = this.torque;
-            float rotationSpeed = torque * 0.01f;
+            float power = RotationPower();
+            float rotationSpeed = power;
             float height = 6;
             float teeth = 6;
             float width = 6;
@@ -154,43 +138,23 @@ public class TorqueShaft extends Block {
         }
 
         @Override
-        public void drawSelect() {
-            Drawf.dashCircle(this.x, this.y, 12, Pal.accent);
-        }
-
-        @Override
-        public void write(Writes write) {
-            super.write(write);
-            write.f(torque);
-        }
-
-        @Override
-        public void read(Reads read, byte revision) {
-            super.read(read, revision);
-            torque = read.f();
+        public void onProximityRemoved() {
+            super.onProximityRemoved();
+            rTGraph().removeBuild(this, false);
         }
 
         @Override
         public void onProximityUpdate() {
             super.onProximityUpdate();
-            TorqueNetwork network = new TorqueNetwork();
-            network.getConnectedTorqueBlocks(this);
-
             tiling = 0;
-            for (var build : proximity) {
-                if (build instanceof TorqueBlock torqueBlock) {
-                    for (int i = 0; i < 4; i++) {
-                        if (relativeTo(build) == i) {
-                            tiling += 1 << i;
-                        }
-                    }
+            for (int i = 0; i < 4; i++) {
+                HasRT build = nearby(i) instanceof HasRT ? (HasRT) nearby(i) : null;
+                if (build != null) {
+                    tiling |= (1 << i);
+                    rTGraph().addBuild(build);
                 }
             }
-        }
-
-        @Override
-        public boolean onConfigureBuildTapped(Building other) {
-            return other instanceof TorqueShaftBuild;
+            rTGraph().removeBuild(this, true);
         }
     }
 }

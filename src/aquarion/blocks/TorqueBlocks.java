@@ -1,6 +1,6 @@
 package aquarion.blocks;
 
-import aquarion.world.blocks.rotPower.TorqueProducer;
+import aquarion.world.blocks.rotPower.RTProducer;
 import aquarion.world.blocks.rotPower.TorqueShaft;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
@@ -15,11 +15,10 @@ public class TorqueBlocks {
     public static Block torqueSource, torqueShaft;
 
     public static void loadContent() {
-        torqueSource = new TorqueProducer("torque-source"){{
+        torqueSource = new RTProducer("torque-source"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             size = 1;
-            torqueOutput = 10;
-            warmupRate = 1000f;
+            output = 10;
             ambientSound = Sounds.none;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled|= Env.spores | Env.scorching;
