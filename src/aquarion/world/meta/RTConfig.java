@@ -20,9 +20,9 @@ public class RTConfig {
         block.addBar("rotation-power", b -> {
             HasRT build = (HasRT) b;
             return new Bar(
-                    () -> Core.bundle.get("rotation-power", "Rotation Power") + ": " + build.rTGraph().getRT(),
-                    () -> color.cpy().lerp(color, build.rTGraph().getRT() / 100f),
-                    () -> build.rTGraph().getRT() / 100f
+                    () -> Core.bundle.get("rotation-power", "Rotation Power") + ": " + build.rTGraph().getTotalRotationPower(),
+                    () -> color.cpy().lerp(Pal.remove, build.rTGraph().getTotalRotationPower() / 100f),
+                    () -> build.rTGraph().getTotalRotationPower() / 100f
             );
         });
     }

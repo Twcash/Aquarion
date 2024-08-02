@@ -143,10 +143,9 @@ public class TorqueShaft extends Block {
             Draw.z(Layer.block - 0.2f);
             Draw.rect(botRegion, x, y, 0);
         }
-
         @Override
         public void onProximityUpdate() {
-            super.onProximityAdded();
+            super.onProximityUpdate();
             tiling = 0;
 
             for (int i = 0; i < 4; i++) {
@@ -156,11 +155,13 @@ public class TorqueShaft extends Block {
                 if (build != null) {
                     int relativeDir = (i - rotation + 4) % 4;
                     boolean isFrontOrBack = relativeDir == 0 || relativeDir == 2;
+                    boolean isDirectlyToSide = (relativeDir == 1 || relativeDir == 3) && !(nearbyBuild instanceof TorqueShaftBuild);
 
-                    if (isFrontOrBack || !(nearbyBuild instanceof TorqueShaftBuild)) {
+                    if (isFrontOrBack || isDirectlyToSide) {
                         tiling |= (1 << i);
                     }
-                    rTGraph().addBuild(build);
+
+                    rTGraph().addBuilding((Building) build);
                 }
             }
         }
@@ -168,7 +169,7 @@ public class TorqueShaft extends Block {
         @Override
         public void onProximityRemoved() {
             super.onProximityRemoved();
-            rTGraph().removeBuild(this, false);
+            rTGraph().removeBuilding(this, false);
         }
 
     }

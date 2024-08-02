@@ -38,6 +38,7 @@ public class RTConsumer extends Block {
         @Override
         public void onProximityUpdate() {
             super.onProximityUpdate();
+            rTGraph().addBuilding(this);
         }
 
         @Override
@@ -68,7 +69,7 @@ public class RTConsumer extends Block {
         @Override
         public void onProximityRemoved() {
             super.onProximityRemoved();
-            rTGraph().addBuild(this);
+            rTGraph().addBuilding(this);
         }
 
         @Override
@@ -82,7 +83,7 @@ public class RTConsumer extends Block {
         }
 
         public void consumeRotationPower() {
-            float availablePower = rTGraph().getRT();
+            float availablePower = rTGraph().getTotalRotationPower();
             if (availablePower > 0) {
                 float consumption = Math.min(RTconsumption, availablePower);
                 float newPower = rTConfig.rotationPower - consumption;

@@ -69,15 +69,15 @@ public class RTProducer extends Block {
         @Override
         public void onProximityRemoved() {
             super.onProximityRemoved();
-            rTGraph().removeBuild(this, false);
+            rTGraph().removeBuilding(this, false);
         }
         @Override public float RotationPower() {
             return efficiency * output;
         }
         @Override
         public void onProximityUpdate() {
-            super.onProximityAdded();
-            rTGraph().removeBuild(this, true);
+            super.onProximityUpdate();
+            rTGraph().addBuilding(this);
         }
 
         @Override

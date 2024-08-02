@@ -1,34 +1,45 @@
 package aquarion.world.graphs;
 
+import mindustry.gen.Building;
 
-import aquarion.world.interfaces.HasRT;
-import arc.struct.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public class RTGraph {
-    public final Seq<HasRT> builds = new Seq<>();
-    // Add a build to the graph
+    private final Map<Building, Integer> rotationPower = new HashMap<>();
+    private final Set<Building> connectedBuildings = new HashSet<>();
 
-    public void addBuild(HasRT build) {
-        if (builds.contains(build)) return;
-        builds.addUnique(build);
-        build.rTGraph().removeBuild(build, false);
-        build.rotationPower().graph = this;
-        build.nextBuilds().each(this::addBuild);
+    public void addBuilding(Building building) {
+        connectedBuildings.add(building);
     }
 
+    public void removeBuilding(Building building, boolean b) {
+        connectedBuildings.remove(building);
+        rotationPower.remove(building);
+    }
 
-    // Remove a build from the graph
-    public void removeBuild(HasRT build, boolean propagate) {
-        if (propagate) {
-            builds.remove(build);
-            new RTGraph().addBuild(build);
-        } else {
-            builds.remove(build);
+    public void addRotationPower(Building building, int amount) {
+        rotationPower.put(building, rotationPower.getOrDefault(building, 0) + amount);
+    }
+
+    public void removeRotationPower(Building building, int amount) {
+        rotationPower.put(building, rotationPower.getOrDefault(building, 0) - amount);
+    }
+
+    public int getTotalRotationPower() {
+        return rotationPower.values().stream().mapToInt(Integer::intValue).sum();
+    }
+
+    public boolean contains(Building building) {
+        return connectedBuildings.contains(building);
+    }
+
+    public void updateGraph(Building building, Consumer<Building> graphUpdater) {
+        if (connectedBuildings.contains(building)) {
+            connectedBuildings.forEach(graphUpdater);
         }
-    }
-
-    // Get the total rotation power in the graph
-    public float getRT() {
-        return builds.sumf(HasRT::RotationPower);
     }
 }
