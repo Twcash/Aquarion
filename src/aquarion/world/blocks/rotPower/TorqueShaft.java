@@ -10,6 +10,7 @@ import arc.util.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
+import mindustry.world.blocks.Autotiler;
 
 import static arc.Core.atlas;
 
@@ -36,6 +37,7 @@ public class TorqueShaft extends Block {
         rotateDraw = false;
         replaceable = true;
         size = 1;
+        sync = true;
     }
     @Override
     public void setBars() {
@@ -69,10 +71,15 @@ public class TorqueShaft extends Block {
         @Override public RTConfig rTConfig() {
             return rTConfig;
         }
+
+        @Override
+        public boolean connects(HasRT to) {
+            return to.rTConfig().connects;
+        }
+
         @Override
         public void draw() {
-            float power = RotationPower();
-            float rotationSpeed = power;
+            float rotationSpeed = RotationPower() * 1000;
             float height = 6;
             float teeth = 6;
             float width = 6;
@@ -138,23 +145,31 @@ public class TorqueShaft extends Block {
         }
 
         @Override
+        public void onProximityUpdate() {
+            super.onProximityAdded();
+            tiling = 0;
+
+            for (int i = 0; i < 4; i++) {
+                Building nearbyBuild = nearby(i);
+                HasRT build = nearbyBuild instanceof HasRT ? (HasRT) nearbyBuild : null;
+
+                if (build != null) {
+                    int relativeDir = (i - rotation + 4) % 4;
+                    boolean isFrontOrBack = relativeDir == 0 || relativeDir == 2;
+
+                    if (isFrontOrBack || !(nearbyBuild instanceof TorqueShaftBuild)) {
+                        tiling |= (1 << i);
+                    }
+                    rTGraph().addBuild(build);
+                }
+            }
+        }
+
+        @Override
         public void onProximityRemoved() {
             super.onProximityRemoved();
             rTGraph().removeBuild(this, false);
         }
 
-        @Override
-        public void onProximityUpdate() {
-            super.onProximityUpdate();
-            tiling = 0;
-            for (int i = 0; i < 4; i++) {
-                HasRT build = nearby(i) instanceof HasRT ? (HasRT) nearby(i) : null;
-                if (build != null) {
-                    tiling |= (1 << i);
-                    rTGraph().addBuild(build);
-                }
-            }
-            rTGraph().removeBuild(this, true);
-        }
     }
 }

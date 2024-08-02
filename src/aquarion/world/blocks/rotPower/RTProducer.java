@@ -46,28 +46,6 @@ public class RTProducer extends Block {
         private RTConfig rtConfig = new RTConfig();
         private float rToutput = output; // Fixed rotation power
 
-        @Override
-        public void placed() {
-            super.placed();
-            updateGraph();
-        }
-
-        @Override
-        public void onProximityUpdate() {
-            super.onProximityUpdate();
-            updateGraph();
-        }
-
-        private void updateGraph() {
-            RTGraph oldGraph = rTGraph();
-            RTGraph newGraph = new RTGraph();
-            rTConfig.graphs = true; // Ensure the build is active in the graph
-            newGraph.addBuild(this);
-            if (oldGraph != newGraph) {
-                oldGraph.removeBuild(this, false);
-                rTGraph().addBuild(this);
-            }
-        }
 
         @Override
         public RTModule rotationPower() {
@@ -85,23 +63,21 @@ public class RTProducer extends Block {
         }
 
         @Override
-        public float RotationPower() {
-            return rTConfig.rotationPower; // Fixed rotation power
+        public boolean connects(HasRT to) {
+            return to.rTConfig().connects;
         }
-
-        private void updateRotationPower() {
-            float currentPower = rTConfig.rotationPower;
-            rTConfig.rotationPower = rToutput; // Fixed output value
-            if (rTConfig.rotationPower != currentPower) {
-                // Update the graph with the new power value
-                rTGraph().addBuild(this);
-            }
-        }
-
         @Override
-        public void updateTile() {
-            super.updateTile();
-            updateRotationPower();
+        public void onProximityRemoved() {
+            super.onProximityRemoved();
+            rTGraph().removeBuild(this, false);
+        }
+        @Override public float RotationPower() {
+            return efficiency * output;
+        }
+        @Override
+        public void onProximityUpdate() {
+            super.onProximityAdded();
+            rTGraph().removeBuild(this, true);
         }
 
         @Override

@@ -1,5 +1,6 @@
 package aquarion.world.meta;
 
+import aquarion.world.graphs.RTGraph;
 import aquarion.world.interfaces.HasRT;
 import aquarion.world.meta.AquaStat;
 import arc.*;
@@ -10,7 +11,7 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 
 public class RTConfig {
-    public int tier = 0;
+    public boolean connects;
     public float rotationPower = 0f;
     public boolean graphs = true;
     Color color = Color.valueOf("92dd7e");

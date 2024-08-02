@@ -44,15 +44,10 @@ public class RTWallCrafter extends WallCrafter {
 
         @Override
         public void onProximityUpdate() {
-            super.onProximityUpdate();
+            super.onProximityAdded();
             rTGraph().addBuild(this);
-        }
 
-        @Override
-        public boolean connects(HasRT to) {
-            return to.rTConfig().tier == rTConfig().tier || to.rTConfig().tier == -1 || rTConfig().tier == -1;
         }
-
         @Override
         public HasRT getRTDest(HasRT from) {
             return this;
@@ -67,6 +62,10 @@ public class RTWallCrafter extends WallCrafter {
                 }
             }
             return builds;
+        }
+        @Override
+        public boolean connects(HasRT to) {
+            return to.rTConfig().connects;
         }
 
         @Override

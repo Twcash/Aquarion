@@ -7,8 +7,9 @@ import arc.struct.*;
 import mindustry.gen.*;
 
 public interface HasRT extends Buildingc {
+
     default boolean connects(HasRT to) {
-        return to.rTConfig().tier == rTConfig().tier || to.rTConfig().tier == -1 || rTConfig().tier == -1;
+        return to.rTConfig().connects;
     }
 
     default HasRT getRTDest(HasRT from) {
