@@ -15,7 +15,7 @@ import mindustry.graphics.*;
 import mindustry.ui.*;
 public class RTConsumer extends Block {
     public RTConfig rTConfig = new RTConfig();
-    public float consumption = 10f; // Field to modify how much rotation power it consumes
+    public float consumption = 10f; // Fixed amount of rotation power consumed
 
     public RTConsumer(String name) {
         super(name);
@@ -33,29 +33,7 @@ public class RTConsumer extends Block {
     public class RTConsumerBuild extends Building implements HasRT {
         private RTModule rtModule = new RTModule();
         private RTConfig rtConfig = new RTConfig();
-        private float RTconsumption = RTConsumer.this.consumption; // Field to modify how much rotation power it consumes
-
-        @Override
-        public void onProximityUpdate() {
-            super.onProximityUpdate();
-            rTGraph().addBuilding(this);
-        }
-
-        @Override
-        public HasRT getRTDest(HasRT from) {
-            return this;
-        }
-
-        @Override
-        public Seq<HasRT> nextBuilds() {
-            return proximity().select(b -> b instanceof HasRT other && connects(other))
-                    .map(b -> ((HasRT) b).getRTDest(this))
-                    .removeAll(b -> !connects(b) && !b.connects(this) && b.rTConfig().graphs);
-        }
-        @Override
-        public boolean connects(HasRT to) {
-            return to.rTConfig().connects;
-        }
+        private float rTConsumption = RTConsumer.this.consumption; // Fixed amount of rotation power consumed
 
         @Override
         public RTModule rotationPower() {
@@ -66,11 +44,6 @@ public class RTConsumer extends Block {
         public RTConfig rTConfig() {
             return this.rtConfig;
         }
-        @Override
-        public void onProximityRemoved() {
-            super.onProximityRemoved();
-            rTGraph().addBuilding(this);
-        }
 
         @Override
         public RTGraph rTGraph() {
@@ -78,16 +51,19 @@ public class RTConsumer extends Block {
         }
 
         @Override
-        public float RotationPower() {
-            return rTConfig.rotationPower;
+        public void onProximityUpdate() {
+            super.onProximityUpdate();
+            rTGraph().addBuilding(this);
+            updateGraph(); // Ensuring that the graph is updated with connected buildings
+            consumeRotationPower();
         }
 
         public void consumeRotationPower() {
             float availablePower = rTGraph().getTotalRotationPower();
             if (availablePower > 0) {
-                float consumption = Math.min(RTconsumption, availablePower);
-                float newPower = rTConfig.rotationPower - consumption;
-                rTConfig.rotationPower = Math.max(newPower, 0); // Ensure it does not go below 0
+                float consumption = Math.min(rTConsumption, availablePower);
+                float newPower = availablePower - consumption;
+                rTGraph().removeRotationPower(this, (int) consumption); // Remove consumed power from the graph
             }
         }
 
@@ -95,6 +71,16 @@ public class RTConsumer extends Block {
         public void draw() {
             super.draw();
             Draw.rect(region, x, y);
+        }
+
+        @Override
+        public float getRotationPower() {
+            return rtModule.rotationPower;
+        }
+
+        @Override
+        public void setRotationPower(float rotationPower) {
+            rtModule.rotationPower = rotationPower;
         }
     }
 }

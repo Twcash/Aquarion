@@ -1,16 +1,18 @@
 package aquarion.world.blocks.rotPower;
 
 import aquarion.utilities.AquaUtil;
+import aquarion.world.graphs.RTGraph;
 import aquarion.world.interfaces.HasRT;
 import aquarion.world.meta.RTConfig;
 import aquarion.world.meta.RTModule;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.util.*;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
-import mindustry.world.blocks.Autotiler;
 
 import static arc.Core.atlas;
 
@@ -65,21 +67,10 @@ public class TorqueShaft extends Block {
     public class TorqueShaftBuild extends Building implements HasRT {
         public int tiling = 0;
         public RTModule rotationPower = new RTModule();
-        @Override public RTModule rotationPower() {
-            return rotationPower;
-        }
-        @Override public RTConfig rTConfig() {
-            return rTConfig;
-        }
-
-        @Override
-        public boolean connects(HasRT to) {
-            return to.rTConfig().connects;
-        }
 
         @Override
         public void draw() {
-            float rotationSpeed = RotationPower() * 1000;
+            float rotationSpeed = 1;
             float height = 6;
             float teeth = 6;
             float width = 6;
@@ -172,5 +163,30 @@ public class TorqueShaft extends Block {
             rTGraph().removeBuilding(this, false);
         }
 
+
+        @Override
+        public RTModule rotationPower() {
+            return new RTModule() {
+                @Override
+                public void read(Reads read) {
+                    rotationPower = read.f();
+                }
+
+                @Override
+                public void write(Writes write) {
+                    write.f(rotationPower);
+                }
+            };
+        }
+
+        @Override
+        public RTConfig rTConfig() {
+            return new RTConfig();
+        }
+
+        @Override
+        public RTGraph rTGraph() {
+            return rotationPower().graph;
+        }
     }
 }

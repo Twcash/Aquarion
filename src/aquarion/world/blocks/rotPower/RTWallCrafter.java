@@ -13,9 +13,10 @@ import mindustry.world.Block;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.WallCrafter;
 
+
 public class RTWallCrafter extends WallCrafter {
     public RTConfig rTConfig = new RTConfig();
-    public float rTOutput = 10f; // Field to modify how much rotation power it produces
+    public float requiredRotationPower = 10f; // Field for the required rotation power
 
     public RTWallCrafter(String name) {
         super(name);
@@ -25,7 +26,6 @@ public class RTWallCrafter extends WallCrafter {
     @Override
     public void init() {
         super.init();
-        // Initialize the RTConfig and RTModule for the block
         config(RTConfig.class, (RTWallCrafterBuild tile, RTConfig value) -> {
             tile.rtConfig = value;
         });
@@ -34,7 +34,7 @@ public class RTWallCrafter extends WallCrafter {
     public class RTWallCrafterBuild extends WallCrafterBuild implements HasRT {
         private RTModule rtModule = new RTModule();
         private RTConfig rtConfig = new RTConfig();
-        private float rTOutput = RTWallCrafter.this.rTOutput;
+        private float receivedRotationPower;
 
         @Override
         public void placed() {
@@ -46,26 +46,23 @@ public class RTWallCrafter extends WallCrafter {
         public void onProximityUpdate() {
             super.onProximityAdded();
             rTGraph().addBuilding(this);
-
-        }
-        @Override
-        public HasRT getRTDest(HasRT from) {
-            return this;
         }
 
         @Override
-        public Seq<HasRT> nextBuilds() {
-            Seq<HasRT> builds = new Seq<>();
-            for (Building b : proximity()) {
-                if (b instanceof HasRT other && connects(other) && other != this) {
-                    builds.add(other.getRTDest(this));
-                }
+        public void update() {
+            super.update();
+            consumeRotationPower();
+        }
+
+        public void consumeRotationPower() {
+            float availablePower = rTGraph().getTotalRotationPower();
+            if (availablePower > 0) {
+                float consumption = Math.min(requiredRotationPower, availablePower);
+                receivedRotationPower = consumption;
+                rTGraph().removeRotationPower(this, (int) consumption); // Remove consumed power from the graph
+            } else {
+                receivedRotationPower = 0f;
             }
-            return builds;
-        }
-        @Override
-        public boolean connects(HasRT to) {
-            return to.rTConfig().connects;
         }
 
         @Override
@@ -84,8 +81,19 @@ public class RTWallCrafter extends WallCrafter {
         }
 
         @Override
-        public float RotationPower() {
-            return rTConfig.rotationPower;
+        public float getRotationPower() {
+            return this.receivedRotationPower;
+        }
+
+        @Override
+        public void setRotationPower(float rotationPower) {
+            this.receivedRotationPower = rotationPower;
+        }
+
+        // Calculate efficiency based on the received rotation power
+        public float getEfficiency() {
+            if (requiredRotationPower <= 0) return 1f; // Avoid division by zero
+            return Math.min(receivedRotationPower / requiredRotationPower, 1f);
         }
     }
 }

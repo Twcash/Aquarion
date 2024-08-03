@@ -15,22 +15,13 @@ import mindustry.graphics.*;
 import mindustry.ui.*;
 
 public class RTProducer extends Block {
-    public RTConfig rTConfig = new RTConfig();
-    public float output = 10f; // Field to modify how much rotation power it produces
+    public float output = 10f; // Fixed amount of rotation power produced
 
     public RTProducer(String name) {
         super(name);
         update = true; // This block will update every frame
-    }
-
-    @Override
-    public void setBars() {
-        super.setBars();
-        addBar("rotation-power", (RTProducerBuild entity) -> new Bar(
-                () -> Core.bundle.format("bar.rotationpower", entity.RotationPower()),
-                () -> Pal.powerBar,
-                () -> entity.RotationPower() / 100f // Assuming max rotation power is 100
-        ));
+        solid = true;
+        hasPower = true;
     }
 
     @Override
@@ -42,48 +33,55 @@ public class RTProducer extends Block {
     }
 
     public class RTProducerBuild extends Building implements HasRT {
-        private RTModule rtModule = new RTModule();
-        private RTConfig rtConfig = new RTConfig();
-        private float rToutput = output; // Fixed rotation power
+        public RTConfig rtConfig;
+        private float rotationPower;
+        private boolean addedToGraph = false;
 
+        @Override
+        public void updateTile() {
+            if (!addedToGraph) {
+                rTGraph().addBuilding(this);
+                rTGraph().addRotationPower(this, (int) output);
+                addedToGraph = true;
+            }
+        }
+
+        @Override
+        public void onProximityRemoved() {
+            super.onProximityRemoved();
+            if (addedToGraph) {
+                rTGraph().removeRotationPower(this, (int) output);
+                addedToGraph = false;
+            }
+        }
+
+        @Override
+        public void onRemoved() {
+            super.onRemoved();
+            if (addedToGraph) {
+                rTGraph().removeRotationPower(this, (int) output);
+                addedToGraph = false;
+            }
+        }
+
+        @Override
+        public float getRotationPower() {
+            return rotationPower;
+        }
+
+        @Override
+        public void setRotationPower(float rotationPower) {
+            this.rotationPower = rotationPower;
+        }
 
         @Override
         public RTModule rotationPower() {
-            return this.rtModule;
+            return new RTModule(); // Ensure this returns an instance of RTModule
         }
 
         @Override
         public RTConfig rTConfig() {
-            return this.rtConfig;
-        }
-
-        @Override
-        public RTGraph rTGraph() {
-            return rotationPower().graph;
-        }
-
-        @Override
-        public boolean connects(HasRT to) {
-            return to.rTConfig().connects;
-        }
-        @Override
-        public void onProximityRemoved() {
-            super.onProximityRemoved();
-            rTGraph().removeBuilding(this, false);
-        }
-        @Override public float RotationPower() {
-            return efficiency * output;
-        }
-        @Override
-        public void onProximityUpdate() {
-            super.onProximityUpdate();
-            rTGraph().addBuilding(this);
-        }
-
-        @Override
-        public void draw() {
-            super.draw();
-            Draw.rect(region, x, y);
+            return new RTConfig(); // Ensure this returns an instance of RTConfig
         }
     }
 }
