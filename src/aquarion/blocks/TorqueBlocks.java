@@ -1,6 +1,6 @@
 package aquarion.blocks;
 
-import aquarion.world.blocks.rotPower.RTProducer;
+import aquarion.world.blocks.rotPower.RTGenericCrafter;
 import aquarion.world.blocks.rotPower.TorqueShaft;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
@@ -15,7 +15,7 @@ public class TorqueBlocks {
     public static Block torqueSource, torqueShaft;
 
     public static void loadContent() {
-        torqueSource = new RTProducer("torque-source"){{
+        torqueSource = new RTGenericCrafter("torque-source"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             size = 1;
             output = 10;

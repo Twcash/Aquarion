@@ -1,6 +1,9 @@
 package aquarion.world.graphs;
 
+import aquarion.world.interfaces.HasRT;
+import arc.struct.Seq;
 import mindustry.gen.Building;
+import mindustry.world.consumers.Consume;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,7 +12,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 public class RTGraph {
     private HashMap<Building, Integer> buildings = new HashMap<>();
+    public final Seq<HasRT> builds = new Seq<>();
     private HashSet<Building> connectedBuildings = new HashSet<>();
+
 
     public void addBuilding(Building building) {
         connectedBuildings.add(building);
@@ -18,31 +23,29 @@ public class RTGraph {
         }
     }
 
-    public void removeBuilding(Building building, boolean removeConnections) {
-        connectedBuildings.remove(building);
-        if (removeConnections) {
-            buildings.remove(building);
+    public void removeBuild(HasRT build, boolean propagate) {
+        if (propagate) {
+            builds.remove(build);
+            new RTGraph().addBuild(build);
+        } else {
+            builds.remove(build);
         }
     }
-
-    public boolean contains(Building building) {
-        return connectedBuildings.contains(building);
+    public void addBuild(HasRT build) {
+        if (builds.contains(build)) return;
+        builds.addUnique(build);
+        build.rTGraph().removeBuild(build, false);
+        build.rotationPower().graph = this;
+        build.nextBuilds().each(this::addBuild);
+    }
+    public float getProduction() {
+        return builds.sumf(HasRT::rotationProduction);
+    }
+    public float getConsumption() {
+        return builds.sumf(HasRT::rotationConsumption);
     }
 
-    public void addRotationPower(Building building, int amount) {
-        buildings.put(building, buildings.getOrDefault(building, 0) + amount);
-    }
-
-    public void removeRotationPower(Building building, int amount) {
-        buildings.put(building, buildings.getOrDefault(building, 0) - amount);
-    }
-
-    public int getTotalRotationPower() {
-        return buildings.values().stream().mapToInt(Integer::intValue).sum();
-    }
-
-    public void merge(RTGraph otherGraph) {
-        otherGraph.buildings.forEach(this::addRotationPower);
-        this.connectedBuildings.addAll(otherGraph.connectedBuildings);
+    public float getTotalRotationPower() {
+        return builds.sumf(b -> b.rotationConsumption() + b.rotationProduction());
     }
 }

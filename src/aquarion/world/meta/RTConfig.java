@@ -12,17 +12,18 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 
 public class RTConfig {
- public boolean outputsRT, acceptsRT = true;
+    public boolean outputsRT, acceptsRT = true;
+    public float rotationConsumption = 0f;
     Color color = Color.valueOf("92dd7e");
+
     public void addBars(Block block) {
-        block.addBar("rotation-power", b -> {
+        block.addBar("aqua-rotPower", b -> {
             HasRT build = (HasRT) b;
             return new Bar(
-                    () -> Core.bundle.get("rotation-power", "Rotation Power") + ": " + build.rTGraph().getTotalRotationPower(),
-                    () -> color.cpy().lerp(color, build.rTGraph().getTotalRotationPower() / 100f),
-                    () -> build.rTGraph().getTotalRotationPower() / 100f
+                    () -> Core.bundle.get("aqua-rotPower", "aqua-rotPower") + ": " + build.rTGraph().getTotalRotationPower(),
+                    () -> color.cpy().lerp(color, build.rTGraph().getTotalRotationPower()),
+                    () -> build.rTGraph().getTotalRotationPower()
             );
         });
     }
-
 }

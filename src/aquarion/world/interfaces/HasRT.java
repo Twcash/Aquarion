@@ -7,33 +7,25 @@ import arc.struct.*;
 import mindustry.gen.*;
 public interface HasRT extends Buildingc {
 
-    default boolean connected(HasRT to) {
-        return connects(to) && to.connects(this);
-    }
-
     default boolean connects(HasRT to) {
         return rTConfig().outputsRT || rTConfig().acceptsRT;
     }
 
-    default float getRotationPower() {
-        return rotationPower().rotationPower;
-    }
 
-    default void setRotationPower(float rotationPower) {
-        rotationPower().rotationPower = rotationPower;
-    }
 
-    default HasRT getRTDest(HasRT from, float rotationPower) {
+    default HasRT getRTDest(HasRT from) {
         return this;
     }
 
-    default Seq<HasRT> nextBuilds(boolean flow) {
-        return proximity().select(
-                b -> b instanceof HasRT
-        ).<HasRT>as().map(
-                b -> b.getRTDest(this, 0)
-        ).removeAll(
-                b -> !connected(b) && proximity().contains((Building) b));
+    default float rotationProduction() {
+        return 0f;
+    }
+    default float rotationConsumption() {
+        return rTConfig().rotationConsumption;
+    }
+
+    default Seq<HasRT> nextBuilds() {
+        return proximity().select(b -> b instanceof HasRT other && connects(other)).map(b -> ((HasRT) b).getRTDest(this)).removeAll(b -> !connects(b) && !b.connects(this));
     }
 
     RTModule rotationPower();
@@ -42,17 +34,5 @@ public interface HasRT extends Buildingc {
 
     default RTGraph rTGraph() {
         return rotationPower().graph;
-    }
-
-    default void updateGraph() {
-        RTGraph currentGraph = rTGraph();
-        for (Building b : proximity()) {
-            if (b instanceof HasRT && connected((HasRT) b)) {
-                RTGraph neighborGraph = ((HasRT) b).rTGraph();
-                if (neighborGraph != currentGraph) {
-                    currentGraph.merge(neighborGraph);
-                }
-            }
-        }
     }
 }

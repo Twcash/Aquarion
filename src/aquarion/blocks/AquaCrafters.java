@@ -6,7 +6,6 @@ import aquarion.world.blocks.rotPower.RTWallCrafter;
 import mindustry.content.Items;
 import mindustry.type.Category;
 import mindustry.world.Block;
-import mindustry.world.blocks.production.WallCrafter;
 import mindustry.world.meta.Env;
 
 import static mindustry.gen.Sounds.drill;

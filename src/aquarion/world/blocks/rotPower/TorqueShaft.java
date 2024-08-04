@@ -17,7 +17,7 @@ import mindustry.world.*;
 import static arc.Core.atlas;
 
 public class TorqueShaft extends Block {
-    public RTConfig rTConfig = new RTConfig();
+    public RTConfig rtConfig = new RTConfig();
     public float maxVisualTorque = 15f;
     public TextureRegion botRegion;
     public TextureRegion bit;
@@ -44,7 +44,7 @@ public class TorqueShaft extends Block {
     @Override
     public void setBars() {
         super.setBars();
-        rTConfig.addBars(this);
+        rtConfig.addBars(this);
     }
     @Override
     public boolean canReplace(Block other) {
@@ -160,28 +160,22 @@ public class TorqueShaft extends Block {
         @Override
         public void onProximityRemoved() {
             super.onProximityRemoved();
-            rTGraph().removeBuilding(this, false);
+            rTGraph().removeBuild(this, false);
         }
 
 
-        @Override
-        public RTModule rotationPower() {
-            return new RTModule() {
-                @Override
-                public void read(Reads read) {
-                    rotationPower = read.f();
-                }
 
-                @Override
-                public void write(Writes write) {
-                    write.f(rotationPower);
-                }
-            };
+        @Override public RTModule rotationPower() {
+            return rotationPower;
         }
 
         @Override
         public RTConfig rTConfig() {
             return new RTConfig();
+        }
+        @Override
+        public void updateTile() {
+            super.updateTile();
         }
 
         @Override
