@@ -1,5 +1,6 @@
 package aquarion.blocks;
 
+import aquarion.world.blocks.ConsumeRT;
 import aquarion.world.blocks.rotPower.RTGenericCrafter;
 import aquarion.world.blocks.rotPower.TorqueShaft;
 import mindustry.gen.Sounds;

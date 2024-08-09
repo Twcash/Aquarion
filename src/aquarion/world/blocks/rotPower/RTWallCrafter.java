@@ -1,6 +1,6 @@
 package aquarion.world.blocks.rotPower;
 
-import aquarion.world.blocks.RTConsumer;
+import aquarion.world.blocks.ConsumeRT;
 import aquarion.world.interfaces.HasRT;
 import aquarion.world.meta.RTConfig;
 import aquarion.world.meta.RTModule;
@@ -8,6 +8,8 @@ import arc.Core;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.util.Strings;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.production.WallCrafter;
@@ -32,8 +34,8 @@ public class RTWallCrafter extends WallCrafter {
         stats.add(Stat.tiles, StatValues.blocks(attribute, floating, 1f, true, false));
         stats.add(Stat.drillSpeed, 60f / drillTime * size, StatUnit.itemsSecond);
     }
-    public RTConsumer consumeRT(float min, float max) {
-        return consume(new RTConsumer(min, max));
+    public ConsumeRT consumeRT(float amount) {
+        return consume(new ConsumeRT(amount));
     }
 
 
@@ -58,17 +60,29 @@ public class RTWallCrafter extends WallCrafter {
         @Override
         public void updateTile() {
             super.updateTile();
+            noSleep();
         }
 
         @Override
         public RTConfig rTConfig() {
             return new RTConfig(); // Ensure this returns an instance of RTConfig
         }
+        @Override
+        public void read(Reads read) {
+            super.read(read);
+            rotationPower.read(read);
+        }
+        @Override
+        public void write(Writes write) {
+            super.write(write);
+            rotationPower.write(write);
+        }
 
         @Override
         public void onProximityUpdate() {
             super.onProximityAdded();
             rTGraph().removeBuild(this, true);
+            noSleep();
         }
 
         @Override

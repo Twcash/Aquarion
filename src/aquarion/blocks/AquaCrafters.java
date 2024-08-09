@@ -2,6 +2,7 @@ package aquarion.blocks;
 
 import aquarion.AquaAttributes;
 import aquarion.AquaItems;
+import aquarion.world.blocks.ConsumeRT;
 import aquarion.world.blocks.rotPower.RTWallCrafter;
 import mindustry.content.Items;
 import mindustry.type.Category;
@@ -25,6 +26,8 @@ public class AquaCrafters {
     ambientSoundVolume = 0.04F;
     envEnabled|= Env.terrestrial | Env.underwater;
     envDisabled|= Env.spores | Env.scorching;
+    squareSprite = false;
+    consume(new ConsumeRT(10));;
     }};
     }
 }

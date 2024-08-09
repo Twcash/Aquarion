@@ -1,19 +1,15 @@
 package aquarion.world.blocks.rotPower;
 
-import aquarion.world.blocks.RTConsumer;
+import aquarion.world.blocks.ConsumeRT;
 import aquarion.world.interfaces.HasRT;
 import aquarion.world.meta.RTConfig;
 import aquarion.world.meta.RTModule;
 import aquarion.world.graphs.RTGraph;
-import arc.Core;
-import arc.struct.Seq;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.world.Block;
-import mindustry.entities.units.BuildPlan;
-import arc.graphics.g2d.*;
-import arc.util.*;
+
 import mindustry.gen.*;
-import mindustry.graphics.*;
-import mindustry.ui.*;
 
 public class RTGenericCrafter extends Block {
     public RTConfig rtConfig = new RTConfig();
@@ -30,8 +26,8 @@ public class RTGenericCrafter extends Block {
         super.setBars();
         rtConfig.addBars(this);
     }
-    public RTConsumer consumeRT(float min, float max) {
-        return consume(new RTConsumer(min, max));
+    public ConsumeRT consumeRT(float amount) {
+        return consume(new ConsumeRT(amount));
     }
 
     public class RTProducerBuild extends Building implements HasRT {
@@ -54,8 +50,8 @@ public class RTGenericCrafter extends Block {
         @Override
         public void updateTile() {
             super.updateTile();
+            noSleep();
         }
-
         @Override
         public RTConfig rTConfig() {
             return new RTConfig(); // Ensure this returns an instance of RTConfig
@@ -63,7 +59,21 @@ public class RTGenericCrafter extends Block {
         @Override
         public void onProximityUpdate() {
             super.onProximityAdded();
+            new RTGraph().addBuild(this);
+            nextBuilds().each(build -> rTGraph().merge(build.rTGraph(), false));
+
             rTGraph().removeBuild(this, true);
+            noSleep();
+        }
+        @Override
+        public void read(Reads read) {
+            super.read(read);
+            rotationPower.read(read);
+        }
+        @Override
+        public void write(Writes write) {
+            super.write(write);
+            rotationPower.write(write);
         }
     }
 }

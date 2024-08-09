@@ -70,8 +70,8 @@ public class TorqueShaft extends Block {
 
         @Override
         public void draw() {
-            float rotationSpeed = 1;
-            float height = 6;
+            float rotationSpeed = rotationPower.graph.getTotalRotationPower()/1000; // Use the total rotation power from the graph
+               float height = 6;
             float teeth = 6;
             float width = 6;
 
@@ -137,30 +137,28 @@ public class TorqueShaft extends Block {
         @Override
         public void onProximityUpdate() {
             super.onProximityUpdate();
+
+            new RTGraph().addBuild(this);
+            nextBuilds().each(build -> rTGraph().merge(build.rTGraph(), false));
             tiling = 0;
 
+            tiling = 0;
             for (int i = 0; i < 4; i++) {
-                Building nearbyBuild = nearby(i);
-                HasRT build = nearbyBuild instanceof HasRT ? (HasRT) nearbyBuild : null;
-
-                if (build != null) {
-                    int relativeDir = (i - rotation + 4) % 4;
-                    boolean isFrontOrBack = relativeDir == 0 || relativeDir == 2;
-                    boolean isDirectlyToSide = (relativeDir == 1 || relativeDir == 3) && !(nearbyBuild instanceof TorqueShaftBuild);
-
-                    if (isFrontOrBack || isDirectlyToSide) {
-                        tiling |= (1 << i);
-                    }
-
-                    rTGraph().addBuilding((Building) build);
-                }
+                HasRT build = nearby(i) instanceof HasRT ? (HasRT) nearby(i) : null;
+                if (
+                        build != null && connects(build)
+                ) tiling |= (1 << i);
             }
         }
-
         @Override
-        public void onProximityRemoved() {
-            super.onProximityRemoved();
-            rTGraph().removeBuild(this, false);
+        public void read(Reads read) {
+            super.read(read);
+            rotationPower.read(read);
+        }
+        @Override
+        public void write(Writes write) {
+            super.write(write);
+            rotationPower.write(write);
         }
 
 
@@ -176,6 +174,12 @@ public class TorqueShaft extends Block {
         @Override
         public void updateTile() {
             super.updateTile();
+            noSleep();
+        }
+        @Override
+        public void onProximityRemoved() {
+            super.onProximityRemoved();
+            rTGraph().remove(this, true);
         }
 
         @Override
