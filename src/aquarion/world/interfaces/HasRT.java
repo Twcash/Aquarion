@@ -37,5 +37,9 @@ public interface HasRT extends Buildingc {
     }	default void onRTupdate() {
 
     }
+    default RTGraph graph() {
+        return rotationPower().graph;
+    }
+
 
 }

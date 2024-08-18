@@ -5,8 +5,6 @@ import aquarion.world.interfaces.HasRT;
 import aquarion.world.meta.RTConfig;
 import aquarion.world.meta.RTModule;
 import arc.Core;
-import arc.math.Mathf;
-import arc.math.geom.Geometry;
 import arc.util.Strings;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
@@ -16,8 +14,6 @@ import mindustry.world.blocks.production.WallCrafter;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValues;
-
-import static mindustry.Vars.tilesize;
 
 public class RTWallCrafter extends WallCrafter {
     public RTConfig rtConfig = new RTConfig();

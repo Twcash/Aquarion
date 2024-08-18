@@ -11,14 +11,9 @@ import mindustry.world.modules.BlockModule;
  */
 public class RTModule extends BlockModule {
     public RTGraph graph = new aquarion.world.graphs.RTGraph();
-    public float rotationPower = 0;
-    @Override
-    public void read(Reads read) {
-        rotationPower = read.f();
-    }
+    public float rotationPower;
 
     @Override
-    public void write(Writes write) {
-        write.f(rotationPower);
+    public void write(Writes writes) {
     }
 }
