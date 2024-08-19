@@ -10,7 +10,7 @@ import mindustry.world.modules.BlockModule;
  * only holds a graph so that it's easier to change it
  */
 public class RTModule extends BlockModule {
-    public RTGraph graph = new aquarion.world.graphs.RTGraph();
+    public RTGraph graph = new RTGraph();
     public float rotationPower;
 
     @Override
