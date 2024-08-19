@@ -121,7 +121,7 @@ public class SealedConveyor extends Duct implements Autotiler{
             Building next = front(), prev = back();
             capped = next == null || next.team != team || !next.block.hasItems;
             backCapped = blendbits == 0 && (prev == null || prev.team != team || !prev.block.hasItems);
-            nextc = next instanceof Conveyor.ConveyorBuild d ? d : null;
+            nextc = next instanceof Conveyor.ConveyorBuild ? (Conveyor.ConveyorBuild) next : null;
         }
 
         @Override

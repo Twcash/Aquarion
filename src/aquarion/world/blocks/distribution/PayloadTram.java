@@ -164,7 +164,7 @@ public class PayloadTram extends PayloadBlock {
                 moveOutPayload();
             }
             Building link = world.build(this.link);
-            var other = (PayloadTramBuild) link;
+            PayloadTramBuild other = (PayloadTramBuild) link;
             if(linkValid()){
                 if(payload != null) {
                     updatePayload();
@@ -252,7 +252,7 @@ public class PayloadTram extends PayloadBlock {
             Draw.rect(capRegion, x, y);
             if (linkValid()) {
                 Building link = world.build(this.link);
-                var other = (PayloadTramBuild) link;
+                PayloadTramBuild other = (PayloadTramBuild) link;
                 float x1 = this.x;
                 float x2 = other.x;
                 float y1 = this.y;
@@ -300,7 +300,7 @@ public class PayloadTram extends PayloadBlock {
             Lines.stroke(1f);
             Drawf.circles(x, y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.accent);
 
-            for (var shooter : waitingTram) {
+            for (Building shooter : waitingTram) {
                 Drawf.circles(shooter.x, shooter.y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.place);
                 Drawf.arrow(shooter.x, shooter.y, x, y, size * tilesize + sin, 4f + sin, Pal.place);
             }
@@ -314,7 +314,8 @@ public class PayloadTram extends PayloadBlock {
         }
 
         protected boolean linkValid() {
-            return link != -1 && world.build(this.link) instanceof PayloadTramBuild other && other.block == block && other.team == team && within(other, range);
+            Building other = world.build(this.link);
+            return link != -1 && other instanceof PayloadTramBuild && other.block == block && other.team == team && within(other, range);
         }
 
         @Override

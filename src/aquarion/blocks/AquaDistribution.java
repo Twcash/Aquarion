@@ -53,15 +53,6 @@ public class AquaDistribution {
             envDisabled |= Env.spores | Env.scorching;
         }};
 
-        manganeseConveyor = new SealedConveyor("manganese-conveyor"){{
-            requirements(category.distribution, with(manganese, 1, gallium, 1, bauxite, 2));
-            speed = 4f;
-            stopSpeed = 45;
-            visualSpeed = 20;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
-        }};
-
         sealedRouter = new Router("sealed-router"){{
             requirements(category.distribution, with(lead, 10, bauxite, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -82,6 +73,17 @@ public class AquaDistribution {
             speed = 90;
             fadeIn = moveArrows = pulse = true;
             arrowSpacing = 4;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled |= Env.spores | Env.scorching;
+        }};
+        
+        manganeseConveyor = new SealedConveyor("manganese-conveyor"){{
+            //Since `manganeseBridge instanceof DuctBridge` is false this doesn't work
+            //bridgeReplacement = manganeseBridge;
+            requirements(category.distribution, with(manganese, 1, gallium, 1, bauxite, 2));
+            speed = 4f;
+            stopSpeed = 45;
+            visualSpeed = 20;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled |= Env.spores | Env.scorching;
         }};
