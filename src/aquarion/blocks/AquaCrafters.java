@@ -27,7 +27,7 @@ public class AquaCrafters {
     envEnabled|= Env.terrestrial | Env.underwater;
     envDisabled|= Env.spores | Env.scorching;
     squareSprite = false;
-    consume(new ConsumeRT(10));;
+    consume(new ConsumeRT(10));
     }};
     }
 }

@@ -17,7 +17,7 @@ public class TorqueBlocks {
 
     public static void loadContent() {
         torqueSource = new RTGenericCrafter("torque-source"){{
-            buildVisibility = BuildVisibility.sandboxOnly;
+            requirements(Category.crafting, BuildVisibility.sandboxOnly, with());
             size = 1;
             output = 10;
             ambientSound = Sounds.none;

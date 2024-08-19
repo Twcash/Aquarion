@@ -25,7 +25,7 @@ public interface HasRT extends Buildingc {
     }
 
     default Seq<HasRT> nextBuilds() {
-        return proximity().select(b -> b instanceof HasRT other && connects(other)).map(b -> ((HasRT) b).getRTDest(this)).removeAll(b -> !connects(b) && !b.connects(this));
+        return proximity().select(b -> b instanceof HasRT && connects((HasRT) b)).map(b -> ((HasRT) b).getRTDest(this)).removeAll(b -> !connects(b) && !b.connects(this));
     }
 
     RTModule rotationPower();

@@ -19,10 +19,10 @@ public class ConsumeRT extends Consume {
         this.amount = amount;
     }
     @Override public float efficiency(Building build) {
-        return build instanceof HasRT b ? Mathf.clamp(Math.abs(b.rotationPower) - amount) : 0f;
+        return build instanceof HasRT ? Mathf.clamp(Math.abs(((HasRT) build).rotationPower().rotationPower) - amount) : 0f;
     }
     @Override public float efficiencyMultiplier(Building build) {
-        return build instanceof HasRT b ? 1f + Mathf.map(Math.abs(b.rotationPower), amount, amount, 0, 1) : 0f;
+        return build instanceof HasRT ? 1f + Mathf.map(Math.abs(((HasRT) build).rotationPower().rotationPower), amount, amount, 0, 1) : 0f;
     }
 
 }

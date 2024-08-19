@@ -42,6 +42,7 @@ public class RTWallCrafter extends WallCrafter {
 
         addBar("drillspeed", (WallCrafterBuild e) ->
                 new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.lastEfficiency * 60 / drillTime, 2)), () -> Pal.ammo, () -> e.warmup));
+        rtConfig.addBars(this);
     }
 
     public class RTWallCrafterBuild extends WallCrafterBuild implements HasRT {
