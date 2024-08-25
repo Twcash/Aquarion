@@ -1,5 +1,6 @@
 package aquarion.blocks;
 
+import aquarion.world.blocks.defense.BlockingForceProjector;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.ForceProjector;
@@ -130,7 +131,7 @@ public class AquaDefense {
             }};
 
 
-        forceBarrier = new ForceProjector("force-barrier"){{
+        forceBarrier = new BlockingForceProjector("force-barrier"){{
             requirements(Category.defense, ItemStack.with(lead,80, duralumin, 120, metaglass, 90, nitride, 150));
             consumePower(3f / 60f);
             sides = 18;
