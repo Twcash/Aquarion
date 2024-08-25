@@ -33,7 +33,6 @@ public class AquarionMod extends Mod {
         AquaEnv.loadContent();
         AquaDefense.loadContent();
         AquaUnitTypes.loadContent();
-        TorqueBlocks.loadContent();
         AquaCore.loadContent();
         AquaCrafters.loadContent();
         AquaPlanets.loadContent();
