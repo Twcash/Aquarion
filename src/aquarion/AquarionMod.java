@@ -36,5 +36,7 @@ public class AquarionMod extends Mod {
         AquaCore.loadContent();
         AquaCrafters.loadContent();
         AquaPlanets.loadContent();
+        AquaTurrets.loadContent();
+        AquaPower.loadContent();
     }
 }

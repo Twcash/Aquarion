@@ -26,14 +26,14 @@ public class AquaDefense {
         //TODO balance walls
         smallBauxiteWall = new Wall("small-bauxite-wall") {{
             requirements(Category.defense, with(bauxite, 6));
-            health = 170;
+            health = 128;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled|= Env.spores | Env.scorching;
         }};
 
         bauxiteWall = new Wall("bauxite-wall") {{
             requirements(Category.defense, with(bauxite, 24));
-            health = 680;
+            health = 512;
             size = 2;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled|= Env.spores | Env.scorching;
@@ -48,7 +48,7 @@ public class AquaDefense {
 
         galliumWall = new Wall("gallium-wall") {{
             requirements(Category.defense, with(gallium, 24));
-            health = 960;
+            health = 512;
             size = 2;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled|= Env.spores | Env.scorching;
