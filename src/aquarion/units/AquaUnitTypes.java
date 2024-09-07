@@ -1,19 +1,18 @@
 package aquarion.units;
 
-import aquarion.type.AquaBasicBulletType;
-import aquarion.type.AquaBulletType;
-import aquarion.type.GerbUnitType;
+import aquarion.type.*;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.ai.types.BuilderAI;
 import mindustry.content.Fx;
+import mindustry.entities.abilities.MoveEffectAbility;
+import mindustry.entities.bullet.ArtilleryBulletType;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.BulletType;
+import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.part.RegionPart;
-import mindustry.gen.LegsUnit;
-import mindustry.gen.Sounds;
-import mindustry.gen.UnitEntity;
+import mindustry.gen.*;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import aquarion.world.graphics.AquaPal;
@@ -24,11 +23,75 @@ import mindustry.world.meta.Env;
 import static mindustry.Vars.tilePayload;
 
 public class AquaUnitTypes {
-    public static UnitType cull, glean, gerbTest;
+    //core units and transport
+    public static UnitType cull, glean,
+    //gerb
+     gerbTest,
+
+    //messenger tree
+     messenger, ambassador, consul, legate, monarch,
+
+     //steward tree
+     steward, curator, custodian, caretaker, warden,
+
+     // goss tree
+     goss, heed, effect, consummate, efectuate,
+
+     //zoarcid treeb
+     zoarcid, anguilli, cyprin, pycogen, batoid;
 
     public static void loadContent() {
+        messenger = new MechanicalUnitType("messenger"){{
+        speed = 0.4f;
+        rotateSpeed = 1.8f;
+        rotateMoveFirst = true;
+        constructor = MechUnit::create;
+        mechLegColor = AquaPal.tantDarkestTone;
+            weapons.add(new Weapon("aquarion-messenger-weapon"){{
+                            mirror = true;
+                            alternate = true;
+                            recoil = 2f;
+                            x = 0;
+                            outlineColor = AquaPal.tantDarkerTone;
+                            recoilTime = 15f;
+                            reload = 40;
+                            layerOffset = -0.001f;
+                            shootX = 4;
+                            range = 90;
+                            bullet = new ArtilleryBulletType(2f, 30){{
+                                knockback = -.5f;
+                                splashDamage = 30;
+                                splashDamageRadius = 18;
+                                width = height = 9f;;
+                                shrinkX = 0.6f;
+                                shrinkY = 0.1f;
+                                shootEffect = Fx.shootSmall;
+                                shootSound = Sounds.laser;
+                                smokeEffect = Fx.shootBigSmoke;
+                                trailLength = 5;
+                                trailWidth = 2;
+                                lifetime = 45f;
+                                maxRange = 80;
+                                trailEffect = Fx.none;
+                                collidesTiles = true;
+                                frontColor = hitColor = lightColor = Color.white;
+                                backColor = trailColor = Pal.techBlue;
+                            }};
+                        }});
+        }};
+        goss = new MechanicalUnitType("goss"){{
+            constructor = UnitEntity::create;
+            engineSize = 0.6f;
+            groundLayer = 90;
+            speed = 0.9f;
+            accel = 0.9f;
+            flying = true;
+            //damn you intellij
+            drag = (float) 0.75f;
+        }};
         cull = new UnitType("cull") {{
             constructor = UnitEntity::create;
+            outlines = false;
             hittable = isEnemy = targetable = drawCell = allowedInPayloads = drawBody = false;
             payloadCapacity = (2 * 2) * tilePayload;
             outlineColor = AquaPal.tantDarkerTone;
@@ -132,6 +195,9 @@ public class AquaUnitTypes {
             hitSize = 9;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled |= Env.spores | Env.scorching;
+            abilities.add(new DamageStateEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f){{
+                teamColor = false;
+            }});
             parts.addAll(
                     new RegionPart("-crystal2") {{
                         moveY = -0.5f;
@@ -193,21 +259,42 @@ public class AquaUnitTypes {
             legStraightness = 0.3f;
             baseLegStraightness = 0.5f;
             legContinuousMove = true;
+            lockLegBase = true;
             speed = 0.85f;
+            abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f){{
+                teamColor = true;
+            }});
             legMinLength = 0.9f;
             legMaxLength = 1.1f;
             hitSize = 12;
-            legLength = 11;
+            legMoveSpace = 1.2f;
+            legLength = 9;
             legPairOffset = 1;
+            /*damagedEffect = new ParticleEffect(){{
+            particles = 2;
+            sizeFrom = 3;
+            sizeTo = 0;
+            sizeInterp = Interp.pow10Out;
+            length = 0;
+            baseLength = 6;
+            colorFrom = Color.valueOf("65d453");
+            colorTo = Color.valueOf("48903c");
+            }};*/
+            /*veryDamagedEffect = new ParticleEffect(){{
+                particles = 5;
+                sizeFrom = 6;
+                sizeTo = 0;
+                sizeInterp = Interp.pow10Out;
+                length = 0;
+                baseLength = 6;
+                colorFrom = Color.valueOf("65d453");
+                colorTo = Color.valueOf("48903c");
+            }};*/
             legExtension = 0.5f;
-            lockLegBase = true;
             variants = 7;
             rotateSpeed = 6;
-            legBaseOffset = 2;
-            kineticResistance = 0.2f;
-            heatResistance = -0.2f;
-            concussionResistance = 0.4f;
-            energyResistance = 0.2f;
+            legBaseOffset = 4;
+            faceTarget = false;
             allowLegStep = false;
             drownTimeMultiplier = 9000; //too lazy to implement java
             mechStepParticles = true;
@@ -216,13 +303,14 @@ public class AquaUnitTypes {
                         x = 6;
                         y = -1f;
                         recoil = 2f;
+                        layerOffset = 1f;
                         outlineColor = AquaPal.tantDarkerTone;
                         recoilTime = 15f;
                         rotate = true;
                         rotateSpeed = 1.2f;
                         reload = 20;
                         range = 90;
-                        bullet = new AquaBasicBulletType(2.5f, 9){{
+                        bullet = new BasicBulletType(2.5f, 9){{
                          width = 9f;
                           height = 12f;
                           shootEffect = AquaFx.shootLong;
@@ -231,7 +319,6 @@ public class AquaUnitTypes {
                           trailWidth = 2;
                           lifetime = 45f;
                           maxRange = 80;
-                          kinetic = true;
                           frontColor = hitColor = lightColor = Color.white;
                           backColor = trailColor = Pal.techBlue;
                       }};

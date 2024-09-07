@@ -1,23 +1,15 @@
 package aquarion.type;
 
-import aquarion.world.Uti.AquaStats;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
-import mindustry.Vars;
-import mindustry.entities.bullet.BulletType;
-import mindustry.gen.LegsUnit;
-import mindustry.gen.Legsc;
+import arc.math.geom.Vec2;
+import arc.struct.Seq;
 import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.type.UnitType;
-import mindustry.world.meta.Stat;
-import mindustry.world.meta.StatUnit;
-import mindustry.world.meta.StatValues;
-
-import static mindustry.Vars.tilesize;
 
 public class GerbUnitType extends UnitType {
     public TextureRegion[] variantRegions;
@@ -26,28 +18,21 @@ public class GerbUnitType extends UnitType {
     public TextureRegion armorRegion;
     public TextureRegion damagedArmorRegion;
     public TextureRegion severelyDamagedArmorRegion;
-
-    public TextureRegion[][] legSegments; // 2D array: [leg index][segment index]
-
+    // effect that happens beyond the damage threshold
+    // effect that happens beyond extreme damage threshold
+    public Color color = Color.white;
     public int variants = 7;
-    public float damageThreshold = 0.8f; // these are percentage based btw%
-    public float severeDamageThreshold = 0.3f;
-    public float kineticResistance;
-    public float heatResistance;
-    public float energyResistance;
-    public float concussionResistance;
+    public float damageThreshold = 0.3f; // these are percentage based btw%
+    public float severeDamageThreshold = 0.8f;
+    // Chain-related fields
+    public int chainLength = 12; // Number of chain segments
+    public TextureRegion chainSegmentRegion; // Texture for the chain segment
+    public Seq<Vec2> chainPositions = new Seq<>(); // Sequence to store chain segment positions
+
     public GerbUnitType(String name) {
         super(name);
         drawCell = false;
         outlineColor = Color.valueOf("37261d");
-    }
-    // Method to apply damage to the unit
-    public void applyDamage(Unit unit, AquaBulletType bullet) {
-        float effectiveDamage = bullet.calculateEffectiveDamage(this);
-
-        if (effectiveDamage > 0) {
-            unit.health -= effectiveDamage;
-        }
     }
 
     @Override
@@ -56,7 +41,12 @@ public class GerbUnitType extends UnitType {
         armorRegion = Core.atlas.find(name + "-armor");
         damagedArmorRegion = Core.atlas.find(name + "-armor" + 2);
         severelyDamagedArmorRegion = Core.atlas.find(name + "-armor" + 1);
+        chainSegmentRegion = Core.atlas.find(name + "-chain");
 
+        // Initialize chain segment positions at the unit's initial position
+        for (int i = 0; i < chainLength; i++) {
+            chainPositions.add(new Vec2());
+        }
         if (variants != 0) {
             variantRegions = new TextureRegion[variants];
             damagedVariantRegions = new TextureRegion[variants];
@@ -64,8 +54,8 @@ public class GerbUnitType extends UnitType {
             for (int i = 0; i < variants; i++) {
                 variantRegions[i] = Core.atlas.find(name + (1 + i));
                 //Do not ask. Do not whine. Do not even mention this to me.
-                damagedVariantRegions[i] = Core.atlas.find(name + (1 + i) + "-2");
-                severelyDamagedVariantRegions[i] = Core.atlas.find(name + (1 + i) + "-1");
+                damagedVariantRegions[i] = Core.atlas.find(name + (1 + i) + "-1");
+                severelyDamagedVariantRegions[i] = Core.atlas.find(name + (1 + i) + "-2");
             }
         } else {
             variantRegions = new TextureRegion[]{fullIcon};
@@ -105,20 +95,23 @@ public class GerbUnitType extends UnitType {
         TextureRegion armorRegion;
 
         // Determine which set of textures to use based on health thresholds
-        if (unit.health < unit.maxHealth * severeDamageThreshold) {
+        if (unit.health < Math.abs(unit.maxHealth * severeDamageThreshold)) {
+            // Severe damage state: use "variant-2" textures
             regions = getSeverelyDamagedVariantRegions();
             armorRegion = getSeverelyDamagedArmorRegion();
-        } else if (unit.health < unit.maxHealth * damageThreshold) {
+        } else if (unit.health < Math.abs(unit.maxHealth * damageThreshold)) {
+            // Moderate damage state: use "variant-1" textures
             regions = getDamagedVariantRegions();
             armorRegion = getDamagedArmorRegion();
         } else {
+            // Normal state: use standard textures
             regions = getVariantRegions();
             armorRegion = getArmorRegion();
         }
 
         // Draw body and armor
+        float bodyLayerOffset = Mathf.randomSeed(unit.id, -0.01f, 0.01f);
         if (regions.length > 0) {
-            float bodyLayerOffset = Mathf.randomSeed(unit.id, -0.01f, 0.01f);
             Draw.z(Layer.legUnit + bodyLayerOffset);
             int index = Mathf.randomSeed(unit.id, 0, regions.length - 1);
             Draw.rect(regions[index], unit.x, unit.y, unit.rotation - 90);
@@ -126,16 +119,6 @@ public class GerbUnitType extends UnitType {
             Draw.z(Layer.legUnit + bodyLayerOffset + 0.00000001f);
             Draw.rect(armorRegion, unit.x, unit.y, unit.rotation - 90);
         }
-        Draw.z(Layer.legUnit + 0.0000002f);
         drawWeapons(unit);
     }
-    @Override
-    public void setStats(){
-        super.setStats();
-        // resistances
-        stats.add(AquaStats.kineticResistance, kineticResistance * 100, StatUnit.percent);
-        stats.add(AquaStats.heatResistance, heatResistance * 100, StatUnit.percent);
-        stats.add(AquaStats.energyResistance, energyResistance * 100, StatUnit.percent);
-        stats.add(AquaStats.concussionResistance, concussionResistance * 100, StatUnit.percent);
-    }
-    }
+}

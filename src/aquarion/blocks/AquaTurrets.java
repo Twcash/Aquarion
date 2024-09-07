@@ -1,8 +1,6 @@
 package aquarion.blocks;
 
-import aquarion.AquaAttributes;
 import aquarion.AquaItems;
-import aquarion.type.AquaMissileBulletType;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Color;
@@ -15,15 +13,12 @@ import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.entities.pattern.ShootMulti;
 import mindustry.entities.pattern.ShootPattern;
-import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
-import mindustry.world.blocks.production.WallCrafter;
 import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
 
-import static mindustry.gen.Sounds.drill;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
@@ -34,15 +29,10 @@ public class AquaTurrets {
         Forment = new ItemTurret("forment") {{
             {
                 ammo(
-                        AquaItems.bauxite,  new AquaMissileBulletType(2.5f, 10, "bullet"){{
+                        AquaItems.bauxite,  new MissileBulletType(2.5f, 10, "bullet"){{
                             width = 10f;
                             height = 16f;
                             trailLength = 12;
-
-                            kinetic = true;
-                            heat = false;
-                            concussion = false;
-                            energy = false;
 
                             lifetime = 60f;
                             ammoMultiplier = 1;
@@ -59,14 +49,10 @@ public class AquaTurrets {
                             backColor = trailColor = AquaPal.bauxiteLightTone;
                             buildingDamageMultiplier = 0.3f;
                         }},
-                        AquaItems.gallium,  new AquaMissileBulletType(2f, 18, "bullet"){{
+                        AquaItems.gallium,  new MissileBulletType(2f, 18, "bullet"){{
                             width = 12f;
                             height = 18f;
 
-                            kinetic = true;
-                            heat = false;
-                            concussion = false;
-                            energy = false;
 
                             trailLength = 8;
                             lifetime = 60f;
@@ -85,16 +71,12 @@ public class AquaTurrets {
                             backColor = trailColor = AquaPal.galliumLightTone;
                             buildingDamageMultiplier = 0.3f;
                         }},
-                        AquaItems.nitride,  new AquaMissileBulletType(3.5f, 14, "bullet"){{
+                        AquaItems.nitride,  new MissileBulletType(3.5f, 14, "bullet"){{
                             width = 9f;
                             height = 15f;
                             trailLength = 10;
                             lifetime = 60f;
 
-                            kinetic = true;
-                            heat = false;
-                            concussion = false;
-                            energy = false;
 
                             ammoMultiplier = 3;
                             rangeChange = 32;
