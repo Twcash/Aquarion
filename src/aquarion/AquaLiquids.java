@@ -5,7 +5,7 @@ import mindustry.type.CellLiquid;
 import mindustry.type.Liquid;
 
 public class AquaLiquids {
-    public static Liquid artroGoop, brine, cyan, gerbGoop, helium, hydrogenChloride, hydroxide, molusGoop, pyridine, reactorCoolant, tritium;
+    public static Liquid artroGoop, brine, nitronite, gerbGoop, helium, hydrogenChloride, hydroxide, molusGoop, pyridine, reactorCoolant, tritium;
 
     public static void loadContent() {
         artroGoop = new CellLiquid("artro-goop", Color.valueOf("#8cae8e80")) {{
@@ -17,31 +17,17 @@ public class AquaLiquids {
             coolant = false;
         }};
 
-        gerbGoop = new CellLiquid("gerb-goop", Color.valueOf("#65d45390")) {{
-            colorFrom = Color.valueOf("#ac8e76");
-            colorTo = Color.valueOf("#85664c");
-            lightColor = Color.valueOf("#65d453");
-            viscosity = 0.95F;
-            coolant = false;
-        }};
-
-        molusGoop = new CellLiquid("molus-goop", Color.valueOf("#92287d")) {{
-            colorFrom = Color.valueOf("#c6eafb");
-            colorTo = Color.valueOf("#a2bfcc");
-            lightColor = Color.valueOf("#f21fc8");
-            viscosity = 0.8f;
-            hidden = true;
-            coolant = false;
-        }};
-
-        brine = new Liquid("brine", Color.valueOf("#e5f0d5")) {{
+        brine = new Liquid("brine", Color.valueOf("#b8c89f")) {{
             coolant = false;
             viscosity = 0.8f;
+            explosiveness = 0.1f;
         }};
 
-        cyan = new Liquid("cyan", Color.valueOf("#c7ecee80")) {{
+        nitronite = new Liquid("nitronite", Color.valueOf("#c7ecee80")) {{
             heatCapacity = 1;
             viscosity = 0.9f;
+            explosiveness = 0.5f;
+            flammability = 1.5f;
         }};
 
         helium = new Liquid("helium", Color.valueOf("#ff8080")) {{
@@ -66,11 +52,6 @@ public class AquaLiquids {
             gas = true;
         }};
 
-        reactorCoolant = new Liquid("reactor-coolant", Color.valueOf("#d2c1ff90")) {{
-            heatCapacity = 1;
-            explosiveness = 0.9f;
-            hidden = true;
-        }};
 
         tritium = new Liquid("tritium", Color.valueOf("#b6f498")) {{
             explosiveness = 0.6f;

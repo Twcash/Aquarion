@@ -195,9 +195,6 @@ public class AquaUnitTypes {
             hitSize = 9;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled |= Env.spores | Env.scorching;
-            abilities.add(new DamageStateEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f){{
-                teamColor = false;
-            }});
             parts.addAll(
                     new RegionPart("-crystal2") {{
                         moveY = -0.5f;
@@ -261,25 +258,26 @@ public class AquaUnitTypes {
             legContinuousMove = true;
             lockLegBase = true;
             speed = 0.85f;
-            abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f){{
-                teamColor = true;
-            }});
+            abilities.add(
+                    new DamageStateEffectAbility(0f, -7f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 1;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        sizeInterp = Interp.pow10Out;
+                        length = 0;
+                        baseLength = 9;
+                        layer = 10;
+                        lifetime = 2000;
+                        colorFrom = Color.valueOf("65d45330");
+                        colorTo = Color.valueOf("48903c0");
+                    }}, 90f, .3f){{
+                    }});
             legMinLength = 0.9f;
             legMaxLength = 1.1f;
             hitSize = 12;
             legMoveSpace = 1.2f;
             legLength = 9;
             legPairOffset = 1;
-            /*damagedEffect = new ParticleEffect(){{
-            particles = 2;
-            sizeFrom = 3;
-            sizeTo = 0;
-            sizeInterp = Interp.pow10Out;
-            length = 0;
-            baseLength = 6;
-            colorFrom = Color.valueOf("65d453");
-            colorTo = Color.valueOf("48903c");
-            }};*/
             /*veryDamagedEffect = new ParticleEffect(){{
                 particles = 5;
                 sizeFrom = 6;

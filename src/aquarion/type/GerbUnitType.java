@@ -95,11 +95,11 @@ public class GerbUnitType extends UnitType {
         TextureRegion armorRegion;
 
         // Determine which set of textures to use based on health thresholds
-        if (unit.health < Math.abs(unit.maxHealth * severeDamageThreshold)) {
+        if (unit.health < Math.abs(unit.maxHealth * .3f)) {
             // Severe damage state: use "variant-2" textures
             regions = getSeverelyDamagedVariantRegions();
             armorRegion = getSeverelyDamagedArmorRegion();
-        } else if (unit.health < Math.abs(unit.maxHealth * damageThreshold)) {
+        } else if (unit.health < Math.abs(unit.maxHealth * .8f)) {
             // Moderate damage state: use "variant-1" textures
             regions = getDamagedVariantRegions();
             armorRegion = getDamagedArmorRegion();

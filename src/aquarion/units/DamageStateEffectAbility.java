@@ -22,13 +22,14 @@ public class DamageStateEffectAbility extends Ability {
 
     protected float counter;
 
-    public DamageStateEffectAbility(float x, float y, Color color, Effect effect, float interval){
+    public DamageStateEffectAbility(float x, float y, Color color, Effect effect, float interval, float minHealth){
         this.x = x;
         this.y = y;
         this.color = color;
         this.effect = effect;
         this.interval = interval;
         display = false;
+        this.minHealth = minHealth;
     }
 
     public DamageStateEffectAbility(){
@@ -42,7 +43,7 @@ public class DamageStateEffectAbility extends Ability {
         counter += Time.delta;
 
         // Check if the unit's health is below the threshold and the interval has passed
-        if(unit.health < (unit.maxHealth * minHealth) && counter >= interval && !unit.inFogTo(Vars.player.team())){
+        if(unit.health < (unit.maxHealth * minHealth) && counter >= interval){
             Tmp.v1.trns(unit.rotation - 90f, x, y);
             counter %= interval;  // Reset the counter
             // Apply the effect

@@ -29,7 +29,7 @@ public class AquaTurrets {
         Forment = new ItemTurret("forment") {{
             {
                 ammo(
-                        AquaItems.bauxite,  new MissileBulletType(2.5f, 10, "bullet"){{
+                        Items.lead,  new MissileBulletType(2.5f, 10, "bullet"){{
                             width = 10f;
                             height = 16f;
                             trailLength = 12;
