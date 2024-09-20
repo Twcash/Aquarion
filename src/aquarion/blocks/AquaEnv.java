@@ -4,17 +4,15 @@ import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaLiquids;
 import aquarion.world.blocks.environment.PineTree;
+import aquarion.world.graphics.AquaCacheLayers;
 import arc.graphics.Color;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.CacheLayer;
-import mindustry.type.Liquid;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
-import aquarion.AquaItems.*;
-import aquarion.AquaLiquids.*;
 
 import static aquarion.AquaItems.bauxite;
 import static mindustry.content.Blocks.*;
@@ -28,13 +26,14 @@ public class AquaEnv {
     public static Block algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin;
 
     // Floors
-    public static Block andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
+    public static Block andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, shallowBrine, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
 
     // Ore blocks
     public static Block leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese;
 
     // Walls
     public static Block bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, coralWall, feldsparWall, gabbroWall, andesiteExtrusions;
+
 
     public static void loadContent() {
 
@@ -49,10 +48,7 @@ public class AquaEnv {
             liquidDrop = AquaLiquids.brine;
             liquidMultiplier = 1.1f;
             isLiquid = true;
-            // status = StatusEffects.wet;
-            statusDuration = 120f;
-            drownTime = 200f;
-            cacheLayer = CacheLayer.water;
+            cacheLayer = AquaCacheLayers.brine;
             albedo = 1f;
             supportsOverlay = true;
         }};
@@ -104,16 +100,16 @@ public class AquaEnv {
             parent = blendGroup = AquaEnv.andesiteRubble;
             effectSpacing = 15f;
             effect = new ParticleEffect(){{
-                particles = 5;
+                particles = 3;
                 lifetime = 340;
                 length = 125;
                 cone = 20;
                 baseRotation = 50;
                 sizeFrom = 0f;
                 sizeTo = 12f;
-                //particles have to be darker due to andesite bleding in with the particles
-                colorFrom = Color.valueOf("121214120");
-                colorTo = Color.valueOf("12121410");
+                layer = 90;
+                colorFrom = Color.valueOf("65666090");
+                colorTo = Color.valueOf("a2a2a200");
                 sizeInterp = interp.pow3Out;
                 interp = interp.pow3Out;
             }};

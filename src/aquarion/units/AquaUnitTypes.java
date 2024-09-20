@@ -12,6 +12,7 @@ import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.BulletType;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.part.RegionPart;
+import mindustry.entities.pattern.ShootHelix;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
@@ -42,9 +43,11 @@ public class AquaUnitTypes {
 
     public static void loadContent() {
         messenger = new MechanicalUnitType("messenger"){{
-        speed = 0.4f;
-        rotateSpeed = 1.8f;
+        speed = 0.65f;
+
+        rotateSpeed = 2f;
         rotateMoveFirst = true;
+        mech = true;
         constructor = MechUnit::create;
         mechLegColor = AquaPal.tantDarkestTone;
             weapons.add(new Weapon("aquarion-messenger-weapon"){{
@@ -81,13 +84,58 @@ public class AquaUnitTypes {
         }};
         goss = new MechanicalUnitType("goss"){{
             constructor = UnitEntity::create;
-            engineSize = 0.6f;
+            engineSize = 0f;
             groundLayer = 90;
-            speed = 0.9f;
+            outlineColor = Color.valueOf("232826");
+            speed = 2.5f;
             accel = 0.9f;
+            health = 270;
+            hitSize = 7;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, -7f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 45;
+                        colorFrom = Color.valueOf("65d45330");
+                        colorTo = Color.valueOf("48903c0");
+                    }}, 90f, .3f){{
+                    }});
             flying = true;
+            lowAltitude = true;
             //damn you intellij
             drag = (float) 0.75f;
+
+            weapons.add(new Weapon("aquarion-goss-weapon"){{
+                shoot.shots = 2;
+                shootSound = Sounds.blaster;
+                reload = 45;
+                layerOffset = -0.01f;
+                x = 0;
+                y = 0f;
+                shootY = 5;
+                recoil = 1;
+                rotate = false;
+                mirror = false;
+                bullet = new BasicBulletType(1.5f, 15, "missile-large"){{
+                weaveScale = 6;
+                weaveMag = 4;
+                shrinkX = 0.1f;
+                shrinkY = 0.1f;
+                homingPower = 0.02f;
+                trailLength = 7;
+                hitColor = trailColor = backColor = lightColor = Color.valueOf("ffa665");
+                frontColor = Color.white;
+                keepVelocity = false;
+                drag = -0.02f;
+                }};
+            }});
         }};
         cull = new UnitType("cull") {{
             constructor = UnitEntity::create;
@@ -255,7 +303,6 @@ public class AquaUnitTypes {
             legCount = 6;
             legStraightness = 0.3f;
             baseLegStraightness = 0.5f;
-            legContinuousMove = true;
             lockLegBase = true;
             speed = 0.85f;
             abilities.add(
@@ -278,16 +325,6 @@ public class AquaUnitTypes {
             legMoveSpace = 1.2f;
             legLength = 9;
             legPairOffset = 1;
-            /*veryDamagedEffect = new ParticleEffect(){{
-                particles = 5;
-                sizeFrom = 6;
-                sizeTo = 0;
-                sizeInterp = Interp.pow10Out;
-                length = 0;
-                baseLength = 6;
-                colorFrom = Color.valueOf("65d453");
-                colorTo = Color.valueOf("48903c");
-            }};*/
             legExtension = 0.5f;
             variants = 7;
             rotateSpeed = 6;

@@ -5,6 +5,10 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import mindustry.game.Team;
+import mindustry.gen.Flyingc;
+import mindustry.gen.Legsc;
+import mindustry.gen.Mechc;
 import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.graphics.MultiPacker;
@@ -18,10 +22,12 @@ public class MechanicalUnitType extends UnitType {
     public TextureRegion veryDamagedRegion;
     public float damageThreshold = 0.95f; // these are percentage based btw%
     public float severeDamageThreshold = 0.3f;
+    public boolean mech;
+    public boolean leg;
 
     public MechanicalUnitType(String name) {
         super(name);
-        outlineColor = Color.valueOf("2f3734");
+        outlineColor = Color.valueOf("232826");
         drawCell = false;
     }
     @Override
@@ -55,9 +61,17 @@ public class MechanicalUnitType extends UnitType {
         } else {
             armorRegion = getArmorRegion();
         }
-        Draw.z(Layer.groundUnit);
+        float layer = 0;
+        if(flying) {
+            layer = Layer.flyingUnit;
+        }else if (lowAltitude){
+            layer = Layer.flyingUnitLow;
+        } else if(leg) {
+            layer = Layer.legUnit;
+        } else if(mech) layer = Layer.groundUnit;
+        Draw.z(layer);
         Draw.rect(armorRegion, unit.x, unit.y, unit.rotation - 90);
-        Draw.z(Layer.groundUnit - .00000011f);
+        Draw.z(layer - .00000011f);
         drawWeapons(unit);
     }
     public void drawOutline(Unit unit){
@@ -78,7 +92,7 @@ public class MechanicalUnitType extends UnitType {
 
         // Check if the unit should transform into the derelict type
         if (unit.health <= 0) {
-            // Transform into derelict type by spawning a new unit
+            unit.team = Team.derelict;
         }
     }
 }

@@ -2,11 +2,15 @@ package aquarion;
 
 import aquarion.planets.AquaPlanets;
 import aquarion.units.AquaUnitTypes;
+import aquarion.world.graphics.AquaCacheLayers;
+import aquarion.world.graphics.AquaShaders;
 import arc.Core;
-import arc.util.Log;
-import mindustry.Vars;
+import arc.Events;
+import mindustry.game.EventType;
 import mindustry.mod.*;
 import aquarion.blocks.*;
+
+import static mindustry.Vars.headless;
 
 public class AquarionMod extends Mod {
 //TODO proper load order DO NOT DO UNTIL ALL CONTENT IS PORTED
@@ -21,8 +25,13 @@ public class AquarionMod extends Mod {
     //turrets
     //unit blocks
     //logic
+
     @Override
     public void loadContent() {
+        if (!headless) {
+            AquaShaders.init();
+            AquaCacheLayers.init();
+        }
         AquaAttributes.load();
         AquaEffect.loadContent();
         AquaLiquid.loadContent();
@@ -37,6 +46,6 @@ public class AquarionMod extends Mod {
         AquaCrafters.loadContent();
         AquaPlanets.loadContent();
         AquaTurrets.loadContent();
-        AquaPower.loadContent();
+         AquaPower.loadContent();
     }
 }

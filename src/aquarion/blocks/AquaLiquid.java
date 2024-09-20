@@ -29,6 +29,7 @@ public class AquaLiquid {
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 20;
+            leaks = false;
             liquidPressure = 0.8F;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled |= Env.spores | Env.scorching;
@@ -39,6 +40,7 @@ public class AquaLiquid {
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 20;
             liquidPressure = 1.5F;
+            leaks = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled |= Env.spores | Env.scorching;
         }};
