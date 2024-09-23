@@ -8,6 +8,7 @@ import arc.util.*;
 import arc.util.noise.*;
 import mindustry.content.*;
 import mindustry.game.*;
+import mindustry.graphics.g3d.PlanetGrid;
 import mindustry.maps.generators.*;
 import mindustry.type.*;
 import mindustry.world.*;
@@ -15,8 +16,10 @@ import mindustry.world.*;
 import static mindustry.Vars.*;
 
 public class AquaPlanetGenarator extends PlanetGenerator{
-    Color c1 = Color.valueOf("5057a6"), c2 = Color.valueOf("272766"), out = new Color();
 
+    Color c1 = Color.valueOf("5057a6"), c2 = Color.valueOf("272766"), out = new Color();
+    Color c3 = Color.valueOf("727be2"), c4 = Color.valueOf("#90aae4");
+    Color c5 = Color.valueOf("dde8ff"), c6 = Color.valueOf("#e5edff");
     Block[][] arr = {
             {Blocks.shale, AquaEnv.phylite_floor, AquaEnv.slate, Blocks.basalt, AquaEnv.basaltSpikes, AquaEnv.ferric_extrusions, Blocks.ferricStone, Blocks.dacite, AquaEnv.andesite, AquaEnv.andesiteRubble, AquaEnv.andesiteLayers}
     };
@@ -32,12 +35,14 @@ public class AquaPlanetGenarator extends PlanetGenerator{
 
     @Override
     public float getHeight(Vec3 position){
-        return 0;
+        float poles = Math.abs(position.y);
+        float depth = Simplex.noise3d(seed, 2, 0.56, 1.7f, position.x, position.y, position.z) / 2f;
+        if (depth + poles> 1.1f) {return Mathf.pow(rawHeight(position), 0.25f) /3.5f;} else return 0;
     }
-
     @Override
     public Color getColor(Vec3 position){
         float depth = Simplex.noise3d(seed, 2, 0.56, 1.7f, position.x, position.y, position.z) / 2f;
+        if (Math.abs(position.y) + depth> 0.98) {return c5.write(out).lerp(c6, Mathf.clamp(Mathf.round(depth, 0.25f))).a(0.6f);} else  if (Math.abs(position.y) + depth> 0.8) {return c3.write(out).lerp(c4, Mathf.clamp(Mathf.round(depth, 0.25f))).a(0.5f);}
         return c1.write(out).lerp(c2, Mathf.clamp(Mathf.round(depth, 0.15f))).a(0.2f);
     }
 
