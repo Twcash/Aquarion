@@ -1,5 +1,8 @@
 package aquarion.blocks;
 
+import aquarion.AquaLiquids;
+import aquarion.world.graphics.DrawPump;
+import mindustry.content.Liquids;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.liquid.Conduit;
@@ -11,6 +14,8 @@ import mindustry.world.blocks.defense.RegenProjector;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.liquid.LiquidJunction;
 import mindustry.world.blocks.liquid.LiquidRouter;
+import mindustry.world.blocks.production.Pump;
+import mindustry.world.draw.*;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
@@ -20,10 +25,20 @@ import static mindustry.type.ItemStack.with;
 
 
 public class AquaLiquid {
-    public static Block pulseSiphonBridge, pulseSiphon, siphonBridge, siphonDistributor, siphonJunction, siphonRouter, siphon;
+    public static Block pulseSiphonBridge, pulseSiphon, siphonBridge, siphonDistributor, siphonJunction, siphonRouter, siphon, ThermalPump;
 
     public static void loadContent() {
-
+        ThermalPump = new Pump("thermal-pump"){{
+            requirements(Category.liquid, with(lead, 25, bauxite, 10, metaglass, 35));
+            size = 2;
+            liquidCapacity = 80f;
+            pumpAmount = 0.2f;
+            hasPower = true;
+            consumePower(30/60f);
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled |= Env.spores | Env.scorching;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(AquaLiquids.brine, 2f), new DrawDefault(), new DrawPump());
+        }};
         siphon = new Conduit("siphon") {{
             requirements(Category.liquid, with(lead, 2, bauxite, 1));
             junctionReplacement = siphonJunction;
