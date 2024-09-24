@@ -31,6 +31,7 @@ public class AquaLiquid {
         ThermalPump = new Pump("thermal-pump"){{
             requirements(Category.liquid, with(lead, 25, bauxite, 10, metaglass, 35));
             size = 2;
+            squareSprite = false;
             liquidCapacity = 80f;
             pumpAmount = 0.2f;
             hasPower = true;
