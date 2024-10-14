@@ -3,9 +3,11 @@ package aquarion.blocks;
 import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaLiquids;
+import aquarion.world.blocks.environment.NonRandomTreeBlock;
 import aquarion.world.blocks.environment.PineTree;
 import aquarion.world.graphics.AquaCacheLayers;
 import arc.graphics.Color;
+import arc.math.Interp;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.entities.effect.ParticleEffect;
@@ -26,13 +28,13 @@ public class AquaEnv {
     public static Block algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin;
 
     // Floors
-    public static Block andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
+    public static Block greenCoralFloor, BlueCoralFloor, deepredCoralFloor, redCoralFloor, andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
 
     // Ore blocks
     public static Block leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese;
 
     // Walls
-    public static Block bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, coralWall, feldsparWall, gabbroWall, andesiteExtrusions;
+    public static Block pillarCoral, loteasCoral, songCoral,  bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, andesiteExtrusions;
 
 
     public static void loadContent() {
@@ -55,7 +57,6 @@ public class AquaEnv {
 
         coral_floor = new Floor("coral-floor", 4) {{
             decoration = yellowCoral;
-
         }};
 
 
@@ -80,19 +81,30 @@ public class AquaEnv {
                 sizeTo = 12f;
                 colorFrom = Color.valueOf("18161c90");
                 colorTo = Color.valueOf("2a282d10");
-                sizeInterp = interp.pow3Out;
+                sizeInterp = Interp.pow3Out;
                 interp = interp.pow3Out;
             }};
         }};
         andesiteRubble = new Floor("andesite-rubble-", 4) {{
             wall = daciteWall;
+            decoration = daciteBoulder;
         }};
         andesite = new Floor("andesite-", 4) {{
             wall = daciteWall;
+            decoration = daciteBoulder;
         }};
 
         ferric_extrusions = new Floor("ferric-extrusions", 2) {{
-
+            decoration = ferricBoulder;
+        }};
+        redCoralFloor = new Floor("redCoral-floor"){{
+            variants = 6;
+        }};
+        BlueCoralFloor = new Floor("blue-coral-floor"){{
+            variants = 4;
+        }};
+        greenCoralFloor = new Floor("green-coral-floor"){{
+            variants = 6;
         }};
         andesiteVent = new SteamVent("andesite-vent-") {{
             attributes.set(Attribute.steam, 1f);
@@ -118,7 +130,7 @@ public class AquaEnv {
 
 
         gabbro_extrusions = new Floor("gabbro-extrusions", 2) {{
-
+            decoration = gabbroBoulder;
         }};
 
         gabbro = new Floor("gabbro", 3) {{
@@ -188,17 +200,21 @@ public class AquaEnv {
 
         kelp_floor = new Floor("kelp-floor", 2) {{
             walkSound = mindustry.gen.Sounds.mud;
+            decoration = kelp;
         }};
 
         roughFeldspar = new Floor(" rough-feldspar", 4) {{
             wall = feldsparWall;
+            decoration = feldsparBoulder;
         }};
 
         phylite_floor = new Floor("phylite-floor", 2) {{
             wall = shaleWall;
+            decoration = shaleBoulder;
         }};
         slate = new Floor("slate", 3) {{
             wall = shaleWall;
+            decoration = shaleBoulder;
         }};
         basaltSpikes = new Floor("basalt-spikes", 4) {{
             wall = duneWall;
@@ -232,15 +248,21 @@ public class AquaEnv {
         feldsparWall = new StaticWall("feldspar-wall") {{
             variants = 4;
         }};
+        redCoralWall = new StaticWall("red-coral-wall") {{
+            variants = 3;
+        }};
+        greenCoralWall = new StaticWall("green-coral-wall") {{
+            variants = 3;
+        }};
+        blueCoralWall = new StaticWall("blue-coral-wall") {{
+            variants = 3;
+        }};
 
         gabbroWall = new StaticWall("gabbro-wall") {{
             variants = 4;
         }};
 
 
-        coralWall = new StaticTree("coral-wall") {{
-            variants = 3;
-        }};
 
         parzilPine = new PineTree("parzil-pine"){{
             shadowAlpha = 0.6f;
@@ -261,15 +283,23 @@ public class AquaEnv {
             variants = 2;
             shadowOffset = -1;
         }};
+        //TODO proper shadows that dont look bad
+        songCoral = new TreeBlock("song-coral") {{
+            variants = 3;
+        }};
+        loteasCoral = new TreeBlock("loteas-coral") {{
+            variants = 3;
+        }};
+        pillarCoral = new NonRandomTreeBlock("pillar-coral") {{
+            variants = 3;
+        }};
         //boulders
         algalBoulder = new Prop("algal-boulder"){{
             variants = 2;
             algal_carpet.asFloor().decoration = kelp_floor.asFloor().decoration;
         }};
-
         feldsparBoulder = new Prop("feldspar-boulder"){{
             variants = 1;
-            feldspar.asFloor().decoration = andesite.asFloor().decoration = andesiteRubble.asFloor().decoration = this;
         }};
 
         gabbroBoulder = new Prop("gabbro-boulder."){{

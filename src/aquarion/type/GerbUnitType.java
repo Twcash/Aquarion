@@ -121,4 +121,5 @@ public class GerbUnitType extends UnitType {
         }
         drawWeapons(unit);
     }
+
 }

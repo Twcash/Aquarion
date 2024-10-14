@@ -4,6 +4,7 @@ import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
+import arc.scene.ui.layout.Scl;
 import arc.util.Nullable;
 
 import mindustry.Vars;
@@ -17,12 +18,34 @@ import static mindustry.Vars.*;
 
 public class AquaShaders {
     public static @Nullable ModSurfaceShader brine;
+    public static @Nullable ModSurfaceShader blockDestroy;
     public static void init() {
         brine = new ModSurfaceShader("brine");
+        blockDestroy = new ModSurfaceShader("blockDestroy");
     }
+
     public static class ModSurfaceShader extends Shader {
         Texture noiseTex;
 
+
+
+        /** Shaders that get plastered on blocks, notably walls. */
+        public static class BlockShader extends Shader {
+            public BlockShader(String name){
+                super(Core.files.internal("shaders/default.vert"),
+                        tree.get("shaders/" + name + ".frag"));
+            }
+
+            @Override
+            public void apply(){
+                setUniformf("u_time", Time.time / Scl.scl(1f));
+                //setUniformf("u_resolution", Core.camera.width, Core.camera.height);
+                setUniformf("u_offset",
+                        Core.camera.position.x,
+                        Core.camera.position.y
+                );
+            }
+        }
         public ModSurfaceShader(String frag) {
             super(Shaders.getShaderFi("screenspace.vert"), Vars.tree.get("shaders/" + frag + ".frag"));
             loadNoise();

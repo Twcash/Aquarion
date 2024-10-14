@@ -1,15 +1,25 @@
 package aquarion.world.graphics;
 
 import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Interp;
+import arc.math.Mathf;
 import arc.math.Rand;
 import arc.math.geom.Vec2;
 import mindustry.entities.Effect;
+import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
+import mindustry.world.Block;
+import mindustry.world.draw.DrawMulti;
+import mindustry.world.draw.DrawRegion;
 
+import static arc.graphics.Color.alpha;
 import static arc.graphics.g2d.Draw.color;
 import static arc.math.Angles.randLenVectors;
 
@@ -18,47 +28,83 @@ public class AquaFx {
     public static final Vec2 v = new Vec2();
 
     public static final Effect
-            UnitEngineTrail = new Effect(45f,  300f, b -> {
-        float intensity = 0.5f;
 
-        color(Color.valueOf("ffae7f"), Color.valueOf("332f2f"), b.fin());
-        for(int i = 0; i < 4; i++){
-            rand.setSeed(b.id*2 + i);
-            float lenScl = rand.random(0.5f, 1f);
-            int fi = i;
-            b.scaled(b.lifetime * lenScl, e -> {
-                randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), 13f * intensity, (x, y, in, out) -> {
-                    float fout = e.fout(Interp.pow5Out) * rand.random(0.5f, 1f);
-                    float rad = fout * ((2f + intensity) * 2.35f);
 
-                    Fill.circle(e.x + x, e.y + y, rad);
-                    Drawf.light(e.x + x, e.y + y, rad * 2.5f, b.color, 0.5f);
-                });
-            });
-        }
-    }).layer(Layer.bullet - 1f),
-            shootLong = new Effect(12, e -> {
+    shootLong = new Effect(12, e -> {
         color(Color.white, Pal.lightOrange, e.fin());
         float w = 1.2f + 7 * e.fout();
         Drawf.tri(e.x, e.y, w, 45f * e.fout(), e.rotation);
         Drawf.tri(e.x, e.y, w, 5f * e.fout(), e.rotation + 180f);
     }),
-            shootSmokeFormentBauxite = new Effect(35f, e -> {
-                color(AquaPal.bauxiteShoot, e.color, e.fin());
+            t1TrailZoarcid = new MultiEffect(
+                    new ParticleEffect(){{
+                        //it's too much of a pain to do the usual fx
+                        lifetime = 35;
+                        sizeFrom = 4f;
+                        baseRotation = 180;
+                        rotWithParent = true;
+                        sizeTo = 0;
+                        particles = 3;
+                        colorFrom = Color.valueOf("181b1c");
+                        colorTo = Color.valueOf("181b1c");
+                        sizeInterp = Interp.pow10Out;
+                        randLength = true;
+                        length = 14;
+                        interp = Interp.linear;
+                        cone = 12;
+                        layer = Layer.bullet - 1.2f;
+                    }},
+                    new ParticleEffect(){{
+                        lifetime = 25;
+                        sizeFrom = 3.5f;
+                        rotWithParent = true;
+                        sizeTo = 0;
+                        particles = 3;
+                        baseRotation = 180;
+                        colorFrom = Color.valueOf("2e3235");
+                        colorTo = Color.valueOf("2e3235");
+                        randLength = true;
+                        length = 8;
+                        interp = Interp.linear;
+                        sizeInterp = Interp.pow10Out;
+                        cone = 8;
+                        layer = Layer.bullet - 1.1f;
+                    }},
+                    new ParticleEffect(){{
+                        lifetime = 20;
+                        sizeFrom = 2.5f;
+                        sizeTo = 0;
+                        particles = 2;
+                        baseRotation = 180;
+                        rotWithParent = true;
+                        colorFrom = Color.valueOf("6d89dd");
+                        colorTo = Color.valueOf("444b5e");
+                        randLength = true;
+                        length = 4;
+                        interp = Interp.linear;
+                        sizeInterp = Interp.pow10Out;
+                        cone = 6;
+                        layer = Layer.bullet - 1;
+                    }}
 
-                randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f);
-                });
-            }),
-            shootSmokeFormentGallium = new Effect(35f, e -> {
-                color(Color.white, e.color, e.fin());
+            ),
+    shootSmokeFormentBauxite = new Effect(35f, e -> {
+        color(AquaPal.bauxiteShoot, e.color, e.fin());
 
-                randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f);
-                });
-            }),
+        randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f);
+        });
+    }),
 
-            shootSmokeTri = new Effect(45f, e -> {
+    shootSmokeFormentGallium = new Effect(35f, e -> {
+        color(Color.white, e.color, e.fin());
+
+        randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f);
+        });
+    }),
+
+    shootSmokeTri = new Effect(45f, e -> {
         color(e.color, e.color, e.fin());
 
         rand.setSeed(e.id);
@@ -67,6 +113,5 @@ public class AquaFx {
             v.trns(rot, rand.random(e.finpow() * 30f));
             Fill.poly(e.x + v.x, e.y + v.y, 3, e.fout() * 3.8f + 0.2f, rand.random(360f));
         }
-
     });
 }

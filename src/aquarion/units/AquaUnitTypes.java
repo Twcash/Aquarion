@@ -7,6 +7,7 @@ import arc.math.Interp;
 import mindustry.ai.types.BuilderAI;
 import mindustry.content.Fx;
 import mindustry.entities.abilities.MoveEffectAbility;
+import mindustry.entities.abilities.SpawnDeathAbility;
 import mindustry.entities.bullet.ArtilleryBulletType;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.BulletType;
@@ -21,10 +22,12 @@ import mindustry.type.Weapon;
 import mindustry.type.weapons.RepairBeamWeapon;
 import mindustry.world.meta.Env;
 
+import static aquarion.units.AquaWrecks.*;
 import static mindustry.Vars.tilePayload;
 
 public class AquaUnitTypes {
     //core units and transport
+
     public static UnitType cull, glean,
     //gerb
      gerbTest,
@@ -48,8 +51,36 @@ public class AquaUnitTypes {
         rotateSpeed = 2f;
         rotateMoveFirst = true;
         mech = true;
+        envEnabled|= Env.terrestrial | Env.underwater;
+        envDisabled|= Env.spores | Env.scorching;
         constructor = MechUnit::create;
         mechLegColor = AquaPal.tantDarkestTone;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f){{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime =  80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f){{
+                    }}, new SpawnDeathAbility(messengerWreck, 0, 1){{ randAmount = 1;}});
             weapons.add(new Weapon("aquarion-messenger-weapon"){{
                             mirror = true;
                             alternate = true;
@@ -89,10 +120,12 @@ public class AquaUnitTypes {
             outlineColor = Color.valueOf("232826");
             speed = 2.5f;
             accel = 0.9f;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled|= Env.spores | Env.scorching;
             health = 270;
             hitSize = 7;
             abilities.add(
-                    new DamageStateEffectAbility(0f, -7f, Pal.sapBulletBack, new ParticleEffect(){{
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
                         particles = 3;
                         sizeFrom = 8;
                         sizeTo = 0;
@@ -102,11 +135,21 @@ public class AquaUnitTypes {
                         length = 15;
                         baseLength = 2;
                         layer = 90;
-                        lifetime = 45;
-                        colorFrom = Color.valueOf("65d45330");
-                        colorTo = Color.valueOf("48903c0");
-                    }}, 90f, .3f){{
-                    }});
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f){{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime =  80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f){{
+                    }}, new SpawnDeathAbility(gossWreck, 0, 1){{ randAmount = 1;}});
             flying = true;
             lowAltitude = true;
             //damn you intellij
@@ -136,6 +179,100 @@ public class AquaUnitTypes {
                 drag = -0.02f;
                 }};
             }});
+        }};
+        zoarcid = new MechanicalUnitType("zoarcid"){{
+            constructor = UnitEntity::create;
+            engineSize = 0f;
+            groundLayer = 90;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled |= Env.spores | Env.scorching;
+            hitSize = 8;
+            rotateSpeed = 3;
+            lowAltitude = true;
+            flying = true;
+            outlineColor = Color.valueOf("232826");
+            speed = 2.5f;
+            accel = 0.9f;
+            drag = 0.75f;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f){{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime =  80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f){{
+                    }}, new SpawnDeathAbility(zoarcidWreck, 0, 1){{ randAmount = 1;}},
+                    new MoveEffectAbility(0, -1, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 2));
+            weapons.add(new Weapon("aquarion-zoarcid-weapon"){{
+                shootSound = Sounds.missileSmall;
+                reload = 60;
+                layerOffset = -0.01f;
+                shootY = 5;
+                baseRotation = -5;
+                x = 0.5f;
+                y = 1.5f;
+                recoil = 1;
+                shootCone = 25;
+                rotate = false;
+                alternate = true;
+                mirror = true;
+                bullet = new BasicBulletType(1f, 30){{
+                    range = 60;
+                    hitSize = 5;
+                    width = 12;
+                    height = 19;
+                    frontColor = Color.white;
+                    backColor = Pal.techBlue;
+                    weaveMag = 0;
+                    weaveScale = 0;
+                    lifetime = 45;
+                }};
+                }},
+                    new Weapon("aquarion-zoarcid-weapon"){{
+                        shootSound = Sounds.missileSmall;
+                        reload = 60;
+                        layerOffset = -0.01f;
+                        shootY = 5;
+                        baseRotation = 5;
+                        x = -2.5f;
+                        flipSprite = true;
+                        y = 0f;
+                        recoil = 1;
+                        shootCone = 25;
+                        rotate = false;
+                        alternate = true;
+                        mirror = true;
+                        bullet = new BasicBulletType(1f, 30){{
+                            range = 60;
+                            hitSize = 5;
+                            width = 12;
+                            height = 19;
+                            frontColor = Color.white;
+                            backColor = Pal.techBlue;
+                            weaveMag = 0;
+                            weaveScale = 0;
+                            lifetime = 45;
+                        }};
+                        rotateSpeed = 4.5f;
+                    }});
         }};
         cull = new UnitType("cull") {{
             constructor = UnitEntity::create;

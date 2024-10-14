@@ -1,6 +1,8 @@
 package aquarion.planets;
 
 import aquarion.AquaItems;
+import aquarion.blocks.AquaCore;
+import aquarion.world.AquaTeams;
 import arc.graphics.Color;
 import mindustry.content.Items;
 import mindustry.content.Planets;
@@ -33,16 +35,16 @@ public class AquaPlanets {
             );
             startSector = 10;
             atmosphereRadIn = -0.03f;
+            defaultCore = AquaCore.corePike;
             atmosphereRadOut = 0.6f;
             itemWhitelist.addAll(AquaItems.bauxite, AquaItems.sodium, AquaItems.manganese, Items.lead, Items.metaglass, AquaItems.lithium, AquaItems.nitride, AquaItems.duralumin, AquaItems.lithoniteAlloy);
             defaultEnv|= Env.terrestrial | Env.underwater;
             ruleSetter = r -> {
-                r.waveTeam = Team.blue;
+                r.waveTeam = AquaTeams.tendere;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
-                r.fog = true;
+                r.fog = false;
                 r.staticFog = false;
-                r.lighting = true;
                 r.coreDestroyClear = true;
                 r.onlyDepositCore = true;
             };

@@ -55,6 +55,8 @@ public class AquaPower {
     lifetime = 120;
     colorFrom = Color.valueOf("e5e0ec80");
     colorTo = Color.valueOf("877e9210");
+    envEnabled |= Env.terrestrial | Env.underwater;
+    envDisabled |= Env.spores | Env.scorching;
     }};
     drawer = new DrawMulti( new DrawDefault(), new DrawGlowRegion(){{alpha = 0.7f; color = Color.valueOf("ffd37f"); glowIntensity = 0.2f; glowScale = 6;}}, new DrawRegion("-rotator"){{
     spinSprite = true;

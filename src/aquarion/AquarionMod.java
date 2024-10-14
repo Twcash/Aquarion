@@ -2,6 +2,8 @@ package aquarion;
 
 import aquarion.planets.AquaPlanets;
 import aquarion.units.AquaUnitTypes;
+import aquarion.units.AquaWrecks;
+import aquarion.world.AquaTeams;
 import aquarion.world.graphics.AquaCacheLayers;
 import aquarion.world.graphics.AquaShaders;
 import arc.Core;
@@ -32,20 +34,22 @@ public class AquarionMod extends Mod {
             AquaShaders.init();
             AquaCacheLayers.init();
         }
+        AquaTeams.load();
         AquaAttributes.load();
         AquaEffect.loadContent();
-        AquaLiquid.loadContent();
         AquaItems.loadContent();
         AquaDistribution.loadContent();
         AquaPayload.loadContent();
         AquaLiquids.loadContent();
         AquaEnv.loadContent();
         AquaDefense.loadContent();
+        AquaWrecks.loadContent();
         AquaUnitTypes.loadContent();
         AquaCore.loadContent();
         AquaCrafters.loadContent();
         AquaPlanets.loadContent();
         AquaTurrets.loadContent();
          AquaPower.loadContent();
+        AquaLiquid.loadContent();
     }
 }

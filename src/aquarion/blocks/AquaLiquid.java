@@ -29,7 +29,7 @@ public class AquaLiquid {
 
     public static void loadContent() {
         ThermalPump = new Pump("thermal-pump"){{
-            requirements(Category.liquid, with(lead, 25, bauxite, 10, metaglass, 35));
+            requirements(Category.liquid, with(lead, 25, bauxite, 10, ceramic, 35));
             size = 2;
             squareSprite = false;
             liquidCapacity = 80f;
