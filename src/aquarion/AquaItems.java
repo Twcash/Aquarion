@@ -9,7 +9,7 @@ import static mindustry.content.Items.lead;
 public class AquaItems {
     public static Item salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
     public static final Seq<Item> tantrosItems = new Seq<>();
-    public static void loadContent() {
+    public static void load() {
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
             hardness = 3;
             cost = 1.1F;
@@ -57,7 +57,8 @@ public class AquaItems {
         }};
         tantrosItems.addAll(
                 ceramic, sodium, nitride, manganese,
-                lithium, gallium, chirenium, bauxite, duralumin, nickel, salt, lead
+                lithium, gallium, chirenium, bauxite,
+                duralumin, nickel, salt, lead
         );
     }
 

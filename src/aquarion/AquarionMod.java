@@ -37,26 +37,31 @@ public class AquarionMod extends Mod {
             AquaShaders.init();
             AquaCacheLayers.init();
         }
+        //stuff that needs to be loaded first
+
+        AquaLiquids.loadContent();
         AquaSounds.load();
         AquaTeams.load();
+        AquaItems.load();
         AquaAttributes.load();
         AquaEffect.loadContent();
-        AquaItems.loadContent();
-        AquaDistribution.loadContent();
-        AquaPayload.loadContent();
-        AquaLiquids.loadContent();
+        // actual content needs items liquids FX ect
         AquaEnv.loadContent();
+        AquaDistribution.loadContent();
+        AquaPower.loadContent();
+        AquaLiquid.loadContent();
+        AquaPayload.loadContent();
         AquaDefense.loadContent();
+        AquaTurrets.loadContent();
+        AquaCrafters.loadContent();
+        //units and cores, keep these after blocks
         AquaWrecks.loadContent();
         AquaUnitTypes.loadContent();
         AquaCore.loadContent();
-        AquaCrafters.loadContent();
+        //keep these at the back
         AquaLoadouts.load();
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
-        AquaTurrets.loadContent();
-         AquaPower.loadContent();
-        AquaLiquid.loadContent();
         TantrosTechTree.load();
     }
 }

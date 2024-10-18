@@ -156,10 +156,10 @@ public class AquaCrafters {
             requirements(Category.crafting, with(lead, 200, bauxite, 150, nickel, 60));
             envEnabled |= Env.underwater;
             researchCostMultiplier = 0.03f;
-            liquidCapacity = 20f * 5;
+            liquidCapacity = 25f * 5;
             craftTime = 90;
             ambientSound = Sounds.bioLoop;
-            consumeLiquid(arkycite, 6/60f);
+            consumeLiquid(arkycite, 12/60f);
             ambientSoundVolume = 0.06f;
             squareSprite = false;
             outputItem = new ItemStack(chirenium, 1);
