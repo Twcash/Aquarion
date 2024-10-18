@@ -6,30 +6,34 @@ import aquarion.world.graphics.AquaPal;
 import arc.graphics.Color;
 import mindustry.content.Fx;
 import mindustry.content.Items;
+import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.MissileBulletType;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.RegionPart;
-import mindustry.entities.pattern.ShootAlternate;
-import mindustry.entities.pattern.ShootBarrel;
-import mindustry.entities.pattern.ShootMulti;
-import mindustry.entities.pattern.ShootPattern;
+import mindustry.entities.pattern.*;
+import mindustry.gen.Sounds;
+import mindustry.graphics.Layer;
+import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
 
+import static aquarion.AquaItems.ceramic;
+import static aquarion.AquaItems.chirenium;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block Forment, Fragment;
+    public static Block Forment, Fragment, gyre;
 
     public static void loadContent() {
         //oogly boogly
         Forment = new ItemTurret("forment") {{
             {
+                outlineColor = AquaPal.tantDarkestTone;
                 ammo(
-                        Items.lead,  new MissileBulletType(2.5f, 10, "bullet"){{
+                        Items.lead,  new MissileBulletType(2.5f, 18, "bullet"){{
                             width = 10f;
                             height = 16f;
                             trailLength = 12;
@@ -49,7 +53,7 @@ public class AquaTurrets {
                             backColor = trailColor = AquaPal.bauxiteLightTone;
                             buildingDamageMultiplier = 0.3f;
                         }},
-                        AquaItems.gallium,  new MissileBulletType(2f, 18, "bullet"){{
+                        AquaItems.gallium,  new MissileBulletType(2f, 26, "bullet"){{
                             width = 12f;
                             height = 18f;
 
@@ -71,7 +75,7 @@ public class AquaTurrets {
                             backColor = trailColor = AquaPal.galliumLightTone;
                             buildingDamageMultiplier = 0.3f;
                         }},
-                        AquaItems.nitride,  new MissileBulletType(3.5f, 14, "bullet"){{
+                        AquaItems.nitride,  new MissileBulletType(3.5f, 20, "bullet"){{
                             width = 9f;
                             height = 15f;
                             trailLength = 10;
@@ -105,6 +109,7 @@ public class AquaTurrets {
                 inaccuracy = 2;
                 shoot.shots = 3;
                 ammoPerShot = 2;
+                researchCostMultiplier = 0.03f;
                 xRand = 0;
                 shoot.shotDelay = 5;
                 shoot = new ShootMulti() {{
@@ -145,7 +150,65 @@ public class AquaTurrets {
                 }};
             }
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
+        }};
+        gyre = new ItemTurret("gyre") {{
+            researchCostMultiplier = 0.1f;
+            requirements(Category.turret, with(Items.lead, 150, AquaItems.bauxite, 90f, ceramic, 60, chirenium, 30));
+            ammo(
+            chirenium,  new BasicBulletType(2.5f, 30, "bullet"){{
+                width = 10f;
+                height = 16f;
+                trailLength = 12;
+                trailWidth = 2;
+                lifetime = 60f;
+                ammoMultiplier = 1;
+                shootEffect = AquaFx.shootLong;
+                smokeEffect =  new MultiEffect(AquaFx.shootSmokeTri, Fx.shootSmokeSquareSparse);
+                trailRotation = true;
+                trailEffect = AquaFx.shootSmokeTri;
+                trailInterval = 4;
+                frontColor = lightColor = hitColor = AquaPal.chireniumLight;
+                hitEffect = despawnEffect = Fx.hitSquaresColor;
+                backColor = trailColor = AquaPal.chireniumDark;
+                buildingDamageMultiplier = 0.3f;
+            }});
+            shoot = new ShootSpread(5, 3f);
+            inaccuracy = 3f;
+            velocityRnd = 0.17f;
+            shake = 1f;
+            range = 96;
+            ammoPerShot = 3;
+            maxAmmo = 30;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            consumeAmmoOnce = true;
+            reload = 45;
+            recoil = 3;
+            recoilTime = 30;
+            warmupMaintainTime = 20;
+            minWarmup = 0.8f;
+            shootWarmupSpeed = 0.05f;
+            cooldownTime = 30;
+            heatColor = Color.red;
+            targetUnderBlocks = false;
+            shootSound = Sounds.shootAltLong;
+            loopSound = Sounds.bioLoop;
+            loopSoundVolume = 0.06f;
+            shootY = 5f;
+            outlineColor = AquaPal.tantDarkestTone;
+            size = 3;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            drawer = new DrawTurret("reinforced-"){{
+                parts.add(new RegionPart("-side"){{
+                    progress = PartProgress.warmup;
+                    moveX = 2.25f;
+                    moveY = 1.5f;
+                    mirror = true;
+                    moves.add(new PartMove(PartProgress.recoil, -0.5f, -3f, 0));
+                    heatColor = Color.red;
+                }});
+            }};
         }};
     }
 }

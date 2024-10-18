@@ -26,5 +26,15 @@ public class AquaPal {
 
             manganeseDarkTone = Color.valueOf("758171"),
             manganeseMidTone = Color.valueOf("95a991"),
-            manganeseLightTone = Color.valueOf("afbdab");
+            manganeseLightTone = Color.valueOf("afbdab"),
+
+            chireniumDark = Color.valueOf("62536c"),
+            chireniumMid = Color.valueOf("8f8197"),
+            chireniumLight = Color.valueOf("b2acb5"),
+
+
+
+            techGreen = Color.valueOf("92dd7e"),
+            techBlue2 = Color.valueOf("8ca4fc");
+
 }

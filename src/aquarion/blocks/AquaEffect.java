@@ -27,7 +27,7 @@ public class AquaEffect {
                 phaseColor = Color.valueOf("f6675b");
                 // TODO rebalance power consumption for literally everything
                 envEnabled |= Env.terrestrial | Env.underwater;
-                envDisabled |= Env.spores | Env.scorching;
+                envDisabled = Env.none;
 
                 consumePower(1f);
             }};
@@ -46,7 +46,7 @@ public class AquaEffect {
                             phaseColor = Color.valueOf("f6675b");
                             // TODO rebalance power consumption for literally everything
                             envEnabled |= Env.terrestrial | Env.underwater;
-                            envDisabled |= Env.spores | Env.scorching;
+                            envDisabled = Env.none;
 
                             consumePower(1f);
                         }

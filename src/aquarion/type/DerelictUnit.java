@@ -21,8 +21,8 @@ public class DerelictUnit extends UnitType {
         hidden = true;
         health = 210;
         drag = 0.99f;
-        envEnabled|= Env.terrestrial | Env.underwater;
-        envDisabled|= Env.spores | Env.scorching;
+        envEnabled |= Env.terrestrial | Env.underwater;
+        envDisabled = Env.none;
         accel = 0;
         isEnemy = false;
         drawCell = false;

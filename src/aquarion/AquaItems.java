@@ -1,14 +1,20 @@
 package aquarion;
 
 import arc.graphics.Color;
+import arc.struct.Seq;
 import mindustry.type.Item;
 
-public class AquaItems {
-    public static Item bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
+import static mindustry.content.Items.lead;
 
+public class AquaItems {
+    public static Item salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
+    public static final Seq<Item> tantrosItems = new Seq<>();
     public static void loadContent() {
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
             hardness = 3;
+            cost = 1.1F;
+        }};
+        salt = new Item("salt", Color.valueOf("#ffffff")) {{
             cost = 1.1F;
         }};
 
@@ -16,7 +22,13 @@ public class AquaItems {
             hardness = 3;
             cost = 2;
         }};
-
+        nickel = new Item("nickel", Color.valueOf("#c3b994")) {{
+            hardness = 4;
+            cost = 2.5f;
+        }};
+        chirenium = new Item("chirenium", Color.valueOf("b2acb5")){{
+            cost = 3;
+        }};
         gallium = new Item("gallium", Color.valueOf("#b2d3cf")) {{
             hardness = 4;
             cost = 2;
@@ -25,10 +37,6 @@ public class AquaItems {
         lithium = new Item("lithium", Color.valueOf("#b2d3cf")) {{
             hardness = 4;
             explosiveness = 0.2F;
-        }};
-
-        lithoniteAlloy = new Item("lithonite-alloy", Color.valueOf("#444b49")) {{
-            cost = 4;
         }};
 
         manganese = new Item("manganese", Color.valueOf("#a0ac9d")) {{
@@ -47,5 +55,10 @@ public class AquaItems {
         ceramic = new Item("ceramic", Color.valueOf("#ffffff")) {{
             cost = 1.5f;
         }};
+        tantrosItems.addAll(
+                ceramic, sodium, nitride, manganese,
+                lithium, gallium, chirenium, bauxite, duralumin, nickel, salt, lead
+        );
     }
+
 }

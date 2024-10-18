@@ -8,9 +8,7 @@ import mindustry.ai.types.BuilderAI;
 import mindustry.content.Fx;
 import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.abilities.SpawnDeathAbility;
-import mindustry.entities.bullet.ArtilleryBulletType;
-import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.BulletType;
+import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootHelix;
@@ -52,7 +50,7 @@ public class AquaUnitTypes {
         rotateMoveFirst = true;
         mech = true;
         envEnabled|= Env.terrestrial | Env.underwater;
-        envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         constructor = MechUnit::create;
         mechLegColor = AquaPal.tantDarkestTone;
             abilities.add(
@@ -121,7 +119,7 @@ public class AquaUnitTypes {
             speed = 2.5f;
             accel = 0.9f;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
             health = 270;
             hitSize = 7;
             abilities.add(
@@ -185,7 +183,7 @@ public class AquaUnitTypes {
             engineSize = 0f;
             groundLayer = 90;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
             hitSize = 8;
             rotateSpeed = 3;
             lowAltitude = true;
@@ -220,7 +218,7 @@ public class AquaUnitTypes {
                         colorTo = Color.valueOf("746f6f10");
                     }}, 15f, .4f){{
                     }}, new SpawnDeathAbility(zoarcidWreck, 0, 1){{ randAmount = 1;}},
-                    new MoveEffectAbility(0, -1, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 2));
+                    new MoveEffectAbility(0, -1, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
             weapons.add(new Weapon("aquarion-zoarcid-weapon"){{
                 shootSound = Sounds.missileSmall;
                 reload = 60;
@@ -274,6 +272,71 @@ public class AquaUnitTypes {
                         rotateSpeed = 4.5f;
                     }});
         }};
+        // steward tree
+        steward = new UnitType("steward"){{
+            rotateMoveFirst = true;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            constructor = MechUnit::create;
+            mechLegColor = AquaPal.tantDarkestTone;
+            drawCell = false;
+            speed = 0.9f;
+            rotateSpeed = 4;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f){{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime =  80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f){{
+                    }}, new SpawnDeathAbility(stewardWreck, 0, 1){{ randAmount = 1;}});
+            weapons.add(new Weapon("aquarion-steward-weapon"){{
+                mirror = true;
+                alternate = true;
+                recoil = 1f;
+                x = 0;
+                outlineColor = AquaPal.tantDarkerTone;
+                recoilTime = 5f;
+                reload = 10;
+                top = false;
+                shootX = 4;
+                range = 60;
+                bullet = new LaserBoltBulletType(3f, 10){{
+                    width = 2f;;
+                    height = 5;
+                    shootEffect = Fx.shootSmall;
+                    shootSound = Sounds.blaster;
+                    smokeEffect = Fx.shootBigSmoke;
+                    lifetime = 45f;
+                    maxRange = 80;
+                    trailEffect = Fx.none;
+                    collidesTiles = true;
+                    hitColor = lightColor = Color.white;
+                    frontColor = Color.white;
+                    backColor = AquaPal.techGreen;
+                    healPercent = 0.2f;
+                    collidesTeam = true;
+                }};
+            }});
+        }};
         cull = new UnitType("cull") {{
             constructor = UnitEntity::create;
             outlines = false;
@@ -299,7 +362,7 @@ public class AquaUnitTypes {
             mineTier = 3;
             hitSize = 9;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
             parts.addAll(
                     new RegionPart("-front") {{
                         progress = PartProgress.warmup;
@@ -379,7 +442,7 @@ public class AquaUnitTypes {
             mineTier = 3;
             hitSize = 9;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
             parts.addAll(
                     new RegionPart("-crystal2") {{
                         moveY = -0.5f;

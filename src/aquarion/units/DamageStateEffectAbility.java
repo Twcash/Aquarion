@@ -1,6 +1,7 @@
 package aquarion.units;
 
 import arc.graphics.Color;
+import arc.math.Mathf;
 import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.Vars;
@@ -47,12 +48,8 @@ public class DamageStateEffectAbility extends Ability {
             Tmp.v1.trns(unit.rotation - 90f, x, y);
             counter %= interval;  // Reset the counter
             // Apply the effect
-            effect.at(
-                    Tmp.v1.x + unit.x, Tmp.v1.y + unit.y,
-                    rotateEffect ? (unit.rotation + rotation) : (effectParam + rotation),
-                    teamColor ? unit.team.color : color,
-                    parentizeEffects ? unit : null
-            );
+            Tmp.v1.rnd(Mathf.range(unit.type.hitSize/2f));
+            effect.at(unit.x + Tmp.v1.x, unit.y + Tmp.v1.y, 0, color, null);
         }
     }
     }

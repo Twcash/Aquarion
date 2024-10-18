@@ -28,7 +28,7 @@ public class AquaDefense {
             requirements(Category.defense, with(bauxite, 6));
             health = 128;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         bauxiteWall = new Wall("bauxite-wall") {{
@@ -36,14 +36,14 @@ public class AquaDefense {
             health = 512;
             size = 2;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         smallGalliumWall = new Wall("small-gallium-wall") {{
             requirements(Category.defense, with(gallium, 6));
             health = 240;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         galliumWall = new Wall("gallium-wall") {{
@@ -51,14 +51,14 @@ public class AquaDefense {
             health = 512;
             size = 2;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         smallManganeseWall = new Wall("small-manganese-wall") {{
             requirements(Category.defense, with(manganese, 6));
             health = 375;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         manganeseWall = new Wall("manganese-wall") {{
@@ -66,14 +66,14 @@ public class AquaDefense {
             health = 1500;
             size = 2;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         smallDuraluminWall = new Wall("small-duralumin-wall") {{
             requirements(Category.defense, with(duralumin, 6));
             health = 875;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         duraluminWall = new Wall("duralumin-wall") {{
@@ -81,22 +81,7 @@ public class AquaDefense {
             health = 3500;
             size = 2;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
-        }};
-
-        smallLithoniteWall = new Wall("small-lithonite-wall") {{
-            requirements(Category.defense, with(lithoniteAlloy, 6));
-            health = 1125;
-            envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
-        }};
-
-        lithoniteWall = new Wall("lithonite-wall") {{
-            requirements(Category.defense, with(lithoniteAlloy, 24));
-            health = 4500;
-            size = 2;
-            envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
         //endRegion
 

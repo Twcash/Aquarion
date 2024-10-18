@@ -17,6 +17,7 @@ import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
 import static aquarion.AquaItems.bauxite;
+import static aquarion.AquaItems.nickel;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.lead;
 import static mindustry.world.meta.BuildVisibility.sandboxOnly;
@@ -31,7 +32,7 @@ public class AquaEnv {
     public static Block greenCoralFloor, BlueCoralFloor, deepredCoralFloor, redCoralFloor, andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
 
     // Ore blocks
-    public static Block leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese;
+    public static Block oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese;
 
     // Walls
     public static Block pillarCoral, loteasCoral, songCoral,  bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, andesiteExtrusions;
@@ -230,6 +231,7 @@ public class AquaEnv {
         leadNodules = new OreBlock("lead-nodules", lead);
         oreBauxite = new OreBlock("ore-bauxite", bauxite);
         oreGallium= new OreBlock("ore-gallium", AquaItems.gallium);
+        oreNickel = new OreBlock("ore-nickel", nickel);
         oreLithium= new OreBlock("ore-lithium", AquaItems.lithium);
         oreManganese= new OreBlock("ore-manganese", AquaItems.manganese);
 

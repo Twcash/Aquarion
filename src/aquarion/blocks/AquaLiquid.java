@@ -32,12 +32,12 @@ public class AquaLiquid {
             requirements(Category.liquid, with(lead, 25, bauxite, 10, ceramic, 35));
             size = 2;
             squareSprite = false;
-            liquidCapacity = 80f;
+            liquidCapacity = 35f * 5;
             pumpAmount = 0.2f;
             hasPower = true;
             consumePower(30/60f);
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(AquaLiquids.brine, 2f), new DrawDefault(), new DrawPump());
         }};
         siphon = new Conduit("siphon") {{
@@ -46,29 +46,28 @@ public class AquaLiquid {
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 20;
             leaks = false;
-            liquidPressure = 0.8F;
+
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
         pulseSiphon = new Conduit("pulse-siphon") {{
             requirements(Category.liquid, with(lead, 3, manganese, 1));
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 20;
-            liquidPressure = 1.5F;
             leaks = false;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
         siphonRouter = new LiquidRouter("siphon-router"){{
             requirements(Category.liquid, with(lead, 15, bauxite, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
         siphonJunction = new LiquidJunction("siphon-junction"){{
             requirements(Category.liquid, with(bauxite, 3, lead, 10));
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
         siphonBridge = new LiquidBridge("siphon-bridge"){{
             requirements(Category.liquid, with(lead, 20, bauxite, 20));
@@ -76,21 +75,21 @@ public class AquaLiquid {
             range = 3;
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
         pulseSiphonBridge = new LiquidBridge("pulse-siphon-bridge"){{
             requirements(Category.liquid, with(lead, 35, manganese, 15));
             range = 5;
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
         siphonDistributor = new LiquidRouter("siphon-distributor"){{
             requirements(Category.liquid, with(metaglass, 40, lead, 20, bauxite, 40));
             liquidPadding = 3;
             size = 2;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
     }
 

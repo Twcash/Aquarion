@@ -40,7 +40,7 @@ public class AquaFx {
                     new ParticleEffect(){{
                         //it's too much of a pain to do the usual fx
                         lifetime = 35;
-                        sizeFrom = 4f;
+                        sizeFrom = 6f;
                         baseRotation = 180;
                         rotWithParent = true;
                         sizeTo = 0;
@@ -55,8 +55,8 @@ public class AquaFx {
                         layer = Layer.bullet - 1.2f;
                     }},
                     new ParticleEffect(){{
-                        lifetime = 25;
-                        sizeFrom = 3.5f;
+                        lifetime = 30;
+                        sizeFrom = 4f;
                         rotWithParent = true;
                         sizeTo = 0;
                         particles = 3;
@@ -71,8 +71,8 @@ public class AquaFx {
                         layer = Layer.bullet - 1.1f;
                     }},
                     new ParticleEffect(){{
-                        lifetime = 20;
-                        sizeFrom = 2.5f;
+                        lifetime = 30;
+                        sizeFrom = 3f;
                         sizeTo = 0;
                         particles = 2;
                         baseRotation = 180;

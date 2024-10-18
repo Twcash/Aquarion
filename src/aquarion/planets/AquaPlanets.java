@@ -3,16 +3,20 @@ package aquarion.planets;
 import aquarion.AquaItems;
 import aquarion.blocks.AquaCore;
 import aquarion.world.AquaTeams;
+import arc.func.Boolf;
 import arc.graphics.Color;
+import arc.struct.Seq;
 import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.game.Team;
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
 import mindustry.graphics.g3d.MultiMesh;
+import mindustry.type.Item;
 import mindustry.type.Planet;
 import mindustry.world.meta.Env;
 
+import static mindustry.content.Items.lead;
 import static mindustry.content.Items.serpuloItems;
 
 public class AquaPlanets {
@@ -37,7 +41,8 @@ public class AquaPlanets {
             atmosphereRadIn = -0.03f;
             defaultCore = AquaCore.corePike;
             atmosphereRadOut = 0.6f;
-            itemWhitelist.addAll(AquaItems.bauxite, AquaItems.sodium, AquaItems.manganese, Items.lead, Items.metaglass, AquaItems.lithium, AquaItems.nitride, AquaItems.duralumin, AquaItems.lithoniteAlloy);
+            allowLaunchToNumbered = false;
+            itemWhitelist.addAll(AquaItems.bauxite, AquaItems.sodium, AquaItems.manganese, lead, Items.metaglass, AquaItems.lithium, AquaItems.nitride, AquaItems.duralumin, AquaItems.lithoniteAlloy);
             defaultEnv|= Env.terrestrial | Env.underwater;
             ruleSetter = r -> {
                 r.waveTeam = AquaTeams.tendere;
@@ -48,6 +53,11 @@ public class AquaPlanets {
                 r.coreDestroyClear = true;
                 r.onlyDepositCore = true;
             };
+            hiddenItems.addAll(Items.erekirItems).addAll(
+                    Items.copper, Items.sand, Items.metaglass, Items.surgeAlloy, Items.coal
+                    , Items.phaseFabric, Items.graphite, Items.plastanium, Items.silicon, Items.scrap
+                    , Items.pyratite, Items.blastCompound, Items.sporePod, Items.thorium).removeAll(AquaItems.tantrosItems);
+
         }};
     }
 }

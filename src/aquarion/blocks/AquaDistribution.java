@@ -1,9 +1,14 @@
 package aquarion.blocks;
 
 import aquarion.world.blocks.distribution.SealedConveyor;
+import mindustry.ai.types.CargoAI;
+import mindustry.gen.UnitEntity;
 import mindustry.type.Category;
+import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.units.UnitCargoLoader;
+import mindustry.world.blocks.units.UnitCargoUnloadPoint;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
@@ -35,9 +40,10 @@ public class AquaDistribution {
             visualSpeed = 10;
             underBullets = true;
             stopSpeed = 70;
+            researchCostMultiplier = 0.2f;
             buildCostMultiplier = 2f;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         armoredSealedConveyor = new SealedConveyor("armored-sealed-conveyor"){{
@@ -50,20 +56,22 @@ public class AquaDistribution {
             underBullets = true;
             stopSpeed = 70;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         sealedRouter = new Router("sealed-router"){{
             requirements(category.distribution, with(lead, 10, bauxite, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
+            researchCostMultiplier = 0.2f;
         }};
+        //debating whether this should even exist
         sealedJunction = new Junction("sealed-junction"){{
-            requirements(category.distribution, with(lead, 15, bauxite, 10, gallium, 5));
+            requirements(category.distribution, with(lead, 15, bauxite, 10, nickel, 5));
             capacity = 8;
             speed = 48;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         manganeseBridge = new BufferedItemBridge("manganese-bridge"){{
@@ -74,7 +82,7 @@ public class AquaDistribution {
             fadeIn = moveArrows = pulse = true;
             arrowSpacing = 4;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
         
         manganeseConveyor = new SealedConveyor("manganese-conveyor"){{
@@ -85,42 +93,66 @@ public class AquaDistribution {
             stopSpeed = 45;
             visualSpeed = 20;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         sealedSorter = new Sorter("sealed-sorter"){{
             requirements(category.distribution, with(lead, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            researchCostMultiplier = 0.2f;
+            envDisabled = Env.none;
         }};
 
         sealedOverflow = new OverflowGate("sealed-overflow"){{
             requirements(category.distribution, with(lead, 5));
             invert = false;
+            researchCostMultiplier = 0.2f;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         sealedUnderflow = new OverflowGate("sealed-underflow"){{
             requirements(category.distribution, with(lead, 5));
             invert = true;
+            researchCostMultiplier = 0.2f;
             envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled |= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
-        // WARNING: this requires the unitType but theres none implemented yet...
-        /* cargoDock = new UnitCargoLoader("cargo-dock"){{
+         cargoDock = new UnitCargoLoader("cargo-dock"){{
             requirements(Category.distribution, with(lead,40 ,bauxite, 5));
             size = 2;
             buildTime = 240;
-            unitType = rivulet;
+            researchCostMultiplier = 0.2f;
+             envEnabled |= Env.terrestrial | Env.underwater;
+             envDisabled = Env.none;
+            unitType = new UnitType("rivuet"){{
+                speed = 5;
+                hidden = true;
+                rotateSpeed = 4;
+                isEnemy = false;
+                playerControllable = logicControllable = false;
+                allowedInPayloads = false;
+                targetable = false;
+                controller = u -> new CargoAI();
+                payloadCapacity = 0f;
+                health = 200f;
+                engineSize = 0;
+                constructor = UnitEntity::create;
+                flying = true;
+                itemCapacity = 100;
+                envDisabled = 0;
+            }};
             itemCapacity = 200;
         }};
 
          cargoDepot = new UnitCargoUnloadPoint("cargo-depot"){{
             requirements(Category.distribution, with(lead,15));
+             researchCostMultiplier = 0.2f;
+             envEnabled |= Env.terrestrial | Env.underwater;
+             envDisabled = Env.none;
             size = 2;
-        }}; */
+        }};
     }
 
 }

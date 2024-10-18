@@ -26,7 +26,7 @@ public class AquaCore {
             squareSprite = false;
             size = 3;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
     }};
         corePike = new CoreBlock("core-pike") {{
             requirements(Category.effect, with(bauxite, 750, lead, 1250));
@@ -41,7 +41,7 @@ public class AquaCore {
             hasItems = true;
             hasColor = true;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
 
         coreCuesta = new CoreBlock("core-cuesta") {{
@@ -56,7 +56,7 @@ public class AquaCore {
             hasItems = true;
             hasColor = true;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
         coreEscarpment = new CoreBlock("core-escarpment") {{
             requirements(Category.effect, with(nitride, 3500, duralumin, 2500, metaglass, 1200, lead, 5000));
@@ -69,7 +69,7 @@ public class AquaCore {
             hasItems = true;
             hasColor = true;
             envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
+            envDisabled = Env.none;
         }};
     }
 }

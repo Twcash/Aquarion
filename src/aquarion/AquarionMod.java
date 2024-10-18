@@ -1,6 +1,9 @@
 package aquarion;
 
+import aquarion.planets.AquaLoadouts;
 import aquarion.planets.AquaPlanets;
+import aquarion.planets.AquaSectorPresets;
+import aquarion.planets.TantrosTechTree;
 import aquarion.units.AquaUnitTypes;
 import aquarion.units.AquaWrecks;
 import aquarion.world.AquaTeams;
@@ -34,6 +37,7 @@ public class AquarionMod extends Mod {
             AquaShaders.init();
             AquaCacheLayers.init();
         }
+        AquaSounds.load();
         AquaTeams.load();
         AquaAttributes.load();
         AquaEffect.loadContent();
@@ -47,9 +51,12 @@ public class AquarionMod extends Mod {
         AquaUnitTypes.loadContent();
         AquaCore.loadContent();
         AquaCrafters.loadContent();
+        AquaLoadouts.load();
         AquaPlanets.loadContent();
+        AquaSectorPresets.load();
         AquaTurrets.loadContent();
          AquaPower.loadContent();
         AquaLiquid.loadContent();
+        TantrosTechTree.load();
     }
 }
