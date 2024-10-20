@@ -1,9 +1,0 @@
-type: liquid
-gas: true
-color: ff8080
-coolant: false
-heatCapacity: 0
-research: {
-planet: tantros
-parent: pyridine
-}

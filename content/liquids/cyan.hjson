@@ -1,7 +1,0 @@
-explosiveness: 1
-color: c7ecee80
-heatCapacity: 1
-research: {
-planet: tantros
-parent: hydroxide
-}

@@ -1,9 +1,0 @@
-type: liquid
-gas: true
-color: b6f498
-coolant: false
-heatCapacity: 0
-research: {
-planet: tantros
-parent: cyan
-}

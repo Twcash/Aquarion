@@ -1,0 +1,12 @@
+# Build settings
+bin/
+build/
+.gradle/
+.settings/
+.project
+.classpath
+
+# IDE-specific
+.idea/
+.vscode/
+.kateproject

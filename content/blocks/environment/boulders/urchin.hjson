@@ -1,8 +1,0 @@
-type: SeaBush
-lobesMin: 3
-lobesMax: 7
-timeRange: 70
-magMax: 30
-sclMax: 55
-sclMin: 10
-magMin: 10
