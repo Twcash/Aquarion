@@ -11,8 +11,10 @@ import mindustry.entities.abilities.SpawnDeathAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.part.RegionPart;
+import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootHelix;
 import mindustry.gen.*;
+import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import aquarion.world.graphics.AquaPal;
@@ -29,6 +31,8 @@ public class AquaUnitTypes {
     public static UnitType cull, glean,
     //gerb
      gerbTest,
+    // gerb mechanized
+    reap, maime,
 
     //messenger tree
      messenger, ambassador, consul, legate, monarch,
@@ -497,14 +501,16 @@ public class AquaUnitTypes {
             );
         }};
         gerbTest = new GerbUnitType("light-infantry") {{
-            health = 240;
+            health = 210;
             armor = 1;
             constructor = LegsUnit::create;
             legCount = 6;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
             legStraightness = 0.3f;
             baseLegStraightness = 0.5f;
             lockLegBase = true;
-            speed = 0.85f;
+            speed = 0.45f;
             abilities.add(
                     new DamageStateEffectAbility(0f, -7f, Pal.sapBulletBack, new ParticleEffect(){{
                         particles = 1;
@@ -518,7 +524,7 @@ public class AquaUnitTypes {
                         colorFrom = Color.valueOf("65d45330");
                         colorTo = Color.valueOf("48903c0");
                     }}, 90f, .3f){{
-                    }});
+                    }}, new SpawnDeathAbility(InfantryGerbCorpse, 0, 1){{ randAmount = 1;}});
             legMinLength = 0.9f;
             legMaxLength = 1.1f;
             hitSize = 12;
@@ -544,6 +550,7 @@ public class AquaUnitTypes {
                         rotate = true;
                         rotateSpeed = 1.2f;
                         reload = 20;
+                        shootY = 22;
                         range = 90;
                         bullet = new BasicBulletType(2.5f, 9){{
                          width = 9f;
@@ -560,5 +567,144 @@ public class AquaUnitTypes {
                 }}
             );
         }};
-    }
-}
+        reap = new MechanicalUnitType("reap"){{
+            speed = 0.25f;
+            lockLegBase = true;
+            legLength = 8;
+            legCount = 4;
+            legBaseOffset = 7;
+            rotateMoveFirst = true;
+            rotateSpeed = 0.9f;
+            health = 350;
+            legPhysicsLayer = false;
+            groundLayer = Layer.groundUnit;
+            armor = 2;
+            hitSize = 15;
+            mechStepParticles = true;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            leg = true;
+            constructor = LegsUnit::create;
+            legMinLength = 0.9f;
+            legMaxLength = 1.1f;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f){{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime =  80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f){{
+                    }}, new SpawnDeathAbility(reapWreck, 0, 1){{ randAmount = 1;}});
+            weapons.add(new Weapon("aquarion-reap-weapon"){
+                {
+                    mirror = false;
+                    x = 0;
+                    y = 0f;
+                    recoil = 2.5f;
+                    layerOffset = 1f;
+                    recoilTime = 35f;
+                    rotate = true;
+                    rotateSpeed = 1.5f;
+                    inaccuracy = 2;
+                    reload = 15;
+                    range = 50;
+                    shoot = new ShootAlternate(3.5f);
+                    bullet = new BasicBulletType(2f, 10) {{
+                        width = 9f;
+                        height = 12f;
+                        shootEffect = AquaFx.shootLong;
+                        shootSound = Sounds.blaster;
+                        trailLength = 9;
+                        trailWidth = 2;
+                        lifetime = 45f;
+                        maxRange = 60;
+                        frontColor = hitColor = lightColor = Color.white;
+                        backColor = trailColor = Pal.techBlue;
+                    }};
+                }});
+            }};
+            maime = new MechanicalUnitType("maime"){{
+                constructor = UnitEntity:: create;
+                hitSize = 18;
+                speed = 0.5f;
+                flying = true;
+                health = 540;
+                armor = 4;
+                lowAltitude = true;
+                envEnabled|= Env.terrestrial | Env.underwater;
+                envDisabled = Env.none;
+                rotateSpeed = 4;
+                accel = 0.9f;
+                drag = 0.1f;
+                abilities.add(
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                            particles = 3;
+                            sizeFrom = 8;
+                            sizeTo = 0;
+                            lenFrom = 0;
+                            lenTo = 6;
+                            line = true;
+                            length = 15;
+                            baseLength = 2;
+                            layer = 90;
+                            lifetime = 10;
+                            colorFrom = Color.valueOf("ffea97");
+                            colorTo = Color.valueOf("ffea9710");
+                        }}, 90f, .6f){{
+                        }},
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect(){{
+                            particles = 3;
+                            sizeFrom = 0;
+                            sizeTo = 4;
+                            lifetime =  80;
+                            layer = 80;
+                            colorFrom = Color.valueOf("262323");
+                            colorTo = Color.valueOf("746f6f10");
+                        }}, 15f, .4f){{
+                        }}, new SpawnDeathAbility(maimeWreck, 0, 1){{ randAmount = 1;}});
+                weapons.add(new Weapon(){
+                    {
+                        mirror = true;
+                        x = 7;
+                        y = 5f;
+                        recoilTime = 35f;
+                        rotate = false;
+                        inaccuracy = 8;
+                        reload = 5;
+                        range = 45;
+                        bullet = new MissileBulletType(4f, 5) {{
+                            width = 9f;
+                            height = 12f;
+                            weaveMag = 6;
+                            weaveScale = 10;
+                            homingPower = 0.1f;
+                            homingDelay = 10;
+                            shootSound = Sounds.blaster;
+                            trailLength = 12;
+                            trailWidth = 2.5f;
+                            lifetime = 45f;
+                            maxRange = 50;
+                            frontColor = hitColor = lightColor = Color.white;
+                            backColor = trailColor = Pal.techBlue;
+                        }};
+                    }});
+            }};
+        }};

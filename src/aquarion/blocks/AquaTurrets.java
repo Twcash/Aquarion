@@ -9,6 +9,7 @@ import mindustry.content.Items;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.MissileBulletType;
 import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
 import mindustry.gen.Sounds;
@@ -22,10 +23,11 @@ import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.ceramic;
 import static aquarion.AquaItems.chirenium;
+import static mindustry.gen.Sounds.shootAltLong;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block Forment, Fragment, gyre;
+    public static Block Forment, Fragment, gyre, deviate;
 
     public static void loadContent() {
         //oogly boogly
@@ -192,7 +194,7 @@ public class AquaTurrets {
             cooldownTime = 30;
             heatColor = Color.red;
             targetUnderBlocks = false;
-            shootSound = Sounds.shootAltLong;
+            shootSound = shootAltLong;
             loopSound = Sounds.bioLoop;
             loopSoundVolume = 0.06f;
             shootY = 5f;
@@ -207,6 +209,93 @@ public class AquaTurrets {
                     mirror = true;
                     moves.add(new PartMove(PartProgress.recoil, -0.5f, -3f, 0));
                     heatColor = Color.red;
+                }});
+            }};
+        }};
+        Fragment = new ItemTurret("fragment"){{
+            requirements(Category.turret, with(Items.lead, 90, AquaItems.bauxite, 90, ceramic, 80));
+            size = 3;
+            outlineColor = AquaPal.tantDarkestTone;
+            squareSprite = false;
+            reload = 45;
+            targetGround = false;
+            range = 18 * 8;
+            limitRange();
+            shootY = 4;
+            shootSound = shootAltLong;
+            shoot = new ShootBarrel() {{
+                    firstShotDelay = 35;
+                            barrels = new float[] {
+                                    -4, 4, 0,
+                                    0, 4f, 0,
+                                    4, 4f, 0
+                            };
+            }};
+            ammo(
+                    ceramic,  new BasicBulletType(2.5f, 45, "bullet"){{
+                        width = 10f;
+                        height = 19f;
+                        pierceCap = 2;
+                        pierce = true;
+                        homingDelay = 30;
+                        homingPower = 0.1f;
+                        collidesGround = false;
+                        trailLength = 12;
+                        trailWidth = 2;
+                        lifetime = 90f;
+                        ammoMultiplier = 1;
+                        shootEffect = AquaFx.shootLong;
+                        smokeEffect =  new MultiEffect(AquaFx.shootSmokeTri, Fx.shootSmokeSquareSparse);
+                        trailRotation = true;
+                        trailEffect = new MultiEffect(AquaFx.shootSmokeTri, Fx.disperseTrail);
+                        trailInterval = 7;
+                        frontColor = lightColor = hitColor = Color.white;
+                        hitEffect = despawnEffect = Fx.hitSquaresColor;
+                        backColor = trailColor = Pal.gray;
+                        buildingDamageMultiplier = 0.3f;
+                        fragBullets = 3;
+                        fragBullet = new BasicBulletType(1.5f, 30, "bullet"){{
+                            width = 5f;
+                            height = 11f;
+                            collidesGround = false;
+                            trailLength = 6;
+                            trailWidth = 2;
+                            lifetime = 30f;
+                            trailRotation = true;
+                            trailEffect = new MultiEffect(AquaFx.shootSmokeTri, Fx.disperseTrail);
+                            trailInterval = 9;
+                            frontColor = lightColor = hitColor = Color.white;
+                            hitEffect = despawnEffect = Fx.hitSquaresColor;
+                            backColor = trailColor = Pal.gray;
+                            buildingDamageMultiplier = 0.3f;
+                        }};
+                    }});
+            recoils = 3;
+            drawer = new DrawTurret("reinforced-"){{
+                parts.add(new RegionPart("-barrel-1"){{
+                    moveY = -1f;
+                    progress = PartProgress.recoil;
+                    recoilIndex = 2;
+                }});
+                parts.add(new RegionPart("-barrel-2"){{
+                    moveY = -1f;
+                    progress = PartProgress.recoil;
+                    recoilIndex = 1;
+                }});
+                parts.add(new RegionPart("-barrel-3"){{
+                    moveY = -1f;
+                    progress = PartProgress.recoil;
+                    recoilIndex = 0;
+                }});
+                parts.add(new RegionPart("-back-1"){{
+                    moveY = -0.5f;
+                    progress = PartProgress.recoil;
+                    recoilIndex = 2;
+                }});
+                parts.add(new RegionPart("-back-2"){{
+                    moveY = -0.5f;
+                    progress = PartProgress.recoil;
+                    recoilIndex = 0;
                 }});
             }};
         }};

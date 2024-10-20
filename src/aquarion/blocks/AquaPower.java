@@ -34,7 +34,7 @@ public class AquaPower {
         customShadow = true;
         consumesPower = outputsPower = true;
         laserRange = 7;
-        researchCostMultiplier = 0.1f;
+        researchCostMultiplier = 0.05f;
         consumePowerBuffered(1500f);
         consumePower(1/60f);
         envEnabled |= Env.terrestrial | Env.underwater;
@@ -45,6 +45,7 @@ public class AquaPower {
     size = 3;
     canOverdrive = false;
     effectChance = 0.1f;
+        researchCostMultiplier = 0.1f;
     ambientSound = Sounds.hum;
     ambientSoundVolume = 0.06f;
     displayEfficiencyScale = 1/9f;

@@ -70,6 +70,7 @@ public class AquaEnv {
 
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
+            variants = 3;
             parent = blendGroup = AquaEnv.feldspar;
             effectSpacing = 15f;
             effect = new ParticleEffect(){{
@@ -204,7 +205,7 @@ public class AquaEnv {
             decoration = kelp;
         }};
 
-        roughFeldspar = new Floor(" rough-feldspar", 4) {{
+        roughFeldspar = new Floor("rough-feldspar", 4) {{
             wall = feldsparWall;
             decoration = feldsparBoulder;
         }};
@@ -300,14 +301,7 @@ public class AquaEnv {
             variants = 2;
             algal_carpet.asFloor().decoration = kelp_floor.asFloor().decoration;
         }};
-        feldsparBoulder = new Prop("feldspar-boulder"){{
-            variants = 1;
-        }};
 
-        gabbroBoulder = new Prop("gabbro-boulder."){{
-            variants = 1;
-            gabbro.asFloor().decoration =  gabbro_extrusions.asFloor().decoration;
-        }};
         //plants and stuff
         kelp = new SeaBush("kelp"){{
             algal_carpet.asFloor().decoration =  kelp_floor.asFloor().decoration;

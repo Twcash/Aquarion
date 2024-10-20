@@ -27,6 +27,7 @@ public class AquaDefense {
         smallBauxiteWall = new Wall("small-bauxite-wall") {{
             requirements(Category.defense, with(bauxite, 6));
             health = 128;
+            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -35,6 +36,7 @@ public class AquaDefense {
             requirements(Category.defense, with(bauxite, 24));
             health = 512;
             size = 2;
+            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

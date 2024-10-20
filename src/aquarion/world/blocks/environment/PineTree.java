@@ -84,4 +84,9 @@ public class PineTree extends Block {
     @Override
     public void drawShadow(Tile tile){}
 
+    @Override
+    public void loadIcon(){
+        super.loadIcon();
+        fullIcon = Core.atlas.find(name + 1);
+    }
 }

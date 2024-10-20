@@ -122,26 +122,35 @@ public class AquaDistribution {
          cargoDock = new UnitCargoLoader("cargo-dock"){{
             requirements(Category.distribution, with(lead,40 ,bauxite, 5));
             size = 2;
+            polySides = 0;
             buildTime = 240;
             researchCostMultiplier = 0.2f;
              envEnabled |= Env.terrestrial | Env.underwater;
              envDisabled = Env.none;
-            unitType = new UnitType("rivuet"){{
-                speed = 5;
-                hidden = true;
-                rotateSpeed = 4;
-                isEnemy = false;
-                playerControllable = logicControllable = false;
-                allowedInPayloads = false;
-                targetable = false;
+            unitType = new UnitType("rivulet"){{
                 controller = u -> new CargoAI();
+                isEnemy = false;
+                allowedInPayloads = false;
+                logicControllable = false;
+                playerControllable = false;
+                envDisabled = 0;
+                payloadCapacity = 0f;
+
+                drag = 0.06f;
+                rotateSpeed = 9f;
+                accel = 0.15f;
+
+                speed = 1.5f;
+                hidden = true;
+                targetable = false;
+                envEnabled|= Env.underwater;
                 payloadCapacity = 0f;
                 health = 200f;
+                drawCell = false;
                 engineSize = 0;
                 constructor = UnitEntity::create;
                 flying = true;
                 itemCapacity = 100;
-                envDisabled = 0;
             }};
             itemCapacity = 200;
         }};

@@ -49,9 +49,9 @@ public class AquaPlanets {
                 r.waveTeam = AquaTeams.tendere;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
+                r.coreDestroyClear = true;
                 r.fog = false;
                 r.staticFog = false;
-                r.coreDestroyClear = true;
                 r.onlyDepositCore = true;
             };
             hiddenItems.addAll(Items.erekirItems).addAll(

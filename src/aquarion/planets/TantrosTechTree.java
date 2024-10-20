@@ -14,6 +14,7 @@ import static aquarion.blocks.AquaCrafters.CompressionDrill;
 import static aquarion.blocks.AquaCrafters.ramDrill;
 import static aquarion.blocks.AquaLiquid.*;
 import static aquarion.planets.AquaSectorPresets.Chasm;
+import static aquarion.planets.AquaSectorPresets.Valley;
 import static mindustry.content.Liquids.arkycite;
 import static mindustry.content.TechTree.*;
 
@@ -25,6 +26,7 @@ public class TantrosTechTree {
             });
             node(AquaDistribution.sealedConveyor, () -> {
                 node(AquaDistribution.sealedRouter, () -> {
+                    node(AquaDistribution.sealedJunction, () -> {});
                     node(AquaDistribution.sealedSorter, () -> {
                     });
                     node(AquaDistribution.sealedOverflow, () -> {
@@ -34,11 +36,13 @@ public class TantrosTechTree {
                 });
             });
             node(AquaPower.GeothermalGenerator, () -> {
+                node(AquaPower.hydroxideGenerator, () -> {});
                 node(AquaPower.Relay, () -> {});
                     });
             node(AquaCrafters.bauxiteHarvester, Seq.with(new Objectives.Research(AquaPower.GeothermalGenerator)), () -> {
-                node(AquaPower.hydroxideGenerator, () -> {});
+
                         node(AquaCrafters.cultivationChamber, () -> {
+                            node(AquaCrafters.clarifier, () -> {});
                             node(AquaCrafters.ceramicKiln, () -> {
                                 node(AquaCrafters.chireniumElectroplater, Seq.with(new Objectives.Research(nickel), new Objectives.SectorComplete(Chasm)), () -> {
                                 });
@@ -49,6 +53,7 @@ public class TantrosTechTree {
                 node(ramDrill, () -> {});
             });
             node(siphon, () -> {
+                node(ThermalPump, () -> {});
                 node(siphonBridge, () -> {});
                             node(siphonRouter, () -> {
                                 node(siphonJunction, () -> {
@@ -61,6 +66,7 @@ public class TantrosTechTree {
                 nodeProduce(ceramic, () -> {});
             });
             nodeProduce(bauxite, () -> {
+                nodeProduce(gallium, () -> {});
                 nodeProduce(nickel, () -> {
                     nodeProduce(chirenium, () -> {});
                 });
@@ -71,8 +77,11 @@ public class TantrosTechTree {
 
                 });
                     });
-            node(Chasm, () -> {});
+            node(Chasm, () -> {
+                node(Valley, Seq.with(new Objectives.SectorComplete(Chasm), new Objectives.Produce(ceramic)), () -> {});
+            });
             node(AquaTurrets.Forment, () -> {
+                node(AquaTurrets.Fragment, () -> {});
                 node(AquaTurrets.gyre, Seq.with(new Objectives.Research(chirenium), new Objectives.SectorComplete(Chasm)), () -> {});
             });
             node(AquaDefense.smallBauxiteWall, () -> {

@@ -153,7 +153,7 @@ public class AquaCrafters {
             }}, new DrawRegion("-top"));
         }};
         chireniumElectroplater = new GenericCrafter("chirenium-electroplater"){{
-            requirements(Category.crafting, with(lead, 200, bauxite, 150, nickel, 60));
+            requirements(Category.crafting, with(lead, 200, bauxite, 150, nickel, 60, gallium, 40));
             envEnabled |= Env.underwater;
             researchCostMultiplier = 0.03f;
             liquidCapacity = 25f * 5;
@@ -189,13 +189,13 @@ public class AquaCrafters {
             }}, new DrawRegion("-cell2"), new DrawRegion("-top"));
         }};
         clarifier = new GenericCrafter("clarifier"){{
-            requirements(Category.crafting, with(lead, 90, nickel, 90, ceramic, 30));
+            requirements(Category.crafting, with(lead, 90, nickel, 90, ceramic, 30, gallium, 110));
             size = 3;
             squareSprite = false;
             liquidCapacity = 90;
             envEnabled |= Env.underwater;
             outputItem = new ItemStack(salt, 1);
-            consumeLiquid(brine, 24/60f);
+            consumeLiquids(LiquidStack.with(brine, 24/60f, arkycite, 4/60));
             consumePower(90/60f);
             outputLiquid = new LiquidStack(hydroxide, 12/60f);
             drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawLiquidTile(brine, 2){{

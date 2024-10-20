@@ -1,18 +1,54 @@
 package aquarion.type;
 
 import aquarion.world.AquaTeams;
+import arc.func.Cons;
 import arc.graphics.Color;
+import arc.graphics.g2d.TextureRegion;
+import arc.math.geom.Position;
+import arc.math.geom.QuadTree;
+import arc.math.geom.Rect;
+import arc.math.geom.Vec2;
+import arc.scene.ui.layout.Table;
+import arc.struct.Bits;
+import arc.struct.Queue;
+import arc.util.Nullable;
 import arc.util.Time;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
+import mindustry.ai.types.CommandAI;
+import mindustry.async.PhysicsProcess;
+import mindustry.content.UnitTypes;
+import mindustry.ctype.Content;
+import mindustry.ctype.UnlockableContent;
+import mindustry.entities.EntityCollisions;
+import mindustry.entities.abilities.Ability;
+import mindustry.entities.units.BuildPlan;
+import mindustry.entities.units.UnitController;
+import mindustry.entities.units.WeaponMount;
 import mindustry.game.Team;
-import mindustry.gen.Bullet;
-import mindustry.gen.Unit;
-import mindustry.gen.UnitEntity;
+import mindustry.gen.*;
+import mindustry.graphics.Trail;
+import mindustry.logic.LAccess;
+import mindustry.type.Item;
+import mindustry.type.ItemStack;
+import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
+import mindustry.world.Block;
+import mindustry.world.Tile;
+import mindustry.world.blocks.environment.Floor;
+import mindustry.world.blocks.payloads.Constructor;
+import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.meta.Env;
+
+import java.nio.FloatBuffer;
+
+import static mindustry.Vars.state;
+import static mindustry.gen.Nulls.unit;
 
 public class DerelictUnit extends UnitType {
 
-    public float timeUntilDerelict = 100; //wee woo wee woo cringe code
+    public boolean preventDeath = false;  // Flag to control whether death is allowed
+    public float timeUntilDerelict = 100;  // Timer before becoming derelict
 
     public DerelictUnit(String name) {
         super(name);
@@ -32,19 +68,24 @@ public class DerelictUnit extends UnitType {
         playerControllable = false;
         targetable = false;
         hittable = true;
-        constructor = UnitEntity::create;
+        constructor = UnitEntity:: create;
     }
 
     @Override
     public void update(Unit unit) {
-        super.update(unit);
-
-        // Reduce the time until derelict
+        // Countdown for derelict timer
         timeUntilDerelict -= Time.delta;
 
-        // Check if time has run out
+        // Custom death prevention logic
         if (timeUntilDerelict <= 0) {
-            unit.team(AquaTeams.wrecks);  // Switch to the wreck team as switching to derelict causes "issues"
+            unit.team(AquaTeams.wrecks);
+        }
+    }
+    @Override
+    public void killed(Unit unit) {
+        // Override killed method to prevent automatic death unless allowed
+        if (!preventDeath) {
+            super.killed(unit);  // Call the default killed logic
         }
     }
 }

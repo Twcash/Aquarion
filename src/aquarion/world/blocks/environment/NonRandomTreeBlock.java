@@ -55,4 +55,9 @@ public class NonRandomTreeBlock extends Block {
             shadow = Core.atlas.find(name + "-shadow" + (1+ i));
         }
     }
+    @Override
+    public void loadIcon(){
+        super.loadIcon();
+        fullIcon = Core.atlas.find(name + 1);
+    }
 }
