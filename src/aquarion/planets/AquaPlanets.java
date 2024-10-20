@@ -41,6 +41,7 @@ public class AquaPlanets {
             startSector = 10;
             atmosphereRadIn = -0.03f;
             defaultCore = AquaCore.corePike;
+            allowLaunchLoadout = false;
             atmosphereRadOut = 0.6f;
             //allowLaunchToNumbered = false;
             itemWhitelist.addAll(AquaItems.bauxite, AquaItems.sodium, AquaItems.manganese, lead, Items.metaglass, AquaItems.lithium, AquaItems.nitride, duralumin, AquaItems.lithoniteAlloy);
