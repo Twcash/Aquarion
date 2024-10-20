@@ -16,7 +16,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3f;
         }};
-        Valley = new SectorPreset("Valley", tantros2, 11){{
+        Valley = new SectorPreset("valley", tantros2, 11){{
             addStartingItems = true;
             captureWave = 8;
             difficulty = 2;
