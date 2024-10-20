@@ -19,17 +19,6 @@ import static mindustry.Vars.headless;
 
 public class AquarionMod extends Mod {
 //TODO proper load order DO NOT DO UNTIL ALL CONTENT IS PORTED
-    //crafters
-    //defense
-    //effect
-    //transport
-    //liquidBlocks
-    //power
-    //production (drills and other)
-    //cores
-    //turrets
-    //unit blocks
-    //logic
 
     @Override
     public void loadContent() {
@@ -47,7 +36,6 @@ public class AquarionMod extends Mod {
         AquaEffect.loadContent();
         // actual content needs items liquids FX ect
         AquaEnv.loadContent();
-        AquaDistribution.loadContent();
         AquaPower.loadContent();
         AquaLiquid.loadContent();
         AquaPayload.loadContent();
@@ -58,6 +46,8 @@ public class AquarionMod extends Mod {
         AquaWrecks.loadContent();
         AquaUnitTypes.loadContent();
         AquaCore.loadContent();
+        // distribution blocks need to be loaded here bc of unittypes
+        AquaDistribution.loadContent();
         //keep these at the back
         AquaLoadouts.load();
         AquaPlanets.loadContent();

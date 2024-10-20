@@ -9,10 +9,14 @@ import mindustry.Vars;
 public class AquaSounds {
     public static Sound
             wallDrill = new Sound(),
+            compressDrill = new Sound(),
+            compressDrillImpact = new Sound(),
             refine = new Sound();
 
     public static void load(){
         wallDrill = loadSound("wallDrill");
+        compressDrill = loadSound("compressDrill");
+        compressDrillImpact = loadSound("compressDrillImpact");
         refine = loadSound("refine");
     }
 

@@ -12,6 +12,7 @@ import mindustry.world.blocks.units.UnitCargoUnloadPoint;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
+import static aquarion.units.AquaUnitTypes.rivulet;
 import static mindustry.content.Items.lead;
 import static mindustry.type.ItemStack.with;
 
@@ -35,7 +36,7 @@ public class AquaDistribution {
         sealedConveyor = new SealedConveyor("sealed-conveyor"){{
             requirements(Category.distribution, with(lead, 1, bauxite,1));
             envEnabled = 4;
-            speed = 10F;
+            speed = 8F;
             solid = false;
             visualSpeed = 10;
             underBullets = true;
@@ -48,7 +49,7 @@ public class AquaDistribution {
 
         armoredSealedConveyor = new SealedConveyor("armored-sealed-conveyor"){{
             requirements(Category.distribution, with(lead, 2,bauxite, 1, sodium,1));
-            speed = 10F;
+            speed = 8F;
             health = 75;
             solid = true;
             armored = true;
@@ -63,7 +64,7 @@ public class AquaDistribution {
             requirements(category.distribution, with(lead, 10, bauxite, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            researchCostMultiplier = 0.2f;
+            researchCostMultiplier = 0.1f;
         }};
         //debating whether this should even exist
         sealedJunction = new Junction("sealed-junction"){{
@@ -127,37 +128,14 @@ public class AquaDistribution {
             researchCostMultiplier = 0.2f;
              envEnabled |= Env.terrestrial | Env.underwater;
              envDisabled = Env.none;
-            unitType = new UnitType("rivulet"){{
-                controller = u -> new CargoAI();
-                isEnemy = false;
-                allowedInPayloads = false;
-                logicControllable = false;
-                playerControllable = false;
-                envDisabled = 0;
-                payloadCapacity = 0f;
-
-                drag = 0.06f;
-                rotateSpeed = 9f;
-                accel = 0.15f;
-
-                speed = 1.5f;
-                hidden = true;
-                targetable = false;
-                envEnabled|= Env.underwater;
-                payloadCapacity = 0f;
-                health = 200f;
-                drawCell = false;
-                engineSize = 0;
-                constructor = UnitEntity::create;
-                flying = true;
-                itemCapacity = 100;
-            }};
+            unitType = rivulet;
             itemCapacity = 200;
         }};
 
          cargoDepot = new UnitCargoUnloadPoint("cargo-depot"){{
             requirements(Category.distribution, with(lead,15));
              researchCostMultiplier = 0.2f;
+             itemCapacity = 120;
              envEnabled |= Env.terrestrial | Env.underwater;
              envDisabled = Env.none;
             size = 2;

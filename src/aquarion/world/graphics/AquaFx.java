@@ -15,9 +15,27 @@ import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
-import mindustry.world.Block;
-import mindustry.world.draw.DrawMulti;
-import mindustry.world.draw.DrawRegion;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
+import mindustry.entities.*;
+import mindustry.entities.abilities.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.world.*;
+import mindustry.world.blocks.units.UnitAssembler.*;
+
+import static arc.graphics.g2d.Draw.rect;
+import static arc.graphics.g2d.Draw.*;
+import static arc.graphics.g2d.Lines.*;
+import static arc.math.Angles.*;
+import static mindustry.Vars.*;
+
 
 import static arc.graphics.Color.alpha;
 import static arc.graphics.g2d.Draw.color;
@@ -103,6 +121,11 @@ public class AquaFx {
             Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f);
         });
     }),
+            smallShockwave = new Effect(25f, 80f, e -> {
+                color(e.color, Color.lightGray , e.fin());
+                stroke(e.fout() * 2f + 0.4f);
+                Lines.circle(e.x, e.y, e.fin() * 18f);
+            }).layer(Layer.debris),
 
     shootSmokeTri = new Effect(45f, e -> {
         color(e.color, e.color, e.fin());

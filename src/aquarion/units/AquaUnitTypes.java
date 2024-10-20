@@ -5,6 +5,7 @@ import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.ai.types.BuilderAI;
+import mindustry.ai.types.CargoAI;
 import mindustry.content.Fx;
 import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.abilities.SpawnDeathAbility;
@@ -28,7 +29,7 @@ import static mindustry.Vars.tilePayload;
 public class AquaUnitTypes {
     //core units and transport
 
-    public static UnitType cull, glean,
+    public static UnitType cull, glean, rivulet,
     //gerb
      gerbTest,
     // gerb mechanized
@@ -707,4 +708,31 @@ public class AquaUnitTypes {
                         }};
                     }});
             }};
+            rivulet = new UnitType("rivulet"){{
+
+                    controller = u -> new CargoAI();
+                    isEnemy = false;
+                    allowedInPayloads = false;
+                    logicControllable = false;
+                    playerControllable = false;
+                    envDisabled = 0;
+
+                    drag = 0.06f;
+                    rotateSpeed = 9f;
+                    accel = 0.15f;
+
+                    speed = 0.6f;
+                    hidden = true;
+                    targetable = false;
+                    envEnabled |= Env.underwater;
+                    envDisabled = 0;
+                    outlineColor = AquaPal.tantDarkestTone;
+                    payloadCapacity = 0f;
+                    health = 200f;
+                    drawCell = false;
+                    engineSize = 0;
+                constructor = BuildingTetherPayloadUnit::create;
+                flying = true;
+                    itemCapacity = 100;
+                }};
         }};

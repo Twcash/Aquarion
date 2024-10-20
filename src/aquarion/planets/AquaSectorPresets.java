@@ -7,6 +7,23 @@ import static aquarion.planets.AquaPlanets.tantros2;
 public class AquaSectorPresets {
     public static SectorPreset
     Chasm, Valley;
+    /*
+    Sector plans
+    chasm:10 {
+    Valley: 142{
+    Shallows: 82
+    Brine pools: 86
+    }
+    vast Shallows: 214 {
+    estuary:
+    }
+    Subduction zone: {
+    }
+    basalt crags: {
+    }
+    }
+    }
+     */
     public static void load(){
         Chasm = new SectorPreset("chasm", tantros2, 10){{
             alwaysUnlocked = true;
@@ -16,7 +33,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3f;
         }};
-        Valley = new SectorPreset("valley", tantros2, 11){{
+        Valley = new SectorPreset("valley", tantros2, 142){{
             addStartingItems = true;
             captureWave = 8;
             difficulty = 2;
