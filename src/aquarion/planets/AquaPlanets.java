@@ -43,7 +43,8 @@ public class AquaPlanets {
             defaultCore = AquaCore.corePike;
             allowLaunchLoadout = false;
             atmosphereRadOut = 0.6f;
-            //allowLaunchToNumbered = false;
+            clearSectorOnLose = true;
+            allowLaunchToNumbered = false;
             itemWhitelist.addAll(AquaItems.bauxite, AquaItems.sodium, AquaItems.manganese, lead, Items.metaglass, AquaItems.lithium, AquaItems.nitride, duralumin, AquaItems.lithoniteAlloy);
             defaultEnv|= Env.terrestrial | Env.underwater;
             ruleSetter = r -> {
