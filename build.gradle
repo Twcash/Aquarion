@@ -121,7 +121,7 @@ configure(rootProject){
         doFirst{
             def name = Pattern
                     .compile('"name": "(.*)"')
-                    .matcher(layout.projectDirectory.file('mod.json').asFile.text)
+                    .matcher(layout.projectDirectory.file('mod.hjson').asFile.text)
 
             if(name.find() && name.group(1) != modName){
                 logger.log(LogLevel.WARN, "Mod name mismatch: '${name.group(1)}' (mod.json) != '$modName' (gradle.properties)")

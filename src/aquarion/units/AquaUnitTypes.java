@@ -1,5 +1,6 @@
 package aquarion.units;
 
+import aquarion.gen.EntityRegistry;
 import aquarion.type.*;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
@@ -48,7 +49,7 @@ public class AquaUnitTypes {
      zoarcid, anguilli, cyprin, pycogen, batoid;
 
     public static void loadContent() {
-        messenger = new MechanicalUnitType("messenger"){{
+        messenger = EntityRegistry.content("messenger", MechUnit.class, name -> new MechanicalUnitType(name){{
         speed = 0.65f;
 
         rotateSpeed = 2f;
@@ -115,8 +116,8 @@ public class AquaUnitTypes {
                                 backColor = trailColor = Pal.techBlue;
                             }};
                         }});
-        }};
-        goss = new MechanicalUnitType("goss"){{
+        }});
+        goss = EntityRegistry.content("goss", Unitc.class, name -> new MechanicalUnitType(name){{
             constructor = UnitEntity::create;
             engineSize = 0f;
             groundLayer = 90;
@@ -182,9 +183,8 @@ public class AquaUnitTypes {
                 drag = -0.02f;
                 }};
             }});
-        }};
-        zoarcid = new MechanicalUnitType("zoarcid"){{
-            constructor = UnitEntity::create;
+        }});
+        zoarcid = EntityRegistry.content("zoarcid", Unitc.class, name -> new MechanicalUnitType(name){{
             engineSize = 0f;
             groundLayer = 90;
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -276,9 +276,9 @@ public class AquaUnitTypes {
                         }};
                         rotateSpeed = 4.5f;
                     }});
-        }};
+        }});
         // steward tree
-        steward = new UnitType("steward"){{
+        steward = EntityRegistry.content("steward", MechUnit.class, name -> new MechanicalUnitType(name){{
             rotateMoveFirst = true;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -341,9 +341,8 @@ public class AquaUnitTypes {
                     collidesTeam = true;
                 }};
             }});
-        }};
-        cull = new UnitType("cull") {{
-            constructor = UnitEntity::create;
+        }});
+        cull = EntityRegistry.content("cull", Unitc.class, name -> new MechanicalUnitType(name){{
             outlines = false;
             hittable = isEnemy = targetable = drawCell = allowedInPayloads = drawBody = false;
             payloadCapacity = (2 * 2) * tilePayload;
@@ -422,9 +421,8 @@ public class AquaUnitTypes {
                         }};
                     }}
             );
-        }};
-        glean = new UnitType("glean") {{
-            constructor = UnitEntity::create;
+        }});
+        glean = EntityRegistry.content("glean", Unitc.class, name -> new MechanicalUnitType(name){{
             hittable = isEnemy = targetable = drawCell = allowedInPayloads = drawBody = false;
             payloadCapacity = (2 * 2) * tilePayload;
             outlineColor = AquaPal.tantDarkerTone;
@@ -500,11 +498,10 @@ public class AquaUnitTypes {
                         }};
                     }}
             );
-        }};
-        gerbTest = new GerbUnitType("light-infantry") {{
+        }});
+        gerbTest = EntityRegistry.content("lightInfantry", LegsUnit.class, name -> new GerbUnitType(name){{
             health = 210;
             armor = 1;
-            constructor = LegsUnit::create;
             legCount = 6;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -567,8 +564,8 @@ public class AquaUnitTypes {
                       }};
                 }}
             );
-        }};
-        reap = new MechanicalUnitType("reap"){{
+        }});
+        reap = EntityRegistry.content("reap", LegsUnit.class, name -> new MechanicalUnitType(name){{
             speed = 0.25f;
             lockLegBase = true;
             legLength = 8;
@@ -641,9 +638,8 @@ public class AquaUnitTypes {
                         backColor = trailColor = Pal.techBlue;
                     }};
                 }});
-            }};
-            maime = new MechanicalUnitType("maime"){{
-                constructor = UnitEntity:: create;
+            }});
+        maime = EntityRegistry.content("maime", Unitc.class, name -> new MechanicalUnitType(name){{
                 hitSize = 18;
                 speed = 0.5f;
                 flying = true;
@@ -707,8 +703,8 @@ public class AquaUnitTypes {
                             backColor = trailColor = Pal.techBlue;
                         }};
                     }});
-            }};
-            rivulet = new UnitType("rivulet"){{
+            }});
+        rivulet = EntityRegistry.content("rivulet", BuildingTetherc.class, name -> new UnitType(name){{
 
                     controller = u -> new CargoAI();
                     isEnemy = false;
@@ -734,5 +730,5 @@ public class AquaUnitTypes {
                 constructor = BuildingTetherPayloadUnit::create;
                 flying = true;
                     itemCapacity = 100;
-                }};
+                }});
         }};

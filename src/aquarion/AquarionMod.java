@@ -1,5 +1,6 @@
 package aquarion;
 
+import aquarion.gen.EntityRegistry;
 import aquarion.planets.AquaLoadouts;
 import aquarion.planets.AquaPlanets;
 import aquarion.planets.AquaSectorPresets;
@@ -27,7 +28,7 @@ public class AquarionMod extends Mod {
             AquaCacheLayers.init();
         }
         //stuff that needs to be loaded first
-
+        EntityRegistry.register();
         AquaLiquids.loadContent();
         AquaSounds.load();
         AquaTeams.load();
