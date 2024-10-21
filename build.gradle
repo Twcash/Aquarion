@@ -1,100 +1,217 @@
-apply plugin: "java"
+import arc.files.*
+import arc.util.*
 
-version '1.0'
+import java.util.regex.*
 
-sourceSets.main.java.srcDirs = ["src"]
+buildscript{
+    dependencies{
+        classpath "com.github.Anuken.Arc:arc-core:$arcVersion"
+    }
 
-repositories{
-    mavenCentral()
-    maven{ url "https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository" }
-    maven{ url 'https://www.jitpack.io' }
-}
-
-java{
-    targetCompatibility = 8
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
-ext{
-    //the build number that this mod is made for
-    mindustryVersion = 'v146'
-    jabelVersion = "93fde537c7"
-    //windows sucks
-    isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
-    sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
-}
-
-//java 8 backwards compatibility flag
-allprojects{
-    tasks.withType(JavaCompile){
-        options.compilerArgs.addAll(['--release', '8'])
+    repositories{
+        mavenCentral()
+        maven{url 'https://oss.sonatype.org/content/repositories/snapshots/'}
+        maven{url 'https://oss.sonatype.org/content/repositories/releases/'}
+        maven{url 'https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository'}
+        maven{url 'https://jitpack.io'}
     }
 }
 
-dependencies{
-    compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
-    compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
-
-    annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
+plugins{
+    // Register `EntityAnno` plugin, but only apply on `rootProject`.
+    id 'java'
+    id 'com.github.GlennFolker.EntityAnno' version "$entVersion" apply false
 }
 
-//force arc version
-configurations.all{
-    resolutionStrategy.eachDependency { details ->
-        if(details.requested.group == 'com.github.Anuken.Arc'){
-            details.useVersion "$mindustryVersion"
+configure(allprojects){
+    sourceSets.main.java.srcDirs = [layout.projectDirectory.dir('src')]
+
+    ext{
+        compilerVersion = JavaVersion.current().ordinal() - JavaVersion.VERSION_17.ordinal() + 17
+        useJitpack = Boolean.valueOf(mindustryBE)
+
+        arc = {String module ->
+            return "com.github.Anuken.Arc$module:$arcVersion"
+        }
+        mindustry = {String module ->
+            return "com.github.Anuken.Mindustry$module:$mindustryVersion"
+        }
+    }
+
+    configurations.configureEach{
+        // Resolve the correct Mindustry dependency, and force Arc version.
+        resolutionStrategy.eachDependency{
+            if(useJitpack && requested.group == 'com.github.Anuken.Mindustry'){
+                useTarget "com.github.Anuken.MindustryJitpack:$it.requested.name:$mindustryBEVersion"
+            }
+
+            if(requested.group == 'com.github.Anuken.Arc'){
+                useVersion arcVersion
+            }
+        }
+    }
+
+    dependencies{
+        // Downgrade Java 9+ syntax into being available in Java 8.
+        annotationProcessor "com.github.GlennFolker.EntityAnno:downgrader:$entVersion"
+    }
+
+    repositories{
+        // Necessary Maven repositories to pull dependencies from.
+        mavenCentral()
+        maven{url 'https://oss.sonatype.org/content/repositories/snapshots/'}
+        maven{url 'https://oss.sonatype.org/content/repositories/releases/'}
+
+        // Use Zelaux's non-buggy repository for release Mindustry and Arc builds.
+        if(!useJitpack) maven{url 'https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository'}
+        maven{url 'https://raw.githubusercontent.com/Zelaux/Repo/master/repository'}//for ArcLibrary
+        maven{url 'https://jitpack.io'}
+    }
+
+    tasks.withType(JavaCompile).configureEach{
+        // Use Java 17+ syntax, but target Java 8 bytecode version.
+        sourceCompatibility = compilerVersion
+        options.release.set 8
+        options.compilerArgs << '-Xlint:-options'
+
+        options.incremental = true
+        options.encoding = 'UTF-8'
+    }
+}
+
+configure(rootProject){
+    // Apply `EntityAnno` plugin to integrate the annotation processors.
+    apply plugin: 'com.github.GlennFolker.EntityAnno'
+
+    entityAnno{
+        modName = property('modName')
+        mindustryVersion = property(useJitpack ? 'mindustryBEVersion' : 'mindustryVersion')
+        isJitpack = useJitpack
+        revisionDir = layout.projectDirectory.dir('revisions').asFile
+        fetchPackage = modFetch
+        genSrcPackage = modGenSrc
+        genPackage = modGen
+    }
+
+    dependencies{
+        // Use the entity generation annotation processor.
+        compileOnly "com.github.GlennFolker.EntityAnno:entity:$entVersion"
+        kapt "com.github.GlennFolker.EntityAnno:entity:$entVersion"
+
+        compileOnly "org.jetbrains:annotations:24.0.1"
+
+        // Depend on Mindustry/Arc classpath.
+        compileOnly "${mindustry(':core')}"
+        compileOnly "${arc(':arc-core')}"
+    }
+
+    jar{
+        archiveFileName = "${modArtifact}Desktop.jar"
+
+        from files(sourceSets.main.output.classesDirs)
+        from files(sourceSets.main.output.resourcesDir)
+        from configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
+
+        from files(layout.projectDirectory.dir('assets'))
+        from(layout.projectDirectory){
+            include 'mod.json'
+            include 'icon.png'
+        }
+
+        doFirst{
+            def name = Pattern
+                    .compile('"name": "(.*)"')
+                    .matcher(layout.projectDirectory.file('mod.json').asFile.text)
+
+            if(name.find() && name.group(1) != modName){
+                logger.log(LogLevel.WARN, "Mod name mismatch: '${name.group(1)}' (mod.json) != '$modName' (gradle.properties)")
+            }
+        }
+    }
+
+    tasks.register('dex', Jar){
+        inputs.files tasks.jar
+        archiveFileName = "${modArtifact}.jar"
+
+        final def desktopJar = tasks.jar.archiveFile
+        final def dexJar = file("$temporaryDir/Dexed.jar")
+
+        from zipTree(desktopJar), zipTree(dexJar)
+        doFirst{
+            // Find Android SDK root.
+            def sdkRoot = file(
+                    System.getenv('ANDROID_SDK_ROOT') ?: System.getenv('ANDROID_HOME') ?:
+                            { throw new GradleException('Neither `ANDROID_SDK_ROOT` nor `ANDROID_HOME` is set') }
+            )
+
+            // Find `d8`.
+            def d8 = file("$sdkRoot/build-tools/$androidBuildVersion/d8")
+            if(!d8.exists()){
+                throw new GradleException("Android SDK `build-tools;$androidBuildVersion` isn't installed or is corrupted")
+            }
+
+            // Initialize a release build.
+            def input = desktopJar.get().asFile
+            def command = "$d8 --release --min-api $androidMinVersion --output $dexJar $input"
+
+            // Include all compile and runtime classpath.
+            (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList()).forEach{
+                if(it.exists()) command = "$command --classpath $it"
+            }
+
+            // Include Android platform as library.
+            def androidJar = file("$sdkRoot/platforms/android-$androidSdkVersion/android.jar")
+            if(!androidJar.exists()){
+                throw new GradleException("Android SDK `platforms;android-$androidSdkVersion` isn't installed or is corrupted")
+            }
+
+            command = "$command --lib $androidJar"
+            if(OS.isWindows) command = "cmd /c $command"
+
+            // Run `d8`.
+            logger.log(LogLevel.LIFECYCLE, 'Running `d8`.')
+            command.execute(null, layout.projectDirectory.asFile).waitForProcessOutput(System.out, System.err)
         }
     }
 }
 
-task jarAndroid{
-    dependsOn "jar"
-
+tasks.register('installJar'){
+    dependsOn tasks.jar
     doLast{
-        if(!sdkRoot || !new File(sdkRoot).exists()) throw new GradleException("No valid Android SDK found. Ensure that ANDROID_HOME is set to your Android SDK directory.");
+        def folder = Fi.get(OS.getAppDataDirectoryString('Mindustry')).child('mods')
+        folder.mkdirs()
 
-        def platformRoot = new File("$sdkRoot/platforms/").listFiles().sort().reverse().find{ f -> new File(f, "android.jar").exists()}
+        folder.child(tasks.jar.archiveFileName.get()).delete()
+        folder.child(tasks.dex.archiveFileName.get()).delete()
 
-        if(!platformRoot) throw new GradleException("No android.jar found. Ensure that you have an Android platform installed.")
+        def jarOutput = new Fi(tasks.jar.archiveFile.get().asFile)
+        def dexOutput = new Fi(tasks.dex.archiveFile.get().asFile)
 
-        //collect dependencies needed for desugaring
-        def dependencies = (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList() + [new File(platformRoot, "android.jar")]).collect{ "--classpath $it.path" }.join(" ")
-
-        def d8 = isWindows ? "d8.bat" : "d8"
-
-        //dex and desugar files - this requires d8 in your PATH
-        "$d8 $dependencies --min-api 14 --output ${project.archivesBaseName}Android.jar ${project.archivesBaseName}Desktop.jar"
-                .execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
-    }
-}
-
-jar{
-    archiveFileName = "${base.archivesBaseName}Desktop.jar"
-
-    from{
-        configurations.runtimeClasspath.collect{ it.isDirectory() ? it : zipTree(it) }
-    }
-
-    from(rootDir){
-        include "mod.hjson"
-    }
-
-    from("assets/"){
-        include "**"
-    }
-}
-
-task deploy(type: Jar){
-    dependsOn jarAndroid
-    dependsOn jar
-    archiveFileName = "${base.archivesBaseName}.jar"
-
-    from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
-
-    doLast{
-        delete{
-            delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar"
-            delete "$buildDir/libs/${project.archivesBaseName}Android.jar"
+        if(!jarOutput.exists() && !dexOutput.exists()){
+            logger.log(LogLevel.ERROR, 'Neither :jar nor :dex artifacts are found; run one of these tasks first.')
+        }else if(dexOutput.exists()){
+            dexOutput.copyTo(folder)
+            logger.log(LogLevel.LIFECYCLE, "Copied :dex output to $folder.")
+        }else{
+            jarOutput.copyTo(folder)
+            logger.log(LogLevel.LIFECYCLE, "Copied :jar output to $folder.")
         }
+    }
+}
+
+tasks.register('run'){
+    dependsOn installJar
+    doLast{
+        def gamePath = "${temporaryDir.absolutePath}\\Mindustry${mindustryVersion}.jar"
+        def gameUrl = mindustryVersion.startsWith("v") ?
+                "https://github.com/Anuken/Mindustry/releases/download/${mindustryVersion}/Mindustry.jar" :
+                "https://github.com/Anuken/MindustryBuilds/releases/download/${mindustryVersion}/Mindustry-BE-Desktop-${mindustryVersion}.jar"
+        def gameFile = new File(gamePath)
+        if (!gameFile.exists()) {
+            println "Downloading Mindustry ${mindustryVersion} from ${gameUrl} to ${gamePath}"
+            new URL(gameUrl).withInputStream{ i -> gameFile.withOutputStream{ it << i } }
+            println "Done"
+        }
+        javaexec{ classpath = files(gamePath) }
     }
 }

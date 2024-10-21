@@ -1,5 +1,6 @@
 package aquarion.type;
 
+import aquarion.gen.Derelictc;
 import aquarion.world.AquaTeams;
 import arc.func.Cons;
 import arc.graphics.Color;
@@ -68,7 +69,7 @@ public class DerelictUnit extends UnitType {
         playerControllable = false;
         targetable = false;
         hittable = true;
-        constructor = UnitEntity:: create;
+
     }
 
     @Override
