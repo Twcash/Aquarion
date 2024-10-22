@@ -1,10 +1,12 @@
 package aquarion.units;
 
+import aquarion.gen.Derelictc;
 import aquarion.gen.EntityRegistry;
 import aquarion.type.*;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Interp;
+import ent.anno.Annotations;
 import mindustry.ai.types.BuilderAI;
 import mindustry.ai.types.CargoAI;
 import mindustry.content.Fx;
@@ -30,28 +32,30 @@ import static mindustry.Vars.tilePayload;
 public class AquaUnitTypes {
     //core units and transport
 
-    public static UnitType cull, glean, rivulet,
-    //gerb
-     gerbTest,
-    // gerb mechanized
-    reap, maime,
+    public static UnitType
+
 
     //messenger tree
-     messenger, ambassador, consul, legate, monarch,
+  ambassador, consul, legate, monarch,
 
      //steward tree
-     steward, curator, custodian, caretaker, warden,
+ curator, custodian, caretaker, warden;
 
-     // goss tree
-     goss, heed, effect, consummate, efectuate,
-
-     //zoarcid treeb
-     zoarcid, anguilli, cyprin, pycogen, batoid;
-
+    //gerbUnits
+    public static @Annotations.EntityDef({Unitc.class, Legsc.class})GerbUnitType gerbTest;
+    //legUnits mechanical
+    public static @Annotations.EntityDef({Unitc.class, Legsc.class}) MechanicalUnitType reap;
+    // mechs
+    public static @Annotations.EntityDef({Unitc.class, Mechc.class}) MechanicalUnitType messenger, steward;
+    // flying
+    public static @Annotations.EntityDef({Unitc.class, Unitc.class}) MechanicalUnitType zoarcid, anguilli, cyprin, pycogen, batoid, goss, heed, effect, consummate, efectuate,
+    cull, glean, maime;
+    //non normal flying
+    public static @Annotations.EntityDef({Unitc.class, Unitc.class}) UnitType rivulet;
     public static void loadContent() {
         messenger = EntityRegistry.content("messenger", MechUnit.class, name -> new MechanicalUnitType(name){{
         speed = 0.65f;
-
+        constructor = MechUnit::create;
         rotateSpeed = 2f;
         rotateMoveFirst = true;
         mech = true;
@@ -123,6 +127,7 @@ public class AquaUnitTypes {
             groundLayer = 90;
             outlineColor = Color.valueOf("232826");
             speed = 2.5f;
+            constructor = UnitEntity::create;
             accel = 0.9f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -191,6 +196,7 @@ public class AquaUnitTypes {
             envDisabled = Env.none;
             hitSize = 8;
             rotateSpeed = 3;
+            constructor = UnitEntity::create;
             lowAltitude = true;
             flying = true;
             outlineColor = Color.valueOf("232826");
@@ -280,6 +286,7 @@ public class AquaUnitTypes {
         // steward tree
         steward = EntityRegistry.content("steward", MechUnit.class, name -> new MechanicalUnitType(name){{
             rotateMoveFirst = true;
+            constructor = MechUnit::create;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             constructor = MechUnit::create;
@@ -350,6 +357,7 @@ public class AquaUnitTypes {
             lowAltitude = flying = coreUnitDock = true;
             aiController = BuilderAI::new;
             healColor = Pal.accent;
+            constructor = UnitEntity::create;
             armor = 2;
             speed = 9;
             fogRadius = 0;
@@ -426,6 +434,7 @@ public class AquaUnitTypes {
             hittable = isEnemy = targetable = drawCell = allowedInPayloads = drawBody = false;
             payloadCapacity = (2 * 2) * tilePayload;
             outlineColor = AquaPal.tantDarkerTone;
+            constructor = UnitEntity::create;
             lowAltitude = flying = coreUnitDock = true;
             aiController = BuilderAI::new;
             healColor = Pal.accent;
@@ -499,7 +508,7 @@ public class AquaUnitTypes {
                     }}
             );
         }});
-        gerbTest = EntityRegistry.content("lightInfantry", LegsUnit.class, name -> new GerbUnitType(name){{
+        gerbTest = new GerbUnitType("light-infantry"){{
             health = 210;
             armor = 1;
             legCount = 6;
@@ -509,6 +518,7 @@ public class AquaUnitTypes {
             baseLegStraightness = 0.5f;
             lockLegBase = true;
             speed = 0.45f;
+            constructor = LegsUnit::create;
             abilities.add(
                     new DamageStateEffectAbility(0f, -7f, Pal.sapBulletBack, new ParticleEffect(){{
                         particles = 1;
@@ -564,12 +574,13 @@ public class AquaUnitTypes {
                       }};
                 }}
             );
-        }});
+        }};
         reap = EntityRegistry.content("reap", LegsUnit.class, name -> new MechanicalUnitType(name){{
             speed = 0.25f;
             lockLegBase = true;
             legLength = 8;
             legCount = 4;
+            constructor = LegsUnit::create;
             legBaseOffset = 7;
             rotateMoveFirst = true;
             rotateSpeed = 0.9f;
@@ -648,6 +659,7 @@ public class AquaUnitTypes {
                 lowAltitude = true;
                 envEnabled|= Env.terrestrial | Env.underwater;
                 envDisabled = Env.none;
+            constructor = UnitEntity::create;
                 rotateSpeed = 4;
                 accel = 0.9f;
                 drag = 0.1f;
@@ -704,11 +716,11 @@ public class AquaUnitTypes {
                         }};
                     }});
             }});
-        rivulet = EntityRegistry.content("rivulet", BuildingTetherc.class, name -> new UnitType(name){{
-
+        rivulet = new UnitType("rivulet"){{
                     controller = u -> new CargoAI();
                     isEnemy = false;
                     allowedInPayloads = false;
+            constructor = UnitEntity::create;
                     logicControllable = false;
                     playerControllable = false;
                     envDisabled = 0;
@@ -730,5 +742,5 @@ public class AquaUnitTypes {
                 constructor = BuildingTetherPayloadUnit::create;
                 flying = true;
                     itemCapacity = 100;
-                }});
+                }};
         }};

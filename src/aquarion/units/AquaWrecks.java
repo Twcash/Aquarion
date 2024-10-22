@@ -1,21 +1,22 @@
 package aquarion.units;
 
+import aquarion.gen.DerelictUnit;
 import aquarion.gen.Derelictc;
-import aquarion.type.DerelictUnit;
+import aquarion.type.DerelictUnitType;
 import ent.anno.Annotations;
 import mindustry.gen.Unitc;
 import mindustry.type.UnitType;
 
 public class AquaWrecks {
-    public static @Annotations.EntityDef({Unitc.class, Derelictc.class}) UnitType zoarcidWreck, messengerWreck, gossWreck, stewardWreck,
+    public static @Annotations.EntityDef({Unitc.class, Derelictc.class}) DerelictUnitType zoarcidWreck, messengerWreck, gossWreck, stewardWreck,
     reapWreck, InfantryGerbCorpse, maimeWreck;
     public static void loadContent() {
-        zoarcidWreck = new DerelictUnit("zoarcid-wreck");
-        gossWreck = new DerelictUnit("goss-wreck");
-        messengerWreck = new DerelictUnit("messenger-wreck");
-        stewardWreck = new DerelictUnit("steward-wreck");
-        reapWreck = new DerelictUnit("reap-wreck"){{ outlines = false;}};
-        maimeWreck = new DerelictUnit("maime-wreck");
-        InfantryGerbCorpse = new DerelictUnit("infantry-gerb-corpse"){{ outlines = false;}};
+        zoarcidWreck = new DerelictUnitType("zoarcid-wreck"){{ constructor = DerelictUnit:: create;}};
+        gossWreck = new DerelictUnitType("goss-wreck"){{ constructor = DerelictUnit:: create;}};
+        messengerWreck = new DerelictUnitType("messenger-wreck"){{ constructor = DerelictUnit:: create;}};
+        stewardWreck = new DerelictUnitType("steward-wreck"){{ constructor = DerelictUnit:: create;}};
+        reapWreck = new DerelictUnitType("reap-wreck"){{outlines = false;constructor = DerelictUnit:: create;}};
+        maimeWreck = new DerelictUnitType("maime-wreck");
+        InfantryGerbCorpse = new DerelictUnitType("infantry-gerb-corpse"){{ outlines = false; constructor =  DerelictUnit:: create;}};
     }
 }

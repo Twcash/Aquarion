@@ -1,5 +1,6 @@
 package aquarion.type;
 
+import aquarion.gen.DerelictUnit;
 import aquarion.gen.Derelictc;
 import aquarion.world.AquaTeams;
 import arc.func.Cons;
@@ -46,12 +47,12 @@ import java.nio.FloatBuffer;
 import static mindustry.Vars.state;
 import static mindustry.gen.Nulls.unit;
 
-public class DerelictUnit extends UnitType {
+public class DerelictUnitType extends UnitType {
 
     public boolean preventDeath = false;  // Flag to control whether death is allowed
     public float timeUntilDerelict = 100;  // Timer before becoming derelict
 
-    public DerelictUnit(String name) {
+    public DerelictUnitType(String name) {
         super(name);
         speed = 0;
         rotateSpeed = 0;
@@ -67,9 +68,9 @@ public class DerelictUnit extends UnitType {
         flying = false;
         logicControllable = false;
         playerControllable = false;
-        targetable = false;
+        targetable = true;
         hittable = true;
-
+        constructor = DerelictUnit::create;
     }
 
     @Override

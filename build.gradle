@@ -1,5 +1,6 @@
 import arc.files.*
 import arc.util.*
+import arc.util.serialization.Jval
 
 import java.util.regex.*
 
@@ -31,10 +32,11 @@ configure(allprojects){
         useJitpack = Boolean.valueOf(mindustryBE)
 
         arc = {String module ->
-            return "com.github.Anuken.Arc$module:$arcVersion"
+            "com.github.Anuken.Arc$module:$arcVersion"
         }
+
         mindustry = {String module ->
-            return "com.github.Anuken.Mindustry$module:$mindustryVersion"
+            "com.github.Anuken.Mindustry$module:$mindustryVersion"
         }
     }
 
@@ -64,7 +66,6 @@ configure(allprojects){
 
         // Use Zelaux's non-buggy repository for release Mindustry and Arc builds.
         if(!useJitpack) maven{url 'https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository'}
-        maven{url 'https://raw.githubusercontent.com/Zelaux/Repo/master/repository'}//for ArcLibrary
         maven{url 'https://jitpack.io'}
     }
 
@@ -98,8 +99,6 @@ configure(rootProject){
         compileOnly "com.github.GlennFolker.EntityAnno:entity:$entVersion"
         kapt "com.github.GlennFolker.EntityAnno:entity:$entVersion"
 
-        compileOnly "org.jetbrains:annotations:24.0.1"
-
         // Depend on Mindustry/Arc classpath.
         compileOnly "${mindustry(':core')}"
         compileOnly "${arc(':arc-core')}"
@@ -113,19 +112,31 @@ configure(rootProject){
         from configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
 
         from files(layout.projectDirectory.dir('assets'))
-        from(layout.projectDirectory){
-            include 'mod.json'
-            include 'icon.png'
+        from layout.projectDirectory.file('icon.png')
+
+        def meta = file("$temporaryDir/mod.json")
+        from meta
+
+        metaInf{
+            from layout.projectDirectory.file('LICENSE')
         }
 
         doFirst{
-            def name = Pattern
-                    .compile('"name": "(.*)"')
-                    .matcher(layout.projectDirectory.file('mod.hjson').asFile.text)
-
-            if(name.find() && name.group(1) != modName){
-                logger.log(LogLevel.WARN, "Mod name mismatch: '${name.group(1)}' (mod.json) != '$modName' (gradle.properties)")
+            // Deliberately check if the mod meta is actually written in HJSON, since, well, some people actually use it.
+            // But this is also not mentioned in the `README.md`, for the mischievous reason of driving beginners into using
+            // JSON instead.
+            def metaJson = layout.projectDirectory.file('mod.json')
+            def metaHjson = layout.projectDirectory.file('mod.hjson')
+            if(metaJson.asFile.exists() && metaHjson.asFile.exists()){
+                throw new GradleException('Ambiguous mod meta: both `mod.json` and `mod.hjson` exist.')
+            }else if(!metaJson.asFile.exists() && !metaHjson.asFile.exists()){
+                throw new GradleException('Missing mod meta: neither `mod.json` nor `mod.hjson` exist.')
             }
+            def isJson = metaJson.asFile.exists()
+
+            def map = (isJson ? metaJson : metaHjson).asFile.withReader{Jval.read(it)}
+            map.put('name', modName)
+            meta.withWriter{map.writeTo(it, Jval.Jformat.formatted)}
         }
     }
 
@@ -140,12 +151,12 @@ configure(rootProject){
         doFirst{
             // Find Android SDK root.
             def sdkRoot = file(
-                    System.getenv('ANDROID_SDK_ROOT') ?: System.getenv('ANDROID_HOME') ?:
-                            { throw new GradleException('Neither `ANDROID_SDK_ROOT` nor `ANDROID_HOME` is set') }
+                System.getenv('ANDROID_SDK_ROOT') ?: System.getenv('ANDROID_HOME') ?:
+                { throw new GradleException('Neither `ANDROID_SDK_ROOT` nor `ANDROID_HOME` is set') }
             )
 
             // Find `d8`.
-            def d8 = file("$sdkRoot/build-tools/$androidBuildVersion/d8")
+            def d8 = file("$sdkRoot/build-tools/$androidBuildVersion/${OS.isWindows ? 'd8.bat' : 'd8'}")
             if(!d8.exists()){
                 throw new GradleException("Android SDK `build-tools;$androidBuildVersion` isn't installed or is corrupted")
             }
@@ -175,43 +186,22 @@ configure(rootProject){
     }
 }
 
-tasks.register('installJar'){
-    dependsOn tasks.jar
-    doLast{
-        def folder = Fi.get(OS.getAppDataDirectoryString('Mindustry')).child('mods')
-        folder.mkdirs()
+for(def i = 0; i < 2; i++){
+    final def isDex = i == 1
+    final def name = isDex ? 'installDex' : 'install'
+    final def input = isDex ? tasks.dex : tasks.jar
 
-        folder.child(tasks.jar.archiveFileName.get()).delete()
-        folder.child(tasks.dex.archiveFileName.get()).delete()
+    tasks.register(name){
+        inputs.files input
+        doLast{
+            def folder = Fi.get(OS.getAppDataDirectoryString('Mindustry')).child('mods')
+            folder.mkdirs()
 
-        def jarOutput = new Fi(tasks.jar.archiveFile.get().asFile)
-        def dexOutput = new Fi(tasks.dex.archiveFile.get().asFile)
+            folder.child(tasks.jar.archiveFileName.get()).delete()
+            folder.child(tasks.dex.archiveFileName.get()).delete()
 
-        if(!jarOutput.exists() && !dexOutput.exists()){
-            logger.log(LogLevel.ERROR, 'Neither :jar nor :dex artifacts are found; run one of these tasks first.')
-        }else if(dexOutput.exists()){
-            dexOutput.copyTo(folder)
-            logger.log(LogLevel.LIFECYCLE, "Copied :dex output to $folder.")
-        }else{
-            jarOutput.copyTo(folder)
-            logger.log(LogLevel.LIFECYCLE, "Copied :jar output to $folder.")
+            new Fi(input.archiveFile.get().asFile).copyTo(folder)
+            logger.log(LogLevel.LIFECYCLE, "Copied :${isDex ? 'dex' : 'jar'} output to $folder.")
         }
-    }
-}
-
-tasks.register('run'){
-    dependsOn installJar
-    doLast{
-        def gamePath = "${temporaryDir.absolutePath}\\Mindustry${mindustryVersion}.jar"
-        def gameUrl = mindustryVersion.startsWith("v") ?
-                "https://github.com/Anuken/Mindustry/releases/download/${mindustryVersion}/Mindustry.jar" :
-                "https://github.com/Anuken/MindustryBuilds/releases/download/${mindustryVersion}/Mindustry-BE-Desktop-${mindustryVersion}.jar"
-        def gameFile = new File(gamePath)
-        if (!gameFile.exists()) {
-            println "Downloading Mindustry ${mindustryVersion} from ${gameUrl} to ${gamePath}"
-            new URL(gameUrl).withInputStream{ i -> gameFile.withOutputStream{ it << i } }
-            println "Done"
-        }
-        javaexec{ classpath = files(gamePath) }
     }
 }
