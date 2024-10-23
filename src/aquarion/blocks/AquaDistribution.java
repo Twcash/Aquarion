@@ -1,6 +1,7 @@
 package aquarion.blocks;
 
 import aquarion.world.blocks.distribution.SealedConveyor;
+import aquarion.world.blocks.distribution.SealedRouter;
 import mindustry.ai.types.CargoAI;
 import mindustry.gen.UnitEntity;
 import mindustry.type.Category;
@@ -60,7 +61,7 @@ public class AquaDistribution {
             envDisabled = Env.none;
         }};
 
-        sealedRouter = new Router("sealed-router"){{
+        sealedRouter = new SealedRouter("sealed-router"){{
             requirements(category.distribution, with(lead, 10, bauxite, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -72,6 +73,7 @@ public class AquaDistribution {
             capacity = 8;
             speed = 48;
             envEnabled |= Env.terrestrial | Env.underwater;
+            ((SealedConveyor)sealedConveyor).junctionReplacement = this;
             envDisabled = Env.none;
         }};
 

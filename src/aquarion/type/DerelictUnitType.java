@@ -49,9 +49,6 @@ import static mindustry.gen.Nulls.unit;
 
 public class DerelictUnitType extends UnitType {
 
-    public boolean preventDeath = false;  // Flag to control whether death is allowed
-    public float timeUntilDerelict = 100;  // Timer before becoming derelict
-
     public DerelictUnitType(String name) {
         super(name);
         speed = 0;
@@ -73,21 +70,4 @@ public class DerelictUnitType extends UnitType {
         constructor = DerelictUnit::create;
     }
 
-    @Override
-    public void update(Unit unit) {
-        // Countdown for derelict timer
-        timeUntilDerelict -= Time.delta;
-
-        // Custom death prevention logic
-        if (timeUntilDerelict <= 0) {
-            unit.team(AquaTeams.wrecks);
-        }
-    }
-    @Override
-    public void killed(Unit unit) {
-        // Override killed method to prevent automatic death unless allowed
-        if (!preventDeath) {
-            super.killed(unit);  // Call the default killed logic
-        }
-    }
 }

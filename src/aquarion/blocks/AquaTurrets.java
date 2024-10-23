@@ -166,10 +166,10 @@ public class AquaTurrets {
                 lifetime = 60f;
                 ammoMultiplier = 1;
                 shootEffect = AquaFx.shootLong;
-                smokeEffect =  new MultiEffect(AquaFx.shootSmokeTri, Fx.shootSmokeSquareSparse);
+                smokeEffect =  new MultiEffect(AquaFx.pentagonShootSmoke, AquaFx.GyreShootSmoke);
                 trailRotation = true;
-                trailEffect = AquaFx.shootSmokeTri;
-                trailInterval = 4;
+                trailEffect = AquaFx.pentagonShootSmoke;
+                trailInterval = 8;
                 frontColor = lightColor = hitColor = AquaPal.chireniumLight;
                 hitEffect = despawnEffect = Fx.hitSquaresColor;
                 backColor = trailColor = AquaPal.chireniumDark;

@@ -1,12 +1,17 @@
 package aquarion.world.blocks.distribution;
 
 import arc.Core;
+import arc.func.Boolf;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
+import arc.struct.Seq;
 import arc.util.Nullable;
+import ent.anno.Annotations;
+import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Teamc;
 import mindustry.type.Item;
+import mindustry.world.Block;
 import mindustry.world.Edges;
 import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.blocks.distribution.Duct;
@@ -15,6 +20,7 @@ import mindustry.world.blocks.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
+import mindustry.world.blocks.distribution.Junction;
 
 import static mindustry.Vars.*;
 
@@ -32,6 +38,7 @@ public class SealedConveyor extends Duct implements Autotiler{
 
     public TextureRegion[][] regions = new TextureRegion[7][4];
     public TextureRegion[][] glowRegions = new TextureRegion[7][4];
+    public @Nullable Block junctionReplacement;
     @Override
     public void load(){
         super.load();
@@ -44,7 +51,22 @@ public class SealedConveyor extends Duct implements Autotiler{
             }
         }
     }
+    @Annotations.Replace
+    @Override
+    public Block getReplacement(BuildPlan req, Seq<BuildPlan> plans){
+        if(junctionReplacement == null) return this;
 
+        Boolf<Point2> cont = p -> plans.contains(o -> o.x == req.x + p.x && o.y == req.y + p.y && (req.block instanceof SealedConveyor || req.block instanceof Junction));
+        return cont.get(Geometry.d4(req.rotation)) &&
+                cont.get(Geometry.d4(req.rotation - 2)) &&
+                req.tile() != null &&
+                req.tile().block() instanceof SealedConveyor &&
+                Mathf.mod(req.build().rotation - req.rotation, 2) == 1 ? junctionReplacement : this;
+    }
+    @Annotations.Replace
+    @Override
+    public void handlePlacementLine(Seq<BuildPlan> plans){
+    }
     public class SealedConveyorBuild extends Building {
         public boolean backCapped = false;
         public boolean capped = false;

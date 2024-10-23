@@ -127,6 +127,29 @@ public class AquaFx {
                 Lines.circle(e.x, e.y, e.fin() * 18f);
             }).layer(Layer.debris),
 
+            pentagonShootSmoke = new Effect(65f, e -> {
+                color(Color.valueOf("ffbfc8"),Color.valueOf("e8586c"), e.fin());
+
+                rand.setSeed(e.id);
+                for(int i = 0; i < 3; i++){
+                    float rot = e.rotation + rand.range(15f);
+                    v.trns(rot, rand.random(e.finpow() * 15f));
+                    float randomRotationSpeed = rand.random(180f, 360f);
+                    float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                    Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 2.5f, rand.random(700f) + slowRotation);
+                }
+            }),
+            GyreShootSmoke = new Effect(48, e -> {
+                color(Color.valueOf("e8586c"), e.fin());
+                stroke(0.8f + e.fout() * 2.7f);
+                rand.setSeed(e.id);
+
+                for(int i = 0; i < 2; i++){
+                    float rot = e.rotation + rand.range(15f);
+                    v.trns(rot, rand.random(e.fin() * 32f));
+                    lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(6f, 7f) + 1.5f);
+                }
+            }),
     shootSmokeTri = new Effect(45f, e -> {
         color(e.color, e.color, e.fin());
 
