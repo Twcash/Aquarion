@@ -10,3 +10,14 @@ build/
 .idea/
 .vscode/
 .kateproject
+
+
+## GWT
+/html/war/
+/html/gwt-unitCache/
+.apt_generated/
+.gwt/
+gwt-unitCache/
+www-test/
+.gwt-tmp//revisions/
+/revisions/
