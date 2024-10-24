@@ -5,7 +5,6 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
-import arc.math.geom.Vec2;
 import arc.util.Nullable;
 import arc.util.Tmp;
 import arc.util.io.Reads;
@@ -18,8 +17,6 @@ import mindustry.world.blocks.distribution.Router;
 
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
-
-import static arc.math.Mathf.lerp;
 import static mindustry.Vars.*;
 
 
@@ -54,8 +51,6 @@ public class SealedRouter extends Router {
         public int recDir = 0;
         public Tile lastInput;
         public int r = 0;
-        public Tile source;
-        Vec2 currentItemPos = new Vec2();
         public @Nullable Building target;
 
         @Override
@@ -65,11 +60,10 @@ public class SealedRouter extends Router {
 
             // Continue item movement even if there's no target yet
             if (current != null) {
-                // Try to find a target if it hasn't been set yet
                 if (target == null) {
-                    target = getTileTarget(current, lastInput, false);  // Try to find a target again
+                    target = getTileTarget(current, lastInput, false);
                     if (target != null) {
-                        r = relativeToEdge(target.tile);  // Get the direction for the output
+                        r = relativeToEdge(target.tile);
                     } else {
                         // If no target is available, set progress to halfway point (0.5f)
                         progress = 0.5f;
@@ -78,7 +72,7 @@ public class SealedRouter extends Router {
 
                 // Continue moving the item visually
                 if (progress >= 1f) {
-                    // If a valid target is found, transfer the item
+                    // If a valid target is found transfer the item
                     if (target != null) {
                         target.handleItem(this, current);
                         items.remove(current, 1);
@@ -86,7 +80,7 @@ public class SealedRouter extends Router {
                         target = null;  // Reset the target for the next item
                     }
 
-                    // Always reset the progress, even if no target is found
+                    // Always reset the progress
                     progress = 0f;
                 }
             }
@@ -94,7 +88,6 @@ public class SealedRouter extends Router {
 
         @Override
         public void draw() {
-            // Draw the block layers
             Draw.z(Layer.blockUnder + 0.3f);
             Draw.rect(topRegion, x, y);
             Draw.z(Layer.blockUnder + 0.1f);
@@ -104,27 +97,13 @@ public class SealedRouter extends Router {
             if (current != null) {
                 Draw.z(Layer.blockUnder + 0.2f);
 
-                // Position of the item, start by assuming it's at the center
-                float itemX = this.x;
-                float itemY = this.y;
+                Draw.z(Layer.blockUnder + 0.1f);
+                Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
+                        .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
+                                Mathf.clamp((progress + 1f) / 2f));
 
-                // First phase: from input direction (recDir) to the center
-                if (progress <= 0.5f) {
-                    // Lerp from the input direction (recDir) to the block's center (this.x, this.y)
-                    Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
-                            .lerp(0f, 0f, Mathf.clamp(progress * 2f));  // progress * 2f to normalize the first half
-                } else {
-                    // Second phase: from the block's center to the output direction (r)
-                    Tmp.v1.set(0f, 0f)  // Start from the center
-                            .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f, Mathf.clamp((progress - 0.5f) * 2f));  // progress - 0.5f for the second half
-                }
 
-                // Update item position based on the calculated vector
-                itemX += Tmp.v1.x;
-                itemY += Tmp.v1.y;
-
-                // Draw the item at the computed position
-                Draw.rect(current.fullIcon, itemX, itemY, itemSize, itemSize);
+                Draw.rect(current.fullIcon, x + Tmp.v1.x, y + Tmp.v1.y, itemSize, itemSize);
             }
         }
 
