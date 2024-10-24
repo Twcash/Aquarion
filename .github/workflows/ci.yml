@@ -1,0 +1,23 @@
+name: Java CI
+
+on: [push, pull_request]
+
+jobs:
+  buildJar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: temurin
+      - name: Build mod artifact
+        run: |
+          chmod +x gradlew
+          ./gradlew clean dex
+      - name: Upload built mod artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ModTemplate (zipped)
+          path: build/libs/ModTemplate.jar
