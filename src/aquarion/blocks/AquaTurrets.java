@@ -3,6 +3,7 @@ package aquarion.blocks;
 import aquarion.AquaItems;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
+import arc.graphics.Blending;
 import arc.graphics.Color;
 import mindustry.content.Fx;
 import mindustry.content.Items;
@@ -23,11 +24,14 @@ import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.ceramic;
 import static aquarion.AquaItems.chirenium;
+import static arc.math.Interp.pow2Out;
+import static arc.math.Interp.pow5Out;
+import static mindustry.gen.Sounds.shootAlt;
 import static mindustry.gen.Sounds.shootAltLong;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block Forment, Fragment, gyre, deviate;
+    public static Block Forment, Fragment, gyre, Coaxis, deviate;
 
     public static void loadContent() {
         //oogly boogly
@@ -226,9 +230,9 @@ public class AquaTurrets {
             shoot = new ShootBarrel() {{
                     firstShotDelay = 35;
                             barrels = new float[] {
-                                    -4, 4, 0,
+                                    -6, 4, 0,
                                     0, 4f, 0,
-                                    4, 4f, 0
+                                    6, 4f, 0
                             };
             }};
             ammo(
@@ -299,5 +303,163 @@ public class AquaTurrets {
                 }});
             }};
         }};
+        Coaxis = new ItemTurret("coaxis"){
+            {
+                requirements(Category.turret, with(Items.lead, 140, chirenium, 50, ceramic, 80));
+                ammo(
+                        Items.lead, new MissileBulletType(2.5f, 18, "bullet") {{
+                            width = 10f;
+                            height = 16f;
+                            trailLength = 12;
+
+                            lifetime = 60f;
+                            ammoMultiplier = 1;
+                            shootEffect = AquaFx.shootLong;
+                            smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
+                            trailEffect = Fx.none;
+                            weaveMag = 2;
+                            homingPower = 0.05f;
+                            homingDelay = 5;
+                            weaveScale = 1.75f;
+                            shrinkX = 0.2f;
+                            shrinkY = 0.8f;
+                            frontColor = lightColor = hitColor = AquaPal.bauxiteShoot;
+                            backColor = trailColor = AquaPal.bauxiteLightTone;
+                            buildingDamageMultiplier = 0.3f;
+                        }},
+                        AquaItems.gallium, new MissileBulletType(2f, 26, "bullet") {{
+                            width = 12f;
+                            height = 18f;
+
+
+                            trailLength = 8;
+                            lifetime = 60f;
+                            ammoMultiplier = 2;
+                            heatColor = AquaPal.galliumLightTone;
+                            trailEffect = Fx.none;
+                            shootEffect = AquaFx.shootLong;
+                            smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentGallium);
+                            weaveMag = 2;
+                            homingPower = 0.02f;
+                            homingDelay = 10;
+                            weaveScale = 1.75f;
+                            shrinkX = 0.2f;
+                            shrinkY = 0.8f;
+                            frontColor = lightColor = hitColor = Color.white;
+                            backColor = trailColor = AquaPal.galliumLightTone;
+                            buildingDamageMultiplier = 0.3f;
+                        }},
+                        AquaItems.nitride, new MissileBulletType(3.5f, 20, "bullet") {{
+                            width = 9f;
+                            height = 15f;
+                            trailLength = 10;
+                            lifetime = 60f;
+                            ammoMultiplier = 3;
+                            rangeChange = 32;
+                            trailEffect = Fx.none;
+                            heatColor = Color.white;
+                            shootEffect = AquaFx.shootLong;
+                            smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentGallium);
+                            weaveMag = 2;
+                            homingPower = 0.09f;
+                            homingDelay = 10;
+                            weaveScale = 1.75f;
+                            shrinkX = 0.2f;
+                            shrinkY = 0.8f;
+                            frontColor = lightColor = hitColor = Color.white;
+                            backColor = trailColor = Color.gray;
+                            buildingDamageMultiplier = 0.3f;
+                        }});
+                size = 4;
+                outlineColor = AquaPal.tantDarkestTone;
+                squareSprite = false;
+                recoil = 3;
+                recoilTime = 45;
+                targetAir = false;
+                shootSound = shootAlt;
+                shoot = new ShootBarrel() {{
+                    firstShotDelay = 10;
+                    barrels = new float[]{
+                            -8, -4, 0,
+                            -3, -4f, 0,
+                            3, -4f, 0,
+                            8, -4, 0
+                    };
+                }};
+                reload = 2;
+                minWarmup = 0.9f;
+                warmupMaintainTime = 45;
+                shootWarmupSpeed = 0.07f;
+                recoils = 4;
+                drawer = new DrawTurret() {{
+                    parts.addAll(
+                            new RegionPart("-front") {{
+                                layerOffset = -0.3f;
+                                progress = PartProgress.warmup;
+                                under = true;
+                                moveY = -3;
+                            }},
+                            new RegionPart("-barrel-2") {{
+                                progress = PartProgress.warmup;
+                                moveY = -2.5f;
+                                moveX = -0.5f;
+                                recoilIndex = 1;
+                                moves.add(new PartMove(PartProgress.recoil, 0.5f, -3.5f, 0f));
+                                children.add(new RegionPart("-heat2") {{
+                                    progress = DrawPart.PartProgress.recoil;
+                                    blending = Blending.additive;
+                                    outline = false;
+                                    color = Color.valueOf("000000");
+                                    colorTo = Pal.turretHeat;
+                                }});
+                            }},
+                            new RegionPart("-barrel-1") {{
+                                progress = PartProgress.warmup;
+                                moveY = -2.5f;
+                                moveX = -0.5f;
+                                moveRot = -3;
+                                recoilIndex = 0;
+                                moves.add(new PartMove(PartProgress.recoil, 0.5f, -3.5f, -5f));
+                                children.add(new RegionPart("-heat1") {{
+                                    progress = DrawPart.PartProgress.recoil;
+                                    blending = Blending.additive;
+                                    outline = false;
+                                    color = Color.valueOf("000000");
+                                    colorTo = Pal.turretHeat;
+                                }});
+                            }},
+
+                            new RegionPart("-barrel-3") {{
+                                progress = PartProgress.warmup;
+                                moveY = -2.5f;
+                                moveX = 0.5f;
+                                recoilIndex = 2;
+                                moves.add(new PartMove(PartProgress.recoil, 2f, -2f, 0f));
+                                children.add(new RegionPart("-heat3") {{
+                                    progress = DrawPart.PartProgress.recoil;
+                                    blending = Blending.additive;
+                                    outline = false;
+                                    color = Color.valueOf("000000");
+                                    colorTo = Pal.turretHeat;
+                                 }});
+                            }},
+                            new RegionPart("-barrel-4") {{
+                                progress = PartProgress.warmup;
+                                moveY = -2.5f;
+                                moveX = 0.5f;
+                                moveRot = -3;
+                                recoilIndex = 3;
+                                moves.add(new PartMove(PartProgress.recoil, -2f, -2f, 5f));
+                                children.add(new RegionPart("-heat4") {{
+                                    progress = DrawPart.PartProgress.recoil;
+                                    blending = Blending.additive;
+                                    outline = false;
+                                    color = Color.valueOf("000000");
+                                    colorTo = Pal.turretHeat;
+                                }});
+                            }}
+                    );
+                }};
+            }};
     }
 }
