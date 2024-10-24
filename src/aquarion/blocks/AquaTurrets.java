@@ -279,12 +279,12 @@ public class AquaTurrets {
                 parts.add(new RegionPart("-barrel-1"){{
                     moveY = -1f;
                     progress = PartProgress.recoil;
-                    recoilIndex = 2;
+                    recoilIndex = 1;
                 }});
                 parts.add(new RegionPart("-barrel-2"){{
                     moveY = -1f;
                     progress = PartProgress.recoil;
-                    recoilIndex = 1;
+                    recoilIndex = 2;
                 }});
                 parts.add(new RegionPart("-barrel-3"){{
                     moveY = -1f;
@@ -299,7 +299,7 @@ public class AquaTurrets {
                 parts.add(new RegionPart("-back-2"){{
                     moveY = -0.5f;
                     progress = PartProgress.recoil;
-                    recoilIndex = 0;
+                    recoilIndex = 1;
                 }});
             }};
         }};
