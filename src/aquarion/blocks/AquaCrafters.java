@@ -7,7 +7,6 @@ import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.content.Fx;
-import mindustry.content.Items;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.gen.Sounds;
@@ -27,7 +26,6 @@ import static aquarion.AquaLiquids.hydroxide;
 import static aquarion.AquaSounds.wallDrill;
 import static mindustry.content.Items.lead;
 import static mindustry.content.Liquids.arkycite;
-import static mindustry.gen.Sounds.drill;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
