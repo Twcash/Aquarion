@@ -19,5 +19,5 @@ jobs:
       - name: Upload built mod artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ModTemplate (zipped)
-          path: build/libs/ModTemplate.jar
+          name: Aquarion (zipped)
+          path: build/libs/Aquarion.jar
