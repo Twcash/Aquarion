@@ -21,7 +21,6 @@ public class AquaShaders {
     public static @Nullable ModSurfaceShader blockDestroy;
     public static void init() {
         brine = new ModSurfaceShader("brine");
-        blockDestroy = new ModSurfaceShader("blockDestroy");
     }
 
     public static class ModSurfaceShader extends Shader {
