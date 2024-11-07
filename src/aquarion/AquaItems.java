@@ -4,11 +4,12 @@ import arc.graphics.Color;
 import arc.struct.Seq;
 import mindustry.type.Item;
 
-import static mindustry.content.Items.lead;
+import static mindustry.content.Items.*;
 
 public class AquaItems {
-    public static Item salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
+    public static Item cupronickel, salulnite, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
     public static final Seq<Item> tantrosItems = new Seq<>();
+    public static final Seq<Item> qeraltarItems = new Seq<>();
     public static void load() {
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
             hardness = 3;
@@ -55,6 +56,32 @@ public class AquaItems {
         ceramic = new Item("ceramic", Color.valueOf("#ffffff")) {{
             cost = 1.5f;
         }};
+        electrum = new Item("electrum", Color.valueOf("#eedeaf")) {{
+            cost = 0.8f;
+        }};
+        silver = new Item("silver", Color.valueOf("#d7e0e4")) {{
+            cost = 0.9f;
+        }};
+        arsenic = new Item("arsenic", Color.valueOf("#ff8f8f")) {{
+            cost = 0.9f;
+        }};
+        cupronickel = new Item("cupronickel", Color.valueOf("#dfaf88")) {{
+            cost = 1f;
+        }};
+        chromium = new Item("chromium", Color.valueOf("#d2c8d9")) {{
+            cost = 1f;
+        }};
+        inconel = new Item("inconel", Color.valueOf("#e9ecd2")) {{
+            cost = 1f;
+        }};
+        salulnite = new Item("salulnite", Color.valueOf("#b1dae3")) {{
+            cost = 1f;
+        }};
+        qeraltarItems.addAll(
+           lead, copper, electrum, silver,
+                nickel, cupronickel, titanium, arsenic,
+                ceramic, silicon, inconel, salulnite
+        );
         tantrosItems.addAll(
                 ceramic, sodium, nitride, manganese,
                 lithium, gallium, chirenium, bauxite,

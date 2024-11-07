@@ -3,6 +3,8 @@ package aquarion.blocks;
 import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaSounds;
+import aquarion.world.blocks.production.RechargeDrill;
+import aquarion.world.blocks.production.WallPayloadDrill;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Interp;
@@ -14,22 +16,26 @@ import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
+import mindustry.world.blocks.Attributes;
 import mindustry.world.blocks.production.BurstDrill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.WallCrafter;
 import mindustry.world.draw.*;
+import mindustry.world.meta.Attribute;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.brine;
 import static aquarion.AquaLiquids.hydroxide;
 import static aquarion.AquaSounds.wallDrill;
+import static aquarion.blocks.AquaDefense.bauxiteWall;
+import static aquarion.blocks.AquaDefense.galliumWall;
 import static mindustry.content.Items.lead;
 import static mindustry.content.Liquids.arkycite;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block clarifier, chireniumElectroplater, bauxiteHarvester, CompressionDrill, ramDrill, cultivationChamber, ceramicKiln;
+    public static Block wallExtractor, clarifier, chireniumElectroplater, bauxiteHarvester, CompressionDrill, ramDrill, cultivationChamber, ceramicKiln;
     public static void loadContent(){
 
     bauxiteHarvester = new WallCrafter("bauxite-harvester"){{
@@ -47,22 +53,29 @@ public class AquaCrafters {
     squareSprite = false;
     consumePower(1.5f);
     }};
-    CompressionDrill = new BurstDrill("compression-drill"){{
+    wallExtractor = new WallPayloadDrill("wall-extractor"){{
+        requirements(Category.production, with(lead, 25, AquaItems.bauxite, 30));
+        size = 3;
+        attributeBlockMap.put(AquaAttributes.gallium, AquaDefense.galliumWall);
+        attributeBlockMap.put(AquaAttributes.bauxite, AquaDefense.bauxiteWall);
+        envEnabled |= Env.underwater;
+    }};
+    CompressionDrill = new RechargeDrill("compression-drill"){{
     requirements(Category.production, with(lead, 10, AquaItems.bauxite, 15));
         researchCost = with(lead, 5, AquaItems.bauxite, 10);
         drillTime = 320;
         size = 2;
         tier = 2;
         itemCapacity = 50;
-        arrows = 2;
-        invertedTime = 45;
+        //arrows = 2;
+        //invertedTime = 45;
         updateEffectChance = 0.5f;
         drillEffect = new MultiEffect(Fx.mineBig, AquaFx.smallShockwave);
         updateEffect = Fx.drillSteam;
-        arrowSpacing = 2;
+        //arrowSpacing = 2;
         ambientSound = AquaSounds.compressDrill;
-        drillSound = AquaSounds.compressDrillImpact;
-        shake = 0.5f;
+        //drillSound = AquaSounds.compressDrillImpact;
+        //shake = 0.5f;
         envEnabled |= Env.underwater;
         drillEffectRnd = 0.5f;
         ambientSoundVolume = 0.01f;

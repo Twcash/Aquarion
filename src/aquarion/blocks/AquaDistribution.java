@@ -16,7 +16,7 @@ import static mindustry.type.ItemStack.with;
 
 public class AquaDistribution {
     // Armored and Sealed Conveyors
-    public static Block armoredSealedConveyor, sealedOverflow, sealedUnloader, sealedConveyor, sealedRouter, sealedSorter, sealedUnderflow, sealedJunction;
+    public static Block armoredSealedConveyor, sealedOverflow,sealedDistributor,  sealedUnloader, sealedConveyor, sealedRouter, sealedSorter, sealedUnderflow, sealedJunction;
 
     // Cargo
     public static Block cargoDepot, cargoDock, cargoTerminal;
@@ -62,6 +62,14 @@ public class AquaDistribution {
             requirements(category.distribution, with(lead, 10, bauxite, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            researchCostMultiplier = 0.1f;
+        }};
+        sealedDistributor = new SealedRouter("sealed-distributor"){{
+            requirements(category.distribution, with(lead, 45, bauxite, 10));
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            size = 2;
+            solid = true;
             researchCostMultiplier = 0.1f;
         }};
         //debating whether this should even exist

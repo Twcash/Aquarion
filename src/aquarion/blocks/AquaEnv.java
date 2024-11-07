@@ -10,14 +10,15 @@ import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
+import mindustry.content.Items;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.CacheLayer;
+import mindustry.graphics.Layer;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
-import static aquarion.AquaItems.bauxite;
-import static aquarion.AquaItems.nickel;
+import static aquarion.AquaItems.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.lead;
 import static mindustry.world.meta.BuildVisibility.sandboxOnly;
@@ -26,16 +27,16 @@ import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 public class AquaEnv {
 
     // Boulders
-    public static Block algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin;
+    public static Block chertBoulder, arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin, CrasseCoral;
 
     // Floors
-    public static Block greenCoralFloor, BlueCoralFloor, deepredCoralFloor, redCoralFloor, andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
+    public static Block arsenideFloor, arsenideLayers, chertFloor, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor, andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
 
     // Ore blocks
-    public static Block oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese;
+    public static Block oreArsenic, oreElectrum, oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese, exposedGallium;
 
     // Walls
-    public static Block pillarCoral, loteasCoral, songCoral,  bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, andesiteExtrusions;
+    public static Block arsenicCrystals, arsenideWall, chertWall, chertOutcrop, pillarCoral, loteasCoral, songCoral,  bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, andesiteExtrusions;
 
 
     public static void loadContent() {
@@ -57,7 +58,6 @@ public class AquaEnv {
         }};
 
         coral_floor = new Floor("coral-floor", 4) {{
-            decoration = yellowCoral;
         }};
 
 
@@ -89,15 +89,12 @@ public class AquaEnv {
         }};
         andesiteRubble = new Floor("andesite-rubble-", 4) {{
             wall = daciteWall;
-            decoration = daciteBoulder;
         }};
         andesite = new Floor("andesite-", 4) {{
             wall = daciteWall;
-            decoration = daciteBoulder;
         }};
 
         ferric_extrusions = new Floor("ferric-extrusions", 2) {{
-            decoration = ferricBoulder;
         }};
         redCoralFloor = new Floor("redCoral-floor"){{
             variants = 6;
@@ -131,12 +128,10 @@ public class AquaEnv {
 
 
 
-        gabbro_extrusions = new Floor("gabbro-extrusions", 2) {{
-            decoration = gabbroBoulder;
+        gabbro_extrusions = new Floor("gabbro-extrusions", 4) {{
         }};
 
         gabbro = new Floor("gabbro", 3) {{
-            decoration = gabbroBoulder;
 
         }};
 
@@ -202,21 +197,17 @@ public class AquaEnv {
 
         kelp_floor = new Floor("kelp-floor", 2) {{
             walkSound = mindustry.gen.Sounds.mud;
-            decoration = kelp;
         }};
 
         roughFeldspar = new Floor("rough-feldspar", 4) {{
             wall = feldsparWall;
-            decoration = feldsparBoulder;
         }};
 
         phylite_floor = new Floor("phylite-floor", 2) {{
             wall = shaleWall;
-            decoration = shaleBoulder;
         }};
         slate = new Floor("slate", 3) {{
             wall = shaleWall;
-            decoration = shaleBoulder;
         }};
         basaltSpikes = new Floor("basalt-spikes", 4) {{
             wall = duneWall;
@@ -227,6 +218,14 @@ public class AquaEnv {
             shadowAlpha = 0.5f;
             shadowOffset = -2.5f;
         }};
+        arsenideFloor = new Floor("arsenide-floor", 4) {{
+        }};
+        arsenideLayers = new Floor("arsenide-layers", 4) {{
+        }};
+        chertFloor = new Floor("chert-floor", 4) {{
+        }};
+        chertPlates = new Floor("chert-plates", 4) {{
+        }};
 
         // Ore blocks
         leadNodules = new OreBlock("lead-nodules", lead);
@@ -235,12 +234,24 @@ public class AquaEnv {
         oreNickel = new OreBlock("ore-nickel", nickel);
         oreLithium= new OreBlock("ore-lithium", AquaItems.lithium);
         oreManganese= new OreBlock("ore-manganese", AquaItems.manganese);
+        oreArsenic= new OreBlock("arsenic-ore", arsenic){{
+            wallOre = true;
+            variants = 3;
+        }};
+        oreElectrum= new OreBlock("electrum-ore", electrum){{
+            variants = 3;
+        }};
 
         // Walls & blocks
         bauxiticWall = new StaticWall("bauxitic-wall"){{
             variants = 3;
             itemDrop = bauxite;
             attributes.set(AquaAttributes.bauxite, 1f);
+        }};
+        exposedGallium = new StaticWall("exposed-gallium-wall"){{
+            variants = 3;
+            itemDrop = gallium;
+            attributes.set(AquaAttributes.gallium, 1f);
         }};
 
 
@@ -264,7 +275,22 @@ public class AquaEnv {
         gabbroWall = new StaticWall("gabbro-wall") {{
             variants = 4;
         }};
-
+        arsenideWall = new StaticWall("arsenide-wall") {{
+            variants = 3;
+        }};
+        chertWall = new StaticWall("chert-wall") {{
+            variants = 2;
+        }};
+        chertOutcrop = new StaticTree("chert-outcrop") {{
+            variants = 3;
+        }};
+        arsenicCrystals = new TallBlock("arsenic-crystals") {{
+            variants = 3;
+            itemDrop = arsenic;
+            clipSize = 128f;
+            shadowAlpha = 0.5f;
+            shadowOffset = -2.5f;
+        }};
 
 
         parzilPine = new PineTree("parzil-pine"){{
@@ -299,16 +325,42 @@ public class AquaEnv {
         //boulders
         algalBoulder = new Prop("algal-boulder"){{
             variants = 2;
-            algal_carpet.asFloor().decoration = kelp_floor.asFloor().decoration;
+        }};
+        gabbroBoulder = new Prop("gabbro-boulder"){{
+            variants = 3;
+        }};
+        feldsparBoulder = new Prop("feldspar-boulder"){{
+            variants = 3;
+        }};
+        chertBoulder = new Prop("chert-boulder"){{
+            variants = 3;
+        }};
+        arsenideBoulder = new Prop("arsenide-boulder"){{
+            variants = 3;
+        }};
+        CrasseCoral = new SeaBush("crasse-coral"){{
+            solid = true;
+            lobesMax = 10;
+            lobesMin = 7;
+            breakable = alwaysReplace = false;
+            cacheLayer = CacheLayer.walls;
+            destructible = false;
+            timeRange = 150;
+            botAngle = 80;
+            magMax = 4;
+            magMin = 3;
+            sclMin = 60;
+            clipSize = 100;
+            sclMax = 90;
+            layer = Layer.power + 0.1f;
+            placeableLiquid = true;
         }};
 
         //plants and stuff
         kelp = new SeaBush("kelp"){{
-            algal_carpet.asFloor().decoration =  kelp_floor.asFloor().decoration;
         }};
 
         rockweed = new SeaBush("rockweed") {{
-            feldspar.asFloor().decoration =  roughFeldspar.asFloor().decoration;
             lobesMin = 3;
             lobesMax = 5;
             timeRange = 160;
@@ -316,7 +368,6 @@ public class AquaEnv {
 
         urchin = new SeaBush("urchin") {{
             lobesMin = 3;
-            gabbro.asFloor().decoration =  gabbro_extrusions.asFloor().decoration;
             lobesMax = 7;
             timeRange = 70;
             magMax = 30;

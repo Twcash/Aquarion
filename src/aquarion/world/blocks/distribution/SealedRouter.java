@@ -55,41 +55,36 @@ public class SealedRouter extends Router {
 
         @Override
         public void updateTile() {
-            // Increment the progress based on the time
+            if (lastItem == null && items.any()) {
+                lastItem = items.first();
+            }
             progress += edelta() / speed * 2f;
 
-            // Continue item movement even if there's no target yet
-            if (current != null) {
-                if (target == null) {
-                    target = getTileTarget(current, lastInput, false);
-                    if (target != null) {
-                        r = relativeToEdge(target.tile);
-                    } else {
-                        // If no target is available, set progress to halfway point (0.5f)
-                        progress = 0.5f;
+            if (lastItem != null) {
+                // Reset target to null at the beginning of each cycle
+                target = null;
+                target = getTileTarget(lastItem, lastInput, false);
+                if (target != null) {
+                    r = relativeToEdge(target.tile);
+
+                    // handle item
+                    if (progress >= (1f - 1f / speed)) {
+                        getTileTarget(lastItem, lastInput, true);
+                        target.handleItem(this, lastItem);
+                        items.remove(lastItem, 1);
+                        lastItem = null;
+                        progress = 0;
                     }
                 }
-
-                // Continue moving the item visually
-                if (progress >= 1f) {
-                    // If a valid target is found transfer the item
-                    if (target != null) {
-                        target.handleItem(this, current);
-                        items.remove(current, 1);
-                        current = null;
-                        target = null;  // Reset the target for the next item
-                    }
-
-                    // Always reset the progress
-                    progress = 0f;
-                }
+            } else {
+                progress = 0;
             }
         }
-
         @Override
         public void draw() {
             Draw.z(Layer.blockUnder + 0.3f);
-            Draw.rect(topRegion, x, y);
+                 Draw.rect(topRegion, x, y);
+
             Draw.z(Layer.blockUnder + 0.1f);
             Draw.rect(region, x, y);
 
@@ -109,18 +104,18 @@ public class SealedRouter extends Router {
 
         @Override
         public void handleItem(Building source, Item item) {
+            recDir = relativeToEdge(source.tile);
+            lastInput = source.tile();
             current = item;
             progress = -1f;
-            recDir = relativeToEdge(source.tile);
             items.add(item, 1);
-            lastInput = source.tile();
-            target = null;
+            noSleep();
         }
 
         @Override
         public void write(Writes write) {
             super.write(write);
-            write.b(recDir);             
+            write.b(recDir);
             write.f(progress);
             write.bool(current != null);
             if (current != null) {
@@ -130,8 +125,8 @@ public class SealedRouter extends Router {
         }
 
         @Override
-        public void read(Reads read, byte revision) {
-            super.read(read, revision);
+        public void read(Reads read) {
+            super.read(read);
             recDir = read.b();
             progress = read.f();
             if (read.bool()) {

@@ -12,6 +12,7 @@ import mindustry.game.Team;
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
 import mindustry.graphics.g3d.MultiMesh;
+import mindustry.graphics.g3d.SunMesh;
 import mindustry.type.Item;
 import mindustry.type.Planet;
 import mindustry.world.meta.Env;
@@ -22,14 +23,34 @@ import static mindustry.content.Items.serpuloItems;
 
 public class AquaPlanets {
     public static Planet
-    tantros2;
+    tantros2,
+    qeraltar,
+    citun;
 
     public static void loadContent() {
-        tantros2 = new Planet("tantros", Planets.sun, 1.3f, 3){{
+        citun = new Planet("citun", null, 5.5f){{
+            bloom = true;
+            accessible = false;
+
+            meshLoader = () -> new SunMesh(
+                    this, 5,
+                    5, 0.3, 1.7, 1.2, 1,
+                    1.1f,
+                    Color.valueOf("dcf7ff"),
+                    Color.valueOf("bee7f3"),
+                    Color.valueOf("dcf7ff"),
+                    Color.valueOf("a3e1f3"),
+                    Color.valueOf("9ed4e4"),
+                    Color.valueOf("d2e5ea")
+            );
+        }};
+        tantros2 = new Planet("tantros", citun, 1.3f, 3){{
             generator = new AquaPlanetGenarator();
             meshLoader = () -> new HexMesh(this, 5);
             alwaysUnlocked = true;
             accessible = true;
+            orbitRadius = 55;
+            orbitOffset = 90;
             visible = true;
             atmosphereColor = Color.valueOf("3db899");
             iconColor = Color.valueOf("597be3");
@@ -40,6 +61,7 @@ public class AquaPlanets {
             );
             startSector = 10;
             atmosphereRadIn = -0.03f;
+            orbitSpacing = 6f;
             defaultCore = AquaCore.corePike;
             allowLaunchLoadout = false;
             atmosphereRadOut = 0.6f;
