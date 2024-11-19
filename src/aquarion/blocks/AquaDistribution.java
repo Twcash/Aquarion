@@ -1,12 +1,15 @@
 package aquarion.blocks;
 
+import aquarion.world.blocks.distribution.HeatPipe;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
+import aquarion.world.blocks.production.AquaGenCrafter;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.units.UnitCargoLoader;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint;
+import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
@@ -16,8 +19,9 @@ import static mindustry.type.ItemStack.with;
 
 public class AquaDistribution {
     // Armored and Sealed Conveyors
-    public static Block armoredSealedConveyor, sealedOverflow,sealedDistributor,  sealedUnloader, sealedConveyor, sealedRouter, sealedSorter, sealedUnderflow, sealedJunction;
-
+    public static Block  electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor, electrumConveyor, armoredSealedConveyor, sealedOverflow,sealedDistributor,  sealedUnloader, sealedConveyor, sealedRouter, sealedSorter, sealedUnderflow, sealedJunction;
+    // heat
+    public static Block heaterSource, heaterVoid, heatPipe;
     // Cargo
     public static Block cargoDepot, cargoDock, cargoTerminal;
 
@@ -146,6 +150,41 @@ public class AquaDistribution {
              envEnabled |= Env.terrestrial | Env.underwater;
              envDisabled = Env.none;
             size = 2;
+        }};
+         electrumRouter = new Router("electrum-router"){{
+             requirements(Category.distribution, with(electrum, 6));
+         }};
+        electrumDistributor = new Router("electrum-distributor"){{
+            requirements(Category.distribution, with(electrum, 24, lead, 24));
+            size = 2;
+        }};
+        electrumConveyor = new ArmoredConveyor("electrum-conveyor"){{
+            requirements(Category.distribution, with(electrum, 1));
+            health = 60;
+            speed = 0.042f;
+            displayedSpeed = 6.5f;
+            buildCostMultiplier = 2f;
+            researchCost = with(electrum, 5);
+        }};
+        electrumSorter = new Sorter("electrum-sorter"){{
+            requirements(Category.distribution, with(electrum, 4, lead, 4));
+        }};
+        electrumSorterInverted = new Sorter("inverted-electrum-sorter"){{
+            requirements(Category.distribution, with(electrum, 4, lead, 4));
+            invert = true;
+        }};
+        heatPipe = new HeatPipe("heat-pipe"){{
+            requirements(Category.crafting, with(cupronickel, 5));
+        }};
+        heaterSource = new AquaGenCrafter("heater-source"){{
+            category = Category.crafting;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            heatOutput = 1f;
+        }};
+        heaterVoid = new AquaGenCrafter("heater-void"){{
+            buildVisibility = BuildVisibility.sandboxOnly;
+            category = Category.crafting;
+            consumeHeat(1000, 0, 1000000, 1, 1);
         }};
     }
 

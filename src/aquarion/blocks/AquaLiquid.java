@@ -1,17 +1,13 @@
 package aquarion.blocks;
 
 import aquarion.AquaLiquids;
+import aquarion.world.blocks.distribution.Pipe;
 import aquarion.world.graphics.DrawPump;
-import mindustry.content.Liquids;
 import mindustry.type.Category;
 import mindustry.world.Block;
+import mindustry.world.blocks.distribution.DirectionLiquidBridge;
 import mindustry.world.blocks.liquid.Conduit;
 import mindustry.world.blocks.liquid.LiquidBridge;
-import mindustry.type.ItemStack;
-import mindustry.world.Block;
-import mindustry.world.blocks.defense.ForceProjector;
-import mindustry.world.blocks.defense.RegenProjector;
-import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.liquid.LiquidJunction;
 import mindustry.world.blocks.liquid.LiquidRouter;
 import mindustry.world.blocks.production.Pump;
@@ -20,12 +16,11 @@ import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
 import static mindustry.content.Items.*;
-import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 
 public class AquaLiquid {
-    public static Block pulseSiphonBridge, pulseSiphon, siphonBridge, siphonDistributor, siphonJunction, siphonRouter, siphon, ThermalPump;
+    public static Block pipeJunction, liquidVessel, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonDistributor, siphonJunction, siphonRouter, siphon, ThermalPump;
 
     public static void loadContent() {
         ThermalPump = new Pump("thermal-pump"){{
@@ -90,6 +85,38 @@ public class AquaLiquid {
             size = 2;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+        }};
+        electrumPump = new Pump("electrum-pump"){{
+            requirements(Category.liquid, with(electrum, 35));
+            pumpAmount = 0.1f;
+            squareSprite = false;
+            liquidCapacity = 60f;
+            hasPower = true;
+            size = 2;
+        }};
+        pipe = new Pipe("pipe"){{
+            requirements(Category.liquid, with(electrum, 1, lead, 1));
+            liquidPressure =  10000;
+            liquidCapacity = 50;
+        }};
+        pipeJunction = new LiquidJunction("pipe-junction"){{
+            requirements(Category.liquid, with(electrum, 5, lead, 12));
+        }};
+        pipeBridge = new DirectionLiquidBridge("pipe-bridge"){{
+            requirements(Category.liquid, with(electrum, 15, lead, 20));
+            range = 5;
+        }};
+        liquidVessel = new LiquidRouter("liquid-vessel"){{
+            requirements(Category.liquid, with(electrum, 25, lead, 30));
+            size = 2;
+            liquidCapacity = 700f;
+            solid = true;
+        }};
+        liquidReservoir = new LiquidRouter("liquid-reservoir"){{
+            requirements(Category.liquid, with(electrum, 110, lead, 50, silver, 45));
+            liquidCapacity = 2000f;
+            size = 3;
+            solid = true;
         }};
     }
 

@@ -159,5 +159,23 @@ public class AquaFx {
             v.trns(rot, rand.random(e.finpow() * 30f));
             Fill.poly(e.x + v.x, e.y + v.y, 3, e.fout() * 3.8f + 0.2f, rand.random(360f));
         }
-    });
+    }),
+                    SiliconHearthSmoke = new Effect(65f, e -> {
+                        randLenVectors(e.id, 0.65f + e.fin(), 6, 14.3f, (x, y, fin, out) -> {
+                            color(Color.darkGray, Pal.coalBlack, e.finpowdown());
+                            Fill.circle(e.x + x, e.y + y, out * 8.5f + 0.45f);
+                        });
+                    }),
+                    cuproNickelSmeltSmoke = new Effect(190f, e -> {
+                        color(Color.valueOf("df9c88"));
+                        alpha(0.5f);
+                        rand.setSeed(e.id);
+                        for(int i = 0; i < 3; i++){
+                            float len = rand.random(12f);
+
+                            e.scaled(e.lifetime * rand.random(0.45f, 1f), b -> {
+                                Fill.circle(e.x + v.x, e.y + v.y, 3.5f * b.fslope() + 0.4f);
+                            });
+                        }
+                    });
 }

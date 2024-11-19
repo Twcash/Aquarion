@@ -1,21 +1,29 @@
 package aquarion.blocks;
 
 import aquarion.units.AquaUnitTypes;
+import aquarion.world.blocks.core.QeralterCoreBlock;
+import aquarion.world.blocks.distribution.DistributionCatalyst;
 import arc.graphics.Color;
+import mindustry.content.UnitTypes;
+import mindustry.gen.Unit;
 import mindustry.type.Category;
+import mindustry.type.UnitType;
 import mindustry.world.Block;
+import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
-import static mindustry.content.Items.lead;
-import static mindustry.content.Items.metaglass;
+import static aquarion.units.AquaUnitTypes.iris;
+import static aquarion.units.AquaUnitTypes.mite;
+import static mindustry.content.Items.*;
+import static mindustry.content.Liquids.cryofluid;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCore {
-    public static Block cache, coreCuesta, coreEscarpment, corePike;
+    public static Block cache, coreCuesta, coreEscarpment, corePike, coreExpedite, buildSentry, overdriveCatalyst;
 
     public static void loadContent(){
         //TODO remove?
@@ -70,6 +78,38 @@ public class AquaCore {
             hasColor = true;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+        }};
+        coreExpedite = new QeralterCoreBlock("core-expedite"){{
+            requirements(Category.effect, with(silicon, 800, silver, 1200, copper, 800, lead, 200));
+            squareSprite = false;
+            size = 3;
+            isFirstTier = true;
+            unitType = iris;
+            droneType = mite;
+            category = Category.effect;
+            itemCapacity = 2000;
+            buildSpeed = 1.5f;
+            rotateSpeed = 1.1f;
+            range = 200;
+        }};
+        buildSentry = new BuildTurret("build-sentry"){{
+            requirements(Category.effect, with(electrum, 80, lead, 25));
+            size = 2;
+            outlineRadius = 0;
+            buildSpeed = 0.7f;
+            range = 160;
+            rotateSpeed = 0.7f;
+            consumePower(32/60f);
+        }};
+        overdriveCatalyst = new DistributionCatalyst("distribution-catalyst"){{
+            requirements(Category.effect, with(silver, 220, lead, 90, electrum, 150, silicon, 90, arsenic, 80));
+            size = 2;
+            range = 225;
+            baseColor = Color.valueOf("ffea77");
+            phaseColor = Color.valueOf("ffddce");
+            phaseRangeBoost = 100;
+            consumeLiquid(cryofluid, 36/60f);
+            consumePower(256/60f);
         }};
     }
 }

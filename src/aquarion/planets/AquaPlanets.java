@@ -19,7 +19,6 @@ import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
 import static mindustry.content.Items.lead;
-import static mindustry.content.Items.serpuloItems;
 
 public class AquaPlanets {
     public static Planet
@@ -42,6 +41,20 @@ public class AquaPlanets {
                     Color.valueOf("a3e1f3"),
                     Color.valueOf("9ed4e4"),
                     Color.valueOf("d2e5ea")
+            );
+        }};
+        qeraltar = new Planet("qeraltar", citun, 0.9f, 2){{
+            generator = new QeraltarPlanetGenerator();
+            meshLoader = () -> new HexMesh(this, 5);
+            accessible = true;
+            bloom = false;
+            alwaysUnlocked = true;
+            startSector = 2;
+            atmosphereRadOut = 0.19f;
+            atmosphereColor = Color.valueOf("798d87");
+            cloudMeshLoader = () -> new MultiMesh(
+                    new HexSkyMesh(this, 2, 0.16f, 0.17f, 5, Color.valueOf("98a4d2").a(0.75f), 2, 0.42f, 1f, 0.43f),
+                    new HexSkyMesh(this, 3, 0.7f, 0.18f, 5, Color.valueOf("dbe2e8").a(0.7f), 2, 0.42f, 1.2f, 0.45f)
             );
         }};
         tantros2 = new Planet("tantros", citun, 1.3f, 3){{

@@ -6,10 +6,15 @@ import aquarion.type.*;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Interp;
+import arc.struct.Seq;
+import arc.util.CommandHandler;
 import ent.anno.Annotations;
+import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
 import mindustry.ai.types.CargoAI;
+import mindustry.ai.types.MinerAI;
 import mindustry.content.Fx;
+import mindustry.content.Items;
 import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.abilities.SpawnDeathAbility;
 import mindustry.entities.bullet.*;
@@ -26,6 +31,7 @@ import mindustry.type.Weapon;
 import mindustry.type.weapons.RepairBeamWeapon;
 import mindustry.world.meta.Env;
 
+import static aquarion.AquaItems.electrum;
 import static aquarion.units.AquaWrecks.*;
 import static mindustry.Vars.tilePayload;
 
@@ -34,7 +40,12 @@ public class AquaUnitTypes {
 
     public static UnitType
 
+            //qeralter Units
 
+            //core/mining
+            mite, iris,
+
+            //Qeralter Units End Region
     //messenger tree
   ambassador, consul, legate, monarch,
 
@@ -743,4 +754,66 @@ public class AquaUnitTypes {
                 flying = true;
                     itemCapacity = 100;
                 }};
+            iris = new UnitType("iris"){{
+                constructor = UnitEntity::create;
+                hitSize = 4;
+                speed = 3.5f;
+                accel = 0.04f;
+                drag = 0.02f;
+                isEnemy = false;
+                coreUnitDock = true;
+                itemCapacity = 10;
+                //cannotactually build
+                buildSpeed = 0.00001f;
+                health = 30;
+                //more armored
+                armor = 5;
+                engineSize = 0;
+                drawCell = false;
+                targetable = false;
+                hittable = false;
+                buildRange = 120;
+                allowedInPayloads = false;
+                canAttack = false;
+                lowAltitude = false;
+                rotateMoveFirst = true;
+                outlineColor = AquaPal.tantDarkestTone;
+                drawBuildBeam = false;
+                rotateSpeed = 360;
+                flying = true;
+            }};
+            mite = new UnitType("mite"){{
+                constructor = UnitEntity::create;
+                flying = true;
+                speed = 0.65f;
+                rotateSpeed = 1.2f;
+                useUnitCap = false;
+                isEnemy = false;
+                outlineColor = AquaPal.tantDarkestTone;
+                canAttack = false;
+                mineSpeed = 3.5f;
+                itemCapacity = 20;
+                rotateSpeed = 5;
+                rotateMoveFirst = true;
+                mineTier = 2;
+                drag = 0.06f;
+                accel = 0.12f;
+                mineFloor = true;
+                mineWalls = false;
+                logicControllable = false;
+                playerControllable = false;
+                mineRange = 60;
+                mineItems = Seq.with(electrum, Items.lead, Items.titanium);
+                hidden = true;
+                allowedInPayloads = false;
+                controller = u -> new MinerAI();
+                defaultCommand = UnitCommand.mineCommand;
+                range = 60;
+                engineSize = 0;
+                lowAltitude = true;
+                health = 45;
+                hitSize = 9;
+                armor = 2;
+
+            }};
         }};

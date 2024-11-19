@@ -11,6 +11,7 @@ import arc.math.Interp;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
@@ -27,16 +28,16 @@ import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 public class AquaEnv {
 
     // Boulders
-    public static Block chertBoulder, arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin, CrasseCoral;
+    public static Block blueSandBoulder, brecciaBoulder, chertBoulder, arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin, CrasseCoral;
 
     // Floors
-    public static Block arsenideFloor, arsenideLayers, chertFloor, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor, andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
+    public static Block blueSandFLoor, blueSandWater, brecciaFloor, smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor, andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
 
     // Ore blocks
-    public static Block oreArsenic, oreElectrum, oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese, exposedGallium;
+    public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum, oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese, exposedGallium;
 
     // Walls
-    public static Block arsenicCrystals, arsenideWall, chertWall, chertOutcrop, pillarCoral, loteasCoral, songCoral,  bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, andesiteExtrusions;
+    public static Block blueSandWall, brecciaWall, arsenicCrystals, arsenicalOutcrop, arsenideWall, chertWall, chertOutcrop, pillarCoral, loteasCoral, songCoral,  bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, andesiteExtrusions;
 
 
     public static void loadContent() {
@@ -194,7 +195,16 @@ public class AquaEnv {
                 interp = interp.pow3Out;
             }};
         }};
-
+        blueSandFLoor = new Floor("blue-sand-floor", 3) {{
+            itemDrop = Items.sand;
+        }};
+        blueSandWater = new Floor("blue-sand-floor-water", 3) {{
+            liquidDrop = Liquids.water;
+            liquidMultiplier = 0.75f;
+            speedMultiplier = 0.8f;
+            cacheLayer = CacheLayer.water;
+            shallow = true;
+        }};
         kelp_floor = new Floor("kelp-floor", 2) {{
             walkSound = mindustry.gen.Sounds.mud;
         }};
@@ -226,6 +236,10 @@ public class AquaEnv {
         }};
         chertPlates = new Floor("chert-plates", 4) {{
         }};
+        brecciaFloor = new Floor("breccia-floor", 4) {{
+        }};
+        smoothBrecciaFloor = new Floor("smooth-breccia-floor", 4) {{
+        }};
 
         // Ore blocks
         leadNodules = new OreBlock("lead-nodules", lead);
@@ -235,6 +249,14 @@ public class AquaEnv {
         oreLithium= new OreBlock("ore-lithium", AquaItems.lithium);
         oreManganese= new OreBlock("ore-manganese", AquaItems.manganese);
         oreArsenic= new OreBlock("arsenic-ore", arsenic){{
+            wallOre = true;
+            variants = 3;
+        }};
+        oreNickelWall= new OreBlock("ore-nickel-wall", nickel){{
+            wallOre = true;
+            variants = 2;
+        }};
+        oreTitaniumWall= new OreBlock("ore-titanium-wall", Items.titanium){{
             wallOre = true;
             variants = 3;
         }};
@@ -283,6 +305,16 @@ public class AquaEnv {
         }};
         chertOutcrop = new StaticTree("chert-outcrop") {{
             variants = 3;
+        }};
+        arsenicalOutcrop = new StaticTree("arsenical-outcrop") {{
+            variants = 3;
+            attributes.set(AquaAttributes.chromium, 1f);
+        }};
+        brecciaWall = new StaticWall("breccia-wall") {{
+            variants = 2;
+        }};
+        blueSandWall = new StaticWall("blue-sand-wall") {{
+            variants = 2;
         }};
         arsenicCrystals = new TallBlock("arsenic-crystals") {{
             variants = 3;
@@ -335,8 +367,14 @@ public class AquaEnv {
         chertBoulder = new Prop("chert-boulder"){{
             variants = 3;
         }};
+        brecciaBoulder = new Prop("breccia-boulder"){{
+            variants = 2;
+        }};
         arsenideBoulder = new Prop("arsenide-boulder"){{
             variants = 3;
+        }};
+        blueSandBoulder = new Prop("blue-sand-boulder"){{
+            variants = 2;
         }};
         CrasseCoral = new SeaBush("crasse-coral"){{
             solid = true;

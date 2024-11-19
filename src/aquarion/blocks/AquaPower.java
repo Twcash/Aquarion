@@ -3,15 +3,15 @@ package aquarion.blocks;
 import aquarion.AquaLiquids;
 import arc.graphics.Color;
 import arc.math.Interp;
+import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
+import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
-import mindustry.world.blocks.power.ConsumeGenerator;
-import mindustry.world.blocks.power.PowerNode;
-import mindustry.world.blocks.power.ThermalGenerator;
+import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.AttributeCrafter;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
@@ -20,12 +20,13 @@ import mindustry.world.meta.Env;
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.hydroxide;
 import static arc.math.Interp.pow3Out;
-import static mindustry.content.Items.lead;
+import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.arkycite;
+import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block Relay, GeothermalGenerator, hydroxideGenerator;
+    public static Block steamEngine, electrumBattery, electrumPowerNode, solarAccumulator, Relay, GeothermalGenerator, hydroxideGenerator;
     public static void loadContent(){
     Relay = new PowerNode("relay"){{
         requirements(Category.power, with(lead, 15, bauxite, 5));
@@ -119,5 +120,36 @@ public class AquaPower {
         }}
         );
     }};
+        electrumPowerNode = new PowerNode("electrum-power-node"){{
+            requirements(Category.power, with(Items.lead, 5, electrum, 5));
+            laserRange = 5;
+            maxNodes = 6;
+        }};
+
+        electrumBattery = new Battery("electrum-battery"){{
+            requirements(Category.power, with(Items.lead, 50, electrum, 60, arsenic, 30));
+            consumePowerBuffered(6500f);
+            baseExplosiveness = 0.5f;
+            size = 2;
+        }};
+        solarAccumulator = new SolarGenerator("solar-accumulator"){{
+            requirements(Category.power, with(Items.lead, 10, electrum, 30));
+            powerProduction = 16/60f;
+            size = 2;
+        }};
+        steamEngine = new ConsumeGenerator("steam-engine"){{
+            requirements(Category.power, with(silver, 45, copper, 20, titanium, 60));
+            consumeItems(ItemStack.with(silver, 1, arsenic, 1));
+            consumeLiquid(water, 15/60f);
+            baseExplosiveness = 2.5f;
+            itemDuration = 90;
+            size = 2;
+            powerProduction = 160/60f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawBubbles(Color.valueOf("88a4ff")){{
+                spread = 4;
+                amount = 48;
+                radius = 1.5f;
+            }}, new DrawLiquidTile(water){{alpha = 0.8f;}}, new DrawDefault());
+        }};
     }
 }

@@ -10,6 +10,7 @@ import aquarion.units.AquaWrecks;
 import aquarion.world.AquaTeams;
 import aquarion.world.graphics.AquaCacheLayers;
 import aquarion.world.graphics.AquaShaders;
+import aquarion.world.graphics.AquaWeather;
 import arc.Core;
 import arc.Events;
 import mindustry.game.EventType;
@@ -35,6 +36,7 @@ public class AquarionMod extends Mod {
         AquaItems.load();
         AquaAttributes.load();
         AquaEffect.loadContent();
+        AquaWeather.load();
         // actual content needs items liquids FX ect
         AquaEnv.loadContent();
         AquaPower.loadContent();
