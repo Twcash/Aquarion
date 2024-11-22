@@ -1,15 +1,12 @@
 package aquarion.blocks;
 
-import aquarion.world.blocks.distribution.HeatPipe;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
-import aquarion.world.blocks.production.AquaGenCrafter;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.units.UnitCargoLoader;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint;
-import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
@@ -172,19 +169,6 @@ public class AquaDistribution {
         electrumSorterInverted = new Sorter("inverted-electrum-sorter"){{
             requirements(Category.distribution, with(electrum, 4, lead, 4));
             invert = true;
-        }};
-        heatPipe = new HeatPipe("heat-pipe"){{
-            requirements(Category.crafting, with(cupronickel, 5));
-        }};
-        heaterSource = new AquaGenCrafter("heater-source"){{
-            category = Category.crafting;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            heatOutput = 1f;
-        }};
-        heaterVoid = new AquaGenCrafter("heater-void"){{
-            buildVisibility = BuildVisibility.sandboxOnly;
-            category = Category.crafting;
-            consumeHeat(1000, 0, 1000000, 1, 1);
         }};
     }
 
