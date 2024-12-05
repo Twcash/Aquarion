@@ -36,6 +36,7 @@ public class AquarionMod extends Mod {
         AquaItems.load();
         AquaAttributes.load();
         AquaEffect.loadContent();
+        AquaStatuses.load();
         AquaWeather.load();
         // actual content needs items liquids FX ect
         AquaEnv.loadContent();

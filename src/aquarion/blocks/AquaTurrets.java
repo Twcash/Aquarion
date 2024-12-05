@@ -1,6 +1,7 @@
 package aquarion.blocks;
 
 import aquarion.AquaItems;
+import aquarion.AquaStatuses;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Blending;
@@ -26,6 +27,7 @@ import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
+import mindustry.world.blocks.defense.turrets.PowerTurret;
 import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
 
@@ -34,15 +36,14 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Interp.pow2Out;
 import static arc.math.Interp.pow5Out;
-import static mindustry.content.Items.lead;
-import static mindustry.content.Items.titanium;
+import static mindustry.content.Items.*;
 import static mindustry.gen.Sounds.shootAlt;
 import static mindustry.gen.Sounds.shootAltLong;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
     public static Block Forment, Fragment, gyre, Coaxis, deviate,
-            ensign;
+            blaze, ensign, hack;
 
     public static void loadContent() {
         //oogly boogly
@@ -319,7 +320,6 @@ public class AquaTurrets {
                         buildingDamageMultiplier = 0.3f;
                     }});
             outlineColor = AquaPal.tantDarkestTone;
-            recoil = 2;
             recoil = 3;
             recoilTime = 45;
             reload = 25;
@@ -487,168 +487,270 @@ public class AquaTurrets {
                             }}
                     );
                 }};
-                ensign = new ItemTurret("ensign") {{
-                    requirements(Category.turret, with(lead, 45, electrum, 60, titanium, 20));
-                    size = 2;
-                    reload = 45;
-                    recoil = 0.5f;
-                    consumeCoolant(24/60f);
-                    recoilTime = 40;
-                    shootCone = 2;
-                    shootSound = Sounds.bolt;
-                    rotateSpeed = 1.4f;
-                    range = 150;
-                    cooldownTime = 80;
-                    final Color[] col = {Color.valueOf("f9350f")};
-                    heatColor = col[0];
-                    ammo(
-                            lead, new RailBulletType() {{
-                                length = 155f;
-                                damage = 55f;
-                                smokeEffect = Fx.colorSpark;
-                                hitColor = Color.valueOf("b397f0");
-                                hitEffect = endEffect = Fx.hitBulletColor;
-                                pierceDamageFactor = 0.6f;
 
-                                shootEffect = new Effect(10, e -> {
-                                    color(e.color);
-                                    float w = 1.2f + 7 * e.fout();
-
-                                    Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
-                                    color(e.color);
-
-                                    for(int i : Mathf.signs){
-                                        Drawf.tri(e.x, e.y, w * 1.1f, 18f * e.fout(), e.rotation + i * 90f);
-                                    }
-
-                                    Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
-                                });
-
-                                lineEffect = new Effect(20f, e -> {
-                                    if (!(e.data instanceof Vec2 v)) return;
-
-                                    color(e.color);
-                                    stroke(e.fout() * 0.9f + 0.6f);
-
-                                    Fx.rand.setSeed(e.id);
-                                    for (int i = 0; i < 7; i++) {
-                                        Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
-                                        Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
-                                    }
-
-                                    e.scaled(14f, b -> {
-                                        stroke(b.fout() * 1.5f);
-                                        color(e.color);
-                                        Lines.line(e.x, e.y, v.x, v.y);
-                                    });
-                                });
-                            }},
-                            nickel, new RailBulletType() {{
-                                length = 160f;
-                                damage = 70f;
-                                knockback = 0.5f;
-                                smokeEffect = Fx.colorSpark;
-                                hitColor = Color.valueOf("f7e7be");
-                                col[0] = Color.valueOf("ff956e");
-                                hitEffect = endEffect = Fx.hitBulletColor;
-                                pierceDamageFactor = 0.8f;
-
-                                shootEffect = new Effect(13, e -> {
-                                    color(e.color);
-                                    float w = 1.4f + 7 * e.fout();
-
-                                    Drawf.tri(e.x, e.y, w, 35f * e.fout(), e.rotation);
-                                    color(e.color);
-
-                                    for(int i : Mathf.signs){
-                                        Drawf.tri(e.x, e.y, w * 1.2f, 22f * e.fout(), e.rotation + i * 90f);
-                                    }
-
-                                    Drawf.tri(e.x, e.y, w, 5f * e.fout(), e.rotation + 180f);
-                                });
-
-                                lineEffect = new Effect(25f, e -> {
-                                    if (!(e.data instanceof Vec2 v)) return;
-
-                                    color(e.color);
-                                    stroke(e.fout() * 1.1f + 0.8f);
-
-                                    Fx.rand.setSeed(e.id);
-                                    for (int i = 0; i < 9; i++) {
-                                        Fx.v.trns(e.rotation, Fx.rand.random(9f, v.dst(e.x, e.y) - 7f));
-                                        Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
-                                    }
-
-                                    e.scaled(18f, b -> {
-                                        stroke(b.fout() * 1.7f);
-                                        color(e.color);
-                                        Lines.line(e.x, e.y, v.x, v.y);
-                                    });
-                                });
-                            }},
-                            inconel, new RailBulletType() {{
-                                length = 165f;
-                                damage = 65f;
-                                smokeEffect = Fx.colorSpark;
-                                hitColor = Color.valueOf("fdff84");
-                                hitEffect = endEffect = Fx.hitBulletColor;
-                                pierceDamageFactor = 1.1f;
-                                fragBullets = 3;
-                                fragRandomSpread = 5;
-                                fragAngle = 0;
-                                fragOnHit = true;
-                                fragVelocityMax = 1.1f;
-                                fragLifeMin = 0.9f;
-                                fragSpread = 2;
-                                fragBullet = new BasicBulletType(2.5f, 20){{
-                                    lifetime = 15;
-                                    hitColor = Color.valueOf("fdff84");
-                                    hitEffect = endEffect = Fx.hitBulletColor;
-                                    frontColor = Color.white;
-                                    backColor = trailColor = lightColor = Color.valueOf("fdff84");
-                                    trailLength = 9;
-                                    trailWidth = 2f;
-                                    width = 8;
-                                    height = 12;
-                                    shrinkX = 0.9f;
-                                }};
-                                col[0] = Color.valueOf("fdff84");
-
-                                shootEffect = new Effect(10, e -> {
-                                    color(e.color);
-                                    float w = 1.2f + 7 * e.fout();
-
-                                    Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
-                                    color(e.color);
-
-                                    for(int i : Mathf.signs){
-                                        Drawf.tri(e.x, e.y, w * 1.1f, 18f * e.fout(), e.rotation + i * 90f);
-                                    }
-
-                                    Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
-                                });
-
-                                lineEffect = new Effect(20f, e -> {
-                                    if (!(e.data instanceof Vec2 v)) return;
-
-                                    color(e.color);
-                                    stroke(e.fout() * 0.9f + 0.6f);
-
-                                    Fx.rand.setSeed(e.id);
-                                    for (int i = 0; i < 7; i++) {
-                                        Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
-                                        Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
-                                    }
-
-                                    e.scaled(14f, b -> {
-                                        stroke(b.fout() * 1.5f);
-                                        color(e.color);
-                                        Lines.line(e.x, e.y, v.x, v.y);
-                                    });
-                                });
-                            }});
-                }};
             }
         };
+        ensign = new ItemTurret("ensign") {{
+            requirements(Category.turret, with(lead, 45, electrum, 60, titanium, 20));
+            size = 2;
+            reload = 45;
+            recoil = 0.5f;
+            consumeCoolant(24/60f);
+            recoilTime = 40;
+            shootCone = 2;
+            shootSound = Sounds.bolt;
+            rotateSpeed = 1.4f;
+            range = 150;
+            cooldownTime = 80;
+            final Color[] col = {Color.valueOf("f9350f")};
+            heatColor = col[0];
+            ammo(
+                    lead, new RailBulletType() {{
+                        length = 155f;
+                        damage = 55f;
+                        smokeEffect = Fx.colorSpark;
+                        hitColor = Color.valueOf("b397f0");
+                        hitEffect = endEffect = Fx.hitBulletColor;
+                        pierceDamageFactor = 0.6f;
+
+                        shootEffect = new Effect(10, e -> {
+                            color(e.color);
+                            float w = 1.2f + 7 * e.fout();
+
+                            Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
+                            color(e.color);
+
+                            for(int i : Mathf.signs){
+                                Drawf.tri(e.x, e.y, w * 1.1f, 18f * e.fout(), e.rotation + i * 90f);
+                            }
+
+                            Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
+                        });
+
+                        lineEffect = new Effect(20f, e -> {
+                            if (!(e.data instanceof Vec2 v)) return;
+
+                            color(e.color);
+                            stroke(e.fout() * 0.9f + 0.6f);
+
+                            Fx.rand.setSeed(e.id);
+                            for (int i = 0; i < 7; i++) {
+                                Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                                Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
+                            }
+
+                            e.scaled(14f, b -> {
+                                stroke(b.fout() * 1.5f);
+                                color(e.color);
+                                Lines.line(e.x, e.y, v.x, v.y);
+                            });
+                        });
+                    }},
+                    nickel, new RailBulletType() {{
+                        length = 160f;
+                        damage = 70f;
+                        knockback = 0.5f;
+                        smokeEffect = Fx.colorSpark;
+                        hitColor = Color.valueOf("f7e7be");
+                        col[0] = Color.valueOf("ff956e");
+                        hitEffect = endEffect = Fx.hitBulletColor;
+                        pierceDamageFactor = 0.8f;
+
+                        shootEffect = new Effect(13, e -> {
+                            color(e.color);
+                            float w = 1.4f + 7 * e.fout();
+
+                            Drawf.tri(e.x, e.y, w, 35f * e.fout(), e.rotation);
+                            color(e.color);
+
+                            for(int i : Mathf.signs){
+                                Drawf.tri(e.x, e.y, w * 1.2f, 22f * e.fout(), e.rotation + i * 90f);
+                            }
+
+                            Drawf.tri(e.x, e.y, w, 5f * e.fout(), e.rotation + 180f);
+                        });
+
+                        lineEffect = new Effect(25f, e -> {
+                            if (!(e.data instanceof Vec2 v)) return;
+
+                            color(e.color);
+                            stroke(e.fout() * 1.1f + 0.8f);
+
+                            Fx.rand.setSeed(e.id);
+                            for (int i = 0; i < 9; i++) {
+                                Fx.v.trns(e.rotation, Fx.rand.random(9f, v.dst(e.x, e.y) - 7f));
+                                Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
+                            }
+
+                            e.scaled(18f, b -> {
+                                stroke(b.fout() * 1.7f);
+                                color(e.color);
+                                Lines.line(e.x, e.y, v.x, v.y);
+                            });
+                        });
+                    }},
+                    inconel, new RailBulletType() {{
+                        length = 165f;
+                        damage = 65f;
+                        smokeEffect = Fx.colorSpark;
+                        hitColor = Color.valueOf("fdff84");
+                        hitEffect = endEffect = Fx.hitBulletColor;
+                        pierceDamageFactor = 1.1f;
+                        fragBullets = 3;
+                        fragRandomSpread = 5;
+                        fragAngle = 0;
+                        fragOnHit = true;
+                        fragVelocityMax = 1.1f;
+                        fragLifeMin = 0.9f;
+                        fragSpread = 2;
+                        fragBullet = new BasicBulletType(2.5f, 20){{
+                            lifetime = 15;
+                            hitColor = Color.valueOf("fdff84");
+                            hitEffect = endEffect = Fx.hitBulletColor;
+                            frontColor = Color.white;
+                            backColor = trailColor = lightColor = Color.valueOf("fdff84");
+                            trailLength = 9;
+                            trailWidth = 2f;
+                            width = 8;
+                            height = 12;
+                            shrinkX = 0.9f;
+                        }};
+                        col[0] = Color.valueOf("fdff84");
+
+                        shootEffect = new Effect(10, e -> {
+                            color(e.color);
+                            float w = 1.2f + 7 * e.fout();
+
+                            Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
+                            color(e.color);
+
+                            for(int i : Mathf.signs){
+                                Drawf.tri(e.x, e.y, w * 1.1f, 18f * e.fout(), e.rotation + i * 90f);
+                            }
+
+                            Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
+                        });
+
+                        lineEffect = new Effect(20f, e -> {
+                            if (!(e.data instanceof Vec2 v)) return;
+
+                            color(e.color);
+                            stroke(e.fout() * 0.9f + 0.6f);
+
+                            Fx.rand.setSeed(e.id);
+                            for (int i = 0; i < 7; i++) {
+                                Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                                Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
+                            }
+
+                            e.scaled(14f, b -> {
+                                stroke(b.fout() * 1.5f);
+                                color(e.color);
+                                Lines.line(e.x, e.y, v.x, v.y);
+                            });
+                        });
+                    }});
+        }};
+        hack = new ItemTurret("hack"){{
+            ammo(
+                    titanium, new BasicBulletType(3, 9){{
+                        frontColor = Color.white;
+                        backColor  = trailColor = Color.valueOf("667fba");
+                        lightColor = Color.valueOf("667fba");
+                        trailLength = 9;
+                        width = 9;
+                        height = 12;
+                        ammoMultiplier = 2;
+                        shootEffect = Fx.shootSmokeSquareSparse;
+                        hitEffect = despawnEffect = Fx.hitSquaresColor;
+                    }},
+                    arsenic, new BasicBulletType(2.5f, 6){{
+                        frontColor = Color.white;
+                        backColor = trailColor = Color.valueOf("ffbaba");
+                        lightColor = Color.valueOf("ffbaba");
+                        trailLength = 9;
+                        splashDamage = 3;
+                        splashDamageRadius = 10.5f;
+                        width = 9;
+                        height = 14;
+                        reloadMultiplier = 1.25f;
+                        ammoMultiplier = 1;
+                        knockback = 1;
+                        shootEffect = Fx.shootSmokeSquareSparse;
+                        hitEffect = despawnEffect = Fx.hitSquaresColor;
+                    }},
+                    surgeAlloy, new BasicBulletType(4f, 30){{
+                        frontColor = Color.white;
+                        backColor = trailColor = Color.valueOf("f5e459");
+                        lightColor = Color.valueOf("f5e459");
+                        trailLength = 12;
+                        splashDamage = 12;
+                        pierce = true;
+                        pierceCap = 3;
+                        pierceDamageFactor = 0.9f;
+                        pierceBuilding = true;
+                        ammoMultiplier = 5;
+                        knockback = 4;
+                        reloadMultiplier = 0.8f;
+                        splashDamageRadius = 18f;
+                        width = 12;
+                        height = 16;
+                        shootEffect = Fx.shootSmokeSquareSparse;
+                        hitEffect = despawnEffect = Fx.hitSquaresColor;
+                    }});
+            requirements(Category.turret, with(electrum, 90, silver, 40, arsenic, 65));
+            size = 2;
+            ammoPerShot = 3;
+            consumeCoolant(24/60f);
+            reload = 35;
+            range = 170;
+            limitRange(1.1f);
+            recoil = 0.75f;
+            shootCone = 30;
+            inaccuracy = 8;
+            shoot = new ShootMulti(new ShootAlternate(6), new ShootSpread(6, 15), new ShootSine(){{
+                scl = 4f;
+                mag = 3f;
+            }});
+        }};
+        blaze = new PowerTurret("blaze"){{
+            requirements(Category.turret, with(electrum, 35, lead, 40));
+            consumePower(128/60f);
+            size = 2;
+            consumeCoolant(24/60f);
+            consumeCoolant(24/60f);
+            shootSound = Sounds.bolt;
+            reload = 90;
+            range = 120;
+              recoil = 0.75f;
+            shootCone = 30;
+            inaccuracy = 9;
+            minWarmup = 0.8f;
+            shoot.shots = 2;
+            shoot.shotDelay = 8;
+            shootType = new MissileBulletType(3.5f, 15, "large-orb"){{
+            width = 8;
+            height = 8;
+            shrinkX = 0;
+            lifetime = 30;
+            shrinkY = 0;
+            status = AquaStatuses.ionized;
+            lightning = 3;
+            statusDuration = 160;
+            lightningLength = 8;
+            lightningDamage = 1;
+            lightningColor = Color.valueOf("f25353");
+            frontColor = lightColor = hitColor = Color.valueOf("ffbcbc");
+            backColor = trailColor = Color.valueOf("f25353");
+            hitSize = 6;
+            homingPower = 0.05f;
+            trailLength = 12;
+            weaveMag = 2;
+            weaveScale = 4;
+            trailWidth = 4;
+            shootEffect = AquaFx.pentagonShootSmoke;
+            despawnEffect = hitEffect = Fx.hitSquaresColor;
+            }};
+        }};
     }
 }

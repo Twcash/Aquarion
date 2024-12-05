@@ -47,13 +47,30 @@ public class AquaFx {
 
     public static final Effect
 
+            strutBulletTrail = new Effect(16, e -> {
+        color(Color.white, e.color, e.fin());
+        stroke(0.5f + e.fout() * 1.2f);
+        rand.setSeed(e.id);
 
+        for(int i = 0; i < 2; i++){
+            float rot = e.rotation + rand.range(90f) + 180f;
+            v.trns(rot, rand.random(e.fin() * 27f));
+            lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(2f, 7f) + 1.5f);
+        }
+    }),
     shootLong = new Effect(12, e -> {
         color(Color.white, Pal.lightOrange, e.fin());
         float w = 1.2f + 7 * e.fout();
         Drawf.tri(e.x, e.y, w, 45f * e.fout(), e.rotation);
         Drawf.tri(e.x, e.y, w, 5f * e.fout(), e.rotation + 180f);
     }),
+            ionizing = new Effect(35f, e -> {
+                color(Color.valueOf("ffab84"), Color.valueOf("ba3838"), e.fin());
+
+                randLenVectors(e.id, 3, 2f + e.fin() * 7f, (x, y) -> {
+                    Fill.poly(e.x + x, e.y + y, 4, 0.1f + e.fout() * 1.4f);
+                });
+            }),
             t1TrailZoarcid = new MultiEffect(
                     new ParticleEffect(){{
                         //it's too much of a pain to do the usual fx

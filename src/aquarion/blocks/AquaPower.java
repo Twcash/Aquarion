@@ -1,6 +1,11 @@
 package aquarion.blocks;
 
 import aquarion.AquaLiquids;
+import aquarion.world.blocks.power.FuelInputModule;
+import aquarion.world.blocks.power.ModularReactor;
+import aquarion.world.blocks.power.RadiationModule;
+import aquarion.world.blocks.power.ThermoelectricModule;
+import aquarion.world.blocks.production.RechargeDrill;
 import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.content.Items;
@@ -26,7 +31,7 @@ import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block steamEngine, electrumBattery, electrumPowerNode, solarAccumulator, Relay, GeothermalGenerator, hydroxideGenerator;
+    public static Block ablativeFissionReactor, radioisotopeModule, fuelPelletFeeder, thermoelectricModule, steamEngine, electrumBattery, electrumPowerNode, solarAccumulator, Relay, GeothermalGenerator, hydroxideGenerator;
     public static void loadContent(){
     Relay = new PowerNode("relay"){{
         requirements(Category.power, with(lead, 15, bauxite, 5));
@@ -150,6 +155,27 @@ public class AquaPower {
                 amount = 48;
                 radius = 1.5f;
             }}, new DrawLiquidTile(water){{alpha = 0.8f;}}, new DrawDefault());
+        }};
+        ablativeFissionReactor = new ModularReactor("ablative-fission-reactor"){{
+            requirements(Category.power, with(Items.lead, 10, electrum, 30));
+            size = 6;
+            maxHeat = 1500;
+            maxRadiationCap = 700;
+        }};
+        fuelPelletFeeder = new FuelInputModule("fuel-pellet-feeder-module"){{
+            requirements(Category.power, with(Items.lead, 10, electrum, 30));
+            size = 1;
+            consumeItem(thorium, 2);
+        }};
+        radioisotopeModule = new RadiationModule("radioisotope-module"){{
+            requirements(Category.power, with(Items.lead, 10, electrum, 30));
+            size = 2;
+            powerProduction = 96 / 60f;
+        }};
+        thermoelectricModule = new ThermoelectricModule("thermoelectric-module"){{
+            requirements(Category.power, with(Items.lead, 10, electrum, 30));
+            size = 3;
+            powerProduction = 128 / 60f;
         }};
     }
 }
