@@ -3,6 +3,7 @@ package aquarion.world.blocks.distribution;
 import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.geom.Geometry;
+import arc.math.geom.Point2;
 import arc.util.Eachable;
 import arc.util.Time;
 import arc.util.Tmp;
@@ -73,14 +74,32 @@ public class Pipe extends LiquidRouter implements Autotiler {
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
-        super.drawPlanRegion(plan, list);
-        int[] tiling = getTiling(plan, list);
-        if (tiling == null || tiling.length == 0) return;
-        int selectedTiling = tiling[0];
-        if (selectedTiling < 0 || selectedTiling >= topRegions.length) return;
-        int rotation = plan.rotation;
-        float rotationAngle = (selectedTiling != 0) ? 0 : (rotation + 90) % 180 - 90;
-        Draw.rect(topRegions[selectedTiling], plan.x, plan.y, rotationAngle);
+        int tiling = 0;
+        BuildPlan[] proximity = new BuildPlan[4];
+
+        list.each(next -> {
+            for(int i = 0; i < 4; i++) {
+                Point2 side = new Point2(plan.x, plan.y).add(Geometry.d4[i]);
+                if(new Point2(next.x, next.y).equals(side) && (
+                        (next.block instanceof Pipe || next.block instanceof Pipe || next.block instanceof Pipe) ?
+                                (plan.rotation%2 == i%2 || next.rotation%2 == i%2) : (next.block.outputsLiquid))
+                ){
+                    proximity[i] = next;
+                    break;
+                }
+            }
+        });
+
+        for(int i = 0; i < 4; i++){
+            if (proximity[i] != null) tiling |= (1 << i);
+        }
+
+        Draw.rect(bottomRegion, plan.drawx(), plan.drawy(), 0);
+        if(tiling == 0){
+            Draw.rect(topRegions[tiling], plan.drawx(), plan.drawy(), (plan.rotation + 1) * 90f % 180 - 90);
+        }else{
+            Draw.rect(topRegions[tiling], plan.drawx(), plan.drawy(), 0);
+        }
     }
 
     @Override

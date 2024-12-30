@@ -357,12 +357,12 @@ public class AquaCrafters {
                 requirements(Category.crafting, with(lead, 35, titanium, 40, silicon, 35));
                 size = 2;
                 hasLiquids = true;
-                liquidCapacity = 60;
+                liquidCapacity = 90;
                 itemCapacity = 20;
-                consumeLiquid(water, 36/18f);
+                consumeLiquid(water, 36/60f);
                 consumeItem(titanium, 2);
                 outputLiquid = new LiquidStack(cryofluid, 18/60f);
-                consumePower(32/60f);
+                consumePower(64/60f);
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(cryofluid), new DrawDefault());
             }};
             siliconHearth = new GenericCrafter("silicon-hearth"){{
