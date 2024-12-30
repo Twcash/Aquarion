@@ -18,7 +18,6 @@ import static mindustry.Vars.*;
 
 public class AquaShaders {
     public static @Nullable ModSurfaceShader brine;
-    public static @Nullable ModSurfaceShader blockDestroy;
     public static void init() {
         brine = new ModSurfaceShader("brine");
     }
