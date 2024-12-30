@@ -779,14 +779,14 @@ public class AquaUnitTypes {
         iris = new UnitType("iris") {{
             constructor = UnitEntity::create;
             hitSize = 4;
-            speed = 3.5f;
+            speed = 6f;
             accel = 0.04f;
             drag = 0.02f;
             isEnemy = false;
             coreUnitDock = true;
-            itemCapacity = 10;
-            //cannotactually build
-            buildSpeed = 0.00001f;
+            itemCapacity = 30;
+            //builds slow bc I hate fun
+            buildSpeed = 0.05f;
             health = 30;
             //more armored
             armor = 5;
@@ -794,13 +794,13 @@ public class AquaUnitTypes {
             drawCell = false;
             targetable = false;
             hittable = false;
-            buildRange = 120;
+            buildRange = 200;
             allowedInPayloads = false;
             canAttack = false;
             lowAltitude = false;
             rotateMoveFirst = true;
             outlineColor = AquaPal.tantDarkestTone;
-            drawBuildBeam = false;
+            drawBuildBeam = true;
             rotateSpeed = 360;
             flying = true;
         }};
@@ -1137,7 +1137,7 @@ public class AquaUnitTypes {
             outlineColor = AquaPal.tantDarkestTone;
             shadowElevation = 0.9f;
             abilities.add(
-                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, Fx.burning),
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, Fx.burning, 5, 25),
                     new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
                         particles = 6;
                         sizeFrom = 10;

@@ -3,14 +3,18 @@ package aquarion.blocks;
 import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaSounds;
+import aquarion.world.blocks.production.MagmaHarvester;
+import aquarion.world.blocks.production.MagmaProcessor;
 import aquarion.world.blocks.production.RechargeDrill;
 import aquarion.world.blocks.production.WallPayloadDrill;
 import aquarion.world.graphics.AquaFx;
+import aquarion.world.graphics.DrawAdvancedPistons;
 import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.content.Fx;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
+import mindustry.entities.effect.RadialEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
@@ -32,7 +36,7 @@ import static mindustry.type.ItemStack.with;
 public class AquaCrafters {
     public static Block chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator, wallExtractor, clarifier, chireniumElectroplater,
-            bauxiteHarvester, siliconHearth, CompressionDrill, ramDrill, cultivationChamber, ceramicKiln,
+            bauxiteHarvester, siliconHearth, CompressionDrill, ramDrill, cultivationChamber, ceramicKiln, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
 
     public static void loadContent() {
@@ -424,6 +428,7 @@ public class AquaCrafters {
                 consumeItems(with(nickel, 3, titanium, 2, chromium, 3));
                 consumeLiquids(LiquidStack.with(water, 48/60f, oil, 24/60f));
                 consumePower(256/60f);
+                craftEffect = new MultiEffect(new RadialEffect(Fx.surgeCruciSmoke, 4, 90f, 8f){{offset = 5;}});
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawSoftParticles(){{
                     alpha = 0.35f;
                     particleRad = 12f;
@@ -438,4 +443,16 @@ public class AquaCrafters {
                     padRight = 20;
                 }}, new DrawDefault());
             }};
+            magmaDiffser = new MagmaProcessor("magma-diffuser"){{
+                requirements(Category.crafting, with(lead, 450, bauxite, 200));
+                size = 5;
+                squareSprite = false;
+                itemCapacity = 300;
+                liquidCapacity = 500;
+                craftTime = 300;
+                outputItems = new ItemStack[]{new ItemStack(lead, 25), new ItemStack(bauxite, 30), new ItemStack(sand, 75)};
+                consumeLiquid(magma, 120/60f);
+                drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawAdvancedPistons(), new DrawDefault(),new DrawLiquidTile(magma, 10), new DrawRegion("-top") );
+            }};
+
         }}

@@ -90,6 +90,7 @@ public class AquaPlanets {
                 r.fog = false;
                 r.staticFog = false;
                 r.onlyDepositCore = true;
+                r.coreIncinerates = false;
             };
             hiddenItems.addAll(Items.erekirItems).addAll(
                     Items.copper, Items.sand, Items.metaglass, Items.surgeAlloy, Items.coal

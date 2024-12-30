@@ -139,15 +139,15 @@ public class AquaPower {
         }};
         solarAccumulator = new SolarGenerator("solar-accumulator"){{
             requirements(Category.power, with(Items.lead, 10, electrum, 30));
-            powerProduction = 16/60f;
+            powerProduction = 8/60f;
             size = 2;
         }};
         steamEngine = new ConsumeGenerator("steam-engine"){{
             requirements(Category.power, with(silver, 45, copper, 20, titanium, 60));
             consumeItems(ItemStack.with(silver, 1, arsenic, 1));
-            consumeLiquid(water, 15/60f);
-            baseExplosiveness = 2.5f;
-            itemDuration = 90;
+            consumeLiquid(water, 30/60f);
+            baseExplosiveness = 3f;
+            itemDuration = 120;
             size = 2;
             powerProduction = 160/60f;
             drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawBubbles(Color.valueOf("88a4ff")){{
@@ -175,7 +175,7 @@ public class AquaPower {
         thermoelectricModule = new ThermoelectricModule("thermoelectric-module"){{
             requirements(Category.power, with(Items.lead, 10, electrum, 30));
             size = 3;
-            powerProduction = 128 / 60f;
+            powerProduction = 256 / 60f;
         }};
     }
 }

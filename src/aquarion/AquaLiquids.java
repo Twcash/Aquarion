@@ -1,11 +1,12 @@
 package aquarion;
 
 import arc.graphics.Color;
+import mindustry.content.StatusEffects;
 import mindustry.type.CellLiquid;
 import mindustry.type.Liquid;
 
 public class AquaLiquids {
-    public static Liquid bioPulp, carbonicAcid, oxygen, dioxide, artroGoop, brine, nitronite, helium, hydrogenChloride, hydroxide, pyridine, tritium;
+    public static Liquid magma, bioPulp, carbonicAcid, oxygen, dioxide, artroGoop, brine, nitronite, helium, hydrogenChloride, hydroxide, pyridine, tritium;
 
     public static void loadContent() {
         artroGoop = new CellLiquid("artro-goop", Color.valueOf("#8cae8e80")) {{
@@ -78,6 +79,14 @@ public class AquaLiquids {
             coolant = false;
             explosiveness = 0.1f;
             flammability = 0.5f;
+        }};
+        magma = new Liquid("magma", Color.valueOf("#ffb477")){{
+            coolant = false;
+            flammability = 0.1f;
+            temperature = 0.9f;
+            viscosity = 0.9f;
+            effect = StatusEffects.melting;
+            lightColor = Color.valueOf("ffb477").a(0.7f);
         }};
     }
 }

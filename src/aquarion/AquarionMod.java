@@ -46,6 +46,7 @@ public class AquarionMod extends Mod {
         AquaDefense.loadContent();
         AquaTurrets.loadContent();
         AquaCrafters.loadContent();
+        AquaUnitFactories.loadContent();
         //units and cores, keep these after blocks
         AquaWrecks.loadContent();
         AquaUnitTypes.loadContent();

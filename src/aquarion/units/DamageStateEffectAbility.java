@@ -19,7 +19,7 @@ public class DamageStateEffectAbility extends Ability {
     public boolean teamColor = false;
     public boolean parentizeEffects = false;
     public Color color = Color.white;
-    public Effect effect = Fx.missileTrail;
+    public Effect effect = Fx.burning;
 
     protected float counter;
 
