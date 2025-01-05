@@ -50,6 +50,7 @@ import static mindustry.type.Liquid.animationFrames;
 
 //This core makes mining drones and has a build tower for initial construction
 //FYI this is a hell of a hackjob I pulled. I reccomend not using this code whatsoever
+//broken. Sucks. Why did I even...
 public class QeralterCoreBlock extends CoreBlock {
     public final int timerTarget = timers++, timerTarget2 = timers++;
     public int targetInterval = 15;

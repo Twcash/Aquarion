@@ -41,6 +41,7 @@ import static mindustry.Vars.*;
 import static mindustry.Vars.tilesize;
 
 //Basically a wallCrafter drill shit-thing that makes payload blocks of what it is mining
+//seriously what the hell this is fucking voodoo magic that doesnt work yet it does???
 public class WallPayloadDrill extends PayloadBlock {
     public ObjectMap<Attribute, Block> attributeBlockMap = new ObjectMap<>();
     public float buildSpeed = 0.4f;

@@ -11,11 +11,15 @@ import mindustry.world.blocks.liquid.LiquidBridge;
 import mindustry.world.blocks.liquid.LiquidJunction;
 import mindustry.world.blocks.liquid.LiquidRouter;
 import mindustry.world.blocks.production.Pump;
-import mindustry.world.draw.*;
+import mindustry.world.draw.DrawDefault;
+import mindustry.world.draw.DrawLiquidTile;
+import mindustry.world.draw.DrawMulti;
+import mindustry.world.draw.DrawRegion;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
-import static mindustry.content.Items.*;
+import static mindustry.content.Items.lead;
+import static mindustry.content.Items.metaglass;
 import static mindustry.type.ItemStack.with;
 
 

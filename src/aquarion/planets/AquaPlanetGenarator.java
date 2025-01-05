@@ -1,19 +1,23 @@
 package aquarion.planets;
 
 import aquarion.blocks.AquaEnv;
-import arc.graphics.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.util.*;
-import arc.util.noise.*;
-import mindustry.content.*;
-import mindustry.game.*;
-import mindustry.graphics.g3d.PlanetGrid;
-import mindustry.maps.generators.*;
-import mindustry.type.*;
-import mindustry.world.*;
+import arc.graphics.Color;
+import arc.math.Mathf;
+import arc.math.geom.Geometry;
+import arc.math.geom.Point2;
+import arc.math.geom.Vec3;
+import arc.util.Tmp;
+import arc.util.noise.Ridged;
+import arc.util.noise.Simplex;
+import mindustry.content.Blocks;
+import mindustry.game.Rules;
+import mindustry.game.Schematics;
+import mindustry.maps.generators.PlanetGenerator;
+import mindustry.type.Sector;
+import mindustry.world.Block;
+import mindustry.world.TileGen;
 
-import static mindustry.Vars.*;
+import static mindustry.Vars.world;
 
 public class AquaPlanetGenarator extends PlanetGenerator{
 

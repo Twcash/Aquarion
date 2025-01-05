@@ -7,7 +7,7 @@ import mindustry.world.blocks.production.Drill;
 import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.BlockGroup;
 import mindustry.world.meta.Env;
-
+//kill me
 public class RechargeDrill extends Drill {
 
     public float rechargeTime = 180;        // Time required to recharge

@@ -17,7 +17,7 @@ import static aquarion.planets.AquaSectorPresets.Chasm;
 import static aquarion.planets.AquaSectorPresets.Valley;
 import static mindustry.content.Liquids.arkycite;
 import static mindustry.content.TechTree.*;
-
+//at least it's gonna be shredded
 public class TantrosTechTree {
     public static void load() {
         AquaPlanets.tantros2.techTree = nodeRoot("Tantros", AquaCore.corePike, () -> {

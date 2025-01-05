@@ -19,7 +19,7 @@ import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import static mindustry.Vars.*;
 
-
+//literally nothing special here unoriginal ass
 public class SealedRouter extends Router {
     public float speed = 8f;
     public TextureRegion topRegion;

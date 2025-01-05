@@ -25,7 +25,7 @@ import mindustry.world.meta.BlockGroup;
 import mindustry.world.meta.Env;
 
 import static mindustry.Vars.*;
-
+//unoriginal ass...
 public class DistributionCatalyst extends Block {
     public float reload = 60f;
     public float range = 80f;

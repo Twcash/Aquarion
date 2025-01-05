@@ -127,14 +127,14 @@ public class AquaEnv {
             }};
         }};
 
+        gabbro = new Floor("gabbro", 3) {{
 
+        }};
 
         gabbro_extrusions = new Floor("gabbro-extrusions", 4) {{
         }};
 
-        gabbro = new Floor("gabbro", 3) {{
 
-        }};
 
         shaleVent = new SteamVent("shale-vent") {{
             attributes.set(Attribute.steam, 1f);

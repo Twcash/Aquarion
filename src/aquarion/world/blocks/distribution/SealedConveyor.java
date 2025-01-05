@@ -23,7 +23,7 @@ import arc.util.*;
 import mindustry.world.blocks.distribution.Junction;
 
 import static mindustry.Vars.*;
-
+// Certified Shit
 public class SealedConveyor extends Duct implements Autotiler{
 
     public float stopSpeed;

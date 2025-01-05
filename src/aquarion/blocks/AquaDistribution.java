@@ -35,9 +35,9 @@ public class AquaDistribution {
         sealedConveyor = new SealedConveyor("sealed-conveyor"){{
             requirements(Category.distribution, with(lead, 1, bauxite,1));
             envEnabled = 4;
-            speed = 8F;
+            speed = 4F;
             solid = false;
-            visualSpeed = 10;
+            visualSpeed = 20;
             underBullets = true;
             stopSpeed = 70;
             researchCostMultiplier = 0.2f;

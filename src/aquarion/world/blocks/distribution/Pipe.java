@@ -25,7 +25,7 @@ import java.util.Set;
 import static mindustry.Vars.renderer;
 import static mindustry.Vars.tilesize;
 import static mindustry.type.Liquid.animationFrames;
-
+//God awful code wtf. Making an entire autotiler to make it the same and still looks like shit
 public class Pipe extends LiquidRouter implements Autotiler {
     public TextureRegion[] topRegions = new TextureRegion[16];
     public TextureRegion[][] liquidRegions;

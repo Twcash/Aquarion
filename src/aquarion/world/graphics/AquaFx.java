@@ -42,6 +42,7 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.math.Angles.randLenVectors;
 
 public class AquaFx {
+    //I tried... I couldnt
     public static final Rand rand = new Rand();
     public static final Vec2 v = new Vec2();
 

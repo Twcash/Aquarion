@@ -7,7 +7,7 @@ import mindustry.content.UnitTypes;
 import mindustry.type.Category;
 import mindustry.world.Block;
 
-import static aquarion.AquaItems.*;
+import static aquarion.AquaItems.arsenic;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 

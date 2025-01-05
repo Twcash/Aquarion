@@ -3,17 +3,12 @@ package aquarion.planets;
 import aquarion.AquaItems;
 import aquarion.blocks.AquaCore;
 import aquarion.world.AquaTeams;
-import arc.func.Boolf;
 import arc.graphics.Color;
-import arc.struct.Seq;
 import mindustry.content.Items;
-import mindustry.content.Planets;
-import mindustry.game.Team;
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
 import mindustry.graphics.g3d.MultiMesh;
 import mindustry.graphics.g3d.SunMesh;
-import mindustry.type.Item;
 import mindustry.type.Planet;
 import mindustry.world.meta.Env;
 
@@ -44,7 +39,7 @@ public class AquaPlanets {
             );
         }};
         qeraltar = new Planet("qeraltar", citun, 0.9f, 2){{
-            generator = new QeraltarPlanetGenerator();
+            generator = new QeralterPlanetGen();
             meshLoader = () -> new HexMesh(this, 5);
             accessible = true;
             bloom = false;
@@ -57,6 +52,7 @@ public class AquaPlanets {
                     new HexSkyMesh(this, 3, 0.7f, 0.18f, 5, Color.valueOf("dbe2e8").a(0.7f), 2, 0.42f, 1.2f, 0.45f)
             );
         }};
+        //fuck
         tantros2 = new Planet("tantros", citun, 1.3f, 3){{
             generator = new AquaPlanetGenarator();
             meshLoader = () -> new HexMesh(this, 5);

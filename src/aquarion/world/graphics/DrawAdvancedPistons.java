@@ -9,6 +9,7 @@ import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.draw.DrawBlock;
 //I only Ever plan on using this for one or two blocks. Ever DO NOT COPY THIS IS USELESS
+// I just wanted to be better
 public class DrawAdvancedPistons extends DrawBlock {
     public float sinMag = 4f, sinScl = 6f, sinOffset = 50f, sideOffset = 0f, lenOffset = -1f, horiOffset = 0f, angleOffset = 0f;
     public int sides = 4;
@@ -25,9 +26,8 @@ public class DrawAdvancedPistons extends DrawBlock {
     @Override
     public void draw(Building build) {
         for (int i = 0; i < sides; i++) {
-            // mmm yes Applying an interp to a sine wave TODO MUST MAKE SMOOOTH
-            float cycle = Interp.pow5Out.apply(Mathf.absin(build.totalProgress() + sinOffset + sideOffset * i, sinScl, 1))* build.progress();
-            float progress = Interp.circleIn.apply(Mathf.lerp(0f, 1f, cycle)) * build.progress();
+
+            float progress = Mathf.absin(build.totalProgress() + sinOffset + sideOffset * sinScl * i, sinScl, sinMag) + lenOffset;
 
             float len = progress * sinMag + lenOffset;
             float angle = angleOffset + i * 360f / sides;

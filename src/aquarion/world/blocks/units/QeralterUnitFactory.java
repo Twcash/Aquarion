@@ -45,7 +45,7 @@ import mindustry.world.meta.StatUnit;
 
 import static mindustry.net.Administration.ActionType.command;
 import static mindustry.world.meta.Stat.unitType;
-
+//fuck you this sucks and I hate this
 public class QeralterUnitFactory extends UnitFactory {
     public int maxUnitsPerFactory = 4;
 

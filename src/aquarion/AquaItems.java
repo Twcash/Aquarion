@@ -7,7 +7,7 @@ import mindustry.type.Item;
 import static mindustry.content.Items.*;
 
 public class AquaItems {
-    public static Item cupronickel, salulnite, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
+    public static Item ferrosilicon, aluminum, ferricMatter,cupronickel, salulnite, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
     public static final Seq<Item> tantrosItems = new Seq<>();
     public static final Seq<Item> qeraltarItems = new Seq<>();
     public static void load() {
@@ -76,6 +76,16 @@ public class AquaItems {
         }};
         salulnite = new Item("salulnite", Color.valueOf("#b1dae3")) {{
             cost = 1f;
+        }};
+        ferricMatter = new Item("ferric-matter", Color.valueOf("#675b53")) {{
+            cost = 0.2f;
+        }};
+        aluminum = new Item("aluminum", Color.valueOf("#7489a5")) {{
+            cost = 0.2f;
+            flammability = 0.1f;
+        }};
+        ferrosilicon = new Item("ferrosilicon", Color.valueOf("#98a1ab")) {{
+            cost = 0.5f;
         }};
         qeraltarItems.addAll(
            lead, copper, electrum, silver,

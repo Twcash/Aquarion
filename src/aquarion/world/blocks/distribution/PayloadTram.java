@@ -31,8 +31,7 @@ import static arc.util.ArcNativesLoader.loaded;
 import static mindustry.Vars.*;
 import static mindustry.gen.TimeItem.time;
 import static mindustry.io.TypeIO.readPayload;
-// Addressing those who are 1: going to modify the code for a PR or 2: wishing to use the code for yourself
-// good luck and try not to break stuff. I don't really care if you use this code as long as you credit me. twcash.
+//Thanks meep... I'm useless.
 public class PayloadTram extends PayloadBlock {
     public TextureRegion baseRegion;
     public TextureRegion topRegion;

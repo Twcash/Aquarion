@@ -7,7 +7,6 @@ import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
-import static aquarion.AquaItems.bauxite;
 import static mindustry.content.Items.lead;
 import static mindustry.type.ItemStack.with;
 

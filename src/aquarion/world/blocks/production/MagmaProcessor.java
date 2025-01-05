@@ -17,7 +17,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.liquid.Conduit.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
-
+//same case as MagmaHarvester it fucking sucks
 public class MagmaProcessor extends GenericCrafter {
 
     public MagmaProcessor(String name){
@@ -32,11 +32,12 @@ public class MagmaProcessor extends GenericCrafter {
         drawArrow = false;
     }
     public class MagmaProcessorBuild extends GenericCrafterBuild {
-        public boolean acceptLiquid(Building source, Liquid liquid){
-            if(block instanceof MagmaHarvester){
+        @Override
+        public boolean acceptLiquid(Building source, Liquid liquid) {
+            if (block instanceof MagmaHarvester) {
                 return false;
             }
-                return block.hasLiquids && block.consumesLiquid(liquid);
+            return block.hasLiquids && block.consumesLiquid(liquid);
         }
     }
 }

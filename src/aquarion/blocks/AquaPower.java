@@ -5,7 +5,6 @@ import aquarion.world.blocks.power.FuelInputModule;
 import aquarion.world.blocks.power.ModularReactor;
 import aquarion.world.blocks.power.RadiationModule;
 import aquarion.world.blocks.power.ThermoelectricModule;
-import aquarion.world.blocks.production.RechargeDrill;
 import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.content.Items;
@@ -17,16 +16,13 @@ import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.power.*;
-import mindustry.world.blocks.production.AttributeCrafter;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.hydroxide;
 import static arc.math.Interp.pow3Out;
 import static mindustry.content.Items.*;
-import static mindustry.content.Liquids.arkycite;
 import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 

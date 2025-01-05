@@ -9,8 +9,10 @@ import aquarion.world.blocks.production.RechargeDrill;
 import aquarion.world.blocks.production.WallPayloadDrill;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.DrawAdvancedPistons;
+import aquarion.world.graphics.DrawOrbitRegions;
 import arc.graphics.Color;
 import arc.math.Interp;
+import arc.math.Mathf;
 import mindustry.content.Fx;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
@@ -18,15 +20,17 @@ import mindustry.entities.effect.RadialEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
+import mindustry.type.Liquid;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
+import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BlockGroup;
 import mindustry.world.meta.Env;
 
-import static aquarion.AquaItems.*;
 import static aquarion.AquaItems.gallium;
+import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.*;
 import static aquarion.AquaSounds.wallDrill;
 import static mindustry.content.Items.*;
@@ -34,7 +38,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block brineRefinery, saltCatalyzer, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator, wallExtractor, clarifier, chireniumElectroplater,
             bauxiteHarvester, siliconHearth, CompressionDrill, ramDrill, cultivationChamber, ceramicKiln, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -450,9 +454,98 @@ public class AquaCrafters {
                 itemCapacity = 300;
                 liquidCapacity = 500;
                 craftTime = 300;
-                outputItems = new ItemStack[]{new ItemStack(lead, 25), new ItemStack(bauxite, 30), new ItemStack(sand, 75)};
+                outputItems = new ItemStack[]{new ItemStack(lead, 25), new ItemStack(bauxite, 30), new ItemStack(silicon, 25)};
                 consumeLiquid(magma, 120/60f);
-                drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawAdvancedPistons(), new DrawDefault(),new DrawLiquidTile(magma, 10), new DrawRegion("-top") );
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawRegion("-ring"),new DrawAdvancedPistons(){{
+                    sinMag = 2f;
+                    sinScl = 10f;
+                    sideOffset = Mathf.pi*2;
+                }},new DrawRegion("-fan-shadow"){{
+                    rotation = 0;
+                    x = -1;
+                    y = -1;
+                    rotateSpeed = 1.5f;
+                }}, new DrawRegion("-fan"){{
+                    rotation = 15;
+                    spinSprite = true;
+                    rotateSpeed = 1.5f;
+                }}, new DrawRegion("-fan"){{
+                    rotation = 45;
+                    spinSprite = true;
+                    rotateSpeed = 1.5f;
+                }}, new DrawRegion("-fan"){{
+                    spinSprite = true;
+                    rotateSpeed = 1.5f;
+                }}, new DrawRegion("-fan"){{
+                    rotation = 30;
+                    spinSprite = true;
+                    rotateSpeed = 1.5f;
+                }}, new DrawRegion("-fan"){{
+                    rotation = 75;
+                    spinSprite = true;
+                    rotateSpeed = 1.5f;
+                }}, new DrawRegion("-fan"){{
+                    rotation = 60;
+                    spinSprite = true;
+                    rotateSpeed = 1.5f;
+                }}, new DrawDefault(), new DrawLiquidTile(magma, 13.25f), new DrawRegion("-top") );
             }};
-
+            magmaTap = new MagmaHarvester("magma-tap"){{
+                requirements(Category.production, with(lead, 250, bauxite, 120));
+                size = 4;
+                updateEffect = Fx.steam;
+                attribute = Attribute.heat;
+                minEfficiency = 1;
+                maxBoost = 3;
+                baseEfficiency = 0;
+                updateEffectChance = 0.02f;
+                displayEfficiencyScale = 1f / 8f;
+                boostScale = 1f / 8f;
+                craftTime = 30;
+                ambientSound = Sounds.smelter;
+                squareSprite = false;
+                liquidCapacity = 900;
+                outputLiquid = new LiquidStack(magma, 1f);
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma, 5), new DrawDefault(), new DrawGlowRegion(){{
+                    alpha = 0.65f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.3f;
+                    glowScale = 6f;
+                }});
+            }};
+            bauxiteCentrifuge = new GenericCrafter("bauxite-centrifuge"){{
+                requirements(Category.crafting, with(lead, 400, bauxite, 300, silicon, 250));
+                craftTime = 60;
+                consumeItem(bauxite, 10);
+                outputItems = new ItemStack[]{new ItemStack(silicon, 3), new ItemStack(ferricMatter, 5), new ItemStack(aluminum, 2)};
+                size = 6;
+                itemCapacity = 60;
+                warmupSpeed = 0.01f;
+                squareSprite = false;
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawOrbitRegions("-capsule", 8, 10f, 20f), new DrawDefault());
+            }};
+            ferroSiliconFoundry = new GenericCrafter("ferrosilicon-foundry"){{
+                requirements(Category.crafting, with(lead, 680, bauxite, 250, silicon, 500, aluminum, 90));
+                size = 6;
+                squareSprite = false;
+                itemCapacity = 80;
+                craftTime = 600;
+                consumeItems(with(ferricMatter, 5, silicon, 15));
+                outputItem = new ItemStack(ferrosilicon, 20);
+                consumeLiquid(magma, 80/60f);
+                liquidCapacity = 200;
+                updateEffect = Fx.coalSmeltsmoke;
+                updateEffectChance = 0.05f;
+                craftEffect = Fx.reactorsmoke;
+                ambientSound = Sounds.electricHum;
+                ambientSoundVolume = 0.1f;
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawRegion("-coils"), new DrawLiquidTile(magma, 8){{
+                    alpha = 0.7f;
+                }}, new DrawDefault(), new DrawGlowRegion(){{
+                    alpha = 0.65f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.3f;
+                    glowScale = 6f;
+                }});
+            }};
         }}
