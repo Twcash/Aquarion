@@ -1,6 +1,7 @@
 package aquarion.blocks;
 
 import aquarion.AquaLiquids;
+import aquarion.world.blocks.distribution.ModifiedConduit;
 import aquarion.world.blocks.distribution.Pipe;
 import aquarion.world.graphics.DrawPump;
 import mindustry.type.Category;
@@ -39,7 +40,7 @@ public class AquaLiquid {
             envDisabled = Env.none;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(AquaLiquids.brine, 2f), new DrawDefault(), new DrawPump());
         }};
-        siphon = new Conduit("siphon") {{
+        siphon = new ModifiedConduit("siphon") {{
             requirements(Category.liquid, with(lead, 2, bauxite, 1));
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
@@ -49,7 +50,7 @@ public class AquaLiquid {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        pulseSiphon = new Conduit("pulse-siphon") {{
+        pulseSiphon = new ModifiedConduit("pulse-siphon") {{
             requirements(Category.liquid, with(lead, 3, manganese, 1));
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;

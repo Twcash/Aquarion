@@ -17,9 +17,10 @@ import static arc.util.ArcNativesLoader.loaded;
 import static mindustry.Vars.*;
 
 public class AquaShaders {
-    public static @Nullable ModSurfaceShader brine;
+    public static @Nullable ModSurfaceShader brine, oxygen;
     public static void init() {
         brine = new ModSurfaceShader("brine");
+        oxygen = new ModSurfaceShader("oxygen");
     }
 
     public static class ModSurfaceShader extends Shader {

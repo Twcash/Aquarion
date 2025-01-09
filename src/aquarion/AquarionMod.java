@@ -21,8 +21,6 @@ import static mindustry.Vars.headless;
 
 public class AquarionMod extends Mod {
     // to future me. You couldve been better. This couldve been better. You are worthless and I hope you are reminded every time you see this how little you actually accomplished.
-//TODO proper load order DO NOT DO UNTIL ALL CONTENT IS PORTED
-
     @Override
     public void loadContent() {
         if (!headless) {

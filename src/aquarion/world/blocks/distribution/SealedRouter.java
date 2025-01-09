@@ -113,33 +113,23 @@ public class SealedRouter extends Router {
         }
 
         @Override
-        public void write(Writes write) {
-            super.write(write);
-            write.b(recDir);
-            write.f(progress);
-            write.bool(current != null);
-            if (current != null) {
-                write.str(current.name);
-            }
-            write.i(lastInput == null ? -1 : lastInput.pos());
+        public byte version(){
+            return 1;
         }
 
         @Override
-        public void read(Reads read) {
-            super.read(read);
-            recDir = read.b();
-            progress = read.f();
-            if (read.bool()) {
-                current = content.item(read.str());
-            } else {
-                current = null;
+        public void write(Writes write){
+            super.write(write);
+            write.b(recDir);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            if(revision >= 1){
+                recDir = read.b();
             }
-            int lastInputPos = read.i();
-            if (lastInputPos != -1) {
-                lastInput = world.tile(lastInputPos);
-            } else {
-                lastInput = null;
-            }
+            current = items.first();
         }
     }
 }

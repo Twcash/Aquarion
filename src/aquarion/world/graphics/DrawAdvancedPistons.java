@@ -30,22 +30,20 @@ public class DrawAdvancedPistons extends DrawBlock {
             float progress = Mathf.absin(build.totalProgress() + sinOffset + sideOffset * sinScl * i, sinScl, sinMag) + lenOffset;
 
             float len = progress * sinMag + lenOffset;
-            float angle = angleOffset + i * 360f / sides;
-            //TODO find a way to combine t2 and t region into one and flip the sprite without a mess
-            TextureRegion reg =
-                    regiont2.found() && Mathf.equal(angle, 270) ? regiont2 :
-                            regiont.found() && Mathf.equal(angle, 90) ? regiont :
-                                    angle >= 90 && angle < 270 ? region2 : region1;
+                float angle = angleOffset + i * 360f / sides;
+                //TODO find a way to combine t2 and t region into one and flip the sprite without a mess
+                TextureRegion reg =
+                        regiont2.found() && Mathf.equal(angle, 270) ? regiont2 :
+                                regiont.found() && Mathf.equal(angle, 90) ? regiont :
+                                        angle >= 90 && angle < 270 ? region2 : region1;
 
-            if (Mathf.equal(angle, 315)) {
-                Draw.yscl = -1f;
-            }
+                if (Mathf.equal(angle, 315)) {
+                    Draw.yscl = -1f;
+                }
 
-            float adjustedLen = len / Mathf.sqrt2;
-            Tmp.v1.set(adjustedLen, adjustedLen).rotate(angle);
-            Draw.rect(reg, build.x + Tmp.v1.x, build.y + Tmp.v1.y, angle);
-
-            Draw.yscl = 1f;
+                float adjustedLen = len / Mathf.sqrt2;
+                Tmp.v1.set(adjustedLen, adjustedLen).rotate(angle);
+                Draw.rect(reg, build.x + Tmp.v1.x, build.y + Tmp.v1.y, angle);
         }
     }
 

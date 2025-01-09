@@ -9,22 +9,26 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.draw.DrawBlock;
+import mindustry.world.draw.DrawRegion;
 
-public class DrawOrbitRegions extends DrawBlock {
+public class DrawOrbitRegions extends DrawRegion {
     public TextureRegion region;
     public String suffix = "";
     public boolean drawPlan = true;
+    //how many thingies are in orbit
     public int regionCount = 1;
     public float radius = 8f;
-    public float rotateSpeed = 1f;
+    //How fast this thing orbits.
+    public float orbitSpeed;
+    //offset of the entire orbit
     public float rotationOffset = 0f;
     public float layer = -1;
-//the one thing that works. I am useless
-    public DrawOrbitRegions(String suffix, int regionCount, float radius, float rotateSpeed) {
+
+    public DrawOrbitRegions(String suffix, int regionCount, float radius, float orbitSpeed) {
         this.suffix = suffix;
         this.regionCount = regionCount;
         this.radius = radius;
-        this.rotateSpeed = rotateSpeed;
+        this.orbitSpeed = orbitSpeed;
     }
 
     public DrawOrbitRegions() {
@@ -35,7 +39,7 @@ public class DrawOrbitRegions extends DrawBlock {
         float z = Draw.z();
         if (layer > 0) Draw.z(layer);
 
-        float baseRotation = build.totalProgress() * rotateSpeed + rotationOffset * build.warmup();
+        float baseRotation = build.totalProgress() * orbitSpeed + rotationOffset * build.warmup();
 
         for (int i = 0; i < regionCount; i++) {
             float angle = baseRotation + (360f / regionCount) * i;
@@ -43,8 +47,11 @@ public class DrawOrbitRegions extends DrawBlock {
 
             float cx = build.x + Mathf.cos(rad) * radius;
             float cy = build.y + Mathf.sin(rad) * radius;
-
-            Draw.rect(region, cx, cy, 0); // Draw the orbiting region
+            if(spinSprite) {
+                Drawf.spinSprite(region, cx, cy, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));
+            } else {
+                Draw.rect(region, cx, cy, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));
+            }
         }
 
         Draw.z(z);
@@ -53,16 +60,23 @@ public class DrawOrbitRegions extends DrawBlock {
     @Override
     public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) {
         if (!drawPlan) return;
-
+        float originalZ = Draw.z();
+        //had some layering issues so i uhhh idk but it works :thumbsup:
+        if (layer > 0) {
+            Draw.z(layer);
+        } else {
+            Draw.z(Layer.plans);
+        }
         for (int i = 0; i < regionCount; i++) {
             float angle = rotationOffset + (360f / regionCount) * i;
             float rad = Mathf.degRad * angle;
-
             float cx = plan.drawx() + Mathf.cos(rad) * radius;
             float cy = plan.drawy() + Mathf.sin(rad) * radius;
-
-            Draw.rect(region, cx, cy, 0); // Draw the orbiting regions in the plan
+            if (region != null) {
+                Draw.rect(region, cx, cy, rotation);
+            }
         }
+        Draw.z(originalZ);
     }
 
     @Override

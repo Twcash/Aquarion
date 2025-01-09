@@ -9,7 +9,7 @@ import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.entities.abilities.Ability;
 import mindustry.gen.Unit;
-
+//Kill yourself. Stop trying
 public class DamageStateEffectAbility extends Ability {
     public float minHealth = 0.30f;
     public float interval = 3f;

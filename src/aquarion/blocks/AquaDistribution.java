@@ -35,7 +35,7 @@ public class AquaDistribution {
         sealedConveyor = new SealedConveyor("sealed-conveyor"){{
             requirements(Category.distribution, with(lead, 1, bauxite,1));
             envEnabled = 4;
-            speed = 4F;
+            speed = 2F;
             solid = false;
             visualSpeed = 20;
             underBullets = true;
@@ -77,7 +77,7 @@ public class AquaDistribution {
         sealedJunction = new Junction("sealed-junction"){{
             requirements(category.distribution, with(lead, 15, bauxite, 10, nickel, 5));
             capacity = 8;
-            speed = 48;
+            speed = 90;
             envEnabled |= Env.terrestrial | Env.underwater;
             ((SealedConveyor)sealedConveyor).junctionReplacement = this;
             envDisabled = Env.none;
