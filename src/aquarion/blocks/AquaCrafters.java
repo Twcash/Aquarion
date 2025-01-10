@@ -691,8 +691,54 @@ public class AquaCrafters {
                 rotation = 45;
                 spinSprite = true;
                 rotateSpeed = 2;
+            }}, new BetterDrawParticles(){{
+                color = Color.valueOf("836c59");
+                alpha = 0.4f;
+                y = 4;
+                x = -8;
+                particleSize = 2f;
+                particles = 12;
+                particleRad = 6f;
+                particleLife = 60f;
+            }}, new BetterDrawParticles(){{
+                color = Color.valueOf("9f846d");
+                alpha = 0.4f;
+                y = 4;
+                x = -8;
+                particleSize = 2f;
+                particles = 12;
+                particleRad = 6f;
+                particleLife = 60f;
+            }}, new BetterDrawParticles(){{
+                color = Color.valueOf("836c59");
+                alpha = 0.4f;
+                y = 4;
+                x = 4;
+                particleSize = 2f;
+                particles = 12;
+                particleRad = 6f;
+                particleLife = 60f;
+            }}, new BetterDrawParticles(){{
+                color = Color.valueOf("9f846d");
+                alpha = 0.4f;
+                y = 4;
+                x = 4;
+                particleSize = 2f;
+                particles = 12;
+                particleRad = 6f;
+                particleLife = 60f;
             }}, new DrawLiquidTile(fumes, 1){{
                 alpha = 0.6f;
-            }}, new DrawRegion("-top"));
+            }}, new DrawRegion("-top"), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.5f;
+                color = Color.valueOf("f5c5aa");
+            }},new DrawGlowRegion("-glow1"){{
+                glowIntensity = 0.9f;
+                glowScale = 8;
+                alpha = 0.6f;
+                color = Color.valueOf("ffc99e");
+            }});
         }};
     }}
