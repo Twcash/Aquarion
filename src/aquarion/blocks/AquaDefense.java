@@ -110,7 +110,7 @@ public class AquaDefense {
             range = 45;
             consumePower(8.333333F);
             consumeLiquid(hydrogen, 0.2F);
-            healPercent = 0.2F;
+            healPercent = 5F;
             drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawRegion("-top"), new DrawRegion("-rotator"){{spinSprite = true; rotateSpeed = 2;}});
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled|= Env.spores | Env.scorching;

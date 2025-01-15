@@ -11,6 +11,7 @@ import mindustry.world.draw.DrawParticles;
 public class BetterDrawParticles extends DrawParticles {
     public float x = 0;
     public float y = 0;
+    public int sides;
     @Override
     public void draw(Building build){
 
@@ -29,9 +30,10 @@ public class BetterDrawParticles extends DrawParticles {
                 float angle = rand.random(360f) + (Time.time / rotateScl) % 360f;
                 float len = particleRad * particleInterp.apply(fout);
                 Draw.alpha(a * (1f - Mathf.curve(fin, 1f - fadeMargin)));
-                Fill.circle(
+                Fill.poly(
                         build.x + x + Angles.trnsx(angle, len),
                         build.y + y + Angles.trnsy(angle, len),
+                        sides,
                         particleSize * particleSizeInterp.apply(fin) * build.warmup()
                 );
             }

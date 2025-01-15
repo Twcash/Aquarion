@@ -16,6 +16,8 @@ import mindustry.ai.types.MinerAI;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.entities.abilities.MoveEffectAbility;
+import mindustry.entities.abilities.RepairFieldAbility;
+import mindustry.entities.abilities.ShieldRegenFieldAbility;
 import mindustry.entities.abilities.SpawnDeathAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ParticleEffect;
@@ -70,7 +72,8 @@ public class AquaUnitTypes {
     public static void loadContent() {
         messenger = EntityRegistry.content("messenger", MechUnit.class, name -> new MechanicalUnitType(name) {{
             speed = 0.65f;
-            constructor = MechUnit::create;
+            health = 550;
+            armor = 1;
             rotateSpeed = 2f;
             rotateMoveFirst = true;
             mech = true;
@@ -78,7 +81,8 @@ public class AquaUnitTypes {
             envDisabled = Env.none;
             constructor = MechUnit::create;
             mechLegColor = AquaPal.tantDarkestTone;
-            abilities.add(
+            abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
+
                     new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
                         particles = 3;
                         sizeFrom = 8;
@@ -142,6 +146,8 @@ public class AquaUnitTypes {
         goss = EntityRegistry.content("goss", Unitc.class, name -> new MechanicalUnitType(name) {{
             constructor = UnitEntity::create;
             engineSize = 0f;
+            health = 380f;
+            armor = 2;
             groundLayer = 90;
             outlineColor = Color.valueOf("232826");
             speed = 2.5f;
@@ -218,6 +224,7 @@ public class AquaUnitTypes {
             rotateSpeed = 3;
             constructor = UnitEntity::create;
             lowAltitude = true;
+            health = 320f;
             flying = true;
             outlineColor = Color.valueOf("232826");
             speed = 2.5f;
@@ -308,12 +315,15 @@ public class AquaUnitTypes {
         // steward tree
         steward = EntityRegistry.content("steward", MechUnit.class, name -> new MechanicalUnitType(name) {{
             rotateMoveFirst = true;
-            constructor = MechUnit::create;
+            armor = 0;
+            health = 420;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             constructor = MechUnit::create;
             mechLegColor = AquaPal.tantDarkestTone;
             drawCell = false;
+            mechFrontSway = 0.1f;
+            mechSideSway = 0.1f;
             speed = 0.9f;
             rotateSpeed = 4;
             abilities.add(
@@ -348,14 +358,14 @@ public class AquaUnitTypes {
                 mirror = true;
                 alternate = true;
                 recoil = 1f;
-                x = 0;
+                x = 0.25f;
                 outlineColor = AquaPal.tantDarkerTone;
                 recoilTime = 5f;
-                reload = 10;
+                reload = 25;
                 top = false;
-                shootX = 4;
+                shootX = -4;
                 range = 60;
-                bullet = new LaserBoltBulletType(3f, 10) {{
+                bullet = new LaserBoltBulletType(3f, 15) {{
                     width = 2f;
                     ;
                     height = 5;

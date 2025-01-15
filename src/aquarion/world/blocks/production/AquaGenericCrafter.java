@@ -1,31 +1,14 @@
 package aquarion.world.blocks.production;
 
 import aquarion.world.consumers.ConsumeLiquidBaseNew;
-import aquarion.world.graphics.AquaStatValues;
-import arc.func.Boolf;
-import arc.func.Cons;
-import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
-import arc.math.geom.Geometry;
-import arc.math.geom.Point2;
 import arc.util.Nullable;
 import arc.util.Structs;
 import arc.util.Time;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.meta.StatUnit;
-import mindustry.content.*;
-import mindustry.entities.*;
-import mindustry.entities.units.*;
-import mindustry.game.*;
-import mindustry.gen.*;
-import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.ui.*;
-import mindustry.world.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
-
-import static mindustry.Vars.*;
 
 public class AquaGenericCrafter extends GenericCrafter {
     public float boostItemUseTime = 120f;

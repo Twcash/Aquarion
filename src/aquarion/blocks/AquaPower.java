@@ -5,10 +5,14 @@ import aquarion.world.blocks.power.FuelInputModule;
 import aquarion.world.blocks.power.ModularReactor;
 import aquarion.world.blocks.power.RadiationModule;
 import aquarion.world.blocks.power.ThermoelectricModule;
+import aquarion.world.graphics.DrawBetterRegion;
 import arc.graphics.Color;
 import arc.math.Interp;
+import arc.math.Mathf;
+import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
@@ -21,13 +25,14 @@ import mindustry.world.meta.Attribute;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
+import static aquarion.AquaLiquids.*;
 import static arc.math.Interp.pow3Out;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block ablativeFissionReactor, radioisotopeModule, fuelPelletFeeder, thermoelectricModule, steamEngine, electrumBattery, electrumPowerNode, solarAccumulator, Relay, GeothermalGenerator, hydroxideGenerator;
+    public static Block fumeEngine, ablativeFissionReactor, radioisotopeModule, fuelPelletFeeder, thermoelectricModule, steamEngine, electrumBattery, electrumPowerNode, solarAccumulator, Relay, GeothermalGenerator, hydroxideGenerator;
     public static void loadContent(){
     Relay = new PowerNode("relay"){{
         requirements(Category.power, with(lead, 15, bauxite, 5));
@@ -172,6 +177,104 @@ public class AquaPower {
             requirements(Category.power, with(Items.lead, 10, electrum, 30));
             size = 3;
             powerProduction = 256 / 60f;
+        }};
+        fumeEngine = new ConsumeGenerator("fume-engine"){{
+
+            requirements(Category.power, with(Items.lead, 2500, aluminum, 900, ferrosilicon, 1500, bauxite, 3000));
+            size = 9;
+            consumeLiquids(LiquidStack.with(fumes, 20, magma, 2, oxygen, 1)); //jesus fucking christ;
+            powerProduction = 100; //1 unit of fume = 5 power/s prolly gonna only need 2 of these for early to midgame
+            liquidCapacity = 5000;
+            baseExplosiveness = 5;
+            explosionDamage = 5000;
+            explosionShake = 5;
+            explosionRadius = 240;
+            squareSprite = false;
+            generateEffectRange = 9*8/2f;
+            effectChance = 0.05f;
+            generateEffect = new MultiEffect(
+                    Fx.steam,
+                    Fx.mineSmall
+                 );
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2), new DrawRegion("-cookie"),
+                     //sigh
+                    new DrawBetterRegion("-coil"){{
+                        spinSprite = true;
+                        rotateSpeed = 4;
+                        rotation = 11.25f;
+                    }},new DrawBetterRegion("-coil"){{
+                spinSprite = true;
+                rotateSpeed = 4;
+                rotation = 22.25f;
+            }},new DrawBetterRegion("-coil"){{
+                spinSprite = true;
+                rotateSpeed = 4;
+                rotation = 0;
+            }} ,new DrawBetterRegion("-coil"){{
+                spinSprite = true;
+                rotateSpeed = 4;
+                rotation = 45;
+            }} ,new DrawBetterRegion("-coil"){{
+                spinSprite = true;
+                rotateSpeed = 4;
+                rotation = 33.75f;
+            }} ,new DrawBetterRegion("-coil"){{
+                spinSprite = true;
+                rotateSpeed = 4;
+                rotation = 67.5f;
+            }} ,new DrawBetterRegion("-coil"){{
+                spinSprite = true;
+                rotateSpeed = 4;
+                rotation = 56.25f;
+            }},new DrawBetterRegion("-coil"){{
+                spinSprite = true;
+                rotateSpeed = 4;
+                rotation =90f;
+            }}  ,new DrawBetterRegion("-coil"){{
+                spinSprite = true;
+                rotateSpeed = 4;
+                rotation = 78.75f;
+            }}, new DrawParticles(){{
+                reverse = true;
+                alpha = 0.4f;
+                particleRad = 8*2;
+                particleSize = 12;
+                rotateScl = 1;
+                particles = 40;
+                color = Color.valueOf("b4a576");
+            }}, new DrawParticles(){{
+                alpha = 0.4f;
+                reverse = true;
+                particleRad = 8*3;
+                particleSize = 8;
+                particles = 55;
+                rotateScl = 1.5f;
+                color = Color.valueOf("98936c");
+            }}, new DrawParticles(){{
+                reverse = true;
+                alpha = 0.4f;
+                particleRad = 8*4;
+                particleSize = 6;
+                rotateScl = 2;
+                particles = 20;
+                color = Color.valueOf("838362");
+            }}, new DrawSoftParticles(){{
+                particles = 60;
+                particleLife = 30;
+                particleSize = 8;
+                particleRad = 12;
+                rotateScl = 3;
+            }}, new DrawDefault(), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.7f;
+                color = Color.valueOf("f5c5aa");
+            }},new DrawGlowRegion("-glow1"){{
+                glowIntensity = 0.9f;
+                glowScale = 8;
+                alpha = 0.6f;
+                color = Color.valueOf("f5c5aa");
+            }});
         }};
     }
 }

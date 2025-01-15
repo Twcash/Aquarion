@@ -2,6 +2,7 @@ package aquarion.blocks;
 
 import aquarion.units.AquaUnitTypes;
 import aquarion.world.blocks.core.QeralterCoreBlock;
+import aquarion.world.blocks.defense.RegenPylon;
 import aquarion.world.blocks.distribution.DistributionCatalyst;
 import arc.graphics.Color;
 import mindustry.content.UnitTypes;
@@ -18,6 +19,7 @@ import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
+import static aquarion.AquaLiquids.magma;
 import static aquarion.units.AquaUnitTypes.iris;
 import static aquarion.units.AquaUnitTypes.mite;
 import static mindustry.content.Items.*;
@@ -25,7 +27,7 @@ import static mindustry.content.Liquids.cryofluid;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCore {
-    public static Block cache, coreCuesta, coreEscarpment, corePike, coreExpedite, buildSentry, overdriveCatalyst,
+    public static Block mendPylon, cache, coreCuesta, coreEscarpment, corePike, coreExpedite, buildSentry, overdriveCatalyst,
     //storing trunte blocks here
     TrunteVein, TrunteNode;
 
@@ -115,6 +117,13 @@ public class AquaCore {
             consumeLiquid(cryofluid, 36/60f);
             consumePower(256/60f);
         }};
-
+        mendPylon = new RegenPylon("mend-pylon"){{
+            requirements(Category.effect, with(lead,60, bauxite, 40));
+            size = 2;
+            consumeLiquid(magma, 20/60f);
+            range = 20;
+            healPercent = 5;
+            reload = 240;
+        }};
     }
 }

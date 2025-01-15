@@ -3,6 +3,7 @@ package aquarion.world.blocks.distribution;
 import arc.math.Mathf;
 import arc.util.Time;
 import mindustry.content.Fx;
+import mindustry.content.Liquids;
 import mindustry.entities.Puddles;
 import mindustry.gen.Building;
 import mindustry.type.Liquid;
@@ -15,6 +16,27 @@ public class ModifiedConduit extends Conduit {
         super(name);
     }
     public class ModifiedConduitBuild extends ConduitBuild{
+
+        @Override
+        public void updateTile(){
+            Liquid liquid = liquids.current();
+            smoothLiquid = Mathf.lerpDelta(smoothLiquid, liquids.currentAmount() / liquidCapacity, 0.05f);
+
+            if(liquids.currentAmount() > 0.0001f && timer(timerFlow, 1)){
+                moveLiquidForward(leaks, liquids.current());
+                noSleep();
+            }else{
+                sleep();
+            }
+
+            if(liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f){
+                damageContinuous(liquid.temperature/100f);
+                if(Mathf.chanceDelta(0.01)){
+                    Fx.steam.at(x, y);
+                }
+            }
+        }
+
         public float moveLiquidForward(boolean leaks, Liquid liquid){
             Tile next = tile.nearby(rotation);
 
@@ -28,6 +50,7 @@ public class ModifiedConduit extends Conduit {
                 liquids.remove(liquid, leakAmount);
             }
             return 0;
+
         }
 
         public float moveLiquid(Building next, Liquid liquid){

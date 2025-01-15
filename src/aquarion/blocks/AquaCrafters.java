@@ -36,7 +36,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 //What was all of this even for
 public class AquaCrafters {
-    public static Block fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator, wallExtractor, clarifier, chireniumElectroplater,
             bauxiteHarvester, siliconHearth, CompressionDrill, ramDrill, cultivationChamber, ceramicKiln, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -459,6 +459,7 @@ public class AquaCrafters {
             liquidCapacity = 500;
             consumeItem(borax, 5).boost();
             craftTime = 300;
+            outputLiquid = new LiquidStack(slag, 40/60f);
             outputItems = new ItemStack[]{new ItemStack(lead, 25), new ItemStack(bauxite, 30), new ItemStack(silicon, 25)};
             consumeLiquid(magma, 120 / 60f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawRegion("-ring"), new DrawAdvancedPistons() {{
@@ -470,32 +471,32 @@ public class AquaCrafters {
                 x = -1;
                 y = -1;
                 rotateSpeed = 1.5f;
-            }}, new DrawRegion("-fan") {{
+            }}, new DrawBetterRegion("-fan") {{
                 rotation = 15;
                 spinSprite = true;
                 rotateSpeed = 1.5f;
-            }}, new DrawRegion("-fan") {{
+            }}, new DrawBetterRegion("-fan") {{
                 rotation = 45;
                 spinSprite = true;
                 rotateSpeed = 1.5f;
-            }}, new DrawRegion("-fan") {{
+            }}, new DrawBetterRegion("-fan") {{
                 spinSprite = true;
                 rotateSpeed = 1.5f;
-            }}, new DrawRegion("-fan") {{
+            }}, new DrawBetterRegion("-fan") {{
                 rotation = 30;
                 spinSprite = true;
                 rotateSpeed = 1.5f;
-            }}, new DrawRegion("-fan") {{
+            }}, new DrawBetterRegion("-fan") {{
                 rotation = 75;
                 spinSprite = true;
                 rotateSpeed = 1.5f;
-            }}, new DrawRegion("-fan") {{
+            }}, new DrawBetterRegion("-fan") {{
                 rotation = 60;
                 spinSprite = true;
                 rotateSpeed = 1.5f;
             }}, new DrawDefault(), new DrawLiquidTile(magma, 13.25f), new DrawRegion("-top"));
         }};
-        magmaTap = new AquaAttributeCrafter("magma-tap") {{
+        magmaTap = new AttributeCrafter("magma-tap") {{
             requirements(Category.production, with(lead, 250, bauxite, 120));
             size = 4;
             updateEffect = Fx.steam;
@@ -669,23 +670,23 @@ public class AquaCrafters {
             liquidCapacity = 250f;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2){{
                 alpha = 0.7f;
-            }}, new DrawDefault(), new DrawRegion("-fan"){{
+            }}, new DrawDefault(), new DrawBetterRegion("-fan"){{
                 y = 4;
                 x = 4;
                 spinSprite = true;
                 rotateSpeed = 2;
-            }}, new DrawRegion("-fan"){{
+            }}, new DrawBetterRegion("-fan"){{
                 y = 4;
                 x = 4;
                 rotation = 45;
                 spinSprite = true;
                 rotateSpeed = 2;
-            }}, new DrawRegion("-fan"){{
+            }}, new DrawBetterRegion("-fan"){{
                 y = 4;
                 x = -8;
                 spinSprite = true;
                 rotateSpeed = 2;
-            }}, new DrawRegion("-fan"){{
+            }}, new DrawBetterRegion("-fan"){{
                 y = 4;
                 x = -8;
                 rotation = 45;
@@ -695,6 +696,7 @@ public class AquaCrafters {
                 color = Color.valueOf("836c59");
                 alpha = 0.4f;
                 y = 4;
+                sides = 12;
                 x = -8;
                 particleSize = 2f;
                 particles = 12;
@@ -707,6 +709,7 @@ public class AquaCrafters {
                 x = -8;
                 particleSize = 2f;
                 particles = 12;
+                sides = 12;
                 particleRad = 6f;
                 particleLife = 60f;
             }}, new BetterDrawParticles(){{
@@ -714,19 +717,23 @@ public class AquaCrafters {
                 alpha = 0.4f;
                 y = 4;
                 x = 4;
-                particleSize = 2f;
-                particles = 12;
-                particleRad = 6f;
-                particleLife = 60f;
+                sides = 12;
+                particleSize = 1f;
+                particles = 14;
+                particleRad = 7f;
+                rotateScl = 2;
+                particleLife = 45f;
             }}, new BetterDrawParticles(){{
                 color = Color.valueOf("9f846d");
                 alpha = 0.4f;
+                sides = 12;
                 y = 4;
                 x = 4;
-                particleSize = 2f;
-                particles = 12;
-                particleRad = 6f;
-                particleLife = 60f;
+                particleSize = 1f;
+                particles = 14;
+                particleRad = 7f;
+                particleLife = 45f;
+                rotateScl = 2;
             }}, new DrawLiquidTile(fumes, 1){{
                 alpha = 0.6f;
             }}, new DrawRegion("-top"), new DrawGlowRegion(){{
@@ -740,5 +747,24 @@ public class AquaCrafters {
                 alpha = 0.6f;
                 color = Color.valueOf("ffc99e");
             }});
+        }};
+        slagRefinementAssemblage = new GenericCrafter("slag-refinement-array"){{
+            requirements(Category.crafting, with(lead, 2000, ferrosilicon, 1200, aluminum, 300, silicon, 3000));
+            size = 7;
+            consumePower(40/60f);
+            itemCapacity = 300;
+            liquidCapacity = 400;
+            updateEffect = Fx.ventSteam;
+            updateEffectChance = 0.01f;
+            squareSprite = false;
+            craftTime = 600;
+            consumeLiquids(LiquidStack.with(slag, 40 / 60f, fumes, 15 / 60));
+            outputItems = new ItemStack[]{new ItemStack(nickel, 50), new ItemStack(silicon, 80), new ItemStack(bauxite, 30), new ItemStack(ferricMatter, 40)};
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 1), new DrawLiquidTile(slag){{
+                padBottom = 13;
+                padTop = 13;
+                padRight = 9;
+                padLeft = 9;
+            }}, new DrawDefault(), new DrawGlowRegion());
         }};
     }}

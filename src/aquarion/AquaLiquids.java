@@ -91,7 +91,7 @@ public class AquaLiquids {
         fumes = new Liquid("fumes", Color.valueOf("83746b")){{
             lightColor = Color.valueOf("d68a7e").a(0.7f);
             flammability = 1;
-            explosiveness = 1.1f;
+            explosiveness = 0.4f;
             coolant = false;
             gas = true;
             temperature = 1.01f;

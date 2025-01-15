@@ -6,7 +6,9 @@ import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Blending;
 import arc.graphics.Color;
+import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
+import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import mindustry.content.Fx;
@@ -30,6 +32,8 @@ import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
+import static aquarion.world.graphics.AquaFx.rand;
+import static aquarion.world.graphics.AquaFx.v;
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.content.Items.*;
@@ -39,7 +43,7 @@ import static mindustry.gen.Sounds.shootAltLong;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block Foment, Fragment, gyre, Coaxis, deviate,
+    public static Block Foment, redact, Fragment, gyre, Coaxis, deviate,
             blaze, ensign, hack;
 
     public static void loadContent() {
@@ -48,7 +52,7 @@ public class AquaTurrets {
             {
                 outlineColor = AquaPal.tantDarkestTone;
                 ammo(
-                        lead, new MissileBulletType(2.5f, 60, "bullet") {{
+                        lead, new MissileBulletType(2.5f, 75, "bullet") {{
                             width = 10f;
                             height = 16f;
                             trailLength = 12;
@@ -68,11 +72,12 @@ public class AquaTurrets {
                             backColor = trailColor = Color.valueOf("8d70ab");
                         }},
 
-                        ferricMatter, new MissileBulletType(2.5f, 75, "bullet") {{
+                        ferricMatter, new MissileBulletType(2.5f, 120, "bullet") {{
                             width = 9f;
                             height = 15f;
                             trailLength = 10;
                             lifetime = 60f;
+                            reloadMultiplier = 0.4f;
                             rangeChange = 32;
                             trailEffect = Fx.none;
                             heatColor = Color.white;
@@ -88,16 +93,17 @@ public class AquaTurrets {
                             shrinkX = 0.2f;
                             shrinkY = 0.8f;
                             reloadMultiplier = 0.7f;
-                            ammoMultiplier = 3;
+                            ammoMultiplier = 2;
                             frontColor = lightColor = hitColor = Color.white;
                             backColor = trailColor = Color.valueOf("8d706a");
                         }},
-                        ferrosilicon, new MissileBulletType(7.5f, 125, "bullet") {{
+                        ferrosilicon, new MissileBulletType(7.5f, 160, "bullet") {{
                             width = 12f;
                             height = 18f;
                             rangeChange = 16;
                             trailLength = 8;
                             lifetime = 60f;
+                            reloadMultiplier = 1.1f;
                             pierce = true;
                             pierceCap = 4;
                             pierceDamageFactor = 0.8f;
@@ -127,6 +133,7 @@ public class AquaTurrets {
                 ammoPerShot = 2;
                 researchCostMultiplier = 0.03f;
                 xRand = 0.5f;
+                outlineColor = AquaPal.tantDarkestTone;
                 shoot.shotDelay = 5;
                 recoils = 2;
                 shootWarmupSpeed = 0.001f;
@@ -149,6 +156,181 @@ public class AquaTurrets {
             }
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+        }};
+        redact  = new ItemTurret("redact"){{
+            requirements(Category.turret, with(ferricMatter, 80, lead, 200, bauxite, 300));
+            ammo(
+                    bauxite, new BasicBulletType(7f, 75, "missile-large") {{
+                        width = 15f;
+                        pierce = true;
+                        pierceCap = 2;
+                        height = 19f;
+                        trailLength = 34;
+                        trailWidth = 3;
+                        lifetime = 60f;
+                        rangeChange = -5*8f;
+                        ammoMultiplier = 1;
+                        shootEffect = new Effect(10, e -> {
+                            color(e.color);
+                            float w = 1.5f + 9 * e.fout();
+
+                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
+                            color(e.color);
+
+                            for(int i : Mathf.signs){
+                                Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation + i * 45f);
+                            }
+
+                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
+                        });
+                        smokeEffect = new MultiEffect(AquaFx.pentagonShootSmoke, Fx.colorSpark);
+                        trailRotation = true;
+                        trailEffect = AquaFx.pentagonShootSmoke;
+                        trailInterval = 2;
+                        frontColor = lightColor = hitColor = Color.white;
+                        hitEffect  = Fx.hitSquaresColor;
+                        despawnEffect = new Effect(17f, e -> {
+                            color(e.color);
+                            Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
+                        });
+                        backColor = trailColor = AquaPal.bauxiteLightTone;
+                    }},
+                    aluminum, new BasicBulletType(5f, 120, "missile-large") {{
+                        width = 15f;
+                        pierce = false;
+                        height = 19f;
+                        trailLength = 34;
+                        trailWidth = 3;
+                        lifetime = 60f;
+                        reloadMultiplier = 0.7f;
+                        ammoMultiplier = 1;
+                        shootEffect = new Effect(10, e -> {
+                            color(e.color);
+                            float w = 1.5f + 9 * e.fout();
+
+                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
+                            color(e.color);
+
+                                Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation * 45f);
+                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
+                        });
+                        smokeEffect = new MultiEffect(new Effect(90f, e -> {
+                            color(e.color, e.fin());
+                            rand.setSeed(e.id);
+                            for(int i = 0; i < 6; i++){
+                                float rot = e.rotation + rand.range(40f);
+                                v.trns(rot, rand.random(e.finpow() * 8f));
+                                float randomRotationSpeed = rand.random(0f, 180f);
+                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 5f, rand.random(700f) + slowRotation);
+                            }
+                        }), Fx.colorSpark);
+                        trailRotation = true;
+                        trailEffect = new Effect(80f, e -> {
+                            color(e.color, e.fin());
+                            rand.setSeed(e.id);
+                            for(int i = 0; i < 3; i++){
+                                float rot = e.rotation + rand.range(15f);
+                                v.trns(rot, rand.random(e.finpow() * 8f));
+                                float randomRotationSpeed = rand.random(0f, 180f);
+                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 4f, rand.random(700f) + slowRotation);
+                            }
+                        });
+                        trailInterval = 2;
+                        frontColor = lightColor = hitColor = Color.white;
+                        hitEffect  = Fx.hitSquaresColor;
+                        despawnEffect = new Effect(17f, e -> {
+                            color(e.color);
+                            Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
+                        });
+                        backColor = trailColor = Color.valueOf("a3bbc8");
+                    }},
+                    invar, new BasicBulletType(4f, 350, "missile-large") {{
+                        width = 15f;
+                        pierce = false;
+                        height = 19f;
+                        splashDamage = 50;
+                        
+                        splashDamageRadius = 16;
+                        trailLength = 34;
+                        trailWidth = 3;
+                        lifetime = 60f;
+                        reloadMultiplier = 0.7f;
+                        ammoMultiplier = 1;
+                        shootEffect = new Effect(10, e -> {
+                            color(e.color);
+                            float w = 1.5f + 9 * e.fout();
+
+                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
+                            color(e.color);
+
+                            Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation * 45f);
+                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
+                        });
+                        smokeEffect = new MultiEffect(new Effect(90f, e -> {
+                            color(e.color, e.fin());
+                            rand.setSeed(e.id);
+                            for(int i = 0; i < 6; i++){
+                                float rot = e.rotation + rand.range(40f);
+                                v.trns(rot, rand.random(e.finpow() * 8f));
+                                float randomRotationSpeed = rand.random(0f, 180f);
+                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 5f, rand.random(700f) + slowRotation);
+                            }
+                        }), Fx.colorSpark);
+                        trailRotation = true;
+                        trailEffect = new Effect(80f, e -> {
+                            color(e.color, e.fin());
+                            rand.setSeed(e.id);
+                            for(int i = 0; i < 3; i++){
+                                float rot = e.rotation + rand.range(15f);
+                                v.trns(rot, rand.random(e.finpow() * 8f));
+                                float randomRotationSpeed = rand.random(0f, 180f);
+                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 4f, rand.random(700f) + slowRotation);
+                            }
+                        });
+                        trailInterval = 2;
+                        frontColor = lightColor = hitColor = Color.white;
+                        hitEffect  = Fx.hitSquaresColor;
+                        despawnEffect = new Effect(17f, e -> {
+                            color(e.color);
+                            Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
+                        });
+                        backColor = trailColor = Color.valueOf("f3efa7");
+                    }});
+            size = 3;
+            squareSprite = false;
+            range = 350;
+            limitRange(1.2f);
+            reload = 45;
+            consumeAmmoOnce = true;
+            maxAmmo = 45;
+            inaccuracy = 3;
+            ammoPerShot = 3;
+            shoot.shotDelay = 5;
+            recoils = 2;
+            shootWarmupSpeed = 0.01f;
+            minWarmup = 0.65f;
+            warmupMaintainTime = 360;
+            heatColor = Pal.redLight;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-side"){{
+                    moveY = -1;
+                    moveX = -0.5f;
+                    progress = warmup;
+                    mirror = true;
+                }},new RegionPart("-back"){{
+                    moveY = -.5f;
+                    moveX = 0.75f;
+                    progress = warmup;
+                    mirror = true;
+                    moves.add(new PartMove(PartProgress.recoil, 0.5f, -0.5f, 0f));
+                }});
+            }};
         }};
         gyre = new ItemTurret("gyre") {{
             researchCostMultiplier = 0.1f;
