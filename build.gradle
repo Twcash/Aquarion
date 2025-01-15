@@ -1,205 +1,194 @@
-import arc.files.*
 import arc.util.*
-import arc.util.serialization.Jval
-
-import java.util.regex.*
-
+import arc.util.serialization.*
+import de.undercouch.gradle.tasks.download.Download
+import ent.*
+import java.io.*
 buildscript{
+    val arcVersion: String by project
+    val useJitpack = property("mindustryBE").toString().toBooleanStrict()
     dependencies{
-        classpath "com.github.Anuken.Arc:arc-core:$arcVersion"
+        classpath("com.github.Anuken.Arc:arc-core:$arcVersion")
     }
-
     repositories{
-        mavenCentral()
-        maven{url 'https://oss.sonatype.org/content/repositories/snapshots/'}
-        maven{url 'https://oss.sonatype.org/content/repositories/releases/'}
-        maven{url 'https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository'}
-        maven{url 'https://jitpack.io'}
+        if(!useJitpack) maven("https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository")
+        maven("https://jitpack.io")
     }
 }
 plugins{
+    java
     id("de.undercouch.download") version "5.4.0"
     id("com.github.GlennFolker.EntityAnno") apply false
 }
-
-configure(allprojects){
-    sourceSets.main.java.srcDirs = [layout.projectDirectory.dir('src')]
-
-    ext{
-        compilerVersion = JavaVersion.current().ordinal() - JavaVersion.VERSION_17.ordinal() + 17
-        useJitpack = Boolean.valueOf(mindustryBE)
-
-        arc = {String module ->
-            "com.github.Anuken.Arc$module:$arcVersion"
-        }
-
-        mindustry = {String module ->
-            "com.github.Anuken.Mindustry$module:$mindustryVersion"
-        }
-    }
-
+val arcVersion: String by project
+val arcLibraryVersion: String by project
+val mindustryVersion: String by project
+val mindustryBEVersion: String by project
+val entVersion: String by project
+val modName: String by project
+val modArtifact: String by project
+val modFetch: String by project
+val modGenSrc: String by project
+val modGen: String by project
+val androidSdkVersion: String by project
+val androidBuildVersion: String by project
+val androidMinVersion: String by project
+val useJitpack = property("mindustryBE").toString().toBooleanStrict()
+fun arc(module: String): String{
+    return "com.github.Anuken.Arc$module:$arcVersion"
+}
+fun arcLibrary(module: String):String{
+    return "com.github.Zelaux.ArcLibrary$module:$arcLibraryVersion"
+}
+fun mindustry(module: String): String{
+    return "com.github.Anuken.Mindustry$module:$mindustryVersion"
+}
+fun entity(module: String): String{
+    return "com.github.GlennFolker.EntityAnno$module:$entVersion"
+}
+allprojects{
+    apply(plugin = "java")
+    sourceSets["main"].java.setSrcDirs(listOf(layout.projectDirectory.dir("src")))
     configurations.configureEach{
         // Resolve the correct Mindustry dependency, and force Arc version.
         resolutionStrategy.eachDependency{
-            if(useJitpack && requested.group == 'com.github.Anuken.Mindustry'){
-                useTarget "com.github.Anuken.MindustryJitpack:$it.requested.name:$mindustryBEVersion"
-            }
-
-            if(requested.group == 'com.github.Anuken.Arc'){
-                useVersion arcVersion
+            if(useJitpack && requested.group == "com.github.Anuken.Mindustry"){
+                useTarget("com.github.Anuken.MindustryJitpack:${requested.module.name}:$mindustryBEVersion")
+            }else if(requested.group == "com.github.Anuken.Arc"){
+                useVersion(arcVersion)
             }
         }
     }
-
     dependencies{
         // Downgrade Java 9+ syntax into being available in Java 8.
-        annotationProcessor "com.github.GlennFolker.EntityAnno:downgrader:$entVersion"
+        annotationProcessor(entity(":downgrader"))
     }
-
     repositories{
         // Necessary Maven repositories to pull dependencies from.
         mavenCentral()
-        maven{url 'https://oss.sonatype.org/content/repositories/snapshots/'}
-        maven{url 'https://oss.sonatype.org/content/repositories/releases/'}
-
+        maven("https://oss.sonatype.org/content/repositories/snapshots/")
+        maven("https://oss.sonatype.org/content/repositories/releases/")
+        maven("https://raw.githubusercontent.com/GlennFolker/EntityAnnoMaven/main")
         // Use Zelaux's non-buggy repository for release Mindustry and Arc builds.
-        if(!useJitpack) maven{url 'https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository'}
-        maven{url 'https://jitpack.io'}
+        if(!useJitpack) maven("https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository")
+        maven("https://raw.githubusercontent.com/Zelaux/Repo/master/repository")//for ArcLibrary
+        maven("https://jitpack.io")
     }
-
-    tasks.withType(JavaCompile).configureEach{
+    tasks.withType<JavaCompile>().configureEach{
         // Use Java 17+ syntax, but target Java 8 bytecode version.
-        sourceCompatibility = compilerVersion
-        options.release.set 8
-        options.compilerArgs << '-Xlint:-options'
-
-        options.incremental = true
-        options.encoding = 'UTF-8'
+        sourceCompatibility = "17"
+        options.apply{
+            release = 8
+            compilerArgs.add("-Xlint:-options")
+            isIncremental = true
+            encoding = "UTF-8"
+        }
     }
 }
-
-configure(rootProject){
-    // Apply `EntityAnno` plugin to integrate the annotation processors.
-    apply plugin: 'com.github.GlennFolker.EntityAnno'
-
-    entityAnno{
-        modName = property('modName')
-        mindustryVersion = property(useJitpack ? 'mindustryBEVersion' : 'mindustryVersion')
+project(":"){
+    apply(plugin = "com.github.GlennFolker.EntityAnno")
+    configure<EntityAnnoExtension>{
+        modName = project.properties["modName"].toString()
+        mindustryVersion = project.properties[if(useJitpack) "mindustryBEVersion" else "mindustryVersion"].toString()
         isJitpack = useJitpack
-        revisionDir = layout.projectDirectory.dir('revisions').asFile
+        revisionDir = layout.projectDirectory.dir("revisions").asFile
         fetchPackage = modFetch
         genSrcPackage = modGenSrc
         genPackage = modGen
     }
-
     dependencies{
         // Use the entity generation annotation processor.
-        compileOnly "com.github.GlennFolker.EntityAnno:entity:$entVersion"
-        kapt "com.github.GlennFolker.EntityAnno:entity:$entVersion"
-
-        // Depend on Mindustry/Arc classpath.
-        compileOnly "${mindustry(':core')}"
-        compileOnly "${arc(':arc-core')}"
+        compileOnly(entity(":entity"))
+        add("kapt", entity(":entity"))
+        compileOnly("org.jetbrains:annotations:24.0.1")
+        compileOnly(mindustry(":core"))
+        compileOnly(arc(":arc-core"))
+        implementation(arcLibrary(":graphics-draw3d"))
+        implementation(arcLibrary(":graphics-dashDraw"))
+        implementation(arcLibrary(":graphics-extendedDraw"))
     }
-
-    jar{
+    val jar = tasks.named<Jar>("jar"){
         archiveFileName = "${modArtifact}Desktop.jar"
-
-        from files(sourceSets.main.output.classesDirs)
-        from files(sourceSets.main.output.resourcesDir)
-        from configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
-
-        from files(layout.projectDirectory.dir('assets'))
-        from layout.projectDirectory.file('icon.png')
-
-        def meta = file("$temporaryDir/mod.json")
-        from meta
-
-        metaInf{
-            from layout.projectDirectory.file('LICENSE')
-        }
-
+        val meta = layout.projectDirectory.file("$temporaryDir/mod.json")
+        from(
+            files(sourceSets["main"].output.classesDirs),
+            files(sourceSets["main"].output.resourcesDir),
+            configurations.runtimeClasspath.map{conf -> conf.map{if(it.isDirectory) it else zipTree(it)}},
+            files(layout.projectDirectory.dir("assets")),
+            layout.projectDirectory.file("icon.png"),
+            meta
+        )
+        metaInf.from(layout.projectDirectory.file("LICENSE"))
         doFirst{
-            // Deliberately check if the mod meta is actually written in HJSON, since, well, some people actually use it.
-            // But this is also not mentioned in the `README.md`, for the mischievous reason of driving beginners into using
-            // JSON instead.
-            def metaJson = layout.projectDirectory.file('mod.json')
-            def metaHjson = layout.projectDirectory.file('mod.hjson')
+            // Deliberately check if the mod meta is actually written in HJSON, since, well, some people actually use
+            // it. But this is also not mentioned in the `README.md`, for the mischievous reason of driving beginners
+            // into using JSON instead.
+            val metaJson = layout.projectDirectory.file("mod.json")
+            val metaHjson = layout.projectDirectory.file("mod.hjson")
             if(metaJson.asFile.exists() && metaHjson.asFile.exists()){
-                throw new GradleException('Ambiguous mod meta: both `mod.json` and `mod.hjson` exist.')
+                throw IllegalStateException("Ambiguous mod meta: both `mod.json` and `mod.hjson` exist.")
             }else if(!metaJson.asFile.exists() && !metaHjson.asFile.exists()){
-                throw new GradleException('Missing mod meta: neither `mod.json` nor `mod.hjson` exist.')
+                throw IllegalStateException("Missing mod meta: neither `mod.json` nor `mod.hjson` exist.")
             }
-            def isJson = metaJson.asFile.exists()
-
-            def map = (isJson ? metaJson : metaHjson).asFile.withReader{Jval.read(it)}
-            map.put('name', modName)
-            meta.withWriter{map.writeTo(it, Jval.Jformat.formatted)}
+            val isJson = metaJson.asFile.exists()
+            val map = (if(isJson) metaJson else metaHjson).asFile
+                .reader(Charsets.UTF_8)
+                .use{Jval.read(it)}
+            map.put("name", modName)
+            meta.asFile.writer(Charsets.UTF_8).use{file -> BufferedWriter(file).use{map.writeTo(it, Jval.Jformat.formatted)}}
         }
     }
-
-    tasks.register('dex', Jar){
-        inputs.files tasks.jar
-        archiveFileName = "${modArtifact}.jar"
-
-        final def desktopJar = tasks.jar.archiveFile
-        final def dexJar = file("$temporaryDir/Dexed.jar")
-
-        from zipTree(desktopJar), zipTree(dexJar)
+    tasks.register<Jar>("dex"){
+        inputs.files(jar)
+        archiveFileName = "$modArtifact.jar"
+        val desktopJar = jar.flatMap{it.archiveFile}
+        val dexJar = File(temporaryDir, "Dex.jar")
+        from(zipTree(desktopJar), zipTree(dexJar))
         doFirst{
-            // Find Android SDK root.
-            def sdkRoot = file(
-                System.getenv('ANDROID_SDK_ROOT') ?: System.getenv('ANDROID_HOME') ?:
-                { throw new GradleException('Neither `ANDROID_SDK_ROOT` nor `ANDROID_HOME` is set') }
-            )
-
-            // Find `d8`.
-            def d8 = file("$sdkRoot/build-tools/$androidBuildVersion/${OS.isWindows ? 'd8.bat' : 'd8'}")
-            if(!d8.exists()){
-                throw new GradleException("Android SDK `build-tools;$androidBuildVersion` isn't installed or is corrupted")
-            }
-
-            // Initialize a release build.
-            def input = desktopJar.get().asFile
-            def command = "$d8 --release --min-api $androidMinVersion --output $dexJar $input"
-
-            // Include all compile and runtime classpath.
-            (configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList()).forEach{
-                if(it.exists()) command = "$command --classpath $it"
-            }
-
-            // Include Android platform as library.
-            def androidJar = file("$sdkRoot/platforms/android-$androidSdkVersion/android.jar")
-            if(!androidJar.exists()){
-                throw new GradleException("Android SDK `platforms;android-$androidSdkVersion` isn't installed or is corrupted")
-            }
-
-            command = "$command --lib $androidJar"
-            if(OS.isWindows) command = "cmd /c $command"
-
-            // Run `d8`.
-            logger.log(LogLevel.LIFECYCLE, 'Running `d8`.')
-            command.execute(null, layout.projectDirectory.asFile).waitForProcessOutput(System.out, System.err)
+            logger.lifecycle("Running `d8`.")
+            providers.exec{
+                // Find Android SDK root.
+                val sdkRoot = File(
+                    OS.env("ANDROID_SDK_ROOT") ?: OS.env("ANDROID_HOME") ?:
+                    throw IllegalStateException("Neither `ANDROID_SDK_ROOT` nor `ANDROID_HOME` is set.")
+                )
+                // Find `d8`.
+                val d8 = File(sdkRoot, "build-tools/$androidBuildVersion/${if(OS.isWindows) "d8.bat" else "d8"}")
+                if(!d8.exists()) throw IllegalStateException("Android SDK `build-tools;$androidBuildVersion` isn't installed or is corrupted")
+                // Initialize a release build.
+                val input = desktopJar.get().asFile
+                val command = arrayListOf("$d8", "--release", "--min-api", androidMinVersion, "--output", "$dexJar", "$input")
+                // Include all compile and runtime classpath.
+                (configurations.compileClasspath.get().toList() + configurations.runtimeClasspath.get().toList()).forEach{
+                    if(it.exists()) command.addAll(arrayOf("--classpath", it.path))
+                }
+                // Include Android platform as library.
+                val androidJar = File(sdkRoot, "platforms/android-$androidSdkVersion/android.jar")
+                if(!androidJar.exists()) throw IllegalStateException("Android SDK `platforms;android-$androidSdkVersion` isn't installed or is corrupted")
+                command.addAll(arrayOf("--lib", "$androidJar"))
+                if(OS.isWindows) command.addAll(0, arrayOf("cmd", "/c").toList())
+                // Run `d8`.
+                commandLine(command)
+            }.result.get().rethrowFailure()
         }
     }
-}
-
-for(def i = 0; i < 2; i++){
-    final def isDex = i == 1
-    final def name = isDex ? 'installDex' : 'install'
-    final def input = isDex ? tasks.dex : tasks.jar
-
-    tasks.register(name){
-        inputs.files input
-        doLast{
-            def folder = Fi.get(OS.getAppDataDirectoryString('Mindustry')).child('mods')
-            folder.mkdirs()
-
-            folder.child(tasks.jar.archiveFileName.get()).delete()
-            folder.child(tasks.dex.archiveFileName.get()).delete()
-
-            new Fi(input.archiveFile.get().asFile).copyTo(folder)
-            logger.log(LogLevel.LIFECYCLE, "Copied :${isDex ? 'dex' : 'jar'} output to $folder.")
+    tasks.register<Download>("fetchClient") {
+        src("https://github.com/Anuken/Mindustry/releases/download/$mindustryVersion/Mindustry.jar")
+        dest(file("$rootDir/run/Mindustry.jar"))
+        overwrite(false)
+    }
+    tasks.register<JavaExec>("runClient") {
+        dependsOn("fetchClient")
+        dependsOn("jar")
+        val modFilename = "${project.name}Desktop.jar"
+        doFirst {
+            copy {
+                from("$rootDir/build/libs/$modFilename")
+                into("$rootDir/run/mods")
+                rename { modFilename }
+            }
         }
+        environment("MINDUSTRY_DATA_DIR", "$rootDir/run")
+        classpath(files("$rootDir/run/Mindustry.jar"))
+        mainClass.set("mindustry.desktop.DesktopLauncher")
     }
 }
