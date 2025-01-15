@@ -12,6 +12,7 @@ import mindustry.world.meta.Env;
 import static aquarion.AquaItems.*;
 import static aquarion.units.AquaUnitTypes.rivulet;
 import static mindustry.content.Items.lead;
+import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDistribution {
@@ -37,7 +38,7 @@ public class AquaDistribution {
             envEnabled = 4;
             speed = 2F;
             solid = false;
-            visualSpeed = 20;
+            visualSpeed = 35;
             underBullets = true;
             stopSpeed = 70;
             researchCostMultiplier = 0.2f;
@@ -48,11 +49,11 @@ public class AquaDistribution {
 
         armoredSealedConveyor = new SealedConveyor("armored-sealed-conveyor"){{
             requirements(Category.distribution, with(lead, 2,bauxite, 1, sodium,1));
-            speed = 8F;
+            speed = 2;
             health = 75;
             solid = true;
             armored = true;
-            visualSpeed = 10;
+            visualSpeed = 35;
             underBullets = true;
             stopSpeed = 70;
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -64,6 +65,7 @@ public class AquaDistribution {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.1f;
+            speed = 35;
         }};
         sealedDistributor = new SealedRouter("sealed-distributor"){{
             requirements(category.distribution, with(lead, 45, bauxite, 10));
@@ -75,9 +77,9 @@ public class AquaDistribution {
         }};
         //debating whether this should even exist
         sealedJunction = new Junction("sealed-junction"){{
-            requirements(category.distribution, with(lead, 15, bauxite, 10, nickel, 5));
+            requirements(category.distribution, with(lead, 15, bauxite, 10, silicon, 5));
             capacity = 8;
-            speed = 90;
+            speed = 10;
             envEnabled |= Env.terrestrial | Env.underwater;
             ((SealedConveyor)sealedConveyor).junctionReplacement = this;
             envDisabled = Env.none;

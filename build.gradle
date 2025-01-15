@@ -17,11 +17,10 @@ buildscript{
         maven{url 'https://jitpack.io'}
     }
 }
-
 plugins{
-    // Register `EntityAnno` plugin, but only apply on `rootProject`.
-    id 'java'
-    id 'com.github.GlennFolker.EntityAnno' version "$entVersion" apply false
+    java
+    id("de.undercouch.download") version "5.4.0"
+    id("com.github.GlennFolker.EntityAnno") apply false
 }
 
 configure(allprojects){
