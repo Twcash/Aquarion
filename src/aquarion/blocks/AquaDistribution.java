@@ -11,8 +11,7 @@ import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
 import static aquarion.units.AquaUnitTypes.rivulet;
-import static mindustry.content.Items.lead;
-import static mindustry.content.Items.silicon;
+import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDistribution {
@@ -34,11 +33,11 @@ public class AquaDistribution {
 
     public static void loadContent() {
         sealedConveyor = new SealedConveyor("sealed-conveyor"){{
-            requirements(Category.distribution, with(lead, 1, bauxite,1));
+            requirements(Category.distribution, with(lead, 1));
             envEnabled = 4;
             speed = 2F;
             solid = false;
-            visualSpeed = 35;
+            visualSpeed = 36;
             underBullets = true;
             stopSpeed = 70;
             researchCostMultiplier = 0.2f;
@@ -48,7 +47,7 @@ public class AquaDistribution {
         }};
 
         armoredSealedConveyor = new SealedConveyor("armored-sealed-conveyor"){{
-            requirements(Category.distribution, with(lead, 2,bauxite, 1, sodium,1));
+            requirements(Category.distribution, with(aluminum, 2));
             speed = 2;
             health = 75;
             solid = true;
@@ -61,77 +60,68 @@ public class AquaDistribution {
         }};
 
         sealedRouter = new SealedRouter("sealed-router"){{
-            requirements(category.distribution, with(lead, 10, bauxite, 5));
+            requirements(category.distribution, with(silicon, 10));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.1f;
-            speed = 35;
+            speed = 2;
+            hasItems = true;
+
         }};
         sealedDistributor = new SealedRouter("sealed-distributor"){{
-            requirements(category.distribution, with(lead, 45, bauxite, 10));
+            requirements(category.distribution, with(silicon, 30, ferricMatter, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             size = 2;
+            speed = 2;
+            hasItems = true;
             solid = true;
             researchCostMultiplier = 0.1f;
         }};
         //debating whether this should even exist
         sealedJunction = new Junction("sealed-junction"){{
-            requirements(category.distribution, with(lead, 15, bauxite, 10, silicon, 5));
+            requirements(category.distribution, with(silicon, 15));
             capacity = 8;
             speed = 10;
+            hasItems = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             ((SealedConveyor)sealedConveyor).junctionReplacement = this;
             envDisabled = Env.none;
         }};
-
-        manganeseBridge = new BufferedItemBridge("manganese-bridge"){{
-            requirements(category.distribution, with(gallium, 35, manganese, 15));
-            consumePower(0.083f);
-            range = 5;
-            speed = 90;
-            fadeIn = moveArrows = pulse = true;
-            arrowSpacing = 4;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
+        sealedUnloader = new DirectionalUnloader("sealed-unloader"){{
+            requirements(category.distribution, with(aluminum, 20, silicon, 20));
+            speed = 2f;
         }};
-        
-        manganeseConveyor = new SealedConveyor("manganese-conveyor"){{
-            //Since `manganeseBridge instanceof DuctBridge` is false this doesn't work
-            //bridgeReplacement = manganeseBridge;
-            requirements(category.distribution, with(manganese, 1, gallium, 1, bauxite, 2));
-            speed = 4f;
-            stopSpeed = 45;
-            visualSpeed = 20;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-        }};
-
         sealedSorter = new Sorter("sealed-sorter"){{
-            requirements(category.distribution, with(lead, 5));
+            requirements(category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
             researchCostMultiplier = 0.2f;
             envDisabled = Env.none;
+            hasItems = true;
         }};
 
         sealedOverflow = new OverflowGate("sealed-overflow"){{
-            requirements(category.distribution, with(lead, 5));
+            requirements(category.distribution, with(silicon, 5));
             invert = false;
+            hasItems = true;
+
             researchCostMultiplier = 0.2f;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
 
         sealedUnderflow = new OverflowGate("sealed-underflow"){{
-            requirements(category.distribution, with(lead, 5));
+            requirements(category.distribution, with(silicon, 5));
             invert = true;
             researchCostMultiplier = 0.2f;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            hasItems = true;
+
         }};
 
          cargoDock = new UnitCargoLoader("cargo-dock"){{
-            requirements(Category.distribution, with(lead,40 ,bauxite, 5));
+            requirements(Category.distribution, with(aluminum, 50, silicon, 120, copper, 120));
             size = 2;
             polySides = 0;
             buildTime = 240;
@@ -143,7 +133,7 @@ public class AquaDistribution {
         }};
 
          cargoDepot = new UnitCargoUnloadPoint("cargo-depot"){{
-            requirements(Category.distribution, with(lead,15));
+            requirements(Category.distribution, with(aluminum,15));
              researchCostMultiplier = 0.2f;
              itemCapacity = 120;
              envEnabled |= Env.terrestrial | Env.underwater;

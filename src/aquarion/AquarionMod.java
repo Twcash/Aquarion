@@ -9,26 +9,26 @@ import aquarion.units.AquaUnitTypes;
 import aquarion.units.AquaWrecks;
 import aquarion.world.AquaTeams;
 import aquarion.world.graphics.AquaCacheLayers;
+import aquarion.world.graphics.AquaMenuRenderer;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.AquaWeather;
 import arc.Core;
 import arc.Events;
+import arc.assets.Loadable;
+import arc.util.Log;
+import arc.util.Reflect;
+import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.mod.*;
 import aquarion.blocks.*;
+import mindustry.ui.fragments.MenuFragment;
 
 import static mindustry.Vars.headless;
 
-public class AquarionMod extends Mod {
-    // to future me. You couldve been better. This couldve been better. You are worthless and I hope you are reminded every time you see this how little you actually accomplished.
-    @Override
-    public void loadContent() {
-        if (!headless) {
-            AquaShaders.init();
-            AquaCacheLayers.init();
-        }
+public class AquarionMod implements Loadable {
+
+    public static void loadContent() {
         //stuff that needs to be loaded first
-        EntityRegistry.register();
         AquaLiquids.loadContent();
         AquaSounds.load();
         AquaTeams.load();
@@ -57,5 +57,20 @@ public class AquarionMod extends Mod {
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
+
+    }
+    public static AquaMenuRenderer getMenuRenderer() {
+        try{
+            return Reflect.get(MenuFragment.class, Vars.ui.menufrag, "renderer");
+        }catch(Exception ex){
+            Log.err("Failed to return renderer", ex);
+            return new AquaMenuRenderer();
+        }
+    }
+    public static void init() {
+        if (!Vars.headless) {
+            AquaShaders.load();
+            AquaCacheLayers.load();
+        }
     }
 }

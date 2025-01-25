@@ -5,6 +5,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
+import arc.math.geom.Point2;
 import arc.util.Nullable;
 import arc.util.Tmp;
 import arc.util.io.Reads;
@@ -57,6 +58,7 @@ public class SealedRouter extends Router {
         public void updateTile() {
             if (lastItem == null && items.any()) {
                 lastItem = items.first();
+                current = lastItem;
             }
             progress += edelta() / speed * 2f;
 
@@ -66,14 +68,13 @@ public class SealedRouter extends Router {
                 target = getTileTarget(lastItem, lastInput, false);
                 if (target != null) {
                     r = relativeToEdge(target.tile);
-
-                    // handle item
                     if (progress >= (1f - 1f / speed)) {
                         getTileTarget(lastItem, lastInput, true);
                         target.handleItem(this, lastItem);
                         items.remove(lastItem, 1);
                         lastItem = null;
                         progress = 0;
+                        current = null;
                     }
                 }
             } else {
@@ -91,7 +92,6 @@ public class SealedRouter extends Router {
             // Draw the current item
             if (current != null) {
                 Draw.z(Layer.blockUnder + 0.2f);
-
                 Draw.z(Layer.blockUnder + 0.1f);
                 Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
                         .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
@@ -99,7 +99,9 @@ public class SealedRouter extends Router {
 
 
                 Draw.rect(current.fullIcon, x + Tmp.v1.x, y + Tmp.v1.y, itemSize, itemSize);
+                Draw.reset();
             }
+            Draw.reset();
         }
 
         @Override

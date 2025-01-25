@@ -19,6 +19,7 @@ import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
+import static aquarion.AquaLiquids.fumes;
 import static aquarion.AquaLiquids.magma;
 import static aquarion.units.AquaUnitTypes.iris;
 import static aquarion.units.AquaUnitTypes.mite;
@@ -27,16 +28,15 @@ import static mindustry.content.Liquids.cryofluid;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCore {
-    public static Block mendPylon, cache, coreCuesta, coreEscarpment, corePike, coreExpedite, buildSentry, overdriveCatalyst,
+    public static Block mendPyre, mendPylon, cache, coreCuesta, coreEscarpment, corePike, coreExpedite, buildSentry, overdriveCatalyst,
     //storing trunte blocks here
     TrunteVein, TrunteNode;
 
     public static void loadContent(){
-        //TODO remove?
         cache = new StorageBlock("cache") {{
-            requirements(Category.effect, with(lead, 120, metaglass, 350, sodium, 90, bauxite, 90));
-            itemCapacity = 300;
-            coreMerge = false;
+            requirements(Category.effect, with(lead, 200, silicon, 150, ferricMatter, 300));
+            itemCapacity = 900;
+            coreMerge = true;
             squareSprite = false;
             size = 3;
             envEnabled|= Env.terrestrial | Env.underwater;
@@ -117,13 +117,25 @@ public class AquaCore {
             consumeLiquid(cryofluid, 36/60f);
             consumePower(256/60f);
         }};
+        mendPyre = new RegenPylon("mend-pyre"){{
+            requirements(Category.effect, with(lead,40, silicon, 40));
+            size = 1;
+            consumeLiquid(magma, 10/60f);
+            range = 15;
+            healPercent = 1.5f;
+            squareSprite = false;
+            reload = 250;
+            liquidCapacity = 120;
+        }};
         mendPylon = new RegenPylon("mend-pylon"){{
-            requirements(Category.effect, with(lead,60, bauxite, 40));
+            requirements(Category.effect, with(silicon,60, aluminum, 40));
             size = 2;
-            consumeLiquid(magma, 20/60f);
-            range = 20;
-            healPercent = 5;
+            consumeLiquid(fumes, 1.25f/60f);
+            range = 30;
+            healPercent = 3;
+            squareSprite = false;
             reload = 240;
+            liquidCapacity = 60;
         }};
     }
 }

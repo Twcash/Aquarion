@@ -2,6 +2,7 @@ package aquarion.blocks;
 
 import aquarion.AquaLiquids;
 import aquarion.world.blocks.distribution.ModifiedConduit;
+import aquarion.world.blocks.distribution.ModifiedLiquidBridge;
 import aquarion.world.blocks.distribution.Pipe;
 import aquarion.world.graphics.DrawPump;
 import mindustry.type.Category;
@@ -69,17 +70,17 @@ public class AquaLiquid {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        siphonBridge = new LiquidBridge("siphon-bridge"){{
+        siphonBridge = new ModifiedLiquidBridge("siphon-bridge"){{
             requirements(Category.liquid, with(lead, 20, bauxite, 20));
             fadeIn = false;
-            range = 3;
+            range = 4;
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        pulseSiphonBridge = new LiquidBridge("pulse-siphon-bridge"){{
+        pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge"){{
             requirements(Category.liquid, with(lead, 35, manganese, 15));
-            range = 5;
+            range = 8;
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -87,6 +88,7 @@ public class AquaLiquid {
         siphonDistributor = new LiquidRouter("siphon-distributor"){{
             requirements(Category.liquid, with(metaglass, 40, lead, 20, bauxite, 40));
             liquidPadding = 3;
+            squareSprite = false;
             size = 2;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;

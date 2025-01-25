@@ -36,7 +36,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 //What was all of this even for
 public class AquaCrafters {
-    public static Block slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator,
              siliconHearth, CompressionDrill, ramDrill, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -410,10 +410,10 @@ public class AquaCrafters {
             size = 5;
             craftTime = 30*60f;
             liquidCapacity = 900;
-            itemCapacity = 120;
-            outputLiquid = new LiquidStack(hydroxide, 90/60f);
-            outputItems = new ItemStack[]{new ItemStack(borax, 20), new ItemStack(salt, 60)};
-            consumeLiquids(LiquidStack.with(brine, 160 / 60f, magma, 20 / 60f));
+            itemCapacity = 250;
+            outputLiquid = new LiquidStack(hydroxide, 40/60f);
+            outputItems = new ItemStack[]{new ItemStack(borax, 90), new ItemStack(salt, 150)};
+            consumeLiquids(LiquidStack.with(brine, 160 / 60f, fumes, 20 / 60f));
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawCultivator() {{
                 timeScl = 180;
                 bottomColor = Color.valueOf("85966a");
@@ -459,7 +459,7 @@ public class AquaCrafters {
         fumeFilter = new AttributeCrafter("fume-filter"){{
             requirements(Category.crafting, with(lead, 500, silicon, 800, aluminum, 300, ferricMatter, 300));
             size = 6;
-            outputLiquid = new LiquidStack(fumes, 20/60f);
+            outputLiquid = new LiquidStack(fumes, 40/60f);
             attribute = Attribute.steam;
             boostScale = 1/18f;
             maxBoost = 2;
@@ -548,7 +548,7 @@ public class AquaCrafters {
         slagRefinementAssemblage = new GenericCrafter("slag-refinement-array"){{
             requirements(Category.crafting, with(lead, 2000, ferrosilicon, 1200, aluminum, 300, silicon, 3000));
             size = 7;
-            consumePower(40/60f);
+            consumePower(80/60f);
             itemCapacity = 300;
             liquidCapacity = 400;
             updateEffect = Fx.ventSteam;
@@ -556,12 +556,150 @@ public class AquaCrafters {
             squareSprite = false;
             craftTime = 600;
             consumeLiquids(LiquidStack.with(slag, 40 / 60f, fumes, 15 / 60));
-            outputItems = new ItemStack[]{new ItemStack(nickel, 50), new ItemStack(silicon, 80), new ItemStack(bauxite, 30), new ItemStack(ferricMatter, 40)};
+            outputItems = new ItemStack[]{new ItemStack(nickel, 50),
+                    new ItemStack(silicon, 80),
+                    new ItemStack(bauxite, 30),
+                    new ItemStack(ferricMatter, 40)};
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 1), new DrawLiquidTile(slag){{
                 padBottom = 13;
                 padTop = 13;
                 padRight = 9;
                 padLeft = 9;
             }}, new DrawDefault(), new DrawGlowRegion());
+        }};
+        InvarBlastFurnace = new GenericCrafter("invar-blast-furnace"){{
+            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
+            size = 7;
+            craftTime = 30*60f;
+            outputLiquid = new LiquidStack(dioxide, 40/60f);
+            consumeItems(with(nickel, 25, ferricMatter, 75));
+            consumeLiquids(LiquidStack.with(fumes, 60 / 60f));
+            consumePower(256/60f);
+            squareSprite = false;
+            outputItem = new ItemStack(invar, 100);
+            liquidCapacity = 200;
+            itemCapacity = 120;
+        }};
+        manguluminCrucible = new GenericCrafter("mangalumin-crucible"){{
+            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
+            size = 7;
+            craftTime = 15*60f;
+            outputLiquid = new LiquidStack(dioxide, 35/60f);
+            consumeItems(with(manganese, 30, aluminum, 30, copper, 15));
+            consumeLiquids(LiquidStack.with(fumes, 60 / 60f));
+            consumePower(256/60f);
+            squareSprite = false;
+            outputItem = new ItemStack(mangalumin, 75);
+            liquidCapacity = 200;
+            itemCapacity = 90;
+        }};
+        VacodurAmalgamator = new GenericCrafter("vacodur-almalgamator"){{
+            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
+            size = 8;
+            craftTime = 20*60f;
+            consumeItems(with(cobalt, 80, ferricMatter, 120));
+            ignoreLiquidFullness = true;
+            outputLiquid = new LiquidStack(dioxide, 20/60f);
+            consumeLiquids(LiquidStack.with(fumes, 20 / 60f));
+            consumePower(256*2/60f);
+            squareSprite = false;
+            outputItem = new ItemStack(vacodur, 200);
+            liquidCapacity = 200;
+            itemCapacity = 90;
+        }};
+        CaustroliteKiln = new GenericCrafter("caustrolite-kiln"){{
+            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
+
+            size = 5;
+            consumeItems(with(arsenic, 40, lead, 200));
+            consumeLiquids(LiquidStack.with(fumes, 20 / 60f, chlorine, 10/60f, hydroxide, 1));
+            consumePower(160/60f);
+            craftTime = 10*60f;
+            outputItem = new ItemStack(caustrolite, 120);
+            squareSprite = false;
+            liquidCapacity = 200;
+            itemCapacity = 90;
+        }};
+        saltDegradationMatrix = new GenericCrafter("salt-degredation-matrix"){{
+            size = 8;
+            squareSprite = false;
+            consumePower(64/60f);
+            craftTime = 20*60f;
+            consumeItem(salt, 120);
+            outputLiquids = LiquidStack.with(chlorine, 1.0f, hydroxide, 1.0f);
+            outputItem = new ItemStack(borax, 20);
+            liquidCapacity = 200;
+            itemCapacity = 90;
+        }};
+        chireniumElectroplater = new GenericCrafter("chirenium, electroplater"){{
+            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
+            size = 10;
+            squareSprite = false;
+            consumeLiquids(LiquidStack.with(fumes, 80 / 60f, chlorine, 90/60f, magma, 1, carbonicAcid, 40/60f));
+            consumePower(160/60f);
+            consumeItems(ItemStack.with(aluminum, 25, arsenic, 20, manganese, 40));
+            craftTime = 10*60f;
+            outputItem = new ItemStack(chirenium, 40);
+            liquidCapacity = 1000;
+            itemCapacity = 120;
+        }};
+        azuriteKiln = new GenericCrafter("azurite-kiln"){{
+            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
+            craftTime = 4*60f;
+            consumeLiquid(fumes, 15/60f);
+            consumeItem(azurite, 60);
+            itemCapacity = 200;
+            outputItem = new ItemStack(copper, 120);
+            liquidCapacity = 500;
+            ignoreLiquidFullness = true;
+            size = 5;
+            updateEffect = Fx.steam;
+            updateEffectChance = 0.05f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma, 1), new DrawDefault(), new DrawGlowRegion() {{
+                alpha = 0.65f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.3f;
+                glowScale = 6f;
+            }});
+            towaniteReductionVat = new GenericCrafter("towanite-reduction-vat"){{
+                requirements(Category.crafting, with(aluminum, 200, lead, 500, silicon, 250));
+                size = 7;
+                itemCapacity = 150;
+                craftTime = 3*60f;
+                consumeItem(towanite, 15);
+                consumeLiquid(fumes, 30/60f);
+                outputItems = new ItemStack[]{
+                        new ItemStack(copper, 15),
+                        new ItemStack(brimstone, 30),
+                        new ItemStack(ferricMatter, 15)};
+
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new DrawGlowRegion());
+            }};
+            plasmaExtractor = new ModifiedbeamDrill("plasma-extractor"){{
+                requirements(Category.production, with(silicon, 400, lead ,250, aluminum, 150));
+                tier = 1;
+                itemCapacity = 50;
+                squareSprite = false;
+                drillTime = 300;
+                size = 4;
+                range = 8;
+                consumeLiquid(fumes, 10/60f);
+                consumeLiquid(slag, 40/60f).boost();
+                heatColor  = Color.valueOf("9d8cf2");
+                boostHeatColor = Color.valueOf("e1f28c");
+            }};
+            fumeMixer = new GenericCrafter("fume-mixer"){{
+                requirements(Category.crafting, with(silicon, 250, aluminum, 300, copper, 200));
+                //Leave your skin at the door. One wall. Two Wall. No floor. No walls.
+                size = 6;
+                craftTime = 10*60f;
+                squareSprite = false;
+                baseExplosiveness = 10;
+                consumeLiquids(LiquidStack.with(magma, 120 / 60f, dioxide, 40/60f));
+                outputLiquid = new LiquidStack(fumes, 120);
+                consumeItems(ItemStack.with(borax, 60, brimstone, 150));
+                itemCapacity = 350;
+                liquidCapacity = 900;
+            }};
         }};
     }}

@@ -17,19 +17,12 @@ import static mindustry.content.Liquids.hydrogen;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
-    public static Block bauxiteWall, duraluminWall, forceBarrier, galliumWall, lithoniteWall, manganeseWall, mendHive, regenPylon, smallBauxiteWall, smallDuraluminWall, smallGalliumWall, smallLithoniteWall, smallManganeseWall;
+    public static Block bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall, cupronickelWall, hugeCupronickelWall, duraluminWall, forceBarrier, galliumWall, lithoniteWall, manganeseWall, mendHive, mendPylon, smallBauxiteWall, smallDuraluminWall, smallGalliumWall, smallLithoniteWall, smallManganeseWall;
 
 
     public static void loadContent() {
         //Walls
         //TODO balance walls
-        smallBauxiteWall = new Wall("small-bauxite-wall") {{
-            requirements(Category.defense, with(bauxite, 6));
-            health = 128;
-            researchCostMultiplier = 0.1f;
-            envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-        }};
 
         bauxiteWall = new Wall("bauxite-wall") {{
             requirements(Category.defense, with(bauxite, 24));
@@ -39,84 +32,46 @@ public class AquaDefense {
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
-        smallGalliumWall = new Wall("small-gallium-wall") {{
-            requirements(Category.defense, with(gallium, 6));
-            health = 240;
+        hugeBauxiteWall = new Wall("huge-bauxite-wall") {{
+            requirements(Category.defense, with(bauxite, 54));
+            health = 1161;
+            size = 3;
+            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
-        galliumWall = new Wall("gallium-wall") {{
-            requirements(Category.defense, with(gallium, 24));
-            health = 512;
+        aluminumWall = new Wall("aluminum-wall") {{
+            requirements(Category.defense, with(aluminum, 24));
+            health = 1000;
             size = 2;
+            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
-        smallManganeseWall = new Wall("small-manganese-wall") {{
-            requirements(Category.defense, with(manganese, 6));
-            health = 375;
+        hugeAluminumWall = new Wall("huge-aluminum-wall") {{
+            requirements(Category.defense, with(aluminum, 54));
+            health = 2250;
+            size = 3;
+            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
-        manganeseWall = new Wall("manganese-wall") {{
-            requirements(Category.defense, with(manganese, 24));
-            health = 1500;
+        cupronickelWall = new Wall("cupronickel-wall") {{
+            requirements(Category.defense, with(cupronickel, 24));
+            health = (int) ((int)2250*1.5f);;
             size = 2;
+            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
-        smallDuraluminWall = new Wall("small-duralumin-wall") {{
-            requirements(Category.defense, with(duralumin, 6));
-            health = 875;
+        hugeCupronickelWall = new Wall("huge-cupronickel-wall") {{
+            requirements(Category.defense, with(cupronickel, 54));
+            health = (int) ((int)2250*1.5f);
+            size = 3;
+            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
-        duraluminWall = new Wall("duralumin-wall") {{
-            requirements(Category.defense, with(duralumin, 24));
-            health = 3500;
-            size = 2;
-            envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-        }};
-        //endRegion
-
-        //regeneration
-
-        // WARNING: this requires the dronetype but there's none implemented yet...
-
-        /* mendHive = new DroneCenter("mend-hive") {{
-            unitsSpawned = 2;
-            droneType = repair-drone;
-            size = 2;
-            droneRange = 70;
-            requirements(Category.defense, with(lead, 70, sodium, 60, gallium, 40, bauxite, 80));
-            consumePower(6.66666F);
-            consumeLiquid(hydrogen, 0.25F);
-            envEnabled = 4;
-
-        }};*/
-
-
-        regenPylon = new RegenProjector("regen-pylon"){{
-            requirements(Category.effect, with(nitride, 90, lead, 90, metaglass, 60));
-            size = 2;
-            //norax make sure to read the files. This caused massive issues
-            range = 45;
-            consumePower(8.333333F);
-            consumeLiquid(hydrogen, 0.2F);
-            healPercent = 5F;
-            drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawRegion("-top"), new DrawRegion("-rotator"){{spinSprite = true; rotateSpeed = 2;}});
-            envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
-            }};
-
-
         forceBarrier = new BlockingForceProjector("force-barrier"){{
             requirements(Category.defense, ItemStack.with(lead,80, duralumin, 120, metaglass, 90, nitride, 150));
             consumePower(3f / 60f);

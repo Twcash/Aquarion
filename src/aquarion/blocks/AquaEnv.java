@@ -28,16 +28,16 @@ import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 public class AquaEnv {
 
     // Boulders
-    public static Block blueSandBoulder, brecciaBoulder, chertBoulder, arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin, CrasseCoral;
+    public static Block azurite, blueSandBoulder, brecciaBoulder, chertBoulder, arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin, CrasseCoral;
 
     // Floors
-    public static Block blueSandFLoor, blueSandWater, brecciaFloor, smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor, andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
+    public static Block leafLitter, blueSandFLoor, blueSandWater, brecciaFloor, smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor, andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
 
     // Ore blocks
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum, oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese, exposedGallium;
 
     // Walls
-    public static Block blueSandWall, brecciaWall, arsenicCrystals, arsenicalOutcrop, arsenideWall, chertWall, chertOutcrop, pillarCoral, loteasCoral, songCoral,  bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, andesiteExtrusions;
+    public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, arsenicCrystals, arsenicalOutcrop, arsenideWall, chertWall, chertOutcrop, pillarCoral, loteasCoral, songCoral,  bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, andesiteExtrusions;
 
 
     public static void loadContent() {
@@ -240,6 +240,8 @@ public class AquaEnv {
         }};
         smoothBrecciaFloor = new Floor("smooth-breccia-floor", 4) {{
         }};
+        leafLitter = new Floor("leaf-litter", 3) {{
+        }};
 
         // Ore blocks
         leadNodules = new OreBlock("lead-nodules", lead);
@@ -323,8 +325,22 @@ public class AquaEnv {
             shadowAlpha = 0.5f;
             shadowOffset = -2.5f;
         }};
-
-
+        azuriteLarge = new TallBlock("azurite-large"){{
+            variants = 3;
+            itemDrop = AquaItems.azurite;
+            clipSize = 128f;
+            shadowAlpha = 0.5f;
+            shadowOffset = -2.5f;
+            layer = Layer.blockOver;
+        }};
+        towaniteCluster = new TallBlock("towanite-cluster"){{
+            variants = 3;
+            itemDrop = towanite;
+            clipSize = 128f;
+            shadowAlpha = 0.5f;
+            shadowOffset = -2.5f;
+            layer = Layer.blockOver;
+        }};
         parzilPine = new PineTree("parzil-pine"){{
             shadowAlpha = 0.6f;
             buildVisibility = sandboxOnly;
@@ -352,6 +368,9 @@ public class AquaEnv {
             variants = 3;
         }};
         pillarCoral = new NonRandomTreeBlock("pillar-coral") {{
+            variants = 3;
+        }};
+        azurite = new Prop("azurite"){{
             variants = 3;
         }};
         //boulders

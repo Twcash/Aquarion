@@ -13,7 +13,7 @@ import mindustry.type.Planet;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
-import static mindustry.content.Items.lead;
+import static mindustry.content.Items.*;
 
 public class AquaPlanets {
     public static Planet
@@ -76,7 +76,8 @@ public class AquaPlanets {
             atmosphereRadOut = 0.6f;
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
-            itemWhitelist.addAll(AquaItems.bauxite, AquaItems.sodium, AquaItems.manganese, lead, Items.metaglass, AquaItems.lithium, AquaItems.nitride, duralumin, AquaItems.lithoniteAlloy);
+            itemWhitelist.addAll(AquaItems.bauxite, lead, silicon, aluminum, ferricMatter, ferrosilicon, ceramic, mangalumin, mangalumin, borax, nickel, copper, azurite, brimstone,
+                    invar, vacodur, caustrolite, chirenium, salt, arsenic, cupronickel, cobalt, towanite);
             defaultEnv|= Env.terrestrial | Env.underwater;
             ruleSetter = r -> {
                 r.waveTeam = AquaTeams.tendere;
@@ -89,7 +90,7 @@ public class AquaPlanets {
                 r.coreIncinerates = false;
             };
             hiddenItems.addAll(Items.erekirItems).addAll(
-                    Items.copper, Items.sand, Items.metaglass, Items.surgeAlloy, Items.coal
+                    copper, Items.sand, Items.metaglass, Items.surgeAlloy, Items.coal
                     , Items.phaseFabric, Items.graphite, Items.plastanium, Items.silicon, Items.scrap
                     , Items.pyratite, Items.blastCompound, Items.sporePod, Items.thorium);
 

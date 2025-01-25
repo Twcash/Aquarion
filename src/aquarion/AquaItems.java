@@ -7,7 +7,7 @@ import mindustry.type.Item;
 import static mindustry.content.Items.*;
 
 public class AquaItems {
-    public static Item invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, salulnite, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
+    public static Item caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, salulnite, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
     public static final Seq<Item> tantrosItems = new Seq<>();
     public static final Seq<Item> qeraltarItems = new Seq<>();
     public static void load() {
@@ -40,7 +40,7 @@ public class AquaItems {
             explosiveness = 0.2F;
         }};
 
-        manganese = new Item("manganese", Color.valueOf("#a0ac9d")) {{
+        manganese = new Item("manganese", Color.valueOf("#75d978")) {{
             cost = 1.5F;
             hardness = 5;
         }};
@@ -94,15 +94,41 @@ public class AquaItems {
         invar = new Item("invar", Color.valueOf("#cbaa6d")) {{
             cost = 0.6f;
         }};
+        azurite = new Item("azurite", Color.valueOf("#636acf")) {{
+            buildable = false;
+
+        }};
+        towanite = new Item("towanite", Color.valueOf("#faffcd")) {{
+            buildable = false;
+        }};
+        cobalt = new Item("cobalt", Color.valueOf("#8c96bb")) {{
+            cost = 0.9f;
+        }};
+        brimstone = new Item("brimstone", Color.valueOf("#fafd81")) {{
+            cost = 0.6f;
+            explosiveness = 0.5f;
+            flammability = 0.7f;
+        }};
+        vacodur = new Item("vacodur", Color.valueOf("#99899d")) {{
+            cost = 1.1f;
+        }};
+        mangalumin = new Item("mangalumin", Color.valueOf("# 93d588")) {{
+            cost = 1.2f;
+        }};;
+        caustrolite = new Item("caustrolite", Color.valueOf("# 93d588")) {{
+            cost = 2f;
+            flammability = 1.5f;
+            explosiveness = 1.1f;
+
+        }};;
         qeraltarItems.addAll(
            lead, copper, electrum, silver,
                 nickel, cupronickel, titanium, arsenic,
                 ceramic, silicon, inconel, salulnite
         );
+
         tantrosItems.addAll(
-                ceramic, sodium, nitride, manganese,
-                lithium, gallium, chirenium, bauxite,
-                duralumin, nickel, salt, lead
+                lead, bauxite, silicon, ferricMatter, aluminum, ferrosilicon, salt, borax, invar, nickel
         );
     }
 
