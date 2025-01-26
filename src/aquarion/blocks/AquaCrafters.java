@@ -44,6 +44,8 @@ public class AquaCrafters {
 
     public static void loadContent() {
         Blocks.conveyor.envDisabled = Env.underwater;
+        Blocks.itemBridge.envDisabled = Env.underwater;
+        Blocks.invertedSorter.envDisabled = Env.underwater;
         Blocks.router.envDisabled = Env.underwater;
         Blocks.distributor.envDisabled = Env.underwater;
         Blocks.graphitePress.envDisabled = Env.underwater;
@@ -354,6 +356,7 @@ public class AquaCrafters {
             requirements(Category.crafting, with(lead, 400, bauxite, 300, silicon, 250, copper, 150));
             craftTime = 60;
             consumeItem(bauxite, 10);
+            researchCostMultiplier = 1;
 
             outputItems = new ItemStack[]{
                     new ItemStack(silicon, 3),
@@ -662,6 +665,8 @@ public class AquaCrafters {
             consumePower(64/60f);
             craftTime = 20*60f;
             consumeItem(salt, 120);
+            researchCostMultiplier = 1;
+
             outputLiquids = LiquidStack.with(chlorine, 1.0f, hydroxide, 1.0f);
             outputItem = new ItemStack(borax, 20);
             liquidCapacity = 200;
@@ -671,6 +676,8 @@ public class AquaCrafters {
             requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
             size = 10;
             squareSprite = false;
+            researchCostMultiplier = 1;
+
             consumeLiquids(LiquidStack.with(fumes, 80 / 60f, chlorine, 90/60f, magma, 1, carbonicAcid, 40/60f));
             consumePower(160/60f);
             consumeItems(ItemStack.with(aluminum, 25, arsenic, 20, manganese, 40));
@@ -684,6 +691,8 @@ public class AquaCrafters {
             craftTime = 5*60f;
             consumeLiquid(magma, 15/60f);
             consumeItem(azurite, 30);
+            researchCostMultiplier = 1;
+
             itemCapacity = 300;
             outputItem = new ItemStack(copper, 90);
             outputLiquid = new LiquidStack(hydroxide, 10/60f);
@@ -718,6 +727,8 @@ public class AquaCrafters {
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
+                researchCostMultiplier = 1;
+
                 drillTime = 300;
                 size = 4;
                 range = 8;

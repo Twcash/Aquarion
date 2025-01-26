@@ -35,10 +35,10 @@ public class AquaDistribution {
         sealedConveyor = new SealedConveyor("sealed-conveyor"){{
             requirements(Category.distribution, with(lead, 1));
             envEnabled = 4;
-            speed = 2F;
+            speed = 2.1F;
             alwaysUnlocked = true;
             solid = false;
-            visualSpeed = 36;
+            visualSpeed = 35;
             underBullets = true;
             stopSpeed = 70;
             researchCostMultiplier = 0.2f;
@@ -52,6 +52,7 @@ public class AquaDistribution {
             speed = 2;
             health = 75;
             solid = true;
+            researchCostMultiplier = 1;
             armored = true;
             visualSpeed = 35;
             underBullets = true;
@@ -66,7 +67,8 @@ public class AquaDistribution {
             envDisabled = Env.none;
             alwaysUnlocked = true;
             researchCostMultiplier = 0.1f;
-            speed = 2;
+            researchCostMultiplier = 1;
+            speed = 2.1;
             hasItems = true;
 
         }};
@@ -74,7 +76,7 @@ public class AquaDistribution {
             requirements(category.distribution, with(silicon, 30, ferricMatter, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            size = 2;
+            size = 2.1f;
             speed = 2;
             hasItems = true;
             solid = true;
@@ -85,6 +87,7 @@ public class AquaDistribution {
             requirements(category.distribution, with(silicon, 15));
             capacity = 8;
             speed = 10;
+            researchCostMultiplier = 1;
             hasItems = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             ((SealedConveyor)sealedConveyor).junctionReplacement = this;
@@ -93,6 +96,7 @@ public class AquaDistribution {
         sealedUnloader = new DirectionalUnloader("sealed-unloader"){{
             requirements(category.distribution, with(aluminum, 20, silicon, 20));
             speed = 2f;
+            researchCostMultiplier = 1;
         }};
         sealedSorter = new Sorter("sealed-sorter"){{
             requirements(category.distribution, with(silicon, 15));
@@ -101,13 +105,13 @@ public class AquaDistribution {
             envDisabled = Env.none;
             hasItems = true;
             alwaysUnlocked = true;
+            researchCostMultiplier = 1;
         }};
 
         sealedOverflow = new OverflowGate("sealed-overflow"){{
             requirements(category.distribution, with(silicon, 5));
             invert = false;
             hasItems = true;
-
             researchCostMultiplier = 0.2f;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -116,7 +120,7 @@ public class AquaDistribution {
         sealedUnderflow = new OverflowGate("sealed-underflow"){{
             requirements(category.distribution, with(silicon, 5));
             invert = true;
-            researchCostMultiplier = 0.2f;
+            researchCostMultiplier = 1;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             hasItems = true;
@@ -128,6 +132,7 @@ public class AquaDistribution {
             size = 2;
             polySides = 0;
             buildTime = 240;
+
             researchCostMultiplier = 0.2f;
              envEnabled |= Env.terrestrial | Env.underwater;
              envDisabled = Env.none;
