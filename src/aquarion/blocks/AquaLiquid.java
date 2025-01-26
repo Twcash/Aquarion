@@ -1,9 +1,7 @@
 package aquarion.blocks;
 
 import aquarion.AquaLiquids;
-import aquarion.world.blocks.distribution.ModifiedConduit;
-import aquarion.world.blocks.distribution.ModifiedLiquidBridge;
-import aquarion.world.blocks.distribution.Pipe;
+import aquarion.world.blocks.distribution.*;
 import aquarion.world.graphics.DrawPump;
 import mindustry.type.Category;
 import mindustry.world.Block;
@@ -20,8 +18,7 @@ import mindustry.world.draw.DrawRegion;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
-import static mindustry.content.Items.lead;
-import static mindustry.content.Items.metaglass;
+import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 
@@ -42,14 +39,14 @@ public class AquaLiquid {
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(AquaLiquids.brine, 2f), new DrawDefault(), new DrawPump());
         }};
         siphon = new ModifiedConduit("siphon") {{
-            requirements(Category.liquid, with(lead, 2, bauxite, 1));
+            requirements(Category.liquid, with(lead, 2));
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 20;
             leaks = false;
-
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            alwaysUnlocked = true;
         }};
         pulseSiphon = new ModifiedConduit("pulse-siphon") {{
             requirements(Category.liquid, with(lead, 3, manganese, 1));
@@ -60,15 +57,17 @@ public class AquaLiquid {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        siphonRouter = new LiquidRouter("siphon-router"){{
-            requirements(Category.liquid, with(lead, 15, bauxite, 5));
+        siphonRouter = new ModifiedLiquidRouter("siphon-router"){{
+            requirements(Category.liquid, with(silicon, 30));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            alwaysUnlocked = true;
         }};
-        siphonJunction = new LiquidJunction("siphon-junction"){{
+        siphonJunction = new ModifiedLiquidJunction("siphon-junction"){{
             requirements(Category.liquid, with(bauxite, 3, lead, 10));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            ((ModifiedConduit)siphon).junctionReplacement = this;
         }};
         siphonBridge = new ModifiedLiquidBridge("siphon-bridge"){{
             requirements(Category.liquid, with(lead, 20, bauxite, 20));
@@ -77,6 +76,7 @@ public class AquaLiquid {
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            ((ModifiedConduit)siphon).bridgeReplacement = this;
         }};
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge"){{
             requirements(Category.liquid, with(lead, 35, manganese, 15));

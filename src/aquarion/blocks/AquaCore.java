@@ -43,7 +43,7 @@ public class AquaCore {
             envDisabled = Env.none;
     }};
         corePike = new CoreBlock("core-pike") {{
-            requirements(Category.effect, with(bauxite, 750, lead, 1250));
+            requirements(Category.effect, with(bauxite, 750, lead, 1250, silicon, 2000));
             squareSprite = false;
             health = 1500;
             itemCapacity = 7500;
@@ -120,12 +120,13 @@ public class AquaCore {
         mendPyre = new RegenPylon("mend-pyre"){{
             requirements(Category.effect, with(lead,40, silicon, 40));
             size = 1;
-            consumeLiquid(magma, 10/60f);
-            range = 15;
+            consumeLiquid(magma, 5/60f);
+            range = 20;
             healPercent = 1.5f;
             squareSprite = false;
             reload = 250;
             liquidCapacity = 120;
+            alwaysUnlocked = true;
         }};
         mendPylon = new RegenPylon("mend-pylon"){{
             requirements(Category.effect, with(silicon,60, aluminum, 40));

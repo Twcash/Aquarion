@@ -28,6 +28,7 @@ public class AquaDefense {
             requirements(Category.defense, with(bauxite, 24));
             health = 512;
             size = 2;
+            alwaysUnlocked = true;
             researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;

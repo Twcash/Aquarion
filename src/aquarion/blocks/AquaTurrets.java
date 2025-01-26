@@ -72,7 +72,7 @@ public class AquaTurrets {
                             backColor = trailColor = Color.valueOf("8d70ab");
                         }},
 
-                        ferricMatter, new MissileBulletType(2.5f, 120, "bullet") {{
+                        ferricMatter, new MissileBulletType(2.5f, 150, "bullet") {{
                             width = 9f;
                             height = 15f;
                             trailLength = 10;
@@ -97,7 +97,7 @@ public class AquaTurrets {
                             frontColor = lightColor = hitColor = Color.white;
                             backColor = trailColor = Color.valueOf("8d706a");
                         }},
-                        ferrosilicon, new MissileBulletType(7.5f, 160, "bullet") {{
+                        ferrosilicon, new MissileBulletType(7.5f, 120, "bullet") {{
                             width = 12f;
                             height = 18f;
                             rangeChange = 16;
@@ -126,11 +126,12 @@ public class AquaTurrets {
                 squareSprite = false;
                 range = 170;
                 limitRange(1.1f);
-                reload = 30;
+                reload = 45;
+                alwaysUnlocked = true;
                 consumeAmmoOnce = true;
-                maxAmmo = 30;
+                maxAmmo = 15;
                 inaccuracy = 3;
-                ammoPerShot = 2;
+                ammoPerShot = 3;
                 researchCostMultiplier = 0.03f;
                 xRand = 0.5f;
                 outlineColor = AquaPal.tantDarkestTone;

@@ -2,6 +2,7 @@ package aquarion;
 
 import arc.graphics.Color;
 import arc.struct.Seq;
+import mindustry.content.Items;
 import mindustry.type.Item;
 
 import static mindustry.content.Items.*;
@@ -11,9 +12,12 @@ public class AquaItems {
     public static final Seq<Item> tantrosItems = new Seq<>();
     public static final Seq<Item> qeraltarItems = new Seq<>();
     public static void load() {
+        Items.lead.alwaysUnlocked = true;
+        Items.silicon.alwaysUnlocked = true;
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
             hardness = 3;
             cost = 1.1F;
+            alwaysUnlocked = true;
         }};
         salt = new Item("salt", Color.valueOf("#ffffff")) {{
             cost = 1.1F;

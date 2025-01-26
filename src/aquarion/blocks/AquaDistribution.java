@@ -36,6 +36,7 @@ public class AquaDistribution {
             requirements(Category.distribution, with(lead, 1));
             envEnabled = 4;
             speed = 2F;
+            alwaysUnlocked = true;
             solid = false;
             visualSpeed = 36;
             underBullets = true;
@@ -63,6 +64,7 @@ public class AquaDistribution {
             requirements(category.distribution, with(silicon, 10));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            alwaysUnlocked = true;
             researchCostMultiplier = 0.1f;
             speed = 2;
             hasItems = true;
@@ -98,6 +100,7 @@ public class AquaDistribution {
             researchCostMultiplier = 0.2f;
             envDisabled = Env.none;
             hasItems = true;
+            alwaysUnlocked = true;
         }};
 
         sealedOverflow = new OverflowGate("sealed-overflow"){{

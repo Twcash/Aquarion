@@ -15,6 +15,7 @@ import mindustry.ai.types.CargoAI;
 import mindustry.ai.types.MinerAI;
 import mindustry.content.Fx;
 import mindustry.content.Items;
+import mindustry.content.StatusEffects;
 import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.abilities.RepairFieldAbility;
 import mindustry.entities.abilities.ShieldRegenFieldAbility;
@@ -29,6 +30,7 @@ import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
+import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
 import aquarion.world.graphics.AquaPal;
 import mindustry.type.Weapon;
@@ -120,11 +122,11 @@ public class AquaUnitTypes {
                 reload = 40;
                 layerOffset = -0.001f;
                 shootX = 4;
-                range = 90;
+                range = 125;
                 bullet = new ArtilleryBulletType(2f, 30) {{
                     knockback = -.5f;
-                    splashDamage = 30;
-                    splashDamageRadius = 18;
+                    splashDamage = 45;
+                    splashDamageRadius = 8*3.2f;
                     width = height = 9f;
                     ;
                     shrinkX = 0.6f;
@@ -143,6 +145,58 @@ public class AquaUnitTypes {
                 }};
             }});
         }});
+        ambassador = EntityRegistry.content("ambassador", Legsc.class, name -> new MechanicalUnitType(name) {{
+            constructor = LegsUnit::create;
+            health = 900;
+            armor = 12;
+            legLength = 16;
+            legPairOffset = 2;
+
+            hitSize = 13;
+            legCount = 4;
+            speed = 1.1f;
+            rotateSpeed = 1.7f;
+            lockLegBase = true;
+            legMaxLength = 1.2f;
+            legMinLength = 0.1f;
+            weapons.add(new Weapon("aquarion-ambassador-weapon") {{
+                mirror = true;
+                x = 8.75f;
+                recoil = 0.5f;
+                parts.addAll(new RegionPart("-blade"){{
+                    moveRot = -10f;
+                    moveX = 1;
+                    progress = PartProgress.warmup;
+                }}, new RegionPart("-panel"){{
+                    moveX = 1.25f;
+                    moveY = -1.25f;
+                    progress = PartProgress.warmup;
+                }});
+                alternate = false;
+                continuous = true;
+                alwaysContinuous = true;
+                shootStatus = StatusEffects.slow;
+                shootStatusDuration = 10;
+                shootSound = Sounds.torch;
+                shootY = 4;
+                shootCone = 25;
+                top = false;
+                rotate = false;
+                bullet = new ContinuousFlameBulletType(){{
+                  lightStroke = 35;
+                  divisions = 40;
+                  width = 3.5f;
+                  drawFlare = false;
+                  length = 90;
+                  pierce = true;
+                  pierceCap = 2;
+                  pierceBuilding = true;
+                  damage = 18;
+                  damageInterval = 10;
+                  colors = new Color[]{Color.valueOf("465ab850"), Color.valueOf("66a6d290"), Color.valueOf("98d5ff"), Color.valueOf("d1efff")};
+                }};
+            }});
+        }});
         goss = EntityRegistry.content("goss", Unitc.class, name -> new MechanicalUnitType(name) {{
             constructor = UnitEntity::create;
             engineSize = 0f;
@@ -151,7 +205,6 @@ public class AquaUnitTypes {
             groundLayer = 90;
             outlineColor = Color.valueOf("232826");
             speed = 2.5f;
-            constructor = UnitEntity::create;
             accel = 0.9f;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -201,7 +254,7 @@ public class AquaUnitTypes {
                 recoil = 1;
                 rotate = false;
                 mirror = false;
-                bullet = new BasicBulletType(1.5f, 15, "missile-large") {{
+                bullet = new BasicBulletType(1.5f, 30, "missile-large") {{
                     weaveScale = 6;
                     weaveMag = 4;
                     shrinkX = 0.1f;
@@ -364,8 +417,8 @@ public class AquaUnitTypes {
                 reload = 25;
                 top = false;
                 shootX = -4;
-                range = 60;
-                bullet = new LaserBoltBulletType(3f, 15) {{
+                range = 75;
+                bullet = new LaserBoltBulletType(3f, 20) {{
                     width = 2f;
                     ;
                     height = 5;

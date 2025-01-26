@@ -10,6 +10,7 @@ import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
+import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
@@ -42,6 +43,38 @@ public class AquaCrafters {
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
 
     public static void loadContent() {
+        Blocks.conveyor.envDisabled = Env.underwater;
+        Blocks.router.envDisabled = Env.underwater;
+        Blocks.distributor.envDisabled = Env.underwater;
+        Blocks.graphitePress.envDisabled = Env.underwater;
+        Blocks.siliconSmelter.envDisabled = Env.underwater;
+        Blocks.junction.envDisabled = Env.underwater;
+        Blocks.sorter.envDisabled = Env.underwater;
+        Blocks.pulverizer.envDisabled = Env.underwater;
+        Blocks.pyratiteMixer.envDisabled = Env.underwater;
+        Blocks.sporePress.envDisabled = Env.underwater;
+        Blocks.battery.envDisabled = Env.underwater;
+        Blocks.powerNode.envDisabled = Env.underwater;
+        Blocks.solarPanel.envDisabled = Env.underwater;
+        Blocks.combustionGenerator.envDisabled = Env.underwater;
+        Blocks.copperWall.envDisabled = Env.underwater;
+        Blocks.copperWallLarge.envDisabled = Env.underwater;
+        Blocks.groundFactory.envDisabled = Env.underwater;
+        Blocks.airFactory.envDisabled = Env.underwater;
+        Blocks.repairPoint.envDisabled = Env.underwater;
+        Blocks.overflowGate.envDisabled = Env.underwater;
+        Blocks.underflowGate.envDisabled = Env.underwater;
+        Blocks.cultivator.envDisabled = Env.underwater;
+        Blocks.mechanicalDrill.envDisabled = Env.underwater;
+        Blocks.duo.envDisabled = Env.underwater;
+        Blocks.arc.envDisabled = Env.underwater;
+        Blocks.scatter.envDisabled = Env.underwater;
+        Blocks.mender.envDisabled = Env.underwater;
+        Blocks.coreShard.envDisabled = Env.underwater;
+        Blocks.logicDisplay.envDisabled = Env.underwater;
+        Blocks.shockMine.envDisabled = Env.underwater;
+        Blocks.additiveReconstructor.envDisabled = Env.underwater;
+
 
         electrumDrill = new Drill("electrum-drill") {{
             requirements(Category.production, with(electrum, 20));
@@ -248,9 +281,10 @@ public class AquaCrafters {
             }}, new DrawDefault());
         }};
         magmaDiffser = new MagmaProcessor("magma-diffuser") {{
-            requirements(Category.crafting, with(lead, 350, bauxite, 120));
+            requirements(Category.crafting, with(lead, 150, bauxite, 120, silicon, 80));
             size = 5;
             squareSprite = false;
+            alwaysUnlocked = true;
             itemCapacity = 300;
             liquidCapacity = 500;
             ignoreLiquidFullness = true;
@@ -294,8 +328,9 @@ public class AquaCrafters {
             }}, new DrawDefault(), new DrawLiquidTile(magma, 13.25f), new DrawRegion("-top"));
         }};
         magmaTap = new AttributeCrafter("magma-tap") {{
-            requirements(Category.production, with(lead, 100, bauxite, 150));
+            requirements(Category.production, with(lead, 100, silicon, 100));
             size = 4;
+            alwaysUnlocked = true;
             updateEffect = Fx.steam;
             attribute = Attribute.heat;
             minEfficiency = 1;
@@ -316,7 +351,7 @@ public class AquaCrafters {
             }});
         }};
         bauxiteCentrifuge = new GenericCrafter("bauxite-centrifuge") {{
-            requirements(Category.crafting, with(lead, 400, bauxite, 300, silicon, 250));
+            requirements(Category.crafting, with(lead, 400, bauxite, 300, silicon, 250, copper, 150));
             craftTime = 60;
             consumeItem(bauxite, 10);
 
@@ -335,7 +370,8 @@ public class AquaCrafters {
             itemCapacity = 60;
             warmupSpeed = 0.01f;
             squareSprite = false;
-
+            ignoreLiquidFullness = true;
+            dumpExtraLiquid = true;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawOrbitRegions("-capsule", 8, 11f, 2f), new DrawRegion("-lower-toob"), new DrawLiquidTile(oxygen){{
                 padBottom = 3;
                 padRight = 3;
@@ -347,7 +383,7 @@ public class AquaCrafters {
             }});
         }};
         ferroSiliconFoundry = new AquaGenericCrafter("ferrosilicon-foundry") {{
-            requirements(Category.crafting, with(lead, 680, bauxite, 250, silicon, 500, aluminum, 90));
+            requirements(Category.crafting, with( silicon, 750, aluminum, 200, copper, 350));
             size = 6;
             squareSprite = false;
             itemCapacity = 80;
@@ -357,7 +393,7 @@ public class AquaCrafters {
             craftTime = 600;
             consumeItems(with(ferricMatter, 5, silicon, 15));
             outputItem = new ItemStack(ferrosilicon, 20);
-            consumeLiquid(magma, 80 / 60f).optional = false;
+            consumeLiquids(LiquidStack.with(fumes, 15 / 60f, hydroxide, 15/60f)).optional = false;
             itemBooster =  consumeItem(borax, 2).boost();
             booster = consume(new ConsumeLiquidNew(fumes, 5/60f)).boost();
             liquidCapacity = 200;
@@ -405,7 +441,7 @@ public class AquaCrafters {
             }});
         }};
         brineCatalysisArray = new GenericCrafter("brine-catalysis-array") {{
-            requirements(Category.crafting, with(lead, 900, silicon, 500, aluminum, 150, ferricMatter, 150));
+            requirements(Category.crafting, with(aluminum, 200, silicon, 250, cobalt, 600));
             //bigg boi
             size = 5;
             craftTime = 30*60f;
@@ -457,7 +493,7 @@ public class AquaCrafters {
             }});
         }};
         fumeFilter = new AttributeCrafter("fume-filter"){{
-            requirements(Category.crafting, with(lead, 500, silicon, 800, aluminum, 300, ferricMatter, 300));
+            requirements(Category.crafting, with(silicon, 200, copper, 250, ferricMatter, 300));
             size = 6;
             outputLiquid = new LiquidStack(fumes, 40/60f);
             attribute = Attribute.steam;
@@ -644,25 +680,27 @@ public class AquaCrafters {
             itemCapacity = 120;
         }};
         azuriteKiln = new GenericCrafter("azurite-kiln"){{
-            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
-            craftTime = 4*60f;
-            consumeLiquid(fumes, 15/60f);
-            consumeItem(azurite, 60);
-            itemCapacity = 200;
-            outputItem = new ItemStack(copper, 120);
+            requirements(Category.crafting, with(silicon, 500, bauxite, 750, lead, 750));
+            craftTime = 5*60f;
+            consumeLiquid(magma, 15/60f);
+            consumeItem(azurite, 30);
+            itemCapacity = 300;
+            outputItem = new ItemStack(copper, 90);
+            outputLiquid = new LiquidStack(hydroxide, 10/60f);
             liquidCapacity = 500;
             ignoreLiquidFullness = true;
+            dumpExtraLiquid = true;
             size = 5;
             updateEffect = Fx.steam;
             updateEffectChance = 0.05f;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma, 1), new DrawDefault(), new DrawGlowRegion() {{
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma, 1.5f){{ alpha = 0.6f;}}, new DrawDefault(), new DrawGlowRegion() {{
                 alpha = 0.65f;
                 color = Color.valueOf("e68569");
                 glowIntensity = 0.3f;
                 glowScale = 6f;
             }});
             towaniteReductionVat = new GenericCrafter("towanite-reduction-vat"){{
-                requirements(Category.crafting, with(aluminum, 200, lead, 500, silicon, 250));
+                requirements(Category.crafting, with( lead, 500, silicon, 250, bauxite, 500));
                 size = 7;
                 itemCapacity = 150;
                 craftTime = 3*60f;
@@ -676,15 +714,16 @@ public class AquaCrafters {
                 drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new DrawGlowRegion());
             }};
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor"){{
-                requirements(Category.production, with(silicon, 400, lead ,250, aluminum, 150));
+                requirements(Category.production, with(silicon, 300, lead ,250));
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
                 drillTime = 300;
                 size = 4;
                 range = 8;
-                consumeLiquid(fumes, 10/60f);
-                consumeLiquid(slag, 40/60f).boost();
+                consumeLiquid(slag, 10/60f);
+                consumeLiquid(fumes, 5/60f).boost();
+                optionalBoostIntensity = 1.5f;
                 heatColor  = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
             }};

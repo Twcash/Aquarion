@@ -80,6 +80,7 @@ public class AquaPlanets {
                     invar, vacodur, caustrolite, chirenium, salt, arsenic, cupronickel, cobalt, towanite);
             defaultEnv|= Env.terrestrial | Env.underwater;
             ruleSetter = r -> {
+                r.fire = false;
                 r.waveTeam = AquaTeams.tendere;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
@@ -87,15 +88,11 @@ public class AquaPlanets {
                 r.fog = false;
                 r.staticFog = false;
                 r.onlyDepositCore = true;
-                r.coreIncinerates = false;
+                r.deconstructRefundMultiplier = 1;
             };
-            hiddenItems.addAll(Items.erekirItems).addAll(
-                    copper, Items.sand, Items.metaglass, Items.surgeAlloy, Items.coal
-                    , Items.phaseFabric, Items.graphite, Items.plastanium, Items.silicon, Items.scrap
+            hiddenItems.addAll( Items.sand, tungsten, oxide, beryllium,  Items.metaglass, Items.surgeAlloy, Items.coal
+                    , Items.phaseFabric, Items.graphite, Items.plastanium, Items.scrap
                     , Items.pyratite, Items.blastCompound, Items.sporePod, Items.thorium);
-
-            itemWhitelist.addAll(ceramic, bauxite, salt, lead, sodium, manganese, lithium, gallium,
-                                 chirenium, nickel, duralumin, nitride, duralumin);
         }};
     }
 }

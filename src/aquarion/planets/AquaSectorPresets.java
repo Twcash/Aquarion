@@ -6,7 +6,7 @@ import static aquarion.planets.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
     public static SectorPreset
-    Chasm, Valley;
+    Ingress, Torrent;
     /*
     Sector plans
     chasm:10 {
@@ -25,20 +25,22 @@ public class AquaSectorPresets {
     }
      */
     public static void load(){
-        Chasm = new SectorPreset("chasm", tantros2, 10){{
+        Ingress = new SectorPreset("Ingress", tantros2, 10){{
             alwaysUnlocked = true;
             addStartingItems = true;
             captureWave = 5;
             difficulty = 1;
+            showSectorLandInfo = false;
             overrideLaunchDefaults = true;
-            startWaveTimeMultiplier = 3f;
+            startWaveTimeMultiplier = 2f;
         }};
-        Valley = new SectorPreset("valley", tantros2, 142){{
+        Torrent = new SectorPreset("EnsuingTorrent", tantros2, 142){{
             addStartingItems = true;
-            captureWave = 8;
+            captureWave = 11;
             difficulty = 2;
+            showSectorLandInfo = false;
             overrideLaunchDefaults = true;
-            startWaveTimeMultiplier = 3f;
+            startWaveTimeMultiplier = 2f;
         }};
     }
 }
