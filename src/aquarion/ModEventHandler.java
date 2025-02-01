@@ -19,5 +19,9 @@ public class ModEventHandler {
                     Log.err("Failed to replace renderer", ex);
                 }
         });
+
+        Events.on(EventType.MusicRegisterEvent.class, e ->{
+            AquaMusic.load();
+        });
     }
 }
