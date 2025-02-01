@@ -57,7 +57,6 @@ public class AquarionMod implements Loadable {
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
-
     }
     public static AquaMenuRenderer getMenuRenderer() {
         try{

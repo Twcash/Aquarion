@@ -68,7 +68,7 @@ public class AquaDistribution {
             alwaysUnlocked = true;
             researchCostMultiplier = 0.1f;
             researchCostMultiplier = 1;
-            speed = 2.1;
+            speed = 2.1f;
             hasItems = true;
 
         }};
@@ -76,8 +76,8 @@ public class AquaDistribution {
             requirements(category.distribution, with(silicon, 30, ferricMatter, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            size = 2.1f;
-            speed = 2;
+            speed = 2.1f;
+            size = 2;
             hasItems = true;
             solid = true;
             researchCostMultiplier = 0.1f;
