@@ -9,7 +9,8 @@ import arc.util.Log;
 import mindustry.Vars;
 import mindustry.audio.SoundControl;
 import mindustry.core.GameState;
-import mindustry.game.EventType;
+import mindustry.game.EventType.StateChangeEvent;
+import mindustry.game.EventType.WorldLoadEvent;
 
 import java.lang.reflect.Field;
 
@@ -27,7 +28,6 @@ public class AquaMusic {
     public static Seq<Music> origBossMusic;
 
     public static Field currentMus;
-    public static Field lastMus;
 
     public static class MusicInfo {
         public String name;
@@ -67,10 +67,8 @@ public class AquaMusic {
     }
 
     // Don't change from outside I trust you by putting it in public
-    public static boolean enabled = false;
-
-    // Replace all music instead of adding on
-    public static boolean fullOverride = false;
+    public static boolean enabled = true;
+    public static boolean fullOverride = true;
 
     public static void load() {
         aquaAmbientMusic = loadMultiple(aquaAmbientList, "ambient");
@@ -86,21 +84,27 @@ public class AquaMusic {
         Seq<Music> result = new Seq<>();
 
         for (String filename : filenames) {
-            result.add(Vars.tree.loadMusic(folder +"/"+filename));
+            Music music = Vars.tree.loadMusic(folder + "/" + filename);
+            if (music != null) {
+                result.add(music);
+            } else {
+                Log.warn("Failed to load music: " + filename);
+            }
         }
 
         return result;
     }
 
     public static void attach() {
-        Events.on(EventType.WorldLoadEvent.class, e -> {
-            if (Vars.state.rules.planet.parent.name.equals("aquarion-citun")) {
+        Events.on(WorldLoadEvent.class, e -> {
+            if (Vars.state.rules.planet.parent != null && Vars.state.rules.planet.parent.name.equals("aquarion-citun")) {
                 enableCustomMusic();
             } else if (enabled) {
                 disableCustomMusic();
             }
         });
-        Events.on(EventType.StateChangeEvent.class, e -> {
+
+        Events.on(StateChangeEvent.class, e -> {
             if (e.from != GameState.State.menu && e.to == GameState.State.menu) {
                 disableCustomMusic();
             }
@@ -111,15 +115,16 @@ public class AquaMusic {
     }
 
     public static void enableCustomMusic() {
-        Vars.control.sound.ambientMusic = Seq.with(aquaAmbientMusic);
-        Vars.control.sound.darkMusic = Seq.with(aquaDarkMusic);
-        Vars.control.sound.bossMusic = Seq.with(aquaBossMusic);
-
         if (!fullOverride) {
-            Vars.control.sound.ambientMusic.addAll(origAmbientMusic);
-            Vars.control.sound.darkMusic.addAll(origDarkMusic);
-            Vars.control.sound.bossMusic.addAll(origBossMusic);
+            Vars.control.sound.ambientMusic = Seq.with(aquaAmbientMusic).addAll(origAmbientMusic);
+            Vars.control.sound.darkMusic = Seq.with(aquaDarkMusic).addAll(origDarkMusic);
+            Vars.control.sound.bossMusic = Seq.with(aquaBossMusic).addAll(origBossMusic);
+        } else {
+            Vars.control.sound.ambientMusic = Seq.with(aquaAmbientMusic);
+            Vars.control.sound.darkMusic = Seq.with(aquaDarkMusic);
+            Vars.control.sound.bossMusic = Seq.with(aquaBossMusic);
         }
+
         enabled = true;
     }
 
@@ -134,9 +139,6 @@ public class AquaMusic {
         try {
             currentMus = SoundControl.class.getDeclaredField("current");
             currentMus.setAccessible(true);
-
-            lastMus = SoundControl.class.getDeclaredField("lastRandomPlayed");
-            lastMus.setAccessible(true);
         } catch (Exception e) {
             Log.err("Failed to set visibility of music things");
             Log.err(e);
@@ -154,3 +156,4 @@ public class AquaMusic {
         }
     }
 }
+
