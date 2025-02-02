@@ -55,7 +55,6 @@ public class AquaDefense {
             requirements(Category.defense, with(aluminum, 54));
             health = 2250;
             size = 3;
-            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
