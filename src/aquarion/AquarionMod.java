@@ -1,6 +1,5 @@
 package aquarion;
 
-import aquarion.gen.EntityRegistry;
 import aquarion.planets.AquaLoadouts;
 import aquarion.planets.AquaPlanets;
 import aquarion.planets.AquaSectorPresets;
@@ -12,18 +11,12 @@ import aquarion.world.graphics.AquaCacheLayers;
 import aquarion.world.graphics.AquaMenuRenderer;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.AquaWeather;
-import arc.Core;
-import arc.Events;
 import arc.assets.Loadable;
 import arc.util.Log;
 import arc.util.Reflect;
 import mindustry.Vars;
-import mindustry.game.EventType;
-import mindustry.mod.*;
 import aquarion.blocks.*;
 import mindustry.ui.fragments.MenuFragment;
-
-import static mindustry.Vars.headless;
 
 public class AquarionMod implements Loadable {
 
@@ -58,6 +51,7 @@ public class AquarionMod implements Loadable {
         AquaSectorPresets.load();
         TantrosTechTree.load();
     }
+
     public static AquaMenuRenderer getMenuRenderer() {
         try{
             return Reflect.get(MenuFragment.class, Vars.ui.menufrag, "renderer");
