@@ -65,7 +65,7 @@ public class AquaDefense {
             requirements(Category.defense, with(cupronickel, 24));
             health = (int) ((int)2250*1.5f);;
             size = 2;
-            researchCostMultiplier = 0.1f;
+            researchCostMultiplier = 0.25f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -73,7 +73,7 @@ public class AquaDefense {
             requirements(Category.defense, with(cupronickel, 54));
             health = (int) ((int)2250*1.5f);
             size = 3;
-            researchCostMultiplier = 0.1f;
+            researchCostMultiplier = 0.25f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
