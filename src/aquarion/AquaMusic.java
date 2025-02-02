@@ -14,7 +14,7 @@ public class AquaMusic {
 
     public static String[] aquaAmbientList = {"underwaves", "che-go-boom"};
     public static String[] aquaDarkList = {"bubblerine", "value"};
-    public static String[] aquaBossList = {"acceptance"};
+    public static String[] aquaBossList = {"acceptance", "hero-brine"};
 
     public static Seq<Music> origAmbientMusic;
     public static Seq<Music> origDarkMusic;
