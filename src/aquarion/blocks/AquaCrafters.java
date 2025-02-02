@@ -699,7 +699,6 @@ public class AquaCrafters {
             craftTime = 5*60f;
             consumeLiquid(magma, 15/60f);
             consumeItem(azurite, 30);
-
             itemCapacity = 300;
             outputItem = new ItemStack(copper, 90);
             outputLiquid = new LiquidStack(hydroxide, 10/60f);
