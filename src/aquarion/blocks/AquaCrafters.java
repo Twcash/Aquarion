@@ -39,7 +39,7 @@ import static mindustry.type.ItemStack.with;
 public class AquaCrafters {
     public static Block fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator,
-             siliconHearth, CompressionDrill, ramDrill, magmaDiffser,
+             siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
 
     public static void loadContent() {
@@ -336,6 +336,7 @@ public class AquaCrafters {
             updateEffect = Fx.steam;
             attribute = Attribute.heat;
             minEfficiency = 1;
+
             maxBoost = 3;
             baseEfficiency = 0;
             updateEffectChance = 0.02f;
@@ -390,7 +391,7 @@ public class AquaCrafters {
             size = 6;
             squareSprite = false;
             itemCapacity = 80;
-
+            researchCostMultiplier = 0.25f;
             liquidBoostIntensity = 2;
             boostItemUseTime = 90f;
             craftTime = 600;
@@ -449,6 +450,7 @@ public class AquaCrafters {
             size = 5;
             craftTime = 30*60f;
             liquidCapacity = 900;
+            researchCostMultiplier = 0.25f;
             itemCapacity = 250;
             outputLiquid = new LiquidStack(hydroxide, 40/60f);
             outputItems = new ItemStack[]{new ItemStack(borax, 90), new ItemStack(salt, 150)};
@@ -504,6 +506,7 @@ public class AquaCrafters {
             maxBoost = 2;
             baseEfficiency = 0;
             liquidCapacity = 250f;
+            researchCostMultiplier = 0.25f;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2){{
                 alpha = 0.7f;
             }}, new DrawDefault(), new DrawBetterRegion("-fan"){{
@@ -593,6 +596,8 @@ public class AquaCrafters {
             updateEffect = Fx.ventSteam;
             updateEffectChance = 0.01f;
             squareSprite = false;
+            researchCostMultiplier = 0.25f;
+
             craftTime = 600;
             consumeLiquids(LiquidStack.with(slag, 40 / 60f, fumes, 15 / 60));
             outputItems = new ItemStack[]{new ItemStack(nickel, 50),
@@ -604,6 +609,7 @@ public class AquaCrafters {
                 padTop = 13;
                 padRight = 9;
                 padLeft = 9;
+
             }}, new DrawDefault(), new DrawGlowRegion());
         }};
         InvarBlastFurnace = new GenericCrafter("invar-blast-furnace"){{
@@ -615,6 +621,7 @@ public class AquaCrafters {
             consumeLiquids(LiquidStack.with(fumes, 60 / 60f));
             consumePower(256/60f);
             squareSprite = false;
+            researchCostMultiplier = 0.25f;
             outputItem = new ItemStack(invar, 100);
             liquidCapacity = 200;
             itemCapacity = 120;
@@ -648,7 +655,7 @@ public class AquaCrafters {
         }};
         CaustroliteKiln = new GenericCrafter("caustrolite-kiln"){{
             requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
-
+            researchCostMultiplier = 0.25f;
             size = 5;
             consumeItems(with(arsenic, 40, lead, 200));
             consumeLiquids(LiquidStack.with(fumes, 20 / 60f, chlorine, 10/60f, hydroxide, 1));
@@ -665,7 +672,7 @@ public class AquaCrafters {
             consumePower(64/60f);
             craftTime = 20*60f;
             consumeItem(salt, 120);
-            researchCostMultiplier = 1;
+            researchCostMultiplier = 0.25f;
 
             outputLiquids = LiquidStack.with(chlorine, 1.0f, hydroxide, 1.0f);
             outputItem = new ItemStack(borax, 20);
@@ -676,12 +683,13 @@ public class AquaCrafters {
             requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
             size = 10;
             squareSprite = false;
-            researchCostMultiplier = 1;
+            researchCostMultiplier = 0.25f;
 
             consumeLiquids(LiquidStack.with(fumes, 80 / 60f, chlorine, 90/60f, magma, 1, carbonicAcid, 40/60f));
             consumePower(160/60f);
             consumeItems(ItemStack.with(aluminum, 25, arsenic, 20, manganese, 40));
             craftTime = 10*60f;
+
             outputItem = new ItemStack(chirenium, 40);
             liquidCapacity = 1000;
             itemCapacity = 120;
@@ -691,7 +699,6 @@ public class AquaCrafters {
             craftTime = 5*60f;
             consumeLiquid(magma, 15/60f);
             consumeItem(azurite, 30);
-            researchCostMultiplier = 1;
 
             itemCapacity = 300;
             outputItem = new ItemStack(copper, 90);
@@ -700,6 +707,7 @@ public class AquaCrafters {
             ignoreLiquidFullness = true;
             dumpExtraLiquid = true;
             size = 5;
+            researchCostMultiplier = 0.25f;
             updateEffect = Fx.steam;
             updateEffectChance = 0.05f;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma, 1.5f){{ alpha = 0.6f;}}, new DrawDefault(), new DrawGlowRegion() {{
@@ -713,6 +721,7 @@ public class AquaCrafters {
                 size = 7;
                 itemCapacity = 150;
                 craftTime = 3*60f;
+                researchCostMultiplier = 0.25f;
                 consumeItem(towanite, 15);
                 consumeLiquid(fumes, 30/60f);
                 outputItems = new ItemStack[]{
@@ -727,7 +736,7 @@ public class AquaCrafters {
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
-                researchCostMultiplier = 1;
+                researchCostMultiplier = 0.25f;
 
                 drillTime = 300;
                 size = 4;
@@ -745,6 +754,7 @@ public class AquaCrafters {
                 craftTime = 10*60f;
                 squareSprite = false;
                 baseExplosiveness = 10;
+                researchCostMultiplier = 0.25f;
                 consumeLiquids(LiquidStack.with(magma, 120 / 60f, dioxide, 40/60f));
                 outputLiquid = new LiquidStack(fumes, 120);
                 consumeItems(ItemStack.with(borax, 60, brimstone, 150));

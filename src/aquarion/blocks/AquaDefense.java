@@ -40,6 +40,7 @@ public class AquaDefense {
             researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            researchCostMultiplier = 0.25f;
         }};
         aluminumWall = new Wall("aluminum-wall") {{
             requirements(Category.defense, with(aluminum, 24));
@@ -48,6 +49,7 @@ public class AquaDefense {
             researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            researchCostMultiplier = 0.25f;
         }};
         hugeAluminumWall = new Wall("huge-aluminum-wall") {{
             requirements(Category.defense, with(aluminum, 54));
@@ -56,6 +58,8 @@ public class AquaDefense {
             researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            researchCostMultiplier = 0.25f;
+
         }};
         cupronickelWall = new Wall("cupronickel-wall") {{
             requirements(Category.defense, with(cupronickel, 24));
