@@ -11,11 +11,11 @@ import mindustry.ui.fragments.MenuFragment;
 public class ModEventHandler {
     public static void init() {
         Events.on(EventType.ClientLoadEvent.class, e -> {
-                try {
-                    Reflect.set(MenuFragment.class, Vars.ui.menufrag, "renderer", new AquaMenuRenderer());
-                } catch (Exception ex) {
-                    Log.err("Failed to replace renderer", ex);
-                }
+            try {
+                Reflect.set(MenuFragment.class, Vars.ui.menufrag, "renderer", new AquaMenuRenderer());
+            } catch (Exception ex) {
+                Log.err("Failed to replace renderer", ex);
+            }
         });
 
         Events.on(EventType.ClientLoadEvent.class, e -> AquaMusic.attach());
