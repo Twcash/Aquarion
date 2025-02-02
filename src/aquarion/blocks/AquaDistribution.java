@@ -81,7 +81,6 @@ public class AquaDistribution {
             solid = true;
             researchCostMultiplier = 0.25f;
         }};
-        //debating whether this should even exist
         sealedJunction = new Junction("sealed-junction"){{
             requirements(category.distribution, with(silicon, 15));
             capacity = 8;
