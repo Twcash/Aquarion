@@ -30,7 +30,7 @@ public class AquarionMod implements Loadable {
         AquaEffect.loadContent();
         AquaStatuses.load();
         AquaWeather.load();
-        // actual content needs items liquids FX ect
+        //actual content needs items liquids FX ect
         AquaEnv.loadContent();
         AquaPower.loadContent();
         AquaLiquid.loadContent();
@@ -43,7 +43,7 @@ public class AquarionMod implements Loadable {
         AquaWrecks.loadContent();
         AquaUnitTypes.loadContent();
         AquaCore.loadContent();
-        // distribution blocks need to be loaded here bc of unittypes
+        //distribution blocks need to be loaded here bc of unittypes
         AquaDistribution.loadContent();
         //keep these at the back
         AquaLoadouts.load();
