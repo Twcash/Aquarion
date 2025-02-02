@@ -58,7 +58,6 @@ public class AquaDefense {
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
-
         }};
         cupronickelWall = new Wall("cupronickel-wall") {{
             requirements(Category.defense, with(cupronickel, 24));
