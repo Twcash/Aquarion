@@ -4,16 +4,12 @@ import aquarion.world.blocks.defense.BlockingForceProjector;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
-import mindustry.world.blocks.defense.RegenProjector;
 import mindustry.world.blocks.defense.Wall;
-import mindustry.world.draw.DrawMulti;
-import mindustry.world.draw.DrawRegion;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
 import static mindustry.content.Items.lead;
 import static mindustry.content.Items.metaglass;
-import static mindustry.content.Liquids.hydrogen;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
@@ -37,7 +33,6 @@ public class AquaDefense {
             requirements(Category.defense, with(bauxite, 54));
             health = 1161;
             size = 3;
-            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
@@ -46,7 +41,6 @@ public class AquaDefense {
             requirements(Category.defense, with(aluminum, 24));
             health = 1000;
             size = 2;
-            researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
@@ -61,7 +55,7 @@ public class AquaDefense {
         }};
         cupronickelWall = new Wall("cupronickel-wall") {{
             requirements(Category.defense, with(cupronickel, 24));
-            health = (int) ((int)2250*1.5f);;
+            health = (int) (2250 *1.5f);
             size = 2;
             researchCostMultiplier = 0.25f;
             envEnabled|= Env.terrestrial | Env.underwater;
@@ -69,7 +63,7 @@ public class AquaDefense {
         }};
         hugeCupronickelWall = new Wall("huge-cupronickel-wall") {{
             requirements(Category.defense, with(cupronickel, 54));
-            health = (int) ((int)2250*1.5f);
+            health = (int) (2250 *1.5f);
             size = 3;
             researchCostMultiplier = 0.25f;
             envEnabled|= Env.terrestrial | Env.underwater;

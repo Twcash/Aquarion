@@ -8,7 +8,6 @@ import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
-import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawRegion;
 
 public class DrawOrbitRegions extends DrawRegion {

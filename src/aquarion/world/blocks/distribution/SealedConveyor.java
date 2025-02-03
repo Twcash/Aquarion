@@ -5,7 +5,6 @@ import arc.func.Boolf;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.struct.Seq;
-import arc.util.Nullable;
 import ent.anno.Annotations;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;

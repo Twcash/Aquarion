@@ -3,7 +3,6 @@ package aquarion;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Mathf;
-import mindustry.content.Fx;
 import mindustry.type.StatusEffect;
 
 import static mindustry.content.StatusEffects.*;

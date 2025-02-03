@@ -1,7 +1,6 @@
 package aquarion.world.blocks.power;
 
 import arc.util.Time;
-import mindustry.gen.Building;
 import mindustry.world.blocks.power.PowerGenerator;
 
 public class ThermoelectricModule extends PowerGenerator {
@@ -21,9 +20,5 @@ public class ThermoelectricModule extends PowerGenerator {
             }
         }
 
-        @Override
-        public float getPowerProduction() {
-            return powerProduction * productionEfficiency;
-        }
     }
 }

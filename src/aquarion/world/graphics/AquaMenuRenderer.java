@@ -5,6 +5,8 @@ import arc.struct.*;
 import arc.util.*;
 import mindustry.graphics.*;
 
+import java.util.Objects;
+
 public class AquaMenuRenderer extends MenuRenderer {
     public static final MenuProv[] menus = new MenuProv[] {
             new MenuProv("Sheet", new MenuBackgroundSheet()),
@@ -45,7 +47,7 @@ public class AquaMenuRenderer extends MenuRenderer {
         return prov;
     }
     public static MenuProv find(String name, MenuProv def) {
-        MenuProv prov = new Seq<>(AquaMenuRenderer.menus).find(menu -> menu.name == name);
+        MenuProv prov = new Seq<>(AquaMenuRenderer.menus).find(menu -> Objects.equals(menu.name, name));
         if (prov == null) return def;
         return prov;
     }

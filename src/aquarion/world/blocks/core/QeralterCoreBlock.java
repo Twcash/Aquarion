@@ -18,25 +18,16 @@ import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
-import mindustry.core.UI;
-import mindustry.entities.TargetPriority;
 import mindustry.entities.units.BuildPlan;
-import mindustry.gen.Sounds;
-import mindustry.graphics.Pal;
-import mindustry.ui.Bar;
 import mindustry.world.blocks.ConstructBlock;
 import mindustry.world.blocks.storage.CoreBlock;
-import mindustry.world.meta.BlockFlag;
-import mindustry.world.meta.Env;
 import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.ctype.*;
 import mindustry.entities.*;
-import mindustry.game.EventType.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
@@ -45,8 +36,6 @@ import mindustry.world.modules.*;
 
 import static aquarion.units.AquaUnitTypes.iris;
 import static mindustry.Vars.*;
-import static mindustry.Vars.content;
-import static mindustry.type.Liquid.animationFrames;
 
 //This core makes mining drones and has a build tower for initial construction
 //FYI this is a hell of a hackjob I pulled. I reccomend not using this code whatsoever
@@ -390,7 +379,6 @@ public class QeralterCoreBlock extends CoreBlock {
                         //set to follower's first build plan, whatever that is
                         unit.plans().clear();
                         unit.plans().addFirst(following.buildPlan());
-                        lastPlan = null;
                     }
 
                 }else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){ //search for new stuff
@@ -451,7 +439,6 @@ public class QeralterCoreBlock extends CoreBlock {
                     if(!valid){
                         //discard invalid request
                         unit.plans().removeFirst();
-                        lastPlan = null;
                     }
                 }
                 following = null;

@@ -8,6 +8,7 @@ import mindustry.type.*;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint.*;
 import mindustry.world.meta.*;
 
+@SuppressWarnings({"unused"})
 public class NewCargoAI extends AIController {
     static Seq<UnitCargoUnloadPointBuild> targets = new Seq<>();
 
@@ -94,6 +95,7 @@ public class NewCargoAI extends AIController {
     }
 
     /** find target for the unit's current item */
+    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public int findDropTarget(Item item, int offset, UnitCargoUnloadPointBuild ignore) {
         unloadTarget = null;
         itemTarget = item;
@@ -102,7 +104,7 @@ public class NewCargoAI extends AIController {
         targets.selectFrom((Seq<UnitCargoUnloadPointBuild>) (Seq) Vars.indexer.getFlagged(unit.team, BlockFlag.unitCargoUnloadPoint), u -> u.item == item);
 
         // hardcoded bc I dummy
-        targets.filter(t -> t.items.total() < 100);
+        targets.retainAll(t -> t.items.total() < 100);
 
         if (targets.isEmpty()) return 0;
 
@@ -116,11 +118,12 @@ public class NewCargoAI extends AIController {
         return offset;
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public void findAnyTarget(Building build) {
         unloadTarget = null;
         itemTarget = null;
 
-        var baseTargets = (Seq<UnitCargoUnloadPointBuild>) (Seq) Vars.indexer.getFlagged(unit.team, BlockFlag.unitCargoUnloadPoint);
+        Seq<UnitCargoUnloadPointBuild> baseTargets = (Seq<UnitCargoUnloadPointBuild>) (Seq) Vars.indexer.getFlagged(unit.team, BlockFlag.unitCargoUnloadPoint);
 
         if (baseTargets.isEmpty()) return;
 
@@ -128,7 +131,7 @@ public class NewCargoAI extends AIController {
         baseTargets.sort(Structs.comps(Structs.comparingInt(t -> t.items.total()), Structs.comparingFloat(t -> -t.dst2(unit))));
 
         for (var target : baseTargets) {
-            if ( !target.stale) {
+            if (!target.stale) {
                 unloadTarget = target;
                 break;
             }

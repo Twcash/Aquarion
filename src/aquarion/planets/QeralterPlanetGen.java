@@ -73,8 +73,8 @@ public class QeralterPlanetGen extends PlanetGenerator {
     private void createWallGaps(int gapCount, int gapSize, Seq<Vec2> spawnPoints) {
         for (int i = 0; i < gapCount; i++) {
             float angle = i * (360f / gapCount);
-            int edgeX = (int) (width / 2 + Angles.trnsx(angle, width / 2 - 1));
-            int edgeY = (int) (height / 2 + Angles.trnsy(angle, height / 2 - 1));
+            int edgeX = (int) ((float) width / 2 + Angles.trnsx(angle, (float) width / 2 - 1));
+            int edgeY = (int) ((float) height / 2 + Angles.trnsy(angle, (float) height / 2 - 1));
 
             // Create gaps in the wall
             for (int j = -gapSize / 2; j <= gapSize / 2; j++) {

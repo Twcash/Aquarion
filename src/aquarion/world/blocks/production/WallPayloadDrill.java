@@ -1,44 +1,27 @@
 package aquarion.world.blocks.production;
 
-import aquarion.AquaAttributes;
-import aquarion.blocks.AquaDefense;
 import arc.Core;
-import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
-import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
-import arc.math.geom.Vec2;
 import arc.struct.ObjectMap;
-import arc.util.Strings;
 import mindustry.Vars;
-import mindustry.content.Blocks;
 import mindustry.gen.Building;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.graphics.Shaders;
-import mindustry.type.ItemStack;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
 import mindustry.world.Tile;
-import mindustry.world.blocks.payloads.BlockProducer;
 import mindustry.world.blocks.payloads.BuildPayload;
-import arc.func.*;
 import arc.util.*;
-import mindustry.game.*;
-import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.PayloadBlock;
 import mindustry.world.meta.*;
 
-import static aquarion.AquaAttributes.bauxite;
-import static aquarion.blocks.AquaDefense.bauxiteWall;
-import static aquarion.blocks.AquaDefense.galliumWall;
 import static mindustry.Vars.*;
-
-import static mindustry.Vars.tilesize;
 
 //Basically a wallCrafter drill shit-thing that makes payload blocks of what it is mining
 //seriously what the hell this is fucking voodoo magic that doesnt work yet it does???
@@ -175,10 +158,10 @@ public class WallPayloadDrill extends PayloadBlock {
             float efficiency = calculateEfficiency(tileX(), tileY(), rotation, attributeTotals);
             float effectiveBuildSpeed = buildSpeed * efficiency;
             progress += effectiveBuildSpeed * edelta();
-            boolean produce = recipe != null && efficiency > 0 && payload == null;
+            boolean produce = efficiency > 0 && payload == null;
             if (produce && progress >= recipe.buildCost) {
                 payload = new BuildPayload(recipe, team);
-                recipe.placeEffect.at(x, y, recipe.size / tilesize);
+                recipe.placeEffect.at(x, y, (float) recipe.size / tilesize);
                 progress %= recipe.buildCost;
             }
             heat = Mathf.lerpDelta(heat, 1f, 0.15f);

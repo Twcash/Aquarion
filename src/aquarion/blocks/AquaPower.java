@@ -8,7 +8,6 @@ import aquarion.world.blocks.power.ThermoelectricModule;
 import aquarion.world.graphics.DrawBetterRegion;
 import arc.graphics.Color;
 import arc.math.Interp;
-import arc.math.Mathf;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;

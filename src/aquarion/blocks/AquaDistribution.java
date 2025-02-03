@@ -62,7 +62,7 @@ public class AquaDistribution {
         }};
 
         sealedRouter = new SealedRouter("sealed-router"){{
-            requirements(category.distribution, with(silicon, 10));
+            requirements(Category.distribution, with(silicon, 10));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             alwaysUnlocked = true;
@@ -72,7 +72,7 @@ public class AquaDistribution {
 
         }};
         sealedDistributor = new SealedRouter("sealed-distributor"){{
-            requirements(category.distribution, with(silicon, 30, ferricMatter, 5));
+            requirements(Category.distribution, with(silicon, 30, ferricMatter, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             speed = 2.1f;
@@ -82,7 +82,7 @@ public class AquaDistribution {
             researchCostMultiplier = 0.25f;
         }};
         sealedJunction = new Junction("sealed-junction"){{
-            requirements(category.distribution, with(silicon, 15));
+            requirements(Category.distribution, with(silicon, 15));
             capacity = 8;
             speed = 10;
             researchCostMultiplier = 0.25f;
@@ -92,12 +92,12 @@ public class AquaDistribution {
             envDisabled = Env.none;
         }};
         sealedUnloader = new DirectionalUnloader("sealed-unloader"){{
-            requirements(category.distribution, with(aluminum, 20, silicon, 20));
+            requirements(Category.distribution, with(aluminum, 20, silicon, 20));
             speed = 2f;
             researchCostMultiplier = 0.25f;
         }};
         sealedSorter = new Sorter("sealed-sorter"){{
-            requirements(category.distribution, with(silicon, 15));
+            requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             hasItems = true;
@@ -107,10 +107,9 @@ public class AquaDistribution {
         }};
 
         sealedOverflow = new OverflowGate("sealed-overflow"){{
-            requirements(category.distribution, with(silicon, 5));
+            requirements(Category.distribution, with(silicon, 5));
             invert = false;
             hasItems = true;
-            researchCostMultiplier = 0.2f;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
@@ -118,9 +117,8 @@ public class AquaDistribution {
         }};
 
         sealedUnderflow = new OverflowGate("sealed-underflow"){{
-            requirements(category.distribution, with(silicon, 5));
+            requirements(Category.distribution, with(silicon, 5));
             invert = true;
-            researchCostMultiplier = 1;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             hasItems = true;
