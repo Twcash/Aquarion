@@ -1,5 +1,6 @@
 package aquarion;
 
+import aquarion.ui.AquaSettings;
 import aquarion.ui.UIEvents;
 import arc.Events;
 import arc.audio.Music;
@@ -11,6 +12,7 @@ import mindustry.audio.SoundControl;
 import mindustry.core.GameState;
 import mindustry.game.EventType.StateChangeEvent;
 import mindustry.game.EventType.WorldLoadEvent;
+import mindustry.gen.Musics;
 
 import java.lang.reflect.Field;
 
@@ -26,6 +28,9 @@ public class AquaMusic {
     public static Seq<Music> origAmbientMusic;
     public static Seq<Music> origDarkMusic;
     public static Seq<Music> origBossMusic;
+
+    public static Music betterLand;
+    public static Music realLand;
 
     public static Field currentMus;
 
@@ -78,6 +83,9 @@ public class AquaMusic {
         origAmbientMusic = Vars.control.sound.ambientMusic.copy();
         origDarkMusic = Vars.control.sound.darkMusic.copy();
         origBossMusic = Vars.control.sound.bossMusic.copy();
+
+        betterLand = Vars.tree.loadMusic("better-land");
+        realLand = Musics.land;
     }
 
     public static Seq<Music> loadMultiple(String[] filenames, String folder) {
@@ -154,6 +162,10 @@ public class AquaMusic {
             Log.err(e);
             return null;
         }
+    }
+
+    public static void updateLand() {
+        Musics.land = AquaSettings.getBetterLand() ? betterLand : realLand;
     }
 }
 
