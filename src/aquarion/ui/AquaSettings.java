@@ -1,7 +1,6 @@
 package aquarion.ui;
 
 import arc.Core;
-import arc.util.Log;
 import mindustry.Vars;
 
 public class AquaSettings {
