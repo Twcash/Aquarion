@@ -118,13 +118,13 @@ public class AquaItems {
         }};
         mangalumin = new Item("mangalumin", Color.valueOf("# 93d588")) {{
             cost = 1.2f;
-        }};;
+        }};
         caustrolite = new Item("caustrolite", Color.valueOf("# 93d588")) {{
             cost = 2f;
             flammability = 1.5f;
             explosiveness = 1.1f;
 
-        }};;
+        }};
         qeraltarItems.addAll(
            lead, copper, electrum, silver,
                 nickel, cupronickel, titanium, arsenic,

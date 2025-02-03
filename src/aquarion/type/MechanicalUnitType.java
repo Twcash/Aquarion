@@ -11,7 +11,6 @@ import arc.math.Scaled;
 import arc.math.geom.Vec2;
 import arc.util.Time;
 import arc.util.Tmp;
-import mindustry.Vars;
 import mindustry.entities.abilities.Ability;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.units.WeaponMount;
@@ -19,13 +18,11 @@ import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
-import mindustry.graphics.MultiPacker;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 
 import static mindustry.Vars.player;
 import static mindustry.Vars.tilesize;
-import static mindustry.core.UI.packer;
 
 public class MechanicalUnitType extends UnitType {
     public static final float shadowTX = -12, shadowTY = -13;
@@ -191,16 +188,7 @@ public class MechanicalUnitType extends UnitType {
 
         Draw.reset();
     }
-    public void drawOutline(Unit unit){
-        Draw.reset();
 
-        if(Core.atlas.isFound(outlineRegion)){
-            applyColor(unit);
-            applyOutlineColor(unit);
-            Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
-            Draw.reset();
-        }
-    }
     public void drawMining(Unit unit){
         if(!unit.mining()) return;
         float focusLen = unit.hitSize / 2f + Mathf.absin(Time.time, 1.1f, 0.5f);

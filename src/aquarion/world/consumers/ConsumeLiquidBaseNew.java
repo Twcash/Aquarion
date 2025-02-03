@@ -4,7 +4,6 @@ package aquarion.world.consumers;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.consumers.Consume;
-import mindustry.world.consumers.ConsumeLiquidBase;
 
 public abstract class ConsumeLiquidBaseNew extends Consume{
     /** amount used per frame */

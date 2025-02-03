@@ -5,17 +5,11 @@ import aquarion.world.blocks.core.QeralterCoreBlock;
 import aquarion.world.blocks.defense.RegenPylon;
 import aquarion.world.blocks.distribution.DistributionCatalyst;
 import arc.graphics.Color;
-import mindustry.content.UnitTypes;
-import mindustry.gen.Unit;
 import mindustry.type.Category;
-import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
-import mindustry.world.blocks.defense.OverdriveProjector;
-import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
-import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;

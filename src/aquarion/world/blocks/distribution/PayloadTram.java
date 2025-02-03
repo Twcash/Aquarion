@@ -4,18 +4,9 @@ import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
-import mindustry.core.GameState;
 import mindustry.core.Renderer;
-import mindustry.ctype.UnlockableContent;
-import mindustry.input.Placement;
-import mindustry.type.ItemStack;
-import mindustry.world.Tile;
-import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.PayloadBlock;
-import mindustry.world.blocks.payloads.UnitPayload;
-import mindustry.world.meta.Stat;
-import mindustry.world.meta.StatUnit;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import arc.math.*;
@@ -26,11 +17,8 @@ import arc.util.io.*;
 import mindustry.entities.units.*;
 import mindustry.world.meta.*;
 
-import static arc.graphics.g2d.Draw.scl;
-import static arc.util.ArcNativesLoader.loaded;
 import static mindustry.Vars.*;
-import static mindustry.gen.TimeItem.time;
-import static mindustry.io.TypeIO.readPayload;
+
 //Thanks meep... I'm useless.
 public class PayloadTram extends PayloadBlock {
     public TextureRegion baseRegion;
@@ -154,7 +142,7 @@ public class PayloadTram extends PayloadBlock {
         @Override
         public void updateTile() {
             super.updateTile();
-            if(received && linkValid() == false){
+            if(received && !linkValid()){
                 dumping = true;
                 accepting = true;
                 loaded = false;
@@ -193,29 +181,22 @@ public class PayloadTram extends PayloadBlock {
                         //other link already has payload
                         loaded = false;
                         sending = false;
-                        return;
                     }
                 }else{
                     //no payload
-                    loaded = false;
-                    if(moveInPayload()) {
-                        loaded = true;
-                    }
-                    return;
+                    loaded = moveInPayload();
                 }
                 }else{
                 //no link dump payloads
                 moveOutPayload();
                 sending = false;
                 loaded = false;
-                return;
             }
         }
         @Override
         public void updatePayload(){
             if(payload != null){
             if(sending) {
-            return;
             }else {
                 payload.set(x + payVector.x, y + payVector.y, payRotation);
             }
@@ -273,7 +254,7 @@ public class PayloadTram extends PayloadBlock {
                 float angle = this.angleTo(target) - 90;
                 //Until I find a better way this is hardcoded
                 if (angle >= 0f && angle < 180f) Draw.yscl = -1f;
-                float thickness = 8f;
+                float thickness;
                 if (angle >= 0f && angle < 180f){
                     thickness = thicc * -1;
                 }else{
@@ -343,7 +324,6 @@ public class PayloadTram extends PayloadBlock {
                     Draw.z(Layer.blockOver);
                     payload.draw();
                 } else {
-                    return;
                 }
             }
         }

@@ -1,12 +1,10 @@
 package aquarion.units;
 
 import arc.Core;
-import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.math.geom.Rect;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Tmp;
@@ -183,7 +181,4 @@ public class MultiLegSegmentUnit extends UnitType {
         }
     }
 
-    public boolean needsBodyOutline() {
-        return alwaysCreateOutline;
-    }
 }

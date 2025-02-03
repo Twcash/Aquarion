@@ -7,19 +7,11 @@ import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.content.Fx;
 import mindustry.entities.Units;
-import mindustry.gen.*;
-import mindustry.type.UnitType;
-import mindustry.world.*;
 import mindustry.world.blocks.defense.ForceProjector;
 
 public class BlockingForceProjector extends ForceProjector {
     public BlockingForceProjector(String name) {
         super(name);
-    }
-
-    @Override
-    public void init() {
-        super.init();
     }
 
     public class BlockingForceBuild extends ForceBuild {
