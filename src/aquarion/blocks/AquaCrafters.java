@@ -36,6 +36,7 @@ import static aquarion.world.graphics.AquaFx.azuriteSmelt;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
+
 //What was all of this even for
 public class AquaCrafters {
     public static Block fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
@@ -700,7 +701,6 @@ public class AquaCrafters {
             craftTime = 5*60f;
             consumeLiquid(magma, 15/60f);
             consumeItem(azurite, 30);
-            craftEffect = azuriteSmelt;
             itemCapacity = 300;
             outputItem = new ItemStack(copper, 90);
             outputLiquid = new LiquidStack(hydroxide, 10/60f);

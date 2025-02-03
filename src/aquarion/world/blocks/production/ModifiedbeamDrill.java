@@ -14,7 +14,6 @@ import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
-import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.production.BeamDrill;
 

@@ -1,13 +1,11 @@
 package aquarion.units;
 
-import aquarion.gen.Derelictc;
 import aquarion.gen.EntityRegistry;
 import aquarion.type.*;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.struct.Seq;
-import arc.util.CommandHandler;
 import ent.anno.Annotations;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
@@ -17,20 +15,16 @@ import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.StatusEffects;
 import mindustry.entities.abilities.MoveEffectAbility;
-import mindustry.entities.abilities.RepairFieldAbility;
 import mindustry.entities.abilities.ShieldRegenFieldAbility;
 import mindustry.entities.abilities.SpawnDeathAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootAlternate;
-import mindustry.entities.pattern.ShootHelix;
 import mindustry.entities.pattern.ShootSine;
-import mindustry.entities.pattern.ShootSpread;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
-import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
 import aquarion.world.graphics.AquaPal;
 import mindustry.type.Weapon;
@@ -128,7 +122,6 @@ public class AquaUnitTypes {
                     splashDamage = 45;
                     splashDamageRadius = 8*3.2f;
                     width = height = 9f;
-                    ;
                     shrinkX = 0.6f;
                     shrinkY = 0.1f;
                     shootEffect = Fx.shootSmall;
@@ -241,7 +234,7 @@ public class AquaUnitTypes {
             flying = true;
             lowAltitude = true;
             //damn you intellij
-            drag = (float) 0.75f;
+            drag = 0.75f;
 
             weapons.add(new Weapon("aquarion-goss-weapon") {{
                 shoot.shots = 2;
@@ -420,7 +413,6 @@ public class AquaUnitTypes {
                 range = 75;
                 bullet = new LaserBoltBulletType(3f, 20) {{
                     width = 2f;
-                    ;
                     height = 5;
                     shootEffect = Fx.shootSmall;
                     shootSound = Sounds.blaster;
@@ -670,7 +662,6 @@ public class AquaUnitTypes {
             lockLegBase = true;
             legLength = 8;
             legCount = 4;
-            constructor = LegsUnit::create;
             legBaseOffset = 7;
             rotateMoveFirst = true;
             rotateSpeed = 0.9f;
@@ -816,7 +807,6 @@ public class AquaUnitTypes {
             controller = u -> new CargoAI();
             isEnemy = false;
             allowedInPayloads = false;
-            constructor = UnitEntity::create;
             logicControllable = false;
             playerControllable = false;
             envDisabled = 0;
@@ -829,7 +819,6 @@ public class AquaUnitTypes {
             hidden = true;
             targetable = false;
             envEnabled |= Env.underwater;
-            envDisabled = 0;
             outlineColor = AquaPal.tantDarkestTone;
             payloadCapacity = 0f;
             health = 200f;
@@ -1283,4 +1272,4 @@ public class AquaUnitTypes {
                     }}, 10f, .4f) {{
                     }});
         }};
-    }};
+    }}

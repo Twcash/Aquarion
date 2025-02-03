@@ -9,7 +9,6 @@ import mindustry.gen.Building;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
-import mindustry.world.Block;
 import mindustry.world.blocks.power.PowerGenerator;
 
 import static mindustry.Vars.world;
@@ -83,7 +82,6 @@ public class ModularReactor extends PowerGenerator {
                 kill();
                 overheatEffect.at(x, y);
                 createExplosion();
-                return;
             }
         }
 

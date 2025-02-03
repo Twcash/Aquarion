@@ -47,7 +47,7 @@ public class AquaIK {
         mats[1].set(attractor).sub(temp2.set(direction).scl(attractor.dot(direction))).nor();
 
         // Set up transformation matrices for axis alignment.
-        Vec2[] mat1 = {new Vec2(direction.x, mats[1].x), new Vec2(direction.y, mats[1].y)};
+        @SuppressWarnings("SuspiciousNameCombination") Vec2[] mat1 = {new Vec2(direction.x, mats[1].x), new Vec2(direction.y, mats[1].y)};
 
         // Position calculation starts from the end and works backwards.
         Vec2 currentPos = new Vec2(end);

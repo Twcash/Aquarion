@@ -85,7 +85,7 @@ public class AquaEnv {
                 colorFrom = Color.valueOf("18161c90");
                 colorTo = Color.valueOf("2a282d10");
                 sizeInterp = Interp.pow3Out;
-                interp = interp.pow3Out;
+                interp = Interp.pow3Out;
             }};
         }};
         andesiteRubble = new Floor("andesite-rubble-", 4) {{
@@ -122,8 +122,8 @@ public class AquaEnv {
                 layer = 90;
                 colorFrom = Color.valueOf("65666090");
                 colorTo = Color.valueOf("a2a2a200");
-                sizeInterp = interp.pow3Out;
-                interp = interp.pow3Out;
+                sizeInterp = Interp.pow3Out;
+                interp = Interp.pow3Out;
             }};
         }};
 
@@ -151,8 +151,8 @@ public class AquaEnv {
                 sizeTo = 12f;
                 colorFrom = Color.valueOf("18161c90");
                 colorTo = Color.valueOf("2a282d10");
-                sizeInterp = interp.pow3Out;
-                interp = interp.pow3Out;
+                sizeInterp = Interp.pow3Out;
+                interp = Interp.pow3Out;
             }};
         }};
 
@@ -171,8 +171,8 @@ public class AquaEnv {
                 sizeTo = 12f;
                 colorFrom = Color.valueOf("18161c90");
                 colorTo = Color.valueOf("2a282d10");
-                sizeInterp = interp.pow3Out;
-                interp = interp.pow3Out;
+                sizeInterp = Interp.pow3Out;
+                interp = Interp.pow3Out;
             }};
         }};
 
@@ -191,8 +191,8 @@ public class AquaEnv {
                 sizeTo = 12f;
                 colorFrom = Color.valueOf("18161c90");
                 colorTo = Color.valueOf("2a282d10");
-                sizeInterp = interp.pow3Out;
-                interp = interp.pow3Out;
+                sizeInterp = Interp.pow3Out;
+                interp = Interp.pow3Out;
             }};
         }};
         blueSandFLoor = new Floor("blue-sand-floor", 3) {{

@@ -1,45 +1,22 @@
 package aquarion.world.graphics;
 
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Interp;
-import arc.math.Mathf;
-import arc.math.Rand;
-import arc.math.geom.Vec2;
-import mindustry.entities.Effect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
-import arc.struct.*;
-import arc.util.*;
 import mindustry.entities.*;
-import mindustry.entities.abilities.*;
-import mindustry.gen.*;
-import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.world.*;
-import mindustry.world.blocks.units.UnitAssembler.*;
 
-import static arc.graphics.g2d.Draw.rect;
-import static arc.graphics.g2d.Draw.*;
+import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.*;
 import static arc.math.Angles.*;
-import static mindustry.Vars.*;
 
 
 import static arc.graphics.Color.alpha;
-import static arc.graphics.g2d.Draw.color;
-import static arc.math.Angles.randLenVectors;
 
 public class AquaFx {
     //I tried... I couldnt
@@ -186,8 +163,7 @@ public class AquaFx {
                         });
                     }),
                     cuproNickelSmeltSmoke = new Effect(190f, e -> {
-                        color(Color.valueOf("df9c88"));
-                        alpha(0.5f);
+                        color(Color.valueOf("df9c887f"));
                         rand.setSeed(e.id);
                         for(int i = 0; i < 3; i++){
                             float len = rand.random(12f);

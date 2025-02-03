@@ -1,15 +1,7 @@
 package aquarion.world;
 
-import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.g2d.*;
-import arc.math.geom.Vec2;
-import arc.struct.ObjectIntMap;
-import arc.struct.ObjectMap;
-import arc.util.Reflect;
-import arc.util.Scaling;
 import mindustry.game.Team;
-import mindustry.ui.Fonts;
 
 public class AquaTeams {
     //Credits to Slotterfleet / team oct as I heavily referenced that (I also tooka big chunk for the icon loading)

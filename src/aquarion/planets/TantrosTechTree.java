@@ -1,10 +1,7 @@
 package aquarion.planets;
 
-import aquarion.blocks.*;
-import aquarion.world.blocks.distribution.SealedConveyor;
 import arc.struct.Seq;
 import mindustry.content.Items;
-import mindustry.content.Liquids;
 import mindustry.game.Objectives;
 
 import static aquarion.AquaItems.*;
@@ -18,7 +15,6 @@ import static aquarion.blocks.AquaTurrets.Foment;
 import static aquarion.blocks.AquaTurrets.redact;
 import static aquarion.planets.AquaSectorPresets.*;
 import static mindustry.content.Items.silicon;
-import static mindustry.content.Liquids.arkycite;
 import static mindustry.content.Liquids.slag;
 import static mindustry.content.TechTree.*;
 public class TantrosTechTree {

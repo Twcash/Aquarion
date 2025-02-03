@@ -83,9 +83,9 @@ public class AquaPlanetGenarator extends PlanetGenerator{
                 block = floor.asFloor().wall;
             }
 
-            if(noise(x, y, 40f, 1f) > 0.9){
-                //block = Blocks.coralChunk;
-            }
+            /*if(noise(x, y, 40f, 1f) > 0.9){
+                block = Blocks.coralChunk;
+            }*/
         });
 
         Schematics.placeLaunchLoadout(width / 3, height / 3);

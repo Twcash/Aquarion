@@ -6,7 +6,6 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
-import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.meta.*;
 
 import static mindustry.Vars.iconMed;

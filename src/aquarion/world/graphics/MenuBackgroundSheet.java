@@ -1,32 +1,18 @@
 package aquarion.world.graphics;
-import aquarion.blocks.AquaEnv;
-import aquarion.units.AquaUnitTypes;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.FrameBuffer;
 import arc.math.*;
-import arc.math.geom.Rect;
 import arc.scene.ui.layout.*;
 import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.Time;
-import mindustry.Vars;
-import mindustry.ai.types.CommandAI;
 import mindustry.content.*;
-import mindustry.core.GameState;
-import mindustry.entities.Effect;
 import mindustry.game.Team;
 import mindustry.gen.*;
-import mindustry.graphics.Layer;
-import mindustry.graphics.LightRenderer;
-import mindustry.graphics.Shaders;
-import mindustry.type.Weather;
 import mindustry.world.*;
 
-import java.util.Random;
-
-import static arc.Core.graphics;
 import static arc.Core.settings;
 import static mindustry.Vars.*;
 import static mindustry.game.Team.*;

@@ -3,7 +3,6 @@ package aquarion.blocks;
 import aquarion.world.blocks.core.OverdrivePylon;
 import arc.graphics.Color;
 import mindustry.type.Category;
-import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.meta.Env;

@@ -5,7 +5,6 @@ import arc.graphics.g2d.*;
 import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
 import arc.util.Eachable;
-import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.*;
@@ -15,7 +14,6 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.*;
 import mindustry.world.blocks.liquid.LiquidRouter;
-import mindustry.world.modules.LiquidModule;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -81,7 +79,7 @@ public class Pipe extends LiquidRouter implements Autotiler {
             for(int i = 0; i < 4; i++) {
                 Point2 side = new Point2(plan.x, plan.y).add(Geometry.d4[i]);
                 if(new Point2(next.x, next.y).equals(side) && (
-                        (next.block instanceof Pipe || next.block instanceof Pipe || next.block instanceof Pipe) ?
+                        (next.block instanceof Pipe) ?
                                 (plan.rotation%2 == i%2 || next.rotation%2 == i%2) : (next.block.outputsLiquid))
                 ){
                     proximity[i] = next;
@@ -105,11 +103,6 @@ public class Pipe extends LiquidRouter implements Autotiler {
     @Override
     public boolean blends(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock) {
         return otherblock.hasLiquids || otherblock.outputsLiquid;
-    }
-
-    @Override
-    public TextureRegion[] icons() {
-        return new TextureRegion[]{bottomRegion, region};
     }
 
     public class PipeBuild extends LiquidRouterBuild {
@@ -192,11 +185,6 @@ public class Pipe extends LiquidRouter implements Autotiler {
                 next.handleLiquid(self(), liquid, flow);
                 liquids.remove(liquid, flow);
             }
-        }
-
-        @Override
-        public boolean acceptLiquid(Building source, Liquid liquid) {
-            return (liquids.current() == liquid || liquids.currentAmount() < 0.2f);
         }
 
         @Override

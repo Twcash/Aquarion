@@ -8,7 +8,6 @@ import mindustry.entities.Effect;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
 import mindustry.world.*;
-import mindustry.world.blocks.environment.Floor;
 
 public class PineTree extends Block {
     public float shadowOffset = -4f;
@@ -27,7 +26,7 @@ public class PineTree extends Block {
 
             if (Mathf.chanceDelta(updateEffectChance)) {
                 if ((Time.delta) >= effectSpacing) {
-                    effect.at(tile.x * 1 + Mathf.range(size * 4f), tile.y * 1 + Mathf.range(size * 4f));
+                    effect.at(tile.x + Mathf.range(size * 4f), tile.y + Mathf.range(size * 4f));
                 }
             }
         }
@@ -75,7 +74,7 @@ public class PineTree extends Block {
 
         Draw.z(Layer.power + 10);
         Draw.alpha(1);
-        Draw.rectv(reg, x, y, w, h, rot + + rot2, vec -> vec.add(
+        Draw.rectv(reg, x, y, w, h, rot + rot2, vec -> vec.add(
                 Mathf.sin(vec.y*3 + Time.time, scl, mag) + Mathf.sin(vec.x*3 - Time.time, 70, 0.8f),
                 Mathf.cos(vec.x*3 + Time.time + 8, scl + 6f, mag * 1.1f) + Mathf.sin(vec.y*3 - Time.time, 50, 0.2f)
         ));
