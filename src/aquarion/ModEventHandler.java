@@ -23,7 +23,9 @@ public class ModEventHandler {
         Events.on(EventType.ClientLoadEvent.class, e -> AquaSettings.init());
 
         Events.on(EventType.MusicRegisterEvent.class, e -> AquaMusic.load());
-        Events.on(EventType.WorldLoadEvent.class, e -> AquaMusic.updateLand());
+        Events.on(EventType.WorldLoadEvent.class, e -> {
+            AquaMusic.updateLand(); AquaMusic.updateFine();}
+        );
         Events.on(EventType.SectorLaunchEvent.class, e -> AquaMusic.updateLand());
     }
 }

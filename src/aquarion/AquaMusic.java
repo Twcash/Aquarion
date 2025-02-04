@@ -32,6 +32,9 @@ public class AquaMusic {
     public static Music betterLand;
     public static Music realLand;
 
+    public static Music betterFine;
+    public static Music realFine;
+
     public static Field currentMus;
 
     public static class MusicInfo {
@@ -69,6 +72,7 @@ public class AquaMusic {
         musics.put("acceptance", new MusicInfo("Acceptance", hyp));
         musics.put("value", new MusicInfo("Che Go Boom", leo));
         musics.put("hero-brine", new MusicInfo("Hero brine", leo));
+        musics.put("better-fine", new MusicInfo("Better Fine", leo));
     }
 
     // Don't change from outside I trust you by putting it in public
@@ -86,6 +90,9 @@ public class AquaMusic {
 
         betterLand = Vars.tree.loadMusic("better-land");
         realLand = Musics.land;
+
+        betterFine = Vars.tree.loadMusic("better-fine");
+        realFine = Musics.fine;
     }
 
     public static Seq<Music> loadMultiple(String[] filenames, String folder) {
@@ -166,6 +173,9 @@ public class AquaMusic {
 
     public static void updateLand() {
         Musics.land = AquaSettings.getBetterLand() ? betterLand : realLand;
+    }
+    public static void updateFine() {
+        Musics.land = AquaSettings.getBetterFine() ? betterFine : realFine;
     }
 }
 
