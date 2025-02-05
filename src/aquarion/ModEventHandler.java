@@ -1,6 +1,6 @@
 package aquarion;
 
-import aquarion.ui.AquaSettings;
+import aquarion.ui.ModSettings;
 import aquarion.world.graphics.AquaMenuRenderer;
 import arc.Events;
 import arc.util.Log;
@@ -19,13 +19,9 @@ public class ModEventHandler {
             }
         });
 
-        Events.on(EventType.ClientLoadEvent.class, e -> AquaMusic.attach());
-        Events.on(EventType.ClientLoadEvent.class, e -> AquaSettings.init());
+        Events.on(EventType.ClientLoadEvent.class, e -> ModMusic.attach());
+        Events.on(EventType.ClientLoadEvent.class, e -> ModSettings.init());
 
-        Events.on(EventType.MusicRegisterEvent.class, e -> AquaMusic.load());
-        Events.on(EventType.WorldLoadEvent.class, e -> {
-            AquaMusic.updateLand(); AquaMusic.updateFine();}
-        );
-        Events.on(EventType.SectorLaunchEvent.class, e -> AquaMusic.updateLand());
+        Events.on(EventType.MusicRegisterEvent.class, e -> ModMusic.load());
     }
 }

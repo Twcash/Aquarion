@@ -8,7 +8,7 @@ import arc.scene.ui.layout.Table;
 import arc.util.Align;
 import mindustry.ui.Styles;
 
-public class AquaUI {
+public class ModUI {
     public static void showBottomToast(String text) {
         float dur = 1f;
 

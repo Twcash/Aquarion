@@ -15,17 +15,12 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.*;
 import static arc.math.Angles.*;
 
-
-import static arc.graphics.Color.alpha;
-
 public class AquaFx {
     //I tried... I couldnt
     public static final Rand rand = new Rand();
     public static final Vec2 v = new Vec2();
 
-    public static final Effect
-
-            strutBulletTrail = new Effect(16, e -> {
+    public static final Effect strutBulletTrail = new Effect(16, e -> {
         color(Color.white, e.color, e.fin());
         stroke(0.5f + e.fout() * 1.2f);
         rand.setSeed(e.id);

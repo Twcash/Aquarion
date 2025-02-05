@@ -1,6 +1,6 @@
 package aquarion.ui;
 
-import aquarion.AquaMusic;
+import aquarion.ModMusic;
 import arc.audio.Music;
 import arc.util.Log;
 import arc.util.Timer;
@@ -23,15 +23,15 @@ public class UIEvents {
         }
 
         if (Vars.state.getState() == GameState.State.playing) {
-            Music curMus = AquaMusic.getCurMusic();
-            if (curMus != null && curMus != Musics.menu && curMus != Musics.launch && curMus != Musics.land && AquaMusic.getCurMusic() != musLast) {
+            Music curMus = ModMusic.getCurMusic();
+            if (curMus != null && curMus != Musics.menu && curMus != Musics.launch && curMus != Musics.land && ModMusic.getCurMusic() != musLast) {
                 musLast = curMus;
                 String musS = musLast.toString();
                 String[] musS2 = musS.substring(13,musS.length()-4).split("/");
                 musS = musS2[musS2.length-1];
-                if (AquaMusic.musics.containsKey(musS)) {
-                    AquaMusic.MusicInfo musicInfo = AquaMusic.musics.get(musS);
-                    AquaUI.showBottomToast("Now playing: " + musicInfo.name + " - " + musicInfo.author);
+                if (ModMusic.musics.containsKey(musS)) {
+                    ModMusic.MusicInfo musicInfo = ModMusic.musics.get(musS);
+                    ModUI.showBottomToast("Now playing: " + musicInfo.name + " - " + musicInfo.author);
                 }
             }
         }
