@@ -1,21 +1,21 @@
-# CONTRIBUTING
+# Contributing
 
-First, we create a fork of this repository. If you want to contribute to the Java version, make sure to uncheck the **Clone only the `main` branch** checkbox.
+To contribute
+1. Create a fork of this repo. While doing do, uncheck "**Clone only the `main` branch**".
+2. Clone your fork with git or edit it using Github's web UI.
+3. Contribute to the mod once you finish developing what you wanted: Contribute -> Open pull request
 
-After that, make your changes to the repository you just cloned. To sync it with the main repository, you will see a button labeled "Sync Repo." Make sure that when syncing, you are syncing to the same branch as the main repository. For example:
+### Merge conflicts:
 
-```plaintext
-I want to sync my `main` to the repository's `main`
-```
+If there is a merge conflict in bundles or something we will fix it
 
-Click `Sync` > select `Compare` from `your-fork-main` to `twcash01-main`. Always check this to prevent syncing the wrong branches.
+If you contribute code you probably know how to resolve them anyway so please merge upstream before PR
 
-After you have finished development and want to contribute, open a pull request to the `twcash01` repository. You will see an indicator saying this repository is ahead of the `twcash01` repository by {ammount} updates. That is when you should do a pull request. After that, wait for your pull request to be "merged" (accepted).
-
-## CONTRIBUTING RULES
+## Contributing rules
 1. If you have anything concerning early game bridges, don't.
 2. Just because you are contributing DOES NOT make you the author of the mod.
+If you contribute enough you can get a role in the discord though
 3. Sprites shall follow the current style of the mod.
-4. I check your PRs, and I will know if you try something inappropriate.
+4. I check your PRs, and I will know if you try something inappropriate or malicious.
 
-Make sure to fix the grammar and code blocks.
+Make sure to fix grammar, code blocks and follow the code styling thats already there.
