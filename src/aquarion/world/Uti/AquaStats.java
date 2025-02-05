@@ -7,5 +7,6 @@ public class AquaStats {
             kineticResistance = new Stat("kineticResistance"),
             heatResistance = new Stat("heatResistance"),
             energyResistance = new Stat("energyResistance"),
-            concussionResistance = new Stat("concussionResistance");
+            concussionResistance = new Stat("concussionResistance"),
+            MaxFlow = new Stat("maxflow");
 }

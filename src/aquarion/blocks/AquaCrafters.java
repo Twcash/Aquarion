@@ -2,28 +2,37 @@ package aquarion.blocks;
 
 import aquarion.AquaAttributes;
 import aquarion.AquaItems;
+import aquarion.AquaSounds;
 import aquarion.world.blocks.production.*;
 import aquarion.world.consumers.ConsumeLiquidNew;
 import aquarion.world.graphics.*;
 import arc.graphics.Color;
+import arc.math.Interp;
 import arc.math.Mathf;
+import arc.math.geom.Point2;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.effect.RadialEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
+import mindustry.type.Liquid;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.production.*;
+import mindustry.world.consumers.Consume;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BlockGroup;
 import mindustry.world.meta.Env;
 
+import static aquarion.AquaItems.gallium;
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.*;
+import static aquarion.AquaSounds.wallDrill;
+import static aquarion.world.graphics.AquaFx.azuriteSmelt;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
@@ -359,9 +368,9 @@ public class AquaCrafters {
             };
 
             outputLiquid = new LiquidStack(oxygen, 20 / 60f);
-            /*liquidOutputPoints = new Point2[]{
-                new Point2(0, 0)
-            };*/
+            //   liquidOutputPoints = new Point2[]{
+            //           new Point2(0, 0)
+            //    };
 
             size = 6;
             itemCapacity = 60;

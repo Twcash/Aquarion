@@ -140,6 +140,7 @@ public class AquaFx {
                     lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(6f, 7f) + 1.5f);
                 }
             }),
+
     shootSmokeTri = new Effect(45f, e -> {
         color(e.color, e.color, e.fin());
 
@@ -166,5 +167,12 @@ public class AquaFx {
                                 Fill.circle(e.x + v.x, e.y + v.y, 3.5f * b.fslope() + 0.4f);
                             });
                         }
-                    });
+                    }),
+            azuriteSmelt = new Effect(45, e -> {
+                color(Color.valueOf("9eb8f5"), Color.lightGray, e.fin());
+                randLenVectors(e.id, 4, e.fin() * 5f, (x, y) -> {
+                    Fill.square(e.x + x, e.y + y, e.fout() + 0.5f, 0);
+                });
+            });
+
 }

@@ -15,9 +15,7 @@ import static mindustry.type.ItemStack.with;
 public class AquaEffect {
     public static Block overdrivePylon, overdriveTerminus;
     public static void loadContent() {
-
-            //TODO overdrive projectors are bad. need to find a way to make it only able to boost defense/crafting related structures
-                 overdrivePylon = new OverdrivePylon("overdrive-pylon") {{
+                overdrivePylon = new OverdrivePylon("overdrive-pylon") {{
                 requirements(Category.effect, with(ferrosilicon, 200, invar, 500, aluminum, 250 ));
                 reload = 90;
                 size = 2;
@@ -27,17 +25,15 @@ public class AquaEffect {
                 baseColor = Color.valueOf("f6675b");
                 phaseColor = Color.valueOf("f6675b");
                 consumeLiquid(magma, 40/60f);
-                // TODO rebalance power consumption for literally everything
                 envEnabled |= Env.terrestrial | Env.underwater;
                 envDisabled = Env.none;
-
+                researchCostMultiplier = 0.25f;
                 consumePower(40/60f);
             }};
             overdriveTerminus = new
 
                     OverdriveProjector("overdrive-terminus") {
                         {
-                            //TODO actually make the thing
                             requirements(Category.effect, with(manganese, 120, nitride, 250, lead, 450, bauxite, 120));
                             reload = 90;
                             size = 5;
@@ -46,10 +42,9 @@ public class AquaEffect {
                             category = Category.effect;
                             baseColor = Color.valueOf("f6675b");
                             phaseColor = Color.valueOf("f6675b");
-                            // TODO rebalance power consumption for literally everything
                             envEnabled |= Env.terrestrial | Env.underwater;
                             envDisabled = Env.none;
-
+                            researchCostMultiplier = 0.25f;
                             consumePower(1f);
                         }
                     };
