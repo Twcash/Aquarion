@@ -9,7 +9,7 @@ import mindustry.world.Tile;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.Stat;
 
-public class AquaAttributeCrafter extends  AquaGenericCrafter {
+public class AquaAttributeCrafter extends AquaGenericCrafter {
     public Attribute attribute = Attribute.heat;
     public float baseEfficiency = 1f;
     public float boostScale = 1f;

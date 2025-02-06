@@ -1,6 +1,6 @@
 package aquarion;
 
-import aquarion.ui.AquaSettings;
+import aquarion.ui.ModSettings;
 import aquarion.ui.UIEvents;
 import arc.Events;
 import arc.audio.Music;
@@ -16,7 +16,7 @@ import mindustry.gen.Musics;
 
 import java.lang.reflect.Field;
 
-public class AquaMusic {
+public class ModMusic {
     public static Seq<Music> aquaAmbientMusic = new Seq<>();
     public static Seq<Music> aquaDarkMusic = new Seq<>();
     public static Seq<Music> aquaBossMusic = new Seq<>();
@@ -31,6 +31,9 @@ public class AquaMusic {
 
     public static Music betterLand;
     public static Music realLand;
+
+    public static Music betterFine;
+    public static Music realFine;
 
     public static Field currentMus;
 
@@ -69,23 +72,29 @@ public class AquaMusic {
         musics.put("acceptance", new MusicInfo("Acceptance", hyp));
         musics.put("value", new MusicInfo("Che Go Boom", leo));
         musics.put("hero-brine", new MusicInfo("Hero brine", leo));
+        musics.put("better-fine", new MusicInfo("Better Fine", leo));
     }
 
     // Don't change from outside I trust you by putting it in public
     public static boolean enabled = true;
-    public static boolean fullOverride = true;
 
     public static void load() {
         aquaAmbientMusic = loadMultiple(aquaAmbientList, "ambient");
         aquaDarkMusic = loadMultiple(aquaDarkList, "dark");
         aquaBossMusic = loadMultiple(aquaBossList, "boss");
 
+        betterLand = Vars.tree.loadMusic("better-land");
+        realLand = Musics.land;
+
+        betterFine = Vars.tree.loadMusic("better-fine");
+        realFine = Musics.fine;
+
+        updateFine();
+        updateLand();
+
         origAmbientMusic = Vars.control.sound.ambientMusic.copy();
         origDarkMusic = Vars.control.sound.darkMusic.copy();
         origBossMusic = Vars.control.sound.bossMusic.copy();
-
-        betterLand = Vars.tree.loadMusic("better-land");
-        realLand = Musics.land;
     }
 
     public static Seq<Music> loadMultiple(String[] filenames, String folder) {
@@ -123,7 +132,7 @@ public class AquaMusic {
     }
 
     public static void enableCustomMusic() {
-        if (!fullOverride) {
+        if (!ModSettings.getModMusOnly()) {
             Vars.control.sound.ambientMusic = Seq.with(aquaAmbientMusic).addAll(origAmbientMusic);
             Vars.control.sound.darkMusic = Seq.with(aquaDarkMusic).addAll(origDarkMusic);
             Vars.control.sound.bossMusic = Seq.with(aquaBossMusic).addAll(origBossMusic);
@@ -165,7 +174,11 @@ public class AquaMusic {
     }
 
     public static void updateLand() {
-        Musics.land = AquaSettings.getBetterLand() ? betterLand : realLand;
+        Musics.land = ModSettings.getBetterLand() ? betterLand : realLand;
+    }
+    public static void updateFine() {
+        Musics.fine = ModSettings.getBetterFine() ? betterFine : realFine;
+        Vars.control.sound.ambientMusic = Seq.with(Musics.game1, Musics.game3, Musics.game6, Musics.game8, Musics.game9, Musics.fine);
     }
 }
 
