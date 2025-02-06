@@ -20,7 +20,6 @@ import mindustry.world.TileGen;
 import static mindustry.Vars.world;
 
 public class AquaPlanetGenarator extends PlanetGenerator{
-
     Color c1 = Color.valueOf("5057a6"), c2 = Color.valueOf("272766"), out = new Color();
     Color c3 = Color.valueOf("727be2"), c4 = Color.valueOf("#90aae4");
     Color c5 = Color.valueOf("dde8ff"), c6 = Color.valueOf("#e5edff");
@@ -43,6 +42,7 @@ public class AquaPlanetGenarator extends PlanetGenerator{
         float depth = Simplex.noise3d(seed, 2, 0.56, 1.7f, position.x, position.y, position.z) / 2f;
         if (depth + poles> 1.1f) {return Mathf.pow(rawHeight(position), 0.25f) /3.5f;} else return 0;
     }
+
     @Override
     public Color getColor(Vec3 position){
         float depth = Simplex.noise3d(seed, 2, 0.56, 1.7f, position.x, position.y, position.z) / 2f;
@@ -107,5 +107,4 @@ public class AquaPlanetGenarator extends PlanetGenerator{
 
         return arr[Mathf.clamp((int)(temp * arr.length), 0, arr[0].length - 1)][Mathf.clamp((int)(height * arr[0].length), 0, arr[0].length - 1)];
     }
-
 }

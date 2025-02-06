@@ -1,23 +1,22 @@
 package aquarion.blocks;
 
-import aquarion.world.blocks.defense.BlockingForceProjector;
 import mindustry.type.Category;
-import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
-import static mindustry.content.Items.lead;
-import static mindustry.content.Items.metaglass;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
-    public static Block bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall, cupronickelWall, hugeCupronickelWall, duraluminWall, forceBarrier, galliumWall, lithoniteWall, manganeseWall, mendHive, mendPylon, smallBauxiteWall, smallDuraluminWall, smallGalliumWall, smallLithoniteWall, smallManganeseWall;
+    public static Block bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+            cupronickelWall, hugeCupronickelWall, duraluminWall,
+            galliumWall, lithoniteWall, manganeseWall, smallBauxiteWall,
+            smallDuraluminWall, smallGalliumWall,
+            smallLithoniteWall, smallManganeseWall;
 
 
     public static void loadContent() {
-        //Walls
         //TODO balance walls
 
         bauxiteWall = new Wall("bauxite-wall") {{
@@ -68,21 +67,6 @@ public class AquaDefense {
             researchCostMultiplier = 0.25f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-        }};
-        forceBarrier = new BlockingForceProjector("force-barrier"){{
-            requirements(Category.defense, ItemStack.with(lead,80, duralumin, 120, metaglass, 90, nitride, 150));
-            consumePower(3f / 60f);
-            sides = 18;
-            radius = 120;
-            shieldRotation = 0;
-            outputsPower = false;
-            hasPower = true;
-            consumesPower = true;
-            conductivePower = true;
-            envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
-            shieldHealth = 660;
-            size = 5;
         }};
     }
 }

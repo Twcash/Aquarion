@@ -860,7 +860,6 @@ public class AquaUnitTypes {
             constructor = UnitEntity::create;
             flying = true;
             speed = 0.65f;
-            rotateSpeed = 1.2f;
             useUnitCap = false;
             isEnemy = false;
             outlineColor = AquaPal.tantDarkestTone;

@@ -52,75 +52,75 @@ public class AquaTurrets {
             {
                 outlineColor = AquaPal.tantDarkestTone;
                 ammo(
-                        lead, new MissileBulletType(2.5f, 75, "bullet") {{
-                            width = 10f;
-                            height = 16f;
-                            trailLength = 12;
+                    lead, new MissileBulletType(2.5f, 75, "bullet") {{
+                        width = 10f;
+                        height = 16f;
+                        trailLength = 12;
 
-                            lifetime = 60f;
-                            ammoMultiplier = 1;
-                            shootEffect = AquaFx.shootLong;
-                            smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
-                            trailEffect = Fx.none;
-                            weaveMag = 2;
-                            homingPower = 0.01f;
-                            homingDelay = 5;
-                            weaveScale = 1.75f;
-                            shrinkX = 0.2f;
-                            shrinkY = 0.8f;
-                            frontColor = lightColor = hitColor = Color.white;
-                            backColor = trailColor = Color.valueOf("8d70ab");
-                        }},
+                        lifetime = 60f;
+                        ammoMultiplier = 1;
+                        shootEffect = AquaFx.shootLong;
+                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
+                        trailEffect = Fx.none;
+                        weaveMag = 2;
+                        homingPower = 0.01f;
+                        homingDelay = 5;
+                        weaveScale = 1.75f;
+                        shrinkX = 0.2f;
+                        shrinkY = 0.8f;
+                        frontColor = lightColor = hitColor = Color.white;
+                        backColor = trailColor = Color.valueOf("8d70ab");
+                    }},
 
-                        ferricMatter, new MissileBulletType(2.5f, 150, "bullet") {{
-                            width = 9f;
-                            height = 15f;
-                            trailLength = 10;
-                            lifetime = 60f;
-                            reloadMultiplier = 0.4f;
-                            rangeChange = 32;
-                            trailEffect = Fx.none;
-                            heatColor = Color.white;
-                            shootEffect = AquaFx.shootLong;
-                            smokeEffect = new MultiEffect(Fx.shootSmokeSquareSparse, AquaFx.shootSmokeFormentGallium);
-                            weaveMag = 2;
-                            homingPower = 0.01f;
-                            homingDelay = 10;
-                            pierce = true;
-                            pierceCap = 2;
-                            pierceDamageFactor = 0.5f;
-                            weaveScale = 1.75f;
-                            shrinkX = 0.2f;
-                            shrinkY = 0.8f;
-                            reloadMultiplier = 0.7f;
-                            ammoMultiplier = 2;
-                            frontColor = lightColor = hitColor = Color.white;
-                            backColor = trailColor = Color.valueOf("8d706a");
-                        }},
-                        ferrosilicon, new MissileBulletType(7.5f, 120, "bullet") {{
-                            width = 12f;
-                            height = 18f;
-                            rangeChange = 16;
-                            trailLength = 8;
-                            lifetime = 60f;
-                            reloadMultiplier = 1.1f;
-                            pierce = true;
-                            pierceCap = 4;
-                            pierceDamageFactor = 0.8f;
-                            ammoMultiplier = 3;
-                            heatColor = AquaPal.galliumLightTone;
-                            trailEffect = Fx.none;
-                            shootEffect = AquaFx.shootLong;
-                            smokeEffect = new MultiEffect(AquaFx.pentagonShootSmoke, AquaFx.shootSmokeFormentGallium);
-                            weaveMag = 0;
-                            homingPower = 0.00f;
-                            weaveScale = 0f;
-                            shrinkX = 0.2f;
-                            knockback = 4;
-                            shrinkY = 0.8f;
-                            frontColor = lightColor = hitColor = Color.white;
-                            backColor = trailColor = Color.valueOf("98a1ab");
-                        }});
+                    ferricMatter, new MissileBulletType(2.5f, 150, "bullet") {{
+                        width = 9f;
+                        height = 15f;
+                        trailLength = 10;
+                        lifetime = 60f;
+                        reloadMultiplier = 0.4f;
+                        rangeChange = 32;
+                        trailEffect = Fx.none;
+                        heatColor = Color.white;
+                        shootEffect = AquaFx.shootLong;
+                        smokeEffect = new MultiEffect(Fx.shootSmokeSquareSparse, AquaFx.shootSmokeFormentGallium);
+                        weaveMag = 2;
+                        homingPower = 0.01f;
+                        homingDelay = 10;
+                        pierce = true;
+                        pierceCap = 2;
+                        pierceDamageFactor = 0.5f;
+                        weaveScale = 1.75f;
+                        shrinkX = 0.2f;
+                        shrinkY = 0.8f;
+                        reloadMultiplier = 0.7f;
+                        ammoMultiplier = 2;
+                        frontColor = lightColor = hitColor = Color.white;
+                        backColor = trailColor = Color.valueOf("8d706a");
+                    }},
+                    ferrosilicon, new MissileBulletType(7.5f, 120, "bullet") {{
+                        width = 12f;
+                        height = 18f;
+                        rangeChange = 16;
+                        trailLength = 8;
+                        lifetime = 60f;
+                        reloadMultiplier = 1.1f;
+                        pierce = true;
+                        pierceCap = 4;
+                        pierceDamageFactor = 0.8f;
+                        ammoMultiplier = 3;
+                        heatColor = AquaPal.galliumLightTone;
+                        trailEffect = Fx.none;
+                        shootEffect = AquaFx.shootLong;
+                        smokeEffect = new MultiEffect(AquaFx.pentagonShootSmoke, AquaFx.shootSmokeFormentGallium);
+                        weaveMag = 0;
+                        homingPower = 0.00f;
+                        weaveScale = 0f;
+                        shrinkX = 0.2f;
+                        knockback = 4;
+                        shrinkY = 0.8f;
+                        frontColor = lightColor = hitColor = Color.white;
+                        backColor = trailColor = Color.valueOf("98a1ab");
+                    }});
                 requirements(Category.turret, with(lead, 90, AquaItems.bauxite, 60f));
                 size = 3;
                 squareSprite = false;
@@ -161,146 +161,146 @@ public class AquaTurrets {
         redact  = new ItemTurret("redact"){{
             requirements(Category.turret, with(ferricMatter, 80, lead, 200, bauxite, 300));
             ammo(
-                    bauxite, new BasicBulletType(7f, 75, "missile-large") {{
-                        width = 15f;
-                        pierce = true;
-                        pierceCap = 2;
-                        height = 19f;
-                        trailLength = 34;
-                        trailWidth = 3;
-                        lifetime = 60f;
-                        rangeChange = -5*8f;
-                        ammoMultiplier = 1;
-                        shootEffect = new Effect(10, e -> {
-                            color(e.color);
-                            float w = 1.5f + 9 * e.fout();
+                bauxite, new BasicBulletType(7f, 75, "missile-large") {{
+                    width = 15f;
+                    pierce = true;
+                    pierceCap = 2;
+                    height = 19f;
+                    trailLength = 34;
+                    trailWidth = 3;
+                    lifetime = 60f;
+                    rangeChange = -5*8f;
+                    ammoMultiplier = 1;
+                    shootEffect = new Effect(10, e -> {
+                        color(e.color);
+                        float w = 1.5f + 9 * e.fout();
 
-                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
-                            color(e.color);
+                        Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
+                        color(e.color);
 
-                            for(int i : Mathf.signs){
-                                Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation + i * 45f);
-                            }
+                        for(int i : Mathf.signs){
+                            Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation + i * 45f);
+                        }
 
-                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
-                        });
-                        smokeEffect = new MultiEffect(AquaFx.pentagonShootSmoke, Fx.colorSpark);
-                        trailRotation = true;
-                        trailEffect = AquaFx.pentagonShootSmoke;
-                        trailInterval = 2;
-                        frontColor = lightColor = hitColor = Color.white;
-                        hitEffect  = Fx.hitSquaresColor;
-                        despawnEffect = new Effect(17f, e -> {
-                            color(e.color);
-                            Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
-                        });
-                        backColor = trailColor = AquaPal.bauxiteLightTone;
-                    }},
-                    aluminum, new BasicBulletType(5f, 120, "missile-large") {{
-                        width = 15f;
-                        pierce = false;
-                        height = 19f;
-                        trailLength = 34;
-                        trailWidth = 3;
-                        lifetime = 60f;
-                        reloadMultiplier = 0.7f;
-                        ammoMultiplier = 1;
-                        shootEffect = new Effect(10, e -> {
-                            color(e.color);
-                            float w = 1.5f + 9 * e.fout();
+                        Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
+                    });
+                    smokeEffect = new MultiEffect(AquaFx.pentagonShootSmoke, Fx.colorSpark);
+                    trailRotation = true;
+                    trailEffect = AquaFx.pentagonShootSmoke;
+                    trailInterval = 2;
+                    frontColor = lightColor = hitColor = Color.white;
+                    hitEffect  = Fx.hitSquaresColor;
+                    despawnEffect = new Effect(17f, e -> {
+                        color(e.color);
+                        Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
+                    });
+                    backColor = trailColor = AquaPal.bauxiteLightTone;
+                }},
+                aluminum, new BasicBulletType(5f, 120, "missile-large") {{
+                    width = 15f;
+                    pierce = false;
+                    height = 19f;
+                    trailLength = 34;
+                    trailWidth = 3;
+                    lifetime = 60f;
+                    reloadMultiplier = 0.7f;
+                    ammoMultiplier = 1;
+                    shootEffect = new Effect(10, e -> {
+                        color(e.color);
+                        float w = 1.5f + 9 * e.fout();
 
-                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
-                            color(e.color);
+                        Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
+                        color(e.color);
 
-                                Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation * 45f);
-                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
-                        });
-                        smokeEffect = new MultiEffect(new Effect(90f, e -> {
-                            color(e.color, e.fin());
-                            rand.setSeed(e.id);
-                            for(int i = 0; i < 6; i++){
-                                float rot = e.rotation + rand.range(40f);
-                                v.trns(rot, rand.random(e.finpow() * 8f));
-                                float randomRotationSpeed = rand.random(0f, 180f);
-                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
-                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 5f, rand.random(700f) + slowRotation);
-                            }
-                        }), Fx.colorSpark);
-                        trailRotation = true;
-                        trailEffect = new Effect(80f, e -> {
-                            color(e.color, e.fin());
-                            rand.setSeed(e.id);
-                            for(int i = 0; i < 3; i++){
-                                float rot = e.rotation + rand.range(15f);
-                                v.trns(rot, rand.random(e.finpow() * 8f));
-                                float randomRotationSpeed = rand.random(0f, 180f);
-                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
-                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 4f, rand.random(700f) + slowRotation);
-                            }
-                        });
-                        trailInterval = 2;
-                        frontColor = lightColor = hitColor = Color.white;
-                        hitEffect  = Fx.hitSquaresColor;
-                        despawnEffect = new Effect(17f, e -> {
-                            color(e.color);
-                            Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
-                        });
-                        backColor = trailColor = Color.valueOf("a3bbc8");
-                    }},
-                    invar, new BasicBulletType(4f, 350, "missile-large") {{
-                        width = 15f;
-                        pierce = false;
-                        height = 19f;
-                        splashDamage = 50;
-                        
-                        splashDamageRadius = 16;
-                        trailLength = 34;
-                        trailWidth = 3;
-                        lifetime = 60f;
-                        reloadMultiplier = 0.7f;
-                        ammoMultiplier = 1;
-                        shootEffect = new Effect(10, e -> {
-                            color(e.color);
-                            float w = 1.5f + 9 * e.fout();
+                        Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation * 45f);
+                        Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
+                    });
+                    smokeEffect = new MultiEffect(new Effect(90f, e -> {
+                        color(e.color, e.fin());
+                        rand.setSeed(e.id);
+                        for(int i = 0; i < 6; i++){
+                            float rot = e.rotation + rand.range(40f);
+                            v.trns(rot, rand.random(e.finpow() * 8f));
+                            float randomRotationSpeed = rand.random(0f, 180f);
+                            float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                            Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 5f, rand.random(700f) + slowRotation);
+                        }
+                    }), Fx.colorSpark);
+                    trailRotation = true;
+                    trailEffect = new Effect(80f, e -> {
+                        color(e.color, e.fin());
+                        rand.setSeed(e.id);
+                        for(int i = 0; i < 3; i++){
+                            float rot = e.rotation + rand.range(15f);
+                            v.trns(rot, rand.random(e.finpow() * 8f));
+                            float randomRotationSpeed = rand.random(0f, 180f);
+                            float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                            Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 4f, rand.random(700f) + slowRotation);
+                        }
+                    });
+                    trailInterval = 2;
+                    frontColor = lightColor = hitColor = Color.white;
+                    hitEffect  = Fx.hitSquaresColor;
+                    despawnEffect = new Effect(17f, e -> {
+                        color(e.color);
+                        Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
+                    });
+                    backColor = trailColor = Color.valueOf("a3bbc8");
+                }},
+                invar, new BasicBulletType(4f, 350, "missile-large") {{
+                    width = 15f;
+                    pierce = false;
+                    height = 19f;
+                    splashDamage = 50;
 
-                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
-                            color(e.color);
+                    splashDamageRadius = 16;
+                    trailLength = 34;
+                    trailWidth = 3;
+                    lifetime = 60f;
+                    reloadMultiplier = 0.7f;
+                    ammoMultiplier = 1;
+                    shootEffect = new Effect(10, e -> {
+                        color(e.color);
+                        float w = 1.5f + 9 * e.fout();
 
-                            Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation * 45f);
-                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
-                        });
-                        smokeEffect = new MultiEffect(new Effect(90f, e -> {
-                            color(e.color, e.fin());
-                            rand.setSeed(e.id);
-                            for(int i = 0; i < 6; i++){
-                                float rot = e.rotation + rand.range(40f);
-                                v.trns(rot, rand.random(e.finpow() * 8f));
-                                float randomRotationSpeed = rand.random(0f, 180f);
-                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
-                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 5f, rand.random(700f) + slowRotation);
-                            }
-                        }), Fx.colorSpark);
-                        trailRotation = true;
-                        trailEffect = new Effect(80f, e -> {
-                            color(e.color, e.fin());
-                            rand.setSeed(e.id);
-                            for(int i = 0; i < 3; i++){
-                                float rot = e.rotation + rand.range(15f);
-                                v.trns(rot, rand.random(e.finpow() * 8f));
-                                float randomRotationSpeed = rand.random(0f, 180f);
-                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
-                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 4f, rand.random(700f) + slowRotation);
-                            }
-                        });
-                        trailInterval = 2;
-                        frontColor = lightColor = hitColor = Color.white;
-                        hitEffect  = Fx.hitSquaresColor;
-                        despawnEffect = new Effect(17f, e -> {
-                            color(e.color);
-                            Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
-                        });
-                        backColor = trailColor = Color.valueOf("f3efa7");
-                    }});
+                        Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
+                        color(e.color);
+
+                        Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation * 45f);
+                        Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
+                    });
+                    smokeEffect = new MultiEffect(new Effect(90f, e -> {
+                        color(e.color, e.fin());
+                        rand.setSeed(e.id);
+                        for(int i = 0; i < 6; i++){
+                            float rot = e.rotation + rand.range(40f);
+                            v.trns(rot, rand.random(e.finpow() * 8f));
+                            float randomRotationSpeed = rand.random(0f, 180f);
+                            float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                            Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 5f, rand.random(700f) + slowRotation);
+                        }
+                    }), Fx.colorSpark);
+                    trailRotation = true;
+                    trailEffect = new Effect(80f, e -> {
+                        color(e.color, e.fin());
+                        rand.setSeed(e.id);
+                        for(int i = 0; i < 3; i++){
+                            float rot = e.rotation + rand.range(15f);
+                            v.trns(rot, rand.random(e.finpow() * 8f));
+                            float randomRotationSpeed = rand.random(0f, 180f);
+                            float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                            Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 4f, rand.random(700f) + slowRotation);
+                        }
+                    });
+                    trailInterval = 2;
+                    frontColor = lightColor = hitColor = Color.white;
+                    hitEffect  = Fx.hitSquaresColor;
+                    despawnEffect = new Effect(17f, e -> {
+                        color(e.color);
+                        Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
+                    });
+                    backColor = trailColor = Color.valueOf("f3efa7");
+                }});
             size = 3;
             squareSprite = false;
             range = 350;
@@ -884,34 +884,34 @@ public class AquaTurrets {
             shootSound = Sounds.bolt;
             reload = 90;
             range = 120;
-              recoil = 0.75f;
+            recoil = 0.75f;
             shootCone = 30;
             inaccuracy = 9;
             minWarmup = 0.8f;
             shoot.shots = 2;
             shoot.shotDelay = 8;
             shootType = new MissileBulletType(3.5f, 15, "large-orb"){{
-            width = 8;
-            height = 8;
-            shrinkX = 0;
-            lifetime = 30;
-            shrinkY = 0;
-            status = AquaStatuses.ionized;
-            lightning = 3;
-            statusDuration = 160;
-            lightningLength = 8;
-            lightningDamage = 1;
-            lightningColor = Color.valueOf("f25353");
-            frontColor = lightColor = hitColor = Color.valueOf("ffbcbc");
-            backColor = trailColor = Color.valueOf("f25353");
-            hitSize = 6;
-            homingPower = 0.05f;
-            trailLength = 12;
-            weaveMag = 2;
-            weaveScale = 4;
-            trailWidth = 4;
-            shootEffect = AquaFx.pentagonShootSmoke;
-            despawnEffect = hitEffect = Fx.hitSquaresColor;
+                width = 8;
+                height = 8;
+                shrinkX = 0;
+                lifetime = 30;
+                shrinkY = 0;
+                status = AquaStatuses.ionized;
+                lightning = 3;
+                statusDuration = 160;
+                lightningLength = 8;
+                lightningDamage = 1;
+                lightningColor = Color.valueOf("f25353");
+                frontColor = lightColor = hitColor = Color.valueOf("ffbcbc");
+                backColor = trailColor = Color.valueOf("f25353");
+                hitSize = 6;
+                homingPower = 0.05f;
+                trailLength = 12;
+                weaveMag = 2;
+                weaveScale = 4;
+                trailWidth = 4;
+                shootEffect = AquaFx.pentagonShootSmoke;
+                despawnEffect = hitEffect = Fx.hitSquaresColor;
             }};
         }};
     }

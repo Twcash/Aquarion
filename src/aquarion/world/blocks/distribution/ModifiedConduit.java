@@ -8,7 +8,6 @@ import mindustry.gen.Building;
 import mindustry.type.Liquid;
 import mindustry.world.Tile;
 import mindustry.world.blocks.liquid.Conduit;
-import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 
 import static aquarion.world.Uti.AquaStats.MaxFlow;
