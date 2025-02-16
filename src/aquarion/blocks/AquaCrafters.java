@@ -39,7 +39,7 @@ import static mindustry.type.ItemStack.with;
 
 //What was all of this even for
 public class AquaCrafters {
-    public static Block fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator,
              siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -500,9 +500,9 @@ public class AquaCrafters {
             }});
         }};
         fumeFilter = new AttributeCrafter("fume-filter"){{
-            requirements(Category.crafting, with(silicon, 200, copper, 250, ferricMatter, 300));
+            requirements(Category.production, with(aluminum, 250, silicon, 500));
             size = 6;
-            outputLiquid = new LiquidStack(fumes, 40/60f);
+            outputLiquid = new LiquidStack(fumes, 80/60f);
             attribute = Attribute.steam;
             boostScale = 1/18f;
             maxBoost = 2;
@@ -718,10 +718,11 @@ public class AquaCrafters {
                 glowScale = 6f;
             }});
             towaniteReductionVat = new GenericCrafter("towanite-reduction-vat"){{
-                requirements(Category.crafting, with( lead, 500, silicon, 250, bauxite, 500));
+                requirements(Category.crafting, with( towanite, 150, silicon ,1200, aluminum, 150));
                 size = 7;
                 itemCapacity = 150;
                 craftTime = 3*60f;
+                squareSprite = false;
                 researchCostMultiplier = 0.25f;
                 consumeItem(towanite, 15);
                 consumeLiquid(fumes, 30/60f);
@@ -730,7 +731,12 @@ public class AquaCrafters {
                         new ItemStack(brimstone, 30),
                         new ItemStack(ferricMatter, 15)};
 
-                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new DrawGlowRegion());
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPistons(){{
+                    sides  =1;
+                    angleOffset = -90;
+                    sinMag = 2.5f;
+                    lenOffset = 1;
+                }}, new DrawDefault(), new DrawGlowRegion());
             }};
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor"){{
                 requirements(Category.production, with(silicon, 300, lead ,250));
@@ -748,6 +754,21 @@ public class AquaCrafters {
                 heatColor  = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
             }};
+            beamBore = new ModifiedbeamDrill("beam-bore"){{
+                requirements(Category.production, with(silicon, 300, aluminum, 550));
+                tier = 1;
+                itemCapacity = 50;
+                squareSprite = false;
+                researchCostMultiplier = 0.25f;
+                drillTime = 150;
+                size = 3;
+                range = 5;
+                consumeLiquid(fumes, 5/60f);
+                consumeLiquid(dioxide, 15/60f).boost();
+                optionalBoostIntensity = 1.5f;
+                heatColor  = Color.valueOf("9d8cf2");
+                boostHeatColor = Color.valueOf("e1f28c");
+            }};
             fumeMixer = new GenericCrafter("fume-mixer"){{
                 requirements(Category.crafting, with(silicon, 250, aluminum, 300, copper, 200));
                 //Leave your skin at the door. One wall. Two Wall. No floor. No walls.
@@ -761,6 +782,25 @@ public class AquaCrafters {
                 consumeItems(ItemStack.with(borax, 60, brimstone, 150));
                 itemCapacity = 350;
                 liquidCapacity = 900;
+            }};
+            DrillDerrick = new Drill("drill-derrick"){{
+                requirements(Category.production, with( silicon, 500, aluminum, 250, towanite, 50));
+                size = 5;
+                drillTime = 150;
+                consumeLiquid(fumes, 20/60f);
+                squareSprite = false;
+                itemCapacity = 150;
+                tier = 1;
+            }};
+            galenaCrucible = new GenericCrafter("galena-reduction-vat"){{
+                requirements(Category.crafting, with( silicon, 500, aluminum, 250));
+                size = 6;
+                consumeLiquid(fumes, 30/60f);
+                itemCapacity = 125;
+                liquidCapacity = 150;
+                squareSprite = false;
+                craftTime = 5*60f;
+                outputItem = new ItemStack(lead, 80);
             }};
         }};
     }}

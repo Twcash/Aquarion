@@ -21,7 +21,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class AquaLiquid {
-    public static Block pipeJunction, liquidVessel, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonDistributor, siphonJunction, siphonRouter, siphon, ThermalPump;
+    public static Block pipeTank, pipeJunction, liquidVessel, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonDistributor, siphonJunction, siphonRouter, siphon, ThermalPump;
 
     public static void loadContent() {
         ThermalPump = new Pump("thermal-pump"){{
@@ -37,7 +37,7 @@ public class AquaLiquid {
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(AquaLiquids.brine, 2f), new DrawDefault(), new DrawPump());
         }};
         siphon = new ModifiedConduit("siphon") {{
-            requirements(Category.liquid, with(lead, 2));
+            requirements(Category.liquid, with(silicon, 3));
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 40;
@@ -68,7 +68,7 @@ public class AquaLiquid {
             ((ModifiedConduit)siphon).junctionReplacement = this;
         }};
         siphonBridge = new ModifiedLiquidBridge("siphon-bridge"){{
-            requirements(Category.liquid, with(lead, 20, bauxite, 20));
+            requirements(Category.liquid, with(silicon, 35));
             fadeIn = false;
             range = 4;
             hasPower = false;
@@ -83,11 +83,11 @@ public class AquaLiquid {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        siphonDistributor = new LiquidRouter("siphon-distributor"){{
-            requirements(Category.liquid, with(metaglass, 40, lead, 20, bauxite, 40));
+        pipeTank = new ModifiedLiquidRouter("siphon-tank"){{
+            requirements(Category.liquid, with(silicon, 150, ferricMatter, 50));
             liquidPadding = 3;
             squareSprite = false;
-            size = 2;
+            size = 3;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

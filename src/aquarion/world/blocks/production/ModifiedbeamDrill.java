@@ -10,8 +10,10 @@ import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
+import arc.util.Eachable;
 import arc.util.Time;
 import arc.util.Tmp;
+import mindustry.entities.units.BuildPlan;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.world.Tile;
@@ -27,7 +29,15 @@ public class ModifiedbeamDrill extends BeamDrill {
         top1 = Core.atlas.find(this.name + "-top1");
         top2 = Core.atlas.find(this.name + "-top2");
     }
-
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{region, top1};
+    }
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        Draw.rect(region, plan.drawx(), plan.drawy());
+        Draw.rect(plan.rotation > 1 ? top2 : top1, plan.drawx(), plan.drawy(), plan.rotation * 90);
+    }
     public ModifiedbeamDrill(String name) {
         super(name);
     }

@@ -8,7 +8,7 @@ import mindustry.type.Item;
 import static mindustry.content.Items.*;
 
 public class AquaItems {
-    public static Item caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, salulnite, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
+    public static Item galena, caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, salulnite, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, lithoniteAlloy, manganese, nitride, sodium, ceramic;
     public static final Seq<Item> tantrosItems = new Seq<>();
     public static final Seq<Item> qeraltarItems = new Seq<>();
     public static void load() {
@@ -124,6 +124,8 @@ public class AquaItems {
             flammability = 1.5f;
             explosiveness = 1.1f;
 
+        }};
+        galena = new Item("galena", Color.valueOf("# d9cff2")) {{
         }};
         qeraltarItems.addAll(
            lead, copper, electrum, silver,
