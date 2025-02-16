@@ -2,29 +2,34 @@ package aquarion.blocks;
 
 import aquarion.units.AquaUnitTypes;
 import aquarion.world.blocks.core.QeralterCoreBlock;
+import aquarion.world.blocks.defense.BlockingForceProjector;
 import aquarion.world.blocks.defense.RegenPylon;
 import aquarion.world.blocks.distribution.DistributionCatalyst;
+
 import arc.graphics.Color;
 import mindustry.type.Category;
+import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.meta.Env;
 
-import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.fumes;
-import static aquarion.AquaLiquids.magma;
-import static aquarion.units.AquaUnitTypes.iris;
-import static aquarion.units.AquaUnitTypes.mite;
+
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.cryofluid;
 import static mindustry.type.ItemStack.with;
 
+import static aquarion.AquaItems.*;
+import static aquarion.AquaLiquids.*;
+import static aquarion.units.AquaUnitTypes.*;
+
+
 public class AquaCore {
-    public static Block mendPyre, mendPylon, cache, coreCuesta, coreEscarpment, corePike, coreExpedite, buildSentry, overdriveCatalyst,
-    //storing trunte blocks here
-    TrunteVein, TrunteNode;
+    public static Block mendPyre, mendPylon, cache, coreCuesta,
+            coreEscarpment, corePike, coreExpedite, buildSentry,
+            overdriveCatalyst, forceBarrier;
+    public static Block TrunteVein, TrunteNode;
 
     public static void loadContent(){
         cache = new StorageBlock("cache") {{
@@ -35,7 +40,8 @@ public class AquaCore {
             size = 3;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-    }};
+        }};
+
         corePike = new CoreBlock("core-pike") {{
             requirements(Category.effect, with(bauxite, 750, lead, 1250, silicon, 2000));
             squareSprite = false;
@@ -51,7 +57,6 @@ public class AquaCore {
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
         coreCuesta = new CoreBlock("core-cuesta") {{
             requirements(Category.effect, with(nitride, 3500, duralumin, 2500, metaglass, 1200, lead, 5000));
             squareSprite = false;
@@ -92,6 +97,7 @@ public class AquaCore {
             rotateSpeed = 1.1f;
             range = 200;
         }};
+
         buildSentry = new BuildTurret("build-sentry"){{
             requirements(Category.effect, with(electrum, 80, lead, 25));
             size = 2;
@@ -131,6 +137,21 @@ public class AquaCore {
             squareSprite = false;
             reload = 240;
             liquidCapacity = 60;
+        }};
+        forceBarrier = new BlockingForceProjector("force-barrier"){{
+            requirements(Category.defense, ItemStack.with(lead,80, duralumin, 120, metaglass, 90, nitride, 150));
+            consumePower(3f / 60f);
+            sides = 18;
+            radius = 120;
+            shieldRotation = 0;
+            outputsPower = false;
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled|= Env.spores | Env.scorching;
+            shieldHealth = 660;
+            size = 5;
         }};
     }
 }

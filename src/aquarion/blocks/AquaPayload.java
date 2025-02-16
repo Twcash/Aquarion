@@ -15,13 +15,14 @@ import static mindustry.type.ItemStack.with;
 
 public class AquaPayload {
     public static Block payloadTram, largePayloadTram, largePayloadSource;
+
     public static void loadContent() {
         payloadTram = new PayloadTram("payload-tram"){{
             requirements(Category.units, with(lead, 70, bauxite, 50));
             size = 3;
             range = tilesize  * 25;
             speed = 15;
-            thicc = 8;
+            thicc = 8; // OH YESSS
             distMultiplier = 1.1f;
             maxPayloadSize = 2.75f;
         }};
@@ -34,7 +35,6 @@ public class AquaPayload {
             distMultiplier = 0.9f;
             maxPayloadSize = 4.5f;
         }};
-
         largePayloadSource = new PayloadSource("large-payload-source"){{
             requirements(Category.units, BuildVisibility.sandboxOnly, with());
             size = 10;

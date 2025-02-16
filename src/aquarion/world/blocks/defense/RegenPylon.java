@@ -33,9 +33,9 @@ Effect effect =  new Effect(100f, e -> {
     }
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
-        indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t -> {
-            Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
-        });
+        indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t ->
+            Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))
+        );
         Drawf.dashSquare(baseColor.a(0.9f), x * tilesize + offset, y * tilesize + offset,range * tilesize );
     }
 
@@ -50,9 +50,9 @@ Effect effect =  new Effect(100f, e -> {
         public void drawSelect(){
 
 
-            indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t -> {
-                Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
-            });
+            indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t ->
+                Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))
+            );
             Drawf.dashSquare(baseColor.a(0.7f), x, y,range * tilesize );
 
         }

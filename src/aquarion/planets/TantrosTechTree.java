@@ -21,9 +21,7 @@ public class TantrosTechTree {
     public static void load() {
         AquaPlanets.tantros2.techTree = nodeRoot("Tantros", corePike, () -> {
             nodeProduce(magma, () -> {
-                nodeProduce(slag, () -> {
-                    nodeProduce(hydroxide, () -> {});
-                });
+                nodeProduce(slag, () -> nodeProduce(hydroxide, () -> {}));
                 nodeProduce(fumes, () -> {});
                 nodeProduce(dioxide, () -> {});
             });
@@ -43,58 +41,44 @@ public class TantrosTechTree {
             });
 
             node(siphon, () ->{
-                node(siphonRouter, () ->{});
-                node(siphonBridge, () ->{});
-                node(siphonJunction, () ->{});
-                node(pulseSiphon, () ->{
-                    node(pulseSiphonBridge, () ->{});
-                });
+                node(siphonRouter, () -> {});
+                node(siphonBridge, () -> {});
+                node(siphonJunction, () -> {});
+                node(pulseSiphon, () -> node(pulseSiphonBridge, () -> {}));
             });
-            node(magmaTap, () -> {
-                node(plasmaExtractor, () -> {
+            node(magmaTap, () -> node(plasmaExtractor, () -> {
 
-                });
-            });
-                node(magmaDiffser, () -> {
-                    node(azuriteKiln, () -> {
-                        node(bauxiteCentrifuge, () -> {
+            }));
+            node(magmaDiffser, () -> node(azuriteKiln, () ->
+                    node(bauxiteCentrifuge, () -> {
+                    })
+            ));
 
-                        });
-                    });
-
-                });
-
-                node(bauxiteWall, () -> {
-                node(hugeBauxiteWall, () -> {
-                    node(aluminumWall, () -> {
-                        node(hugeAluminumWall, () -> {
-                        });
+            node(bauxiteWall, () -> node(hugeBauxiteWall, () -> {
+                node(aluminumWall, () -> {
+                    node(hugeAluminumWall, () -> {
                     });
                 });
-            });
-                node(Foment, () -> {
-                node(redact, () -> {
-                });
-            });
+            }));
+            node(Foment, () -> node(redact, () -> {}));
             node(Ingress, () -> {
                 node(Torrent, Seq.with(
                         new Objectives.SectorComplete(Ingress)
                 ), () -> {});
             });
-            node(mendPyre, () ->{});
-                node(sealedConveyor, () ->{
-                node(cache, () ->{});
+            node(mendPyre, () -> {});
+            node(sealedConveyor, () ->{
+                node(cache, () -> {});
                 node(sealedRouter, () ->{
-                    node(sealedDistributor, () ->{});
-                    node(sealedUnloader, () ->{});
+                    node(sealedDistributor, () -> {});
+                    node(sealedUnloader, () -> {});
                 });
-                node(armoredSealedConveyor, () ->{});
-                node(sealedSorter, () ->{});
-                node(sealedJunction, () ->{});
-                node(sealedOverflow, () ->{
-                    node(sealedUnderflow, () ->{});
-                });
+                node(armoredSealedConveyor, () -> {});
+                node(sealedSorter, () -> {});
+                node(sealedJunction, () -> {});
+                node(sealedOverflow, () -> node(sealedUnderflow, () -> {}));
             });
         });
 
-    }}
+    }
+}

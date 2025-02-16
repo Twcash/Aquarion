@@ -27,22 +27,32 @@ import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
 
 public class AquaEnv {
-
-    // Boulders
-    public static Block arsenicBoulder, parzilSprig, azurite, blueSandBoulder, brecciaBoulder, chertBoulder, arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder, kelp, rockweed, urchin, CrasseCoral;
-
-    // Floors
-    public static Block leafLitter, blueSandFLoor, blueSandWater, brecciaFloor, smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor, andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid, coral_floor, feldspar_vent, feldspar, ferric_extrusions, gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, kelp_floor, roughFeldspar, phylite_floor, slate, shaleVent, andesite, andesiteRubble, andesiteVent;
-
-    // Ore blocks
-    public static Block oreSilicon, oreAluminum, oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum, oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium, oreManganese, exposedGallium;
-
-    // Walls
-    public static Block CrystalGalena, elderParzil, towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, arsenicCrystals, arsenicalOutcrop, arsenideWall, chertWall, chertOutcrop, pillarCoral, loteasCoral, songCoral,  bauxiticWall ,algalBloom, parzilPine, algalWall, bloom, blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, andesiteExtrusions;
+    public static Block azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
+            arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
+            arsenicBoulder;
+    public static Block parzilSprig, kelp, rockweed, urchin,
+            CrasseCoral;
+    public static Block leafLitter, blueSandFLoor, blueSandWater, brecciaFloor,
+            smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
+            chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
+            andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid,
+            coral_floor, feldspar_vent, feldspar, ferric_extrusions,
+            gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
+            kelp_floor, roughFeldspar, phylite_floor, slate,
+            shaleVent, andesite, andesiteRubble, andesiteVent;
+    public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum,
+            oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium,
+            oreManganese, oreAluminum, oreSilicon, exposedGallium;
+    public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall,
+            arsenicCrystals, arsenicalOutcrop, arsenideWall, chertWall,
+            chertOutcrop, pillarCoral, loteasCoral, songCoral,
+            bauxiticWall ,algalBloom, parzilPine, algalWall,
+            bloom, blueCoralWall, redCoralWall, greenCoralWall,
+            feldsparWall, gabbroWall, andesiteExtrusions, CrystalGalena,
+            elderParzil;
 
 
     public static void loadContent() {
-
         //TODO fix the blend group
         algal_carpet = new Floor("algal-carpet", 5) {{
 
@@ -61,15 +71,12 @@ public class AquaEnv {
 
         coral_floor = new Floor("coral-floor", 4) {{
         }};
-
-
         feldspar = new Floor("feldspar", 3) {{
             wall = feldsparWall;
         }};
         andesiteLayers = new Floor("andesite-layers", 4){{
             wall = daciteWall;
         }};
-
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
             variants = 3;
