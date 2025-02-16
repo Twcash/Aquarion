@@ -41,9 +41,9 @@ public class AquaPlanets {
         qeraltar = new Planet("qeraltar", citun, 0.9f, 2){{
             generator = new QeralterPlanetGen();
             meshLoader = () -> new HexMesh(this, 5);
-            accessible = true;
+            accessible = false;
             bloom = false;
-            alwaysUnlocked = true;
+            alwaysUnlocked = false;
             startSector = 2;
             atmosphereRadOut = 0.19f;
             atmosphereColor = Color.valueOf("798d87");
@@ -53,12 +53,12 @@ public class AquaPlanets {
             );
         }};
         //fuck
-        tantros2 = new Planet("tantros", citun, 1.3f, 3){{
+        tantros2 = new Planet("tantros", citun, 1.4f, 3){{
             generator = new AquaPlanetGenarator();
             meshLoader = () -> new HexMesh(this, 5);
             alwaysUnlocked = true;
             accessible = true;
-            orbitRadius = 55;
+            orbitRadius = 57;
             orbitOffset = 90;
             visible = true;
             atmosphereColor = Color.valueOf("3db899");
@@ -76,7 +76,7 @@ public class AquaPlanets {
             atmosphereRadOut = 0.6f;
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
-            itemWhitelist.addAll(AquaItems.bauxite, lead, silicon, aluminum, ferricMatter, ferrosilicon, ceramic, mangalumin, mangalumin, borax, nickel, copper, azurite, brimstone,
+            itemWhitelist.addAll(AquaItems.bauxite, galena, lead, silicon, aluminum, ferricMatter, ferrosilicon, ceramic, mangalumin, mangalumin, borax, nickel, copper, azurite, brimstone,
                     invar, vacodur, caustrolite, chirenium, salt, arsenic, cupronickel, cobalt, towanite);
             defaultEnv|= Env.terrestrial | Env.underwater;
             ruleSetter = r -> {

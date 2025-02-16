@@ -2,6 +2,7 @@ package aquarion.blocks;
 
 import aquarion.AquaItems;
 import aquarion.AquaStatuses;
+import aquarion.units.uhhShootSummon;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Blending;
@@ -12,26 +13,29 @@ import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import mindustry.content.Fx;
+import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.entities.Effect;
-import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.FlakBulletType;
-import mindustry.entities.bullet.MissileBulletType;
-import mindustry.entities.bullet.RailBulletType;
+import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
+import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
+import mindustry.world.blocks.defense.turrets.LiquidTurret;
 import mindustry.world.blocks.defense.turrets.PowerTurret;
+import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
+import static aquarion.AquaLiquids.fumes;
 import static aquarion.world.graphics.AquaFx.rand;
 import static aquarion.world.graphics.AquaFx.v;
 import static arc.graphics.g2d.Draw.color;
@@ -43,7 +47,7 @@ import static mindustry.gen.Sounds.shootAltLong;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block Foment, redact, Fragment, gyre, Coaxis, deviate,
+    public static Block maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate,
             blaze, ensign, hack;
 
     public static void loadContent() {
@@ -913,6 +917,47 @@ public class AquaTurrets {
                 shootEffect = AquaFx.pentagonShootSmoke;
                 despawnEffect = hitEffect = Fx.hitSquaresColor;
             }};
+
         }};
+        maelstrom = new LiquidTurret("maelstrom"){
+            {
+                shoot = new uhhShootSummon(0f, 4f, 5, 85f);
+                shoot.shotDelay = 2;
+                shoot.shots = 5;
+                reload = 2;
+                outlineColor = AquaPal.tantDarkestTone;
+                loopSound = Sounds.bioLoop;
+                loopSoundVolume = 0.09f;
+                shoot.firstShotDelay = 20;
+                warmupMaintainTime = 50;
+                shootWarmupSpeed = 0.07f;
+                minWarmup = 0.85f;
+                range = 260;
+                size = 3;
+                squareSprite = false;
+                shootSound = Sounds.blaster;
+                targetGround = false;
+                requirements(Category.turret, with(aluminum, 250, towanite, 90, ferricMatter, 100));
+                ammo(
+                        fumes, new MissileBulletType(7, 35) {{
+                            knockback = 2f;
+                            drag = -0.02f;
+                            lifetime = 45;
+                            trailLength = 18;
+                            trailWidth = 2;
+                            weaveScale = 4;
+                            weaveMag = 2;
+                            homingPower = 0.09f;
+                            collidesTiles = false;
+                            collidesGround = false;
+                            shootEffect = Fx.shootSmokeSquareSparse;
+                            backColor = trailColor = hitColor = lightColor = Color.gray;
+                            frontColor = Color.white;
+                            hitEffect = Fx.hitSquaresColor;
+                            layer = Layer.bullet - 2f;
+                            backSprite = "aquarion-star-bullet";
+                            sprite = "aquarion-star-bullet";
+                        }});
+            }};
     }
 }

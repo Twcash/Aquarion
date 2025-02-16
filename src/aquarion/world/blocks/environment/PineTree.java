@@ -15,15 +15,14 @@ public class PineTree extends Block {
     public Effect effect = Fx.impactReactorExplosion;
     public float effectSpacing = 15f;
     public float shadowLayer = Layer.power - 1;
-    public float updateEffectChance = 0.5f;
+    public float updateEffectChance = 0.1f;
     public float rotationRand = 30;
-    public float shadowAlpha = 0.5f; // Default value for shadowAlpha
-    public TextureRegion baseShadow, baseRegion, topShadow, topRegion;
+    public float shadowAlpha = 0.5f;
+    public TextureRegion baseShadow, baseRegion;
 
     public class PineTreeBuild extends Building {
         @Override
         public void updateTile() {
-
             if (Mathf.chanceDelta(updateEffectChance)) {
                 if ((Time.delta) >= effectSpacing) {
                     effect.at(tile.x + Mathf.range(size * 4f), tile.y + Mathf.range(size * 4f));
