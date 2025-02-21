@@ -5,8 +5,7 @@ import mindustry.type.SectorPreset;
 import static aquarion.planets.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
-    public static SectorPreset
-    Ingress, Torrent;
+    public static SectorPreset Ingress, Torrent;
     /*
     Sector plans
     chasm:10 {

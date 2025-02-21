@@ -6,7 +6,6 @@ import mindustry.type.UnitType;
 import mindustry.world.meta.Env;
 
 public class DerelictUnitType extends UnitType {
-
     public DerelictUnitType(String name) {
         super(name);
         speed = 0;
@@ -27,5 +26,4 @@ public class DerelictUnitType extends UnitType {
         hittable = true;
         constructor = DerelictUnit::create;
     }
-
 }

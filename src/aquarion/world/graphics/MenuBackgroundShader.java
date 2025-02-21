@@ -17,9 +17,7 @@ public class MenuBackgroundShader extends MenuBackground {
     Texture noiseTex, baseTex;
 
     public MenuBackgroundShader() {
-        init = menu -> {
-            load();
-        };
+        init = menu -> load();
     }
 
     public void apply() {

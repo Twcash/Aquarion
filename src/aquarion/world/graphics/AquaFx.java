@@ -40,9 +40,9 @@ public class AquaFx {
             ionizing = new Effect(35f, e -> {
                 color(Color.valueOf("ffab84"), Color.valueOf("ba3838"), e.fin());
 
-                randLenVectors(e.id, 3, 2f + e.fin() * 7f, (x, y) -> {
-                    Fill.poly(e.x + x, e.y + y, 4, 0.1f + e.fout() * 1.4f);
-                });
+                randLenVectors(e.id, 3, 2f + e.fin() * 7f, (x, y) ->
+                    Fill.poly(e.x + x, e.y + y, 4, 0.1f + e.fout() * 1.4f)
+                );
             }),
             t1TrailZoarcid = new MultiEffect(
                     new ParticleEffect(){{
@@ -99,17 +99,17 @@ public class AquaFx {
     shootSmokeFormentBauxite = new Effect(35f, e -> {
         color(AquaPal.bauxiteShoot, e.color, e.fin());
 
-        randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) -> {
-            Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f);
-        });
+        randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) ->
+            Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f)
+        );
     }),
 
     shootSmokeFormentGallium = new Effect(35f, e -> {
         color(Color.white, e.color, e.fin());
 
-        randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) -> {
-            Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f);
-        });
+        randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) ->
+            Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f)
+        );
     }),
             smallShockwave = new Effect(25f, 80f, e -> {
                 color(e.color, Color.lightGray , e.fin());
@@ -151,28 +151,28 @@ public class AquaFx {
             Fill.poly(e.x + v.x, e.y + v.y, 3, e.fout() * 3.8f + 0.2f, rand.random(360f));
         }
     }),
-                    SiliconHearthSmoke = new Effect(65f, e -> {
+                    SiliconHearthSmoke = new Effect(65f, e ->
                         randLenVectors(e.id, 0.65f + e.fin(), 6, 14.3f, (x, y, fin, out) -> {
                             color(Color.darkGray, Pal.coalBlack, e.finpowdown());
                             Fill.circle(e.x + x, e.y + y, out * 8.5f + 0.45f);
-                        });
-                    }),
+                        })
+                    ),
                     cuproNickelSmeltSmoke = new Effect(190f, e -> {
                         color(Color.valueOf("df9c887f"));
                         rand.setSeed(e.id);
                         for(int i = 0; i < 3; i++){
                             float len = rand.random(12f);
 
-                            e.scaled(e.lifetime * rand.random(0.45f, 1f), b -> {
-                                Fill.circle(e.x + v.x, e.y + v.y, 3.5f * b.fslope() + 0.4f);
-                            });
+                            e.scaled(e.lifetime * rand.random(0.45f, 1f), b ->
+                                Fill.circle(e.x + v.x, e.y + v.y, 3.5f * b.fslope() + 0.4f)
+                            );
                         }
                     }),
             azuriteSmelt = new Effect(45, e -> {
                 color(Color.valueOf("9eb8f5"), Color.lightGray, e.fin());
-                randLenVectors(e.id, 4, e.fin() * 5f, (x, y) -> {
-                    Fill.square(e.x + x, e.y + y, e.fout() + 0.5f, 0);
-                });
+                randLenVectors(e.id, 4, e.fin() * 5f, (x, y) ->
+                    Fill.square(e.x + x, e.y + y, e.fout() + 0.5f, 0)
+                );
             });
 
 }

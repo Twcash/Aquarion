@@ -66,7 +66,7 @@ public class QeralterCoreBlock extends CoreBlock {
     private static ItemModule nextItems;
     protected static final float[] thrusterSizes = {0f, 0f, 0f, 0f, 0.3f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0f};
 
-  public float thrusterLength = 14f/4f;
+    public float thrusterLength = 14f/4f;
 
     public float landDuration = 160f;
     public Effect launchEffect = Fx.launch;

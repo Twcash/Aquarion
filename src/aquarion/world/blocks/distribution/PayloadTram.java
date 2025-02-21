@@ -196,10 +196,9 @@ public class PayloadTram extends PayloadBlock {
         @Override
         public void updatePayload(){
             if(payload != null){
-            if(sending) {
-            }else {
-                payload.set(x + payVector.x, y + payVector.y, payRotation);
-            }
+                if(!sending) {
+                    payload.set(x + payVector.x, y + payVector.y, payRotation);
+                }
             }
         }
         @Override
@@ -323,7 +322,6 @@ public class PayloadTram extends PayloadBlock {
                     updatePayload();
                     Draw.z(Layer.blockOver);
                     payload.draw();
-                } else {
                 }
             }
         }

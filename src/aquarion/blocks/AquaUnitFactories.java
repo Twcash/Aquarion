@@ -13,6 +13,7 @@ import static mindustry.type.ItemStack.with;
 
 public class AquaUnitFactories {
     public static Block AssaultFactory;
+
     public static void loadContent(){
         AssaultFactory = new QeralterUnitFactory("assault-factory"){{
             requirements(Category.units, with(copper, 40, silicon, 90, titanium, 120, arsenic, 90));

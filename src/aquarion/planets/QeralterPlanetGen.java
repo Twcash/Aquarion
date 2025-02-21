@@ -13,6 +13,7 @@ import mindustry.maps.generators.PlanetGenerator;
 import mindustry.world.Block;
 import mindustry.world.Tiles;
 //this fucking sucks
+//nuh uh
 public class QeralterPlanetGen extends PlanetGenerator {
     // Single wall and floor blocks for simplicity
     Block floorBlock = Blocks.sand;

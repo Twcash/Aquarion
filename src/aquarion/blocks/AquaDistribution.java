@@ -15,20 +15,14 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDistribution {
-    // Armored and Sealed Conveyors
-    public static Block  electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor, electrumConveyor, armoredSealedConveyor, sealedOverflow,sealedDistributor,  sealedUnloader, sealedConveyor, sealedRouter, sealedSorter, sealedUnderflow, sealedJunction;
-    // heat
+    public static Block  electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
+            electrumConveyor, armoredSealedConveyor, sealedOverflow,sealedDistributor,
+            sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
+            sealedUnderflow, sealedJunction;
     public static Block heaterSource, heaterVoid, heatPipe;
-    // Cargo
     public static Block cargoDepot, cargoDock, cargoTerminal;
-
-    // Flare Towers
     public static Block flareTower;
-
-    // Mass Drivers
     public static Block largeMassDriver, smallMassDriver;
-
-    // Manganese Transport
     public static Block manganeseBridge, manganeseConveyor;
 
     public static void loadContent() {
@@ -46,7 +40,6 @@ public class AquaDistribution {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
         armoredSealedConveyor = new SealedConveyor("armored-sealed-conveyor"){{
             requirements(Category.distribution, with(aluminum, 2));
             speed = 2;
@@ -60,7 +53,6 @@ public class AquaDistribution {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
         sealedRouter = new SealedRouter("sealed-router"){{
             requirements(Category.distribution, with(silicon, 10));
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -69,7 +61,6 @@ public class AquaDistribution {
             researchCostMultiplier = 0.25f;
             speed = 2.1f;
             hasItems = true;
-
         }};
         sealedDistributor = new SealedRouter("sealed-distributor"){{
             requirements(Category.distribution, with(silicon, 30, ferricMatter, 5));
@@ -105,7 +96,6 @@ public class AquaDistribution {
             researchCostMultiplier = 0.25f;
 
         }};
-
         sealedOverflow = new OverflowGate("sealed-overflow"){{
             requirements(Category.distribution, with(silicon, 5));
             invert = false;
@@ -115,7 +105,6 @@ public class AquaDistribution {
             researchCostMultiplier = 0.25f;
 
         }};
-
         sealedUnderflow = new OverflowGate("sealed-underflow"){{
             requirements(Category.distribution, with(silicon, 5));
             invert = true;
@@ -125,31 +114,31 @@ public class AquaDistribution {
             researchCostMultiplier = 0.25f;
 
         }};
-
-         cargoDock = new UnitCargoLoader("cargo-dock"){{
+        cargoDock = new UnitCargoLoader("cargo-dock"){{
             requirements(Category.distribution, with(aluminum, 50, silicon, 120, copper, 120));
             size = 2;
             polySides = 0;
             buildTime = 240;
 
             researchCostMultiplier = 0.2f;
-             envEnabled |= Env.terrestrial | Env.underwater;
-             envDisabled = Env.none;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
             unitType = rivulet;
             itemCapacity = 200;
         }};
 
-         cargoDepot = new UnitCargoUnloadPoint("cargo-depot"){{
+        cargoDepot = new UnitCargoUnloadPoint("cargo-depot"){{
             requirements(Category.distribution, with(aluminum,15));
-             researchCostMultiplier = 0.2f;
-             itemCapacity = 120;
-             envEnabled |= Env.terrestrial | Env.underwater;
-             envDisabled = Env.none;
+            researchCostMultiplier = 0.2f;
+            itemCapacity = 120;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
             size = 2;
         }};
-         electrumRouter = new Router("electrum-router"){{
-             requirements(Category.distribution, with(electrum, 6));
-         }};
+
+        electrumRouter = new Router("electrum-router"){{
+            requirements(Category.distribution, with(electrum, 6));
+        }};
         electrumDistributor = new Router("electrum-distributor"){{
             requirements(Category.distribution, with(electrum, 24, lead, 24));
             size = 2;
@@ -170,5 +159,4 @@ public class AquaDistribution {
             invert = true;
         }};
     }
-
 }

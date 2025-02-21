@@ -5,7 +5,7 @@ import aquarion.gen.Derelictc;
 import aquarion.type.DerelictUnitType;
 import ent.anno.Annotations;
 import mindustry.gen.Unitc;
-import mindustry.type.UnitType;
+
 //Worthless. Another memory to how much you fail. FUCK YOU
 public class AquaWrecks {
     public static @Annotations.EntityDef({Unitc.class, Derelictc.class}) DerelictUnitType zoarcidWreck, messengerWreck, gossWreck, stewardWreck,
