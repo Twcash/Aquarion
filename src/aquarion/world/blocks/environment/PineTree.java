@@ -65,13 +65,13 @@ public class PineTree extends Block {
 
         if(shad.found()){
             Draw.alpha(shadowAlpha);
-            Draw.z(Layer.power - 1);
+            Draw.z(shadowLayer);
             Draw.rect(shad, tile.worldx() + shadowOffset, tile.worldy() + shadowOffset, rot + rot2);
         }
 
         TextureRegion reg = variants == 0 ? region : variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))];
 
-        Draw.z(Layer.power + 10);
+        Draw.z(layer);
         Draw.alpha(1);
         Draw.rectv(reg, x, y, w, h, rot + rot2, vec -> vec.add(
                 Mathf.sin(vec.y*3 + Time.time, scl, mag) + Mathf.sin(vec.x*3 - Time.time, 70, 0.8f),

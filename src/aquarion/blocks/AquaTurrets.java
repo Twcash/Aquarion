@@ -3,6 +3,7 @@ package aquarion.blocks;
 import aquarion.AquaItems;
 import aquarion.AquaStatuses;
 import aquarion.units.uhhShootSummon;
+import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Blending;
@@ -47,7 +48,7 @@ import static mindustry.gen.Sounds.shootAltLong;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate,
+    public static Block  maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate,
             blaze, ensign, hack;
 
     public static void loadContent() {
@@ -163,8 +164,63 @@ public class AquaTurrets {
             envDisabled = Env.none;
         }};
         redact  = new ItemTurret("redact"){{
-            requirements(Category.turret, with(ferricMatter, 80, lead, 200, bauxite, 300));
+            requirements(Category.turret, with(ferricMatter, 120, silicon, 200, aluminum, 300));
             ammo(
+                    arsenic, new BasicBulletType(6f, 100, "missile-large") {{
+                        width = 8f;
+                        pierce = true;
+                        height = 14f;
+                        splashDamage = 20;
+                        homingPower = 0.001f;
+
+                        splashDamageRadius = 8;
+                        trailLength = 25;
+                        trailWidth = 2.5f;
+                        lifetime = 55f;
+                        reloadMultiplier = 2f;
+                        ammoMultiplier = 2;
+                        shootEffect = new Effect(15, e -> {
+                            color(e.color);
+                            float w = 1.5f + 9 * e.fout();
+
+                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation);
+                            color(e.color);
+
+                            Drawf.tri(e.x, e.y, w * 1.2f, 90f * e.fout(), e.rotation * 45f);
+                            Drawf.tri(e.x, e.y, w, 60f * e.fout(), e.rotation + 180-45f);
+                        });
+                        smokeEffect = new MultiEffect(new Effect(110f, e -> {
+                            color(e.color, e.fin());
+                            rand.setSeed(e.id);
+                            for(int i = 0; i < 7; i++){
+                                float rot = e.rotation + rand.range(40f);
+                                v.trns(rot, rand.random(e.finpow() * 8f));
+                                float randomRotationSpeed = rand.random(0f, 180f);
+                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 5f, rand.random(700f) + slowRotation);
+                            }
+                        }), Fx.colorSpark);
+                        trailRotation = true;
+                        trailEffect = new Effect(60f, e -> {
+                            color(e.color, e.fin());
+                            rand.setSeed(e.id);
+                            for(int i = 0; i < 5; i++){
+                                float rot = e.rotation + rand.range(15f);
+                                v.trns(rot, rand.random(e.finpow() * 8f));
+                                float randomRotationSpeed = rand.random(0f, 180f);
+                                float slowRotation = Interp.pow2In.apply(randomRotationSpeed * e.fout());
+                                Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 4f, rand.random(700f) + slowRotation);
+                            }
+                        });
+                        trailInterval = 1;
+                        frontColor = lightColor = hitColor = Color.white;
+                        hitEffect  = Fx.hitSquaresColor;
+                        despawnEffect = new Effect(25f, e -> {
+                            color(e.color);
+                            Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
+                        });
+                        backColor = trailColor = Color.valueOf("e58ca0");
+                    }},
                 bauxite, new BasicBulletType(7f, 75, "missile-large") {{
                     width = 15f;
                     pierce = true;
@@ -175,6 +231,7 @@ public class AquaTurrets {
                     lifetime = 60f;
                     rangeChange = -5*8f;
                     ammoMultiplier = 1;
+                    homingPower = 0.001f;
                     shootEffect = new Effect(10, e -> {
                         color(e.color);
                         float w = 1.5f + 9 * e.fout();
@@ -200,12 +257,13 @@ public class AquaTurrets {
                     });
                     backColor = trailColor = AquaPal.bauxiteLightTone;
                 }},
-                aluminum, new BasicBulletType(5f, 120, "missile-large") {{
+                aluminum, new BasicBulletType(5f, 160, "missile-large") {{
                     width = 15f;
                     pierce = false;
                     height = 19f;
                     trailLength = 34;
                     trailWidth = 3;
+                    homingPower = 0.001f;
                     lifetime = 60f;
                     reloadMultiplier = 0.7f;
                     ammoMultiplier = 1;
@@ -251,12 +309,12 @@ public class AquaTurrets {
                     });
                     backColor = trailColor = Color.valueOf("a3bbc8");
                 }},
-                invar, new BasicBulletType(4f, 350, "missile-large") {{
+                invar, new BasicBulletType(4f, 350f, "missile-large") {{
                     width = 15f;
                     pierce = false;
                     height = 19f;
                     splashDamage = 50;
-
+                    homingPower = 0.001f;
                     splashDamageRadius = 16;
                     trailLength = 34;
                     trailWidth = 3;
@@ -312,8 +370,10 @@ public class AquaTurrets {
             reload = 45;
             consumeAmmoOnce = true;
             maxAmmo = 45;
-            inaccuracy = 3;
+            inaccuracy = 0;
             ammoPerShot = 3;
+            outlineColor = AquaPal.tantDarkestTone;
+            researchCostMultiplier = 0.02f;
             shoot.shotDelay = 5;
             recoils = 2;
             shootWarmupSpeed = 0.01f;
@@ -425,7 +485,6 @@ public class AquaTurrets {
                         smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
                         trailEffect = Fx.none;
                         weaveMag = 2;
-                        homingPower = 0.05f;
                         homingDelay = 5;
                         weaveScale = 1.75f;
                         shrinkX = 0.2f;
@@ -478,7 +537,6 @@ public class AquaTurrets {
                         smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
                         trailEffect = Fx.none;
                         weaveMag = 2;
-                        homingPower = 0.05f;
                         homingDelay = 5;
                         weaveScale = 1.75f;
                         frontColor = lightColor = hitColor = AquaPal.bauxiteShoot;
@@ -552,7 +610,6 @@ public class AquaTurrets {
                             trailEffect = Fx.none;
                             weaveMag = 1;
                             weaveScale = 8;
-                            homingPower = 0.05f;
                             homingDelay = 5;
                             velocityRnd = 0.1f;
                             frontColor = Color.white;
@@ -921,9 +978,10 @@ public class AquaTurrets {
         }};
         maelstrom = new LiquidTurret("maelstrom"){
             {
-                shoot = new uhhShootSummon(0f, 4f, 5, 85f);
                 shoot.shotDelay = 2;
                 shoot.shots = 5;
+                inaccuracy = 25;
+                researchCostMultiplier = 0.02f;
                 reload = 2;
                 outlineColor = AquaPal.tantDarkestTone;
                 loopSound = Sounds.bioLoop;
@@ -959,5 +1017,6 @@ public class AquaTurrets {
                             sprite = "aquarion-star-bullet";
                         }});
             }};
+
     }
 }

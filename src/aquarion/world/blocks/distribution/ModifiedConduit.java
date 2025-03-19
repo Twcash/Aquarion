@@ -72,7 +72,7 @@ public class ModifiedConduit extends Conduit {
             if (next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f) {
                 float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;
                 float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;
-                float maxTransfer = block.liquidCapacity / 2f - next.liquids.get(liquid); // Limit transfer to half capacity minus current liquid in next block
+                float maxTransfer = block.liquidCapacity / 2f - next.liquids.get(liquid) * this.liquids.get(liquid)/this.block.liquidCapacity; // Limit transfer to half capacity minus current liquid in next block
                 float flow = Math.min(Math.max(liquids.get(liquid) - next.liquids.get(liquid), 0f), maxTransfer);
 
                 if (flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)) {

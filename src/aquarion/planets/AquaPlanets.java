@@ -75,7 +75,7 @@ public class AquaPlanets {
             allowLaunchLoadout = false;
             atmosphereRadOut = 0.6f;
             clearSectorOnLose = true;
-            allowLaunchToNumbered = false;
+            allowLaunchToNumbered = true;
             itemWhitelist.addAll(AquaItems.bauxite, galena, lead, silicon, aluminum, ferricMatter, ferrosilicon, ceramic, mangalumin, mangalumin, borax, nickel, copper, azurite, brimstone,
                     invar, vacodur, caustrolite, chirenium, salt, arsenic, cupronickel, cobalt, towanite);
             defaultEnv|= Env.terrestrial | Env.underwater;

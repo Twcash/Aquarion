@@ -17,7 +17,6 @@ public class AquaShaders {
     public static @Nullable ModSurfaceShader brine, oxygen;
     public static void load() {
         brine = new ModSurfaceShader("brine");
-        oxygen = new ModSurfaceShader("oxygen");
     }
 
     public static class ModSurfaceShader extends Shader {

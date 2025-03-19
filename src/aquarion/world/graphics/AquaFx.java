@@ -48,7 +48,7 @@ public class AquaFx {
                     new ParticleEffect(){{
                         //it's too much of a pain to do the usual fx
                         lifetime = 35;
-                        sizeFrom = 6f;
+                        sizeFrom = 3f;
                         baseRotation = 180;
                         rotWithParent = true;
                         sizeTo = 0;
@@ -60,15 +60,15 @@ public class AquaFx {
                         length = 14;
                         interp = Interp.linear;
                         cone = 12;
-                        layer = Layer.bullet - 1.2f;
+                        layer = Layer.flyingUnitLow - 2f;
                     }},
                     new ParticleEffect(){{
                         lifetime = 30;
-                        sizeFrom = 4f;
+                        sizeFrom = 2f;
+                        baseRotation = 180;
                         rotWithParent = true;
                         sizeTo = 0;
                         particles = 3;
-                        baseRotation = 180;
                         colorFrom = Color.valueOf("2e3235");
                         colorTo = Color.valueOf("2e3235");
                         randLength = true;
@@ -76,11 +76,11 @@ public class AquaFx {
                         interp = Interp.linear;
                         sizeInterp = Interp.pow10Out;
                         cone = 8;
-                        layer = Layer.bullet - 1.1f;
+                        layer = Layer.flyingUnitLow - 1.9f;
                     }},
                     new ParticleEffect(){{
                         lifetime = 30;
-                        sizeFrom = 3f;
+                        sizeFrom = 1f;
                         sizeTo = 0;
                         particles = 2;
                         baseRotation = 180;
@@ -92,7 +92,59 @@ public class AquaFx {
                         interp = Interp.linear;
                         sizeInterp = Interp.pow10Out;
                         cone = 6;
-                        layer = Layer.bullet - 1;
+                        layer = Layer.flyingUnitLow - 1.8f;
+                    }}
+
+            ),
+            t2TrailAnguilli = new MultiEffect(
+                    new ParticleEffect(){{
+                        //it's too much of a pain to do the usual fx
+                        lifetime = 90;
+                        sizeFrom = 10f;
+                        baseRotation = 180;
+                        rotWithParent = true;
+                        sizeTo = 0;
+                        particles = 3;
+                        colorFrom = Color.valueOf("181b1c");
+                        colorTo = Color.valueOf("181b1c");
+                        sizeInterp = Interp.pow10Out;
+                        randLength = false;
+                        length = 18;
+                        interp = Interp.linear;
+                        cone = 13;
+                        layer = Layer.flyingUnitLow - 2f;
+                    }},
+                    new ParticleEffect(){{
+                        lifetime = 70;
+                        sizeFrom = 6f;
+                        rotWithParent = true;
+                        sizeTo = 0;
+                        particles = 3;
+                        baseRotation = 180;
+                        colorFrom = Color.valueOf("2e3235");
+                        colorTo = Color.valueOf("2e3235");
+                        randLength = true;
+                        length = 10;
+                        interp = Interp.linear;
+                        sizeInterp = Interp.pow10Out;
+                        cone = 9;
+                        layer = Layer.flyingUnitLow - 1.9f;
+                    }},
+                    new ParticleEffect(){{
+                        lifetime = 50;
+                        sizeFrom = 4f;
+                        sizeTo = 0;
+                        particles = 2;
+                        baseRotation = 180;
+                        rotWithParent = true;
+                        colorFrom = Color.valueOf("6d89dd");
+                        colorTo = Color.valueOf("444b5e");
+                        randLength = true;
+                        length = 8;
+                        interp = Interp.linear;
+                        sizeInterp = Interp.pow10Out;
+                        cone =7;
+                        layer = Layer.flyingUnitLow - 1.8f;
                     }}
 
             ),

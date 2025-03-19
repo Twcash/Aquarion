@@ -3,6 +3,7 @@ package aquarion.blocks;
 import aquarion.units.AquaUnitTypes;
 import aquarion.world.blocks.core.QeralterCoreBlock;
 import aquarion.world.blocks.defense.BlockingForceProjector;
+import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
 import aquarion.world.blocks.distribution.DistributionCatalyst;
 
@@ -26,18 +27,19 @@ import static aquarion.units.AquaUnitTypes.*;
 
 
 public class AquaCore {
-    public static Block mendPyre, mendPylon, cache, coreCuesta,
+    public static Block buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
             coreEscarpment, corePike, coreExpedite, buildSentry,
             overdriveCatalyst, forceBarrier;
     public static Block TrunteVein, TrunteNode;
 
     public static void loadContent(){
         cache = new StorageBlock("cache") {{
-            requirements(Category.effect, with(lead, 200, silicon, 150, ferricMatter, 300));
+            requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));
             itemCapacity = 900;
             coreMerge = true;
             squareSprite = false;
             size = 3;
+            researchCostMultiplier = 0.02f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -137,6 +139,7 @@ public class AquaCore {
             squareSprite = false;
             reload = 240;
             liquidCapacity = 60;
+            researchCostMultiplier = 0;
         }};
         forceBarrier = new BlockingForceProjector("force-barrier"){{
             requirements(Category.defense, ItemStack.with(lead,80, duralumin, 120, metaglass, 90, nitride, 150));
@@ -152,6 +155,11 @@ public class AquaCore {
             envDisabled|= Env.spores | Env.scorching;
             shieldHealth = 660;
             size = 5;
+        }};
+        buzzSaw = new ChainsawTurret("buzzsaw"){{
+            requirements(Category.effect, with(silicon, 750, lead, 500, bauxite, 250));
+            size = 3;
+            consumeLiquid(magma, 120/60f);
         }};
     }
 }

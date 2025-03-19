@@ -1,6 +1,7 @@
 package aquarion.world.blocks.power;
 
 import arc.Core;
+import arc.util.Nullable;
 import arc.util.Time;
 import mindustry.gen.Building;
 import mindustry.graphics.Pal;
@@ -9,13 +10,15 @@ import mindustry.ui.Bar;
 import mindustry.world.Block;
 
 public class FuelInputModule extends Block {
-    public float itemDuration = 120f; // Time in ticks to consume one item
-
+    public float itemDuration = 120f;
+    public int radiationAmount = 20;
     public FuelInputModule(String name) {
         super(name);
         update = true;
+        rotate = true;
+        drawArrow = true;
         solid = true;
-        hasItems = true; // Indicates this block interacts with items
+        hasItems = true;
     }
 
     @Override
@@ -31,39 +34,27 @@ public class FuelInputModule extends Block {
     }
 
     public class FuelInputBuild extends Building {
-        public float fuelTime = 0f; // Remaining time for the current fuel item
-        public boolean active = false; // Whether this module is contributing to the reactor
+        public @Nullable Building next;
+        public @Nullable Reactor.ReactorBuild nextc;
+        public float fuelTime = 0f;
 
         @Override
         public void updateTile() {
-            // Consume item when there's no fuel time left
-            if (fuelTime <= 0 && items.total() > 0) {
+            if (fuelTime <= 0 && items.total() > 0 && nextc != null) {
                 Item item = items.first();
                 items.remove(item, 1);
-                fuelTime = itemDuration; // Reset fuel time
-                active = true; // Mark the module as active
+                fuelTime = itemDuration;
+                nextc.addRadiation(radiationAmount);
             }
-
-            // Decrease fuel time and deactivate if no fuel remains
             if (fuelTime > 0) {
                 fuelTime -= Time.delta;
-                if (fuelTime <= 0) {
-                    active = false;
-                    // Optional: Log or debug when it deactivates
-                }
             }
         }
-
-        public void supplyFuel(ModularReactor.ReactorBuild reactor) {
-            if (active) {
-                // Add radiation to the reactor if this module is active
-                reactor.radiation = Math.min(reactor.radiation + 0.1f * Time.delta, reactor.maxRadiation); // Add radiation gradually
-                // Optional: Log to confirm fuel is being supplied
-            }
-        }
-
-        public boolean isActive() {
-            return active;
+        @Override
+        public void onProximityUpdate(){
+            super.onProximityUpdate();
+            next = front();
+            nextc = next instanceof Reactor.ReactorBuild d ? d : null;
         }
     }
 }

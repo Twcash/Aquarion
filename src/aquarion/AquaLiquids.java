@@ -96,7 +96,7 @@ public class AquaLiquids {
             gas = true;
             temperature = 1.01f;
         }};
-        chlorine = new Liquid("chlorine", Color.valueOf("83746b")){{
+        chlorine = new Liquid("chlorine", Color.valueOf("e1f7bc")){{
             coolant = false;
             gas = true;
         }};

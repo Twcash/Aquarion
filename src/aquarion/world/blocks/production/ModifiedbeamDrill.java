@@ -10,19 +10,33 @@ import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
+import arc.struct.Seq;
 import arc.util.Eachable;
+import arc.util.Nullable;
 import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.entities.units.BuildPlan;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
+import mindustry.type.Item;
 import mindustry.world.Tile;
+import mindustry.world.blocks.environment.Floor;
+import mindustry.world.blocks.environment.StaticWall;
+import mindustry.world.blocks.environment.TallBlock;
 import mindustry.world.blocks.production.BeamDrill;
+import mindustry.world.consumers.ConsumeLiquid;
+import mindustry.world.consumers.ConsumeLiquidBase;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
+import mindustry.world.meta.StatValues;
 
 import static mindustry.Vars.tilesize;
 
 public class ModifiedbeamDrill extends BeamDrill {
     public TextureRegion top1, top2;
+    public @Nullable Item blockedItem;
+    /** Special exemption items that this drill can't mine. */
+    public @Nullable Seq<Item> blockedItems;
     @Override
     public void load() {
         super.load();
@@ -37,6 +51,30 @@ public class ModifiedbeamDrill extends BeamDrill {
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
         Draw.rect(region, plan.drawx(), plan.drawy());
         Draw.rect(plan.rotation > 1 ? top2 : top1, plan.drawx(), plan.drawy(), plan.rotation * 90);
+    }
+    @Override
+    public void setStats(){
+        super.setStats();
+        stats.remove(Stat.drillTier);
+        stats.remove(Stat.drillSpeed);
+        stats.remove(Stat.booster);
+
+        stats.add(Stat.drillTier, StatValues.drillables(drillTime, 0f, size, drillMultipliers, b ->
+                (b instanceof Floor f && f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(f.itemDrop))) ||
+                        (b instanceof StaticWall w && w.itemDrop != null && w.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(w.itemDrop)) ||
+                                (b instanceof TallBlock d && d.itemDrop != null && d.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(d.itemDrop)))
+        )));
+
+        stats.add(Stat.drillSpeed, 60f / drillTime * size, StatUnit.itemsSecond);
+
+        if(optionalBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
+            stats.remove(Stat.booster);
+            stats.add(Stat.booster,
+                    StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
+                            consBase.amount,
+                            optionalBoostIntensity * optionalBoostIntensity, false,  liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid)consBase).liquid == liquid)
+            );
+        }
     }
     public ModifiedbeamDrill(String name) {
         super(name);

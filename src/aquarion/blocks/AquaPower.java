@@ -152,11 +152,9 @@ public class AquaPower {
                 radius = 1.5f;
             }}, new DrawLiquidTile(water){{alpha = 0.8f;}}, new DrawDefault());
         }};
-        ablativeFissionReactor = new ModularReactor("ablative-fission-reactor"){{
+        ablativeFissionReactor = new Reactor("ablative-fission-reactor"){{
             requirements(Category.power, with(Items.lead, 10, electrum, 30));
             size = 6;
-            maxHeat = 1500;
-            maxRadiationCap = 700;
         }};
         fuelPelletFeeder = new FuelInputModule("fuel-pellet-feeder-module"){{
             requirements(Category.power, with(Items.lead, 10, electrum, 30));

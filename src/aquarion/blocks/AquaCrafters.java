@@ -16,6 +16,7 @@ import mindustry.gen.Sounds;
 import mindustry.type.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.production.*;
+import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -312,7 +313,7 @@ public class AquaCrafters {
             requirements(Category.crafting, with(lead, 400, bauxite, 300, silicon, 250, copper, 150));
             craftTime = 60;
             consumeItem(bauxite, 10);
-            researchCostMultiplier = 1;
+            researchCostMultiplier = 0.02f;
 
             outputItems = new ItemStack[]{
                     new ItemStack(silicon, 3),
@@ -341,26 +342,22 @@ public class AquaCrafters {
                 sides = 1;
             }});
         }};
-        ferroSiliconFoundry = new AquaGenericCrafter("ferrosilicon-foundry") {{
-            requirements(Category.crafting, with( silicon, 750, aluminum, 200, copper, 350));
+        ferroSiliconFoundry = new GenericCrafter("ferrosilicon-foundry") {{
+            requirements(Category.crafting, with( silicon, 1250, aluminum, 500, copper, 800, ferricMatter, 600));
             size = 6;
             squareSprite = false;
-            itemCapacity = 80;
-            researchCostMultiplier = 0.25f;
-            liquidBoostIntensity = 2;
-            boostItemUseTime = 90f;
+            itemCapacity = 120;
+            researchCostMultiplier = 0.02f;
             craftTime = 600;
             consumeItems(with(ferricMatter, 5, silicon, 15));
             outputItem = new ItemStack(ferrosilicon, 20);
-            consumeLiquids(LiquidStack.with(fumes, 15 / 60f, hydroxide, 15/60f)).optional = false;
-            itemBooster =  consumeItem(borax, 2).boost();
-            booster = consume(new ConsumeLiquidNew(fumes, 5/60f)).boost();
-            liquidCapacity = 200;
+            consumeLiquids(LiquidStack.with(magma, 30 / 60f, hydroxide, 40/60f));
+            liquidCapacity = 600;
             updateEffect = Fx.coalSmeltsmoke;
             updateEffectChance = 0.05f;
             craftEffect = Fx.reactorsmoke;
             ambientSound = Sounds.electricHum;
-            ambientSoundVolume = 0.1f;
+            ambientSoundVolume = 0.09f;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma){{
                 padRight = 40;
                 padTop = 25;
@@ -455,13 +452,14 @@ public class AquaCrafters {
         fumeFilter = new AttributeCrafter("fume-filter"){{
             requirements(Category.production, with(aluminum, 250, silicon, 500));
             size = 6;
+            squareSprite = false;
             outputLiquid = new LiquidStack(fumes, 80/60f);
             attribute = Attribute.steam;
             boostScale = 1/18f;
             maxBoost = 2;
             baseEfficiency = 0;
             liquidCapacity = 250f;
-            researchCostMultiplier = 0.25f;
+            researchCostMultiplier = 0;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2){{
                 alpha = 0.7f;
             }}, new DrawDefault(), new DrawBetterRegion("-fan"){{
@@ -652,16 +650,17 @@ public class AquaCrafters {
         azuriteKiln = new GenericCrafter("azurite-kiln"){{
             requirements(Category.crafting, with(silicon, 500, bauxite, 750, lead, 750));
             craftTime = 5*60f;
-            consumeLiquid(magma, 15/60f);
-            consumeItem(azurite, 30);
+            squareSprite = false;
+            consumeLiquid(magma, 45/60f);
+            consumeItem(azurite, 15);
             itemCapacity = 300;
-            outputItem = new ItemStack(copper, 90);
-            outputLiquid = new LiquidStack(hydroxide, 10/60f);
-            liquidCapacity = 500;
+            outputItem = new ItemStack(copper, 45);
+            outputLiquid = new LiquidStack(hydroxide, 15/60f);
+            liquidCapacity = 250;
             ignoreLiquidFullness = true;
             dumpExtraLiquid = true;
             size = 5;
-            researchCostMultiplier = 0.25f;
+            researchCostMultiplier = 0.02f;
             updateEffect = Fx.steam;
             updateEffectChance = 0.05f;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma, 1.5f){{ alpha = 0.6f;}}, new DrawDefault(), new DrawGlowRegion() {{
@@ -671,7 +670,7 @@ public class AquaCrafters {
                 glowScale = 6f;
             }});
             towaniteReductionVat = new GenericCrafter("towanite-reduction-vat"){{
-                requirements(Category.crafting, with( towanite, 150, silicon ,1200, aluminum, 150));
+                requirements(Category.crafting, with( towanite, 150, silicon ,500, aluminum, 300));
                 size = 7;
                 itemCapacity = 150;
                 craftTime = 3*60f;
@@ -679,6 +678,7 @@ public class AquaCrafters {
                 researchCostMultiplier = 0.25f;
                 consumeItem(towanite, 15);
                 consumeLiquid(fumes, 30/60f);
+                researchCostMultiplier = 0;
                 outputItems = new ItemStack[]{
                         new ItemStack(copper, 15),
                         new ItemStack(brimstone, 30),
@@ -689,6 +689,12 @@ public class AquaCrafters {
                     angleOffset = -90;
                     sinMag = 2.5f;
                     lenOffset = 1;
+                }}, new DrawBetterArcSmelt(){{
+                    x = -16;
+                    y = -4;
+                }}, new DrawBetterArcSmelt(){{
+                    x = 6;
+                    y = -4;
                 }}, new DrawDefault(), new DrawGlowRegion());
             }};
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor"){{
@@ -696,9 +702,9 @@ public class AquaCrafters {
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
-                researchCostMultiplier = 0.25f;
+                researchCostMultiplier = 0.05f;
 
-                drillTime = 300;
+                drillTime = 250;
                 size = 4;
                 range = 8;
                 consumeLiquid(slag, 10/60f);
@@ -706,9 +712,10 @@ public class AquaCrafters {
                 optionalBoostIntensity = 1.5f;
                 heatColor  = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
+
             }};
             beamBore = new ModifiedbeamDrill("beam-bore"){{
-                requirements(Category.production, with(silicon, 300, aluminum, 550));
+                requirements(Category.production, with(silicon, 300, aluminum, 550, towanite, 50));
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
@@ -721,6 +728,7 @@ public class AquaCrafters {
                 optionalBoostIntensity = 1.5f;
                 heatColor  = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
+                researchCostMultiplier = 0;
             }};
             fumeMixer = new GenericCrafter("fume-mixer"){{
                 requirements(Category.crafting, with(silicon, 250, aluminum, 300, copper, 200));
@@ -736,14 +744,18 @@ public class AquaCrafters {
                 itemCapacity = 350;
                 liquidCapacity = 900;
             }};
-            DrillDerrick = new Drill("drill-derrick"){{
+            DrillDerrick = new GroundDrill("drill-derrick"){{
                 requirements(Category.production, with( silicon, 500, aluminum, 250, towanite, 50));
                 size = 5;
                 drillTime = 150;
-                consumeLiquid(fumes, 20/60f);
+                consumeLiquid(fumes, 10/60f).booster = false;
+                consumeLiquid(chlorine, 15/60f).boost();
+                liquidBoostIntensity = 1.5f;
                 squareSprite = false;
                 itemCapacity = 150;
+                liquidCapacity = 120;
                 tier = 1;
+                researchCostMultiplier = 0;
             }};
             galenaCrucible = new GenericCrafter("galena-reduction-vat"){{
                 requirements(Category.crafting, with( silicon, 500, aluminum, 250));

@@ -120,7 +120,7 @@ public class AquaUnitTypes {
                 bullet = new ArtilleryBulletType(2f, 30) {{
                     knockback = -.5f;
                     splashDamage = 45;
-                    splashDamageRadius = 8*3.2f;
+                    splashDamageRadius = 8 * 3.2f;
                     width = height = 9f;
                     shrinkX = 0.6f;
                     shrinkY = 0.1f;
@@ -140,14 +140,14 @@ public class AquaUnitTypes {
         }});
         ambassador = EntityRegistry.content("ambassador", Legsc.class, name -> new MechanicalUnitType(name) {{
             constructor = LegsUnit::create;
-            health = 900;
+            health = 1250;
             armor = 12;
             legLength = 16;
             legPairOffset = 2;
 
             hitSize = 13;
             legCount = 4;
-            speed = 1.1f;
+            speed = 1.2f;
             rotateSpeed = 1.7f;
             lockLegBase = true;
             legMaxLength = 1.2f;
@@ -156,11 +156,11 @@ public class AquaUnitTypes {
                 mirror = true;
                 x = 8.75f;
                 recoil = 0.5f;
-                parts.addAll(new RegionPart("-blade"){{
+                parts.addAll(new RegionPart("-blade") {{
                     moveRot = -10f;
                     moveX = 1;
                     progress = PartProgress.warmup;
-                }}, new RegionPart("-panel"){{
+                }}, new RegionPart("-panel") {{
                     moveX = 1.25f;
                     moveY = -1.25f;
                     progress = PartProgress.warmup;
@@ -175,18 +175,18 @@ public class AquaUnitTypes {
                 shootCone = 25;
                 top = false;
                 rotate = false;
-                bullet = new ContinuousFlameBulletType(){{
-                  lightStroke = 35;
-                  divisions = 40;
-                  width = 3.5f;
-                  drawFlare = false;
-                  length = 90;
-                  pierce = true;
-                  pierceCap = 2;
-                  pierceBuilding = true;
-                  damage = 18;
-                  damageInterval = 10;
-                  colors = new Color[]{Color.valueOf("465ab850"), Color.valueOf("66a6d290"), Color.valueOf("98d5ff"), Color.valueOf("d1efff")};
+                bullet = new ContinuousFlameBulletType() {{
+                    lightStroke = 35;
+                    divisions = 40;
+                    width = 3.8f;
+                    drawFlare = false;
+                    length = 110;
+                    pierce = true;
+                    pierceCap = 2;
+                    pierceBuilding = true;
+                    damage = 24;
+                    damageInterval = 10;
+                    colors = new Color[]{Color.valueOf("465ab850"), Color.valueOf("66a6d290"), Color.valueOf("98d5ff"), Color.valueOf("d1efff")};
                 }};
             }});
         }});
@@ -263,6 +263,7 @@ public class AquaUnitTypes {
         }});
         zoarcid = EntityRegistry.content("zoarcid", Unitc.class, name -> new MechanicalUnitType(name) {{
             engineSize = 0f;
+            armor = 4;
             groundLayer = 90;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -304,7 +305,7 @@ public class AquaUnitTypes {
                     }}, new SpawnDeathAbility(zoarcidWreck, 0, 1) {{
                         randAmount = 1;
                     }},
-                    new MoveEffectAbility(0, -1, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
+                    new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
             weapons.add(new Weapon("aquarion-zoarcid-weapon") {{
                             shootSound = Sounds.missileSmall;
                             reload = 60;
@@ -318,11 +319,11 @@ public class AquaUnitTypes {
                             rotate = false;
                             alternate = true;
                             mirror = true;
-                            bullet = new BasicBulletType(1f, 30) {{
+                            bullet = new BasicBulletType(1.5f, 40) {{
                                 range = 60;
                                 hitSize = 5;
-                                width = 12;
-                                height = 19;
+                                width = 6;
+                                height = 8;
                                 frontColor = Color.white;
                                 backColor = Pal.techBlue;
                                 weaveMag = 0;
@@ -344,11 +345,11 @@ public class AquaUnitTypes {
                         rotate = false;
                         alternate = true;
                         mirror = true;
-                        bullet = new BasicBulletType(1f, 30) {{
+                        bullet = new BasicBulletType(1.5f, 40) {{
                             range = 60;
                             hitSize = 5;
-                            width = 12;
-                            height = 19;
+                            width = 6;
+                            height = 8;
                             frontColor = Color.white;
                             backColor = Pal.techBlue;
                             weaveMag = 0;
@@ -358,6 +359,93 @@ public class AquaUnitTypes {
                         rotateSpeed = 4.5f;
                     }});
         }});
+        anguilli = EntityRegistry.content("anguilli", Unitc.class, name -> new MechanicalUnitType(name) {
+            {
+
+                abilities.add(
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 8;
+                            sizeTo = 0;
+                            lenFrom = 0;
+                            lenTo = 6;
+                            line = true;
+                            length = 15;
+                            baseLength = 2;
+                            layer = 90;
+                            lifetime = 10;
+                            colorFrom = Color.valueOf("ffea97");
+                            colorTo = Color.valueOf("ffea9710");
+                        }}, 90f, .6f) {{
+                        }},
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 0;
+                            sizeTo = 4;
+                            lifetime = 80;
+                            layer = 80;
+                            colorFrom = Color.valueOf("262323");
+                            colorTo = Color.valueOf("746f6f10");
+                        }}, 15f, .4f) {{
+                        }}, new SpawnDeathAbility(anguilliWreck, 0, 1) {{
+                            randAmount = 1;
+                        }},
+                        new MoveEffectAbility(6, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
+                abilities.add(new MoveEffectAbility(-6, -5, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1),
+                        new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t2TrailAnguilli, 1));
+                weapons.add(new Weapon("anguilli-weapon") {{
+                    x = 2;
+                    y = 0;
+                    rotate = true;
+                    shake = 1;
+                    shoot.shots = 4;
+                    reload = 110;
+                    rotateSpeed = 180;
+                    shootSound = Sounds.mineDeploy;
+                    shoot.shotDelay = 6;
+                    bullet = new BasicBulletType(2f, 45) {{
+                        sprite = "mine-bullet";
+                        ignoreRotation = true;
+                        homingDelay = 10;
+                        lifetime = 80;
+                        keepVelocity = false;
+                        shootEffect = smokeEffect = Fx.none;
+                        shrinkX = 0.5f;
+                        shrinkY = 0.5f;
+                        weaveMag = 5f;
+                        weaveScale = 4f;
+                        hitSize = 8;
+                        width = 15;
+                        height = 15;
+                        trailWidth = 3.5f;
+                        trailLength = 12;
+                        hitSoundVolume = 0.5f;
+                        frontColor = hitColor = Color.white;
+                        backColor = trailColor = lightColor = Color.valueOf("8ca4fc");
+                        hitSound = Sounds.plasmaboom;
+                        inaccuracy = 2f;
+                        hitEffect = Fx.blastExplosion;
+                    }};
+                }});
+                engineSize = 0f;
+                groundLayer = 90;
+                envEnabled |= Env.terrestrial | Env.underwater;
+                envDisabled = Env.none;
+                hitSize = 18;
+                rotateSpeed = 2.5f;
+                constructor = UnitEntity::create;
+                lowAltitude = true;
+                health = 1700f;
+                flying = true;
+                omniMovement = false;
+                outlineColor = Color.valueOf("232826");
+                speed = 1.5f;
+                accel = 0.9f;
+                drag = 0.8f;
+                armor = 10;
+            }
+        });
+
         // steward tree
         steward = EntityRegistry.content("steward", MechUnit.class, name -> new MechanicalUnitType(name) {{
             rotateMoveFirst = true;
@@ -1268,7 +1356,9 @@ public class AquaUnitTypes {
                         layer = 80;
                         colorFrom = Color.valueOf("262323");
                         colorTo = Color.valueOf("746f6f10");
-                    }}, 10f, .4f) {{
-                    }});
+                    }}, 10f, .4f) {
+                        {
+                        }
+                    });
         }};
     }}

@@ -5,9 +5,11 @@ import aquarion.AquaItems;
 import aquarion.AquaLiquids;
 import aquarion.world.blocks.environment.NonRandomTreeBlock;
 import aquarion.world.blocks.environment.PineTree;
+import aquarion.world.blocks.environment.customVent;
 import aquarion.world.graphics.AquaCacheLayers;
 import arc.graphics.Color;
 import arc.math.Interp;
+import arc.math.geom.Point2;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.Items;
@@ -27,7 +29,7 @@ import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
 
 public class AquaEnv {
-    public static Block azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
+    public static Block uhhhhh,azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
@@ -367,12 +369,13 @@ public class AquaEnv {
             buildVisibility = sandboxOnly;
             variants = 2;
             rotationRand = 30;
-            underBullets = true;
             size = 3;
+            breakable = false;
             health = 2500;
             buildCost = 3600;
             clipSize = 120;
-            layer = Layer.power - 5;
+            targetable = false;
+            layer = Layer.power - 3;
             shadowLayer = Layer.blockOver;
         }};
         elderParzil = new PineTree("elder-parzil"){{
@@ -382,9 +385,11 @@ public class AquaEnv {
             variants = 1;
             health = 2500;
             buildCost = 9000;
+            breakable = false;
+            targetable = false;
             rotationRand = 30;
             clipSize = 300;
-            shadowLayer = Layer.power - 4;
+            shadowLayer = Layer.power - 2;
             layer = Layer.power - 1;
             shadowAlpha = 0.8f;
             shadowOffset = -4;

@@ -87,10 +87,6 @@ public class SealedConveyor extends Duct implements Autotiler{
             Draw.rect(sliced(topRegions[bits], slice), x, y, rotation);
             Draw.z(Layer.blockUnder + 0.4f);
             Draw.scl(xscl, yscl);
-            int r = this.rotation;
-            Draw.z(Layer.blockUnder + 0.6f);
-            if(capped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg());
-            if(backCapped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg() + 180);
         }
         @Override
         public int removeStack(Item item, int amount){
@@ -140,8 +136,8 @@ public class SealedConveyor extends Duct implements Autotiler{
             blendscly = bits[2];
 
             Building next = front(), prev = back();
-            capped = next == null  || next.team != team || !next.block.hasItems ;
-            backCapped = blendbits == 0 && (prev == null || prev.team != team || !prev.block.hasItems);
+            capped = next == null  || next.team != team || !next.block.hasItems || !next.block.acceptsItems;
+            backCapped = blendbits == 0 && (prev == null || prev.team != team || !prev.block.hasItems || !prev.block.acceptsItems);
             nextc = next instanceof Conveyor.ConveyorBuild ? (Conveyor.ConveyorBuild) next : null;
         }
 
@@ -154,8 +150,10 @@ public class SealedConveyor extends Duct implements Autotiler{
             float rotation = rotdeg();
             int r = this.rotation;
             int frame = enabled && clogHeat <= 0.5f ? (int) (((Time.time * speed * .04f * timeScale * efficiency)) % 4) : 0;
+            Draw.z(Layer.blockUnder + 0.6f);
+            if(capped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg());
+            if(backCapped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg() + 180);
 
-            //draw extra uhh things facing this one for tiling purposes
             for(int i = 0; i < 4; i++){
                 if((blending & (1 << i)) != 0){
                     int dir = r - i;
@@ -190,6 +188,9 @@ public class SealedConveyor extends Duct implements Autotiler{
                     current = null;
                     progress %= (1f - 1f/speed);
                     clogHeat = 0;
+                } else if(progress >= (1f - 1f/speed)){
+                    progress = Mathf.approachDelta(1, 0.5f, 1f/stopSpeed);
+                    clogHeat = Mathf.approachDelta(clogHeat, 1f, 1f/stopSpeed);
                 }
             }else{
                 progress = 0;
