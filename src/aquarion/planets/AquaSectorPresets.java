@@ -52,7 +52,7 @@ public class AquaSectorPresets {
         Grove = new SectorPreset("Grove", tantros2, 143){{
             addStartingItems = true;
             captureWave = 16;
-            difficulty = 10;
+            difficulty = 6;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
