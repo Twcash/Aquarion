@@ -36,7 +36,7 @@ public class TantrosTechTree {
                 nodeProduce(oxygen, () -> {});
             });
             nodeProduce(silicon, () -> {
-
+                nodeProduce(ferrosilicon, () -> {});
             });
 
             node(siphon, () ->{
@@ -71,12 +71,18 @@ public class TantrosTechTree {
             node(bauxiteWall, () -> node(hugeBauxiteWall, () -> {
                 node(aluminumWall, () -> {
                     node(hugeAluminumWall, () -> {
+                        node(ferrosilconWall, () -> {
+                            node(hugeFerrosiliconWall, () -> {});
+                        });
                     });
                 });
             }));
-            node(Foment, () -> node(redact, () -> {
+            node(Foment, () ->  {
+                    node(buzzSaw);
+                    node(redact, () -> {
                 node(maelstrom);
-            }));
+                });
+            });
             node(Ingress, () -> {
                 node(Torrent, Seq.with(
                         new Objectives.SectorComplete(Ingress)

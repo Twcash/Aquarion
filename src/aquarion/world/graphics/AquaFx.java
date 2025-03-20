@@ -1,20 +1,46 @@
 package aquarion.world.graphics;
 
-import mindustry.entities.effect.MultiEffect;
-import mindustry.entities.effect.ParticleEffect;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
+import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
 import mindustry.entities.*;
+import mindustry.entities.abilities.*;
+import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.ParticleEffect;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.world.*;
+import mindustry.world.blocks.units.UnitAssembler.*;
 
-import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Draw.rect;
+import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.*;
 import static arc.math.Angles.*;
+import static mindustry.Vars.*;import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
+import mindustry.entities.*;
+import mindustry.entities.abilities.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.world.*;
+import mindustry.world.blocks.units.UnitAssembler.*;
 
+import static arc.graphics.g2d.Draw.rect;
+import static arc.graphics.g2d.Draw.*;
+import static arc.graphics.g2d.Lines.*;
+import static arc.math.Angles.*;
+import static mindustry.Vars.*;
 public class AquaFx {
     //I tried... I couldnt
     public static final Rand rand = new Rand();
@@ -220,6 +246,34 @@ public class AquaFx {
                             );
                         }
                     }),
+            parzilDebrisSmall = new Effect(85, e -> {
+                rand.setSeed(e.id);
+                color( Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < 25; i++) {
+                    float rot = e.rotation + rand.range(360f); // Similar to shootSmokeSquare
+                    int regionId = rand.random(1, 3);
+                    TextureRegion region = Core.atlas.find("aquarion-parzil-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 21f));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 24f + 0.2f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(45) + Interp.pow2In.apply(rand.random(10f, 20f) * e.fout()));
+                }
+            }).layer(Layer.debris),
+            parzilDebrisLarge = new Effect(120, e -> {
+                rand.setSeed(e.id);
+                color( Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < 40; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = rand.random(1, 3);
+                    TextureRegion region = Core.atlas.find("aquarion-parzil-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 30f));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 28f + 0.2f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(45) + Interp.pow2In.apply(rand.random(10f, 20f) * e.fout()));
+                }
+            }).layer(Layer.debris),
             azuriteSmelt = new Effect(45, e -> {
                 color(Color.valueOf("9eb8f5"), Color.lightGray, e.fin());
                 randLenVectors(e.id, 4, e.fin() * 5f, (x, y) ->

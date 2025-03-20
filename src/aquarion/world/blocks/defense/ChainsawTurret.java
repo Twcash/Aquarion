@@ -1,5 +1,6 @@
 package aquarion.world.blocks.defense;
 
+import aquarion.world.Uti.AquaUnitsUtil;
 import arc.Core;
 import arc.func.*;
 import arc.graphics.*;
@@ -11,14 +12,15 @@ import arc.util.*;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.ai.BlockIndexer;
+import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.Block;
 
+import static aquarion.world.Uti.AquaUnitSort.closest;
 import static mindustry.Vars.*;
-import static mindustry.entities.UnitSorts.closest;
 
 //ok I lied it's not really a turret /:
 public class ChainsawTurret extends Block {
@@ -29,6 +31,9 @@ public class ChainsawTurret extends Block {
         destructible = true;
         breakable = true;
         solid = true;
+
+        ambientSound = Sounds.cutter;
+        ambientSoundVolume = 0.1f;
     }
 
     public float damage = 10;
@@ -38,7 +43,7 @@ public class ChainsawTurret extends Block {
     public boolean targetBlocks = true;
     public boolean targetGround = true;
 
-    public Units.Sortf unitSort = closest;
+    public AquaUnitsUtil.Sortf unitSort = closest;
     public Boolf<Unit> unitFilter = u -> true;  // GUH I can't seem to make it target derelict stuff whatsoever. I can't find another tripwire tho
     public Boolf<Building> buildingFilter = b -> true;
 
@@ -94,6 +99,7 @@ public class ChainsawTurret extends Block {
             }
 
             if (target != null) {
+
                 targetPos.set(target.x(), target.y());
                 applySawDamage();
             } else {
@@ -106,26 +112,51 @@ public class ChainsawTurret extends Block {
         protected void moveSaw() {
             float baseOffset = 20;
             float maxExtend = range - baseOffset;
+
             if (target == null) {
                 float restingX = x + Angles.trnsx(rotation, baseOffset);
                 float restingY = y + Angles.trnsy(rotation, baseOffset);
-                sawx = Mathf.lerpDelta(sawx, restingX, sawSpeed);
-                sawy = Mathf.lerpDelta(sawy, restingY, sawSpeed);
+                sawx = Mathf.lerpDelta(sawx, restingX, sawSpeed * efficiency);
+                sawy = Mathf.lerpDelta(sawy, restingY, sawSpeed* efficiency);
             } else {
                 float targetAngle = Angles.angle(x, y, target.x(), target.y());
                 turnToTarget(targetAngle);
+
                 float targetDistance = Mathf.dst(x, y, target.x(), target.y());
                 float targetExtend = Mathf.clamp(targetDistance, baseOffset, maxExtend);
                 float currentExtend = Mathf.dst(x, y, sawx, sawy);
-                float newExtend = Mathf.lerpDelta(currentExtend, targetExtend, sawSpeed);
+                float newExtend = Mathf.lerpDelta(currentExtend, targetExtend, sawSpeed* efficiency);
+
                 sawx = x + Angles.trnsx(rotation, newExtend);
                 sawy = y + Angles.trnsy(rotation, newExtend);
+                float wobbleIntensity = Mathf.clamp(1f - (Math.abs(newExtend - targetExtend) / maxExtend)); // Stronger when closer
+                float wobbleAmount = 4f * wobbleIntensity;
+                float wobbleSpeed = (id() % 10) * 12 + Time.time * 15f * efficiency;
+
+                sawx += Mathf.sin(wobbleSpeed, wobbleAmount, 0.1f) * Time.delta * efficiency;
+                sawy += Mathf.cos(wobbleSpeed, wobbleAmount, 0.1f) * Time.delta * efficiency;
             }
         }
-
+        @Override
+        public void drawSelect(){
+            Draw.color(selectColor);
+            Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);
+            indexer.eachBlock(Team.derelict, x * tilesize + offset, y * tilesize + offset,
+                    range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(selectColor).a(Mathf.absin(4f, 1f))));
+            Units.nearbyEnemies(Team.derelict, x, y, range * 2, range * 2, e -> {
+                Drawf.dashSquareBasic(e.x, e.y, e.hitSize * Mathf.absin(4f, 1));
+            });
+        }
+        @Override
+        public boolean shouldAmbientSound(){
+            return efficiency > 0;
+        }
         protected void applySawDamage() {
             if (damageTick++ % 10 == 0) {
                 Damage.damage(this.team, sawx, sawy, sawRange, damage);
+                if(wasVisible && Mathf.chanceDelta(0.1f)){
+                    Fx.colorSpark.at(sawx + Mathf.range(sawRange), sawy + Mathf.range(sawRange));
+                }
             }
         }
 
@@ -146,55 +177,31 @@ public class ChainsawTurret extends Block {
         }
 
         protected void findTarget() {
-            Building targetf = null;
-            float targetDist = Float.MAX_VALUE;
 
-            target = Units.bestTarget(
+            target = AquaUnitsUtil.bestTarget(
                     team, x, y, range,
                     e -> !e.dead() && unitFilter.get(e),
                     b -> targetGround && targetBlocks && buildingFilter.get(b), unitSort);
-
-            if (target == null) {
-                Building candidate = indexer.findTile(team, x, y, range,
-                        b -> b.isDiscovered(team), true); // Ensure it's a derelict team block
-
-                if (candidate != null) {
-                    float dist = candidate.dst(x, y) - candidate.hitSize() / 2f;
-                    if (targetf == null ||
-                            (dist < targetDist && candidate.block.priority >= targetf.block.priority) ||
-                            (candidate.block.priority > targetf.block.priority)) {
-                        targetf = candidate;
-                        targetDist = dist;
-                    }
-                }
-            }
-
-            // If targetf is set, update target to be the derelict block
-            if (targetf != null) {
-                target = targetf; // Now target is the closest derelict building
-            }
-
-            // Set the target position if a valid target is found
             if (target != null) {
                 targetPos.set(target.x(), target.y());
             }
         }
 
         protected void turnToTarget(float targetRot) {
-            rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta());
+            rotation = Angles.moveToward(rotation, targetRot, rotateSpeed * delta() * efficiency);
         }
 
         @Override
         public void draw() {
             Draw.z(Layer.block);
             Draw.rect(region, x, y);
-            Draw.z(Layer.turret);
+            Draw.z(Layer.block + 2 );
             Draw.rect(turretRegion, x, y, rotation - 90);
-            Draw.z(Layer.turret - 1);
+            Draw.z(Layer.block + 1);
             Lines.stroke(8);
             Lines.line(armRegion, x, y, sawx, sawy, false);
             Draw.rect(capRegion, sawx, sawy, rotation);
-            Draw.z(Layer.turret - 1.1f);
+            Draw.z(Layer.block + 1.1f);
             Drawf.spinSprite(sawRegion, sawx, sawy, 1 + Time.time * 10 * efficiency);
 
             super.draw();

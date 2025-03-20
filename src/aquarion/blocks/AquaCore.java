@@ -157,9 +157,10 @@ public class AquaCore {
             size = 5;
         }};
         buzzSaw = new ChainsawTurret("buzzsaw"){{
-            requirements(Category.effect, with(silicon, 750, lead, 500, bauxite, 250));
+            requirements(Category.turret, with(silicon, 750, lead, 500, bauxite, 250));
             size = 3;
             consumeLiquid(magma, 120/60f);
+            researchCostMultiplier = 0.02f;
         }};
     }
 }

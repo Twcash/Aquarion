@@ -18,6 +18,7 @@ import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.abilities.ShieldRegenFieldAbility;
 import mindustry.entities.abilities.SpawnDeathAbility;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootAlternate;
@@ -124,6 +125,7 @@ public class AquaUnitTypes {
                     width = height = 9f;
                     shrinkX = 0.6f;
                     shrinkY = 0.1f;
+                    collidesGround = true;
                     shootEffect = Fx.shootSmall;
                     shootSound = Sounds.laser;
                     smokeEffect = Fx.shootBigSmoke;
@@ -190,6 +192,185 @@ public class AquaUnitTypes {
                 }};
             }});
         }});
+        consul = EntityRegistry.content("consul", Legsc.class, name -> {
+            return new MechanicalUnitType(name) {{
+                constructor = LegsUnit::create;
+                health = 3500;
+                armor = 20;
+                shadowElevation = 0.3f;
+                legLength = 16;
+                legPairOffset = 2;
+                legGroupSize = 2;
+                legMoveSpace = 1.5f;
+                drawCell = false;
+                hitSize = 18;
+                legCount = 4;
+                speed = 0.65f;
+                rotateSpeed = 1.4f;
+                targetAir = false;
+                lockLegBase = true;
+                legMaxLength = 1.2f;
+                legMinLength = 0.7f;
+                weapons.add(new Weapon("aquarion-consul-weapon") {{
+                    mirror = true;
+                    x = 12f;
+                    recoil = 1f;
+                    layerOffset = -0.0001f;
+                    parts.addAll(
+                            new RegionPart("-barrel") {{
+                                layerOffset = -.00001f;
+                                y = 11f;
+                                x = -3.25f;
+                                mixColor = Color.valueOf("444b49");
+                                mixColorTo = Color.valueOf("829194");
+                                moveX = 3.25f;
+                                moveY = 3;
+                                progress = PartProgress.reload.curve(Interp.sineIn);
+                            }},
+                            new RegionPart("-barrel") {{
+                                layerOffset = -.00001f;
+                                y = 13f;
+                                x = 0f;
+                                mixColor = Color.valueOf("829194");
+                                mixColorTo = Color.valueOf("444b49");
+                                moveX = -3.25f;
+                                moveY = -3;
+                                progress = PartProgress.reload.curve(Interp.sineIn);
+                            }},
+                            new RegionPart("-barrel") {{
+                                layerOffset = -.00001f;
+                                y = 11f;
+                                x = 3.25f;
+                                mixColor = Color.valueOf("444b49");
+                                mixColorTo = Color.valueOf("829194");
+                                moveX = -3.25f;
+                                moveY = 3;
+                                progress = PartProgress.reload.curve(Interp.sineIn);
+                            }});
+                    reload = 15;
+                    shootSound = Sounds.bolt;
+                    shootY = 9;
+                    shootCone = 25;
+                    top = false;
+                    rotate = false;
+                    flipSprite = true;
+                    bullet = new RailBulletType() {{
+                        pierce = true;
+                        pierceCap = 3;
+                        pierceBuilding = true;
+                        damage = 95;
+                        length = 110;
+                        pointEffectSpace = 6;
+                        pierceDamageFactor = 0.5f;
+                        collidesAir = false;
+                        shootEffect = Fx.shootBigColor;
+                        hitEffect = Fx.hitSquaresColor;
+                        smokeEffect = new MultiEffect(new ParticleEffect(){{
+                            line = true;
+                            cone = 60;
+                            particles = 6;
+                            lenFrom = 7;
+                            lenTo = 0;
+                            length = 15;
+                            sizeFrom = 10;
+                            sizeTo = 10;
+                            rotWithParent = true;
+                            baseRotation = 0;
+                            lifetime = 30;
+                            colorFrom = Color.valueOf("ffffff");
+                            colorTo = Color.valueOf("ff5656");
+                        }}, new ParticleEffect(){{
+                            cone = 65;
+                            particles = 5;
+                            layer = 60;
+                            sizeFrom = 6;
+                            length = 30;
+                            sizeTo = 0;
+                            sizeInterp = Interp.linear;
+                            interp = Interp.linear;
+                            rotWithParent = true;
+                            baseRotation = 0;
+                            lifetime = 25;
+                            colorFrom = Color.valueOf("716363");
+                            colorTo = Color.valueOf("423a3a");
+                        }});
+                        endEffect = new ParticleEffect(){{
+                            line = true;
+                            cone = 60;
+                            particles = 4;
+                            lenFrom = 7;
+                            lenTo = 0;
+                            sizeFrom = 10;
+                            sizeTo = 12;
+                            rotWithParent = true;
+                            baseRotation = 0;
+                            lifetime = 35;
+                            colorFrom = Color.valueOf("ff5656");
+                            colorTo = Color.valueOf("c80f0f");
+                        }};
+                        pointEffect = new MultiEffect(new ParticleEffect(){{
+                            line = true;
+                            cone = 0;
+                            particles = 1;
+                            lenFrom = 10;
+                            lifetime = 10;
+                            lenTo = 0;
+                            sizeFrom = 7;
+                            sizeTo = 0;
+                            colorFrom = Color.valueOf("ffa9a9");
+                            colorTo = Color.valueOf("ffa9a9");
+                            rotWithParent = true;
+                            baseRotation = 0;
+                        }}, new ParticleEffect(){{
+                            line = true;
+                            cone = 0;
+                            particles = 1;
+                            lenFrom = 10;
+                            lifetime = 10;
+                            lenTo = 0;
+                            sizeFrom = 10;
+                            sizeTo = 0;
+                            colorFrom = Color.valueOf("ff5656");
+                            colorTo = Color.valueOf("ff5656");
+                            rotWithParent = true;
+                            baseRotation = 0;
+                        }});
+                    }};
+                }}, new Weapon("aquarion-consul-missiles"){{
+                    rotate = true;
+                    rotateSpeed = 1.1f;
+                    reload = 90;
+                    mirror = true;
+                    x = 10;
+                    y = -2f;
+                    shoot.shots = 2;
+                    bullet = new MissileBulletType(){{
+                        weaveScale = 4;
+                        weaveMag = 6;
+                        collidesAir = false;
+                        shootEffect = Fx.shootSmall;
+                        smokeEffect = Fx.shootSmallSmoke;
+                        ejectEffect = Fx.casing2;
+                        despawnEffect = Fx.blastExplosion;
+                        hitEffect = Fx.blastsmoke;
+                        homingPower = 0;
+                        shrinkX = 0.8f;
+                        shrinkY = 0;
+                        width = 12;
+                        height = 12;
+                        sprite = "missile-large";
+                        trailLength = 12;
+                        trailInterp = Interp.slope;
+                        speed = 2.2f;
+                        hitSize = 5;
+                        splashDamageRadius = 3.1f * 8;
+                        splashDamage = 80;
+                        frontColor = hitColor = lightColor = Color.white;
+                        backColor = trailColor = Pal.techBlue;
+                    }};
+                }});
+            }};
+        });
         goss = EntityRegistry.content("goss", Unitc.class, name -> new MechanicalUnitType(name) {{
             constructor = UnitEntity::create;
             engineSize = 0f;
@@ -589,11 +770,11 @@ public class AquaUnitTypes {
                         controllable = false;
                         targetUnits = true;
                         targetBuildings = true;
-                        fractionRepairSpeed = 0.02f;
+                        fractionRepairSpeed = 0.08f;
                         widthSinMag = 0.11f;
                         healColor = laserColor = Pal.accent;
                         bullet = new BulletType() {{
-                            maxRange = 60;
+                            maxRange = 80;
                         }};
                     }}
             );

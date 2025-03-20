@@ -349,9 +349,9 @@ public class AquaCrafters {
             itemCapacity = 120;
             researchCostMultiplier = 0.02f;
             craftTime = 600;
-            consumeItems(with(ferricMatter, 5, silicon, 15));
-            outputItem = new ItemStack(ferrosilicon, 20);
-            consumeLiquids(LiquidStack.with(magma, 30 / 60f, hydroxide, 40/60f));
+            consumeItems(with(ferricMatter, 15, silicon, 25));
+            outputItem = new ItemStack(ferrosilicon, 40);
+            consumeLiquids(LiquidStack.with(magma, 90 / 60f, hydroxide, 30/60f));
             liquidCapacity = 600;
             updateEffect = Fx.coalSmeltsmoke;
             updateEffectChance = 0.05f;

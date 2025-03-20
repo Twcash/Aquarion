@@ -5,7 +5,7 @@ import mindustry.type.SectorPreset;
 import static aquarion.planets.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
-    public static SectorPreset Ingress, Torrent, CrystalCaverns;
+    public static SectorPreset Ingress, Torrent, CrystalCaverns, Grove;
     /*
     Sector plans
     chasm:10 {
@@ -45,6 +45,14 @@ public class AquaSectorPresets {
             addStartingItems = true;
             captureWave = 7;
             difficulty = 4;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 3;
+        }};
+        Grove = new SectorPreset("Grove", tantros2, 143){{
+            addStartingItems = true;
+            captureWave = 16;
+            difficulty = 10;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
