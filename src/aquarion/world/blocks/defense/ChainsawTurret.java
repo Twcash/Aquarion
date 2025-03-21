@@ -177,9 +177,8 @@ public class ChainsawTurret extends Block {
         }
 
         protected void findTarget() {
-
             target = AquaUnitsUtil.bestTarget(
-                    team, x, y, range,
+                    this.team, x, y, range,
                     e -> !e.dead() && unitFilter.get(e),
                     b -> targetGround && targetBlocks && buildingFilter.get(b), unitSort);
             if (target != null) {
@@ -197,11 +196,11 @@ public class ChainsawTurret extends Block {
             Draw.rect(region, x, y);
             Draw.z(Layer.block + 2 );
             Draw.rect(turretRegion, x, y, rotation - 90);
-            Draw.z(Layer.block + 1);
+            Draw.z(Layer.block + 1.1f);
             Lines.stroke(8);
             Lines.line(armRegion, x, y, sawx, sawy, false);
             Draw.rect(capRegion, sawx, sawy, rotation);
-            Draw.z(Layer.block + 1.1f);
+            Draw.z(Layer.block + 1.2f);
             Drawf.spinSprite(sawRegion, sawx, sawy, 1 + Time.time * 10 * efficiency);
 
             super.draw();

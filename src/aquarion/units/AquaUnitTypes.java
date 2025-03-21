@@ -146,7 +146,35 @@ public class AquaUnitTypes {
             armor = 12;
             legLength = 16;
             legPairOffset = 2;
+            abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
 
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(ambassadorWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
             hitSize = 13;
             legCount = 4;
             speed = 1.2f;
@@ -196,6 +224,35 @@ public class AquaUnitTypes {
             return new MechanicalUnitType(name) {{
                 constructor = LegsUnit::create;
                 health = 3500;
+                abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
+
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 8;
+                            sizeTo = 0;
+                            lenFrom = 0;
+                            lenTo = 6;
+                            line = true;
+                            length = 15;
+                            baseLength = 2;
+                            layer = 90;
+                            lifetime = 10;
+                            colorFrom = Color.valueOf("ffea97");
+                            colorTo = Color.valueOf("ffea9710");
+                        }}, 90f, .6f) {{
+                        }},
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 0;
+                            sizeTo = 4;
+                            lifetime = 80;
+                            layer = 80;
+                            colorFrom = Color.valueOf("262323");
+                            colorTo = Color.valueOf("746f6f10");
+                        }}, 15f, .4f) {{
+                        }}, new SpawnDeathAbility(consulWreck, 0, 1) {{
+                            randAmount = 1;
+                        }});
                 armor = 20;
                 shadowElevation = 0.3f;
                 legLength = 16;

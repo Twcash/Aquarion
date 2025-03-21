@@ -376,8 +376,8 @@ public class AquaEnv {
             buildCost = 3600;
             clipSize = 120;
             underBullets = true;
+            targetable = false;
             destroyEffect = AquaFx.parzilDebrisSmall;
-            breakable = false;
             createRubble = false;
             layer = Layer.power - 3;
             shadowLayer = Layer.blockOver;
@@ -387,6 +387,7 @@ public class AquaEnv {
             underBullets = false;
             destroyEffect = AquaFx.parzilDebrisLarge;
             createRubble = false;
+            targetable = false;
             size = 5;
             variants = 1;
             health = 2500;

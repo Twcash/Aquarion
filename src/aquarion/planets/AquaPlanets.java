@@ -89,7 +89,6 @@ public class AquaPlanets {
                 r.staticFog = false;
                 r.onlyDepositCore = true;
                 r.deconstructRefundMultiplier = 1.01f;
-                r.coreCapture = true;
             };
             hiddenItems.addAll( Items.sand, tungsten, oxide, beryllium,  Items.metaglass, Items.surgeAlloy, Items.coal
                     , Items.phaseFabric, Items.graphite, Items.plastanium, Items.scrap

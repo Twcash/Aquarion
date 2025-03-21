@@ -87,6 +87,9 @@ public class TantrosTechTree {
                 node(Torrent, Seq.with(
                         new Objectives.SectorComplete(Ingress)
                 ), () -> {
+                    node(Grove, ()->{
+                        new Objectives.SectorComplete(Torrent);
+                    });
                     node(CrystalCaverns, Seq.with(
                             new Objectives.SectorComplete(Torrent),
                             new Objectives.Research(armoredSealedConveyor),

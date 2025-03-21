@@ -5,6 +5,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.game.EventType.*;
 import mindustry.game.*;
@@ -41,7 +42,7 @@ public class AquaBlockIndexer{
     /** Array used for returning and reusing. */
     private Seq<Building> breturnArray = new Seq<>(Building.class);
 
-    public AquaBlockIndexer(){
+    public AquaBlockIndexer() {
         clearFlags();
 
         Events.on(TilePreChangeEvent.class, event -> {
@@ -61,34 +62,34 @@ public class AquaBlockIndexer{
 
             allOres.clear();
             ores = new IntSeq[content.items().size][][];
-            quadWidth = Mathf.ceil(world.width() / (float)quadrantSize);
-            quadHeight = Mathf.ceil(world.height() / (float)quadrantSize);
+            quadWidth = Mathf.ceil(world.width() / (float) quadrantSize);
+            quadHeight = Mathf.ceil(world.height() / (float) quadrantSize);
             blocksPresent = new boolean[content.blocks().size];
 
             //so WorldLoadEvent gets called twice sometimes... ugh
-            for(Team team : Team.all){
+            for (Team team : Team.all) {
                 var data = state.teams.get(team);
-                if(data != null){
-                    if(data.buildingTree != null) data.buildingTree.clear();
-                    if(data.turretTree != null) data.turretTree.clear();
+                if (data != null) {
+                    if (data.buildingTree != null) data.buildingTree.clear();
+                    if (data.turretTree != null) data.turretTree.clear();
                 }
             }
 
-            for(Tile tile : world.tiles){
+            for (Tile tile : world.tiles) {
                 process(tile);
 
                 var drop = tile.drop();
 
-                if(drop != null){
+                if (drop != null) {
                     int qx = (tile.x / quadrantSize);
                     int qy = (tile.y / quadrantSize);
 
                     //add position of quadrant to list
-                    if(tile.block() == Blocks.air){
-                        if(ores[drop.id] == null){
+                    if (tile.block() == Blocks.air) {
+                        if (ores[drop.id] == null) {
                             ores[drop.id] = new IntSeq[quadWidth][quadHeight];
                         }
-                        if(ores[drop.id][qx][qy] == null){
+                        if (ores[drop.id][qx][qy] == null) {
                             ores[drop.id][qx][qy] = new IntSeq(false, 16);
                         }
                         ores[drop.id][qx][qy].add(tile.pos());
@@ -98,7 +99,6 @@ public class AquaBlockIndexer{
             }
         });
     }
-
     public void removeIndex(Tile tile){
         var team = tile.team();
         if(tile.build != null && tile.isCenter()){

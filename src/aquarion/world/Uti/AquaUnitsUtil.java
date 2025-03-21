@@ -1,29 +1,42 @@
 package aquarion.world.Uti;
 import arc.*;
 import arc.func.*;
+import arc.math.Mathf;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.Sized;
 import mindustry.game.*;
 import mindustry.game.Teams.*;
 import mindustry.gen.*;
+import mindustry.logic.Ranged;
 import mindustry.type.*;
 import mindustry.world.*;
+import mindustry.world.meta.BlockFlag;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 import static mindustry.Vars.*;
 public class AquaUnitsUtil {
-    private static final Rect hitrect = new Rect();
+    private  final Rect hitrect = new Rect();
     private static Unit result;
-    private static float cdist, cpriority;
-    private static int intResult;
-    private static Building buildResult;
+    private static float cdist;
+    private static float cpriority;
+    private  int intResult;
+    private  boolean[] blocksPresent;
+
+    private  Building buildResult;
+    private  Seq<Building> breturnArray = new Seq<>(Building.class);
+    private Seq<Building>[][] flagMap = new Seq[Team.all.length][BlockFlag.all.length];
+    private  final Rect rect = new Rect();
+    private  Seq<Team> activeTeams = new Seq<>(Team.class);
 
     //prevents allocations in anyEntities
-    private static boolean anyEntityGround;
-    private static float aeX, aeY, aeW, aeH;
-    private static final Boolf<Unit> anyEntityLambda = unit -> {
+    private  boolean anyEntityGround;
+    private  float aeX, aeY, aeW, aeH;
+    private  final Boolf<Unit> anyEntityLambda = unit -> {
         if((unit.isGrounded() && !unit.type.allowLegStep) == anyEntityGround){
             unit.hitboxTile(hitrect);
             return hitrect.overlaps(aeX, aeY, aeW, aeH);
@@ -80,35 +93,35 @@ public class AquaUnitsUtil {
     }
 
     /** See {@link #invalidateTarget(Posc, Team, float, float, float)} */
-    public static boolean invalidateTarget(Posc target, Team team, float x, float y){
+    public  boolean invalidateTarget(Posc target, Team team, float x, float y){
         return invalidateTarget(target, team, x, y, Float.MAX_VALUE);
     }
 
     /** See {@link #invalidateTarget(Posc, Team, float, float, float)} */
-    public static boolean invalidateTarget(Teamc target, Unit targeter, float range){
+    public  boolean invalidateTarget(Teamc target, Unit targeter, float range){
         return invalidateTarget(target, targeter.team(), targeter.x(), targeter.y(), range);
     }
 
     /** Returns whether there are any entities on this tile. */
-    public static boolean anyEntities(Tile tile, boolean ground){
+    public  boolean anyEntities(Tile tile, boolean ground){
         float size = tile.block().size * tilesize;
         return anyEntities(tile.drawx() - size/2f, tile.drawy() - size/2f, size, size, ground);
     }
 
     /** Returns whether there are any entities on this tile. */
-    public static boolean anyEntities(Tile tile){
+    public  boolean anyEntities(Tile tile){
         return anyEntities(tile, true);
     }
 
-    public static boolean anyEntities(float x, float y, float size){
+    public  boolean anyEntities(float x, float y, float size){
         return anyEntities(x - size/2f, y - size/2f, size, size, true);
     }
 
-    public static boolean anyEntities(float x, float y, float width, float height){
+    public  boolean anyEntities(float x, float y, float width, float height){
         return anyEntities(x, y, width, height, true);
     }
 
-    public static boolean anyEntities(float x, float y, float width, float height, boolean ground){
+    public  boolean anyEntities(float x, float y, float width, float height, boolean ground){
         anyEntityGround = ground;
         aeX = x;
         aeY = y;
@@ -119,7 +132,7 @@ public class AquaUnitsUtil {
     }
 
     /** Note that this checks the tile hitbox, not the standard hitbox. */
-    public static boolean anyEntities(float x, float y, float width, float height, Boolf<Unit> check){
+    public  boolean anyEntities(float x, float y, float width, float height, Boolf<Unit> check){
 
         return nearbyCheck(x, y, width, height, unit -> {
             if(check.get(unit)){
@@ -142,23 +155,39 @@ public class AquaUnitsUtil {
     }
 
     /** Returns the nearest enemy tile in a range. */
-    public static Building findEnemyTile(Team team, float x, float y, float range, Boolf<Building> pred){
+    public Building findEnemyTile(Team team, float x, float y, float range, Boolf<Building> pred){
         return findEnemyTile(team, x, y, range, false, pred);
     }
 
     /** Returns the nearest enemy tile in a range. */
     public static Building findEnemyTile(Team team, float x, float y, float range, boolean checkUnder, Boolf<Building> pred){
-
         if(checkUnder){
-            Building target = indexer.findEnemyTile(team, x, y, range, build -> pred.get(build));
+            Building target = findTile(team, x, y, range, true, build -> pred.get(build));
             if(target != null) return target;
         }
 
-        return indexer.findEnemyTile(team, x, y, range, pred);
+        return findTile(team, x, y, range, true, pred);
+    }
+    public static Building findTile(Team team, float x, float y, float range, boolean checkUnder, Boolf<Building> pred) {
+        AtomicReference<Building> closest = new AtomicReference<>(null);
+        float[] closestDst2 = {range * range}; // Mutable value for distance
+
+        indexer.allBuildings(x, y, range, build -> {
+            if (build.team != team && pred.get(build)) {
+                float dst2 = Mathf.dst2(x, y, build.x, build.y);
+                if (dst2 < closestDst2[0]) {
+                    closestDst2[0] = dst2;
+                    closest.set(build);
+                }
+            }
+        });
+
+        return closest.get();
     }
 
+
     /** @return the closest building of the provided team that matches the predicate. */
-    public static @Nullable Building closestBuilding(Team team, float wx, float wy, float range, Boolf<Building> pred){
+    public  @Nullable Building closestBuilding(Team team, float wx, float wy, float range, Boolf<Building> pred){
         buildResult = null;
         cdist = 0f;
 
@@ -186,17 +215,17 @@ public class AquaUnitsUtil {
     }
 
     /** Returns the closest target enemy. First, units are checked, then tile entities. */
-    public static Teamc closestTarget(Team team, float x, float y, float range){
+    public Teamc closestTarget(Team team, float x, float y, float range){
         return closestTarget(team, x, y, range, Unit::isValid);
     }
 
     /** Returns the closest target enemy. First, units are checked, then tile entities. */
-    public static Teamc closestTarget(Team team, float x, float y, float range, Boolf<Unit> unitPred){
+    public Teamc closestTarget(Team team, float x, float y, float range, Boolf<Unit> unitPred){
         return closestTarget(team, x, y, range, unitPred, t -> true);
     }
 
     /** Returns the closest target enemy. First, units are checked, then tile entities. */
-    public static Teamc closestTarget(Team team, float x, float y, float range, Boolf<Unit> unitPred, Boolf<Building> tilePred){
+    public Teamc closestTarget(Team team, float x, float y, float range, Boolf<Unit> unitPred, Boolf<Building> tilePred){
 
         Unit unit = closestEnemy(team, x, y, range, unitPred);
         if(unit != null){
@@ -218,7 +247,7 @@ public class AquaUnitsUtil {
     }
 
     /** Returns the closest enemy of this team. Filter by predicate. */
-    public static Unit closestEnemy(Team team, float x, float y, float range, Boolf<Unit> predicate){
+    public Unit closestEnemy(Team team, float x, float y, float range, Boolf<Unit> predicate){
 
         result = null;
         cdist = 0f;
@@ -260,7 +289,7 @@ public class AquaUnitsUtil {
     }
 
     /** Returns the closest ally of this team. Filter by predicate. No range. */
-    public static Unit closest(Team team, float x, float y, Boolf<Unit> predicate){
+    public Unit closest(Team team, float x, float y, Boolf<Unit> predicate){
         result = null;
         cdist = 0f;
 
@@ -278,7 +307,7 @@ public class AquaUnitsUtil {
     }
 
     /** Returns the closest ally of this team in a range. Filter by predicate. */
-    public static Unit closest(Team team, float x, float y, float range, Boolf<Unit> predicate){
+    public Unit closest(Team team, float x, float y, float range, Boolf<Unit> predicate){
         result = null;
         cdist = 0f;
 
@@ -296,7 +325,7 @@ public class AquaUnitsUtil {
     }
 
     /** Returns the closest ally of this team in a range. Filter by predicate. */
-    public static Unit closest(Team team, float x, float y, float range, Boolf<Unit> predicate, Sortf sort){
+    public Unit closest(Team team, float x, float y, float range, Boolf<Unit> predicate, Sortf sort){
         result = null;
         cdist = 0f;
 
@@ -315,7 +344,7 @@ public class AquaUnitsUtil {
 
     /** Returns the closest ally of this team. Filter by predicate.
      * Unlike the closest() function, this only guarantees that unit hitboxes overlap the range. */
-    public static Unit closestOverlap(Team team, float x, float y, float range, Boolf<Unit> predicate){
+    public Unit closestOverlap(Team team, float x, float y, float range, Boolf<Unit> predicate){
         result = null;
         cdist = 0f;
 
@@ -333,12 +362,12 @@ public class AquaUnitsUtil {
     }
 
     /** @return whether any units exist in this square (centered) */
-    public static int count(float x, float y, float size, Boolf<Unit> filter){
+    public int count(float x, float y, float size, Boolf<Unit> filter){
         return count(x - size/2f, y - size/2f, size, size, filter);
     }
 
     /** @return whether any units exist in this rectangle */
-    public static int count(float x, float y, float width, float height, Boolf<Unit> filter){
+    public  int count(float x, float y, float width, float height, Boolf<Unit> filter){
         intResult = 0;
         Groups.unit.intersect(x, y, width, height, v -> {
             if(filter.get(v)){
@@ -349,7 +378,7 @@ public class AquaUnitsUtil {
     }
 
     /** @return whether any units exist in this rectangle */
-    public static boolean any(float x, float y, float width, float height, Boolf<Unit> filter){
+    public boolean any(float x, float y, float width, float height, Boolf<Unit> filter){
         return count(x, y, width, height, filter) > 0;
     }
 
