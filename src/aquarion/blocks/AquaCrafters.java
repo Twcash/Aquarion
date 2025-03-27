@@ -2,33 +2,48 @@ package aquarion.blocks;
 
 import aquarion.AquaAttributes;
 import aquarion.AquaItems;
+import aquarion.AquaSounds;
 import aquarion.world.blocks.production.*;
 import aquarion.world.consumers.ConsumeLiquidNew;
+import aquarion.world.consumers.ConsumeRecipes;
+import aquarion.world.consumers.Recipe;
 import aquarion.world.graphics.*;
 
+import arc.func.Cons;
 import arc.graphics.Color;
+import arc.math.Interp;
 import arc.math.Mathf;
+import arc.struct.Seq;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
+import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.effect.RadialEffect;
 import mindustry.gen.Sounds;
+import mindustry.graphics.Layer;
 import mindustry.type.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.production.*;
+import mindustry.world.consumers.Consume;
+import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.consumers.ConsumeLiquid;
+import mindustry.world.consumers.ConsumeLiquids;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.*;
+import static arc.math.Interp.linear;
+import static arc.math.Interp.pow5In;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 //What was all of this even for
 public class AquaCrafters {
-    public static Block galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block ElectrolysisManifold,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator,
              siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -244,6 +259,7 @@ public class AquaCrafters {
             size = 5;
             squareSprite = false;
             alwaysUnlocked = true;
+
             outputItems = new ItemStack[]{new ItemStack(lead, 25), new ItemStack(bauxite, 30), new ItemStack(silicon, 25)};
             itemCapacity = 300;
             outputLiquid = new LiquidStack(slag, 40/60f);
@@ -285,6 +301,69 @@ public class AquaCrafters {
                 spinSprite = true;
                 rotateSpeed = 1.5f;
             }}, new DrawDefault(), new DrawLiquidTile(magma, 13.25f), new DrawRegion("-top"));
+            ambientSound = AquaSounds.waterRumble;
+            ambientSoundVolume = 0.1f;
+            updateEffectChance = 0.01f;
+            updateEffect = new MultiEffect(new ParticleEffect(){{
+                sizeFrom = 2;
+                sizeTo = 0;
+                particles = 5;
+                lifetime = 15f;
+                length = 4;
+                interp = linear;
+                sizeInterp = linear;
+                colorFrom = AquaPal.smoke;
+                colorTo = AquaPal.smokeLight.a(0.2f);
+            }},new ParticleEffect(){{
+                sizeFrom = 1;
+                sizeTo = 0;
+                particles = 3;
+                length = 4;
+                lifetime = 15f;
+                interp = linear;
+                sizeInterp = linear;
+                colorFrom = AquaPal.fire2;
+                colorTo = AquaPal.fire2;
+            }});
+            craftEffect = new MultiEffect(new RadialEffect(){{
+                rotationOffset = 45;
+                lengthOffset = 16;
+                effect = new MultiEffect(new ParticleEffect(){{
+                    particles = 8;
+                    layer = 80;
+                    sizeFrom = 7;
+                    sizeTo = 0;
+                    cone = 25;
+                    length = 40;
+                    lifetime = 120;
+                    sizeInterp = linear;
+                    interp = linear;
+                    colorFrom = AquaPal.smoke;
+                    colorTo = AquaPal.smokeLight.a(0.2f);
+                }}, new ParticleEffect(){{
+                    particles = 6;
+                    layer = 81;
+                    length = 38;
+                    sizeFrom = 6;
+                    sizeTo = 0;
+                    cone = 20;
+                    lifetime = 120;
+                    sizeInterp = linear;
+                    interp = linear;
+                    colorFrom = AquaPal.smoke;
+                    colorTo = AquaPal.smokeLight.a(0.2f);
+                }},new ParticleEffect(){{
+                    sizeFrom = 3;
+                    sizeTo = 0;
+                    cone = 15;
+                    length = 35;
+                    lifetime = 120;
+                    sizeInterp = linear;
+                    interp = linear;
+                    colorFrom = AquaPal.fire2;
+                    colorTo = AquaPal.fireLight2;
+                }});
+            }});
         }};
         magmaTap = new AttributeCrafter("magma-tap") {{
             requirements(Category.production, with(lead, 100, silicon, 100));
@@ -299,6 +378,7 @@ public class AquaCrafters {
             boostScale = 1f / 8f;
             craftTime = 5*60f;
             ambientSound = Sounds.smelter;
+            ambientSoundVolume = 0.05f;
             squareSprite = false;
             liquidCapacity = 900;
             outputLiquid = new LiquidStack(magma, 1f);
@@ -320,18 +400,22 @@ public class AquaCrafters {
                     new ItemStack(ferricMatter, 5),
                     new ItemStack(aluminum, 2)
             };
-
             outputLiquid = new LiquidStack(oxygen, 20 / 60f);
-            //   liquidOutputPoints = new Point2[]{
-            //           new Point2(0, 0)
-            //    };
-
             size = 6;
             itemCapacity = 60;
             warmupSpeed = 0.01f;
             squareSprite = false;
             ignoreLiquidFullness = true;
             dumpExtraLiquid = true;
+            updateEffectChance = 0.05f;
+            updateEffect = new MultiEffect(new ParticleEffect(){{
+                length = 7f;
+                lifetime = 10;
+                layer = 80;
+                colorFrom = Color.valueOf("fdbda6");
+                colorTo = Color.valueOf("fdbda6");
+
+            }});
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawOrbitRegions("-capsule", 8, 11f, 2f), new DrawRegion("-lower-toob"), new DrawLiquidTile(oxygen){{
                 padBottom = 3;
                 padRight = 3;
@@ -353,10 +437,32 @@ public class AquaCrafters {
             outputItem = new ItemStack(ferrosilicon, 40);
             consumeLiquids(LiquidStack.with(magma, 90 / 60f, hydroxide, 30/60f));
             liquidCapacity = 600;
-            updateEffect = Fx.coalSmeltsmoke;
+            updateEffect = new MultiEffect(Fx.coalSmeltsmoke, new ParticleEffect(){{
+                layer = Layer.debris;
+                length = 45;
+                colorFrom = AquaPal.smokeLight.a(0.7f);
+                colorTo = AquaPal.smoke.a(0.5f);
+                sizeFrom = 8;
+                lifetime = 80;
+                sizeTo = 0;
+                particles = 3;
+                interp = linear;
+                sizeInterp = linear;
+            }}, new ParticleEffect(){{
+                layer = Layer.debris + 0.1f;
+                length = 45;
+                colorFrom = AquaPal.fireLight1.a(0.7f);
+                colorTo = AquaPal.fireLight1.a(0.5f);
+                sizeFrom = 6;
+                sizeTo = 0;
+                lifetime = 80;
+                particles = 2;
+                interp = linear;
+                sizeInterp = linear;
+            }});
             updateEffectChance = 0.05f;
             craftEffect = Fx.reactorsmoke;
-            ambientSound = Sounds.electricHum;
+            ambientSound = AquaSounds.waterHum;
             ambientSoundVolume = 0.09f;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma){{
                 padRight = 40;
@@ -768,6 +874,35 @@ public class AquaCrafters {
                 outputItem = new ItemStack(lead, 80);
             }};
         }};
+        ElectrolysisManifold = new AdaptiveCrafter("electrolysis-manifold"){{
+            size = 7;
+            requirements(Category.crafting, with(Items.copper, 1500, Items.lead, 500, silicon, 1000, aluminum, 500));
+            addRecipe(new Recipe(
+                    30f,
+                    new ItemStack[]{new ItemStack(Items.graphite, 1)},
+                    new LiquidStack[]{},
+                    new ConsumeItems(with(Items.coal, 2)) // Consumes coal
+            ));
+            addRecipe(new Recipe(
+                    40f,
+                    new ItemStack[]{new ItemStack(Items.silicon, 1)},
+                    new LiquidStack[]{},
+                    new ConsumeItems(with(Items.sand, 2)),
+                    new ConsumeLiquids(LiquidStack.with(Liquids.water, 5f))
+            ));
+            addRecipe(new Recipe(
+                    40f,
+                    new ItemStack[]{},
+                    new LiquidStack[]{new LiquidStack(Liquids.oil, 20/60f)},
+                    new ConsumeItems(with(Items.coal,5)),
+                    new ConsumeLiquids(LiquidStack.with(Liquids.water, 5f))
+            ));
+            hasItems = true;
+            hasLiquids = true;
+            itemCapacity = 100;
+            liquidCapacity = 100;
+            craftEffect = Fx.smeltsmoke;
+        }};
     }
 
     public static void disableVanilla() {
@@ -804,5 +939,7 @@ public class AquaCrafters {
         Blocks.logicDisplay.envDisabled = Env.underwater;
         Blocks.shockMine.envDisabled = Env.underwater;
         Blocks.additiveReconstructor.envDisabled = Env.underwater;
+        Blocks.coreFoundation.envDisabled = Env.underwater;
+
     }
 }

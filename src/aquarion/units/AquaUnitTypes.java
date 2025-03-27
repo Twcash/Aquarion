@@ -78,7 +78,7 @@ public class AquaUnitTypes {
             envDisabled = Env.none;
             constructor = MechUnit::create;
             mechLegColor = AquaPal.tantDarkestTone;
-            abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
+            abilities.add(new ShieldRegenFieldAbility(25f, 200f, 60f * 5, 90f),
 
                     new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
                         particles = 3;
@@ -277,39 +277,40 @@ public class AquaUnitTypes {
                             new RegionPart("-barrel") {{
                                 layerOffset = -.00001f;
                                 y = 11f;
-                                x = -3.25f;
-                                mixColor = Color.valueOf("444b49");
-                                mixColorTo = Color.valueOf("829194");
-                                moveX = 3.25f;
-                                moveY = 3;
-                                progress = PartProgress.reload.curve(Interp.sineIn);
-                            }},
-                            new RegionPart("-barrel") {{
-                                layerOffset = -.00001f;
-                                y = 13f;
                                 x = 0f;
-                                mixColor = Color.valueOf("829194");
-                                mixColorTo = Color.valueOf("444b49");
-                                moveX = -3.25f;
-                                moveY = -3;
+                                mixColor = Color.valueOf("909698");
+                                mixColorTo = Color.valueOf("909698");
+                                moveX = 3.25f;
+                                moveY = 0;
                                 progress = PartProgress.reload.curve(Interp.sineIn);
                             }},
                             new RegionPart("-barrel") {{
                                 layerOffset = -.00001f;
                                 y = 11f;
-                                x = 3.25f;
-                                mixColor = Color.valueOf("444b49");
-                                mixColorTo = Color.valueOf("829194");
+                                x = -3.25f;
+                                mixColor = Color.valueOf("909698");
+                                mixColorTo = Color.valueOf("909698").a(0);
+                                moveX = 3.25f;
+                                moveY = 0;
+                                progress = PartProgress.reload.curve(Interp.sineIn);
+                            }},
+                            new RegionPart("-barrel") {{
+                                layerOffset = -.00001f;
+                                y = 11f;
+                                x = 0f;
+                                mixColor = Color.valueOf("909698").a(0);
+                                mixColorTo = Color.valueOf("909698");
                                 moveX = -3.25f;
-                                moveY = 3;
+                                moveY = 0;
                                 progress = PartProgress.reload.curve(Interp.sineIn);
                             }});
                     reload = 15;
                     shootSound = Sounds.bolt;
-                    shootY = 9;
+                    shootY = 12;
                     shootCone = 25;
                     top = false;
-                    rotate = false;
+                    rotate = true;
+                    rotationLimit = 15;
                     flipSprite = true;
                     bullet = new RailBulletType() {{
                         pierce = true;
@@ -322,7 +323,7 @@ public class AquaUnitTypes {
                         collidesAir = false;
                         shootEffect = Fx.shootBigColor;
                         hitEffect = Fx.hitSquaresColor;
-                        smokeEffect = new MultiEffect(new ParticleEffect(){{
+                        smokeEffect = new MultiEffect(new ParticleEffect() {{
                             line = true;
                             cone = 60;
                             particles = 6;
@@ -333,10 +334,10 @@ public class AquaUnitTypes {
                             sizeTo = 10;
                             rotWithParent = true;
                             baseRotation = 0;
-                            lifetime = 30;
+                            lifetime = 15;
                             colorFrom = Color.valueOf("ffffff");
                             colorTo = Color.valueOf("ff5656");
-                        }}, new ParticleEffect(){{
+                        }}, new ParticleEffect() {{
                             cone = 65;
                             particles = 5;
                             layer = 60;
@@ -351,7 +352,7 @@ public class AquaUnitTypes {
                             colorFrom = Color.valueOf("716363");
                             colorTo = Color.valueOf("423a3a");
                         }});
-                        endEffect = new ParticleEffect(){{
+                        endEffect = new ParticleEffect() {{
                             line = true;
                             cone = 60;
                             particles = 4;
@@ -365,7 +366,7 @@ public class AquaUnitTypes {
                             colorFrom = Color.valueOf("ff5656");
                             colorTo = Color.valueOf("c80f0f");
                         }};
-                        pointEffect = new MultiEffect(new ParticleEffect(){{
+                        pointEffect = new MultiEffect(new ParticleEffect() {{
                             line = true;
                             cone = 0;
                             particles = 1;
@@ -378,7 +379,7 @@ public class AquaUnitTypes {
                             colorTo = Color.valueOf("ffa9a9");
                             rotWithParent = true;
                             baseRotation = 0;
-                        }}, new ParticleEffect(){{
+                        }}, new ParticleEffect() {{
                             line = true;
                             cone = 0;
                             particles = 1;
@@ -393,7 +394,7 @@ public class AquaUnitTypes {
                             baseRotation = 0;
                         }});
                     }};
-                }}, new Weapon("aquarion-consul-missiles"){{
+                }}, new Weapon("aquarion-consul-missiles") {{
                     rotate = true;
                     rotateSpeed = 1.1f;
                     reload = 90;
@@ -401,7 +402,7 @@ public class AquaUnitTypes {
                     x = 10;
                     y = -2f;
                     shoot.shots = 2;
-                    bullet = new MissileBulletType(){{
+                    bullet = new MissileBulletType() {{
                         weaveScale = 4;
                         weaveMag = 6;
                         collidesAir = false;
@@ -1594,9 +1595,7 @@ public class AquaUnitTypes {
                         layer = 80;
                         colorFrom = Color.valueOf("262323");
                         colorTo = Color.valueOf("746f6f10");
-                    }}, 10f, .4f) {
-                        {
-                        }
-                    });
+                    }}, 10f, .4f) {{
+                    }});
         }};
     }}

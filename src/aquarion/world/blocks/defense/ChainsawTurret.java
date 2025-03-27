@@ -111,7 +111,7 @@ public class ChainsawTurret extends Block {
         //TODO possibly switch to vectors
         protected void moveSaw() {
             float baseOffset = 20;
-            float maxExtend = range - baseOffset;
+            float maxExtend = range;
 
             if (target == null) {
                 float restingX = x + Angles.trnsx(rotation, baseOffset);

@@ -9,6 +9,7 @@ buildscript{
     val useJitpack = property("mindustryBE").toString().toBooleanStrict()
 
     dependencies{
+
         classpath("com.github.Anuken.Arc:arc-core:$arcVersion")
     }
 
@@ -22,6 +23,10 @@ plugins{
     java
     id("de.undercouch.download") version "5.4.0"
     id("com.github.GlennFolker.EntityAnno") apply false
+}
+tasks.register<JavaExec>("runSpriteGenerator") {
+    mainClass.set("aquarion.Tools")  // Replace with your actual class name
+    classpath = sourceSets["main"].runtimeClasspath  // Ensures the runtime classpath is included
 }
 
 val arcVersion: String by project
@@ -123,8 +128,10 @@ project(":"){
 
         compileOnly("org.jetbrains:annotations:24.0.1")
 
+
         compileOnly(mindustry(":core"))
         compileOnly(arc(":arc-core"))
+        implementation("org.apache.pdfbox:fontbox:2.0.27")
         implementation(arcLibrary(":graphics-draw3d"))
         implementation(arcLibrary(":graphics-dashDraw"))
         implementation(arcLibrary(":graphics-extendedDraw"))
@@ -167,7 +174,13 @@ project(":"){
             meta.asFile.writer(Charsets.UTF_8).use{file -> BufferedWriter(file).use{map.writeTo(it, Jval.Jformat.formatted)}}
         }
     }
-
+    tasks.register<Jar>("assetsJar") {
+        dependsOn(":tools:pack")
+        archiveClassifier.set("assets")
+        from("assets") {
+            exclude("config", "cache", "music", "sounds", "sprites/fallback")
+        }
+    }
     tasks.register<Jar>("dex"){
         inputs.files(jar)
         archiveFileName = "$modArtifact.jar"
