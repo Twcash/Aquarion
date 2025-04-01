@@ -5,14 +5,11 @@ import aquarion.AquaItems;
 import aquarion.AquaLiquids;
 import aquarion.world.blocks.environment.NonRandomTreeBlock;
 import aquarion.world.blocks.environment.PineTree;
-import aquarion.world.blocks.environment.customVent;
-import aquarion.world.graphics.AquaCacheLayers;
 import aquarion.world.graphics.AquaFx;
+import aquarion.world.graphics.AquaShaders;
 import arc.graphics.Color;
 import arc.math.Interp;
-import arc.math.geom.Point2;
 import mindustry.content.Blocks;
-import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.entities.effect.ParticleEffect;
@@ -32,7 +29,7 @@ import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 public class AquaEnv {
     public static Block uhhhhh,azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
-            arsenicBoulder;
+            arsenicBoulder, boricBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
             CrasseCoral;
     public static Block leafLitter, blueSandFLoor, blueSandWater, brecciaFloor,
@@ -42,17 +39,18 @@ public class AquaEnv {
             coral_floor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
             kelp_floor, roughFeldspar, phylite_floor, slate,
+            boricFloor, boricFloorDense,
             shaleVent, andesite, andesiteRubble, andesiteVent;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum,
             oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium,
-            oreManganese, oreAluminum, oreSilicon, exposedGallium;
+            oreManganese, oreAluminum, oreSilicon, exposedGallium, cryoliteOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall,
-            arsenicCrystals, arsenicalOutcrop, arsenideWall, chertWall,
+            arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall,
             chertOutcrop, pillarCoral, loteasCoral, songCoral,
             bauxiticWall ,algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
             feldsparWall, gabbroWall, andesiteExtrusions, CrystalGalena,
-            elderParzil;
+            elderParzil, boraxCluster;
 
 
     public static void loadContent() {
@@ -67,11 +65,16 @@ public class AquaEnv {
             liquidDrop = AquaLiquids.brine;
             liquidMultiplier = 1.1f;
             isLiquid = true;
-            cacheLayer = AquaCacheLayers.brine;
+            cacheLayer = AquaShaders.brineLayer;
             albedo = 1f;
             supportsOverlay = true;
         }};
-
+        boricFloor = new Floor("boric-floor", 4){{
+            wall = boricWall;
+        }};
+        boricFloorDense = new Floor("boric-floor-dense", 4){{
+            wall = boricWall;
+        }};
         coral_floor = new Floor("coral-floor", 4) {{
         }};
         feldspar = new Floor("feldspar", 3) {{
@@ -317,6 +320,9 @@ public class AquaEnv {
             variants = 4;
         }};
         arsenideWall = new StaticWall("arsenide-wall") {{
+            variants = 3;
+        }};
+        boricWall = new StaticWall("boric-wall"){{
             variants = 3;
         }};
         chertWall = new StaticWall("chert-wall") {{

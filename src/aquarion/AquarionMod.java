@@ -4,14 +4,10 @@ import aquarion.planets.AquaLoadouts;
 import aquarion.planets.AquaPlanets;
 import aquarion.planets.AquaSectorPresets;
 import aquarion.planets.TantrosTechTree;
-import aquarion.tools.IconLoader;
 import aquarion.units.AquaUnitTypes;
 import aquarion.units.AquaWrecks;
 import aquarion.world.AquaTeams;
-import aquarion.world.OverDatabaseDialog;
-import aquarion.world.graphics.AquaCacheLayers;
 import aquarion.world.graphics.AquaMenuRenderer;
-import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.AquaWeather;
 import arc.assets.Loadable;
 import arc.util.Log;
@@ -19,8 +15,6 @@ import arc.util.Reflect;
 import mindustry.Vars;
 import aquarion.blocks.*;
 import mindustry.ui.fragments.MenuFragment;
-
-import java.lang.reflect.Field;
 
 public class AquarionMod implements Loadable {
 
@@ -65,18 +59,5 @@ public class AquarionMod implements Loadable {
             return new AquaMenuRenderer();
         }
     }
-    public static void init() {
-        IconLoader.loadIcons();
-        if (!Vars.headless) {
-            AquaShaders.load();
-            AquaCacheLayers.load();
-        }
-        //try {
-            //Field databaseField = Vars.ui.getClass().getDeclaredField("database");
-            //databaseField.setAccessible(true);
-            //databaseField.set(Vars.ui, new OverDatabaseDialog());
-        //} catch (Exception e) {
-        //    e.printStackTrace();
-        //}
-    }
+
 }

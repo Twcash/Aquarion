@@ -2,6 +2,8 @@ package aquarion.blocks;
 
 import aquarion.units.AquaUnitTypes;
 import aquarion.world.blocks.core.QeralterCoreBlock;
+import aquarion.world.blocks.core.SnakeStorageBlock;
+import aquarion.world.blocks.core.TantrosCoreBlock;
 import aquarion.world.blocks.defense.BlockingForceProjector;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
@@ -27,7 +29,7 @@ import static aquarion.units.AquaUnitTypes.*;
 
 
 public class AquaCore {
-    public static Block buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
+    public static Block coreAnnex, buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
             coreEscarpment, corePike, coreExpedite, buildSentry,
             overdriveCatalyst, forceBarrier;
     public static Block TrunteVein, TrunteNode;
@@ -43,8 +45,17 @@ public class AquaCore {
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
-        corePike = new CoreBlock("core-pike") {{
+        coreAnnex = new SnakeStorageBlock("core-annex"){{
+            requirements(Category.effect, with(aluminum, 160));
+            itemCapacity = 10;
+            coreMerge = true;
+            squareSprite = false;
+            size = 2;
+            researchCostMultiplier = 0.02f;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        corePike = new TantrosCoreBlock("core-pike") {{
             requirements(Category.effect, with(bauxite, 750, lead, 1250, silicon, 2000));
             squareSprite = false;
             health = 1500;

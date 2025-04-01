@@ -2,6 +2,7 @@ package aquarion.units;
 
 import aquarion.gen.EntityRegistry;
 import aquarion.type.*;
+import aquarion.world.AquaGroundAI;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Interp;

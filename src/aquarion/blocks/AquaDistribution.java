@@ -85,6 +85,7 @@ public class AquaDistribution {
         sealedUnloader = new DirectionalUnloader("sealed-unloader"){{
             requirements(Category.distribution, with(aluminum, 20, silicon, 20));
             speed = 2f;
+            allowCoreUnload = true;
             researchCostMultiplier = 0.25f;
         }};
         sealedSorter = new Sorter("sealed-sorter"){{

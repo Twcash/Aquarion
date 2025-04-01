@@ -1,5 +1,9 @@
 package aquarion.world.blocks.distribution;
 
+import aquarion.world.graphics.AquaShaders;
+import arc.Core;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.util.Time;
 import mindustry.content.Fx;
@@ -11,10 +15,15 @@ import mindustry.world.blocks.liquid.Conduit;
 import mindustry.world.meta.StatUnit;
 
 import static aquarion.world.Uti.AquaStats.MaxFlow;
+import static aquarion.world.graphics.AquaShaders.heatLayer;
 
 public class ModifiedConduit extends Conduit {
-    public float tempDamage;
-
+    public TextureRegion heatReg;
+    @Override
+    public void load(){
+        super.load();
+        heatReg = Core.atlas.find(name + "-conduit-heat");
+    }
 
     public ModifiedConduit(String name) {
         super(name);
@@ -27,7 +36,12 @@ public class ModifiedConduit extends Conduit {
         stats.add(MaxFlow, liquidCapacity*60/2, StatUnit.liquidUnits);
     }
     public class ModifiedConduitBuild extends ConduitBuild {
-
+        @Override
+        public void draw(){
+            super.draw();
+            Draw.z(heatLayer.id);
+            Draw.rect(heatReg, x, y, 0);
+        }
         @Override
         public void updateTile() {
             Liquid liquid = liquids.current();

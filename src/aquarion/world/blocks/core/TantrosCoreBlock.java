@@ -1,52 +1,47 @@
 package aquarion.world.blocks.core;
 
 import arc.audio.Music;
+import arc.struct.Seq;
+import mindustry.gen.Building;
 import mindustry.gen.Musics;
+import mindustry.type.Item;
 import mindustry.world.blocks.storage.CoreBlock;
+import mindustry.world.blocks.storage.StorageBlock;
 
 public class TantrosCoreBlock extends CoreBlock {
+
     public TantrosCoreBlock(String name) {
         super(name);
     }
-    public class TantrosCoreBuild extends CoreBuild implements LaunchAnimator{
-        @Override
-        public void drawLaunch() {
-            
+
+    public class LinkedCoreBuild extends CoreBuild {
+        private Seq<SnakeStorageBlock.SnakeStorageBlockBuild> linkedStorages = new Seq<>();
+
+
+        public void updateLinks() {
+            linkedStorages.clear();
+            for (Building b : team.data().buildings) {
+                if (b.block instanceof StorageBlock) {
+                    linkedStorages.add((SnakeStorageBlock.SnakeStorageBlockBuild) b);
+                }
+            }
         }
 
         @Override
-        public void beginLaunch(boolean launching) {
-
+        public void handleItem(Building source, Item item) {
+            super.handleItem(source, item);
+            for (Building storage : linkedStorages) {
+                storage.handleItem(source, item);
+            }
         }
 
         @Override
-        public void endLaunch() {
-
-        }
-
-        @Override
-        public void updateLaunch() {
-
-        }
-
-        @Override
-        public float launchDuration(){
-            return 240;
-        }
-
-        @Override
-        public Music landMusic(){
-            return Musics.land;
-        }
-
-        @Override
-        public Music launchMusic(){
-            return Musics.launch;
-        }
-
-        @Override
-        public float zoomLaunch() {
-            return 0;
+        public int removeStack(Item item, int amount) {
+            super.removeStack(item, amount);
+            for (Building storage : linkedStorages) {
+                storage.removeStack(item, amount);
+            }
+            return amount;
         }
     }
 }
