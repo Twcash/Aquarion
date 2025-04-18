@@ -8,6 +8,7 @@ An Attempt to recreate Tantros, adding a whole new campaign with custom blocks, 
 
 ## Notes:
 * This is incompatiable with foos client as it breaks the mod
+* Black hole Library will cause graphical issues with the envRenderer. Please do your best only to play with Aquarion
 * Remember to reinstall the mod once in a while so new content loads. Updates are often but mainly small.
 * May or may not be good but I will try my best.
 
