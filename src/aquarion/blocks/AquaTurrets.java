@@ -19,6 +19,7 @@ import mindustry.content.Liquids;
 import mindustry.entities.Effect;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
@@ -36,11 +37,13 @@ import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
+import static aquarion.AquaLiquids.fluorine;
 import static aquarion.AquaLiquids.fumes;
 import static aquarion.world.graphics.AquaFx.rand;
 import static aquarion.world.graphics.AquaFx.v;
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
+import static arc.math.Interp.*;
 import static mindustry.content.Items.*;
 import static mindustry.entities.part.DrawPart.PartProgress.warmup;
 import static mindustry.gen.Sounds.shootAlt;
@@ -48,7 +51,7 @@ import static mindustry.gen.Sounds.shootAltLong;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block  maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate,
+    public static Block  bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack;
 
     public static void loadContent() {
@@ -995,9 +998,28 @@ public class AquaTurrets {
                 squareSprite = false;
                 shootSound = Sounds.blaster;
                 targetGround = false;
-                requirements(Category.turret, with(aluminum, 250, towanite, 90, ferricMatter, 100));
+                requirements(Category.turret, with(aluminum, 250, copper, 90, ferricMatter, 100));
                 ammo(
-                        fumes, new MissileBulletType(7, 35) {{
+                        fumes, new MissileBulletType(7, 25) {{
+                            knockback = 2f;
+                            drag = -0.02f;
+                            lifetime = 45;
+                            trailLength = 18;
+                            trailWidth = 2;
+                            weaveScale = 4;
+                            weaveMag = 2;
+                            homingPower = 0.09f;
+                            collidesTiles = false;
+                            collidesGround = false;
+                            shootEffect = Fx.shootSmokeSquareSparse;
+                            backColor = trailColor = hitColor = lightColor = Color.gray;
+                            frontColor = Color.white;
+                            hitEffect = Fx.hitSquaresColor;
+                            layer = Layer.bullet - 2f;
+                            backSprite = "aquarion-star-bullet";
+                            sprite = "aquarion-star-bullet";
+                        }},
+                        fumes, new MissileBulletType(7, 25) {{
                             knockback = 2f;
                             drag = -0.02f;
                             lifetime = 45;
@@ -1016,7 +1038,81 @@ public class AquaTurrets {
                             backSprite = "aquarion-star-bullet";
                             sprite = "aquarion-star-bullet";
                         }});
-            }};
 
+            }};
+        torrefy = new ItemTurret("torrefy"){{
+            requirements(Category.turret, with(aluminum, 700, copper, 1200, ferricMatter, 900, ferrosilicon, 450, nickel, 300, silicon, 900, lead, 1000));
+            reload = 8*60f;
+            minWarmup = 0.99f;
+            shootWarmupSpeed = 0.03f;
+            recoil = 3;
+            recoilTime = 120;
+            range = 70*8f;
+            size = 5;
+            limitRange(1.1f);
+            consumeLiquid(fluorine, 200/60f);
+            liquidCapacity = 250;
+            ammoPerShot = 20;
+            itemCapacity = 60;
+            warmupMaintainTime = 20*60f;
+            cooldownTime = 15*60f;
+            shootY = 2f;
+            rotateSpeed = 0.9f;
+            consumePower(1000/60f);
+            shootSound = Sounds.laserbig;
+            baseExplosiveness = 5;
+            ammo(
+                    ferrosilicon, new ArtilleryBulletType(5, 0){{
+                        sprite = "missile-large";
+                        width = height = 16;
+                    }}
+            );
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-anchor") {{
+                              layer = Layer.power - 1;
+                              moves.add(new PartMove[]{
+                                      new PartMove(PartProgress.warmup.delay(0.1f), 0f, 6f, 155f),
+                                      new PartMove(PartProgress.warmup.delay(0.25f), 10f, 8f, 190f),
+                                      new PartMove(PartProgress.warmup.delay(0.4f), 15f, -30f, 480f)
+                              });
+                              children.add(new RegionPart("-anchor-shadow"){{
+                                  x = -2;
+                                  y = -2;
+                              }});
+                          }},
+                        new RegionPart("-anchor") {{
+                            layer = Layer.power - 1;
+                        }},
+                        new RegionPart("-anchor") {{
+                            layer = Layer.power - 1;
+                        }},
+                        new RegionPart("-anchor") {{
+                            layer = Layer.power - 1;
+                        }});
+            }};
+        }};
+        bend = new PowerTurret("bend"){{
+            requirements(Category.turret, with(Items.copper, 60, Items.lead, 70, Items.silicon, 60, Items.titanium, 30));
+            size = 3;
+            consumePower(6f);
+            outlineColor = Color.valueOf("111424");
+
+            shootType = new LaserBulletType(140){{
+                colors = new Color[]{Pal.lancerLaser.cpy().a(0.4f), Pal.lancerLaser, Color.white};
+                //TODO merge
+                chargeEffect = new MultiEffect(Fx.lancerLaserCharge, Fx.lancerLaserChargeBegin);
+
+                buildingDamageMultiplier = 0.25f;
+                hitEffect = Fx.hitLancer;
+                hitSize = 4;
+                lifetime = 16f;
+                drawSize = 400f;
+                collidesAir = false;
+                length = 173f;
+                ammoMultiplier = 1f;
+                pierceCap = 4;
+            }};
+        }};
+                
     }
 }

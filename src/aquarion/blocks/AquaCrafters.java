@@ -44,7 +44,7 @@ import static mindustry.type.ItemStack.with;
 //What was all of this even for
 public class AquaCrafters {
     public static Block ElectrolysisManifold,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
-            atmoshpericSeperator,
+            atmoshpericSeperator, fumeSeparator,
              siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
 
@@ -821,17 +821,17 @@ public class AquaCrafters {
 
             }};
             beamBore = new ModifiedbeamDrill("beam-bore"){{
-                requirements(Category.production, with(silicon, 300, aluminum, 550, towanite, 50));
+                requirements(Category.production, with(silicon, 350, aluminum, 250, towanite, 75));
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
                 researchCostMultiplier = 0.25f;
-                drillTime = 150;
+                drillTime = 135;
                 size = 3;
-                range = 5;
+                range = 6;
                 consumeLiquid(fumes, 5/60f);
-                consumeLiquid(dioxide, 15/60f).boost();
-                optionalBoostIntensity = 1.5f;
+                consumeLiquid(oxygen, 15/60f).boost();
+                optionalBoostIntensity = 1.35f;
                 heatColor  = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
                 researchCostMultiplier = 0;
@@ -851,14 +851,14 @@ public class AquaCrafters {
                 liquidCapacity = 900;
             }};
             DrillDerrick = new GroundDrill("drill-derrick"){{
-                requirements(Category.production, with( silicon, 500, aluminum, 250, towanite, 50));
+                requirements(Category.production, with( silicon, 450, aluminum, 150, towanite, 65));
                 size = 5;
-                drillTime = 150;
+                drillTime = 125;
                 consumeLiquid(fumes, 10/60f).booster = false;
-                consumeLiquid(chlorine, 15/60f).boost();
+                consumeLiquid(oxygen, 15/60f).boost();
                 liquidBoostIntensity = 1.5f;
                 squareSprite = false;
-                itemCapacity = 150;
+                itemCapacity = 200;
                 liquidCapacity = 120;
                 tier = 1;
                 researchCostMultiplier = 0;
@@ -866,41 +866,46 @@ public class AquaCrafters {
             galenaCrucible = new GenericCrafter("galena-reduction-vat"){{
                 requirements(Category.crafting, with( silicon, 500, aluminum, 250));
                 size = 6;
-                consumeLiquid(fumes, 30/60f);
+                consumeLiquids(LiquidStack.with(fumes, 15/60f, fluorine, 5/60f));
                 itemCapacity = 125;
                 liquidCapacity = 150;
                 squareSprite = false;
                 craftTime = 5*60f;
                 outputItem = new ItemStack(lead, 80);
             }};
+            fumeSeparator = new GenericCrafter("fume-separator"){{
+                requirements(Category.crafting, with( silicon, 500, aluminum, 450, copper, 200));
+                size = 6;
+                consumeLiquid(fumes, 30/60f);
+                outputLiquids = LiquidStack.with(oxygen, 45/60f, chlorine, 15/60f);
+                liquidOutputDirections = new int[]{3, 1};
+            }};
         }};
         ElectrolysisManifold = new AdaptiveCrafter("electrolysis-manifold"){{
             size = 7;
-            requirements(Category.crafting, with(Items.copper, 1500, Items.lead, 500, silicon, 1000, aluminum, 500));
+            requirements(Category.crafting, with(Items.copper, 750, silicon, 600, aluminum, 500));
             addRecipe(new Recipe(
-                    30f,
-                    new ItemStack[]{new ItemStack(Items.graphite, 1)},
-                    new LiquidStack[]{},
-                    new ConsumeItems(with(Items.coal, 2)) // Consumes coal
+                    60*4f,
+                    new ItemStack[]{new ItemStack(sodium, 40)},
+                    new LiquidStack[]{new LiquidStack(chlorine, 4/60f)},
+                    new ConsumeItems(with(salt, 40))
             ));
             addRecipe(new Recipe(
-                    40f,
-                    new ItemStack[]{new ItemStack(Items.silicon, 1)},
-                    new LiquidStack[]{},
-                    new ConsumeItems(with(Items.sand, 2)),
-                    new ConsumeLiquids(LiquidStack.with(Liquids.water, 5f))
+                    60*6f,
+                    new ItemStack[]{new ItemStack(sodium, 36), new ItemStack(boron, 72)},
+                    new LiquidStack[]{new LiquidStack(oxygen, 21/60f)},
+                    new ConsumeItems(with(borax, 18))
             ));
             addRecipe(new Recipe(
-                    40f,
-                    new ItemStack[]{},
-                    new LiquidStack[]{new LiquidStack(Liquids.oil, 20/60f)},
-                    new ConsumeItems(with(Items.coal,5)),
-                    new ConsumeLiquids(LiquidStack.with(Liquids.water, 5f))
+                    60*10f,
+                    new ItemStack[]{new ItemStack(sodium, 150), new ItemStack(aluminum, 50)},
+                    new LiquidStack[]{new LiquidStack(fluorine, 36/60f)},
+                    new ConsumeItems(with(cryolite, 50))
             ));
             hasItems = true;
             hasLiquids = true;
-            itemCapacity = 100;
-            liquidCapacity = 100;
+            itemCapacity = 400;
+            liquidCapacity = 1200;
             craftEffect = Fx.smeltsmoke;
         }};
     }

@@ -6,7 +6,7 @@ import mindustry.type.CellLiquid;
 import mindustry.type.Liquid;
 
 public class AquaLiquids {
-    public static Liquid chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, artroGoop, brine, nitronite, helium, hydrogenChloride, hydroxide, pyridine, tritium;
+    public static Liquid fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, artroGoop, brine, nitronite, helium, hydrogenChloride, hydroxide, pyridine, tritium;
 
     public static void loadContent() {
         artroGoop = new CellLiquid("artro-goop", Color.valueOf("#8cae8e80")) {{
@@ -98,6 +98,11 @@ public class AquaLiquids {
         }};
         chlorine = new Liquid("chlorine", Color.valueOf("e1f7bc")){{
             coolant = false;
+            gas = true;
+        }};
+        fluorine = new Liquid("fluorine", Color.valueOf("c3eff2")){{
+            coolant = false;
+            flammability = 1.1f;
             gas = true;
         }};
     }

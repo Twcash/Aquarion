@@ -39,7 +39,7 @@ public class BlockingForceProjector extends ForceProjector {
         @Override
         public void draw() {
             super.draw();
-            drawShield(); // Draw the shield
+            drawShield();
         }
 
         @Override
@@ -54,7 +54,7 @@ public class BlockingForceProjector extends ForceProjector {
 
         public float radius() {
             // Override to ensure it returns the effective shield radius
-            return realRadius(); // Ensure this matches the logic for effective radius in ForceProjector
+            return realRadius();
         }
     }
 }

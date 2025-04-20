@@ -21,9 +21,9 @@ public class ModMusic {
     public static Seq<Music> aquaDarkMusic = new Seq<>();
     public static Seq<Music> aquaBossMusic = new Seq<>();
 
-    public static String[] aquaAmbientList = {"underwaves", "che-go-boom"};
-    public static String[] aquaDarkList = {"bubblerine", "value"};
-    public static String[] aquaBossList = {"acceptance", "hero-brine"};
+    public static String[] aquaAmbientList = {"underwaves", "che-go-boom, pipe-thoughts"};
+    public static String[] aquaDarkList = {"bubblerine", "value", "trance"};
+    public static String[] aquaBossList = {"acceptance", "hero-brine", "not-so-distant-now"};
 
     public static Seq<Music> origAmbientMusic;
     public static Seq<Music> origDarkMusic;
@@ -50,7 +50,7 @@ public class ModMusic {
     public static String god = "Anuken";
     public static String leo = "Leo";
     public static String hyp = "HYPERIUM";
-
+    public static String cas = "Twcash";
     public static ArrayMap<String, MusicInfo> musics = new ArrayMap<>();
 
     static {
@@ -70,9 +70,11 @@ public class ModMusic {
         musics.put("bubblerine", new MusicInfo("Bubblerine", leo));
         musics.put("che-go-boom", new MusicInfo("Che Go Boom", leo));
         musics.put("acceptance", new MusicInfo("Acceptance", hyp));
-        musics.put("value", new MusicInfo("Che Go Boom", leo));
+        musics.put("value", new MusicInfo("CHE Go Boom", leo));
         musics.put("hero-brine", new MusicInfo("Hero brine", leo));
-        musics.put("better-fine", new MusicInfo("Better Fine", leo));
+        musics.put("pipe-thoughts", new MusicInfo("Pipe Thoughts", cas));
+        musics.put("not-so-distant-now", new MusicInfo("NOT SO DISTANT NOW", cas));
+        musics.put("trance", new MusicInfo("Trance", cas));
     }
 
     // Don't change from outside I trust you by putting it in public

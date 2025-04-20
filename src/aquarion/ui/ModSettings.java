@@ -9,6 +9,7 @@ public class ModSettings {
             root.checkPref("@settings.onlyModMus", false);
             root.checkPref("@settings.betterland", false);
             root.checkPref("@settings.betterfine", false);
+            root.checkPref("@settings.richPrescense", true);
         });
     }
 
@@ -20,5 +21,8 @@ public class ModSettings {
     }
     public static boolean getBetterFine() {
         return Core.settings.getBool("@settings.betterfine", false);
+    }
+    public static boolean rich() {
+        return Core.settings.getBool("@settings.richPrescense", true);
     }
 }

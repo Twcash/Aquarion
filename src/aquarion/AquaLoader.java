@@ -8,6 +8,7 @@ import mindustry.mod.Mod;
 import mindustry.game.*;
 
 import static arc.Core.app;
+import static mindustry.Vars.mobile;
 
 public class AquaLoader extends Mod {
     public AquaLoader() {
@@ -22,6 +23,7 @@ public class AquaLoader extends Mod {
     }
     @Override
     public void init() {
+
         IconLoader.loadIcons();
 
         //try {
@@ -31,6 +33,8 @@ public class AquaLoader extends Mod {
         //} catch (Exception e) {
         //    e.printStackTrace();
         //}
+        //we're rich!
+        if (!mobile) RichHandler.init();
     }
     @Override
     public void loadContent() {

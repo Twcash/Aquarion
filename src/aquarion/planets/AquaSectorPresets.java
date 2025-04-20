@@ -1,11 +1,12 @@
 package aquarion.planets;
 
+import aquarion.world.AquaSectorPreset;
 import mindustry.type.SectorPreset;
 
 import static aquarion.planets.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
-    public static SectorPreset Ingress, Torrent, CrystalCaverns, Grove;
+    public static AquaSectorPreset Ingress, Torrent, CrystalCaverns, Grove;
     /*
     Sector plans
     chasm:10 {
@@ -24,7 +25,7 @@ public class AquaSectorPresets {
     }
      */
     public static void load(){
-        Ingress = new SectorPreset("Ingress", tantros2, 10){{
+        Ingress = new AquaSectorPreset("Ingress", tantros2, 10){{
             alwaysUnlocked = true;
             addStartingItems = true;
             captureWave = 5;
@@ -33,7 +34,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        Torrent = new SectorPreset("EnsuingTorrent", tantros2, 142){{
+        Torrent = new AquaSectorPreset("EnsuingTorrent", tantros2, 142){{
             addStartingItems = true;
             captureWave = 11;
             difficulty = 2;
@@ -41,7 +42,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        CrystalCaverns = new SectorPreset("CrystalCavern", tantros2, 144){{
+        CrystalCaverns = new AquaSectorPreset("CrystalCavern", tantros2, 144){{
             addStartingItems = true;
             captureWave = 7;
             difficulty = 4;
@@ -49,7 +50,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
         }};
-        Grove = new SectorPreset("Grove", tantros2, 143){{
+        Grove = new AquaSectorPreset("Grove", tantros2, 143){{
             addStartingItems = true;
             captureWave = 16;
             difficulty = 6;

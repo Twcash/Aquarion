@@ -6,21 +6,34 @@ import aquarion.planets.AquaSectorPresets;
 import aquarion.planets.TantrosTechTree;
 import aquarion.units.AquaUnitTypes;
 import aquarion.units.AquaWrecks;
+import aquarion.units.ProspectorUnitTypes;
+import aquarion.world.AI.ProspectorBaseBuilderAI;
 import aquarion.world.AquaTeams;
 import aquarion.world.graphics.AquaMenuRenderer;
 import aquarion.world.graphics.AquaWeather;
+import aquarion.world.graphics.MenuReplacer;
+import arc.ApplicationCore;
+import arc.ApplicationListener;
+import arc.Events;
 import arc.assets.Loadable;
 import arc.util.Log;
 import arc.util.Reflect;
+import arc.util.Timer;
 import mindustry.Vars;
 import aquarion.blocks.*;
+import mindustry.game.EventType;
+import mindustry.game.Teams;
 import mindustry.ui.fragments.MenuFragment;
 
-public class AquarionMod implements Loadable {
+import static arc.Core.assets;
+import static mindustry.Vars.state;
+
+public class AquarionMod  implements Loadable{
 
     public static void loadContent() {
+        //SHUT UP SHUT UP SHUT UP
+
         //stuff that needs to be loaded first
-        // EXPERIMENTAL
         AquaLiquids.loadContent();
         AquaSounds.load();
         AquaTeams.load();
@@ -49,6 +62,16 @@ public class AquarionMod implements Loadable {
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
+        //Other faction stuff
+        ProspectorUnitTypes.loadContent();
+        ProspectorBlocks.loadContent();
+
+        MenuReplacer.replaceMenu(Vars.ui.menufrag);
+        //THIS IS STUPID PLEASE DO NOT REPLICATE
+        ProspectorBaseBuilderAI ai = new ProspectorBaseBuilderAI();
+        Events.on(EventType.WorldLoadEvent.class, e -> {
+            Timer.schedule(ai::updateUnit, 0f, 0.3f);
+        });
     }
 
     public static AquaMenuRenderer getMenuRenderer() {
@@ -59,5 +82,7 @@ public class AquarionMod implements Loadable {
             return new AquaMenuRenderer();
         }
     }
+
+
 
 }

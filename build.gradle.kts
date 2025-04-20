@@ -9,7 +9,6 @@ buildscript{
     val useJitpack = property("mindustryBE").toString().toBooleanStrict()
 
     dependencies{
-
         classpath("com.github.Anuken.Arc:arc-core:$arcVersion")
     }
 
@@ -23,6 +22,7 @@ plugins{
     java
     id("de.undercouch.download") version "5.4.0"
     id("com.github.GlennFolker.EntityAnno") apply false
+
 }
 tasks.register<JavaExec>("runSpriteGenerator") {
     mainClass.set("aquarion.Tools")  // Replace with your actual class name
@@ -122,15 +122,17 @@ project(":"){
     }
 
     dependencies{
+
+
         // Use the entity generation annotation processor.
         compileOnly(entity(":entity"))
         add("kapt", entity(":entity"))
 
         compileOnly("org.jetbrains:annotations:24.0.1")
 
-
         compileOnly(mindustry(":core"))
         compileOnly(arc(":arc-core"))
+        compileOnly(arc(":discord"))
         implementation("org.apache.pdfbox:fontbox:2.0.27")
         implementation(arcLibrary(":graphics-draw3d"))
         implementation(arcLibrary(":graphics-dashDraw"))

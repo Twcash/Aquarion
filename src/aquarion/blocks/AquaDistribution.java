@@ -1,5 +1,6 @@
 package aquarion.blocks;
 
+import aquarion.world.blocks.distribution.ItemTram;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
 import mindustry.type.Category;
@@ -15,7 +16,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDistribution {
-    public static Block  electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
+    public static Block  itemTram, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
             electrumConveyor, armoredSealedConveyor, sealedOverflow,sealedDistributor,
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction;
@@ -158,6 +159,11 @@ public class AquaDistribution {
         electrumSorterInverted = new Sorter("inverted-electrum-sorter"){{
             requirements(Category.distribution, with(electrum, 4, lead, 4));
             invert = true;
+        }};
+
+        itemTram = new ItemTram("item-tram"){{
+            requirements(Category.distribution, with(ferricMatter, 10));
+
         }};
     }
 }
