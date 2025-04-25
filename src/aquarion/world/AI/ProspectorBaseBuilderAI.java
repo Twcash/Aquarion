@@ -1,5 +1,6 @@
 package aquarion.world.AI;
 
+import aquarion.blocks.ProspectorBlocks;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -21,14 +22,12 @@ import static mindustry.Vars.*;
 public class ProspectorBaseBuilderAI extends AIController {
     Unit unit;
     final Interval timer = new Interval(1);
+    final Block turret = Blocks.duo;
+    final Block powerGen = Blocks.combustionGenerator;
+    final Block powerNode = Blocks.powerNode;
+    final Block wall = Blocks.copperWall;
 
-    final Seq<Block> turretOptions = Seq.with(
-            Blocks.duo,
-            Blocks.scatter,
-            Blocks.hail
-    );
-
-    final Seq<Tile> placedTurrets = new Seq<>();
+    int buildPhase = 0; // simple phase tracking
 
     @Override
     public void unit(Unit unit){
@@ -37,76 +36,70 @@ public class ProspectorBaseBuilderAI extends AIController {
 
     @Override
     public void updateUnit(){
+        //nullcheck for obvious reasons
+
         if(unit == null) return;
 
         if(timer.get(0, 10f)){
-            Block turret = pickTurret();
-            float range = getTurretRange(turret);
-
-            if(turret == null || range <= 0f) return;
-
-            Tile tile = findNextTurretTile(turret, range);
-
-            if(tile != null){
-                unit.addBuild(new BuildPlan(tile.x, tile.y, 0, turret));
-            }else{
-                moveToNewBuildZone();
-            }
-        }
-    }
-
-    Block pickTurret(){
-        return turretOptions.random();
-    }
-
-    float getTurretRange(Block block){
-        return block instanceof Turret ? ((Turret) block).range : 0f;
-    }
-
-    Tile findNextTurretTile(Block turret, float range){
-        CoreBlock.CoreBuild core = unit.team.core();
-        if(core == null) return null;
-
-        float spacing = range * 0.9f / tilesize;
-        float spacingSqr = spacing * spacing;
-        int attempts = 50;
-
-        for(int i = 0; i < attempts; i++){
-            int dx = Mathf.random(-30, 30);
-            int dy = Mathf.random(-30, 30);
-            int tx = core.tile.x + dx;
-            int ty = core.tile.y + dy;
-            Tile tile = world.tile(tx, ty);
-            //isAir?
-            if(tile == null || !tile.block().isAir()) continue;
-
-            boolean overlaps = false;
-            //This is horribly BAD
-            for(Building b : Groups.build){
-                if(b.team == unit.team && b.block instanceof Turret){
-                    if(Mathf.dst2(b.tile.x, b.tile.y, tile.x, tile.y) < spacingSqr){
-                        overlaps = true;
-                        break;
-                    }
+            switch(buildPhase){
+                case 0 -> { // power generator
+                    if(tryPlace(powerGen, offsetTile(0, 0))) buildPhase++;
+                }
+                case 1 -> { // power node near it
+                    if(tryPlace(powerNode, offsetTile(2, 0))) buildPhase++;
+                }
+                case 2 -> { // turret in range of node
+                    if(tryPlace(turret, offsetTile(5, 0))) buildPhase++;
+                }
+                case 3 -> { // wall all around
+                    wrapWithWalls(offsetTile(0, 0), 5);
+                    buildPhase++;
+                }
+                case 4 -> {
+                    moveToNewSpot();
+                    buildPhase = 0;
                 }
             }
-
-            if(overlaps) continue;
-
-            return tile;
         }
-
-        return null;
     }
-    void moveToNewBuildZone(){
-        CoreBlock.CoreBuild core = unit.team.core();
-        if(core == null) return;
 
-        int dx = Mathf.random(-60, 60);
-        int dy = Mathf.random(-60, 60);
-        float x = core.x() + dx * tilesize;
-        float y = core.y() + dy * tilesize;
+    Tile offsetTile(int dx, int dy){
+        return world.tileWorld(unit.x + dx * tilesize, unit.y + dy * tilesize);
+    }
 
-        unit.move(x, y);
+    boolean tryPlace(Block block, Tile tile){
+        if(tile == null || !tile.block().isAir()) return false;
+        if(!Build.validPlace(block, unit.team, tile.x, tile.y, 0)) return false;
+
+        unit.addBuild(new BuildPlan(tile.x, tile.y, 0, block));
+        return true;
+    }
+
+    void wrapWithWalls(Tile center, int size){
+        if(center == null) return;
+
+        for(int dx = -1; dx <= size + 1; dx++){
+            for(int dy = -1; dy <= 1; dy++){
+                if(dx == 0 && dy == 0) continue;
+                Tile t1 = world.tile(center.x + dx, center.y - 1);
+                Tile t2 = world.tile(center.x + dx, center.y + 1);
+                Tile t3 = world.tile(center.x - 1, center.y + dy);
+                Tile t4 = world.tile(center.x + size + 1, center.y + dy);
+                tryPlace(wall, t1);
+                tryPlace(wall, t2);
+                tryPlace(wall, t3);
+                tryPlace(wall, t4);
+            }
+        }
+    }
+
+    void moveToNewSpot(){
+        float angle = Mathf.random(360f);
+        float distance = Mathf.random(40f, 80f) * tilesize;
+
+        float x = unit.x + Angles.trnsx(angle, distance);
+        float y = unit.y + Angles.trnsy(angle, distance);
+
+        unit.moveAt(new Vec2(x, y));
     }
 }

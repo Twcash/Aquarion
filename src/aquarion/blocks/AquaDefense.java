@@ -9,7 +9,7 @@ import static aquarion.AquaItems.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
-    public static Block bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+    public static Block nickelWall, hugeNickelWall, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall;
 
 
@@ -27,6 +27,22 @@ public class AquaDefense {
         }};
         hugeBauxiteWall = new Wall("huge-bauxite-wall") {{
             requirements(Category.defense, with(bauxite, 54));
+            health = 2250;
+            size = 3;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            researchCostMultiplier = 0.25f;
+        }};
+        nickelWall = new Wall("nickel-wall") {{
+            requirements(Category.defense, with(nickel, 24));
+            health = 1000;
+            size = 2;
+            researchCostMultiplier = 0.1f;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        hugeNickelWall = new Wall("huge-nickel-wall") {{
+            requirements(Category.defense, with(nickel, 54));
             health = 2250;
             size = 3;
             envEnabled|= Env.terrestrial | Env.underwater;

@@ -4,6 +4,9 @@ import arc.graphics.Color;
 
 public class AquaPal {
         public static Color
+                redDecal1 = Color.valueOf("e15e51"),
+                redDecal1Dark = Color.valueOf("e15e51"),
+
                 fire1 = Color.valueOf("d52e2e"),
                 fireLight1 = Color.valueOf("e9785f"),
                 fire2 = Color.valueOf("fb9f78"),

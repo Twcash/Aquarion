@@ -34,7 +34,7 @@ public class AquaEffect {
 
                 OverdriveProjector("overdrive-terminus") {
                     {
-                        requirements(Category.effect, with(manganese, 120, nitride, 250, lead, 450, bauxite, 120));
+                        requirements(Category.effect, with(manganese, 120, lead, 450, bauxite, 120));
                         reload = 90;
                         size = 5;
                         range = 110;

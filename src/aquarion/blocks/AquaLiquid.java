@@ -41,7 +41,7 @@ public class AquaLiquid {
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 40;
-            leaks = false;
+            leaks = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             alwaysUnlocked = true;

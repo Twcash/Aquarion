@@ -56,36 +56,33 @@ public class AquaCore {
             envDisabled = Env.none;
         }};
         corePike = new TantrosCoreBlock("core-pike") {{
-            requirements(Category.effect, with(bauxite, 750, lead, 1250, silicon, 2000));
+            requirements(Category.effect, with( silicon, 2000));
             squareSprite = false;
             health = 1500;
-            itemCapacity = 7500;
+            itemCapacity = 8000;
             size = 4;
             unitCapModifier = 25;
             unitType = AquaUnitTypes.cull;
             alwaysUnlocked = true;
-            category = Category.effect;
             hasItems = true;
             hasColor = true;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         coreCuesta = new CoreBlock("core-cuesta") {{
-            requirements(Category.effect, with(nitride, 3500, duralumin, 2500, metaglass, 1200, lead, 5000));
+            requirements(Category.effect, with( duralumin, 2500, metaglass, 1200, lead, 5000));
             squareSprite = false;
             itemCapacity = 12000;
-            size = 5;
+            size = 6;
             unitCapModifier = 50;
             unitType = AquaUnitTypes.cull;
-            //P.S Norax you do not have to press enter after every resource /:
-            category = Category.effect;
             hasItems = true;
             hasColor = true;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         coreEscarpment = new CoreBlock("core-escarpment") {{
-            requirements(Category.effect, with(nitride, 3500, duralumin, 2500, metaglass, 1200, lead, 5000));
+            requirements(Category.effect, with( duralumin, 2500, metaglass, 1200, lead, 5000));
             squareSprite = false;
             itemCapacity = 12000;
             size = 6;
@@ -153,7 +150,7 @@ public class AquaCore {
             researchCostMultiplier = 0;
         }};
         forceBarrier = new BlockingForceProjector("force-barrier"){{
-            requirements(Category.defense, ItemStack.with(lead,80, duralumin, 120, metaglass, 90, nitride, 150));
+            requirements(Category.defense, ItemStack.with(lead,80, duralumin, 120, metaglass, 90));
             consumePower(3f / 60f);
             sides = 18;
             radius = 120;

@@ -1,5 +1,6 @@
 package aquarion.world.blocks.distribution;
 
+import aquarion.world.graphics.AquaPuddles;
 import aquarion.world.graphics.AquaShaders;
 import arc.Core;
 import arc.graphics.g2d.Draw;
@@ -10,6 +11,7 @@ import mindustry.content.Fx;
 import mindustry.entities.Puddles;
 import mindustry.gen.Building;
 import mindustry.type.Liquid;
+import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.liquid.Conduit;
 import mindustry.world.meta.StatUnit;
@@ -71,7 +73,7 @@ public class ModifiedConduit extends Conduit {
                 return moveLiqNew(next.build, liquid);
             } else if (leaks && !next.block().solid && !next.block().hasLiquids) {
                 float leakAmount = liquids.get(liquid) / 1.5f;
-                Puddles.deposit(next, tile, liquid, leakAmount, true, true);
+                AquaPuddles.deposit(next, tile, liquid, leakAmount, true, true);
                 liquids.remove(liquid, leakAmount);
             }
             return 0;
@@ -86,7 +88,7 @@ public class ModifiedConduit extends Conduit {
             if (next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f) {
                 float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;
                 float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;
-                float maxTransfer = block.liquidCapacity / 2f - next.liquids.get(liquid) * this.liquids.get(liquid)/this.block.liquidCapacity; // Limit transfer to half capacity minus current liquid in next block
+                float maxTransfer = (liquidCapacity - next.liquids.get(liquid))/2; // Limit transfer to half capacity of the next block
                 float flow = Math.min(Math.max(liquids.get(liquid) - next.liquids.get(liquid), 0f), maxTransfer);
 
                 if (flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)) {

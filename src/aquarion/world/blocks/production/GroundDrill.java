@@ -23,16 +23,23 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.consumers.*;
+import mindustry.world.draw.DrawBlock;
+import mindustry.world.draw.DrawDefault;
+import mindustry.world.draw.DrawMulti;
+import mindustry.world.draw.DrawRegion;
 import mindustry.world.meta.*;
 
 import static mindustry.Vars.indexer;
 import static mindustry.Vars.state;
 
 public class GroundDrill extends Drill {
-
+    public DrawBlock drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator"){{spinSprite = true;rotateSpeed = GroundDrill.this.rotateSpeed;}}, new DrawRegion("-top"));
     public GroundDrill(String name) {
         super(name);
     }
+
+
+
     @Override
     public void setStats(){
         super.setStats();
@@ -46,13 +53,25 @@ public class GroundDrill extends Drill {
             );
         }
     }
+    @Override
+    public void load(){
+        super.load();
+        drawer.load(this);
+    }
+
+    @Override
+    public TextureRegion[] icons(){
+        return drawer.finalIcons(this);
+    }
     public class NewDrillBuild extends DrillBuild{
+        public float totalProgress;
+
         @Override
         public void updateTile(){
             if(timer(timerDump, dumpTime)){
                 dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);
             }
-
+            totalProgress += warmup * Time.delta;
             if(dominantItem == null){
                 return;
             }
@@ -86,6 +105,26 @@ public class GroundDrill extends Drill {
 
                 if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
             }
+        }
+        @Override
+        public void draw(){
+            drawer.draw(this);
+            Draw.z(Layer.blockCracks);
+            drawDefaultCracks();
+
+            Draw.z(Layer.blockAfterCracks);
+            if(dominantItem != null && drawMineItem){
+                Draw.color(dominantItem.color);
+                Draw.rect(itemRegion, x, y);
+                Draw.color();
+            }
+        }
+        @Override
+        public float warmup(){
+            return warmup;
+        }
+        public float totalProgress(){
+            return totalProgress;
         }
     }
 }

@@ -10,6 +10,7 @@ import aquarion.world.consumers.Recipe;
 import aquarion.world.graphics.*;
 
 import arc.func.Cons;
+import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
@@ -43,7 +44,7 @@ import static mindustry.type.ItemStack.with;
 
 //What was all of this even for
 public class AquaCrafters {
-    public static Block ElectrolysisManifold,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, brineCatalysisArray, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block CentrifugalPump, harvester, ElectrolysisManifold,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator, fumeSeparator,
              siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -502,59 +503,70 @@ public class AquaCrafters {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        brineCatalysisArray = new GenericCrafter("brine-catalysis-array") {{
-            requirements(Category.crafting, with(aluminum, 200, silicon, 250, cobalt, 600));
-            //bigg boi
-            size = 5;
-            craftTime = 30*60f;
-            liquidCapacity = 900;
-            researchCostMultiplier = 0.25f;
-            itemCapacity = 250;
-            outputLiquid = new LiquidStack(hydroxide, 40/60f);
-            outputItems = new ItemStack[]{new ItemStack(borax, 90), new ItemStack(salt, 150)};
-            consumeLiquids(LiquidStack.with(brine, 160 / 60f, fumes, 20 / 60f));
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawCultivator() {{
-                timeScl = 180;
-                bottomColor = Color.valueOf("85966a");
-                plantColorLight = Color.valueOf("f1ffdc");
-                plantColor = Color.valueOf("728259");
-                radius = 2.5f;
-                bubbles = 320;
-                spread = 14;
-            }}, new DrawCells() {{
-                range = 14;
-                particles = 350;
-                lifetime = 90f * 5f;
-                particleColorFrom = Color.valueOf("f1ffdc");
-                particleColorTo = Color.valueOf("728259");
-                color = Color.valueOf("oooooooo");
-            }}, new DrawLiquidTile(brine, 1), new DrawLiquidTile(hydroxide, 1),
-                    new DrawBubbles(){{
-                        spread = 14;
-                        color =  Color.valueOf("e7cfff");
-                        timeScl = 15;
-                        sides = 8;
-                        amount = 140;
-                    }}, new DrawSoftParticles(){{
-                particleLife = 120;
-                particles = 45;
-                rotateScl = 3;
-                particleRad = 8f;
-                particleSize = 5f;
-                color = Color.valueOf("f0c180");
-                color2 = Color.valueOf("fff89d");
-            }}, new DrawDefault(), new DrawGlowRegion("-glow") {{
-                alpha = 0.5f;
-                glowScale = 10;
-                glowIntensity = 0.4f;
-                color = Color.valueOf("ea9565");
-            }}, new DrawGlowRegion("-glow-2") {{
-                alpha = 0.75f;
-                glowScale = 8;
-                glowIntensity = 0.8f;
-                color = Color.valueOf("ffbeb0");
-            }});
-        }};
+        FractionalDistillery = new GenericCrafter("fractional-distillery") {
+            {
+                requirements(Category.crafting, with(nickel, 250, silicon, 100, ferricMatter, 300));
+                size = 5;
+                rotateDraw = false;
+
+                rotate = true;
+                dumpExtraLiquid = false;
+                ignoreLiquidFullness = false;
+                invertFlip = true;
+                craftTime = 5 * 60f;
+                liquidCapacity = 900;
+                researchCostMultiplier = 0.02f;
+                itemCapacity = 100;
+                outputLiquids = LiquidStack.with(petroleum, 25f / 60, ethylene, 50f / 60);
+                outputItems = new ItemStack[]{new ItemStack(coke, 30)};
+                consumeLiquid(oil, 250 / 60f);
+                regionRotated1 = 3;
+                liquidOutputDirections = new int[]{2, 3};
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawCultivator() {{
+                    timeScl = 180;
+                    bottomColor = Color.valueOf("353a25");
+                    plantColorLight = Color.valueOf("9aa86d");
+                    plantColor = Color.valueOf("6d7944");
+                    radius = 2.5f;
+                    bubbles = 320;
+                    spread = 14;
+                }}, new DrawCells() {{
+                    range = 14;
+                    particles = 350;
+                    lifetime = 90f * 5f;
+                    particleColorFrom = Color.valueOf("9aa86d");
+                    particleColorTo = Color.valueOf("6d7944");
+                    color = Color.valueOf("oooooooo");
+                }}, new DrawLiquidTile(petroleum, 1) {{
+                    alpha = 0.6f;
+                }},
+                        new DrawBubbles() {{
+                            spread = 14;
+                            color = Color.valueOf("e7cfff");
+                            timeScl = 15;
+                            sides = 8;
+                            amount = 140;
+                        }}, new DrawSoftParticles() {{
+                    particleLife = 120;
+                    particles = 45;
+                    rotateScl = 3;
+                    particleRad = 8f;
+                    particleSize = 5f;
+                    color = Color.valueOf("f0c180");
+                    color2 = Color.valueOf("fff89d");
+                }}, new DrawLiquidTile(ethylene, 15),
+                        new DrawDefault(), new DrawGlowRegion("-glow") {{
+                    alpha = 0.5f;
+                    glowScale = 10;
+                    glowIntensity = 0.4f;
+                    color = Color.valueOf("ea9565");
+                }}, new DrawLiquidOutputs(), new DrawGlowRegion("-glow-2") {{
+                    alpha = 0.75f;
+                    glowScale = 8;
+                    glowIntensity = 0.8f;
+                    color = Color.valueOf("ffbeb0");
+                }});
+            }};
         fumeFilter = new AttributeCrafter("fume-filter"){{
             requirements(Category.production, with(aluminum, 250, silicon, 500));
             size = 6;
@@ -907,6 +919,77 @@ public class AquaCrafters {
             itemCapacity = 400;
             liquidCapacity = 1200;
             craftEffect = Fx.smeltsmoke;
+        }};
+        harvester = new GroundDrill("harvester"){{
+            requirements(Category.production, with( nickel, 80, lead, 50, silicon, 90));
+            size = 3;
+            drillTime= 160;
+            liquidBoostIntensity = 1.5f;
+            consumeLiquid(Liquids.water, 90/60f).boost();
+            tier = 2;
+            squareSprite = false;
+            drawer = new DrawMulti(new DrawPistons(){{
+                sides = 1;
+                angleOffset = 90;
+                sinMag = 2.2f;
+            }}, new DrawDefault(), new DrawGlowRegion("-glow"){{
+                alpha = 0.4f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.3f;
+                glowScale = 5f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+            }}, new DrawGlowRegion("-glow1"){{
+                alpha = 0.45f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.35f;
+                glowScale = 6f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+            }}, new DrawGlowRegion("-glow2"){{
+                alpha = 0.3f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 7f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+            }}, new DrawRegion("-rotator"){{
+                spinSprite = true;
+                y = -3f;
+                x = -2f;
+                layer = Layer.block +4;
+                rotateSpeed = 1.5f;
+            }}, new DrawRegion("-rotator"){{
+                spinSprite = true;
+                rotateSpeed = -1.5f;
+                rotation = 45;
+                y = -28/4f;
+                x = -24/4f;
+                layer = Layer.block +4;
+            }});
+        }};
+        CentrifugalPump = new Pump("centrifugal-pump"){{
+            requirements(Category.production, with( nickel, 90, silicon, 220, lead, 120, metaglass, 60));
+            size = 3;
+            squareSprite = true;
+            pumpAmount = 0.25f;
+            liquidCapacity = 250;
+            drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawLiquidTile(water, 1.5f){{ alpha = 0.6f;}}
+                    ,new DrawLiquidTile(oil, 1.5f){{ alpha = 0.6f;}}, new DrawDefault(), new DrawGlowRegion("-glow"){{
+                alpha = 0.3f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 7f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+            }}, new DrawGlowRegion("-glow1"){{
+                alpha = 0.3f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.3f;
+                glowScale = 5f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+            }});
         }};
     }
 

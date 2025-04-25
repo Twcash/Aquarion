@@ -51,12 +51,147 @@ import static mindustry.gen.Sounds.shootAltLong;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block  bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
+    public static Block  pelt, point, vector, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack;
 
     public static void loadContent() {
-        //oogly boogly
+        //1 by 1 turret that can be boosted hellishly beyond what it should be
+        point = new ItemTurret("point"){
+            {
+                requirements(Category.turret, with( silicon, 35f, lead, 50));
+                health = 250;
+                squareSprite = true;
+                shootSound = Sounds.lasershoot;
+                ammoUseEffect = Fx.colorSpark;
+                ammoPerShot = 10;
+                outlineColor = AquaPal.tantDarkestTone;
+                shoot.shots = 5;
+                inaccuracy = 19;
+                reload = 92;
+                range = 110;
+                ammo(
+                        silicon, new LaserBoltBulletType() {{
+                            frontColor = AquaPal.redDecal1;
+                            backColor = AquaPal.redDecal1Dark;
+                            speed = 20;
+                            lifetime = 5;
+                            knockback = 0.5f;
+                            damage = 15;
+                            ammoMultiplier = 2f;
+                            //this thing can shred late game stuff if you do it right
+                            pierceArmor = true;
+                            shootEffect = Fx.shootPyraFlame;
+                            smokeEffect = Fx.shootSmallFlame;
+                            hitEffect = Fx.hitFlameSmall;
+                            despawnEffect = Fx.reactorsmoke;
+                        }},
+                        arsenic, new LaserBoltBulletType() {{
+                            frontColor = AquaPal.redDecal1;
+                            backColor = AquaPal.redDecal1Dark;
+                            speed = 40;
+                            lifetime = 2;
+                            pierce = true;
+                            pierceCap = 3;
+                            knockback = 2f;
+                            damage = 60;
+                            reloadMultiplier = 0.1f;
+                            shootEffect = Fx.shootSmall;
+                            smokeEffect = Fx.shootSmallSmoke;
+                            hitEffect = Fx.hitFlameSmall;
+                            despawnEffect = Fx.smokePuff;
+                        }});
+                limitRange(1.1f);
+            }};
+        vector = new PowerTurret("vector"){{
+            requirements(Category.turret, with(nickel, 85, silicon, 60, plastanium, 25));
+            health = 450;
+            size = 2;
+            squareSprite = false;
+            reload = 10;
+            range = 150;
+            ammoUseEffect = Fx.coalSmeltsmoke;
+            shootSound = Sounds.lasershoot;
+            outlineColor = AquaPal.tantDarkestTone;
+            rotateSpeed = 0.85f;
+            consumePower(12);
+            shootType = new MissileBulletType(3, 35){{
+                homingPower = 0.15f;
+                splashDamage = 25;
+                splashDamageRadius = 32f;
+                width = height = 8;
+                shrinkX = 0;
+                trailEffect = Fx.coalSmeltsmoke;
+                hitEffect = Fx.hitFlameSmall;
+            }};
+            limitRange(1.2f);
+        }};
+        pelt = new ItemTurret("pelt"){{
+            requirements(Category.turret, with(lead, 85, AquaItems.nickel, 60f, silicon, 110));
+            health = 800;
+            outlineColor = AquaPal.tantDarkestTone;
+            limitRange(1.25f);
+            range = 190;
+            rotateSpeed = 0.9f;
+            recoil = 3;
+            recoilTime = 85;
+            reload = 90;
+            size = 2;
+            ammoPerShot = 5;
+            ammo(
+                    lead, new BasicBulletType(9, 90){{
+                        pierce = true;
+                        pierceBuilding = true;
+                        pierceCap = 5;
+                        sprite = "aquarion-bolt";
+                        width = 8;
+                        height = 14f;
+                        shrinkY = 0;
+                        shrinkX = 0.1f;
+                        trailWidth = 2f;
+                        trailLength = 12;
+                        frontColor = hitColor = Color.white;
+                        backColor = lightColor = trailColor = Color.valueOf("e1d9bc");
+                        despawnEffect = hitEffect = Fx.hitSquaresColor;
+                        shootEffect = Fx.shootBig2;
+                        smokeEffect = Fx.shootSmokeDisperse;
+                    }},
+                    nickel, new BasicBulletType(5, 150){{
+                        pierce = true;
+                        pierceBuilding = true;
+                        pierceCap = 2;
+                        sprite = "aquarion-bolt";
+                        width = 10;
+                        height = 18f;
+                        shrinkY = 0;
+                        shrinkX = 0.2f;
+                        trailWidth = 3f;
+                        trailLength = 16;
+                        reloadMultiplier = 0.8f;
+                        rangeChange = 30;
+                        ammoMultiplier = 2;
+                        frontColor = hitColor = Color.white;
+                        backColor = lightColor = trailColor = Color.valueOf("8d70ab");
+                        despawnEffect = hitEffect = Fx.hitSquaresColor;
+                        shootEffect = Fx.shootBig2;
+                        smokeEffect = Fx.shootSmokeDisperse;
+                    }}
+            );
+            squareSprite = false;
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart("-bolt"){{
+                    moveY = -5;
+                    progress = PartProgress.reload.curve(Interp.pow2In);
+                    mixColorTo = Pal.accent;
+                    mixColor = new Color(1f, 1f, 1f, 0f);
+                    colorTo = new Color(1f, 1f, 1f, 0f);
+                    color = Color.white;
+                    under = true;
+                    layer = Layer.turret -1;
+                }});
+            }};
+        }};
         Foment = new ItemTurret("foment") {{
+            health = 925;
             {
                 outlineColor = AquaPal.tantDarkestTone;
                 ammo(
@@ -167,6 +302,7 @@ public class AquaTurrets {
             envDisabled = Env.none;
         }};
         redact  = new ItemTurret("redact"){{
+            health = 825;
             requirements(Category.turret, with(ferricMatter, 120, silicon, 200, aluminum, 300));
             ammo(
                     arsenic, new BasicBulletType(6f, 100, "missile-large") {{
