@@ -40,7 +40,7 @@ public class AquaLiquid {
             requirements(Category.liquid, with(silicon, 3));
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
-            liquidCapacity = 40;
+            liquidCapacity = 80;
             leaks = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
