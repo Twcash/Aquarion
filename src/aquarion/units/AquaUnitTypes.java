@@ -1,13 +1,11 @@
 package aquarion.units;
 
-import aquarion.gen.EntityRegistry;
 import aquarion.type.*;
 import aquarion.world.AquaGroundAI;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.struct.Seq;
-import ent.anno.Annotations;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
 import mindustry.ai.types.CargoAI;
@@ -57,18 +55,16 @@ public class AquaUnitTypes {
  curator, custodian, caretaker, warden;
 
     //gerbUnits
-    public static @Annotations.EntityDef({Unitc.class, Legsc.class})GerbUnitType gerbTest;
+    public static GerbUnitType gerbTest;
     //legUnits mechanical
-    public static @Annotations.EntityDef({Unitc.class, Legsc.class}) MechanicalUnitType reap;
+    public static  MechanicalUnitType reap;
     // mechs
-    public static @Annotations.EntityDef({Unitc.class, Mechc.class}) MechanicalUnitType messenger, steward;
-    // flying
-    public static @Annotations.EntityDef({Unitc.class, Unitc.class}) MechanicalUnitType zoarcid, anguilli, cyprin, pycogen, batoid, goss, heed, effect, consummate, efectuate,
-    cull, glean, maime;
-    //non normal flying
-    public static @Annotations.EntityDef({Unitc.class, Unitc.class}) UnitType rivulet;
+    public static MechanicalUnitType messenger, steward;
+    public static  MechanicalUnitType zoarcid, anguilli, cyprin, pycogen, batoid, goss, heed, effect, consummate, efectuate,
+    cull, glean;
+    public static  UnitType rivulet;
     public static void loadContent() {
-        messenger = EntityRegistry.content("messenger", MechUnit.class, name -> new MechanicalUnitType(name) {{
+        messenger = new MechanicalUnitType("messenger") {{
             speed = 0.65f;
             health = 550;
             armor = 1;
@@ -140,8 +136,8 @@ public class AquaUnitTypes {
                     backColor = trailColor = Pal.techBlue;
                 }};
             }});
-        }});
-        ambassador = EntityRegistry.content("ambassador", Legsc.class, name -> new MechanicalUnitType(name) {{
+        }};
+        ambassador = new MechanicalUnitType("ambassador") {{
             constructor = LegsUnit::create;
             health = 1250;
             armor = 12;
@@ -220,9 +216,8 @@ public class AquaUnitTypes {
                     colors = new Color[]{Color.valueOf("465ab850"), Color.valueOf("66a6d290"), Color.valueOf("98d5ff"), Color.valueOf("d1efff")};
                 }};
             }});
-        }});
-        consul = EntityRegistry.content("consul", Legsc.class, name -> {
-            return new MechanicalUnitType(name) {{
+        }};
+        consul = new MechanicalUnitType("consul"){{
                 constructor = LegsUnit::create;
                 health = 3500;
                 abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
@@ -429,8 +424,7 @@ public class AquaUnitTypes {
                     }};
                 }});
             }};
-        });
-        goss = EntityRegistry.content("goss", Unitc.class, name -> new MechanicalUnitType(name) {{
+        goss = new MechanicalUnitType("goss") {{
             constructor = UnitEntity::create;
             engineSize = 0f;
             health = 380f;
@@ -500,8 +494,8 @@ public class AquaUnitTypes {
                     drag = -0.02f;
                 }};
             }});
-        }});
-        zoarcid = EntityRegistry.content("zoarcid", Unitc.class, name -> new MechanicalUnitType(name) {{
+        }};
+        zoarcid = new MechanicalUnitType("zoarcid") {{
             engineSize = 0f;
             armor = 4;
             groundLayer = 90;
@@ -598,10 +592,9 @@ public class AquaUnitTypes {
                         }};
                         rotateSpeed = 4.5f;
                     }});
-        }});
-        anguilli = EntityRegistry.content("anguilli", Unitc.class, name -> new MechanicalUnitType(name) {
+        }};
+        anguilli = new MechanicalUnitType("anguilli") {
             {
-
                 abilities.add(
                         new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
                             particles = 3;
@@ -683,11 +676,10 @@ public class AquaUnitTypes {
                 accel = 0.9f;
                 drag = 0.8f;
                 armor = 10;
-            }
-        });
+            }};
 
         // steward tree
-        steward = EntityRegistry.content("steward", MechUnit.class, name -> new MechanicalUnitType(name) {{
+        steward = new MechanicalUnitType("steward"){{
             rotateMoveFirst = true;
             armor = 0;
             health = 420;
@@ -756,8 +748,8 @@ public class AquaUnitTypes {
                     collidesTeam = true;
                 }};
             }});
-        }});
-        cull = EntityRegistry.content("cull", Unitc.class, name -> new MechanicalUnitType(name) {{
+        }};
+        cull = new MechanicalUnitType("cull"){{
             outlines = false;
             hittable = isEnemy = targetable = drawCell = allowedInPayloads = drawBody = false;
             payloadCapacity = (2 * 2) * tilePayload;
@@ -837,8 +829,8 @@ public class AquaUnitTypes {
                         }};
                     }}
             );
-        }});
-        glean = EntityRegistry.content("glean", Unitc.class, name -> new MechanicalUnitType(name) {{
+        }};
+        glean = new MechanicalUnitType("glean"){{
             hittable = isEnemy = targetable = drawCell = allowedInPayloads = drawBody = false;
             payloadCapacity = (2 * 2) * tilePayload;
             outlineColor = AquaPal.tantDarkerTone;
@@ -915,7 +907,7 @@ public class AquaUnitTypes {
                         }};
                     }}
             );
-        }});
+        }};
         gerbTest = new GerbUnitType("light-infantry") {{
             health = 210;
             armor = 1;
@@ -985,152 +977,6 @@ public class AquaUnitTypes {
                         }}
             );
         }};
-        reap = EntityRegistry.content("reap", LegsUnit.class, name -> new MechanicalUnitType(name) {{
-            speed = 0.25f;
-            lockLegBase = true;
-            legLength = 8;
-            legCount = 4;
-            legBaseOffset = 7;
-            rotateMoveFirst = true;
-            rotateSpeed = 0.9f;
-            health = 350;
-            legPhysicsLayer = false;
-            groundLayer = Layer.groundUnit;
-            armor = 2;
-            hitSize = 15;
-            mechStepParticles = true;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-            leg = true;
-            constructor = LegsUnit::create;
-            legMinLength = 0.9f;
-            legMaxLength = 1.1f;
-            abilities.add(
-                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-                        particles = 3;
-                        sizeFrom = 8;
-                        sizeTo = 0;
-                        lenFrom = 0;
-                        lenTo = 6;
-                        line = true;
-                        length = 15;
-                        baseLength = 2;
-                        layer = 90;
-                        lifetime = 10;
-                        colorFrom = Color.valueOf("ffea97");
-                        colorTo = Color.valueOf("ffea9710");
-                    }}, 90f, .6f) {{
-                    }},
-                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-                        particles = 3;
-                        sizeFrom = 0;
-                        sizeTo = 4;
-                        lifetime = 80;
-                        layer = 80;
-                        colorFrom = Color.valueOf("262323");
-                        colorTo = Color.valueOf("746f6f10");
-                    }}, 15f, .4f) {{
-                    }}, new SpawnDeathAbility(reapWreck, 0, 1) {{
-                        randAmount = 1;
-                    }});
-            weapons.add(new Weapon("aquarion-reap-weapon") {
-                {
-                    mirror = false;
-                    x = 0;
-                    y = 0f;
-                    recoil = 2.5f;
-                    layerOffset = 1f;
-                    recoilTime = 35f;
-                    rotate = true;
-                    rotateSpeed = 1.5f;
-                    inaccuracy = 2;
-                    reload = 15;
-                    range = 50;
-                    shoot = new ShootAlternate(3.5f);
-                    bullet = new BasicBulletType(2f, 10) {{
-                        width = 9f;
-                        height = 12f;
-                        shootEffect = AquaFx.shootLong;
-                        shootSound = Sounds.blaster;
-                        trailLength = 9;
-                        trailWidth = 2;
-                        lifetime = 45f;
-                        maxRange = 60;
-                        frontColor = hitColor = lightColor = Color.white;
-                        backColor = trailColor = Pal.techBlue;
-                    }};
-                }
-            });
-        }});
-        maime = EntityRegistry.content("maime", Unitc.class, name -> new MechanicalUnitType(name) {{
-            hitSize = 18;
-            speed = 0.5f;
-            flying = true;
-            health = 540;
-            armor = 4;
-            lowAltitude = true;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-            constructor = UnitEntity::create;
-            rotateSpeed = 4;
-            accel = 0.9f;
-            drag = 0.1f;
-            abilities.add(
-                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-                        particles = 3;
-                        sizeFrom = 8;
-                        sizeTo = 0;
-                        lenFrom = 0;
-                        lenTo = 6;
-                        line = true;
-                        length = 15;
-                        baseLength = 2;
-                        layer = 90;
-                        lifetime = 10;
-                        colorFrom = Color.valueOf("ffea97");
-                        colorTo = Color.valueOf("ffea9710");
-                    }}, 90f, .6f) {{
-                    }},
-                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-                        particles = 3;
-                        sizeFrom = 0;
-                        sizeTo = 4;
-                        lifetime = 80;
-                        layer = 80;
-                        colorFrom = Color.valueOf("262323");
-                        colorTo = Color.valueOf("746f6f10");
-                    }}, 15f, .4f) {{
-                    }}, new SpawnDeathAbility(maimeWreck, 0, 1) {{
-                        randAmount = 1;
-                    }});
-            weapons.add(new Weapon() {
-                {
-                    mirror = true;
-                    x = 7;
-                    y = 5f;
-                    recoilTime = 35f;
-                    rotate = false;
-                    inaccuracy = 8;
-                    reload = 5;
-                    range = 45;
-                    bullet = new MissileBulletType(4f, 5) {{
-                        width = 9f;
-                        height = 12f;
-                        weaveMag = 6;
-                        weaveScale = 10;
-                        homingPower = 0.1f;
-                        homingDelay = 10;
-                        shootSound = Sounds.blaster;
-                        trailLength = 12;
-                        trailWidth = 2.5f;
-                        lifetime = 45f;
-                        maxRange = 50;
-                        frontColor = hitColor = lightColor = Color.white;
-                        backColor = trailColor = Pal.techBlue;
-                    }};
-                }
-            });
-        }});
         rivulet = new UnitType("rivulet") {{
             controller = u -> new CargoAI();
             isEnemy = false;

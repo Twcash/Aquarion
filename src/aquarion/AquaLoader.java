@@ -1,6 +1,5 @@
 package aquarion;
 
-import aquarion.gen.EntityRegistry;
 import aquarion.tools.IconLoader;
 import aquarion.world.graphics.AquaShaders;
 import arc.Events;
@@ -34,11 +33,9 @@ public class AquaLoader extends Mod {
         //    e.printStackTrace();
         //}
         //we're rich!
-        if (!mobile) RichHandler.init();
     }
     @Override
     public void loadContent() {
-        EntityRegistry.register();
         AquarionMod.loadContent();
     }
 

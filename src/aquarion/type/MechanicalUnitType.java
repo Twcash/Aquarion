@@ -25,7 +25,6 @@ import static mindustry.Vars.player;
 import static mindustry.Vars.tilesize;
 
 public class MechanicalUnitType extends UnitType {
-    public static final float shadowTX = -12, shadowTY = -13;
     private static final Vec2 legOffset = new Vec2();
     public TextureRegion undamagedRegion;
     public TextureRegion damagedRegion;
@@ -34,7 +33,6 @@ public class MechanicalUnitType extends UnitType {
     public float damageThreshold = 0.95f; // these are percentage based btw%
     public float severeDamageThreshold = 0.3f;
     public boolean mech;
-    public boolean leg;
 
     public MechanicalUnitType(String name) {
         super(name);

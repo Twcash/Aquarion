@@ -22,8 +22,6 @@ public class GerbUnitType extends UnitType {
     // effect that happens beyond extreme damage threshold
     public Color color = Color.white;
     public int variants = 7;
-    public float damageThreshold = 0.3f; // these are percentage based btw%
-    public float severeDamageThreshold = 0.8f;
     // Chain-related fields
     public int chainLength = 12; // Number of chain segments
     public TextureRegion chainSegmentRegion; // Texture for the chain segment

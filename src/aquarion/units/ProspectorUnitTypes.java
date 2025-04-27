@@ -1,10 +1,10 @@
 package aquarion.units;
 
-import aquarion.gen.UnitEntity;
 import aquarion.world.AI.ProspectorBaseBuilderAI;
 import mindustry.ai.BaseBuilderAI;
 import mindustry.ai.types.MinerAI;
 import mindustry.game.Teams;
+import mindustry.gen.UnitEntity;
 import mindustry.type.UnitType;
 
 import static mindustry.Vars.state;

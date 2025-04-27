@@ -1,7 +1,7 @@
 package aquarion.type;
 
-import aquarion.gen.DerelictUnit;
 import arc.graphics.Color;
+import mindustry.gen.UnitEntity;
 import mindustry.type.UnitType;
 import mindustry.world.meta.Env;
 
@@ -11,7 +11,8 @@ public class DerelictUnitType extends UnitType {
         speed = 0;
         rotateSpeed = 0;
         hidden = true;
-        health = 210;
+        hitSize = 10;
+        health = 10*hitSize;
         drag = 0.99f;
         envEnabled |= Env.terrestrial | Env.underwater;
         envDisabled = Env.none;
@@ -24,6 +25,6 @@ public class DerelictUnitType extends UnitType {
         playerControllable = false;
         targetable = true;
         hittable = true;
-        constructor = DerelictUnit::create;
+        constructor = UnitEntity::create;
     }
 }

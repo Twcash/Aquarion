@@ -5,7 +5,6 @@ import arc.func.Boolf;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.struct.Seq;
-import ent.anno.Annotations;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Teamc;
@@ -50,7 +49,6 @@ public class SealedConveyor extends Duct implements Autotiler{
             }
         }
     }
-    @Annotations.Replace
     @Override
     public Block getReplacement(BuildPlan req, Seq<BuildPlan> plans){
         if(junctionReplacement == null) return this;
@@ -62,7 +60,6 @@ public class SealedConveyor extends Duct implements Autotiler{
                 req.tile().block() instanceof SealedConveyor &&
                 Mathf.mod(req.build().rotation - req.rotation, 2) == 1 ? junctionReplacement : this;
     }
-    @Annotations.Replace
     @Override
     public void handlePlacementLine(Seq<BuildPlan> plans){
     }

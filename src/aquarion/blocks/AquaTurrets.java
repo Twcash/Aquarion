@@ -51,7 +51,7 @@ import static mindustry.gen.Sounds.shootAltLong;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block  pelt, point, vector, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
+    public static Block  douse, pelt, point, vector, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack;
 
     public static void loadContent() {
@@ -101,6 +101,7 @@ public class AquaTurrets {
                             despawnEffect = Fx.smokePuff;
                         }});
                 limitRange(1.1f);
+                consumeCoolant(10/60f);
             }};
         vector = new PowerTurret("vector"){{
             requirements(Category.turret, with(nickel, 85, silicon, 60, plastanium, 25));
@@ -129,7 +130,6 @@ public class AquaTurrets {
             requirements(Category.turret, with(lead, 85, AquaItems.nickel, 60f, silicon, 110));
             health = 800;
             outlineColor = AquaPal.tantDarkestTone;
-            limitRange(1.25f);
             range = 190;
             rotateSpeed = 0.9f;
             recoil = 3;
@@ -140,7 +140,7 @@ public class AquaTurrets {
             ammoPerShot = 16;
             itemCapacity = 32;
             ammo(
-                    lead, new BasicBulletType(9, 90){{
+                    lead, new BasicBulletType(9, 15){{
                         pierce = true;
                         pierceBuilding = true;
                         pierceCap = 5;
@@ -153,12 +153,12 @@ public class AquaTurrets {
                         trailWidth = 2f;
                         trailLength = 12;
                         frontColor = hitColor = Color.white;
-                        backColor = lightColor = trailColor = Color.valueOf("e1d9bc");
+                        backColor = lightColor = trailColor = Color.valueOf("8d70ab");
                         despawnEffect = hitEffect = Fx.hitSquaresColor;
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    nickel, new BasicBulletType(5, 120){{
+                    nickel, new BasicBulletType(5, 80){{
                         pierce = true;
                         pierceBuilding = true;
                         pierceCap = 2;
@@ -179,6 +179,8 @@ public class AquaTurrets {
                         smokeEffect = Fx.shootSmokeDisperse;
                     }}
             );
+            consumeCoolant(20/60f);
+            limitRange(1.1f);
             squareSprite = false;
             drawer = new DrawTurret(){{
                 parts.add(new RegionPart("-bolt"){{

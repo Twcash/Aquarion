@@ -40,7 +40,7 @@ import static mindustry.type.ItemStack.with;
 
 //What was all of this even for
 public class AquaCrafters {
-    public static Block AnnealingOven, SolidBoiler, CentrifugalPump, harvester, ElectrolysisManifold,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block airIntake,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester, ElectrolysisManifold,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator, fumeSeparator,
              siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -375,7 +375,7 @@ public class AquaCrafters {
             }});
         }};
         magmaTap = new AttributeCrafter("magma-tap") {{
-            requirements(Category.production, with(lead, 100, silicon, 100));
+            requirements(Category.production, with(lead, 225, silicon, 100));
             size = 4;
             alwaysUnlocked = true;
             updateEffect = Fx.steam;
@@ -1127,7 +1127,7 @@ public class AquaCrafters {
             liquidCapacity = 1000;
             consume(new ConsumeItemFlammable(0.25f));
             consume(new ConsumeItemExplode(0.2f));
-            consumeLiquid(water, 500/60f);
+            consumeLiquids(new LiquidStack(water, 500/60f), new LiquidStack(air, 200/60f));
             outputLiquid = new LiquidStack(haze, 500/60f);
             drawer = new DrawMulti(new DrawMulti(new DrawRegion("-bottom"), new BetterDrawParticles(){{
                 color = Color.valueOf("dd5f41");
@@ -1261,6 +1261,7 @@ public class AquaCrafters {
             updateEffectChance = 0.07f;
             ambientSound = AquaSounds.refine;
             ambientSoundVolume = 0.07f;
+            consumeLiquid(air, 150/60f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new PhaseOffsetGlowRegion("-glow"){{
                 alpha = 0.55f;
                 color = Color.valueOf("e68569");
@@ -1277,6 +1278,25 @@ public class AquaCrafters {
                 layer = Layer.block +3;
                 blending = Blending.additive;
                 phaseOffset = 10;
+            }});
+        }};
+        atmosphericIntake = new GenericCrafter("air-intake"){{
+            requirements(Category.production, with( nickel, 50, silicon, 150));
+            size = 2;
+            squareSprite = false;
+            craftTime = 10;
+            liquidCapacity = 200;
+            envDisabled = Env.underwater|Env.space;
+            outputLiquid = new LiquidStack(air, 50/60f);
+            ambientSound = Sounds.windhowl;
+            ambientSoundVolume = 0.02f;
+            drawer = new DrawMulti(new DrawDefault(), new DrawBlurSpin("-fan", 8f), new DrawRegion("-top"),new DrawParticles(){{
+                color = Color.valueOf("d4f0ff");
+                alpha = 0.3f;
+                particleSize = 2.5f;
+                particles = 14;
+                particleRad = 4f;
+                particleLife = 140f;
             }});
         }};
     }

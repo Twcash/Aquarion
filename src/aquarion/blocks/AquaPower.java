@@ -175,10 +175,10 @@ public class AquaPower {
 
             requirements(Category.power, with(Items.lead, 2500, aluminum, 900, ferrosilicon, 1500, bauxite, 3000));
             size = 9;
-            consumeLiquids(LiquidStack.with(fumes, 20, magma, 2, oxygen, 1)); //jesus fucking christ;
+            consumeLiquids(LiquidStack.with(fumes, 20)); //jesus fucking christ;
             powerProduction = 100; //1 unit of fume = 5 power/s prolly gonna only need 2 of these for early to midgame
             liquidCapacity = 5000;
-            baseExplosiveness = 5;
+            baseExplosiveness = 10;
             explosionDamage = 5000;
             explosionShake = 5;
             explosionRadius = 240;
