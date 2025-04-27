@@ -28,6 +28,7 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
+import mindustry.type.StatusEffect;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.LiquidTurret;
@@ -37,17 +38,17 @@ import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.fluorine;
-import static aquarion.AquaLiquids.fumes;
+import static aquarion.AquaLiquids.*;
+import static aquarion.AquaStatuses.corroding;
 import static aquarion.world.graphics.AquaFx.rand;
 import static aquarion.world.graphics.AquaFx.v;
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Interp.*;
 import static mindustry.content.Items.*;
+import static mindustry.content.StatusEffects.*;
 import static mindustry.entities.part.DrawPart.PartProgress.warmup;
-import static mindustry.gen.Sounds.shootAlt;
-import static mindustry.gen.Sounds.shootAltLong;
+import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
@@ -99,31 +100,52 @@ public class AquaTurrets {
                             smokeEffect = Fx.shootSmallSmoke;
                             hitEffect = Fx.hitFlameSmall;
                             despawnEffect = Fx.smokePuff;
+
                         }});
                 limitRange(1.1f);
                 consumeCoolant(10/60f);
             }};
-        vector = new PowerTurret("vector"){{
-            requirements(Category.turret, with(nickel, 85, silicon, 60, plastanium, 25));
+        vector = new ItemTurret("vector"){{
+            requirements(Category.turret, with(nickel, 85, silicon, 60, copper, 50, metaglass, 40));
             health = 450;
             size = 2;
             squareSprite = false;
-            reload = 10;
+            reload = 30;
+            shoot.shots = 3;
+            shoot.shotDelay = 3;
+            ammoPerShot = 8;
             range = 150;
-            ammoUseEffect = Fx.coalSmeltsmoke;
-            shootSound = Sounds.lasershoot;
+            shootSound = shootSnap;
+            ammoUseEffect = Fx.casing1;
             outlineColor = AquaPal.tantDarkestTone;
             rotateSpeed = 0.85f;
-            consumePower(12);
-            shootType = new MissileBulletType(3, 35){{
-                homingPower = 0.15f;
-                splashDamage = 25;
-                splashDamageRadius = 32f;
-                width = height = 8;
-                shrinkX = 0;
-                trailEffect = Fx.coalSmeltsmoke;
-                hitEffect = Fx.hitFlameSmall;
-            }};
+            ammo(
+                    copper, new LaserBoltBulletType(){{
+                        damage = 25;
+                        ammoMultiplier = 2;
+                        speed = 2.5f;
+                        shootEffect = Fx.shootSmall;
+                        smokeEffect = Fx.shootSmallSmoke;
+                        hitEffect = despawnEffect = Fx.hitSquaresColor;
+                        knockback = 1.1f;
+                        frontColor = AquaPal.redDecal1;
+                        backColor = AquaPal.redDecal1Dark;
+                    }},
+                    metaglass, new LaserBoltBulletType(){{
+                        damage = 40;
+                        speed = 3f;
+                        rangeChange = 35;
+                        reloadMultiplier = 1.1f;
+                        shootEffect = Fx.shootSmall;
+                        smokeEffect = Fx.shootSmallSmoke;
+                        hitEffect = despawnEffect = Fx.hitSquaresColor;
+                        knockback = 1.1f;
+                        frontColor = Color.white;
+                        backColor = Color.white;
+                        status = slow;
+                        statusDuration = 1*60f;
+                    }}
+            );
             limitRange(1.2f);
         }};
         pelt = new ItemTurret("pelt"){{
@@ -152,6 +174,7 @@ public class AquaTurrets {
                         shrinkX = 0.1f;
                         trailWidth = 2f;
                         trailLength = 12;
+                        shootSound = shootAltLong;
                         frontColor = hitColor = Color.white;
                         backColor = lightColor = trailColor = Color.valueOf("8d70ab");
                         despawnEffect = hitEffect = Fx.hitSquaresColor;
@@ -194,6 +217,121 @@ public class AquaTurrets {
                     layer = Layer.turret -1;
                 }});
             }};
+        }};
+        douse = new LiquidTurret("douse"){{
+            requirements(Category.turret, with(metaglass, 90, nickel, 60, copper, 20));
+            size = 2;
+            liquidCapacity = 90;
+            ammoPerShot = 4;
+            reload = 5;
+            shoot.shots = 5;
+            shootCone = 30;
+            inaccuracy = 35;
+            range = 170;
+            health = 800;
+            shootEffect = Fx.shootLiquid;
+            velocityRnd = 0.1f;
+            ammo(
+                    Liquids.water, new LiquidBulletType(Liquids.water){{
+                        lifetime = 49f;
+                        speed = 4f;
+                        knockback = 1.7f;
+                        puddleSize = 8f;
+                        orbSize = 4f;
+                        drag = 0.001f;
+                        ammoMultiplier = 0.4f;
+                        statusDuration = 60f * 4f;
+                        damage = 0.2f;
+                        layer = Layer.bullet - 2f;
+                    }},
+                    Liquids.slag,  new LiquidBulletType(Liquids.slag){{
+                        lifetime = 49f;
+                        speed = 4f;
+                        knockback = 1.3f;
+                        puddleSize = 8f;
+                        orbSize = 4f;
+                        damage = 4.75f;
+                        drag = 0.001f;
+                        ammoMultiplier = 0.4f;
+                        statusDuration = 60f * 4f;
+                    }},
+                    Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid){{
+                        lifetime = 49f;
+                        speed = 4f;
+                        knockback = 1.3f;
+                        puddleSize = 8f;
+                        orbSize = 4f;
+                        drag = 0.001f;
+                        ammoMultiplier = 0.4f;
+                        statusDuration = 60f * 4f;
+                        damage = 0.2f;
+                    }},
+                    Liquids.oil, new LiquidBulletType(Liquids.oil){{
+                        lifetime = 49f;
+                        speed = 4f;
+                        knockback = 1.3f;
+                        puddleSize = 8f;
+                        orbSize = 4f;
+                        drag = 0.001f;
+                        ammoMultiplier = 0.4f;
+                        statusDuration = 60f * 4f;
+                        damage = 0.2f;
+                        layer = Layer.bullet - 2f;
+                    }},
+                    petroleum, new LiquidBulletType(petroleum){{
+                        lifetime = 52f;
+                        speed = 3.5f;
+                        knockback = 1.5f;
+                        puddleSize = 9f;
+                        orbSize = 4f;
+                        drag = 0.001f;
+                        status = tarred;
+                        ammoMultiplier = 0.4f;
+                        statusDuration = 60f * 8f;
+                        damage = 0.8f;
+                        layer = Layer.bullet - 2f;
+                    }},
+                    magma, new LiquidBulletType(magma){{
+                        lifetime = 49f;
+                        speed = 4f;
+                        knockback = 0.5f;
+                        puddleSize = 9f;
+                        orbSize = 4f;
+                        drag = 0.001f;
+                        status = melting;
+                        ammoMultiplier = 0.8f;
+                        statusDuration = 60f * 5f;
+                        damage = 5f;
+                        layer = Layer.bullet - 2f;
+                    }},
+                    magma, new LiquidBulletType(magma){{
+                        lifetime = 49f;
+                        speed = 4f;
+                        knockback = 0.5f;
+                        puddleSize = 9f;
+                        orbSize = 4f;
+                        drag = 0.001f;
+                        status = melting;
+                        ammoMultiplier = 0.8f;
+                        statusDuration = 60f * 5f;
+                        damage = 5f;
+                        layer = Layer.bullet - 2f;
+                    }},
+                    haze, new LiquidBulletType(haze){{
+                        lifetime = 49f;
+                        speed = 7f;
+                        knockback = 0.5f;
+                        puddleSize = 9f;
+                        reloadMultiplier = 5;
+                        orbSize = 4f;
+                        drag = 0.001f;
+                        status = burning;
+                        ammoMultiplier = 0.8f;
+                        statusDuration = 60f * 2f;
+                        damage = 1f;
+                        layer = Layer.bullet - 2f;
+                    }}
+            );
         }};
         Foment = new ItemTurret("foment") {{
             health = 925;

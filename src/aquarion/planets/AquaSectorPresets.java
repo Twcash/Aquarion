@@ -3,10 +3,14 @@ package aquarion.planets;
 import aquarion.world.AquaSectorPreset;
 import mindustry.type.SectorPreset;
 
+import static aquarion.planets.AquaPlanets.fakeSerpulo;
 import static aquarion.planets.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
-    public static AquaSectorPreset Ingress, Torrent, CrystalCaverns, Grove;
+    public static AquaSectorPreset  //tantros
+    Ingress, Torrent, CrystalCaverns, Grove,
+    //serpulo (fake)
+    resurgence, twinPass, bay;
     /*
     Sector plans
     chasm:10 {
@@ -25,6 +29,33 @@ public class AquaSectorPresets {
     }
      */
     public static void load(){
+        resurgence = new AquaSectorPreset("resurgence", fakeSerpulo, 15){{
+            alwaysUnlocked = true;
+            addStartingItems = true;
+            captureWave = 3;
+            difficulty = 1;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 2f;
+        }};
+        twinPass = new AquaSectorPreset("twinPass", fakeSerpulo, 16){{
+            alwaysUnlocked = true;
+            addStartingItems = true;
+            captureWave = 11;
+            difficulty = 1;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 2f;
+        }};
+        bay = new AquaSectorPreset("Lagoon", fakeSerpulo, 17){{
+            alwaysUnlocked = true;
+            addStartingItems = true;
+            captureWave = 15;
+            difficulty = 1;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 2f;
+        }};
         Ingress = new AquaSectorPreset("Ingress", tantros2, 10){{
             alwaysUnlocked = true;
             addStartingItems = true;

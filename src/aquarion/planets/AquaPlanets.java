@@ -5,10 +5,12 @@ import aquarion.blocks.AquaCore;
 import aquarion.world.AquaTeams;
 import arc.graphics.Color;
 import mindustry.content.Items;
+import mindustry.game.Team;
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
 import mindustry.graphics.g3d.MultiMesh;
 import mindustry.graphics.g3d.SunMesh;
+import mindustry.maps.planet.SerpuloPlanetGenerator;
 import mindustry.type.Planet;
 import mindustry.world.meta.Env;
 
@@ -19,7 +21,8 @@ public class AquaPlanets {
     public static Planet
     tantros2,
     qeraltar,
-    citun;
+    citun,
+    fakeSerpulo;
 
     public static void loadContent() {
         citun = new Planet("citun", null, 5.5f){{
@@ -37,6 +40,41 @@ public class AquaPlanets {
                     Color.valueOf("9ed4e4"),
                     Color.valueOf("d2e5ea")
             );
+        }};
+        fakeSerpulo = new Planet("fakeSerp", citun, 1f, 3){{
+            generator = new SerpuloPlanetGenerator();
+            meshLoader = () -> new HexMesh(this, 8);
+            alwaysUnlocked = true;
+            accessible = true;
+            orbitRadius = 57;
+            orbitOffset = 90;
+            visible = true;
+            iconColor = Color.valueOf("7d4dff");
+            atmosphereColor = Color.valueOf("3c1b8f");
+            cloudMeshLoader = () -> new MultiMesh(
+                    new HexSkyMesh(this, 3, 0.13f, 0.11f, 5, Color.valueOf("c4ebed").a(0.75f), 2, 0.18f, 1.2f, 0.3f),
+                    new HexSkyMesh(this, 5, 0.7f, 0.09f, 5, Color.valueOf("edfeff").a(0.65f), 3, 0.12f, 1.5f, 0.32f),
+                    new HexSkyMesh(this, 8, 0.3f, 0.08f, 5, Color.valueOf("d3cad7").a(0.55f), 2, 0.08f, 1.6f, 0.35f)
+            );
+            atmosphereRadIn = 0.02f;
+            atmosphereRadOut = 0.3f;
+            startSector = 15;
+            orbitSpacing = 6f;
+            defaultCore = AquaCore.corePike;
+            allowLaunchLoadout = false;
+            clearSectorOnLose = true;
+            allowLaunchToNumbered = true;
+            ruleSetter = r -> {
+                r.fire = true;
+                r.waveTeam = Team.crux;
+                r.placeRangeCheck = false;
+                r.showSpawns = true;
+                r.coreDestroyClear = true;
+                r.fog = false;
+                r.staticFog = false;
+                r.onlyDepositCore = true;
+                r.deconstructRefundMultiplier = 1.01f;
+            };
         }};
         qeraltar = new Planet("qeraltar", citun, 0.9f, 2){{
             generator = new QeralterPlanetGen();
@@ -76,8 +114,6 @@ public class AquaPlanets {
             atmosphereRadOut = 0.6f;
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
-            itemWhitelist.addAll(AquaItems.bauxite, galena, lead, silicon, aluminum, ferricMatter, ferrosilicon, ceramic, mangalumin, mangalumin, borax, nickel, copper, azurite, brimstone,
-                    invar, vacodur, caustrolite, chirenium, salt, arsenic, cupronickel, cobalt, towanite);
             defaultEnv|= Env.terrestrial | Env.underwater;
             ruleSetter = r -> {
                 r.fire = false;
@@ -90,9 +126,6 @@ public class AquaPlanets {
                 r.onlyDepositCore = true;
                 r.deconstructRefundMultiplier = 1.01f;
             };
-            hiddenItems.addAll( Items.sand, tungsten, oxide, beryllium,  Items.metaglass, Items.surgeAlloy, Items.coal
-                    , Items.phaseFabric, Items.graphite, Items.plastanium, Items.scrap
-                    , Items.pyratite, Items.blastCompound, Items.sporePod, Items.thorium);
         }};
     }
 }

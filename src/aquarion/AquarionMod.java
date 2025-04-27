@@ -31,16 +31,15 @@ import static mindustry.Vars.state;
 public class AquarionMod  implements Loadable{
 
     public static void loadContent() {
-        //SHUT UP SHUT UP SHUT UP
 
         //stuff that needs to be loaded first
+        AquaStatuses.load();
         AquaLiquids.loadContent();
         AquaSounds.load();
         AquaTeams.load();
         AquaItems.load();
         AquaAttributes.load();
         AquaEffect.loadContent();
-        AquaStatuses.load();
         AquaWeather.load();
         //actual content needs items liquids FX ect
         AquaEnv.loadContent();
@@ -69,6 +68,7 @@ public class AquarionMod  implements Loadable{
         MenuReplacer.replaceMenu(Vars.ui.menufrag);
         //THIS IS STUPID PLEASE DO NOT REPLICATE
         ProspectorBaseBuilderAI ai = new ProspectorBaseBuilderAI();
+
         Events.on(EventType.WorldLoadEvent.class, e -> {
             Timer.schedule(ai::updateUnit, 0f, 0.3f);
         });
