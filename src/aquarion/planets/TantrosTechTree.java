@@ -117,7 +117,9 @@ public class TantrosTechTree {
                     node(bay);
                 });
             });
-            node(Ingress, () -> {
+            node(Ingress, Seq.with(
+                    new Objectives.SectorComplete(resurgence)
+            ), () -> {
                 node(Torrent, Seq.with(
                         new Objectives.SectorComplete(Ingress)
                 ), () -> {
