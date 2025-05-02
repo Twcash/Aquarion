@@ -268,7 +268,8 @@ public class AquaUnitTypes {
                     mirror = true;
                     x = 12f;
                     recoil = 1f;
-                    layerOffset = -0.0001f;
+                    top = false;
+                    layerOffset = -0.00001f;
                     parts.addAll(
                             new RegionPart("-barrel") {{
                                 layerOffset = -.00001f;

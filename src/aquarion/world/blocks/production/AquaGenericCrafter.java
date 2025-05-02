@@ -27,20 +27,11 @@ public class AquaGenericCrafter extends GenericCrafter {
 super.setStats();
         boolean consItems = itemBooster != null;
 
-        if (consItems) stats.timePeriod = boostItemUseTime;
+        if(consItems) stats.timePeriod = boostItemUseTime;
 
-        if (consItems && booster instanceof ConsumeItems coni) {
+        if(consItems && itemBooster instanceof ConsumeItems coni){
             stats.remove(Stat.booster);
-            stats.add(Stat.booster,
-                    StatValues.itemBoosters(
-                            "{0}" + StatUnit.timesSpeed.localized(),
-                            stats.timePeriod,
-                            itemBoostIntensity,
-                            0f,
-                            coni.items,
-                            i -> Structs.contains(coni.items, s -> s.item == i)
-                    )
-            );
+            stats.add(Stat.booster, StatValues.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items));
         }
 
         if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBaseNew && f.booster) instanceof ConsumeLiquidBaseNew consBase){

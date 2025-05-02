@@ -6,6 +6,7 @@ import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.util.Nullable;
 import arc.util.Time;
 import mindustry.content.Fx;
 import mindustry.entities.Puddles;
@@ -41,8 +42,6 @@ public class ModifiedConduit extends Conduit {
         @Override
         public void draw(){
             super.draw();
-            Draw.z(heatLayer.id);
-            Draw.rect(heatReg, x, y, 0);
         }
         @Override
         public void updateTile() {
@@ -117,5 +116,34 @@ public class ModifiedConduit extends Conduit {
             return 0;
         }
 
+        @Override
+        public void onProximityUpdate(){
+            super.onProximityUpdate();
+
+            int[] bits = buildBlending(tile, rotation, null, true);
+            blendbits = bits[0];
+            xscl = bits[1];
+            yscl = bits[2];
+            blending = bits[4];
+
+            Building next = front(), prev = back();
+            capped = next == null || next.team != team || !next.block.hasLiquids;
+            backCapped = blendbits == 0 && (prev == null || prev.team != team || !prev.block.hasLiquids);
+        }
+        @Override
+        public boolean acceptLiquid(Building source, Liquid liquid){
+            noSleep();
+            return (liquids.current() == liquid || liquids.currentAmount() < 0.2f)
+                    && (tile == null || source == this || (source.relativeTo(tile.x, tile.y) + 2) % 4 != rotation);
+        }
+        @Nullable
+        @Override
+        public Building next(){
+            Tile next = tile.nearby(rotation);
+            if(next != null && next.build instanceof ConduitBuild){
+                return next.build;
+            }
+            return null;
+        }
     }
 }

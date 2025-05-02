@@ -59,21 +59,11 @@ public class AquaPuddles extends Puddles {
             return;
         }
         if(Vars.state.rules.hasEnv(Env.underwater)){
-            if (liquid.temperature > 0.5f) {
-                Fx.ballfire.at(ax, ay);
+            if(liquid.temperature > 0.5f && liquid.viscosity < 0.7f){
                 Fx.steam.at(ax, ay);
-            } else {
-                if (Mathf.chanceDelta(0.11f) && tile != source) {
-                    new Effect(110f, e -> {
-                        color(liquid.color);
-                        alpha(e.fout());
-
-                        randLenVectors(e.id, (int) amount, 2f + e.finpow() * 11f, (x, y) -> {
-                            Fill.circle(e.x + x, e.y + y, 0.6f + e.fin() * 5f);
-                        });
-                    }).at(ax, ay);
-                }
-                return;
+                Fx.ballfire.at(ax, ay);
+            }else if(Mathf.chanceDelta(0.11f) && tile != source && liquid.viscosity < 0.7f){
+                liquid.vaporEffect.at(ax, ay, liquid.gasColor);
             }
             return;
         }
@@ -81,7 +71,7 @@ public class AquaPuddles extends Puddles {
         if(tile.floor().isLiquid && !canStayOn(liquid, tile.floor().liquidDrop)){
             reactPuddle(tile.floor().liquidDrop, liquid, amount, tile, ax, ay);
 
-            Puddle p = map.get(tile.pos());
+            Puddle p = get(tile);
 
             if(initial && p != null && p.lastRipple <= Time.time - 40f){
                 Fx.ripple.at(ax, ay, 1f, tile.floor().liquidDrop.color);
@@ -92,16 +82,15 @@ public class AquaPuddles extends Puddles {
 
         if(tile.floor().solid) return;
 
-        Puddle p = map.get(tile.pos());
+        Puddle p = get(tile);
         if(p == null || p.liquid == null){
             if(!Vars.net.client()){
-                //do not create puddles clientside as that destroys syncing
                 Puddle puddle = Puddle.create();
                 puddle.tile = tile;
                 puddle.liquid = liquid;
-                puddle.amount = amount;
+                puddle.amount = Math.min(amount, maxLiquid);
                 puddle.set(ax, ay);
-                map.put(tile.pos(), puddle);
+                register(puddle);
                 puddle.add();
             }
         }else if(p.liquid == liquid){
@@ -121,6 +110,7 @@ public class AquaPuddles extends Puddles {
             p.amount += added;
         }
     }
+
 
     public static void remove(Tile tile){
         if(tile == null) return;

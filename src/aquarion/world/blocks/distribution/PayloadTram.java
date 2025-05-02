@@ -285,7 +285,7 @@ public class PayloadTram extends PayloadBlock {
             }
             if (linkValid()) {
                 Building target = world.build(link);
-                Drawf.circles(target.x, target.y, (target.block().size / 2f + 1) * tilesize + sin - 2f, Pal.place);
+                Drawf.circles(target.x, target.y, (target.block.size / 2f + 1) * tilesize + sin - 2f, Pal.place);
                 Drawf.arrow(x, y, target.x, target.y, size * tilesize + sin, 4f + sin);
             }
 

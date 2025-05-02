@@ -9,7 +9,7 @@ import static aquarion.AquaStatuses.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid air, haze, ethylene, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, artroGoop, brine, nitronite, helium, hydrogenChloride, hydroxide, pyridine, tritium;
+    public static Liquid air, haze, ethylene, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydrogenChloride, hydroxide, tritium;
 
     public static void loadContent() {
 

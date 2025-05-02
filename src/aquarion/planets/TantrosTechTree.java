@@ -13,23 +13,31 @@ import static aquarion.blocks.AquaDistribution.*;
 import static aquarion.blocks.AquaLiquid.*;
 import static aquarion.blocks.AquaTurrets.*;
 import static aquarion.planets.AquaSectorPresets.*;
-import static mindustry.content.Items.silicon;
+import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.slag;
 import static mindustry.content.TechTree.*;
 public class TantrosTechTree {
     public static void load() {
-        AquaPlanets.tantros2.techTree = nodeRoot("Tantros", corePike, () -> {
+        AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = nodeRoot("Tantros", corePike, () -> {
             nodeProduce(magma, () -> {
                 nodeProduce(slag, () -> nodeProduce(hydroxide, () -> {}));
                 nodeProduce(fumes, () -> {});
                 nodeProduce(dioxide, () -> {});
             });
-            nodeProduce(azurite, () -> {
-                nodeProduce(Items.copper, () -> {});
+
+            nodeProduce(nickel, () -> {});
+            nodeProduce(Items.copper, () -> {
                 nodeProduce(cupronickel, () -> {});
             });
+            nodeProduce(azurite, () -> {
 
-            nodeProduce(Items.lead, () -> {});
+            });
+
+            nodeProduce(Items.lead, () -> {
+                nodeProduce(sand, () -> {
+                    nodeProduce(metaglass, () -> {});
+                });
+            });
             nodeProduce(bauxite, () -> {
                 nodeProduce(aluminum, () -> {});
                 nodeProduce(ferricMatter, () -> {});
@@ -47,40 +55,66 @@ public class TantrosTechTree {
                 node(siphonJunction, () -> {});
                 node(pulseSiphon, () -> node(pulseSiphonBridge, () -> {}));
             });
-            node(magmaTap, () -> node(plasmaExtractor, () -> {
-                node(beamBore, Seq.with(
-                        new Objectives.OnSector(CrystalCaverns)
-                ), () -> {});
-                node(DrillDerrick, Seq.with(
-                        new Objectives.OnSector(CrystalCaverns)
-                ), () -> {});
-                node(fumeFilter, Seq.with(
-                        new Objectives.OnSector(CrystalCaverns)
-                ), () -> {});
-            }));
-            node(magmaDiffser, () -> node(azuriteKiln, () -> {
-                node(ferroSiliconFoundry, Seq.with(
-                        new Objectives.SectorComplete(Torrent),
-                        new Objectives.Research(bauxiteCentrifuge)
-                        ), () -> {});
-                node(towaniteReductionVat, Seq.with(
-                        new Objectives.OnSector(CrystalCaverns)
-                ), () -> {});
-                node(bauxiteCentrifuge);
-            }));
-            node(bauxiteWall, () -> node(hugeBauxiteWall, () -> {
-                node(aluminumWall, () -> {
-                    node(hugeAluminumWall, () -> {
-                        node(ferrosilconWall, () -> {
-                            node(hugeFerrosiliconWall, () -> {});
+            node(harvester, () -> {
+                node(CentrifugalPump);
+                node(magmaTap, () -> node(plasmaExtractor, () -> {
+                    node(beamBore, Seq.with(
+                            new Objectives.OnSector(CrystalCaverns)
+                    ), () -> {});
+                    node(DrillDerrick, Seq.with(
+                            new Objectives.OnSector(CrystalCaverns)
+                    ), () -> {});
+                    node(fumeFilter, Seq.with(
+                            new Objectives.OnSector(CrystalCaverns)
+                    ), () -> {});
+                }));
+            });
+            node(atmosphericIntake, () -> {
+                node(AnnealingOven);
+                node(magmaDiffser, () -> node(azuriteKiln, () -> {
+                    node(ferroSiliconFoundry, Seq.with(
+                            new Objectives.SectorComplete(Torrent),
+                            new Objectives.Research(bauxiteCentrifuge)
+                    ), () -> {});
+                    node(towaniteReductionVat, Seq.with(
+                            new Objectives.OnSector(CrystalCaverns)
+                    ), () -> {});
+                    node(bauxiteCentrifuge);
+                }));
+            });
+
+            node(nickelWall, () -> {
+                node(hugeNickelWall, () -> {
+                    node(nickelBarricade);
+                });
+                node(bauxiteWall, () -> node(hugeBauxiteWall, () -> {
+                    node(aluminumWall, () -> {
+                        node(hugeAluminumWall, () -> {
+                            node(ferrosilconWall, () -> {
+                                node(hugeFerrosiliconWall, () -> {});
+                            });
                         });
                     });
-                });
-            }));
-            node(Foment, () ->  {
+                }));
+            });
+            node(point, () -> {
+                node(Foment, () ->  {
                     node(buzzSaw);
                     node(redact, () -> {
-                node(maelstrom);
+                        node(maelstrom);
+                    });
+                });
+                node(sentry);
+                node(pelt);
+                node(douse);
+            });
+            node(resurgence, () ->{
+                node(twinPass, Seq.with(
+                        new Objectives.SectorComplete(resurgence),
+                        new Objectives.Research(nickelWall),
+                        new Objectives.Research(point)
+                ), () ->{
+                    node(bay);
                 });
             });
             node(Ingress, () -> {

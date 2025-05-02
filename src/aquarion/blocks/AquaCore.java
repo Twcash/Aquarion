@@ -10,15 +10,19 @@ import aquarion.world.blocks.defense.RegenPylon;
 import aquarion.world.blocks.distribution.DistributionCatalyst;
 
 import arc.graphics.Color;
+import mindustry.content.Planets;
+import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
+import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 
+import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.cryofluid;
 import static mindustry.type.ItemStack.with;
@@ -32,13 +36,13 @@ public class AquaCore {
     public static Block coreAnnex, buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
             coreEscarpment, corePike, coreExpedite, buildSentry,
             overdriveCatalyst, forceBarrier;
-    public static Block TrunteVein, TrunteNode;
 
     public static void loadContent(){
         cache = new StorageBlock("cache") {{
             requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));
             itemCapacity = 900;
             coreMerge = true;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             squareSprite = false;
             size = 3;
             researchCostMultiplier = 0.02f;
@@ -48,6 +52,7 @@ public class AquaCore {
         coreAnnex = new SnakeStorageBlock("core-annex"){{
             requirements(Category.effect, with(aluminum, 160));
             itemCapacity = 10;
+            buildVisibility = BuildVisibility.editorOnly;
             coreMerge = true;
             squareSprite = false;
             size = 2;
@@ -61,6 +66,7 @@ public class AquaCore {
             health = 1500;
             itemCapacity = 8000;
             size = 4;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             unitCapModifier = 25;
             unitType = AquaUnitTypes.cull;
             alwaysUnlocked = true;
@@ -74,6 +80,7 @@ public class AquaCore {
             squareSprite = false;
             itemCapacity = 12000;
             size = 6;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             unitCapModifier = 50;
             unitType = AquaUnitTypes.cull;
             hasItems = true;
@@ -88,6 +95,7 @@ public class AquaCore {
             size = 6;
             unitCapModifier = 50;
             unitType = AquaUnitTypes.cull;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             category = Category.effect;
             hasItems = true;
             hasColor = true;
@@ -101,6 +109,7 @@ public class AquaCore {
             isFirstTier = true;
             unitType = iris;
             droneType = mite;
+
             category = Category.effect;
             itemCapacity = 2000;
             buildSpeed = 1.5f;
@@ -129,6 +138,7 @@ public class AquaCore {
         }};
         mendPyre = new RegenPylon("mend-pyre"){{
             requirements(Category.effect, with(lead,40, silicon, 40));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 1;
             consumeLiquid(magma, 5/60f);
             range = 20;
@@ -140,6 +150,7 @@ public class AquaCore {
         }};
         mendPylon = new RegenPylon("mend-pylon"){{
             requirements(Category.effect, with(silicon,60, aluminum, 40));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             consumeLiquid(fumes, 1.25f/60f);
             range = 30;
@@ -151,6 +162,7 @@ public class AquaCore {
         }};
         forceBarrier = new BlockingForceProjector("force-barrier"){{
             requirements(Category.defense, ItemStack.with(lead,80, duralumin, 120, metaglass, 90));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             consumePower(3f / 60f);
             sides = 18;
             radius = 120;
@@ -166,6 +178,7 @@ public class AquaCore {
         }};
         buzzSaw = new ChainsawTurret("buzzsaw"){{
             requirements(Category.turret, with(silicon, 750, lead, 500, bauxite, 250));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 3;
             consumeLiquid(magma, 120/60f);
             researchCostMultiplier = 0.02f;

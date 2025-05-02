@@ -27,7 +27,7 @@ import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
 
 public class AquaEnv {
-    public static Block uhhhhh,azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
+    public static Block azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, boricBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
@@ -379,7 +379,6 @@ public class AquaEnv {
             size = 3;
             breakable = false;
             health = 2500;
-            buildCost = 3600;
             clipSize = 120;
             underBullets = true;
             targetable = false;
@@ -387,8 +386,10 @@ public class AquaEnv {
             createRubble = false;
             layer = Layer.power - 3;
             shadowLayer = Layer.blockOver;
+            buildTime = 15*60f;
         }};
         elderParzil = new PineTree("elder-parzil"){{
+            buildTime = 30*60f;
             buildVisibility = sandboxOnly;
             underBullets = false;
             destroyEffect = AquaFx.parzilDebrisLarge;
@@ -397,7 +398,6 @@ public class AquaEnv {
             size = 5;
             variants = 1;
             health = 2500;
-            buildCost = 9000;
             breakable = false;
             rotationRand = 30;
             clipSize = 300;

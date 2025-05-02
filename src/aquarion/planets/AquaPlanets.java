@@ -43,7 +43,7 @@ public class AquaPlanets {
         }};
         fakeSerpulo = new Planet("fakeSerp", citun, 1f, 3){{
             generator = new SerpuloPlanetGenerator();
-            meshLoader = () -> new HexMesh(this, 8);
+            meshLoader = () -> new HexMesh(this, 10);
             alwaysUnlocked = true;
             accessible = true;
             orbitRadius = 57;
@@ -90,7 +90,6 @@ public class AquaPlanets {
                     new HexSkyMesh(this, 3, 0.7f, 0.18f, 5, Color.valueOf("dbe2e8").a(0.7f), 2, 0.42f, 1.2f, 0.45f)
             );
         }};
-        //fuck
         tantros2 = new Planet("tantros", citun, 1.4f, 3){{
             generator = new AquaPlanetGenarator();
             meshLoader = () -> new HexMesh(this, 5);

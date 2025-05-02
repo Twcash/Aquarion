@@ -97,7 +97,7 @@ public class SealedConveyor extends Duct implements Autotiler{
                     (armored ?
                             //armored acceptance
                             ((source.block.rotate && source.front() == this && source.block.hasItems && source.block.isDuct) ||
-                                    Edges.getFacingEdge(source.tile(), tile).relativeTo(tile) == rotation) :
+                                    Edges.getFacingEdge(source.tile, tile).relativeTo(tile) == rotation) :
                             //standard acceptance - do not accept from front
                             !(source.block.rotate && next == source) && Edges.getFacingEdge(source.tile, tile) != null && Math.abs(Edges.getFacingEdge(source.tile, tile).relativeTo(tile.x, tile.y) - rotation) != 2
                     );

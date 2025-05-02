@@ -87,9 +87,6 @@ public class MechanicalUnitType extends UnitType {
         Mechc mech = unit instanceof Mechc ? (Mechc)unit : null;
         float z = isPayload ? Draw.z() : unit.elevation > 0.5f ? (lowAltitude ? Layer.flyingUnitLow : Layer.flyingUnit) : groundLayer + Mathf.clamp(hitSize / 4000f, 0, 0.01f);
 
-        if(unit.controller().isBeingControlled(player.unit())){
-            drawControl(unit);
-        }
 
         if(!isPayload && (unit.isFlying() || shadowElevation > 0)){
             Draw.z(Math.min(Layer.darkness, z - 1f));

@@ -58,9 +58,9 @@ public class AquarionMod  implements Loadable{
         AquaDistribution.loadContent();
         //keep these at the back
         AquaLoadouts.load();
-        AquaPlanets.loadContent();
-        AquaSectorPresets.load();
-        TantrosTechTree.load();
+
+
+
         //Other faction stuff
         ProspectorUnitTypes.loadContent();
         ProspectorBlocks.loadContent();
@@ -72,6 +72,11 @@ public class AquarionMod  implements Loadable{
         Events.on(EventType.WorldLoadEvent.class, e -> {
             Timer.schedule(ai::updateUnit, 0f, 0.3f);
         });
+
+        AquaPlanets.loadContent();
+        AquaSectorPresets.load();
+        TantrosTechTree.load();
+
     }
 
     public static AquaMenuRenderer getMenuRenderer() {

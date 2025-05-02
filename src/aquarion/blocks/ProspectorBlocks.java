@@ -21,7 +21,7 @@ public class ProspectorBlocks {
         //This is a core
         nexus = new CoreBlock("nexus"){{
             requiresCoreZone = false;
-            buildCost = 60*10f;
+            buildCostMultiplier = 60*10f;
             unitType = ProspectorUnitTypes.synthesis;
             conductivePower = true;
             buildVisibility = BuildVisibility.sandboxOnly;
@@ -29,7 +29,7 @@ public class ProspectorBlocks {
         //walls. I most likely will only ever have two.
         fort = new Wall("fort"){{
             buildVisibility = BuildVisibility.sandboxOnly;
-            buildCost = 60*1.5f;
+            buildCostMultiplier = 60*1.5f;
             size = 2;
             health = 32*4;
             conductivePower = true;
@@ -38,7 +38,7 @@ public class ProspectorBlocks {
             buildVisibility = BuildVisibility.sandboxOnly;
             size = 3;
             //Lmao I hope I never do this again
-            buildCost = 60*1.5f/4f*9f;
+            buildCostMultiplier = 60*1.5f/4f*9f;
             health = 32*4;
             conductivePower = true;
         }};
@@ -46,7 +46,7 @@ public class ProspectorBlocks {
         solarArray = new SolarGenerator("solar-array"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             size = 2;
-            buildCost = 60*2f;
+            buildCostMultiplier = 60*2f;
             health = 90;
             powerProduction = 1;
             conductivePower = true;
@@ -55,7 +55,7 @@ public class ProspectorBlocks {
             buildVisibility = BuildVisibility.sandboxOnly;
             size = 3;
             consumePowerBuffered(4000f);
-            buildCost = 60*2.5f;
+            buildCostMultiplier = 60*2.5f;
             conductivePower = true;
         }};
         //turrets

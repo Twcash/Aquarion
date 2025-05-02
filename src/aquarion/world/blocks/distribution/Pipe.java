@@ -220,7 +220,7 @@ public class Pipe extends LiquidRouter implements Autotiler {
             Draw.z(Layer.block);
             Draw.rect(bottomRegion, x, y);
 
-            if (liquids().currentAmount() > 0.01f) {
+            if (liquids.currentAmount() > 0.01f) {
                 int frame = liquids.current().getAnimationFrame();
                 int gas = liquids.current().gas ? 1 : 0;
 

@@ -81,8 +81,6 @@ public class QeralterCoreBlock extends CoreBlock {
         flags = EnumSet.of(BlockFlag.core);
         //qeralter will have a custom way of dealing with unit caps
         unitCapModifier = 0;
-        loopSound = Sounds.respawning;
-        loopSoundVolume = 1f;
         drawDisabled = false;
         unitType = iris;
         canOverdrive = false;
@@ -201,10 +199,10 @@ public class QeralterCoreBlock extends CoreBlock {
                     for(int i = 0; i < blocks.size; i++){
                         var block = blocks.get(i);
                         if(within(block.x * tilesize, block.y * tilesize, range)){
-                            var btype = content.block(block.block);
+                            var btype = block.block;
 
                             if(Build.validPlace(btype, unit.team(), block.x, block.y, block.rotation) && (state.rules.infiniteResources || team.rules().infiniteResources || team.items().has(btype.requirements, state.rules.buildCostMultiplier))){
-                                unit.addBuild(new BuildPlan(block.x, block.y, block.rotation, content.block(block.block), block.config));
+                                unit.addBuild(new BuildPlan(block.x, block.y, block.rotation, block.block, block.config));
                                 //shift build plan to tail so next unit builds something else
                                 blocks.addLast(blocks.removeIndex(i));
                                 lastPlan = block;
@@ -341,110 +339,84 @@ public class QeralterCoreBlock extends CoreBlock {
                 droneProgress = 0f;
             }
 
-            if(target != null && !target.isValid()){
-                target = null;
-            }
+            if(following != null){
+                //validate follower
+                if(!following.isValid() || !following.activelyBuilding()){
+                    following = null;
+                    unit.plans().clear();
+                }else{
+                    //set to follower's first build plan, whatever that is
+                    unit.plans().clear();
+                    unit.plans().addFirst(following.buildPlan());
+                    lastPlan = null;
+                }
 
-            //TODO no autotarget, bad
-            if(target == null){
-                target = Units.closest(team, x, y, u -> !u.spawnedByCore && u.type != droneType);
-            }
-            unit.tile(this);
-            unit.team(team);
+            }else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){ //search for new stuff
+                Queue<Teams.BlockPlan> blocks = team.data().plans;
+                for(int i = 0; i < blocks.size; i++){
+                    var block = blocks.get(i);
+                    if(within(block.x * tilesize, block.y * tilesize, range)){
+                        var btype = block.block;
 
-            //only cares about where the unit itself is looking
-            rotation = (int) unit.rotation();
-
-            if(unit.activelyBuilding()){
-                unit.lookAt(angleTo(unit.buildPlan()));
-            }
-
-            if(checkSuppression()){
-                efficiency = potentialEfficiency = 0f;
-            }
-
-            unit.buildSpeedMultiplier(potentialEfficiency * timeScale);
-            unit.speedMultiplier(potentialEfficiency * timeScale);
-
-            warmup = Mathf.lerpDelta(warmup, unit.activelyBuilding() ? efficiency : 0f, 0.1f);
-
-                unit.updateBuilding(true);
-
-                if(following != null){
-                    //validate follower
-                    if(!following.isValid() || !following.activelyBuilding()){
-                        following = null;
-                        unit.plans().clear();
-                    }else{
-                        //set to follower's first build plan, whatever that is
-                        unit.plans().clear();
-                        unit.plans().addFirst(following.buildPlan());
-                    }
-
-                }else if(unit.buildPlan() == null && timer(timerTarget, targetInterval)){ //search for new stuff
-                    Queue<Teams.BlockPlan> blocks = team.data().plans;
-                    for(int i = 0; i < blocks.size; i++){
-                        var block = blocks.get(i);
-                        if(within(block.x * tilesize, block.y * tilesize, range)){
-                            var btype = content.block(block.block);
-
-                            if(Build.validPlace(btype, unit.team(), block.x, block.y, block.rotation) && (state.rules.infiniteResources || team.rules().infiniteResources || team.items().has(btype.requirements, state.rules.buildCostMultiplier))){
-                                unit.addBuild(new BuildPlan(block.x, block.y, block.rotation, content.block(block.block), block.config));
-                                //shift build plan to tail so next unit builds something else
-                                blocks.addLast(blocks.removeIndex(i));
-                                lastPlan = block;
-                                break;
-                            }
+                        if(Build.validPlace(btype, unit.team(), block.x, block.y, block.rotation) && (state.rules.infiniteResources || team.rules().infiniteResources || team.items().has(btype.requirements, state.rules.buildCostMultiplier))){
+                            unit.addBuild(new BuildPlan(block.x, block.y, block.rotation, block.block, block.config));
+                            //shift build plan to tail so next unit builds something else
+                            blocks.addLast(blocks.removeIndex(i));
+                            lastPlan = block;
+                            break;
                         }
-                    }
-
-                    //still not building, find someone to mimic
-                    if(unit.buildPlan() == null){
-                        following = null;
-                        Units.nearby(team, x, y, range, u -> {
-                            if(following  != null) return;
-
-                            if(u.canBuild() && u.activelyBuilding()){
-                                BuildPlan plan = u.buildPlan();
-
-                                Building build = world.build(plan.x, plan.y);
-                                if(build instanceof ConstructBlock.ConstructBuild && within(build, range)){
-                                    following = u;
-                                }
-                            }
-                        });
-                    }
-                }else if(unit.buildPlan() != null){ //validate building
-                    BuildPlan req = unit.buildPlan();
-
-                    //clear break plan if another player is breaking something
-                    if(!req.breaking && timer.get(timerTarget2, 30f)){
-                        for(Player player : team.data().players){
-                            if(player.isBuilder() && player.unit().activelyBuilding() && player.unit().buildPlan().samePos(req) && player.unit().buildPlan().breaking){
-                                unit.plans().removeFirst();
-                                //remove from list of plans
-                                team.data().plans.remove(p -> p.x == req.x && p.y == req.y);
-                                return;
-                            }
-                        }
-                    }
-
-                    boolean valid =
-                            !(lastPlan != null && lastPlan.removed) &&
-                                    ((req.tile() != null && req.tile().build instanceof ConstructBlock.ConstructBuild cons && cons.current == req.block) ||
-                                            (req.breaking ?
-                                                    Build.validBreak(unit.team(), req.x, req.y) :
-                                                    Build.validPlace(req.block, unit.team(), req.x, req.y, req.rotation)));
-
-                    if(!valid){
-                        //discard invalid request
-                        unit.plans().removeFirst();
                     }
                 }
-                following = null;
-                lastPlan = null;
 
-            //please do not commit suicide
+                //still not building, find someone to mimic
+                if(unit.buildPlan() == null){
+                    following = null;
+                    Units.nearby(team, x, y, range, u -> {
+                        if(following  != null) return;
+
+                        if(u.canBuild() && u.activelyBuilding()){
+                            BuildPlan plan = u.buildPlan();
+
+                            Building build = world.build(plan.x, plan.y);
+                            if(build instanceof ConstructBlock.ConstructBuild && within(build, range)){
+                                following = u;
+                            }
+                        }
+                    });
+                }
+            }else if(unit.buildPlan() != null){ //validate building
+                BuildPlan req = unit.buildPlan();
+
+                //clear break plan if another player is breaking something
+                if(!req.breaking && timer.get(timerTarget2, 30f)){
+                    for(Player player : team.data().players){
+                        if(player.isBuilder() && player.unit().activelyBuilding() && player.unit().buildPlan().samePos(req) && player.unit().buildPlan().breaking){
+                            unit.plans().removeFirst();
+                            //remove from list of plans
+                            team.data().plans.remove(p -> p.x == req.x && p.y == req.y);
+                            return;
+                        }
+                    }
+                }
+
+                boolean valid =
+                        !(lastPlan != null && lastPlan.removed) &&
+                                ((req.tile() != null && req.tile().build instanceof ConstructBlock.ConstructBuild cons && cons.current == req.block) ||
+                                        (req.breaking ?
+                                                Build.validBreak(unit.team(), req.x, req.y) :
+                                                Build.validPlace(req.block, unit.team(), req.x, req.y, req.rotation)));
+
+                if(!valid){
+                    //discard invalid request
+                    unit.plans().removeFirst();
+                    lastPlan = null;
+                }
+        }else{ //is being controlled, forget everything
+            following = null;
+            lastPlan = null;
+        }
+
+        //please do not commit suicide
             unit.plans().remove(b -> b.build() == this);
 
             unit.updateBuildLogic();

@@ -50,7 +50,7 @@ public class WallPayloadDrill extends PayloadBlock {
     public void setBars() {
         super.setBars();
         addBar("progress", (WallPayloadDrillBuild entity) ->
-                new Bar("bar.progress", Pal.ammo, () -> entity.recipe() == null ? 0f : entity.progress / entity.recipe().buildCost));
+                new Bar("bar.progress", Pal.ammo, () -> entity.recipe() == null ? 0f : entity.progress / entity.recipe().buildTime));
     }
 
     /**
@@ -159,10 +159,10 @@ public class WallPayloadDrill extends PayloadBlock {
             float effectiveBuildSpeed = buildSpeed * efficiency;
             progress += effectiveBuildSpeed * edelta();
             boolean produce = efficiency > 0 && payload == null;
-            if (produce && progress >= recipe.buildCost) {
+            if (produce && progress >= recipe.buildTime) {
                 payload = new BuildPayload(recipe, team);
                 recipe.placeEffect.at(x, y, (float) recipe.size / tilesize);
-                progress %= recipe.buildCost;
+                progress %= recipe.buildTime;
             }
             heat = Mathf.lerpDelta(heat, 1f, 0.15f);
             time += heat * delta();
@@ -180,7 +180,7 @@ public class WallPayloadDrill extends PayloadBlock {
 
             var recipe = recipe();
             if (recipe != null) {
-                Drawf.shadow(x, y, recipe.size * tilesize * 2f, progress / recipe.buildCost);
+                Drawf.shadow(x, y, recipe.size * tilesize * 2f, progress / recipe.buildTime);
                 Draw.draw(Layer.blockBuilding, () -> {
                     Draw.color(Pal.accent);
 
@@ -188,7 +188,7 @@ public class WallPayloadDrill extends PayloadBlock {
                         if (region != null) {
                             Shaders.blockbuild.region = region;
                             Shaders.blockbuild.time = time;
-                            Shaders.blockbuild.progress = progress / recipe.buildCost;
+                            Shaders.blockbuild.progress = progress / recipe.buildTime;
 
                             Draw.rect(region, x, y, recipe.rotate ? rotdeg() : 0);
                             Draw.flush();
