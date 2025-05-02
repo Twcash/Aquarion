@@ -50,7 +50,7 @@ public class AquaSectorPresets {
         bay = new AquaSectorPreset("Lagoon", fakeSerpulo, 17){{
             alwaysUnlocked = true;
             addStartingItems = true;
-            captureWave = 15;
+            captureWave = 21;
             difficulty = 1;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
