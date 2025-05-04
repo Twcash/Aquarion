@@ -124,7 +124,7 @@ public class AquaItems {
         coke = new Item("coke", Color.valueOf("8e947c")) {{
             hardness = 3;
             buildable = false;
-            flammability = 0.8f;
+            flammability = 1f;
             explosiveness = 0.1f;
             radioactivity = 0.05f;
         }};

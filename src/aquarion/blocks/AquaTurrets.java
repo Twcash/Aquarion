@@ -53,13 +53,14 @@ import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Interp.*;
 import static mindustry.content.Items.*;
 import static mindustry.content.StatusEffects.*;
+import static mindustry.entities.part.DrawPart.PartProgress.charge;
 import static mindustry.entities.part.DrawPart.PartProgress.warmup;
 import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
     public static Block  douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
-            blaze, ensign, hack, azimuth;
+            blaze, ensign, hack, azimuth, condolence;
 
     public static void loadContent() {
         //1 by 1 turret that can be boosted hellishly beyond what it should be
@@ -114,51 +115,118 @@ public class AquaTurrets {
             }};
         vector = new ItemTurret("vector"){{
             requirements(Category.turret, with(AquaItems.nickel, 85, silicon, 60, copper, 50, metaglass, 40));
-            health = 450;
-            size = 2;
+            health = 700;
+            size = 3;
             squareSprite = false;
-            reload = 30;
-            shoot.shots = 3;
-            shoot.shotDelay = 3;
-            ammoPerShot = 8;
-            range = 150;
-            shootSound = shootSnap;
-            ammoUseEffect = Fx.casing1;
+            reload = 120;
+            ammoPerShot = 10;
+            itemCapacity = 40;
+            range = 450;
+            shootSound = shootAltLong;
             outlineColor = tantDarkestTone;
-            rotateSpeed = 0.85f;
+            recoilTime = 30;
+            warmupMaintainTime = 90;
+            shootWarmupSpeed = 0.05f;
+            minWarmup = 0.9f;
+            rotateSpeed = 0.95f;
+            recoils = 4;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             ammo(
                     copper, new LaserBoltBulletType(){{
                         damage = 25;
                         ammoMultiplier = 2;
-                        speed = 2.5f;
+                        height= 3;
+                        speed = 24f;
+                        width = 12;
                         shootEffect = Fx.shootSmall;
                         smokeEffect = Fx.shootSmallSmoke;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
                         knockback = 1.1f;
                         frontColor = AquaPal.redDecal1;
                         backColor = AquaPal.redDecal1Dark;
-                    }},
-                    metaglass, new LaserBoltBulletType(){{
-                        damage = 40;
-                        speed = 3f;
-                        rangeChange = 35;
-                        reloadMultiplier = 1.1f;
-                        shootEffect = Fx.shootSmall;
-                        smokeEffect = Fx.shootSmallSmoke;
-                        hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        knockback = 1.1f;
-                        frontColor = Color.white;
-                        backColor = Color.white;
-                        status = slow;
-                        statusDuration = 1*60f;
                     }}
             );
+            shoot = new ShootBarrel(){{
+                barrels = new float[]{
+                        0, 15, 0,
+                        0, 0, 0,
+                        0, -15, 0,
+                        0, -20, 0
+                };
+                shots = 4;
+                shotDelay = 10;
+            }};
+            drawer = new DrawTurret(){{
+                parts.addAll(new RegionPart("-puck"){{
+                    colorTo = new Color(1f, 1f, 1f, 0f);
+                    color =  Color.white;
+                    growProgress = PartProgress.recoil;
+                    progress = PartProgress.recoil;
+                    recoilIndex = 0;
+                    mixColor = new Color(1f, 1f, 1f, 0f);
+                    mixColorTo = Color.white;
+                    y = 15/4f;
+                    growX = -1f;
+                    growY = -1f;
+
+                }}, new RegionPart("-puck"){{
+                    recoilIndex = 1;
+                    colorTo = new Color(1f, 1f, 1f, 0f);
+                    growProgress = PartProgress.recoil;
+                    progress = PartProgress.recoil;
+                    color =  Color.white;
+                    recoilIndex = 1;
+                    mixColor = new Color(1f, 1f, 1f, 0f);
+                    mixColorTo = Color.white;
+                    growX = -1f;
+                    growY = -1f;
+                }}, new RegionPart("-puck"){{
+                    recoilIndex = 2;
+                    colorTo = new Color(1f, 1f, 1f, 0f);
+                    color =  Color.white;
+                    growProgress = PartProgress.recoil;
+                    progress = PartProgress.recoil;
+                    recoilIndex = 2;
+                    mixColor = new Color(1f, 1f, 1f, 0f);
+                    mixColorTo = Color.white;
+                    y = -15/4f;
+                    growX = -1f;
+                    growY = -1f;
+                }}, new RegionPart("-puck"){{
+                    recoilIndex = 3;
+                    colorTo = new Color(1f, 1f, 1f, 0f);
+                    color =  Color.white;
+                    growProgress = PartProgress.recoil;
+                    progress = PartProgress.recoil;
+                    recoilIndex = 3;
+                    mixColor = new Color(1f, 1f, 1f, 0f);
+                    mixColorTo = Color.white;
+                    y = -30/4f;
+                    growX = -1f;
+                    growY = -1f;
+                }}, new RegionPart("-side"){{
+                    mirror = true;
+                    moveY = -7/4f;
+                    moveX = 10/4f;
+                    x = 26/4;
+                    moveRot = 5;
+                    progress = warmup;
+                    moves.add(new PartMove(PartProgress.recoil, -.25f, -.25f, -12));
+                }},new RegionPart("-barrel"){{
+                    mirror = true;
+                    moveY = -.5f;
+                    moveX = 24/4f;
+                    y = 0.25f;
+                    progress = warmup.delay(0.2f);
+                    moves.add(new PartMove(PartProgress.recoil, -.75f, 0.25f, 8));
+                }});
+            }};
             limitRange(1.2f);
         }};
         sentry = new ItemPointDefenseTurret("sentry"){{
             requirements(Category.turret, with(metaglass, 85, copper, 60f, silicon, 110));
             shootCone = 45;
+            predictTarget = false;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             outlineColor = tantDarkestTone;
             size = 2;

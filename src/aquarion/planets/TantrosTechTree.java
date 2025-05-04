@@ -105,7 +105,9 @@ public class TantrosTechTree {
                     });
                 });
                 node(sentry);
-                node(pelt);
+                node(pelt, () -> {
+                    node(vector);
+                });
                 node(douse);
             });
             node(resurgence, () ->{

@@ -21,8 +21,8 @@ public class ModMusic {
     public static Seq<Music> aquaDarkMusic = new Seq<>();
     public static Seq<Music> aquaBossMusic = new Seq<>();
 
-    public static String[] aquaAmbientList = {"underwaves", "che-go-boom, pipe-thoughts"};
-    public static String[] aquaDarkList = {"bubblerine", "value", "trance"};
+    public static String[] aquaAmbientList = {"underwaves", "che-go-boom, pipe-thoughts", "expansion"};
+    public static String[] aquaDarkList = {"bubblerine", "value", "trance", "mold", "assault"};
     public static String[] aquaBossList = {"acceptance", "hero-brine", "not-so-distant-now", "concussive"};
 
     public static Seq<Music> origAmbientMusic;
@@ -51,6 +51,7 @@ public class ModMusic {
     public static String leo = "Leo";
     public static String hyp = "HYPERIUM";
     public static String cas = "Twcash";
+    public static String myt = "Mythril";
     public static ArrayMap<String, MusicInfo> musics = new ArrayMap<>();
 
     static {
@@ -76,6 +77,9 @@ public class ModMusic {
         musics.put("not-so-distant-now", new MusicInfo("NOT SO DISTANT NOW", cas));
         musics.put("concussive", new MusicInfo("Concussive", cas));
         musics.put("trance", new MusicInfo("Trance", cas));
+        musics.put("mold", new MusicInfo("mold", myt));
+        musics.put("expansion", new MusicInfo("Trance", myt));
+        musics.put("assault", new MusicInfo("Trance", myt));
     }
 
     // Don't change from outside I trust you by putting it in public

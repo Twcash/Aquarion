@@ -1328,7 +1328,7 @@ public class AquaCrafters {
         Blocks.slagHeater.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.phaseHeater.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.heatRedirector.buildVisibility = BuildVisibility.sandboxOnly;
-        //Blocks.smallHeatRedirector.buildVisibility = BuildVisibility.sandboxOnly;
+        Blocks.smallHeatRedirector.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.heatRouter.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.slagIncinerator.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.carbideCrucible.buildVisibility = BuildVisibility.sandboxOnly;
@@ -1464,7 +1464,7 @@ public class AquaCrafters {
         Blocks.oilExtractor.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.cultivator.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.cliffCrusher.buildVisibility = BuildVisibility.sandboxOnly;
-        //Blocks.largeCliffCrusher.buildVisibility = BuildVisibility.sandboxOnly;
+        Blocks.largeCliffCrusher.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.plasmaBore.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.largePlasmaBore.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.impactDrill.buildVisibility = BuildVisibility.sandboxOnly;
@@ -1548,7 +1548,6 @@ public class AquaCrafters {
         Blocks.hyperProcessor.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.largeLogicDisplay.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.logicDisplay.buildVisibility = BuildVisibility.sandboxOnly;
-        //Blocks.logicDisplayTile.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.memoryCell.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.memoryBank.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.canvas.buildVisibility = BuildVisibility.sandboxOnly;
@@ -1556,10 +1555,10 @@ public class AquaCrafters {
         Blocks.worldProcessor.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.worldCell.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.worldMessage.buildVisibility = BuildVisibility.sandboxOnly;
-        //Blocks.worldSwitch.buildVisibility = BuildVisibility.sandboxOnly;
+        Blocks.worldSwitch.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.launchPad.buildVisibility = BuildVisibility.sandboxOnly;
-        //Blocks.advancedLaunchPad.buildVisibility = BuildVisibility.sandboxOnly;
-        //Blocks.landingPad.buildVisibility = BuildVisibility.sandboxOnly;
+        Blocks.advancedLaunchPad.buildVisibility = BuildVisibility.sandboxOnly;
+        Blocks.landingPad.buildVisibility = BuildVisibility.sandboxOnly;
         Blocks.interplanetaryAccelerator.buildVisibility = BuildVisibility.sandboxOnly;
     }
 }
