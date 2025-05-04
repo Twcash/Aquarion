@@ -113,7 +113,7 @@ public class AquaPlanets {
             atmosphereRadOut = 0.6f;
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
-            defaultEnv|= Env.terrestrial | Env.underwater;
+            defaultEnv = Env.terrestrial | Env.underwater & ~(Env.groundOil | Env.scorching | Env.spores);
             ruleSetter = r -> {
                 r.fire = false;
                 r.waveTeam = AquaTeams.tendere;

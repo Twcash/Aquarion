@@ -1289,12 +1289,11 @@ public class AquaCrafters {
             shownPlanets.addAll(tantros2);
             craftTime = 10;
             outputLiquid = new LiquidStack(halideWater, 20/60f);
-            envEnabled |= Env.underwater | Env.terrestrial;
+            envDisabled = Env.groundOil | Env.scorching | Env.spores;
             liquidCapacity = 90;
             squareSprite = false;
             ambientSound = AquaSounds.waterAir;
             ambientSoundVolume = 0.01f;
-            envDisabled = Env.oxygen|Env.space;
             drawer = new DrawMulti(new DrawDefault(),new DrawParticles(){{
                 color = Color.valueOf("455a5e");
                 alpha = 0.2f;
