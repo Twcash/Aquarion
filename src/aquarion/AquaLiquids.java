@@ -1,15 +1,18 @@
 package aquarion;
 
 import arc.graphics.Color;
+import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
+import mindustry.graphics.Pal;
 import mindustry.type.CellLiquid;
 import mindustry.type.Liquid;
 
 import static aquarion.AquaStatuses.*;
+import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid air, haze, ethylene, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydrogenChloride, hydroxide, tritium;
+    public static Liquid halideWater, air, haze, ethylene, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydrogenChloride, hydroxide, tritium;
 
     public static void loadContent() {
 
@@ -18,6 +21,7 @@ public class AquaLiquids {
             viscosity = 0.8f;
             explosiveness = 0.1f;
             effect = slow;
+            canStayOn.addAll(water, petroleum, halideWater, ethylene);
         }};
 
         helium = new Liquid("helium", Color.valueOf("#ff8080")) {{
@@ -36,6 +40,8 @@ public class AquaLiquids {
             coolant = false;
             flammability = 0.4f;
             effect = corroding;
+            boilPoint = 0.8f;
+            gasColor = Color.valueOf("b7a8b3");
         }};
 
         tritium = new Liquid("tritium", Color.valueOf("#b6f498")) {{
@@ -62,6 +68,8 @@ public class AquaLiquids {
             coolant = false;
             effect = corroding;
             explosiveness = 0.1f;
+            boilPoint = 0;
+            gasColor = Color.grays(0.8f);
         }};
         bioPulp = new Liquid("bio-pulp", Color.valueOf("#92ba76")){{
             coolant = false;
@@ -103,12 +111,20 @@ public class AquaLiquids {
             flammability = 1.2f;
             explosiveness = 0.2f;
             viscosity = 0.8f;
+            boilPoint = 0.7f;
+            particleSpacing = 30;
+            particleEffect = Fx.coalSmeltsmoke;
+            gasColor = Color.black;
+            canStayOn.addAll(ethylene, water, halideWater, hydroxide, cryofluid, oil);
         }};
         ethylene = new Liquid("ethylene", Color.valueOf("edf2de")){{
             coolant = false;
             flammability = 0.9f;
             effect = slow;
             viscosity = 0.1f;
+            boilPoint = 0.1f;
+            gasColor = Pal.redderDust;
+            canStayOn.add(water);
         }};
         haze = new Liquid("haze", Color.valueOf("ffffff")){{
             coolant = false;
@@ -120,6 +136,14 @@ public class AquaLiquids {
             gas = true;
             effect = concussed;
 
+        }};
+        halideWater = new Liquid("halide-water", Color.valueOf("a3a7be")){{
+            heatCapacity = 0.25f;
+            effect = StatusEffects.wet;
+            boilPoint = 0.5f;
+            gasColor = Color.grays(0.9f);
+            alwaysUnlocked = true;
+            canStayOn.addAll(cryofluid, ethylene);
         }};
     }
 }

@@ -84,7 +84,7 @@ public class AquaTurrets {
                             backColor = AquaPal.redDecal1Dark;
                             speed = 20;
                             lifetime = 5;
-                            knockback = 0.5f;
+                            knockback = 0.75f;
                             damage = 15;
                             ammoMultiplier = 2f;
                             //this thing can shred late game stuff if you do it right
@@ -103,6 +103,7 @@ public class AquaTurrets {
                             pierceCap = 3;
                             knockback = 2f;
                             damage = 60;
+                            rangeChange = 48;
                             reloadMultiplier = 0.1f;
                             shootEffect = Fx.shootSmall;
                             smokeEffect = Fx.shootSmallSmoke;
@@ -146,6 +147,7 @@ public class AquaTurrets {
                         backColor = AquaPal.redDecal1Dark;
                     }}
             );
+            coolantMultiplier = 0.75f;
             shoot = new ShootBarrel(){{
                 barrels = new float[]{
                         0, 15, 0,
@@ -221,6 +223,7 @@ public class AquaTurrets {
                     moves.add(new PartMove(PartProgress.recoil, -.75f, 0.25f, 8));
                 }});
             }};
+            consumeCoolant(20/60f);
             limitRange(1.2f);
         }};
         sentry = new ItemPointDefenseTurret("sentry"){{
@@ -268,7 +271,9 @@ public class AquaTurrets {
                         trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
                     }}
             );
+            consumeCoolant(30/60f);
             limitRange(1.1f);
+            coolantMultiplier = 0.5f;
             drawer = new DrawTurret(){{
 
                 parts.addAll(new RegionPart("-t"){{
@@ -325,6 +330,7 @@ public class AquaTurrets {
             size = 2;
             ammoPerShot = 16;
             itemCapacity = 32;
+            consumeCoolant(20/60f);
             ammo(
                     lead, new BasicBulletType(9, 25){{
                         pierce = true;
@@ -501,10 +507,11 @@ public class AquaTurrets {
         Foment = new ItemTurret("foment") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 925;
+            coolantMultiplier = 0.75f;
             {
                 outlineColor = tantDarkestTone;
                 ammo(
-                    lead, new MissileBulletType(2.5f, 75, "bullet") {{
+                    lead, new MissileBulletType(2.5f, 60, "bullet") {{
                         width = 10f;
                         height = 16f;
                         trailLength = 12;
@@ -549,7 +556,7 @@ public class AquaTurrets {
                         frontColor = lightColor = hitColor = Color.white;
                         backColor = trailColor = Color.valueOf("8d706a");
                     }},
-                        AquaItems.ferrosilicon, new MissileBulletType(7.5f, 120, "bullet") {{
+                        AquaItems.ferrosilicon, new MissileBulletType(7.5f, 110, "bullet") {{
                         width = 12f;
                         height = 18f;
                         rangeChange = 16;
@@ -592,6 +599,7 @@ public class AquaTurrets {
                 shootWarmupSpeed = 0.001f;
                 warmupMaintainTime = 360;
                 heatColor = Pal.redLight;
+                consumeCoolant(40/60f);
                 shoot = new ShootAlternate(4);
                 drawer = new DrawTurret(){{
                     for(int i = 0; i < 2; i ++){
@@ -621,7 +629,7 @@ public class AquaTurrets {
                         height = 14f;
                         splashDamage = 20;
                         homingPower = 0.001f;
-
+                        coolantMultiplier = 0.2f;
                         splashDamageRadius = 8;
                         trailLength = 25;
                         trailWidth = 2.5f;
@@ -670,7 +678,7 @@ public class AquaTurrets {
                         });
                         backColor = trailColor = Color.valueOf("e58ca0");
                     }},
-                    AquaItems.bauxite, new BasicBulletType(7f, 75, "missile-large") {{
+                    AquaItems.bauxite, new BasicBulletType(7f, 55, "missile-large") {{
                     width = 15f;
                     pierce = true;
                     pierceCap = 2;
@@ -705,8 +713,9 @@ public class AquaTurrets {
                         Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
                     });
                     backColor = trailColor = AquaPal.bauxiteLightTone;
+
                 }},
-                    AquaItems.aluminum, new BasicBulletType(5f, 160, "missile-large") {{
+                    AquaItems.aluminum, new BasicBulletType(5f, 155, "missile-large") {{
                     width = 15f;
                     pierce = false;
                     height = 19f;
@@ -845,6 +854,7 @@ public class AquaTurrets {
                     moves.add(new PartMove(PartProgress.recoil, 0.5f, -0.5f, 0f));
                 }});
             }};
+            consumeCoolant(120/60f);
         }};
         gyre = new ItemTurret("gyre") {{
             researchCostMultiplier = 0.1f;
@@ -1322,6 +1332,8 @@ public class AquaTurrets {
                             });
                         });
                     }});
+            consumeCoolant(20/60f);
+
         }};
         hack = new ItemTurret("hack"){{
             ammo(
@@ -1336,7 +1348,7 @@ public class AquaTurrets {
                         shootEffect = Fx.shootSmokeSquareSparse;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
                     }},
-                    AquaItems.arsenic, new BasicBulletType(2.5f, 6){{
+                    AquaItems.nickel, new BasicBulletType(2.5f, 6){{
                         frontColor = Color.white;
                         backColor = trailColor = Color.valueOf("ffbaba");
                         lightColor = Color.valueOf("ffbaba");
@@ -1384,6 +1396,7 @@ public class AquaTurrets {
                 scl = 4f;
                 mag = 3f;
             }});
+            consumeCoolant(20/60f);
         }};
         blaze = new PowerTurret("blaze"){{
             requirements(Category.turret, with(AquaItems.electrum, 35, lead, 40));

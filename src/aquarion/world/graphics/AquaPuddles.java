@@ -59,7 +59,7 @@ public class AquaPuddles extends Puddles {
             return;
         }
         if(Vars.state.rules.hasEnv(Env.underwater)){
-            if(liquid.temperature > 0.5f && liquid.viscosity < 0.7f){
+            if(liquid.temperature > 0.5f){
                 Fx.steam.at(ax, ay);
                 Fx.ballfire.at(ax, ay);
             }else if(Mathf.chanceDelta(0.11f) && tile != source && liquid.viscosity < 0.7f){

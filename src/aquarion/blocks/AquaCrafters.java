@@ -38,7 +38,7 @@ import static mindustry.type.ItemStack.with;
 
 //What was all of this even for
 public class AquaCrafters {
-    public static Block atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block inlet, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator, fumeSeparator,
              siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -436,14 +436,15 @@ public class AquaCrafters {
                 sides = 1;
             }});
         }};
-        ferroSiliconFoundry = new GenericCrafter("ferrosilicon-foundry") {{
+        ferroSiliconFoundry = new AquaGenericCrafter("ferrosilicon-foundry") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( silicon, 1250, aluminum, 500, copper, 800, ferricMatter, 600));
+            requirements(Category.crafting, with( silicon, 900, metaglass, 500, copper, 500, ferricMatter, 500));
             size = 6;
             squareSprite = false;
             itemCapacity = 120;
             researchCostMultiplier = 0.02f;
             craftTime = 600;
+            itemBooster = consumeItem(manganese, 2).boost();
             consumeItems(with(ferricMatter, 15, silicon, 25));
             outputItem = new ItemStack(ferrosilicon, 40);
             consumeLiquids(LiquidStack.with(magma, 90 / 60f, hydroxide, 30/60f));
@@ -696,14 +697,19 @@ public class AquaCrafters {
 
             }}, new DrawDefault(), new DrawGlowRegion());
         }};
-        InvarBlastFurnace = new GenericCrafter("invar-blast-furnace"){{
+        InvarBlastFurnace = new AquaGenericCrafter("invar-blast-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(silicon, 500, ferricMatter, 200, nickel, 1500, metaglass, 800));
             size = 7;
             craftTime = 10*60f;
+            itemBoostIntensity = 1.2f;
+            liquidBoostIntensity = 1.5f;
             outputLiquid = new LiquidStack(dioxide, 40/60f);
             consumeItems(with(nickel, 10, ferricMatter, 30));
+            itemBooster = consumeItem(manganese, 2).boost();
+            consumeLiquid(oxygen, 20/60f).boost();
             consumeLiquids(LiquidStack.with(haze, 125 / 60f));
+            consumeCoolant(1).allowGas = true;
             consumePower(256/60f);
             squareSprite = false;
             researchCostMultiplier = 0.05f;
@@ -972,7 +978,7 @@ public class AquaCrafters {
         }};
         CentrifugalPump = new Pump("centrifugal-pump"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.liquid, with( nickel, 90, silicon, 220, lead, 120, metaglass, 60));
+            requirements(Category.liquid, with( silicon, 220, lead, 120, metaglass, 60));
             size = 3;
             squareSprite = true;
             pumpAmount = 0.25f;
@@ -1247,7 +1253,7 @@ public class AquaCrafters {
         }};
         AnnealingOven = new GenericCrafter("metaglass-annealing-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( nickel, 250, lead, 300, silicon, 1100, copper, 550));
+            requirements(Category.crafting, with( lead, 300, silicon, 1100, copper, 550));
             size = 5;
             itemCapacity = 60;
             squareSprite = false;
@@ -1277,6 +1283,57 @@ public class AquaCrafters {
                 blending = Blending.additive;
                 phaseOffset = 10;
             }});
+        }};
+        inlet = new GenericCrafter("inlet"){{
+            requirements(Category.production, with( silicon, 120));
+            shownPlanets.addAll(tantros2);
+            craftTime = 10;
+            outputLiquid = new LiquidStack(halideWater, 20/60f);
+            envEnabled |= Env.underwater | Env.terrestrial;
+            liquidCapacity = 90;
+            squareSprite = false;
+            ambientSound = AquaSounds.waterAir;
+            ambientSoundVolume = 0.01f;
+            envDisabled = Env.oxygen|Env.space;
+            drawer = new DrawMulti(new DrawDefault(),new DrawParticles(){{
+                color = Color.valueOf("455a5e");
+                alpha = 0.2f;
+                particleSize = 2.5f;
+                particles = 20;
+                particleRad = 2.5f;
+                particleLife = 90f;
+            }});
+        }};
+        vacuumFreezer = new GenericCrafter("vacuum-freezer"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with( ferricMatter, 200, aluminum, 700, silicon, 800));
+            size = 6;
+            squareSprite = false;
+            ambientSound = Sounds.electricHum;
+            consumeLiquid(halideWater, 300/60f);
+            craftTime = 10;
+            outputLiquids = LiquidStack.with( air, 150/60f,water, 150/60f);
+            liquidOutputDirections = new int[]{1, 4};
+            rotate = true;
+            rotateDraw = false;
+            regionRotated1 = 3;
+            drawer = new DrawMulti( new DrawDefault(), new PhaseOffsetGlowRegion("-glow"){{
+                alpha = 0.55f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 9f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+                phaseOffset = 20;
+            }}, new PhaseOffsetGlowRegion("-glow1"){{
+                alpha = 0.40f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 7f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+                phaseOffset = 10;
+            }}, new DrawLiquidOutputs());
         }};
         atmosphericIntake = new GenericCrafter("air-intake"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

@@ -39,7 +39,7 @@ public class AquaEnv {
             coral_floor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
             kelp_floor, roughFeldspar, phylite_floor, slate,
-            boricFloor, boricFloorDense,
+            boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
             shaleVent, andesite, andesiteRubble, andesiteVent;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum,
             oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium,
@@ -489,6 +489,17 @@ public class AquaEnv {
             sclMax = 55;
             sclMin = 10;
             magMin = 10;
+
+        }};
+        tile = new Floor("tile", 1){{
+        }};
+        engravedTile = new Floor("engraved-tile", 1){{
+            blendGroup = tile;
+        }};
+        gildedTile = new Floor("gilded-tile", 1){{
+
+        }};
+        pottedGrass = new Floor("potted-grass", 2){{
 
         }};
 

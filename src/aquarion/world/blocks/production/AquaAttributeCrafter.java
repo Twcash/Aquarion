@@ -65,7 +65,7 @@ public class AquaAttributeCrafter extends AquaGenericCrafter {
         }
 
         public float efficiencyMultiplier(){
-            boolean itemValid = booster != null && booster.efficiency(this) > 0;
+            boolean itemValid = itemBooster != null && itemBooster.efficiency(this) > 0;
             float eff =
                     Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) *
                     (itemValid ? itemBoostIntensity : 1f);
