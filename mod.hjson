@@ -4,7 +4,7 @@ displayName: "Aquarion"
 author: "twcash"
 description: "Sins drowned in the vast, dark, deep. A campaign rewrite in progress."
 version: "3.0"
-minGameVersion: "148"
+minGameVersion: "149"
 hidden: "false"
 java: true
 main: "aquarion.AquaLoader"
