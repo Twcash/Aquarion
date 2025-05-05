@@ -5,24 +5,29 @@ import aquarion.AquaItems;
 import aquarion.AquaLiquids;
 import aquarion.world.blocks.environment.NonRandomTreeBlock;
 import aquarion.world.blocks.environment.PineTree;
+import aquarion.world.blocks.environment.TiledFloor;
+import aquarion.world.blocks.environment.rokBlock;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaShaders;
 import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.content.Blocks;
+import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
+import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
 import static aquarion.AquaItems.*;
 import static mindustry.content.Blocks.*;
-import static mindustry.content.Items.lead;
-import static mindustry.content.Items.silicon;
+import static mindustry.content.Items.*;
+import static mindustry.content.Items.copper;
+import static mindustry.type.ItemStack.with;
 import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
 
@@ -31,7 +36,7 @@ public class AquaEnv {
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, boricBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
-            CrasseCoral;
+            CrasseCoral, basaltRock, largeBasaltRock, hugeBasaltRock;
     public static Block leafLitter, blueSandFLoor, blueSandWater, brecciaFloor,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
@@ -40,7 +45,7 @@ public class AquaEnv {
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
             kelp_floor, roughFeldspar, phylite_floor, slate,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
-            shaleVent, andesite, andesiteRubble, andesiteVent;
+            shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum,
             oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium,
             oreManganese, oreAluminum, oreSilicon, exposedGallium, cryoliteOre;
@@ -236,6 +241,10 @@ public class AquaEnv {
         basaltSpikes = new Floor("basalt-spikes", 4) {{
             wall = duneWall;
         }};
+        basaltPlates = new TiledFloor("basalt-plates"){{
+            tilingVariants = 2;
+            tilingSize = 4;
+        }};
         andesiteExtrusions = new TallBlock("andesite-extrusions"){{
             variants = 2;
             clipSize = 128f;
@@ -405,6 +414,45 @@ public class AquaEnv {
             layer = Layer.power - 1;
             shadowAlpha = 0.8f;
             shadowOffset = -4;
+        }};
+        basaltRock = new rokBlock("basalt-rock"){{
+            requirements(Category.effect, with( bauxite, 100, silicon, 150));
+            buildVisibility = sandboxOnly;
+            size = 1;
+            health = 1200;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 20*60f;
+            forceDark = true;
+        }};
+        largeBasaltRock = new rokBlock("large-basalt-rock"){{
+            requirements(Category.effect, with( bauxite, 900, silicon, 1200));
+            buildVisibility = sandboxOnly;
+            size = 2;
+            health = 3500;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 45*60f;
+            forceDark = true;
+        }};
+        hugeBasaltRock = new rokBlock("huge-basalt-rock"){{
+            requirements(Category.effect, with( bauxite, 2100, silicon, 3000));
+            buildVisibility = sandboxOnly;
+            size = 3;
+            health = 8000;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 90*60f;
+            forceDark = true;
         }};
         bloom = new TreeBlock("bloom");
 

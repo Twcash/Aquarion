@@ -447,7 +447,7 @@ public class AquaCrafters {
             itemBooster = consumeItem(manganese, 2).boost();
             consumeItems(with(ferricMatter, 15, silicon, 25));
             outputItem = new ItemStack(ferrosilicon, 40);
-            consumeLiquids(LiquidStack.with(magma, 90 / 60f, hydroxide, 30/60f));
+            consumeLiquids(LiquidStack.with(magma, 90 / 60f, hydroxide, 15/60f, air, 50/60f));
             liquidCapacity = 600;
             updateEffect = new MultiEffect(Fx.coalSmeltsmoke, new ParticleEffect(){{
                 layer = Layer.debris;

@@ -45,11 +45,10 @@ public class AquaItems {
         }};
 
         manganese = new Item("manganese", Color.valueOf("#75d978")) {{
-            cost = 1.5F;
-            hardness = 5;
+            cost = 1.2F;
         }};
         sodium = new Item("sodium", Color.valueOf("#ded6ca")) {{
-            explosiveness = 0.2F;
+            explosiveness = 2F;
             cost = 1.5F;
         }};
         ceramic = new Item("ceramic", Color.valueOf("#ffffff")) {{

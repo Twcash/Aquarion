@@ -15,6 +15,7 @@ import static aquarion.blocks.AquaTurrets.*;
 import static aquarion.planets.AquaSectorPresets.*;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.slag;
+import static mindustry.content.Liquids.water;
 import static mindustry.content.TechTree.*;
 public class TantrosTechTree {
     public static void load() {
@@ -23,6 +24,8 @@ public class TantrosTechTree {
                 nodeProduce(slag, () -> nodeProduce(hydroxide, () -> {}));
                 nodeProduce(fumes, () -> {});
                 nodeProduce(dioxide, () -> {});
+
+
             });
 
             nodeProduce(nickel, () -> {});
@@ -70,6 +73,9 @@ public class TantrosTechTree {
                 }));
             });
             node(atmosphericIntake, () -> {
+                node(inlet, () -> {
+                    node(vacuumFreezer);
+                });
                 node(AnnealingOven);
                 node(magmaDiffser, () -> node(azuriteKiln, () -> {
                     node(ferroSiliconFoundry, Seq.with(
