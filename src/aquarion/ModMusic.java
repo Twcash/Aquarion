@@ -78,8 +78,8 @@ public class ModMusic {
         musics.put("concussive", new MusicInfo("Concussive", cas));
         musics.put("trance", new MusicInfo("Trance", cas));
         musics.put("mold", new MusicInfo("mold", myt));
-        musics.put("expansion", new MusicInfo("Trance", myt));
-        musics.put("assault", new MusicInfo("Trance", myt));
+        musics.put("expansion", new MusicInfo("Expansion", myt));
+        musics.put("assault", new MusicInfo("Assault", myt));
     }
 
     // Don't change from outside I trust you by putting it in public

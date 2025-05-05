@@ -36,7 +36,7 @@ public class AquaEnv {
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, boricBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
-            CrasseCoral, basaltRock, largeBasaltRock, hugeBasaltRock;
+            CrasseCoral, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
     public static Block leafLitter, blueSandFLoor, blueSandWater, brecciaFloor,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
@@ -422,6 +422,7 @@ public class AquaEnv {
             health = 1200;
             clipSize = 120;
             underBullets = true;
+            variants = 2;
             targetable = false;
             destroyEffect = Fx.breakProp;
             createRubble = false;
@@ -435,6 +436,7 @@ public class AquaEnv {
             health = 3500;
             clipSize = 120;
             underBullets = true;
+            variants = 2;
             targetable = false;
             destroyEffect = Fx.breakProp;
             createRubble = false;
@@ -448,10 +450,24 @@ public class AquaEnv {
             health = 8000;
             clipSize = 120;
             underBullets = true;
+            variants = 2;
             targetable = false;
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 90*60f;
+            forceDark = true;
+        }};
+        massiveBasaltRock = new rokBlock("massive-basalt-rock"){{
+            requirements(Category.effect, with( bauxite, 4000, silicon, 6000));
+            buildVisibility = sandboxOnly;
+            size = 4;
+            health = 12000;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 280*60f;
             forceDark = true;
         }};
         bloom = new TreeBlock("bloom");
