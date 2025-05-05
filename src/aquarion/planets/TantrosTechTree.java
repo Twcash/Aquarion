@@ -122,7 +122,10 @@ public class TantrosTechTree {
                         new Objectives.Research(nickelWall),
                         new Objectives.Research(point)
                 ), () ->{
-                    node(bay);
+                    node(bay, Seq.with(
+                            new Objectives.SectorComplete(resurgence),
+                            new Objectives.SectorComplete(twinPass)
+                    ), () -> {});
                 });
             });
             node(Ingress, Seq.with(
