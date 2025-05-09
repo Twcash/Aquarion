@@ -50,7 +50,7 @@ Effect effect =  new Effect(100f, e -> {
         public void drawSelect(){
 
 
-            indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t ->
+            indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t ->
                 Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))
             );
             Drawf.dashSquare(baseColor.a(0.7f), x, y,range * tilesize );
@@ -74,7 +74,7 @@ Effect effect =  new Effect(100f, e -> {
                 float realRange = range + phaseHeat * phaseRangeBoost;
                 charge = 0f;
 
-                indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize),  b -> b.damaged() && !b.isHealSuppressed(), t -> {
+                indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize),  b -> b.damaged() && !b.isHealSuppressed(), t -> {
                     t.heal(t.maxHealth() * (healPercent + phaseHeat * phaseBoost) / 100f * efficiency);
                     t.recentlyHealed();
                     effect2.at(t.x, t.y, t.block.size, baseColor, t.block);

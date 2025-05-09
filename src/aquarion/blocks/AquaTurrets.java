@@ -511,7 +511,7 @@ public class AquaTurrets {
             {
                 outlineColor = tantDarkestTone;
                 ammo(
-                    lead, new MissileBulletType(2.5f, 60, "bullet") {{
+                    lead, new MissileBulletType(2.5f, 75, "bullet") {{
                         width = 10f;
                         height = 16f;
                         trailLength = 12;
@@ -531,7 +531,7 @@ public class AquaTurrets {
                         backColor = trailColor = Color.valueOf("8d70ab");
                     }},
 
-                        AquaItems.ferricMatter, new MissileBulletType(2.5f, 150, "bullet") {{
+                        AquaItems.ferricMatter, new MissileBulletType(2.5f, 180, "bullet") {{
                         width = 9f;
                         height = 15f;
                         trailLength = 10;
@@ -556,7 +556,7 @@ public class AquaTurrets {
                         frontColor = lightColor = hitColor = Color.white;
                         backColor = trailColor = Color.valueOf("8d706a");
                     }},
-                        AquaItems.ferrosilicon, new MissileBulletType(7.5f, 110, "bullet") {{
+                        AquaItems.ferrosilicon, new MissileBulletType(7.5f, 190, "bullet") {{
                         width = 12f;
                         height = 18f;
                         rangeChange = 16;
@@ -579,7 +579,14 @@ public class AquaTurrets {
                         shrinkY = 0.8f;
                         frontColor = lightColor = hitColor = Color.white;
                         backColor = trailColor = Color.valueOf("98a1ab");
-                    }});
+                    }},
+                        hexogen, new ExplosionBulletType(){{
+                                splashDamage = 700;
+                                splashDamageRadius = 12 * 20f;
+                                collidesTeam = true;
+                                splashDamagePierce = true;
+                                rangeChange = -70;
+                            }});
                 requirements(Category.turret, with(lead, 90, AquaItems.bauxite, 60f));
                 size = 3;
                 squareSprite = false;

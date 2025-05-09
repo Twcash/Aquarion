@@ -19,36 +19,49 @@ import static mindustry.content.Liquids.water;
 import static mindustry.content.TechTree.*;
 public class TantrosTechTree {
     public static void load() {
-        AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = nodeRoot("Tantros", corePike, () -> {
-            nodeProduce(magma, () -> {
-                nodeProduce(slag, () -> nodeProduce(hydroxide, () -> {}));
-                nodeProduce(fumes, () -> {});
-                nodeProduce(dioxide, () -> {});
-
-
-            });
-
-            nodeProduce(nickel, () -> {});
-            nodeProduce(Items.copper, () -> {
-                nodeProduce(cupronickel, () -> {});
-            });
-            nodeProduce(azurite, () -> {
-
-            });
-
-            nodeProduce(Items.lead, () -> {
-                nodeProduce(sand, () -> {
-                    nodeProduce(metaglass, () -> {});
-                });
-            });
-            nodeProduce(bauxite, () -> {
-                nodeProduce(aluminum, () -> {});
-                nodeProduce(ferricMatter, () -> {});
-                nodeProduce(oxygen, () -> {});
-            });
+        AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             nodeProduce(silicon, () -> {
-                nodeProduce(ferrosilicon, () -> {});
+                nodeProduce(water, ()-> {
+                    nodeProduce(air, () -> {
+                        nodeProduce(halideWater, () -> {});
+                    });
+                    nodeProduce(magma, () -> {
+                        nodeProduce(slag, () -> nodeProduce(hydroxide, () -> {}));
+                        nodeProduce(fumes, () -> {});
+                        nodeProduce(dioxide, () -> {});
+                    });
+                });
+
+                nodeProduce(nickel, () -> {
+                    nodeProduce(Items.lead, () -> {
+                        nodeProduce(bauxite, () -> {
+                            nodeProduce(aluminum, () -> {});
+                            nodeProduce(ferricMatter, () -> {
+                                nodeProduce(ferrosilicon, () -> {});
+                            });
+                            nodeProduce(oxygen, () -> {});
+                        });
+                        nodeProduce(sand, () -> {
+                            nodeProduce(metaglass, () -> {});
+                        });
+                    });
+                    nodeProduce(Items.copper, () -> {
+                        nodeProduce(cupronickel, () -> {});
+                        nodeProduce(azurite, () -> {
+
+                        });
+                    });
+
+                });
+
             });
+
+
+
+
+
+
+
 
             node(siphon, () ->{
                 node(siphonRouter, () -> {
@@ -136,6 +149,7 @@ public class TantrosTechTree {
                 ), () -> {
                     node(Grove, ()->{
                         new Objectives.SectorComplete(Torrent);
+                        new Objectives.Research(bauxiteCentrifuge);
                     });
                     node(CrystalCaverns, Seq.with(
                             new Objectives.SectorComplete(Torrent),

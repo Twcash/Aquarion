@@ -1,8 +1,10 @@
 package aquarion;
 
 import aquarion.tools.IconLoader;
+import aquarion.ui.AquaStyles;
 import aquarion.world.graphics.AquaShaders;
 import arc.Events;
+import mindustry.Vars;
 import mindustry.mod.Mod;
 import mindustry.game.*;
 
@@ -25,14 +27,10 @@ public class AquaLoader extends Mod {
 
         IconLoader.loadIcons();
 
-        //try {
-        //Field databaseField = Vars.ui.getClass().getDeclaredField("database");
-        //databaseField.setAccessible(true);
-        //databaseField.set(Vars.ui, new OverDatabaseDialog());
-        //} catch (Exception e) {
-        //    e.printStackTrace();
-        //}
-        //we're rich!
+        if (!Vars.headless) {
+            AquaStyles.load();
+            ModEventHandler.load();
+        }
     }
     @Override
     public void loadContent() {

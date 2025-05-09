@@ -1305,7 +1305,7 @@ public class AquaCrafters {
         }};
         vacuumFreezer = new GenericCrafter("vacuum-freezer"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( ferricMatter, 200, aluminum, 700, silicon, 800));
+            requirements(Category.crafting, with( ferricMatter, 200, aluminum, 500, silicon, 800));
             size = 6;
             squareSprite = false;
             ambientSound = Sounds.electricHum;

@@ -177,11 +177,13 @@ public class AquaCore {
             size = 5;
         }};
         buzzSaw = new ChainsawTurret("buzzsaw"){{
-            requirements(Category.turret, with(silicon, 750, lead, 500, bauxite, 250));
+            requirements(Category.turret, with(silicon, 250, lead, 300, bauxite, 120));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 3;
-            consumeLiquid(magma, 120/60f);
+            consumeLiquid(magma, 40/60f);
             researchCostMultiplier = 0.02f;
+            damage = 15;
+            range = 100;
         }};
     }
 }

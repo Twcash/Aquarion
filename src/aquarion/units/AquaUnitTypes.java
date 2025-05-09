@@ -66,16 +66,16 @@ public class AquaUnitTypes {
     public static void loadContent() {
         messenger = new MechanicalUnitType("messenger") {{
             speed = 0.65f;
-            health = 550;
-            armor = 1;
-            rotateSpeed = 2f;
+            health = 480;
+            armor = 2;
+            rotateSpeed = 1.25f;
             rotateMoveFirst = true;
             mech = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             constructor = MechUnit::create;
             mechLegColor = AquaPal.tantDarkestTone;
-            abilities.add(new ShieldRegenFieldAbility(25f, 200f, 60f * 5, 90f),
+            abilities.add(new ShieldRegenFieldAbility(25f, 250f, 60f * 2.5f, 110f),
 
                     new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
                         particles = 3;
@@ -115,14 +115,15 @@ public class AquaUnitTypes {
                 layerOffset = -0.001f;
                 shootX = 4;
                 range = 125;
-                bullet = new ArtilleryBulletType(2f, 30) {{
+                bullet = new BasicBulletType(2f, 5) {{
                     knockback = -.5f;
                     splashDamage = 45;
                     splashDamageRadius = 8 * 3.2f;
+                    splashDamagePierce = false;
                     width = height = 9f;
                     shrinkX = 0.6f;
+                    shake = 1;
                     shrinkY = 0.1f;
-                    collidesGround = true;
                     shootEffect = Fx.shootSmall;
                     shootSound = Sounds.laser;
                     smokeEffect = Fx.shootBigSmoke;
@@ -132,6 +133,7 @@ public class AquaUnitTypes {
                     maxRange = 80;
                     trailEffect = Fx.none;
                     collidesTiles = true;
+                    collidesGround = true;
                     frontColor = hitColor = lightColor = Color.white;
                     backColor = trailColor = Pal.techBlue;
                 }};

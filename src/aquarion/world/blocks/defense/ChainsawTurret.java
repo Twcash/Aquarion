@@ -59,7 +59,10 @@ public class ChainsawTurret extends Block {
         sawRegion = Core.atlas.find(name + "-saw");
         region = Core.atlas.find(name);
     }
-
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{region, turretRegion};
+    }
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
@@ -140,10 +143,10 @@ public class ChainsawTurret extends Block {
         @Override
         public void drawSelect(){
             Draw.color(selectColor);
-            Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);
+            Drawf.dashCircle(x, y, range, team.color);
             indexer.eachBlock(Team.derelict, x * tilesize + offset, y * tilesize + offset,
                     range, other -> true, other -> Drawf.selected(other, Tmp.c1.set(selectColor).a(Mathf.absin(4f, 1f))));
-            Units.nearbyEnemies(Team.derelict, x, y, range * 2, range * 2, e -> {
+            Units.nearbyEnemies(team, x, y, range * 2, range * 2, e -> {
                 Drawf.dashSquareBasic(e.x, e.y, e.hitSize * Mathf.absin(4f, 1));
             });
         }
@@ -194,17 +197,16 @@ public class ChainsawTurret extends Block {
         public void draw() {
             Draw.z(Layer.block);
             Draw.rect(region, x, y);
-            Draw.z(Layer.block + 2 );
+            Draw.z(Layer.turret);
             Draw.rect(turretRegion, x, y, rotation - 90);
-            Draw.z(Layer.block + 1.1f);
+            Draw.z(Layer.turret -1);
             Lines.stroke(8);
             Lines.line(armRegion, x, y, sawx, sawy, false);
             Draw.rect(capRegion, sawx, sawy, rotation);
-            Draw.z(Layer.block + 1.2f);
+            Draw.z(Layer.turret);
             Drawf.spinSprite(sawRegion, sawx, sawy, 1 + Time.time * 10 * efficiency);
-
-            super.draw();
         }
+
 
         @Override
         public void write(Writes write) {
