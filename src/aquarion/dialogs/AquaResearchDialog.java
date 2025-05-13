@@ -1,8 +1,10 @@
 package aquarion.dialogs;
 
 import aquarion.ModEventHandler;
+import aquarion.ModMusic;
 import aquarion.planets.AquaPlanets;
 import aquarion.ui.AquaStyles;
+import aquarion.world.Uti.AquaStates;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -39,6 +41,7 @@ import static mindustry.Vars.*;
 import static mindustry.gen.Tex.*;
 
 public class AquaResearchDialog extends BaseDialog {
+    public boolean showing = false;
     public static boolean debugShowRequirements = false;
 
     public final float nodeSize = Scl.scl(60f);
@@ -117,7 +120,7 @@ public class AquaResearchDialog extends BaseDialog {
         }).visible(() -> showTechSelect = TechTree.roots.count(node -> !(node.requiresUnlock && !node.content.unlockedHost())) > 1).minWidth(300f);
 
         margin(0f).marginBottom(8);
-        cont.stack(titleTable, view = new View(), itemDisplay = new AquaItemsDisplay()).grow();
+        cont.stack(titleTable, view = new View(), itemDisplay = new ItemsDisplay()).grow();
         itemDisplay.visible(() -> !net.client());
 
         titleTable.toFront();
@@ -314,52 +317,6 @@ public class AquaResearchDialog extends BaseDialog {
             sum += getSubtreeSize(child);
         }
         return sum;
-    }
-    void drawEncirclingArc(Seq<TechTreeNode> nodes, float spacing){
-        if(nodes.isEmpty()) return;
-
-        float minRadius = Float.MAX_VALUE;
-        float maxRadius = 0f;
-        float minAngle = 360f;
-        float maxAngle = 0f;
-
-        for(TechTreeNode node : nodes){
-            float angle = Angles.angle(0f, 0f, node.x, node.y);
-            float radius = Mathf.dst(node.x, node.y);
-
-            minRadius = Math.min(minRadius, radius - nodeSize / 2f);
-            maxRadius = Math.max(maxRadius, radius + nodeSize / 2f);
-            minAngle = Math.min(minAngle, angle);
-            maxAngle = Math.max(maxAngle, angle);
-        }
-
-        float cx = view.lastZoom / 2f + view.panX;
-        float cy = view.lastZoom / 2f + view.panY;
-
-        // Clamp angle range to avoid inversion
-        if(maxAngle < minAngle) maxAngle += 360f;
-
-        // Draw multiple dashed arcs from min to max radius
-        Draw.z(1f);
-        Lines.stroke(2f);
-        Lines.setCirclePrecision(60);
-        Draw.color(Color.red);
-
-        for(float r = minRadius; r <= maxRadius; r += 4f){
-            for(float a = minAngle; a < maxAngle; a += 8f){
-                float a1 = a;
-                float a2 = a + 4f;
-
-                float x1 = Mathf.cosDeg(a1) * r + cx;
-                float y1 = Mathf.sinDeg(a1) * r + cy;
-                float x2 = Mathf.cosDeg(a2) * r + cx;
-                float y2 = Mathf.sinDeg(a2) * r + cy;
-
-                Lines.line(x1, y1, x2, y2);
-            }
-        }
-
-        Draw.color();
     }
     void collectDescendants(TechTreeNode node, Seq<TechTreeNode> out){
         for(TechTreeNode child : node.children){
@@ -744,10 +701,10 @@ public class AquaResearchDialog extends BaseDialog {
                                         Label label = t.add(Core.bundle.format("research.progress", Math.min((int) (used / sum * 100), 99))).left().get();
 
                                         if (shiny) {
-                                            label.setColor(Pal.heal);
-                                            label.actions(Actions.color(Pal.health, 0.75f, Interp.fade));
+                                            label.setColor(Pal.accentBack);
+                                            label.actions(Actions.color(Pal.accent, 0.75f, Interp.fade));
                                         } else {
-                                            label.setColor(Pal.health);
+                                            label.setColor(Pal.darkerGray);
                                         }
 
                                         t.row();
@@ -771,10 +728,10 @@ public class AquaResearchDialog extends BaseDialog {
                                                     UI.formatAmount(Math.min(items.get(req.item), reqAmount)) + " / "
                                                     + UI.formatAmount(reqAmount)).get();
 
-                                            Color targetColor = items.has(req.item) ? Pal.health : Color.black;
+                                            Color targetColor = items.has(req.item) ? Pal.lightishGray : Pal.darkerGray;
 
                                             if (shiny) {
-                                                label.setColor(Pal.heal);
+                                                label.setColor(Color.white);
                                                 label.actions(Actions.color(targetColor, 0.75f, Interp.fade));
                                             } else {
                                                 label.setColor(targetColor);
@@ -791,7 +748,7 @@ public class AquaResearchDialog extends BaseDialog {
                                             if (o.complete()) continue;
 
                                             r.add("> " + o.display()).color(Color.lightGray).left();
-                                            r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Color.lightGray : Color.scarlet).padLeft(3);
+                                            r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Color.lightGray : Color.darkGray).padLeft(3);
                                             r.row();
                                         }
                                     });

@@ -10,14 +10,15 @@ import mindustry.gen.Unit;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 
 public class ItemPointDefenseTurret extends ItemTurret {
-    public float damageTargetWeight = 10;
     public ItemPointDefenseTurret(String name) {
         super(name);
+        targetInterval = 10;
+        playerControllable = false;
     }
     public class IPDTBuild extends ItemTurretBuild{
         @Override
         protected void findTarget(){
-            target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != this.team && b.type().hittable && !(b.type.collidesAir && !b.type.collidesTiles), b -> b.dst2(x, y) - b.damage * damageTargetWeight);
+            target = Groups.bullet.intersect(x - range, y - range, range*2, range*2).min(b -> b.team != this.team && b.type().hittable, b -> b.dst2(x, y));
         }
         @Override
         protected void handleBullet(@Nullable Bullet bullet, float offsetX, float offsetY, float angleOffset){

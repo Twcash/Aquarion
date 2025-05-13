@@ -48,7 +48,7 @@ public class AquaEnv {
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum,
             oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium,
-            oreManganese, oreAluminum, oreSilicon, exposedGallium, cryoliteOre;
+            oreManganese, oreAluminum, oreSilicon, exposedGallium, cryoliteOre, acuminiteOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall,
             arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall,
             chertOutcrop, pillarCoral, loteasCoral, songCoral,
@@ -273,6 +273,9 @@ public class AquaEnv {
         oreNickel = new OreBlock("ore-nickel", nickel);
         oreLithium= new OreBlock("ore-lithium", AquaItems.lithium);
         oreManganese= new OreBlock("ore-manganese", AquaItems.manganese);
+        acuminiteOre= new OreBlock("acuminite-ore", acuminite){{
+            variants = 5;
+        }};
         oreArsenic= new OreBlock("arsenic-ore", arsenic){{
             wallOre = true;
             variants = 3;

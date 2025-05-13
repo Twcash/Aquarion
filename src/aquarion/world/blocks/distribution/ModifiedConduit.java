@@ -2,6 +2,7 @@ package aquarion.world.blocks.distribution;
 
 import aquarion.world.graphics.AquaPuddles;
 import aquarion.world.graphics.AquaShaders;
+import aquarion.world.graphics.Renderer;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
@@ -25,7 +26,7 @@ public class ModifiedConduit extends Conduit {
     @Override
     public void load(){
         super.load();
-        heatReg = Core.atlas.find(name + "-conduit-heat");
+        heatReg = Core.atlas.find(name + "-heat");
     }
 
     public ModifiedConduit(String name) {
@@ -41,6 +42,7 @@ public class ModifiedConduit extends Conduit {
     public class ModifiedConduitBuild extends ConduitBuild {
         @Override
         public void draw(){
+            Liquid liquid = liquids.current();
             super.draw();
         }
         @Override

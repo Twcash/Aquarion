@@ -4,6 +4,7 @@ import aquarion.ui.ModSettings;
 import aquarion.ui.UIEvents;
 import arc.Events;
 import arc.audio.Music;
+import arc.audio.Sound;
 import arc.struct.ArrayMap;
 import arc.struct.Seq;
 import arc.util.Log;
@@ -78,7 +79,6 @@ public class ModMusic {
         musics.put("concussive", new MusicInfo("Concussive", cas));
         musics.put("trance", new MusicInfo("Trance", cas));
         musics.put("mold", new MusicInfo("mold", myt));
-        musics.put("expansion", new MusicInfo("Expansion", myt));
         musics.put("assault", new MusicInfo("Assault", myt));
     }
 
@@ -92,7 +92,6 @@ public class ModMusic {
 
         betterLand = Vars.tree.loadMusic("better-land");
         realLand = Musics.land;
-
         betterFine = Vars.tree.loadMusic("better-fine");
         realFine = Musics.fine;
 

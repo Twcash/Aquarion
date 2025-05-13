@@ -1,31 +1,34 @@
 #define HIGHP
 
-uniform sampler2D u_texture;  // Screen texture (background)
-uniform sampler2D u_noise;    // Noise texture (distortion effect)
+uniform sampler2D u_texture;
 
 uniform vec2 u_campos;
 uniform vec2 u_resolution;
 uniform float u_time;
 
-out vec4 FragColor;
+varying vec2 v_texCoords;
 
-void main() {
-    // Normalized screen coordinates (0 to 1)
-    vec2 uv = gl_FragCoord.xy / u_resolution;
+const float mscl = 40.0;
+const float mth = 7.0;
 
-    // Generate animated noise for distortion effect
-    vec2 noiseUV = uv * 5.0 + vec2(u_time * 0.1, u_time * 0.15);
-    float noise = texture(u_noise, noiseUV).r;
+void main(){
 
-    // Distortion strength
-    float distortionStrength = 0.01; // Adjust this for more/less distortion
+	vec2 c = v_texCoords;
+	vec2 v = vec2(1.0/u_resolution.x, 1.0/u_resolution.y);
+	vec2 coords = vec2(c.x / v.x + u_campos.x, c.y / v.y + u_campos.y);
 
-    // Offset UVs for distortion
-    vec2 distortedUV = uv + (noise - 0.5) * distortionStrength;
+	float stime = u_time / 5.0;
 
-    // Sample the screen texture with distorted UVs
-    vec4 distortedColor = texture(u_texture, distortedUV);
+    vec4 sampled = texture2D(u_texture, c + vec2(sin(stime/3.0 + coords.y/0.75) * v.x, 0.0));
+    vec3 color = sampled.rgb * vec3(0.0, 0.0, 0);
 
-    // Output only the distorted background, making the sprite itself transparent
-    FragColor = vec4(distortedColor.rgb, 1.0 - noise * 0.8); // Adjust transparency based on noise
+    float tester = mod((coords.x + coords.y*1.1 + sin(stime / 8.0 + coords.x/5.0 - coords.y/100.0)*2.0) +
+                           sin(stime / 20.0 + coords.y/3.0) * 1.0 +
+                           sin(stime / 10.0 - coords.y/2.0) * 2.0 +
+                           sin(stime / 7.0 + coords.y/1.0) * 0.5 +
+                           sin(coords.x / 3.0 + coords.y / 2.0) +
+                           sin(stime / 20.0 + coords.x/4.0) * 1.0, mscl);
+
+
+	gl_FragColor = vec4(color.rgb, min(sampled.a, 0.05));
 }

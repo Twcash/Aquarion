@@ -53,7 +53,7 @@ public class AquaPlanets {
                     Color.valueOf("d2e5ea")
             );
         }};
-        fakeSerpulo = new Planet("fakeSerp", citun, 3.5f, 4){{
+        fakeSerpulo = new Planet("fakeSerp", citun, 1f, 4){{
             generator = new SerpuloPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
             alwaysUnlocked = true;
@@ -69,7 +69,7 @@ public class AquaPlanets {
                     new HexSkyMesh(this, 8, 0.3f, 0.08f, 5, Color.valueOf("d3cad7").a(0.55f), 2, 0.08f, 1.6f, 0.35f)
             );
             atmosphereRadIn = 0.02f;
-            atmosphereRadOut = 0.3f;
+            atmosphereRadOut = 0.2f;
             startSector = 15;
             orbitSpacing = 6f;
             defaultCore = AquaCore.corePike;
@@ -103,7 +103,7 @@ public class AquaPlanets {
 
             );
         }};
-        tantros2 = new Planet("tantros", citun, 1.7f, 3){{
+        tantros2 = new Planet("tantros", citun, 1.5f, 3){{
             generator = new AquaPlanetGenarator();
             meshLoader = () -> new HexMesh(this, 6);
             alwaysUnlocked = true;
@@ -119,13 +119,15 @@ public class AquaPlanets {
                     new HexSkyMesh(this, 8, 0.3f, 0.08f, 5, Color.valueOf("d3cad7").a(0.55f), 2, 0.08f, 1.6f, 0.35f)
             );
             startSector = 10;
-            atmosphereRadIn = -0.03f;
+            atmosphereRadIn = 0.09f;
+            atmosphereRadOut = 1.6f;
             orbitSpacing = 6f;
             defaultCore = AquaCore.corePike;
             allowLaunchLoadout = false;
-            atmosphereRadOut = 0.6f;
+            atmosphereRadOut = 1.5f;
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
+
             defaultEnv = Env.terrestrial | Env.underwater & ~(Env.groundOil | Env.scorching | Env.spores);
             ruleSetter = r -> {
                 r.fire = false;
@@ -142,9 +144,10 @@ public class AquaPlanets {
         coradum = new Planet("coradum", citun, 0.85f, 2){{
             generator = new CoradumPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
-            accessible = true;
-            bloom = false;
-            alwaysUnlocked = true;
+            accessible = false;
+            tidalLock = true;
+            bloom = true;
+            alwaysUnlocked = false;
             startSector = 2;
             orbitRadius = 20;
             orbitOffset = 34;

@@ -4,17 +4,11 @@ import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaSounds;
 import aquarion.world.blocks.production.*;
-import aquarion.world.consumers.ConsumeLiquidNew;
-import aquarion.world.consumers.ConsumeRecipes;
-import aquarion.world.consumers.Recipe;
 import aquarion.world.graphics.*;
 
-import arc.func.Cons;
 import arc.graphics.Blending;
 import arc.graphics.Color;
-import arc.math.Interp;
 import arc.math.Mathf;
-import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
@@ -38,7 +32,7 @@ import static mindustry.type.ItemStack.with;
 
 //What was all of this even for
 public class AquaCrafters {
-    public static Block inlet, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block saltReactor, brineCatalyzer, pulseEmitter, pulseDrill, pinDrill, inlet, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator, fumeSeparator,
              siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -792,7 +786,7 @@ public class AquaCrafters {
         }};
         azuriteKiln = new GenericCrafter("azurite-kiln"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 500, bauxite, 750, lead, 750));
+            requirements(Category.crafting, with( bauxite, 750, lead, 750));
             craftTime = 5*60f;
             squareSprite = false;
             consumeLiquid(magma, 45/60f);
@@ -894,16 +888,16 @@ public class AquaCrafters {
             }};
             DrillDerrick = new GroundDrill("drill-derrick"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.production, with( silicon, 450, aluminum, 150, copper, 65));
+                requirements(Category.production, with(  aluminum, 90, copper, 100, silicon, 120));
                 size = 5;
                 drillTime = 125;
-                consumeLiquid(fumes, 10/60f).booster = false;
-                consumeLiquid(oxygen, 15/60f).boost();
+                consumeLiquid(fumes, 20/60f).booster = false;
+                consumeLiquid(chlorine, 15/60f).boost();
                 liquidBoostIntensity = 1.5f;
                 squareSprite = false;
                 itemCapacity = 200;
                 liquidCapacity = 120;
-                tier = 1;
+                tier = 3;
                 researchCostMultiplier = 0;
             }};
             galenaCrucible = new GenericCrafter("galena-reduction-vat"){{
@@ -978,7 +972,7 @@ public class AquaCrafters {
         }};
         CentrifugalPump = new Pump("centrifugal-pump"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.liquid, with( silicon, 220, lead, 120, metaglass, 60));
+            requirements(Category.liquid, with( copper, 220, metaglass, 60));
             size = 3;
             squareSprite = true;
             pumpAmount = 0.25f;
@@ -1253,7 +1247,7 @@ public class AquaCrafters {
         }};
         AnnealingOven = new GenericCrafter("metaglass-annealing-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( lead, 300, silicon, 1100, copper, 550));
+            requirements(Category.crafting, with( lead, 300, copper, 550));
             size = 5;
             itemCapacity = 60;
             squareSprite = false;
@@ -1285,7 +1279,7 @@ public class AquaCrafters {
             }});
         }};
         inlet = new GenericCrafter("inlet"){{
-            requirements(Category.production, with( silicon, 120));
+            requirements(Category.production, with( silicon, 90));
             shownPlanets.addAll(tantros2);
             craftTime = 10;
             outputLiquid = new LiquidStack(halideWater, 20/60f);
@@ -1305,7 +1299,7 @@ public class AquaCrafters {
         }};
         vacuumFreezer = new GenericCrafter("vacuum-freezer"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( ferricMatter, 200, aluminum, 500, silicon, 800));
+            requirements(Category.crafting, with( copper, 200, aluminum, 500, metaglass, 800));
             size = 6;
             squareSprite = false;
             ambientSound = Sounds.electricHum;
@@ -1354,6 +1348,27 @@ public class AquaCrafters {
                 particleRad = 4f;
                 particleLife = 140f;
             }});
+        }};
+        acuminiteDegredationArray = new AquaGenericCrafter("acuminite-degredation-array"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with( manganese, 550, aluminum, 700, metaglass, 700));
+            squareSprite = false;
+            size = 8;
+            consumeItem(acuminite, 60);
+            craftTime = 5*60f;
+            liquidCapacity = 1000;
+            itemCapacity = 180;
+            ambientSound = AquaSounds.refine;
+            outputLiquid = new LiquidStack(fluorine, 40/60f);
+            outputItems = ItemStack.with(aluminum, 60, strontium, 60);
+        }};
+        pinDrill = new GroundDrill("pin-drill"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.production, with( manganese, 40, metaglass, 90, strontium, 20));
+            drillTime = 100;
+            size = 1;
+            squareSprite = false;
+            tier = 2;
         }};
     }
 
