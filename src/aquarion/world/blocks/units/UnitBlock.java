@@ -179,14 +179,14 @@ public class UnitBlock extends Block {
             }
         }
 
-
         @Override
         public void updateTile(){
-            if(efficiency > 0) {
+
+            if(efficiency > 0 && !((float)this.team.data().countType(unit) >= Units.getCap(this.team))) {
                 progress += edelta() * Vars.state.rules.unitBuildSpeed(team) * efficiency;
                 totProgress = progress/time;
             }
-            if(progress >= time){
+            if(progress >= time ){
                 var b = unit.create(team);
                 if(b.isCommandable()){
                     if(commandPos != null){

@@ -1464,7 +1464,7 @@ public class AquaUnitTypes {
             drawCell = false;
             outlineColor = AquaPal.tantDarkestTone;
             weapons.addAll(new Weapon("aquarion-bulwark-weapon"){{
-                rotationLimit = 60;
+                rotate = true;
                 rotateSpeed = 0.9f;
                 mirror = false;
                 x = 0;
@@ -1486,6 +1486,139 @@ public class AquaUnitTypes {
                     width = height = 12;
                     knockback = 2;
                     trailLength = 12;
+                }};
+            }});
+        }};
+        rampart = new UnitType("rampart"){{
+            constructor = MechUnit::create;
+            speed = 0.7f;
+            hitSize = 8;
+            range = 110;
+            health = 180;
+            armor = 6;
+            targetAir = true;
+            rotateSpeed = 1.2f;
+            shadowElevation = 0.2f;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            weapons.addAll(new Weapon("aquarion-rampart-weapon"){{
+                rotate = false;
+                rotateSpeed = 0.9f;
+                mirror = false;
+                x = 5;
+                y = 0;
+                recoil = 2;
+                shootSound = Sounds.shootAltLong;
+                shootY = 4;
+                reload = 35;
+                bullet = new BasicBulletType(4, 15, "aquarion-bolt"){{
+                    shrinkY = 0;
+                    shrinkX = 0.2f;
+                    hitSize = 2;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootSmallColor;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = trailColor = lightColor = trailColor = AquaPal.fireLight2;
+                    width = height = 10;
+                    trailLength = 8;
+                }};
+            }});
+        }};
+        pugnate = new UnitType("pugnate"){{
+            constructor = LegsUnit::create;
+            speed = 0.55f;
+            hitSize = 8;
+            range = 110;
+            health = 180;
+            stepShake = 0;
+            armor = 2;
+            targetAir = true;
+            rotateSpeed = 1.2f;
+            shadowElevation = 0.2f;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+
+            legCount = 4;
+            legLength = 12f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -1f;
+            legBaseOffset = 3f;
+            legMaxLength = 1f;
+            legMinLength = 0.7f;
+            legLengthScl = 0.95f;
+            legForwardScl = 0.75f;
+
+            legMoveSpace = 1f;
+
+            weapons.addAll(new Weapon("aquarion-pugnate-weapon"){{
+                rotate = true;
+                rotateSpeed = 0.9f;
+                mirror = false;
+                x = 3;
+                recoil = 2;
+                shootSound = Sounds.cannon;
+                shootY = 4;
+                reload = 160;
+                bullet = new BasicBulletType(8f, 110, "aquarion-flechette"){{
+                    shrinkY = 0;
+                    shrinkX = 0.2f;
+                    hitSize = 4;
+                    lifetime = 10;
+                    pierceCap = 2;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootSmallColor;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = trailColor = lightColor  = AquaPal.fireLight2;
+                    width = height = 15;
+                    trailLength = 14;
+                }};
+            }});
+        }};
+        crest = new UnitType("crest"){{
+            flying = true;
+            lowAltitude = true;
+            constructor = UnitEntity::create;
+            speed = 2f;
+            hitSize = 8;
+            range = 110;
+            health = 125;
+            armor = 0;
+            engineSize = 0;
+            setEnginesMirror(
+                    new UnitEngine(25 / 4f, 25 / 4f, 2.3f, 45f),
+                    new UnitEngine(25 / 4f, -25 / 4f, 2.3f, 315f)
+            );
+            targetAir = true;
+            rotateSpeed = 5f;
+            shadowElevation = 0.2f;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            weapons.addAll(new Weapon("aquarion-crest-weapon"){{
+                rotate = true;
+                rotateSpeed = 0.9f;
+                mirror = false;
+                x = 0;
+                y = -1;
+                recoil = 2;
+                shootSound = Sounds.pew;
+                shootY = 3;
+                reload = 5;
+                inaccuracy = 5;
+                bullet = new BasicBulletType(7, 8, "aquarion-bolt"){{
+                    shrinkY = 0;
+                    lifetime = 15;
+                    shrinkX = 0.2f;
+                    hitSize = 2;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootSmallColor;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = trailColor = lightColor = AquaPal.fireLight2;
+                    width = height = 7;
+                    trailLength = 8;
                 }};
             }});
         }};

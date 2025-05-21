@@ -34,7 +34,7 @@ import static aquarion.units.AquaUnitTypes.*;
 
 public class AquaCore {
     public static Block coreAnnex, buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
-            coreEscarpment, corePike, coreExpedite, buildSentry,
+            coreEscarpment, corePike, coreExpedite, buildCairn,
             overdriveCatalyst, forceBarrier;
 
     public static void loadContent(){
@@ -117,14 +117,14 @@ public class AquaCore {
             range = 200;
         }};
 
-        buildSentry = new BuildTurret("build-sentry"){{
-            requirements(Category.effect, with(electrum, 80, lead, 25));
+        buildCairn = new BuildTurret("build-cairn"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.effect, with(silicon, 120, copper, 50));
             size = 2;
             outlineRadius = 0;
-            buildSpeed = 0.7f;
-            range = 160;
+            buildSpeed = 0.2f;
+            range = 120;
             rotateSpeed = 0.7f;
-            consumePower(32/60f);
         }};
         overdriveCatalyst = new DistributionCatalyst("distribution-catalyst"){{
             requirements(Category.effect, with(silver, 220, lead, 90, electrum, 150, silicon, 90, arsenic, 80));

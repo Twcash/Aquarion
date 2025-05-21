@@ -18,28 +18,28 @@ public class AquaUnitFactories {
 
     public static void loadContent(){
         bulwark = new UnitBlock("bulwark"){{
-            requirements(Category.units, with(silicon, 80, aluminum, 60, nickel, 50));
+            requirements(Category.units, with(silicon, 80, metaglass, 60, nickel, 50));
             unit = AquaUnitTypes.bulwark;
             size = 2;
             time = 15*60;
         }};
-//        pugnate = new UnitBlock("pugnate"){{
-//            requirements(Category.units, with(silicon, 90, aluminum, 50, copper, 70));
-//            unit = AquaUnitTypes.pugnate;
-//            size = 2;
-//            time = 15*60;
-//        }};
-//        rampart = new UnitBlock("rampart"){{
-//            requirements(Category.units, with(arsenic, 120, copper, 90, silicon, 60));
-//            unit = AquaUnitTypes.rampart;
-//            size = 2;
-//            time = 15*60;
-//        }};
-//        crest = new UnitBlock("crest"){{
-//            requirements(Category.units, with(silicon, 40, copper, 60, metaglass, 50));
-//            unit = AquaUnitTypes.crest;
-//            size = 2;
-//            time = 15*60;
-//        }};
+       pugnate = new UnitBlock("pugnate"){{
+            requirements(Category.units, with(silicon, 90, aluminum, 50, copper, 70));
+            unit = AquaUnitTypes.pugnate;
+            size = 2;
+           time = 20*60;
+       }};
+        rampart = new UnitBlock("rampart"){{
+            requirements(Category.units, with(arsenic, 120, copper, 90, silicon, 60));
+            unit = AquaUnitTypes.rampart;
+            size = 2;
+            time = 10*60;
+        }};
+        crest = new UnitBlock("crest"){{
+            requirements(Category.units, with(silicon, 40, copper, 60, metaglass, 50));
+            unit = AquaUnitTypes.crest;
+            size = 2;
+            time = 5*60;
+       }};
     }
 }

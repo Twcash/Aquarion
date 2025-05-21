@@ -1,7 +1,14 @@
 package aquarion.blocks;
 
 import aquarion.world.blocks.defense.BarricadeAbsorb;
+import aquarion.world.graphics.AquaPal;
+import arc.graphics.Color;
+import mindustry.content.Fx;
 import mindustry.content.Planets;
+import mindustry.entities.bullet.BasicBulletType;
+import mindustry.entities.bullet.EmptyBulletType;
+import mindustry.entities.effect.ExplosionEffect;
+import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.Wall;
@@ -10,13 +17,12 @@ import mindustry.world.meta.Env;
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.haze;
 import static aquarion.planets.AquaPlanets.*;
-import static mindustry.content.Items.metaglass;
-import static mindustry.content.Items.silicon;
+import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
     public static Block nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
-            cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall;
+            cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
     public static void loadContent() {
@@ -41,6 +47,36 @@ public class AquaDefense {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
 
             researchCostMultiplier = 0.25f;
+        }};
+        bauxiteBarricade = new Wall("bauxite-barricade"){{
+            requirements(Category.defense, with(bauxite, 500, metaglass, 200, silicon, 600, copper, 250));
+            size = 5;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            health = (int) (6250 * 0.75f);
+            armor = 12;
+            destroyBulletSameTeam = true;
+            destroyBullet = new EmptyBulletType(){{
+                fragBullets = 16;
+                fragBullet = new BasicBulletType(10, 120, "aquarion-bolt"){{
+                    lifetime = 5;
+                    pierce = true;
+                    knockback = 5;
+                    width = height = 12;
+                    trailLength = 12;
+                    despawnEffect = Fx.hitSquaresColor;
+                    collidesGround = collidesAir = true;
+                }};
+            }};
+            destroyEffect =  new ExplosionEffect(){{
+                waveColor = Pal.surge;
+                smokeColor = AquaPal.bauxiteLightTone;
+                sparkColor = Pal.sap;
+                waveStroke = 4f;
+                waveRad = 7*8f;
+                waveLife = 20;
+                smokeSize = 8;
+            }};
+            researchCostMultiplier = 0.3f;
         }};
         nickelWall = new Wall("nickel-wall") {{
             requirements(Category.defense, with(nickel, 24));
