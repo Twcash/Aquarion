@@ -50,10 +50,11 @@ public class AquarionMod  implements Loadable{
         AquaDefense.loadContent();
         AquaTurrets.loadContent();
         AquaCrafters.loadContent();
-        AquaUnitFactories.loadContent();
+
         //units and cores, keep these after blocks
         AquaWrecks.loadContent();
         AquaUnitTypes.loadContent();
+        AquaUnitFactories.loadContent();
         AquaCore.loadContent();
         //distribution blocks need to be loaded here bc of unittypes
         AquaDistribution.loadContent();

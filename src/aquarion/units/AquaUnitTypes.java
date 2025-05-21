@@ -39,7 +39,8 @@ public class AquaUnitTypes {
     //core units and transport
 
     public static UnitType
-
+        //Sharded units
+            bulwark, pugnate, rampart, crest,
             //qeralter Units
         weep,
             //core/mining
@@ -1447,5 +1448,45 @@ public class AquaUnitTypes {
                         colorTo = Color.valueOf("746f6f10");
                     }}, 10f, .4f) {{
                     }});
+        }};
+        bulwark = new UnitType("bulwark"){{
+            constructor = MechUnit::create;
+            speed = 0.45f;
+            hitSize = 8;
+            range = 110;
+            health = 300;
+            armor = 4;
+            targetAir = false;
+            rotateMoveFirst = true;
+            rotateSpeed = 0.6f;
+            shadowElevation = 0.1f;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            weapons.addAll(new Weapon("aquarion-bulwark-weapon"){{
+                rotationLimit = 60;
+                rotateSpeed = 0.9f;
+                mirror = false;
+                x = 0;
+                y = -1;
+                recoil = 2;
+                shootSound = Sounds.shootAltLong;
+                shootY = 3;
+                reload = 90;
+                bullet = new BasicBulletType(3, 50){{
+                    collidesAir = false;
+                    shrinkY = 0;
+                    shrinkX = 0.2f;
+                    hitSize = 4;
+                    recoil = 1;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootSmallColor;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = trailColor = lightColor = trailColor = AquaPal.fireLight2;
+                    width = height = 12;
+                    knockback = 2;
+                    trailLength = 12;
+                }};
+            }});
         }};
     }}

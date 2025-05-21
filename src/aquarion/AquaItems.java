@@ -32,6 +32,7 @@ public class AquaItems {
         }};
         nickel = new AquaItem("nickel", Color.valueOf("#c3b994")) {{
             hardness = 2;
+            alwaysUnlocked = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             cost = 1.5f;
             magnetism = 1;
