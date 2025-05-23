@@ -3,6 +3,7 @@ package aquarion;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.math.Mathf;
+import mindustry.content.Fx;
 import mindustry.type.StatusEffect;
 
 import static mindustry.content.StatusEffects.*;
@@ -24,6 +25,23 @@ public class AquaStatuses {
                     result.set(burning, Math.min(time + result.time, 300f));
                 });
             });
+        }};
+        concussed = new StatusEffect("concussed"){{
+            color = Color.valueOf("5e533f");
+            effect = Fx.none;
+            speedMultiplier = 0.6f;
+            healthMultiplier = 0.8f;
+            reloadMultiplier = 0.6f;
+        }};
+        corroding = new StatusEffect("corroding"){{
+            color = Color.valueOf("ffab84");
+            damage = 0.05f;
+            effect = Fx.none;
+            transitionDamage = 8f;
+            speedMultiplier = 0.9f;
+            healthMultiplier = 0.8f;
+            damageMultiplier = 1.1f;
+            reloadMultiplier = 0.7f;
         }};
     }
 }

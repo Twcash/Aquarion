@@ -182,7 +182,7 @@ public class UnitBlock extends Block {
         @Override
         public void updateTile(){
 
-            if(efficiency > 0 && !((float)this.team.data().countType(unit) >= Units.getCap(this.team))) {
+            if(efficiency > 0 && !(this.team.data().countType(unit) >= Units.getCap(this.team))) {
                 progress += edelta() * Vars.state.rules.unitBuildSpeed(team) * efficiency;
                 totProgress = progress/time;
             }

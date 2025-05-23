@@ -9,6 +9,10 @@ import mindustry.Vars;
 public class AquaSounds {
     public static Sound
             start = new Sound(),
+            start2 = new Sound(),
+            start3 = new Sound(),
+            start4 = new Sound(),
+            start5 = new Sound(),
             waterRumble = new Sound(),
             waterAir = new Sound(),
             engine = new Sound(),
@@ -24,6 +28,10 @@ public class AquaSounds {
 
     public static void load(){
         start = loadSound("start");
+        start2 = loadSound("start2");
+        start3 = loadSound("start3");
+        start4 = loadSound("start4");
+        start5 = loadSound("start5");
         waterRumble = loadSound("waterRumble");
         waterAir = loadSound("waterAir");
         engine = loadSound("engine");

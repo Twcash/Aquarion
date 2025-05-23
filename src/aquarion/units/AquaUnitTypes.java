@@ -1,10 +1,13 @@
 package aquarion.units;
 
+import aquarion.AquaStatuses;
 import aquarion.type.*;
-import aquarion.world.AquaGroundAI;
 import aquarion.world.graphics.AquaFx;
+import aquarion.world.units.newTankUnitType;
+import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.math.Interp;
+import arc.math.geom.Rect;
 import arc.struct.Seq;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
@@ -20,14 +23,14 @@ import mindustry.entities.bullet.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.part.RegionPart;
-import mindustry.entities.pattern.ShootAlternate;
+import mindustry.entities.pattern.ShootBarrel;
 import mindustry.entities.pattern.ShootSine;
 import mindustry.gen.*;
-import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import aquarion.world.graphics.AquaPal;
 import mindustry.type.Weapon;
+import mindustry.type.unit.TankUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
 import mindustry.world.meta.Env;
 
@@ -40,7 +43,7 @@ public class AquaUnitTypes {
 
     public static UnitType
         //Sharded units
-            bulwark, pugnate, rampart, crest,
+            bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan,
             //qeralter Units
         weep,
             //core/mining
@@ -1619,6 +1622,298 @@ public class AquaUnitTypes {
                     backColor = trailColor = lightColor = AquaPal.fireLight2;
                     width = height = 7;
                     trailLength = 8;
+                }};
+            }});
+        }};
+        reave = new UnitType("reave"){{
+            constructor = LegsUnit::create;
+            speed = 0.45f;
+            hitSize = 16;
+            range = 120;
+            health = 280;
+            stepShake = 0.1f;
+            armor = 5;
+            targetAir = true;
+            rotateSpeed = 1.4f;
+            shadowElevation = 0.25f;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+
+            legCount = 4;
+            baseLegStraightness = 0.25f;
+            legStraightness = 0.1f;
+            legLength = 18f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -.5f;
+            legBaseOffset = 6f;
+            legMaxLength = 1.05f;
+            legMinLength = 0.8f;
+            legLengthScl = 0.95f;
+            legForwardScl = 0.8f;
+            legPairOffset = 2;
+
+            legMoveSpace = 0.9f;
+
+            weapons.addAll(new Weapon("aquarion-reave-weapon"){{
+                rotate = true;
+                rotateSpeed = 0.9f;
+                mirror = false;
+                x = -4;
+                y = -3;
+                recoil = 2;
+                shootSound = Sounds.shootAltLong;
+                shootY = 4;
+                reload = 90;
+                bullet = new BasicBulletType(8f, 60, "aquarion-bolt"){{
+                    shrinkY = 0;
+                    shrinkX = 0.2f;
+                    hitSize = 4;
+                    lifetime = 15;
+                    pierceCap = 3;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootSmallColor;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = trailColor = lightColor  = AquaPal.fireLight2;
+                    width = height = 15;
+                    trailLength = 14;
+                }};
+            }}, new Weapon("aquarion-reave-side-weapon"){{
+                rotate = true;
+                rotateSpeed = 1.1f;
+                mirror = false;
+                x = 6f;
+                y = 6f;
+                shootSound = Sounds.shootAlt;
+                shootY = 4;
+                reload = 160;
+                inaccuracy = 7;
+                bullet = new BasicBulletType(2.5f, 45, "aquarion-flechette"){{
+                    shrinkY = 0.1f;
+                    shrinkX = 0.4f;
+                    knockback = 5;
+                    hitSize = 4;
+                    lifetime = 20;
+                    shootEffect = Fx.shootSmallColor;
+                    smokeEffect = Fx.shootSmallColor;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = trailColor = lightColor  = AquaPal.fireLight2;
+                    width = height = 8;
+                    trailLength = 7;
+                }};
+            }});
+        }};
+        soar = new UnitType("soar"){{
+            parts.add(new RegionPart("-glow"){{
+                color = Color.red;
+                blending = Blending.additive;
+                layer = -1f;
+                outline = false;
+            }});
+            flying = true;
+            lowAltitude = true;
+            constructor = UnitEntity::create;
+            speed = 1.8f;
+            omniMovement = false;
+            circleTarget = true;
+            hitSize = 16;
+            range = 40;
+            health = 550;
+            armor = 8;
+            engineOffset = 6;
+            engineSize = 4;
+            setEnginesMirror(
+                    new UnitEngine(25 / 4f, -25 / 4f, 2.3f, -315f)
+            );
+            targetAir = true;
+            rotateSpeed = 5f;
+            shadowElevation = 1.5f;
+            outlines = true;
+            autoDropBombs = true;
+            faceTarget = false;
+            targetAir = false;
+            accel = 0.08f;
+            drag = 0.016f;
+            drawCell = false;
+            lowAltitude = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            weapons.add(new Weapon(){{
+                minShootVelocity = 0.75f;
+                x = 3f;
+                shootY = 0f;
+                shootCone = 180f;
+                lowAltitude = false;
+                ejectEffect = Fx.casing2;
+                inaccuracy = 15f;
+                ignoreRotation = true;
+                shoot.shots = 5;
+                shoot.shotDelay = 10;
+                shootSound = Sounds.mineDeploy;
+                reload = 200;
+                bullet = new BombBulletType(60f, 40f){{
+                    lifetime = 60;
+                    shrinkX = 0.5f;
+                    shrinkY = 0.5f;
+                    width = 10f;
+                    height = 10f;
+                    despawnEffect = Fx.blastExplosion;
+                    hitEffect = Fx.blastExplosion;
+                    shootEffect = Fx.none;
+                    smokeEffect = Fx.none;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = lightColor = hitColor = AquaPal.fireLight2;
+                    status = AquaStatuses.concussed;
+                    statusDuration = 3*60f;
+                    collidesAir = false;
+                }};
+            }});
+        }};
+        raze = new UnitType("raze"){{
+            constructor = LegsUnit::create;
+            speed = 0.35f;
+            hitSize = 16;
+            range = 150;
+            health = 350;
+            stepShake = 0.2f;
+            armor = 3;
+            targetAir = true;
+            rotateSpeed = 1.2f;
+            shadowElevation = 0.2f;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            legCount = 6;
+            baseLegStraightness = 0.6f;
+            legStraightness = 0.5f;
+            legLength = 18f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -.5f;
+            legBaseOffset = 6f;
+            legMaxLength = 1.2f;
+            legMinLength = 0.4f;
+            legLengthScl = 0.95f;
+            legForwardScl = 0.9f;
+            legPairOffset = 2;
+            legGroupSize = 3;
+
+            legMoveSpace = 0.9f;
+            weapons.addAll(new Weapon("aquarion-raze-weapon"){{
+                mirror = false;
+                x = 0;
+                y = 0;
+                recoil = 2;
+                rotate = false;
+                shootSound = Sounds.flame;
+                reload = 5;
+                shootX = -7;
+                shootY = 7;
+                shootCone = 15;
+                inaccuracy = 15;
+                bullet = new BulletType(4.2f, 15f){{
+                    hitSize = 7f;
+                    lifetime = 13f;
+                    pierce = true;
+                    pierceBuilding = true;
+                    pierceCap = 2;
+                    statusDuration = 60f * 4;
+                    status = StatusEffects.burning;
+                    shootEffect = Fx.shootSmallFlame;
+                    hitEffect = Fx.hitFlameSmall;
+                    keepVelocity = false;
+                    hittable = false;
+                }};
+            }});
+        }};
+        shatter = new UnitType("shatter"){{
+            constructor = MechUnit::create;
+            speed = 0.25f;
+            hitSize = 16;
+            range = 110;
+            health = 300;
+            armor = 3;
+            targetAir = true;
+            rotateSpeed = 1.1f;
+            shadowElevation = 0.3f;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            weapons.addAll(new Weapon("aquarion-shatter-weapon"){{
+                rotate = false;
+                rotateSpeed = 0.9f;
+                mirror = false;
+                x = 0;
+                y = 0;
+                recoil = 3;
+                shootSound = Sounds.shootAltLong;
+                shootY = 4;
+                reload = 160;
+                bullet = new BasicBulletType(4, 90, "aquarion-flechette"){{
+                    shrinkY = 0;
+                    shrinkX = 0.2f;
+                    hitSize = 4;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootSmallColor;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = trailColor = lightColor  = AquaPal.fireLight2;
+                    width = height = 16;
+                    trailLength = 12;
+                }};
+            }});
+        }};
+        castellan = new newTankUnitType("castellan"){{
+            constructor = TankUnit::create;
+            speed = 0.3f;
+            armor = 12;
+            health = 250;
+            omniMovement = false;
+            targetAir = false;
+            shadowElevation = 0.05f;
+            hitSize = 16;
+            outlines = true;
+            drawCell = false;
+            treadFrames = 4;
+            outlineColor = AquaPal.tantDarkestTone;
+            //NOTE Do not yoink code for vanilla tread rects.
+            treadRects = new Rect[]{
+                    new Rect(-96f/2f, -96/2f, 96, 96),
+                    new Rect(-96/2f, -96/2f, 96, 96)
+            };
+            weapons.addAll(new Weapon("aquarion-castellan-weapon"){{
+                rotate = true;
+                rotateSpeed = 0.9f;
+                mirror = false;
+                x = -2;
+                y = -1;
+                recoil = 2;
+                shootSound = Sounds.mediumCannon;
+                shootY = 5;
+                reload = 90;
+                shoot = new ShootBarrel(){{
+                    barrels = new float[]{
+                            -3, 0f, 0,
+                            0, 0, 0,
+                            3, 0f, 0
+                    };
+                    shots = 3;
+                    shotDelay = 2f;
+                }};
+                bullet = new ArtilleryBulletType(1f, 0, "aquarion-bolt"){{
+                    shrinkY = 0.4f;
+                    shrinkX = 0.3f;
+                    lifetime = 140;
+                    splashDamage = 40;
+                    splashDamageRadius = 45f;
+                    collidesAir = false;
+                    trailRotation = true;
+                    trailEffect = AquaFx.pentagonShootSmoke;
+                    shootEffect = AquaFx.shootLong;
+                    smokeEffect = AquaFx.GyreShootSmoke;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = trailColor = lightColor  = AquaPal.fireLight2;
+                    width = height = 15;
+                    trailLength = 2;
                 }};
             }});
         }};
