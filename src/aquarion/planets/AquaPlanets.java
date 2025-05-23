@@ -31,18 +31,18 @@ public class AquaPlanets {
             bloom = true;
             accessible = false;
             cloudMeshLoader = () -> new MultiMesh(
-                    new HexSkyMesh(this, 3, 0.13f, 0.11f, 9, Color.valueOf("3b64ff").a(0.99f), 2, 0.18f, 1.2f, 0.3f),
-                    new HexSkyMesh(this, 3, 0.14f, 0.12f, 8, Color.valueOf("3b64ff").a(0.99f), 2, 0.17f, 1.3f, .28f),
-                    new HexSkyMesh(this, 3, 0.15f, 0.15f, 8, Color.valueOf("477ef2").a(0.95f), 2, 0.16f, 1.4f, 0.26f),
-                    new HexSkyMesh(this, 3, 0.16f, 0.17f, 8, Color.valueOf("55a3ef").a(0.90f), 2, 0.15f, 1.5f, 0.24f),
-                    new HexSkyMesh(this, 3, 0.18f, 0.22f, 7, Color.valueOf("86d1e9").a(0.85f), 2, 0.14f, 1.7f, 0.22f),
-                    new HexSkyMesh(this, 3, 0.22f, 0.28f, 7, Color.valueOf("aee6f8").a(0.65f), 2, 0.12f, 1.9f, 0.20f),
-                    new HexSkyMesh(this, 3, 0.26f, 0.36f, 7, Color.valueOf("c8f2ff").a(0.50f), 2, 0.10f, 2.3f, 0.17f),
-                    new HexSkyMesh(this, 3, 0.32f, 0.43f, 6, Color.valueOf("ffffff").a(0.22f), 2, 0.08f, 2.6f, 0.12f)
+                    new HexSkyMesh(this, 3, 0.13f, 0.11f, 5, Color.valueOf("3b64ff").a(0.99f), 2, 0.18f, 1.2f, 0.3f),
+                    new HexSkyMesh(this, 3, 0.14f, 0.12f, 5, Color.valueOf("3b64ff").a(0.99f), 2, 0.17f, 1.3f, .28f),
+                    new HexSkyMesh(this, 3, 0.15f, 0.15f, 5, Color.valueOf("477ef2").a(0.95f), 2, 0.16f, 1.4f, 0.26f),
+                    new HexSkyMesh(this, 3, 0.16f, 0.17f, 5, Color.valueOf("55a3ef").a(0.90f), 2, 0.15f, 1.5f, 0.24f),
+                    new HexSkyMesh(this, 3, 0.18f, 0.22f, 5, Color.valueOf("86d1e9").a(0.85f), 2, 0.14f, 1.7f, 0.22f),
+                    new HexSkyMesh(this, 3, 0.22f, 0.28f, 5, Color.valueOf("aee6f8").a(0.65f), 2, 0.12f, 1.9f, 0.20f),
+                    new HexSkyMesh(this, 3, 0.26f, 0.36f, 5, Color.valueOf("c8f2ff").a(0.50f), 2, 0.10f, 2.3f, 0.17f),
+                    new HexSkyMesh(this, 3, 0.32f, 0.43f, 5, Color.valueOf("ffffff").a(0.22f), 2, 0.08f, 2.6f, 0.12f)
 
                     );
             meshLoader = () -> new SunMesh(
-                    this, 9,
+                    this, 4,
                     5, 0.3, 1.7, 1.2, 1,
                     1.1f,
                     Color.valueOf("dcf7ff"),
@@ -55,7 +55,7 @@ public class AquaPlanets {
         }};
         fakeSerpulo = new Planet("fakeSerp", citun, 1f, 4){{
             generator = new SerpuloPlanetGenerator();
-            meshLoader = () -> new HexMesh(this, 6);
+            meshLoader = () -> new HexMesh(this, 5);
             alwaysUnlocked = true;
             accessible = true;
             orbitRadius = 70;
@@ -90,7 +90,7 @@ public class AquaPlanets {
         }};
         qeraltar = new Planet("qeraltar", citun, 0.9f, 2){{
             generator = new QeralterPlanetGen();
-            meshLoader = () -> new HexMesh(this, 6);
+            meshLoader = () -> new HexMesh(this, 2);
             accessible = false;
             bloom = false;
             alwaysUnlocked = false;
@@ -105,7 +105,7 @@ public class AquaPlanets {
         }};
         tantros2 = new Planet("tantros", citun, 1.5f, 3){{
             generator = new AquaPlanetGenarator();
-            meshLoader = () -> new HexMesh(this, 6);
+            meshLoader = () -> new HexMesh(this, 5);
             alwaysUnlocked = true;
             accessible = true;
             orbitRadius = 112;

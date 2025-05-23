@@ -44,9 +44,19 @@ public class TantrosTechTree {
                     new Objectives.Produce(metaglass)
             ), () -> {
                 node(crest, () -> {
+                    node(soar, () -> {
+                    });
                 });
                 node(rampart, () -> {
+                    node(reave, () -> {
+                        node(castellan, () -> {
+                        });
+                    });
                     node(pugnate, () -> {
+                        node(shatter, () -> {
+                        });
+                        node(raze, () -> {
+                        });
                     });
                 });
             });

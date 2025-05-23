@@ -55,7 +55,6 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
         }};
         Ingress = new AquaSectorPreset("Ingress", tantros2, 10){{
-            alwaysUnlocked = true;
             addStartingItems = true;
             captureWave = 5;
             difficulty = 1;
