@@ -15,7 +15,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid muriaticAcid, halideWater, air, haze, ethylene, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
+    public static Liquid argon, muriaticAcid, halideWater, air, haze, ethylene, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
 
     public static void loadContent() {
 
@@ -67,10 +67,11 @@ public class AquaLiquids {
             boilPoint = 0;
             gasColor = Color.grays(0.8f);
         }};
-        bioPulp = new Liquid("bio-pulp", Color.valueOf("#92ba76")){{
+        bioPulp = new Liquid("bio-pulp", Color.valueOf("#c7904f")){{
             coolant = false;
             effect = wet;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             explosiveness = 0.1f;
+            viscosity = 0.8f;
             flammability = 0.5f;
         }};
         magma = new Liquid("magma", Color.valueOf("d54040")){{
@@ -132,10 +133,10 @@ public class AquaLiquids {
         air = new Liquid("air", Color.valueOf("bcced5")){{
             gas = true;
             effect = concussed;
-
+            heatCapacity = 0.05f;
         }};
         halideWater = new Liquid("halide-water", Color.valueOf("a3a7be")){{
-            heatCapacity = 0.25f;
+            heatCapacity = 0.1f;
             effect = StatusEffects.wet;
             boilPoint = 0.5f;
             gasColor = Color.grays(0.9f);
@@ -147,6 +148,10 @@ public class AquaLiquids {
             effect = corroding;
             coolant = false;
             boilPoint = 1.1f;
+        }};
+        argon = new Liquid("argon", Color.valueOf("c891cc")){{
+            gas = true;
+            heatCapacity = 0.5f;
         }};
     }
 }

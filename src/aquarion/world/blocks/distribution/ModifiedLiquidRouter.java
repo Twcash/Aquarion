@@ -28,9 +28,8 @@ public class ModifiedLiquidRouter extends LiquidRouter {
                 if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){
                     float ofract = other.liquids.get(liquid) / other.block.liquidCapacity;
                     float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;
-
-                    float maxTransfer = (other.block.liquidCapacity - other.liquids.get(liquid)) / 2f;
-                    float flow = Math.min(Math.max(liquids.get(liquid) - other.liquids.get(liquid), 0f), maxTransfer);
+                    float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));
+                    flow = Math.min(flow, other.block.liquidCapacity - other.liquids.get(liquid));
 
                     if(flow > 0f && ofract <= fract && other.acceptLiquid(self(), liquid)){
                         other.handleLiquid(self(), liquid, flow);

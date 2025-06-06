@@ -140,11 +140,11 @@ public class AquaCore {
             requirements(Category.effect, with(lead,40, silicon, 40));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 1;
-            consumeLiquid(magma, 5/60f);
+            consumeLiquid(magma, 10/60f);
             range = 20;
-            healPercent = 1.5f;
+            healPercent = 1.6f;
             squareSprite = false;
-            reload = 250;
+            reload = 400;
             liquidCapacity = 120;
             alwaysUnlocked = true;
         }};

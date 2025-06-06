@@ -19,14 +19,11 @@ import mindustry.world.blocks.liquid.Conduit;
 import mindustry.world.meta.StatUnit;
 
 import static aquarion.world.Uti.AquaStats.MaxFlow;
-import static aquarion.world.graphics.AquaShaders.heatLayer;
 
 public class ModifiedConduit extends Conduit {
-    public TextureRegion heatReg;
     @Override
     public void load(){
         super.load();
-        heatReg = Core.atlas.find(name + "-heat");
     }
 
     public ModifiedConduit(String name) {
@@ -89,10 +86,10 @@ public class ModifiedConduit extends Conduit {
             if (next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f) {
                 float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;
                 float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;
-                float maxTransfer = (liquidCapacity - next.liquids.get(liquid))/2; // Limit transfer to half capacity of the next block
-                float flow = Math.min(Math.max(liquids.get(liquid) - next.liquids.get(liquid), 0f), maxTransfer);
+                float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));
+                flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));
 
-                if (flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)) {
+                if(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)){
                     next.handleLiquid(self(), liquid, flow);
                     liquids.remove(liquid, flow);
                     return flow;

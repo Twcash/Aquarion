@@ -8,6 +8,7 @@ import aquarion.world.graphics.*;
 
 import arc.graphics.Blending;
 import arc.graphics.Color;
+import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.content.*;
 import mindustry.entities.effect.MultiEffect;
@@ -32,7 +33,7 @@ import static mindustry.type.ItemStack.with;
 
 //What was all of this even for
 public class AquaCrafters {
-    public static Block saltReactor, brineCatalyzer, pulseEmitter, pulseDrill, pinDrill, inlet, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator, fumeSeparator,
              siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -384,7 +385,7 @@ public class AquaCrafters {
             ambientSoundVolume = 0.05f;
             squareSprite = false;
             liquidCapacity = 900;
-            outputLiquid = new LiquidStack(magma, 1f);
+            outputLiquid = new LiquidStack(magma, 1.5f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma, 5), new DrawDefault(), new DrawGlowRegion() {{
                 alpha = 0.65f;
                 color = Color.valueOf("e68569");
@@ -577,9 +578,10 @@ public class AquaCrafters {
             requirements(Category.production, with(aluminum, 250, silicon, 500));
             size = 6;
             squareSprite = false;
-            outputLiquid = new LiquidStack(fumes, 80/60f);
+            outputLiquid = new LiquidStack(fumes, 120/60f);
             attribute = Attribute.steam;
             boostScale = 1/18f;
+            minEfficiency = 0.1f;
             maxBoost = 2;
             baseEfficiency = 0;
             liquidCapacity = 250f;
@@ -691,69 +693,6 @@ public class AquaCrafters {
 
             }}, new DrawDefault(), new DrawGlowRegion());
         }};
-        InvarBlastFurnace = new AquaGenericCrafter("invar-blast-furnace"){{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 500, ferricMatter, 200, nickel, 1500, metaglass, 800));
-            size = 7;
-            craftTime = 10*60f;
-            itemBoostIntensity = 1.2f;
-            liquidBoostIntensity = 1.5f;
-            outputLiquid = new LiquidStack(dioxide, 40/60f);
-            consumeItems(with(nickel, 10, ferricMatter, 30));
-            itemBooster = consumeItem(manganese, 2).boost();
-            consumeLiquid(oxygen, 20/60f).boost();
-            consumeLiquids(LiquidStack.with(haze, 125 / 60f));
-            consumeCoolant(1).allowGas = true;
-            consumePower(256/60f);
-            squareSprite = false;
-            researchCostMultiplier = 0.05f;
-            outputItem = new ItemStack(invar, 40);
-            liquidCapacity = 200;
-            itemCapacity = 120;
-        }};
-        manguluminCrucible = new GenericCrafter("mangalumin-crucible"){{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
-            size = 7;
-            craftTime = 15*60f;
-            outputLiquid = new LiquidStack(dioxide, 35/60f);
-            consumeItems(with(manganese, 30, aluminum, 30, copper, 15));
-            consumeLiquids(LiquidStack.with(fumes, 60 / 60f));
-            consumePower(256/60f);
-            squareSprite = false;
-            outputItem = new ItemStack(mangalumin, 75);
-            liquidCapacity = 200;
-            itemCapacity = 90;
-        }};
-        VacodurAmalgamator = new GenericCrafter("vacodur-almalgamator"){{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
-            size = 8;
-            craftTime = 20*60f;
-            consumeItems(with(cobalt, 80, ferricMatter, 120));
-            ignoreLiquidFullness = true;
-            outputLiquid = new LiquidStack(dioxide, 20/60f);
-            consumeLiquids(LiquidStack.with(fumes, 20 / 60f));
-            consumePower(256*2/60f);
-            squareSprite = false;
-            outputItem = new ItemStack(vacodur, 200);
-            liquidCapacity = 200;
-            itemCapacity = 90;
-        }};
-        CaustroliteKiln = new GenericCrafter("caustrolite-kiln"){{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 500, aluminum, 200, bauxite, 1500));
-            researchCostMultiplier = 0.25f;
-            size = 5;
-            consumeItems(with(arsenic, 40, lead, 200));
-            consumeLiquids(LiquidStack.with(fumes, 20 / 60f, chlorine, 10/60f, hydroxide, 1));
-            consumePower(160/60f);
-            craftTime = 10*60f;
-            outputItem = new ItemStack(caustrolite, 120);
-            squareSprite = false;
-            liquidCapacity = 200;
-            itemCapacity = 90;
-        }};
         saltDegradationMatrix = new GenericCrafter("salt-degredation-matrix"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 8;
@@ -801,6 +740,7 @@ public class AquaCrafters {
             researchCostMultiplier = 0.02f;
             updateEffect = Fx.steam;
             updateEffectChance = 0.05f;
+            lightRadius = 0;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(magma, 1.5f){{ alpha = 0.6f;}}, new DrawDefault(), new DrawGlowRegion() {{
                 alpha = 0.65f;
                 color = Color.valueOf("e68569");
@@ -809,7 +749,8 @@ public class AquaCrafters {
             }});
             towaniteReductionVat = new GenericCrafter("towanite-reduction-vat"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.crafting, with( towanite, 150, silicon ,500, aluminum, 300));
+                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+                requirements(Category.crafting, with( copper, 150, ferricMatter ,500, aluminum, 300));
                 size = 7;
                 itemCapacity = 150;
                 craftTime = 3*60f;
@@ -838,13 +779,13 @@ public class AquaCrafters {
             }};
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.production, with(silicon, 300, lead ,250));
+                requirements(Category.production, with(silicon, 150, lead ,250));
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
                 researchCostMultiplier = 0.05f;
 
-                drillTime = 250;
+                drillTime = 240;
                 size = 4;
                 range = 8;
                 consumeLiquid(slag, 10/60f);
@@ -856,39 +797,68 @@ public class AquaCrafters {
             }};
             beamBore = new ModifiedbeamDrill("beam-bore"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.production, with(silicon, 350, aluminum, 250, towanite, 75));
+                requirements(Category.production, with( aluminum, 250, copper, 75));
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
                 researchCostMultiplier = 0.25f;
-                drillTime = 135;
+                drillTime = 120;
                 size = 3;
                 range = 6;
-                consumeLiquid(fumes, 5/60f);
-                consumeLiquid(oxygen, 15/60f).boost();
-                optionalBoostIntensity = 1.35f;
+                consumeLiquid(fumes, 15/60f).boost();
+                optionalBoostIntensity = 1f;
                 heatColor  = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
                 researchCostMultiplier = 0;
             }};
             fumeMixer = new GenericCrafter("fume-mixer"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.crafting, with(silicon, 250, aluminum, 300, copper, 200));
-                //Leave your skin at the door. One wall. Two Wall. No floor. No walls.
+                requirements(Category.crafting, with(metaglass, 250, aluminum, 300, copper, 200));
                 size = 6;
-                craftTime = 10*60f;
+                craftTime = 5*60f;
                 squareSprite = false;
                 baseExplosiveness = 10;
                 researchCostMultiplier = 0.25f;
-                consumeLiquids(LiquidStack.with(magma, 120 / 60f, dioxide, 40/60f));
-                outputLiquid = new LiquidStack(fumes, 120);
-                consumeItems(ItemStack.with(borax, 60, brimstone, 150));
+                consumeLiquids(LiquidStack.with(haze, 250 / 60f, oxygen, 125/60f));
+                outputLiquid = new LiquidStack(fumes, 240/60f);
+                consumeItems(ItemStack.with(coke, 32, brimstone, 16));
                 itemCapacity = 350;
                 liquidCapacity = 900;
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawRegion("-rotator"){{
+                    y = 35/4f;
+                    x = 20/4f;
+                    spinSprite = true;
+                    rotateSpeed = 2;
+                }}, new DrawRegion("-rotator"){{
+                    y = 35/4f;
+                    x = -20/4f;
+                    spinSprite = true;
+                    rotateSpeed = 2;
+                }}, new DrawLiquidTile(fumes){{
+                    alpha = 0.8f;
+                    padding = 2;
+                }}, new DrawDefault()
+                        , new PhaseOffsetGlowRegion("-glow"){{
+                    alpha = 0.55f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.4f;
+                    glowScale = 9f;
+                    layer = Layer.block +3;
+                    blending = Blending.additive;
+                    phaseOffset = 20;
+                }}, new PhaseOffsetGlowRegion("-glow1"){{
+                    alpha = 0.40f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.4f;
+                    glowScale = 7f;
+                    layer = Layer.block +3;
+                    blending = Blending.additive;
+                    phaseOffset = 10;
+                }});
             }};
             DrillDerrick = new GroundDrill("drill-derrick"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.production, with(  aluminum, 90, copper, 100, silicon, 120));
+                requirements(Category.production, with(  aluminum, 150, copper, 200));
                 size = 5;
                 drillTime = 125;
                 consumeLiquid(fumes, 20/60f).booster = false;
@@ -897,19 +867,35 @@ public class AquaCrafters {
                 squareSprite = false;
                 itemCapacity = 200;
                 liquidCapacity = 120;
-                tier = 3;
+                tier = 4;
                 researchCostMultiplier = 0;
             }};
-            galenaCrucible = new GenericCrafter("galena-reduction-vat"){{
+            galenaCrucible = new GenericCrafter("galena-crucible"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.crafting, with( silicon, 500, aluminum, 250));
+                requirements(Category.crafting, with( manganese, 500, aluminum, 250, strontium, 250));
                 size = 6;
-                consumeLiquids(LiquidStack.with(fumes, 15/60f, fluorine, 5/60f));
-                itemCapacity = 125;
+                consumeLiquids(LiquidStack.with(fluorine, 20/60f));
+                itemCapacity = 150;
                 liquidCapacity = 150;
                 squareSprite = false;
                 craftTime = 5*60f;
-                outputItem = new ItemStack(lead, 80);
+                consumeItem(galena, 40);
+                outputItems = ItemStack.with(lead, 40, brimstone, 25, copper, 15);
+                drawer= new DrawMulti(new DrawDefault(), new DrawGlowRegion("-glow"){{
+                    alpha = 0.4f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.3f;
+                    glowScale = 5f;
+                    layer = Layer.block +3;
+                    blending = Blending.additive;
+                }}, new DrawGlowRegion("-glow1"){{
+                    alpha = 0.45f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.35f;
+                    glowScale = 6f;
+                    layer = Layer.block +3;
+                    blending = Blending.additive;
+                }});
             }};
             fumeSeparator = new GenericCrafter("fume-separator"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -996,7 +982,7 @@ public class AquaCrafters {
         }};
         SolidBoiler = new GenericCrafter("solid-boiler"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( nickel, 250, silicon, 1200, metaglass, 220, lead, 500, copper, 900));
+            requirements(Category.crafting, with( lead, 700, aluminum, 350, copper, 900, metaglass, 400));
             size = 7;
             itemCapacity = 60;
             squareSprite = false;
@@ -1279,7 +1265,7 @@ public class AquaCrafters {
             }});
         }};
         inlet = new GenericCrafter("inlet"){{
-            requirements(Category.production, with( silicon, 90));
+            requirements(Category.production, with( copper, 45));
             shownPlanets.addAll(tantros2);
             craftTime = 10;
             outputLiquid = new LiquidStack(halideWater, 20/60f);
@@ -1299,18 +1285,81 @@ public class AquaCrafters {
         }};
         vacuumFreezer = new GenericCrafter("vacuum-freezer"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( copper, 200, aluminum, 500, metaglass, 800));
+            requirements(Category.crafting, with( copper, 200, aluminum, 500));
             size = 6;
             squareSprite = false;
             ambientSound = Sounds.electricHum;
             consumeLiquid(halideWater, 300/60f);
             craftTime = 10;
-            outputLiquids = LiquidStack.with( air, 150/60f,water, 150/60f);
+            outputLiquids = LiquidStack.with( air, 200/60f,water, 200/60f);
             liquidOutputDirections = new int[]{1, 4};
             rotate = true;
             rotateDraw = false;
+            liquidCapacity = 600;
             regionRotated1 = 3;
-            drawer = new DrawMulti( new DrawDefault(), new PhaseOffsetGlowRegion("-glow"){{
+            craftEffect = new MultiEffect(new NewParticleEffect(){{
+                y = -6/4f;
+                baseRotation = 45;
+                cone = 20;
+                length = 110;
+                colorFrom = Color.valueOf("558dbe");
+                colorTo = Color.valueOf("ffffff").a(0);
+                sizeInterp = Interp.linear;
+                interp = pow5Out;
+                sizeFrom = 0;
+                lifetime = 220;
+                sizeTo = 6;
+                particles = 5;
+            }}, new NewParticleEffect(){{
+                y = -6/4f;
+                x = -49/4f;
+                baseRotation = 45;
+                cone = 20;
+                length = 110;
+                colorFrom = Color.valueOf("558dbe");
+                colorTo = Color.valueOf("ffffff").a(0);
+                sizeInterp = Interp.linear;
+                interp = pow5Out;
+                sizeFrom = 0;
+                lifetime = 220;
+                sizeTo = 6;
+                particles = 5;
+            }},new NewParticleEffect(){{
+                y = -6/4f;
+                x = 44/4f;
+                baseRotation = 45;
+                cone = 20;
+                length = 110;
+                colorFrom = Color.valueOf("558dbe");
+                colorTo = Color.valueOf("ffffff").a(0);
+                sizeInterp = Interp.linear;
+                interp = pow5Out;
+                sizeFrom = 0;
+                lifetime = 220;
+                sizeTo = 6;
+                particles = 5;
+            }});
+            updateEffect = Fx.steam;
+            updateEffectChance = 0.01f;
+            drawer = new DrawMulti(new DrawDefault(){
+            }, new DrawPump("-pump"){{
+                y = 45/4f;
+                x = -38/4f;
+            }}, new DrawPump("-pump"){{
+                y = 45/4f;
+                x = -63/4f;
+                timeOffset = 10;
+            }}, new DrawLiquidTile(air){{
+                padTop = 37/4f;
+                padRight = 121/4f;
+                padBottom = 132/4f;
+                padLeft = 49/4f;
+            }}, new DrawLiquidTile(water){{
+                padTop = 37/4f;
+                padRight = 148/4f;
+                padBottom = 132/4f;
+                padLeft = 22/4f;
+            }}, new DrawRegion("-top"), new PhaseOffsetGlowRegion("-glow"){{
                 alpha = 0.55f;
                 color = Color.valueOf("e68569");
                 glowIntensity = 0.4f;
@@ -1349,26 +1398,281 @@ public class AquaCrafters {
                 particleLife = 140f;
             }});
         }};
-        acuminiteDegredationArray = new AquaGenericCrafter("acuminite-degredation-array"){{
+        acuminiteDegredationArray = new GenericCrafter("acuminite-degredation-array"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( manganese, 550, aluminum, 700, metaglass, 700));
+            requirements(Category.crafting, with( manganese, 550, aluminum, 700, strontium, 500));
             squareSprite = false;
             size = 8;
+            researchCostMultiplier = 0;
+            ignoreLiquidFullness = true;
+            dumpExtraLiquid = true;
             consumeItem(acuminite, 60);
             craftTime = 5*60f;
             liquidCapacity = 1000;
             itemCapacity = 180;
-            ambientSound = AquaSounds.refine;
+            ambientSound = AquaSounds.waterRumble;
+            ambientSoundVolume = 0.09f;
+            updateEffectChance = 0.05f;
+            updateEffect = Fx.coalSmeltsmoke;
             outputLiquid = new LiquidStack(fluorine, 40/60f);
             outputItems = ItemStack.with(aluminum, 60, strontium, 60);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawCellsNew(){{
+                range = 70/4f;
+                radius = 2.5f;
+                particles = 400;
+                lifetime = 90f * 5f;
+                particleColorFrom = Color.valueOf("9aa86d");
+                particleColorTo = Color.valueOf("9d6b44");
+                color = Color.valueOf("715041");
+            }}, new DrawBubblesNew(Color.valueOf("edcc97").a(0.5f)){{
+                spread = 70/4f;
+                amount = 70;
+                timeScl = 20;
+                circle = true;
+            }}, new DrawRegion("-panel"),
+                    new DrawBlurSpin("-fan", 0.6f * 9f) {{
+                        blurThresh = 0.6f;
+                        x = -96/4f;
+                        y = -10/4f;
+                    }},
+                    new DrawBlurSpin("-fan", 0.6f * 9f) {{
+                        blurThresh = 0.6f;
+                        x = -96/4f;
+                        y = 40/4f;
+                    }},
+                    new DrawBlurSpin("-fan", 0.6f * 9f) {{
+                        blurThresh = 0.6f;
+                        x = -96/4f;
+                        y = 90/4f;
+                    }}, new DrawPistons(){{
+                suffix = "-pistone";
+                sides  = 1;
+                angleOffset = 90;
+                sinMag = 3.5f;
+                lenOffset = 1;
+            }}, new DrawWheel(){{
+                width = 42/4f;
+                height = 42/4f;
+                rotation = -45;
+                rotationSpeed = 1.2f;
+                suffix = "-tick";
+                x = 45/4f;
+                y = -50/4f;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }}, new DrawLiquidTile(fluorine){{
+                padBottom = 61/4f;
+                padRight = 70/4f;
+                padTop = 160/4f;
+                padLeft = 150/4f;
+            }}, new DrawAdvancedPistons(){{
+                angleOffset = 270;
+                sides = 1;
+                sinMag = 2.5f;
+            }}, new DrawCircles(){{
+                y = 35/4f;
+                x = -2f;
+                color = Color.valueOf("edcc97");
+                radius = 18;
+                amount = 2;
+                timeScl = 220;
+            }}, new DrawRegion("-rotator"){{
+                spinSprite = true;
+                rotateSpeed = 0.5f;
+                y = 35/4f;
+                x = -2f;
+            }}, new DrawDefault(), new DrawRegion("-shadow"), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.5f;
+                color = Color.valueOf("f5c5aa");
+            }}, new DrawGlowRegion("-glow2"){{
+                glowIntensity = 0.8f;
+                glowScale = 12;
+                alpha = 0.6f;
+                color = Color.valueOf("ef6a60");
+            }}, new DrawGlowRegion("-glow3"){{
+                glowIntensity = 0.5f;
+                glowScale = 10;
+                alpha = 0.6f;
+                color = Color.valueOf("ef6a60");
+            }});
+        }};
+        atmosphericCentrifuge = new GenericCrafter("atmospheric-centrifuge"){{
+            liquidOutputDirections = new int[]{1, 2, 3};
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with( aluminum, 200, lead, 150, copper, 100));
+            size = 4;
+            rotateDraw = false;
+            rotate = true;
+            regionRotated1 = 1;
+            liquidCapacity = 400;
+            consumeLiquid(air, 200/60f);
+            outputLiquids = LiquidStack.with(argon, 15/60f, oxygen, 85/60f, nitrogen, 100/60f);
+            squareSprite = false;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawOrbitRegions("-centrifuge", 4, 7f, 3.5f), new DrawLiquidTile(air){{
+                alpha = 0.6f;
+                padding = 2;
+            }}, new DrawLiquidTile(oxygen){{
+                padLeft = 7/4f;
+                padBottom = 8/4f;
+                padTop = 45/4f;
+                padRight = 99/4f;
+            }}, new DrawLiquidTile(nitrogen){{
+                padLeft = 41/4f;
+                padBottom = 30/4f;
+                padTop = 16/4f;
+                padRight = 18/4f;
+            }}, new DrawDefault(), new DrawLiquidTile(argon){{
+                padLeft = 32/4f;
+                padBottom = 37/4f;
+                padTop = 68/4f;
+                padRight = 87/4f;
+            }}, new DrawRegion("-top"), new DrawPump("-pump"){{
+                y = 11/4f;
+                x = 1;
+                timeOffset = 0;
+            }}, new DrawPump("-pump"){{
+                y = -23/4f;
+                x = 1;
+                timeOffset = 10;
+            }}, new DrawPump("-pump"){{
+                y = -7/4f;
+                x = 1;
+                timeOffset = 20;
+            }}, new PhaseOffsetGlowRegion("-glow"){{
+                alpha = 0.35f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.3f;
+                glowScale = 5f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+                phaseOffset = 10;
+            }}, new PhaseOffsetGlowRegion("-glow1"){{
+                alpha = 0.40f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 7f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+                phaseOffset = 20;
+            }}, new DrawLiquidOutputs());
+        }};
+        steelFoundry = new GenericCrafter("blast-furnace"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with( ferricMatter, 200, nickel, 150, metaglass, 100));
+            size = 7;
+            rotateDraw = false;
+            rotate = true;
+            liquidCapacity = 2000;
+            itemCapacity = 200;
+            craftTime = 5*60f;
+            consumeItems(ItemStack.with(ferricMatter, 50, coke, 80));
+            outputItems = ItemStack.with(steel, 50, graphite, 40);
+            consumeLiquid(oxygen, 125/60f);
+            outputLiquid = new LiquidStack(slag, 240/60f);
+            squareSprite = false;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(slag){{
+                alpha = 0.7f;
+                padBottom = 2;
+                padLeft = 22;
+                padTop = 2;
+                padRight = 2;
+            }}, new DrawDefault(), new PhaseOffsetGlowRegion("-glow"){{
+                alpha = 0.3f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 6f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+                phaseOffset = 10;
+            }},new PhaseOffsetGlowRegion("-glow1"){{
+                alpha = 0.40f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 7f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+                phaseOffset = 20;
+            }},new PhaseOffsetGlowRegion("-glow2"){{
+                alpha = 0.50f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.6f;
+                glowScale = 7f;
+                layer = Layer.block +3;
+                blending = Blending.additive;
+                phaseOffset = 30;
+            }});
         }};
         pinDrill = new GroundDrill("pin-drill"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with( manganese, 40, metaglass, 90, strontium, 20));
+            requirements(Category.production, with( manganese, 40, aluminum, 50, strontium, 20));
             drillTime = 100;
             size = 1;
             squareSprite = false;
-            tier = 2;
+            tier = 3;
+            researchCostMultiplier = 0;
+            drawer = new DrawMulti(new DrawDefault(), new DrawPump("-bit"));
+        }};
+        algalTerrace = new AttributeCrafter("algal-terrace"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.production, with( strontium, 500, lead, 700, metaglass, 500));
+            size = 7;
+            baseEfficiency = 0;
+            squareSprite = false;
+            attribute = AquaAttributes.fertility;
+            boostScale = 1/(49/2f);
+            maxBoost = 2;
+            liquidCapacity = 1200;
+            itemCapacity = 20;
+            minEfficiency = 0.25f;
+            outputLiquid = new LiquidStack(bioPulp, 150/60f);
+            consumeLiquids(LiquidStack.with(water, 150/60f, brine, 50/60f));
+            craftTime = 90;
+            consumeItem(brimstone, 1);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(water){{
+                padding = 3;
+            }}, new DrawCells(){{
+                range = 8*7/2f-4;
+                radius = 3;
+                particleColorTo = Color.valueOf("9c592d");
+                particleColorFrom = Color.valueOf("c5a74b");
+                color = Color.valueOf("7b4624");
+                particles = 400;
+            }}, new DrawLiquidTile(bioPulp){{
+                padding = 3;
+            }}, new DrawDefault());
+        }};
+        gasifier = new GenericCrafter("gasifier"){{
+            size = 6;
+            squareSprite = false;
+            liquidCapacity = 500;
+            itemCapacity = 100;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with( aluminum, 500, strontium, 700, metaglass, 500));
+            consumeLiquid(bioPulp, 75/60f);
+            outputItem = new ItemStack(coke, 5);
+            outputLiquid = new LiquidStack(haze, 25/60f);
+            drawer = new DrawMulti(new DrawDefault(), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.5f;
+                color = Color.valueOf("dd5858");
+            }},new DrawGlowRegion("-glow1"){{
+                glowIntensity = 0.9f;
+                glowScale = 8;
+                alpha = 0.6f;
+                color = Color.valueOf("f5c5aa");
+            }},new DrawGlowRegion("-glow1"){{
+                glowIntensity = 0.7f;
+                glowScale = 6;
+                alpha = 0.5f;
+                color = Color.valueOf("f5c5aa");
+            }});
         }};
     }
 

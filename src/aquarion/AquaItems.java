@@ -11,9 +11,7 @@ import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.*;
 
 public class AquaItems {
-    public static Item acuminite, strontium, hexogen, coke, galena, boron, cryolite, caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, manganese, sodium, ceramic;
-    public static final Seq<Item> tantrosItems = new Seq<>();
-    public static final Seq<Item> qeraltarItems = new Seq<>();
+    public static Item serpentine, magnesiumPowder, steel, acuminite, strontium, hexogen, coke, galena, boron, cryolite, caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, manganese, sodium, ceramic;
     public static void load() {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
@@ -94,6 +92,7 @@ public class AquaItems {
             cost = 0.5f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             radioactivity = 0.05f;
             magnetism = 1;
+            hardness = 4;
         }};
         aluminum = new Item("aluminum", Color.valueOf("#7489a5")) {{
             cost = 0.3f;
@@ -160,6 +159,17 @@ public class AquaItems {
         acuminite = new Item("acuminite", Color.valueOf("fff475")){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
+        steel = new Item("steel", Color.valueOf("ffffff")){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+        }};
+        magnesiumPowder = new Item("magnesium-powder", Color.valueOf("ffffff")){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            flammability = 0.4f;
+            explosiveness = 0.8f;
+        }};
+        serpentine = new Item("serpentine", Color.valueOf("e7e58f")){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            hardness = 2;
+        }};
     }
-
 }

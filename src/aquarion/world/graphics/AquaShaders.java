@@ -18,8 +18,8 @@ import static mindustry.graphics.Shaders.water;
 
 
 public class AquaShaders {
-    public static @Nullable SurfaceShader brine, heat;
-    public static CacheLayer.ShaderLayer brineLayer, heatLayer;
+    public static @Nullable SurfaceShader brine, shadow;
+    public static CacheLayer.ShaderLayer brineLayer, shadowLayer;
     public static Fi file(String name){
         return Core.files.internal("shaders/" + name);
     }
@@ -30,12 +30,12 @@ public static void init(){
 
 
         brine = new SurfaceShader("brine");
-        heat = new SurfaceShader("heat");
+        shadow = new SurfaceShader("shadow");
 
-        heatLayer = new CacheLayer.ShaderLayer(heat);
+        shadowLayer = new CacheLayer.ShaderLayer(shadow);
         brineLayer = new CacheLayer.ShaderLayer(brine);
         CacheLayer.addLast(brineLayer);
-        CacheLayer.add(126, heatLayer);
+        CacheLayer.add(25, shadowLayer);
     }
 
     public static void dispose(){

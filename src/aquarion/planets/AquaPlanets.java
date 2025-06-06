@@ -75,7 +75,7 @@ public class AquaPlanets {
             defaultCore = AquaCore.corePike;
             allowLaunchLoadout = false;
             clearSectorOnLose = true;
-            allowLaunchToNumbered = true;
+            allowLaunchToNumbered = false;
             ruleSetter = r -> {
                 r.fire = true;
                 r.waveTeam = Team.crux;

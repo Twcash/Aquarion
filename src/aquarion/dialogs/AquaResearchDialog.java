@@ -24,6 +24,7 @@ import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.content.TechTree.*;
 import mindustry.core.*;
+import mindustry.ctype.UnlockableContent;
 import mindustry.game.EventType.*;
 import mindustry.game.Objectives.*;
 import mindustry.gen.*;
@@ -363,7 +364,7 @@ public class AquaResearchDialog extends BaseDialog {
         return max;
     }
     void treeLayout(){
-        float ringSpacing = 300f;     // Spacing between rings
+        float ringSpacing = 500f;     // Spacing between rings
 
         // Center root
         root.x = 0f;
@@ -450,6 +451,7 @@ public class AquaResearchDialog extends BaseDialog {
             }
         }
     }
+
 
     public class View extends Group {
         public float panX = 0, panY = -200, lastZoom = -1;
@@ -794,7 +796,7 @@ public class AquaResearchDialog extends BaseDialog {
             Draw.sort(true);
             float offsetX = panX + width / 2f, offsetY = panY + height / 2f;
             int maxDepth = getMaxDepth(root, 0);
-            float spacing = 300f; // same as layout spacing
+            float spacing = 500; // same as layout spacing
 
             Draw.z(0f);
 

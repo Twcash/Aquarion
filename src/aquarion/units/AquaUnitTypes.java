@@ -43,7 +43,7 @@ public class AquaUnitTypes {
 
     public static UnitType
         //Sharded units
-            bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan,
+            bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, retaliate,
             //qeralter Units
         weep,
             //core/mining
@@ -145,8 +145,8 @@ public class AquaUnitTypes {
         }};
         ambassador = new MechanicalUnitType("ambassador") {{
             constructor = LegsUnit::create;
-            health = 1250;
-            armor = 12;
+            health = 1150;
+            armor = 10;
             legLength = 16;
             legPairOffset = 2;
             abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
@@ -180,7 +180,7 @@ public class AquaUnitTypes {
                     }});
             hitSize = 13;
             legCount = 4;
-            speed = 1.2f;
+            speed = 1f;
             rotateSpeed = 1.7f;
             lockLegBase = true;
             legMaxLength = 1.2f;
@@ -1611,7 +1611,7 @@ public class AquaUnitTypes {
                 shootY = 3;
                 reload = 5;
                 inaccuracy = 5;
-                bullet = new BasicBulletType(7, 8, "aquarion-bolt"){{
+                bullet = new BasicBulletType(7, 5, "aquarion-bolt"){{
                     shrinkY = 0;
                     lifetime = 15;
                     shrinkX = 0.2f;
@@ -1859,6 +1859,54 @@ public class AquaUnitTypes {
                     backColor = trailColor = lightColor  = AquaPal.fireLight2;
                     width = height = 16;
                     trailLength = 12;
+                }};
+            }});
+        }};
+        retaliate = new newTankUnitType("retaliate"){{
+            constructor = TankUnit::create;
+            speed = 0.45f;
+            armor = 20;
+            health = 2250;
+            omniMovement = true;
+            targetAir = false;
+            shadowElevation = 0.1f;
+            hitSize = 8*6/2f;
+            outlines = true;
+            drawCell = false;
+            treadFrames = 4;
+            outlineColor = AquaPal.tantDarkestTone;
+            //NOTE Do not yoink code for vanilla tread rects.
+            treadRects = new Rect[]{
+                    new Rect(-192, -192, 192, 192),
+                    new Rect(-192, -192, 192, 192),
+            };
+            weapons.addAll(new Weapon("aquarion-retaliate-weapon"){{
+                rotate = true;
+                rotateSpeed = 0.9f;
+                mirror = false;
+                x = -2;
+                y = -1;
+                recoil = 4;
+                shootY = 8;
+                shootSound = Sounds.largeCannon;
+                reload = 150;
+                bullet = new ArtilleryBulletType(9f, 150, "aquarion-bolt"){{
+                    shrinkY = 0.4f;
+                    shrinkX = 0.3f;
+                    lifetime = 30;
+                    splashDamage = 120;
+                    splashDamageRadius = 50f;
+                    collidesAir = false;
+                    trailRotation = true;
+                    trailEffect = AquaFx.pentagonShootSmoke;
+                    shootEffect = AquaFx.shootLong;
+                    smokeEffect = AquaFx.GyreShootSmoke;
+                    frontColor = AquaPal.fireLight1;
+                    backColor = trailColor = lightColor  = AquaPal.fireLight2;
+                    width = height = 15;
+                    trailLength = 5;
+                    despawnShake = 2;
+                    despawnSound = Sounds.largeExplosion;
                 }};
             }});
         }};

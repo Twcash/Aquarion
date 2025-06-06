@@ -27,7 +27,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class AquaLiquid {
-    public static Block pipeTank, pipeJunction, liquidVessel, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
+    public static Block pipeTank, pipeJunction, liquidVessel, siphonReservoir, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
 
     public static void loadContent() {
         siphonBridge = new ModifiedLiquidBridge("siphon-bridge"){{
@@ -42,12 +42,13 @@ public class AquaLiquid {
         }};
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge"){{
             //long boi. Prolly unbalanced asf but I'm working on it
-            requirements(Category.liquid, with(titanium, 90));
+            requirements(Category.liquid, with(manganese, 45));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             range = 8;
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            researchCostMultiplier = 0;
         }};
         siphon = new ModifiedConduit("siphon") {{
             requirements(Category.liquid, with(silicon, 3));
@@ -62,10 +63,10 @@ public class AquaLiquid {
             alwaysUnlocked = true;
         }};
         pulseSiphon = new ModifiedConduit("pulse-siphon") {{
-            //but what if siligone?
-            requirements(Category.liquid, with(titanium, 2));
+            //but what if siligone? SOLVEDDD!
+            requirements(Category.liquid, with(manganese, 2));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-
+            researchCostMultiplier = 0;
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 80;
@@ -96,6 +97,16 @@ public class AquaLiquid {
             squareSprite = false;
             liquidCapacity = 4000;
             size = 3;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        siphonReservoir = new ModifiedLiquidRouter("siphon-reservoir"){{
+            requirements(Category.liquid, with(aluminum, 50, manganese, 250));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            liquidPadding = 3;
+            squareSprite = false;
+            liquidCapacity = 8500;
+            size = 4;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

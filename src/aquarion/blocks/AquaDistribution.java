@@ -87,7 +87,7 @@ public class AquaDistribution {
         }};
         sealedUnloader = new DirectionalUnloader("sealed-unloader"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.distribution, with(aluminum, 20, silicon, 20));
+            requirements(Category.distribution, with(aluminum, 40));
             speed = 2f;
             allowCoreUnload = true;
             researchCostMultiplier = 0.25f;
@@ -173,14 +173,15 @@ public class AquaDistribution {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             speed = 2f / 60f;
             itemCapacity = 30;
-
-            outputRouter = false;
+            researchCostMultiplier = 0;
+            drawDisabled = false;
+            outputRouter = true;
             hasPower = true;
             consumesPower = true;
             conductivePower = true;
             underBullets = true;
             baseEfficiency = 1f;
-            consumePower(2f / 60f);
+            consumePower(1f / 60f);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

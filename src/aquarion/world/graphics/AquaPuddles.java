@@ -51,22 +51,26 @@ public class AquaPuddles extends Puddles {
             }
             return;
         }
-
+        if(Vars.state.rules.hasEnv(Env.underwater) && liquid.viscosity < 0.7f){
+            if(Mathf.chanceDelta(0.16f)&& liquid.temperature < 0.6f){
+                liquid.vaporEffect.at(ax, ay, liquid.gasColor);
+            }
+            return;
+        }
+        if(Vars.state.rules.hasEnv(Env.underwater) && liquid.temperature > 0.6f) {
+            if (Mathf.chanceDelta(0.16f)) {
+                Fx.steam.at(ax, ay, liquid.gasColor);
+                Fx.ballfire.at(ax, ay, liquid.gasColor);
+            }
+            return;
+        }
         if(Vars.state.rules.hasEnv(Env.space)){
             if(Mathf.chanceDelta(0.11f) && tile != source){
                 Bullets.spaceLiquid.create(null, source.team(), ax, ay, source.angleTo(tile) + Mathf.range(50f), -1f, Mathf.random(0f, 0.2f), Mathf.random(0.6f, 1f), liquid);
             }
             return;
         }
-        if(Vars.state.rules.hasEnv(Env.underwater)){
-            if(liquid.temperature > 0.5f){
-                Fx.steam.at(ax, ay);
-                Fx.ballfire.at(ax, ay);
-            }else if(Mathf.chanceDelta(0.11f) && tile != source && liquid.viscosity < 0.7f){
-                liquid.vaporEffect.at(ax, ay, liquid.gasColor);
-            }
-            return;
-        }
+
 
         if(tile.floor().isLiquid && !canStayOn(liquid, tile.floor().liquidDrop)){
             reactPuddle(tile.floor().liquidDrop, liquid, amount, tile, ax, ay);
@@ -85,6 +89,7 @@ public class AquaPuddles extends Puddles {
         Puddle p = get(tile);
         if(p == null || p.liquid == null){
             if(!Vars.net.client()){
+                //do not create puddles clientside as that destroys syncing
                 Puddle puddle = Puddle.create();
                 puddle.tile = tile;
                 puddle.liquid = liquid;
@@ -112,14 +117,20 @@ public class AquaPuddles extends Puddles {
     }
 
 
+    public static boolean hasLiquid(Tile tile, Liquid liquid){
+        if(tile == null) return false;
+        var p = get(tile);
+        return p != null && p.liquid == liquid && p.amount >= 0.5f;
+    }
+
     public static void remove(Tile tile){
         if(tile == null) return;
 
-        map.remove(tile.pos());
+        world.tiles.setPuddle(tile.array(), null);
     }
 
     public static void register(Puddle puddle){
-        map.put(puddle.tile().pos(), puddle);
+        world.tiles.setPuddle(puddle.tile().array(), puddle);
     }
 
     /** Reacts two liquids together at a location. */
@@ -141,7 +152,7 @@ public class AquaPuddles extends Puddles {
             if(Mathf.chance(0.8f * amount)){
                 Fx.steam.at(x, y);
             }
-            return -0.4f * amount;
+            return -0.7f * amount;
         }
         return dest.react(liquid, amount, tile, x, y);
     }

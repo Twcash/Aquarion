@@ -34,29 +34,28 @@ import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 public class AquaEnv {
     public static Block azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
-            arsenicBoulder, boricBoulder;
+            arsenicBoulder, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
             CrasseCoral, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
-    public static Block leafLitter, blueSandFLoor, blueSandWater, brecciaFloor,
+    public static Block leafLitter, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid,
             coral_floor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
-            kelp_floor, roughFeldspar, phylite_floor, slate,
+            kelp_floor, roughFeldspar, phylite_floor, slate, ultrafamicFloor,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum,
             oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium,
-            oreManganese, oreAluminum, oreSilicon, exposedGallium, cryoliteOre, acuminiteOre;
-    public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall,
+            oreManganese, oreAluminum, oreSilicon, exposedGallium, cryoliteOre, acuminiteOre, ferricOre, serpentineOre;
+    public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
             arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall,
             chertOutcrop, pillarCoral, loteasCoral, songCoral,
             bauxiticWall ,algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
             feldsparWall, gabbroWall, andesiteExtrusions, CrystalGalena,
             elderParzil, boraxCluster;
-
 
     public static void loadContent() {
         //TODO fix the blend group
@@ -73,6 +72,10 @@ public class AquaEnv {
             cacheLayer = AquaShaders.brineLayer;
             albedo = 1f;
             supportsOverlay = true;
+        }};
+        ultrafamicFloor = new Floor("ultrafamic-floor", 3){{
+            wall = ultrafamicWall;
+            decoration = ultrafamicBoulder;
         }};
         boricFloor = new Floor("boric-floor", 4){{
             wall = boricWall;
@@ -174,6 +177,11 @@ public class AquaEnv {
                 interp = Interp.pow3Out;
             }};
         }};
+        exposedSerpentine = new StaticWall("exposed-serpentine") {{
+            itemDrop = serpentine;
+            variants = 3;
+            playerUnmineable = true;
+        }};
 
         gabbro_vent = new SteamVent("gabbro-vent") {{
             attributes.set(Attribute.steam, 1f);
@@ -216,6 +224,7 @@ public class AquaEnv {
         }};
         blueSandFLoor = new Floor("blue-sand-floor", 3) {{
             itemDrop = Items.sand;
+            playerUnmineable = true;
         }};
         blueSandWater = new Floor("blue-sand-floor-water", 3) {{
             liquidDrop = Liquids.water;
@@ -276,8 +285,14 @@ public class AquaEnv {
         acuminiteOre= new OreBlock("acuminite-ore", acuminite){{
             variants = 5;
         }};
+        ferricOre= new OreBlock("ferric-ore", ferricMatter){{
+            variants = 4;
+        }};
         oreArsenic= new OreBlock("arsenic-ore", arsenic){{
             wallOre = true;
+            variants = 3;
+        }};
+        serpentineOre= new OreBlock("ore-serpentine", serpentine){{
             variants = 3;
         }};
         oreNickelWall= new OreBlock("ore-nickel-wall", nickel){{
@@ -309,7 +324,9 @@ public class AquaEnv {
             itemDrop = gallium;
             attributes.set(AquaAttributes.gallium, 1f);
         }};
-
+        ultrafamicWall = new StaticWall("ultrafamic-wall") {{
+            variants = 3;
+        }};
 
         algalBloom = new StaticWall("algal-bloom") {{
             variants = 1;
@@ -496,6 +513,9 @@ public class AquaEnv {
         algalBoulder = new Prop("algal-boulder"){{
             variants = 2;
         }};
+        ultrafamicBoulder = new Prop("ultrafamic-boulder"){{
+            variants = 2;
+        }};
         gabbroBoulder = new Prop("gabbro-boulder"){{
             variants = 3;
         }};
@@ -568,6 +588,12 @@ public class AquaEnv {
         }};
         pottedGrass = new Floor("potted-grass", 2){{
 
+        }};
+        soil = new Floor("soil", 3){{
+            attributes.set(AquaAttributes.fertility, 1f);
+        }};
+        fertileSoil = new Floor("fertile-soil", 3){{
+            attributes.set(AquaAttributes.fertility, 1.5f);
         }};
 
     }
