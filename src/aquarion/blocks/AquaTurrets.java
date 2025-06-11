@@ -788,7 +788,7 @@ public class AquaTurrets {
         redact  = new ItemTurret("redact"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 825;
-            requirements(Category.turret, with(AquaItems.ferricMatter, 120, silicon, 200, AquaItems.aluminum, 300));
+            requirements(Category.turret, with(AquaItems.ferricMatter, 90, silicon, 120, AquaItems.aluminum, 150));
             ammo(
                     AquaItems.arsenic, new BasicBulletType(6f, 50, "missile-large") {{
                         width = 8f;

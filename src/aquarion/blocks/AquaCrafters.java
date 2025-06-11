@@ -3,6 +3,7 @@ package aquarion.blocks;
 import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaSounds;
+import aquarion.world.blocks.heatBlocks.AquaHeatCrafter;
 import aquarion.world.blocks.production.*;
 import aquarion.world.graphics.*;
 
@@ -33,7 +34,7 @@ import static mindustry.type.ItemStack.with;
 
 //What was all of this even for
 public class AquaCrafters {
-    public static Block gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
+    public static Block ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, manguluminCrucible, chireniumElectroplater, saltDegradationMatrix, CaustroliteKiln, VacodurAmalgamator, InvarBlastFurnace, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, chromiumExtractor, silverDrill, electrumBore, electrumDrill,
             atmoshpericSeperator, fumeSeparator,
              siliconHearth, magmaDiffser,
             carbonicBubbler, electrumCombustor, cryofluidChurn, cupronickelAlloyer, hydroponicsBasin, inconelForge;
@@ -401,9 +402,9 @@ public class AquaCrafters {
             researchCostMultiplier = 0.02f;
 
             outputItems = new ItemStack[]{
-                    new ItemStack(silicon, 3),
-                    new ItemStack(ferricMatter, 5),
-                    new ItemStack(aluminum, 2)
+                    new ItemStack(silicon, 4),
+                    new ItemStack(ferricMatter, 6),
+                    new ItemStack(aluminum, 5)
             };
             outputLiquid = new LiquidStack(oxygen, 20 / 60f);
             size = 6;
@@ -1231,7 +1232,7 @@ public class AquaCrafters {
                 sides = 1;
             }}));
         }};
-        AnnealingOven = new GenericCrafter("metaglass-annealing-furnace"){{
+        AnnealingOven = new AquaHeatCrafter("metaglass-annealing-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( lead, 300, copper, 550));
             size = 5;
@@ -1246,6 +1247,9 @@ public class AquaCrafters {
             ambientSound = AquaSounds.refine;
             ambientSoundVolume = 0.07f;
             consumeLiquid(air, 150/60f);
+            heatRequirement = 10;
+            overheatScale = 0.8f;
+            maxEfficiency = 5;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new PhaseOffsetGlowRegion("-glow"){{
                 alpha = 0.55f;
                 color = Color.valueOf("e68569");
@@ -1283,7 +1287,7 @@ public class AquaCrafters {
                 particleLife = 90f;
             }});
         }};
-        vacuumFreezer = new GenericCrafter("vacuum-freezer"){{
+        vacuumFreezer = new AquaHeatCrafter("vacuum-freezer"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( copper, 200, aluminum, 500));
             size = 6;
@@ -1297,6 +1301,10 @@ public class AquaCrafters {
             rotateDraw = false;
             liquidCapacity = 600;
             regionRotated1 = 3;
+            heatRequirement = -10;
+            overheatScale = 0.8f;
+            maxEfficiency = 10;
+            flipHeatScale = true;
             craftEffect = new MultiEffect(new NewParticleEffect(){{
                 y = -6/4f;
                 baseRotation = 45;
@@ -1673,6 +1681,38 @@ public class AquaCrafters {
                 alpha = 0.5f;
                 color = Color.valueOf("f5c5aa");
             }});
+        }};
+        ultrafamicRefinery = new GenericCrafter("ultrafamic-refinery"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with( aluminum, 500, strontium, 700, metaglass, 500));
+            size = 5;
+            squareSprite = false;
+            itemCapacity = 200;
+            liquidCapacity = 500;
+            craftTime = 5*60f;
+            consumeItem(serpentine, 20);
+            outputLiquids = LiquidStack.with(hydroxide, 20f / 60f, oxygen, 15f / 60f);
+            outputItems = new ItemStack[]{
+                    new ItemStack(silicon, 4),
+                    new ItemStack(ferricMatter, 6),
+                    new ItemStack(aluminum, 8),
+                    new ItemStack(nickel, 6),
+                    new ItemStack(magnesiumPowder, 10)
+            };
+            drawer = new DrawMulti(new DrawDefault(), new DrawFramesNew(){{
+                frames = 4;
+                interval = 5;
+            }}, new DrawFramesNew(){{
+                frames = 4;
+                interval = 5;
+                suffix = "-ore";
+
+            }},new DrawPile(){{
+                moveX = -54/4f;
+                moveY = -54/4f;
+                y = 26/4f;
+                x = 20/4f;
+            }}, new DrawRegion("-convey"));
         }};
     }
 

@@ -43,9 +43,9 @@ public class AquaEnv {
             andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid,
             coral_floor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
-            kelp_floor, roughFeldspar, phylite_floor, slate, ultrafamicFloor,
+            kelp_floor, roughFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
-            shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates;
+            shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum,
             oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium,
             oreManganese, oreAluminum, oreSilicon, exposedGallium, cryoliteOre, acuminiteOre, ferricOre, serpentineOre;
@@ -75,7 +75,11 @@ public class AquaEnv {
         }};
         ultrafamicFloor = new Floor("ultrafamic-floor", 3){{
             wall = ultrafamicWall;
-            decoration = ultrafamicBoulder;
+
+        }};
+        ultrafamicPlates = new Floor("ultrafamic-plates", 6){{
+            wall = ultrafamicWall;
+            blendGroup = ultrafamicFloor;
         }};
         boricFloor = new Floor("boric-floor", 4){{
             wall = boricWall;
@@ -155,6 +159,9 @@ public class AquaEnv {
 
         gabbro_extrusions = new Floor("gabbro-extrusions", 4) {{
         }};
+        brimstoneFloor = new Floor("brimstone-floor", 3) {{
+            itemDrop = brimstone;
+        }};
 
 
 
@@ -173,6 +180,25 @@ public class AquaEnv {
                 sizeTo = 12f;
                 colorFrom = Color.valueOf("18161c90");
                 colorTo = Color.valueOf("2a282d10");
+                sizeInterp = Interp.pow3Out;
+                interp = Interp.pow3Out;
+            }};
+        }};
+        brimstoneVent = new SteamVent("brimstone-vent") {{
+            attributes.set(Attribute.steam, 1f);
+            parent = blendGroup = brimstoneFloor;
+            effectSpacing = 15f;
+            variants = 2;
+            effect = new ParticleEffect(){{
+                particles = 3;
+                lifetime = 340;
+                length = 125;
+                cone = 20;
+                baseRotation = 50;
+                sizeFrom = 0f;
+                sizeTo = 12f;
+                colorFrom = Color.valueOf("f0ed85");
+                colorTo = Color.valueOf("22221d10");
                 sizeInterp = Interp.pow3Out;
                 interp = Interp.pow3Out;
             }};
@@ -515,30 +541,41 @@ public class AquaEnv {
         }};
         ultrafamicBoulder = new Prop("ultrafamic-boulder"){{
             variants = 2;
+            ultrafamicFloor.asFloor().decoration = this;
+            ultrafamicPlates.asFloor().decoration = this;
         }};
         gabbroBoulder = new Prop("gabbro-boulder"){{
             variants = 3;
+            gabbro.asFloor().decoration = this;
+            gabbro_extrusions.asFloor().decoration = this;
         }};
         feldsparBoulder = new Prop("feldspar-boulder"){{
             variants = 3;
+            feldspar.asFloor().decoration = this;
         }};
         chertBoulder = new Prop("chert-boulder"){{
             variants = 3;
+            chertFloor.asFloor().decoration = this;
         }};
         brecciaBoulder = new Prop("breccia-boulder"){{
             variants = 2;
+            brecciaFloor.asFloor().decoration = this;
+            smoothBrecciaFloor.asFloor().decoration = this;
         }};
         parzilSprig = new Prop("parzil-sprig"){{
             variants = 3;
+
         }};
         arsenideBoulder = new Prop("arsenide-boulder"){{
             variants = 3;
+            arsenideFloor.asFloor().decoration = this;
         }};
         blueSandBoulder = new Prop("blue-sand-boulder"){{
             variants = 2;
         }};
         arsenicBoulder = new Prop("arsenic-boulder"){{
             variants = 3;
+            arsenideFloor.asFloor().decoration = this;
         }};
         CrasseCoral = new SeaBush("crasse-coral"){{
             solid = true;

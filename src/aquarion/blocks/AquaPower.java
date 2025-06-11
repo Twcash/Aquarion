@@ -1,6 +1,8 @@
 package aquarion.blocks;
 
 import aquarion.AquaLiquids;
+import aquarion.world.blocks.heatBlocks.AquaHeatProducer;
+import aquarion.world.blocks.heatBlocks.AquaheatMover;
 import aquarion.world.blocks.power.*;
 import aquarion.world.graphics.DrawBetterRegion;
 
@@ -14,6 +16,8 @@ import mindustry.entities.effect.ParticleEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.*;
 import mindustry.world.Block;
+import mindustry.world.blocks.heat.HeatConductor;
+import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.power.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
@@ -26,7 +30,7 @@ import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block fumeEngine, ablativeFissionReactor, radioisotopeModule, fuelPelletFeeder, thermoelectricModule, steamEngine, electrumBattery, electrumPowerNode, solarAccumulator, Relay, GeothermalGenerator, hydroxideGenerator;
+    public static Block radiator, compressor, channel, fumeEngine, ablativeFissionReactor, radioisotopeModule, fuelPelletFeeder, thermoelectricModule, steamEngine, electrumBattery, electrumPowerNode, solarAccumulator, Relay, GeothermalGenerator, hydroxideGenerator;
 
     public static void loadContent(){
         Relay = new PowerNode("relay"){{
@@ -268,6 +272,18 @@ public class AquaPower {
                 alpha = 0.6f;
                 color = Color.valueOf("f5c5aa");
             }});
+        }};
+        channel = new HeatConductor("channel"){{
+            requirements(Category.power, with(Items.lead, 5));
+            size = 2;
+        }};
+        radiator = new HeatProducer("radiator"){{
+            requirements(Category.power, with(Items.lead, 5));
+            heatOutput = -10;
+        }};
+        compressor = new HeatProducer("compressor"){{
+            requirements(Category.power, with(Items.lead, 5));
+            heatOutput = 10;
         }};
     }
 }
