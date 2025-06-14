@@ -7,6 +7,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import mindustry.content.Items;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.effect.MultiEffect;
@@ -57,6 +58,16 @@ public class AquaFx {
             lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(2f, 7f) + 1.5f);
         }
     }),
+            shootHori = new Effect(12, e -> {
+                color(Color.white, Pal.lightOrange, e.fin());
+                float w = 1.2f + 7 * Interp.pow2Out.apply(e.fout());
+                Drawf.tri(e.x, e.y, w/1.5f, 30f * e.fout(), e.rotation - 90);
+                Drawf.tri(e.x, e.y, w/1.5f, 5f * e.fout(), e.rotation - 90f);
+                Drawf.tri(e.x, e.y, w/1.5f, 30f * e.fout(), e.rotation + 90);
+                Drawf.tri(e.x, e.y, w/1.5f * e.fout(), 5f * e.fout(), e.rotation + 90f);
+                Drawf.tri(e.x, e.y, w, 45f * Interp.pow5Out.apply(e.fout()), e.rotation);
+                Drawf.tri(e.x, e.y, w, 5f * Interp.pow5Out.apply(e.fout()), e.rotation + 180);
+            }),
     shootLong = new Effect(12, e -> {
         color(Color.white, Pal.lightOrange, e.fin());
         float w = 1.2f + 7 * e.fout();
@@ -174,14 +185,53 @@ public class AquaFx {
                     }}
 
             ),
-    shootSmokeFormentBauxite = new Effect(35f, e -> {
-        color(AquaPal.bauxiteShoot, e.color, e.fin());
+    fomentShootSmoke = new MultiEffect(new Effect(85f, e -> {
+        color(Color.gray, Color.black, e.color, e.fin());
 
-        randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) ->
-            Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f)
+        randLenVectors(e.id, 9, Interp.pow5Out.apply(e.finpow() )* 25f, e.rotation, 35f, (x, y) -> {
+                    Draw.alpha(0.5f);
+                    Fill.circle(e.x + x / Interp.pow2Out.apply(e.fout()), e.y + y / Interp.pow2Out.apply(e.fout()), Interp.pow2In.apply(e.fout()) * 4f + 0.1f);
+                    Draw.alpha(1);
+                }
         );
-    }),
 
+    }),new Effect(45f, e -> {
+        color(Color.white, AquaPal.fireLight1, Color.black, e.fin());
+
+        randLenVectors(e.id, 12, Interp.pow5Out.apply(e.finpow() )* 25f, e.rotation, 26f, (x, y) ->
+            Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout())  * 2.5f + 0.1f)
+        );
+
+    }), new Effect(40, e->{
+        color(AquaPal.fireLight2, AquaPal.fireLight1, e.color, e.fin());
+        stroke(2f *e.fout());
+        rand.setSeed(e.id);
+
+        for(int i = 0; i < 6; i++){
+            float rot = e.rotation + rand.range(34f);
+            v.trns(rot, rand.random(e.fin() * 27f));
+            lineAngle(e.x + v.x, e.y + v.y, rot, Interp.pow2In.apply(e.fout() )* rand.random(4f, 12f) + 2.5f);
+        }
+    })),
+            fomentHitColor = new Effect(18, e -> {
+                color(Color.white, e.color, e.fin());
+
+                e.scaled(7f, s -> {
+                    stroke(0.5f + s.fout());
+                    Lines.circle(e.x, e.y, s.fin() * 5f);
+                });
+                color(Color.gray, Color.black, e.color, e.fin());
+                stroke(0.5f + e.fout());
+
+                randLenVectors(e.id, 5, e.fin() * 17f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 4.2f);
+                });
+                color(AquaPal.fireLight2, AquaPal.fireLight1, e.color, e.fin());
+                randLenVectors(e.id + 1, 7, e.fin() * 17f, (x, y) -> {
+                    Fill.poly(e.x + x, e.y + y,  3, Interp.pow2Out.apply(e.fout()) * 2.2f, rand.random(360f));
+                });
+                Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
+            }),
     shootSmokeFormentGallium = new Effect(35f, e -> {
         color(Color.white, e.color, e.fin());
 
@@ -207,6 +257,13 @@ public class AquaFx {
                     Fill.poly(e.x + v.x, e.y + v.y, 5, e.fout() * 2.5f, rand.random(700f) + slowRotation);
                 }
             }),
+                    heatEngineGenerate = new Effect(180f, e -> {
+                        color(Pal.lightOrange, AquaPal.smoke, Interp.pow2In.apply(e.fin()));
+                        alpha(Interp.pow2In.apply(e.fout()));
+                        randLenVectors(e.id, 4,Interp.pow5In.apply(e.finpow()) * 56f, 32f, 26f, (x, y) ->
+                                Fill.circle(e.x + x, e.y + y, Interp.pow5In.apply(e.finpow()) * 3.5f + 0.1f)
+                        );
+                    }),
             GyreShootSmoke = new Effect(48, e -> {
                 color(Color.valueOf("e8586c"), e.fin());
                 stroke(0.8f + e.fout() * 2.7f);

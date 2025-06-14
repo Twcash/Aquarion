@@ -49,17 +49,6 @@ public class AquaCore {
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        coreAnnex = new SnakeStorageBlock("core-annex"){{
-            requirements(Category.effect, with(aluminum, 160));
-            itemCapacity = 10;
-            buildVisibility = BuildVisibility.editorOnly;
-            coreMerge = true;
-            squareSprite = false;
-            size = 2;
-            researchCostMultiplier = 0.02f;
-            envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-        }};
         corePike = new TantrosCoreBlock("core-pike") {{
             requirements(Category.effect, with( silicon, 2000));
             squareSprite = false;
@@ -102,21 +91,6 @@ public class AquaCore {
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        coreExpedite = new QeralterCoreBlock("core-expedite"){{
-            requirements(Category.effect, with(silicon, 800, silver, 1200, copper, 800, lead, 200));
-            squareSprite = false;
-            size = 3;
-            isFirstTier = true;
-            unitType = iris;
-            droneType = mite;
-
-            category = Category.effect;
-            itemCapacity = 2000;
-            buildSpeed = 1.5f;
-            rotateSpeed = 1.1f;
-            range = 200;
-        }};
-
         buildCairn = new BuildTurret("build-cairn"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.effect, with(silicon, 120, copper, 50));
@@ -125,16 +99,6 @@ public class AquaCore {
             buildSpeed = 0.2f;
             range = 120;
             rotateSpeed = 0.7f;
-        }};
-        overdriveCatalyst = new DistributionCatalyst("distribution-catalyst"){{
-            requirements(Category.effect, with(silver, 220, lead, 90, electrum, 150, silicon, 90, arsenic, 80));
-            size = 2;
-            range = 225;
-            baseColor = Color.valueOf("ffea77");
-            phaseColor = Color.valueOf("ffddce");
-            phaseRangeBoost = 100;
-            consumeLiquid(cryofluid, 36/60f);
-            consumePower(256/60f);
         }};
         mendPyre = new RegenPylon("mend-pyre"){{
             requirements(Category.effect, with(lead,40, silicon, 40));
@@ -177,10 +141,10 @@ public class AquaCore {
             size = 5;
         }};
         buzzSaw = new ChainsawTurret("buzzsaw"){{
-            requirements(Category.turret, with(silicon, 250, lead, 300, bauxite, 120));
+            requirements(Category.turret, with(silicon, 250, lead, 300, copper, 100));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 3;
-            consumeLiquid(magma, 40/60f);
+            consumePower(400/60f);
             researchCostMultiplier = 0.02f;
             damage = 15;
             range = 100;

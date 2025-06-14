@@ -553,15 +553,15 @@ public class AquaTurrets {
             {
                 outlineColor = tantDarkestTone;
                 ammo(
-                    lead, new MissileBulletType(2.5f, 75, "bullet") {{
+                    lead, new MissileBulletType(3f, 75, "bullet") {{
                         width = 10f;
                         height = 16f;
                         trailLength = 12;
 
                         lifetime = 60f;
                         ammoMultiplier = 1;
-                        shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
+                        shootEffect = AquaFx.shootHori;
+                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.fomentShootSmoke);
                         trailEffect = Fx.none;
                         weaveMag = 2;
                         homingPower = 0.01f;
@@ -571,9 +571,9 @@ public class AquaTurrets {
                         shrinkY = 0.8f;
                         frontColor = lightColor = hitColor = Color.white;
                         backColor = trailColor = Color.valueOf("8d70ab");
+                            hitEffect = despawnEffect = AquaFx.fomentHitColor;
                     }},
-
-                        AquaItems.ferricMatter, new MissileBulletType(2.5f, 180, "bullet") {{
+                        AquaItems.ferricMatter, new MissileBulletType(3.2f, 150, "bullet") {{
                         width = 9f;
                         height = 15f;
                         trailLength = 10;
@@ -582,8 +582,8 @@ public class AquaTurrets {
                         rangeChange = 32;
                         trailEffect = Fx.none;
                         heatColor = Color.white;
-                        shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(Fx.shootSmokeSquareSparse, AquaFx.shootSmokeFormentGallium);
+                        shootEffect = AquaFx.shootHori;
+                        smokeEffect = new MultiEffect(Fx.shootSmokeSquareSparse, AquaFx.pentagonShootSmoke, AquaFx.fomentShootSmoke);
                         weaveMag = 2;
                         homingPower = 0.01f;
                         homingDelay = 10;
@@ -594,9 +594,10 @@ public class AquaTurrets {
                         shrinkX = 0.2f;
                         shrinkY = 0.8f;
                         reloadMultiplier = 0.7f;
-                        ammoMultiplier = 2;
+                        ammoMultiplier = 3;
                         frontColor = lightColor = hitColor = Color.white;
                         backColor = trailColor = Color.valueOf("8d706a");
+                        hitEffect = despawnEffect = AquaFx.fomentHitColor;
                     }},
                         AquaItems.ferrosilicon, new MissileBulletType(7.5f, 190, "bullet") {{
                         width = 12f;
@@ -604,15 +605,15 @@ public class AquaTurrets {
                         rangeChange = 16;
                         trailLength = 8;
                         lifetime = 60f;
-                        reloadMultiplier = 1.1f;
+                        reloadMultiplier = 0.9f;
                         pierce = true;
-                        pierceCap = 4;
+                        pierceCap = 3;
                         pierceDamageFactor = 0.8f;
-                        ammoMultiplier = 3;
-                        heatColor = AquaPal.galliumLightTone;
+                        ammoMultiplier = 5;
                         trailEffect = Fx.none;
-                        shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.pentagonShootSmoke, AquaFx.shootSmokeFormentGallium);
+                        shootEffect = AquaFx.shootHori;
+                        hitEffect = despawnEffect = AquaFx.fomentHitColor;
+                        smokeEffect = new MultiEffect(AquaFx.pentagonShootSmoke, Fx.shootSmokeSquareSparse, AquaFx.fomentShootSmoke);
                         weaveMag = 0;
                         homingPower = 0.00f;
                         weaveScale = 0f;
@@ -621,19 +622,14 @@ public class AquaTurrets {
                         shrinkY = 0.8f;
                         frontColor = lightColor = hitColor = Color.white;
                         backColor = trailColor = Color.valueOf("98a1ab");
-                    }},
-                        hexogen, new ExplosionBulletType(){{
-                                splashDamage = 700;
-                                splashDamageRadius = 12 * 20f;
-                                collidesTeam = true;
-                                splashDamagePierce = true;
-                                rangeChange = -70;
-                            }});
+                    }});
                 requirements(Category.turret, with(lead, 90, AquaItems.bauxite, 60f));
                 size = 3;
                 squareSprite = false;
                 range = 170;
                 limitRange(1.1f);
+                ammoEjectBack = 2;
+                ammoUseEffect = Fx.casing3;
                 reload = 45;
                 researchCostMultiplier = 0;
                 consumeAmmoOnce = true;
@@ -653,10 +649,10 @@ public class AquaTurrets {
                     for(int i = 0; i < 2; i ++){
                         int f = i;
                         parts.add(new RegionPart("-barrel-" + (i == 0 ? "l" : "r")){{
-                            progress = PartProgress.recoil;
+                            progress = PartProgress.recoil.curve(pow2In);
                             recoilIndex = f;
                             under = true;
-                            heatProgress = warmup;
+                            heatProgress = warmup.curve(pow5Out);
                             moveY = -2f;
                         }});
                     }
@@ -698,8 +694,9 @@ public class AquaTurrets {
                         lifetime = 60f;
                         ammoMultiplier = 1;
                         shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
+                        smokeEffect =  Fx.smoke;
                         trailEffect = Fx.none;
+                        despawnEffect = hitEffect = AquaFx.fomentHitColor;
                         shrinkX = 0.2f;
                         shrinkY = 0.8f;
                         frontColor = lightColor = hitColor = Color.white;
@@ -712,7 +709,7 @@ public class AquaTurrets {
                         lifetime = 60f;
                         ammoMultiplier = 4;
                         shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, new WrapEffect(AquaFx.shootSmokeFormentBauxite, AquaItems.ferricMatter.color));
+                        smokeEffect = Fx.smoke;
                         trailEffect = Fx.none;
                         shrinkX = 0.2f;
                         shrinkY = 0.8f;
@@ -740,11 +737,12 @@ public class AquaTurrets {
                         ammoMultiplier = 1;
                         reloadMultiplier = 2f;
                         shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, new WrapEffect(AquaFx.shootSmokeFormentBauxite, AquaItems.manganese.color));
+                        smokeEffect =  Fx.smoke;
+                        trailEffect = Fx.none;
+                        despawnEffect = hitEffect = AquaFx.fomentHitColor;
                         trailEffect = Fx.none;
                         shrinkX = 0.2f;
                         shrinkY = 0.8f;
-
                         frontColor = lightColor = hitColor = Color.white;
                         backColor = trailColor = AquaItems.manganese.color;
                     }});
@@ -1233,7 +1231,7 @@ public class AquaTurrets {
                         lifetime = 60f;
                         ammoMultiplier = 1;
                         shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
+                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.fomentShootSmoke);
                         trailEffect = Fx.none;
                         weaveMag = 2;
                         homingDelay = 5;
@@ -1285,7 +1283,7 @@ public class AquaTurrets {
                         lifetime = 60f;
                         ammoMultiplier = 1;
                         shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
+                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.fomentShootSmoke);
                         trailEffect = Fx.none;
                         weaveMag = 2;
                         homingDelay = 5;
@@ -1357,7 +1355,7 @@ public class AquaTurrets {
                             splashDamage = 25f;
                             ammoMultiplier = 1;
                             shootEffect = AquaFx.shootLong;
-                            smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.shootSmokeFormentBauxite);
+                            smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.fomentShootSmoke);
                             trailEffect = Fx.none;
                             weaveMag = 1;
                             weaveScale = 8;
@@ -1366,6 +1364,7 @@ public class AquaTurrets {
                             frontColor = Color.white;
                             trailWidth = 4.5f;
                             trailLength = 15;
+                            hitEffect = despawnEffect = AquaFx.fomentHitColor;
                             backColor = trailColor = AquaPal.bauxiteLightTone;
                             buildingDamageMultiplier = 0.3f;
                         }});

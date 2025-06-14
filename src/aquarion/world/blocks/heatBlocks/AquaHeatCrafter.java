@@ -1,7 +1,9 @@
 package aquarion.world.blocks.heatBlocks;
 
+import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.*;
+import arc.util.Tmp;
 import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.heat.*;
@@ -38,9 +40,24 @@ public class AquaHeatCrafter extends GenericCrafter {
 
         addBar("heat", (HeatCrafterBuild entity) ->
                 new Bar(() ->
-                        Core.bundle.format("bar.heatpercent", (int) (entity.heat + 0.01f), (int) (entity.efficiencyScale() * 100 + 0.01f)),
-                        () -> Pal.lightOrange,
-                        () -> entity.heat / heatRequirement));
+                        Core.bundle.format("bar.heatpercent",
+                                (int)(entity.heat + 0.01f),
+                                (int)(entity.efficiencyScale() * 100 + 0.01f)),
+                        () -> {
+                            float max = heatRequirement * 5f;
+                            float heat = entity.heat;
+
+                            if(heat < 0f){
+                                float t = Mathf.clamp(1f + heat / max);
+                                return Tmp.c1.set(Color.black).lerp(Pal.techBlue, t);
+                            }else{
+                                float t = Mathf.clamp(heat / max);
+                                return Tmp.c1.set(Pal.lightOrange).lerp(Color.white, t);
+                            }
+                        },
+                        () -> Mathf.clamp(Math.abs(entity.heat) / Math.abs(heatRequirement))
+                )
+        );
     }
 
     @Override
@@ -84,13 +101,12 @@ public class AquaHeatCrafter extends GenericCrafter {
             if (flipHeatScale) {
                 float over = Math.max(heat - heatRequirement, 0f);
                 eff = -Math.min((heat / -heatRequirement) + over / -heatRequirement * overheatScale, maxEfficiency);
-                if( eff > 1) eff = ((eff-1) * overheatScale) +1;
-                if(eff < 0) eff = 0;
+                if (eff > 1) eff = Math.min(((eff - 1) * overheatScale) + 1, maxEfficiency);
+                eff = Math.max(eff, 0);
             } else {
                 float over = Math.max(heat - heatRequirement, 0f);
                 eff = Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) + baseEfficiency;
-                if(eff < 0) eff = 0;
-
+                eff = Math.max(eff, 0);
             }
             return  eff;
         }
