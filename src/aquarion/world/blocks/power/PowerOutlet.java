@@ -8,6 +8,7 @@ import mindustry.gen.Building;
 import mindustry.world.Tile;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerGraph;
+import mindustry.world.consumers.ConsumePowerDynamic;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawMulti;
 import mindustry.world.draw.DrawSideRegion;
@@ -29,7 +30,6 @@ public class PowerOutlet extends PowerGenerator {
         powerProduction = 100/60f;
         rotate = true;
         rotateDraw = false;
-        consumePower(100/60f);
         drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
     }
     @Override
@@ -51,13 +51,26 @@ public class PowerOutlet extends PowerGenerator {
     @Override
     public void setBars(){
     }
+    @Override
+    public void init() {
+        super.init();
+
+
+        consume(new ConsumePowerDynamic(powerProduction, build -> {
+            if (!(build instanceof OutletBuild o)) return 0f;
+            if (o.front() == null || o.front().power == null || o.front().team != o.team) return 0f;
+            return powerProduction * o.efficiency;
+        }));
+    }
     public class OutletBuild extends GeneratorBuild {
         @Override
         public void updateTile() {
+
             //Remove production from current graph.
             if(this.power.graph.producers.contains(this)){
                 this.power.graph.producers.remove(this);
             }
+
             //Add consumption to current graph.
             if(!this.power.graph.consumers.contains(this)){
                 this.power.graph.consumers.add(this);
@@ -76,6 +89,7 @@ public class PowerOutlet extends PowerGenerator {
             if(front.producers.contains(this)){
                 //Force distribution of the new power
                 front.distributePower(front.getPowerNeeded(), front.getPowerProduced(), false);
+                efficiency *= Math.min(front.getPowerNeeded()/front.getPowerProduced(), 1);
             } else {
                 front.producers.add(this);
             }
@@ -94,7 +108,7 @@ public class PowerOutlet extends PowerGenerator {
             if(power != null){
                 powerGraphRemoved();
             }
-            if(front() == null || front().power.graph == null || this.team != front().team) return;
+            if(front() == null || front().power == null  || this.team != front().team) return;
             PowerGraph front = this.front().power.graph;
             if(front.producers.contains(this)){
                 front.producers.remove(this);

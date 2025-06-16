@@ -38,7 +38,7 @@ public class AquaHeatCrafter extends GenericCrafter {
     public void setBars() {
         super.setBars();
 
-        addBar("heat", (HeatCrafterBuild entity) ->
+        addBar("heat", (AquaHeatCrafterBuild entity) ->
                 new Bar(() ->
                         Core.bundle.format("bar.heatpercent",
                                 (int)(entity.heat + 0.01f),
@@ -68,7 +68,7 @@ public class AquaHeatCrafter extends GenericCrafter {
         stats.add(Stat.maxEfficiency, (int) (maxEfficiency * 100f), StatUnit.percent);
     }
 
-    public class HeatCrafterBuild extends GenericCrafterBuild implements HeatConsumer {
+    public class AquaHeatCrafterBuild extends GenericCrafterBuild implements HeatConsumer {
         //TODO sideHeat could be smooth
         public float[] sideHeat = new float[4];
         public float heat = 0f;

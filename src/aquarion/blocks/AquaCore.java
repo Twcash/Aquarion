@@ -11,6 +11,8 @@ import aquarion.world.blocks.distribution.DistributionCatalyst;
 
 import arc.graphics.Color;
 import mindustry.content.Planets;
+import mindustry.core.GameState;
+import mindustry.core.World;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
@@ -147,7 +149,7 @@ public class AquaCore {
             consumePower(400/60f);
             researchCostMultiplier = 0.02f;
             damage = 15;
-            range = 100;
+            range = 180;
         }};
     }
 }

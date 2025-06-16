@@ -1,8 +1,9 @@
 package aquarion.blocks;
 
 import aquarion.AquaLiquids;
-import aquarion.world.blocks.heatBlocks.AquaHeatProducer;
+import aquarion.AquaSounds;
 import aquarion.world.blocks.heatBlocks.AquaheatMover;
+import aquarion.world.blocks.heatBlocks.CoolingBlock;
 import aquarion.world.blocks.power.*;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.DrawBetterRegion;
@@ -32,20 +33,99 @@ import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block heatEngine, pylon, outlet, capacitorBank, radiator, compressor, channel, fumeEngine, ablativeFissionReactor, radioisotopeModule, fuelPelletFeeder, thermoelectricModule, steamEngine, electrumBattery, electrumPowerNode, solarAccumulator, Relay, GeothermalGenerator, hydroxideGenerator;
+    public static Block turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent(){
+        solarGenerator = new SolarGenerator("solar-generator"){{
+            requirements(Category.power, with(lead, 200, nickel, 150));
+            size = 4;
+            insulated = true;
+            powerProduction = 250/60f;
+        }};
+        hydroxideReactor = new ConsumeGenerator("hydroxide-reactor"){{
+            requirements(Category.power, with(ferricMatter, 200, aluminum, 250, silicon, 1200, copper, 500));
+            powerProduction = 5000/60f;
+            size = 7;
+            squareSprite = false;
+            liquidCapacity = 1200;
+            ambientSound = AquaSounds.derrick;
+            ambientSoundVolume = 0.06f;
+            consumeLiquids(LiquidStack.with(hydroxide, 0.5f, water, 120/60f));
+            insulated = true;
+            generateEffectRange = 7*8/2f;
+            generateEffect = new MultiEffect(
+                    Fx.steam,
+                    Fx.mineSmall,
+                    AquaFx.hydroxideReactorGenerate
+            );
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(hydroxide){{
+                alpha = 0.8f;
+                padTop = 6;
+                padLeft = padBottom = padRight = 4;
+            }}, new DrawLiquidTile(water){{
+                alpha = 0.8f;
+                padBottom = 6;
+                padLeft = padTop = padRight = 4;
+            }}, new DrawDefault(), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.4f;
+                color = Color.valueOf("f5c5aa");
+            }},new DrawGlowRegion("-glow1"){{
+                glowIntensity = 0.9f;
+                glowScale = 8;
+                alpha = 0.3f;
+                color = Color.valueOf("f5c5aa");
+            }},new DrawGlowRegion("-glow2"){{
+                glowIntensity = 0.6f;
+                glowScale = 10;
+                alpha = 0.5f;
+                color = Color.valueOf("f5c5aa");
+            }});
+        }};
+        turbineDynamo = new ConsumeGenerator("turbine-dynamo"){{
+            requirements(Category.power, with(copper, 2000, lead, 500, metaglass, 1000, nickel, 1200));
+            size = 10;
+            squareSprite = false;
+            liquidCapacity = 2000;
+            powerProduction = 110;
+            consumeLiquid(haze, 2000/60f);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawBlurSpin("-fan", 6), new DrawBlurSpin("-fan", 4), new DrawBlurSpin("-fan", 2), new DrawLiquidTile(haze, 7){{
+                alpha =0.6f;
+            }}, new DrawRegion("-bars"){{
+                rotateSpeed = 2;
+                spinSprite = true;
+            }}, new DrawParticles(){{
+                color = Color.gray;
+                alpha = 0.8f;
+                particleRad = 5*7f;
+                particleSize = 8;
+                poly = true;
+                sides = 8;
+            }}, new DrawParticles(){{
+                color = Color.white;
+                alpha = 0.7f;
+                particleRad = 5*6f;
+                particleSize = 8;
+                poly = true;
+                sides = 8;
+            }}, new DrawDefault(), new DrawRegion("-bars"){{
+                rotateSpeed = -2;
+                spinSprite = true;
+            }}, new DrawRegion("-top"));
+        }};
         fumeEngine = new ConsumeGenerator("fume-engine"){{
 
-            requirements(Category.power, with(Items.lead, 2500, aluminum, 900, ferrosilicon, 1500, bauxite, 3000));
+            requirements(Category.power, with(ferricMatter, 500, aluminum, 2000, silicon, 800, copper, 1200));
             size = 9;
+            insulated = true;
             consumeLiquids(LiquidStack.with(fumes, 20)); //jesus fucking christ;
-            powerProduction = 100; //1 unit of fume = 5 power/s prolly gonna only need 2 of these for early to midgame
+            powerProduction = 100; //1 unit of fume = 5 power/s prolly gonna EVER need 2 of these for early to midgame
             liquidCapacity = 5000;
             baseExplosiveness = 10;
-            explosionDamage = 5000;
+            explosionDamage = 2500;
             explosionShake = 5;
-            explosionRadius = 240;
+            explosionRadius = 120/2;
             squareSprite = false;
             generateEffectRange = 9*8/2f;
             effectChance = 0.05f;
@@ -137,9 +217,14 @@ public class AquaPower {
             requirements(Category.power, with(Items.lead, 5));
             size = 2;
         }};
-        radiator = new HeatProducer("radiator"){{
+        radiator = new CoolingBlock("radiator"){{
             requirements(Category.power, with(Items.lead, 5));
-            heatOutput = -10;
+            heatSubtraction = 10;
+            heatRequirement = 0;
+
+            size = 2;
+            consumeLiquid(water, 10/60f);
+            consumePower(50/60f);
         }};
         compressor = new HeatProducer("compressor"){{
             requirements(Category.power, with(Items.lead, 5));

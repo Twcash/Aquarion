@@ -67,9 +67,8 @@ public class PowerPylon extends PowerBlock {
         drawDisabled = false;
         envEnabled |= Env.space;
         destructible = true;
-
-        //nodes do not even need to update
-        update = false;
+        update = true;
+        noUpdateDisabled = true;
 
         config(Integer.class, (entity, value) -> {
             PowerModule power = entity.power;
@@ -494,6 +493,21 @@ public class PowerPylon extends PowerBlock {
                 out[i] = Point2.unpack(power.links.get(i)).sub(tile.x, tile.y);
             }
             return out;
+        }
+        @Override
+        public void removeFromProximity(){
+        }
+        @Override
+        public void updateTile(){
+            super.updateTile();
+            if(this.power.links.size > maxNodes) return;
+            getPotentialLinks(tile, team, other -> {
+                if(!power.links.contains(other.pos()) && other.power != null){
+                    if(other.power.graph != this.power.graph){
+                        configureAny(other.pos());
+                    }
+                }
+            });
         }
     }
 }

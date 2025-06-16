@@ -25,7 +25,7 @@ public class ModifiedConduit extends Conduit {
     public void load(){
         super.load();
     }
-
+    public boolean willMelt = true;
     public ModifiedConduit(String name) {
         super(name);
     }
@@ -54,7 +54,7 @@ public class ModifiedConduit extends Conduit {
                 sleep();
             }
 
-            if (liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f) {
+            if (liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt) {
                 damageContinuous(liquid.temperature / 100f);
                 if (Mathf.chanceDelta(0.01)) {
                     Fx.steam.at(x, y);
@@ -97,7 +97,7 @@ public class ModifiedConduit extends Conduit {
                     float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;
                     Liquid other = next.liquids.current();
                     if (other.blockReactive && liquid.blockReactive) {
-                        if ((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f)) {
+                        if ((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f && !willMelt)) {
                             damageContinuous(liquid.temperature / 100f);
                             next.damageContinuous(liquid.temperature / 100f);
                             if (Mathf.chanceDelta(0.01)) {

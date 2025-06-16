@@ -264,6 +264,13 @@ public class AquaFx {
                                 Fill.circle(e.x + x, e.y + y, Interp.pow5In.apply(e.finpow()) * 3.5f + 0.1f)
                         );
                     }),
+                    hydroxideReactorGenerate = new Effect(220f, e -> {
+                        color(Pal.sap, AquaPal.smoke, Interp.pow2In.apply(e.fin()));
+                        alpha(Interp.pow2In.apply(e.fout()));
+                        randLenVectors(e.id, 5,Interp.pow5In.apply(e.finpow()) * 70f, 32f, 28f, (x, y) ->
+                                Fill.circle(e.x + x, e.y + y, Interp.pow5In.apply(e.finpow()) * 5f + 0.1f)
+                        );
+                    }),
             GyreShootSmoke = new Effect(48, e -> {
                 color(Color.valueOf("e8586c"), e.fin());
                 stroke(0.8f + e.fout() * 2.7f);

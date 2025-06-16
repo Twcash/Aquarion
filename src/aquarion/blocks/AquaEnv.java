@@ -312,7 +312,7 @@ public class AquaEnv {
             variants = 5;
         }};
         ferricOre= new OreBlock("ferric-ore", ferricMatter){{
-            variants = 4;
+            variants = 8;
         }};
         oreArsenic= new OreBlock("arsenic-ore", arsenic){{
             wallOre = true;

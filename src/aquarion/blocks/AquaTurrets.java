@@ -65,7 +65,7 @@ import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
     public static Block  confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
-            blaze, ensign, hack, azimuth, condolence;
+            blaze, ensign, hack, azimuth, condolence, grace;
 
     public static void loadContent() {
         //1 by 1 turret that can be boosted hellishly beyond what it should be
@@ -661,6 +661,53 @@ public class AquaTurrets {
             }
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+        }};
+        grace = new ItemTurret("grace"){{
+            requirements(Category.turret, with(copper, 150, metaglass, 100, lead, 260));
+            size = 3;
+            squareSprite = false;
+            consumeCoolant(40/60f);
+            coolantMultiplier = 0.3f;
+            reload = 25;
+            consumePower(500/60f);
+            range = 300;
+            inaccuracy = 2;
+            ammo(
+                    silicon, new ArtilleryBulletType(3, 0){{
+                        width = 8;
+                        height = 10;
+                        trailLength = 12;
+                        trailEffect = Fx.mineSmall;
+                        trailInterval = 5;
+                        frontColor = Color.white;
+                        hitColor = backColor = lightColor = trailColor = silicon.color;
+                        splashDamage = 50f;
+                        splashDamageRadius = 2.5f*8f;
+                    }},
+                    magnesiumPowder, new ArtilleryBulletType(2.5f, 0){{
+                        width = 8;
+                        height = 10;
+                        trailLength = 12;
+                        trailEffect = Fx.mineSmall;
+                        trailInterval = 5;
+                        frontColor = Color.white;
+                        hitColor = backColor = lightColor = trailColor = Color.gray;
+                        splashDamage = 75f;
+                        splashDamageRadius = 5*8f;
+                    }},
+                    copper, new ArtilleryBulletType(6f, 0){{
+                        width = 8;
+                        height = 10;
+                        trailLength = 12;
+                        trailEffect = Fx.mineSmall;
+                        trailInterval = 5;
+                        frontColor = Color.white;
+                        hitColor = backColor = lightColor = trailColor = copper.color;
+                        splashDamage = 40f;
+                        splashDamageRadius = 1.5f*8f;
+                    }}
+            );
+            limitRange(1.1f);
         }};
         confront = new ItemTurret("confront"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

@@ -10,6 +10,7 @@ import mindustry.content.Planets;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.DirectionLiquidBridge;
+import mindustry.world.blocks.liquid.LiquidBridge;
 import mindustry.world.blocks.liquid.LiquidJunction;
 import mindustry.world.blocks.liquid.LiquidRouter;
 import mindustry.world.blocks.production.Pump;
@@ -43,6 +44,7 @@ public class AquaLiquid {
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge"){{
             //long boi. Prolly unbalanced asf but I'm working on it
             requirements(Category.liquid, with(manganese, 45));
+            willMelt = false;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             range = 8;
             hasPower = false;
@@ -69,8 +71,9 @@ public class AquaLiquid {
             researchCostMultiplier = 0;
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
-            liquidCapacity = 80;
-            leaks = false;
+            liquidCapacity = 120;
+            willMelt = false;
+            leaks = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -107,6 +110,7 @@ public class AquaLiquid {
             squareSprite = false;
             liquidCapacity = 8500;
             size = 4;
+            willMelt = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

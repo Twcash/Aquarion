@@ -32,7 +32,6 @@ import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
-//What was all of this even for
 public class AquaCrafters {
     public static Block ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
 
@@ -515,7 +514,7 @@ public class AquaCrafters {
             consumeItem(azurite, 15);
             itemCapacity = 300;
             outputItem = new ItemStack(copper, 45);
-            outputLiquid = new LiquidStack(hydroxide, 15/60f);
+            outputLiquid = new LiquidStack(hydroxide, 25/60f);
             liquidCapacity = 250;
             ignoreLiquidFullness = true;
             dumpExtraLiquid = true;
@@ -696,6 +695,7 @@ public class AquaCrafters {
             size = 3;
             drillTime= 160;
             liquidBoostIntensity = 1.5f;
+            consumePower(25/60f);
             consumeLiquid(Liquids.water, 90/60f).boost();
             tier = 2;
             squareSprite = false;
@@ -765,7 +765,7 @@ public class AquaCrafters {
         }};
         SolidBoiler = new GenericCrafter("solid-boiler"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( lead, 700, aluminum, 350, copper, 900, metaglass, 400));
+            requirements(Category.crafting, with( lead, 700, copper, 900, metaglass, 400));
             size = 7;
             itemCapacity = 60;
             squareSprite = false;
@@ -1014,7 +1014,7 @@ public class AquaCrafters {
                 sides = 1;
             }}));
         }};
-        AnnealingOven = new AquaHeatCrafter("metaglass-annealing-furnace"){{
+        AnnealingOven = new GenericCrafter("metaglass-annealing-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( lead, 300, copper, 550));
             size = 5;
@@ -1029,9 +1029,10 @@ public class AquaCrafters {
             ambientSound = AquaSounds.refine;
             ambientSoundVolume = 0.07f;
             consumeLiquid(air, 150/60f);
-            heatRequirement = 10;
-            overheatScale = 0.8f;
-            maxEfficiency = 5;
+            consumePower(300/60f);
+            //heatRequirement = 10;
+            //overheatScale = 0.8f;
+            //maxEfficiency = 5;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new PhaseOffsetGlowRegion("-glow"){{
                 alpha = 0.55f;
                 color = Color.valueOf("e68569");
@@ -1111,7 +1112,7 @@ public class AquaCrafters {
                 x = -25/4f; y = -13/4f;
             }});
         }};
-        vacuumFreezer = new AquaHeatCrafter("vacuum-freezer"){{
+        vacuumFreezer = new GenericCrafter("vacuum-freezer"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( copper, 200, aluminum, 500));
             size = 6;
@@ -1125,10 +1126,10 @@ public class AquaCrafters {
             rotateDraw = false;
             liquidCapacity = 600;
             regionRotated1 = 3;
-            heatRequirement = -10;
-            overheatScale = 0.8f;
-            maxEfficiency = 10;
-            flipHeatScale = true;
+            //heatRequirement = -10;
+            //overheatScale = 0.8f;
+            //maxEfficiency = 10;
+            //flipHeatScale = true;
             craftEffect = new MultiEffect(new NewParticleEffect(){{
                 y = -6/4f;
                 baseRotation = 45;
