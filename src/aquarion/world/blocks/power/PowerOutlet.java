@@ -3,11 +3,14 @@ package aquarion.world.blocks.power;
 import arc.func.Floatf;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.math.WindowedMean;
 import arc.struct.Seq;
+import arc.util.Log;
 import mindustry.gen.Building;
 import mindustry.world.Tile;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerGraph;
+import mindustry.world.consumers.ConsumePower;
 import mindustry.world.consumers.ConsumePowerDynamic;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawMulti;
@@ -33,6 +36,18 @@ public class PowerOutlet extends PowerGenerator {
         drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
     }
     @Override
+    public void init() {
+        super.init();
+
+
+        consume(new ConsumePowerDynamic(powerProduction, build -> {
+            if (!(build instanceof OutletBuild o)) return 0f;
+            if (o.front() == null || o.front().power == null || o.front().team != o.team) return 0f;
+           ;
+            return o.getPowerProduction();
+        }));
+    }
+    @Override
     public TextureRegion[] icons(){
         return drawer.finalIcons(this);
     }
@@ -51,35 +66,26 @@ public class PowerOutlet extends PowerGenerator {
     @Override
     public void setBars(){
     }
-    @Override
-    public void init() {
-        super.init();
-
-
-        consume(new ConsumePowerDynamic(powerProduction, build -> {
-            if (!(build instanceof OutletBuild o)) return 0f;
-            if (o.front() == null || o.front().power == null || o.front().team != o.team) return 0f;
-            return powerProduction * o.efficiency;
-        }));
-    }
     public class OutletBuild extends GeneratorBuild {
+        public float need = 0;
+
         @Override
         public void updateTile() {
-
             //Remove production from current graph.
             if(this.power.graph.producers.contains(this)){
                 this.power.graph.producers.remove(this);
             }
-
             //Add consumption to current graph.
             if(!this.power.graph.consumers.contains(this)){
                 this.power.graph.consumers.add(this);
             }
             //Stop if front doesn't exist or has power
-            if(front() == null || front().power == null || this.team != front().team){
-                efficiency = 0;
+            if(front() == null || !(front().block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)){
+                need = 0;
+                productionEfficiency = 0;
                 return;
             }
+            ConsumePower frontConsume =  front().block.findConsumer(f -> f instanceof ConsumePower);
             //Remove consumption from target graph.
             PowerGraph front = this.front().power.graph;
             if(front.consumers.contains(this)){
@@ -89,26 +95,41 @@ public class PowerOutlet extends PowerGenerator {
             if(front.producers.contains(this)){
                 //Force distribution of the new power
                 front.distributePower(front.getPowerNeeded(), front.getPowerProduced(), false);
-                efficiency *= Math.min(front.getPowerNeeded()/front.getPowerProduced(), 1);
+                need = Math.min(frontConsume.requestedPower(front()), powerProduction);
+                Log.info(need);
             } else {
                 front.producers.add(this);
             }
         }
-        @Override
-        public float warmup(){
-            return enabled ? efficiency : 0f;
-        }
 
         @Override
         public float getPowerProduction(){
-            return enabled ? powerProduction * efficiency: 0f;
+            if(!enabled) return 0f;
+            boolean NoBitches = false;
+            for(Building b : this.power.graph.producers){
+                if(b.block != this.block){
+                    NoBitches = true;
+                    break;
+                }
+            }
+            if(!NoBitches){
+                return 0f;
+            }
+            if(front() == null || !(front().block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)){
+                need = 0;
+                productionEfficiency = 0;
+                return 0;
+            }
+            ConsumePower frontCons = front().block.findConsumer(f -> f instanceof ConsumePower);
+            return need  * this.power.graph.getSatisfaction();
         }
         @Override
         public void onProximityRemoved(){
             if(power != null){
                 powerGraphRemoved();
             }
-            if(front() == null || front().power == null  || this.team != front().team) return;
+            if(front() == null || front().power.graph == null || this.team != front().team) return;
+
             PowerGraph front = this.front().power.graph;
             if(front.producers.contains(this)){
                 front.producers.remove(this);

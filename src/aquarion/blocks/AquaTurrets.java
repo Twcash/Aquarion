@@ -665,13 +665,17 @@ public class AquaTurrets {
         grace = new ItemTurret("grace"){{
             requirements(Category.turret, with(copper, 150, metaglass, 100, lead, 260));
             size = 3;
+            shootSound = shootBig;
             squareSprite = false;
             consumeCoolant(40/60f);
             coolantMultiplier = 0.3f;
             reload = 25;
             consumePower(500/60f);
             range = 300;
-            inaccuracy = 2;
+            inaccuracy = 3;
+            targetAir = false;
+            outlineColor = tantDarkestTone;
+
             ammo(
                     silicon, new ArtilleryBulletType(3, 0){{
                         width = 8;
@@ -683,6 +687,19 @@ public class AquaTurrets {
                         hitColor = backColor = lightColor = trailColor = silicon.color;
                         splashDamage = 50f;
                         splashDamageRadius = 2.5f*8f;
+                        despawnEffect = hitEffect = new ExplosionEffect(){{
+                            sparks = 12;
+                            sparkLen = 20;
+                            sparkStroke = 2;
+                            smokes = 8;
+                            smokeSize = 5;
+                            waveLife = 40;
+                            waveStroke = 2;
+                            waveRad = 25;
+                            waveColor = Items.silicon.color;
+                            smoke = Color.gray;
+                            sparkColor = Pal.sap;
+                        }};
                     }},
                     magnesiumPowder, new ArtilleryBulletType(2.5f, 0){{
                         width = 8;
@@ -694,6 +711,19 @@ public class AquaTurrets {
                         hitColor = backColor = lightColor = trailColor = Color.gray;
                         splashDamage = 75f;
                         splashDamageRadius = 5*8f;
+                        despawnEffect = hitEffect = new ExplosionEffect(){{
+                            sparks = 12;
+                            sparkLen = 20;
+                            sparkStroke = 2;
+                            smokes = 8;
+                            smokeSize = 5;
+                            waveLife = 40;
+                            waveStroke = 2;
+                            waveRad = 25;
+                            waveColor = Color.white;
+                            smoke = Color.gray;
+                            sparkColor = Color.red;
+                        }};
                     }},
                     copper, new ArtilleryBulletType(6f, 0){{
                         width = 8;
@@ -705,6 +735,19 @@ public class AquaTurrets {
                         hitColor = backColor = lightColor = trailColor = copper.color;
                         splashDamage = 40f;
                         splashDamageRadius = 1.5f*8f;
+                        despawnEffect = hitEffect = new ExplosionEffect(){{
+                            sparks = 12;
+                            sparkLen = 20;
+                            sparkStroke = 2;
+                            smokes = 8;
+                            smokeSize = 5;
+                            waveLife = 40;
+                            waveStroke = 2;
+                            waveRad = 25;
+                            waveColor = Items.copper.color;
+                            smoke = Items.coal.color;
+                            sparkColor = Pal.accent;
+                        }};
                     }}
             );
             limitRange(1.1f);

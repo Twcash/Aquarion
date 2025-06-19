@@ -101,6 +101,7 @@ public class AquaCore {
             buildSpeed = 0.2f;
             range = 120;
             rotateSpeed = 0.7f;
+            consumePower(150/60f);
         }};
         mendPyre = new RegenPylon("mend-pyre"){{
             requirements(Category.effect, with(lead,40, silicon, 40));
@@ -118,6 +119,7 @@ public class AquaCore {
             requirements(Category.effect, with(silicon,60, aluminum, 40));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
+            consumePower(25/60f);
             consumeLiquid(fumes, 1.25f/60f);
             range = 30;
             healPercent = 3;

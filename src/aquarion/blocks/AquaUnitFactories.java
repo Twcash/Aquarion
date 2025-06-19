@@ -12,6 +12,7 @@ import mindustry.world.Block;
 
 import static aquarion.AquaItems.*;
 import static mindustry.content.Items.*;
+import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class AquaUnitFactories {
@@ -23,18 +24,21 @@ public class AquaUnitFactories {
             unit = AquaUnitTypes.bulwark;
             size = 2;
             time = 15*60;
+            consumePower(100/60f);
         }};
        pugnate = new UnitBlock("pugnate"){{
             requirements(Category.units, with(silicon, 90, aluminum, 50, copper, 70));
             unit = AquaUnitTypes.pugnate;
             size = 2;
            time = 20*60;
+           consumePower(50/60f);
        }};
         rampart = new UnitBlock("rampart"){{
             requirements(Category.units, with(nickel, 120, copper, 150, silicon, 60));
             unit = AquaUnitTypes.rampart;
             size = 2;
             time = 10*60;
+            consumePower(75/60f);
         }};
         crest = new UnitBlock("crest"){{
             requirements(Category.units, with(silicon, 40, copper, 60, metaglass, 50));
@@ -42,6 +46,8 @@ public class AquaUnitFactories {
             size = 2;
             time = 5*60;
             destroySound = AquaSounds.start5;
+            consumePower(200/60f);
+            consumeLiquid(oil, 5/60f);
        }};
         reave = new UnitBlock("reave"){{
             requirements(Category.units, with(ferrosilicon, 70, copper, 90, metaglass, 110, lead, 80));

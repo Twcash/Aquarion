@@ -213,18 +213,18 @@ public class AquaCrafters {
                 sides = 1;
             }});
         }};
-        ferroSiliconFoundry = new AquaGenericCrafter("ferrosilicon-foundry") {{
+        ferroSiliconFoundry = new GenericCrafter("ferrosilicon-foundry") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( silicon, 900, metaglass, 500, copper, 500, ferricMatter, 500));
             size = 6;
             squareSprite = false;
             itemCapacity = 120;
             researchCostMultiplier = 0.02f;
-            craftTime = 600;
-            itemBooster = consumeItem(manganese, 2).boost();
+            craftTime = 7*60f;
+            consumePower(1250/60f);
             consumeItems(with(ferricMatter, 15, silicon, 25));
             outputItem = new ItemStack(ferrosilicon, 40);
-            consumeLiquids(LiquidStack.with(magma, 90 / 60f, hydroxide, 15/60f, air, 50/60f));
+            consumeLiquids(LiquidStack.with(magma, 90 / 60f, hydroxide, 15/60f));
             liquidCapacity = 600;
             updateEffect = new MultiEffect(Fx.coalSmeltsmoke, new ParticleEffect(){{
                 layer = Layer.debris;
@@ -510,6 +510,7 @@ public class AquaCrafters {
             requirements(Category.crafting, with( bauxite, 750, lead, 750));
             craftTime = 5*60f;
             squareSprite = false;
+            consumePower(500/60f);
             consumeLiquid(magma, 45/60f);
             consumeItem(azurite, 15);
             itemCapacity = 300;
@@ -537,6 +538,7 @@ public class AquaCrafters {
                 itemCapacity = 150;
                 craftTime = 3*60f;
                 squareSprite = false;
+                consumePower(500/600f);
                 researchCostMultiplier = 0.25f;
                 consumeItem(towanite, 15);
                 consumeLiquid(fumes, 30/60f);
@@ -565,8 +567,8 @@ public class AquaCrafters {
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
+                consumePower(100/60f);
                 researchCostMultiplier = 0.05f;
-
                 drillTime = 240;
                 size = 4;
                 range = 8;
@@ -581,6 +583,7 @@ public class AquaCrafters {
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with( aluminum, 250, copper, 75));
                 tier = 1;
+                consumePower(25/60f);
                 itemCapacity = 50;
                 squareSprite = false;
                 researchCostMultiplier = 0.25f;
@@ -643,6 +646,7 @@ public class AquaCrafters {
                 requirements(Category.production, with(  aluminum, 150, copper, 200));
                 size = 5;
                 drillTime = 125;
+                consumePower(150/60f);
                 consumeLiquid(fumes, 20/60f).booster = false;
                 consumeLiquid(chlorine, 15/60f).boost();
                 liquidBoostIntensity = 1.5f;
@@ -695,7 +699,7 @@ public class AquaCrafters {
             size = 3;
             drillTime= 160;
             liquidBoostIntensity = 1.5f;
-            consumePower(25/60f);
+            consumePower(5/60f);
             consumeLiquid(Liquids.water, 90/60f).boost();
             tier = 2;
             squareSprite = false;
@@ -743,6 +747,7 @@ public class AquaCrafters {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.liquid, with( copper, 220, metaglass, 60));
             size = 3;
+            consumePower(25/60f);
             squareSprite = true;
             pumpAmount = 0.25f;
             liquidCapacity = 250;
@@ -1018,6 +1023,7 @@ public class AquaCrafters {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( lead, 300, copper, 550));
             size = 5;
+            consumePower(200/60f);
             itemCapacity = 60;
             squareSprite = false;
             researchCostMultiplier = 0.02f;
@@ -1341,6 +1347,7 @@ public class AquaCrafters {
             requirements(Category.crafting, with( aluminum, 200, lead, 150, copper, 100));
             size = 4;
             rotateDraw = false;
+            consumePower(250/60f);
             rotate = true;
             regionRotated1 = 1;
             liquidCapacity = 400;

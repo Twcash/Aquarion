@@ -7,6 +7,7 @@ import mindustry.type.Liquid;
 import mindustry.world.blocks.liquid.LiquidRouter;
 
 public class ModifiedLiquidRouter extends LiquidRouter {
+    public boolean willMelt = false;
     public ModifiedLiquidRouter(String name) {
         super(name);
     }
@@ -46,7 +47,7 @@ public class ModifiedLiquidRouter extends LiquidRouter {
             if(liquids.currentAmount() > 0.01f){
                 dumpLiquid(liquids.current());
             }
-            if(liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f){
+            if(liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt){
                 damageContinuous(liquid.temperature/100f);
                 if(Mathf.chanceDelta(0.01)){
                     Fx.steam.at(x, y);

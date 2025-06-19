@@ -37,10 +37,11 @@ public class AquaPower {
 
     public static void loadContent(){
         solarGenerator = new SolarGenerator("solar-generator"){{
-            requirements(Category.power, with(lead, 200, nickel, 150));
+            requirements(Category.power, with(lead, 300, nickel, 200, silicon, 500));
             size = 4;
             insulated = true;
-            powerProduction = 250/60f;
+            powerProduction = 50/60f;
+            baseExplosiveness = 2;//funny
         }};
         hydroxideReactor = new ConsumeGenerator("hydroxide-reactor"){{
             requirements(Category.power, with(ferricMatter, 200, aluminum, 250, silicon, 1200, copper, 500));

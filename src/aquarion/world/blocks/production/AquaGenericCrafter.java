@@ -20,63 +20,64 @@ public class AquaGenericCrafter extends GenericCrafter {
     public final int timerUse = timers++;
     public float updateRange;
     public boolean hasLiquidBooster;
-
+    public float powerConsumption = 0;
     public AquaGenericCrafter(String name) {
         super(name);
     }
 
 
-
-    @Override
-    public void init(){
-        super.init();
-        hasLiquidBooster = findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) != null;
-    }
-    @Override
-    public void setBars(){
-        super.setBars();
-
-        addBar("efficiency", (AquaGenericCrafterBuild entity) ->
-                new Bar(() ->
-                        Core.bundle.format("bar.efficiency", (int)(entity.efficiency + 0.01f), (int)(entity.efficiencyScale() + 0.01f)),
-                        () -> Pal.accent,
-                        () -> entity.efficiency));
-    }
-    @Override
-    public void setStats(){
-        super.setStats();
-
-        boolean consItems = itemBooster != null;
-
-        if(consItems) stats.timePeriod = boostItemUseTime;
-
-        if(consItems && itemBooster instanceof ConsumeItems coni){
-            stats.remove(Stat.booster);
-            stats.add(Stat.booster, StatValues.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items));
-        }
-
-        if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
-            stats.remove(Stat.booster);
-            stats.add(Stat.booster,
-                    StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
-                            consBase.amount,
-                            liquidBoostIntensity, false, consBase::consumes)
-            );
-        }
-    }
+//
+//    @Override
+//    public void init(){
+//        super.init();
+//        hasLiquidBooster = findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) != null;
+//    }
+//    @Override
+//    public void setBars(){
+//        super.setBars();
+//
+//        addBar("efficiency", (AquaGenericCrafterBuild entity) ->
+//                new Bar(() ->
+//                        Core.bundle.format("bar.efficiency", (int)(entity.efficiency + 0.01f), (int)(entity.efficiencyScale() + 0.01f)),
+//                        () -> Pal.accent,
+//                        () -> entity.efficiency));
+//    }
+//    @Override
+//    public void setStats(){
+//        super.setStats();
+//
+//        boolean consItems = itemBooster != null;
+//
+//        if(consItems) stats.timePeriod = boostItemUseTime;
+//
+//        if(consItems && itemBooster instanceof ConsumeItems coni){
+//            stats.remove(Stat.booster);
+//            stats.add(Stat.booster, StatValues.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items));
+//        }
+//
+//        if(liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
+//            stats.remove(Stat.booster);
+//            stats.add(Stat.booster,
+//                    StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
+//                            consBase.amount,
+//                            liquidBoostIntensity, false, consBase::consumes)
+//            );
+//        }
+//    }
 
     public class AquaGenericCrafterBuild extends GenericCrafterBuild {
-        public float lastEfficiency;
-
+        public float currentPower = 0;
         @Override
         public void updateEfficiencyMultiplier() {
-
-            if (block.findConsumer(c -> c.optional && c.booster && c instanceof ConsumeLiquidBaseNew) instanceof ConsumeLiquidBaseNew liquidConsumer) {
-                optionalEfficiency *= liquidConsumer.efficiency(this);
-            }
-            if (block.findConsumer(c -> c.optional && c.booster && c instanceof ConsumeItems) instanceof ConsumeItems ItemConsumer) {
-                optionalEfficiency *= ItemConsumer.efficiency(this);
-            }
+                if(powerConsumption > 0){
+                    efficiency *= Math.min(currentPower/powerConsumption, 0);
+                }
+//            if (block.findConsumer(c -> c.optional && c.booster && c instanceof ConsumeLiquidBaseNew) instanceof ConsumeLiquidBaseNew liquidConsumer) {
+//                optionalEfficiency *= liquidConsumer.efficiency(this);
+//            }
+//            if (block.findConsumer(c -> c.optional && c.booster && c instanceof ConsumeItems) instanceof ConsumeItems ItemConsumer) {
+//                optionalEfficiency *= ItemConsumer.efficiency(this);
+//            }
 
             super.updateEfficiencyMultiplier();
         }
@@ -85,32 +86,32 @@ public class AquaGenericCrafter extends GenericCrafter {
         public void updateTile() {
             super.updateTile();
 
-            boolean itemValid = itemBooster != null && itemBooster.efficiency(this) > 0;
+            //boolean itemValid = itemBooster != null && itemBooster.efficiency(this) > 0;
 
             warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), warmupSpeed);
 
-            // Adjust efficiency based on boosters
-            float eff = efficiency *
-                    Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) *
-                    (itemValid ? itemBoostIntensity : 1f);
+//            // Adjust efficiency based on boosters
+//            float eff = efficiency *
+//                    Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) *
+//                    (itemValid ? itemBoostIntensity : 1f);
 
-            progress += getProgressIncrease(craftTime) * eff;
+            progress += getProgressIncrease(craftTime);// * eff;
 
-            // Consume items for boosting
-            if (itemValid && eff > 0 && timer(timerUse, boostItemUseTime)) {
-                consume();
-            }
+//            // Consume items for boosting
+//            if (itemValid && eff > 0 && timer(timerUse, boostItemUseTime)) {
+//                consume();
+//            }
 
             // Handle liquid output
             if (outputLiquids != null) {
-                float inc = getProgressIncrease(1f) * eff;
+                float inc = getProgressIncrease(1f);// * eff;
                 for (var output : outputLiquids) {
                     handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
                 }
             }
-            if(itemValid && eff * efficiency > 0 && timer(timerUse, boostItemUseTime)){
-                consume();
-            }
+//            if(itemValid && eff * efficiency > 0 && timer(timerUse, boostItemUseTime)){
+//                consume();
+//            }
 
             // Update effects
             if (wasVisible && Mathf.chanceDelta(updateEffectChance * warmup)) {

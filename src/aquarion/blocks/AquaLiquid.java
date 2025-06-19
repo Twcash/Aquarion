@@ -44,7 +44,7 @@ public class AquaLiquid {
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge"){{
             //long boi. Prolly unbalanced asf but I'm working on it
             requirements(Category.liquid, with(manganese, 45));
-            willMelt = false;
+            willMelt = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             range = 8;
             hasPower = false;
@@ -55,7 +55,7 @@ public class AquaLiquid {
         siphon = new ModifiedConduit("siphon") {{
             requirements(Category.liquid, with(silicon, 3));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-
+            willMelt = false;
             junctionReplacement = siphonJunction;
             bridgeReplacement = siphonBridge;
             liquidCapacity = 80;
@@ -100,6 +100,7 @@ public class AquaLiquid {
             squareSprite = false;
             liquidCapacity = 4000;
             size = 3;
+            willMelt = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -110,7 +111,7 @@ public class AquaLiquid {
             squareSprite = false;
             liquidCapacity = 8500;
             size = 4;
-            willMelt = false;
+            willMelt = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

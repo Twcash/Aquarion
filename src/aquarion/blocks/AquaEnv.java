@@ -157,7 +157,7 @@ public class AquaEnv {
 
         }};
 
-        gabbro_extrusions = new Floor("gabbro-extrusions", 4) {{
+        gabbro_extrusions = new Floor("gabbro-extrusions", 10) {{
         }};
         brimstoneFloor = new Floor("brimstone-floor", 3) {{
             itemDrop = brimstone;
@@ -211,7 +211,7 @@ public class AquaEnv {
 
         gabbro_vent = new SteamVent("gabbro-vent") {{
             attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = AquaEnv.gabbro;
+            parent = blendGroup = AquaEnv.gabbro_extrusions;
             effectSpacing = 15f;
             variants = 3;
             effect = new ParticleEffect(){{

@@ -767,7 +767,7 @@ public class AquaUnitTypes {
                     new UnitEngine(0, 18/4f, 2.5f, 90)
             );
             setEnginesMirror(
-                    new UnitEngine(16 / 4f, 4 / 4f, 2.5f, -180f)
+                    new UnitEngine(16 / 4f, 0, 2.5f, 0)
             );
             armor = 2;
             speed = 9;
