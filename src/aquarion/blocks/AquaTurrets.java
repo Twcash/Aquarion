@@ -70,8 +70,8 @@ public class AquaTurrets {
     public static void loadContent() {
         //1 by 1 turret that can be boosted hellishly beyond what it should be
         point = new ItemTurret("point"){{
-            alwaysUnlocked = true;
-                requirements(Category.turret, with( silicon, 35f, lead, 50));
+            researchCostMultiplier = 0;
+            requirements(Category.turret, with( silicon, 35f, lead, 50));
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 health = 250;
                 squareSprite = true;
@@ -666,6 +666,7 @@ public class AquaTurrets {
             requirements(Category.turret, with(copper, 150, metaglass, 100, lead, 260));
             size = 3;
             shootSound = shootBig;
+            researchCostMultiplier = 0.1f;
             squareSprite = false;
             consumeCoolant(40/60f);
             coolantMultiplier = 0.3f;
@@ -680,6 +681,8 @@ public class AquaTurrets {
                     silicon, new ArtilleryBulletType(3, 0){{
                         width = 8;
                         height = 10;
+                        status = shocked;
+                        statusDuration = 10;
                         trailLength = 12;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
@@ -704,6 +707,8 @@ public class AquaTurrets {
                     magnesiumPowder, new ArtilleryBulletType(2.5f, 0){{
                         width = 8;
                         height = 10;
+                        status = blasted;
+                        statusDuration = 10;
                         trailLength = 12;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
@@ -729,6 +734,8 @@ public class AquaTurrets {
                         width = 8;
                         height = 10;
                         trailLength = 12;
+                        status = electrified;
+                        statusDuration = 30;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
                         frontColor = Color.white;

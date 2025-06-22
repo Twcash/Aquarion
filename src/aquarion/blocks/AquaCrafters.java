@@ -183,9 +183,9 @@ public class AquaCrafters {
             researchCostMultiplier = 0.02f;
             consumePower(200/60f);
             outputItems = new ItemStack[]{
-                    new ItemStack(silicon, 4),
+                    new ItemStack(sand, 6),
                     new ItemStack(ferricMatter, 6),
-                    new ItemStack(aluminum, 5)
+                    new ItemStack(aluminum, 6)
             };
             outputLiquid = new LiquidStack(oxygen, 20 / 60f);
             size = 6;
@@ -221,7 +221,7 @@ public class AquaCrafters {
             itemCapacity = 120;
             researchCostMultiplier = 0.02f;
             craftTime = 7*60f;
-            consumePower(1250/60f);
+            consumePower(800/60f);
             consumeItems(with(ferricMatter, 15, silicon, 25));
             outputItem = new ItemStack(ferrosilicon, 40);
             consumeLiquids(LiquidStack.with(magma, 90 / 60f, hydroxide, 15/60f));
@@ -533,12 +533,12 @@ public class AquaCrafters {
             towaniteReductionVat = new GenericCrafter("towanite-reduction-vat"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.crafting, with( copper, 150, ferricMatter ,500, aluminum, 300));
+                requirements(Category.crafting, with( copper, 150, silicon ,500));
                 size = 7;
                 itemCapacity = 150;
                 craftTime = 3*60f;
                 squareSprite = false;
-                consumePower(500/600f);
+                consumePower(500/60f);
                 researchCostMultiplier = 0.25f;
                 consumeItem(towanite, 15);
                 consumeLiquid(fumes, 30/60f);
@@ -774,6 +774,7 @@ public class AquaCrafters {
             size = 7;
             itemCapacity = 60;
             squareSprite = false;
+            researchCostMultiplier = 0.05f;
             updateEffect = Fx.steam;
             updateEffectChance = 0.05f;
             craftEffect = new MultiEffect(new MultiEffect(new ParticleEffect(){{
@@ -1081,6 +1082,7 @@ public class AquaCrafters {
             shownPlanets.addAll(tantros2);
             craftTime = 10;
             size = 3;
+            consumePower(100/60f);
             outputLiquid = new LiquidStack(halideWater, 240/60f);
             envDisabled = Env.groundOil | Env.scorching | Env.spores;
             liquidCapacity = 700;
@@ -1122,8 +1124,10 @@ public class AquaCrafters {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( copper, 200, aluminum, 500));
             size = 6;
+            researchCostMultiplier = 0.08f;
             squareSprite = false;
             ambientSound = Sounds.electricHum;
+            consumePower(350/60f);
             consumeLiquid(halideWater, 300/60f);
             craftTime = 10;
             outputLiquids = LiquidStack.with( air, 200/60f,water, 200/60f);
@@ -1224,6 +1228,7 @@ public class AquaCrafters {
             squareSprite = false;
             craftTime = 10;
             liquidCapacity = 200;
+            consumePower(10/60f);
             envDisabled = Env.underwater|Env.space;
             outputLiquid = new LiquidStack(air, 50/60f);
             ambientSound = Sounds.windhowl;
@@ -1344,10 +1349,11 @@ public class AquaCrafters {
         atmosphericCentrifuge = new GenericCrafter("atmospheric-centrifuge"){{
             liquidOutputDirections = new int[]{1, 2, 3};
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( aluminum, 200, lead, 150, copper, 100));
+            requirements(Category.crafting, with( aluminum, 200, ferricMatter, 150, copper, 100));
             size = 4;
             rotateDraw = false;
             consumePower(250/60f);
+            researchCostMultiplier = 0.05f;
             rotate = true;
             regionRotated1 = 1;
             liquidCapacity = 400;

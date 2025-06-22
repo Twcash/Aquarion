@@ -119,7 +119,7 @@ public class AquaCore {
             requirements(Category.effect, with(silicon,60, aluminum, 40));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
-            consumePower(25/60f);
+            consumePower(5/60f);
             consumeLiquid(fumes, 1.25f/60f);
             range = 30;
             healPercent = 3;
@@ -145,7 +145,7 @@ public class AquaCore {
             size = 5;
         }};
         buzzSaw = new ChainsawTurret("buzzsaw"){{
-            requirements(Category.turret, with(silicon, 250, lead, 300, copper, 100));
+            requirements(Category.turret, with(silicon, 250, lead, 300));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 3;
             consumePower(400/60f);

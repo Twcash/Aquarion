@@ -44,7 +44,7 @@ public class PowerOutlet extends PowerGenerator {
             if (!(build instanceof OutletBuild o)) return 0f;
             if (o.front() == null || o.front().power == null || o.front().team != o.team) return 0f;
            ;
-            return o.getPowerProduction();
+            return Math.min(o.need, powerProduction);
         }));
     }
     @Override
@@ -93,9 +93,11 @@ public class PowerOutlet extends PowerGenerator {
             }
             //Add production to current graph
             if(front.producers.contains(this)){
-                //Force distribution of the new power
-                front.distributePower(front.getPowerNeeded(), front.getPowerProduced(), false);
-                need = Math.min(frontConsume.requestedPower(front()), powerProduction);
+                if(front().power.status <= 0){
+                    need = Math.min(frontConsume.usage, powerProduction);
+                } else {
+                    need = Math.min(frontConsume.usage / front().power.status, powerProduction);
+                }
                 Log.info(need);
             } else {
                 front.producers.add(this);
@@ -120,11 +122,11 @@ public class PowerOutlet extends PowerGenerator {
                 productionEfficiency = 0;
                 return 0;
             }
-            ConsumePower frontCons = front().block.findConsumer(f -> f instanceof ConsumePower);
-            return need  * this.power.graph.getSatisfaction();
+            return need  * this.power.status;
         }
         @Override
         public void onProximityRemoved(){
+            super.onProximityRemoved();
             if(power != null){
                 powerGraphRemoved();
             }

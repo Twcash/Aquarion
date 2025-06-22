@@ -33,8 +33,7 @@ public class AquaDefense {
             requirements(Category.defense, with(bauxite, 24));
             health = 1000;
             size = 2;
-            alwaysUnlocked = true;
-            researchCostMultiplier = 0.1f;
+            researchCostMultiplier = 0.02f;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;

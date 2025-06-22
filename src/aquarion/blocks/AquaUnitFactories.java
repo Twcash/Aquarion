@@ -20,11 +20,11 @@ public class AquaUnitFactories {
 
     public static void loadContent(){
         bulwark = new UnitBlock("bulwark"){{
-            requirements(Category.units, with(silicon, 80, metaglass, 60, nickel, 50));
+            requirements(Category.units, with(silicon, 80, metaglass, 60, lead, 50));
             unit = AquaUnitTypes.bulwark;
             size = 2;
             time = 15*60;
-            consumePower(100/60f);
+            consumePower(75/60f);
         }};
        pugnate = new UnitBlock("pugnate"){{
             requirements(Category.units, with(silicon, 90, aluminum, 50, copper, 70));

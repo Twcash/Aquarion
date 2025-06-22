@@ -70,12 +70,14 @@ public class AquaPlanets {
             );
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
-            startSector = 15;
+            startSector = 351;
             orbitSpacing = 6f;
             defaultCore = AquaCore.corePike;
             allowLaunchLoadout = false;
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
+            //for future me
+            //Vars.content.planet("aquarion-fakeSerp").allowLaunchToNumbered = true
             ruleSetter = r -> {
                 r.fire = true;
                 r.waveTeam = Team.crux;

@@ -12,6 +12,7 @@ import static aquarion.blocks.AquaDefense.*;
 import static aquarion.blocks.AquaDistribution.*;
 import static aquarion.blocks.AquaEffect.lantern;
 import static aquarion.blocks.AquaLiquid.*;
+import static aquarion.blocks.AquaPower.*;
 import static aquarion.blocks.AquaTurrets.*;
 import static aquarion.blocks.AquaUnitFactories.*;
 import static aquarion.planets.AquaSectorPresets.*;
@@ -62,21 +63,39 @@ public class TantrosTechTree {
                     });
                 });
             });
+            node(pylon, () -> {
+                node(capacitorBank, () -> {
+                    node(ionBattery, Seq.with(
+                            new Objectives.OnSector(CrystalCaverns)
+                    ), () -> {});
+                });
+                node(outlet);
+                node(solarGenerator, () -> {
+                    node(turbineDynamo);
+                    node(heatEngine, () ->{
+                        node(fumeEngine);
+                        node(hydroxideReactor);
+                    });
+                });
+            });
             node(point, () -> {
                 node(buildCairn);
-                node(Foment, () -> {
+                node(Foment, Seq.with(
+                        new Objectives.OnSector(Ingress)
+                ), () -> {
                     node(buzzSaw);
                     node(redact, () ->
                             node(maelstrom));
                 });
                 node(sentry);
                 node(pelt, () -> {
+                    node(douse);
+                    node(grace);
                     node(focus, ()->{
                         node(confront);
                     });
                     node(vector);
                 });
-                node(douse);
             });
             node(sealedConveyor, () -> {
                 node(manganeseRail, Seq.with(
@@ -112,10 +131,16 @@ public class TantrosTechTree {
                                 new Objectives.SectorComplete(Ingress)
                         ), () -> {
                             node(Grove, () -> {
+                                new Objectives.Research(beamBore);
                                 new Objectives.SectorComplete(Torrent);
+                                new Objectives.Research(pugnate);
+                                new Objectives.Research(grace);
+                                new Objectives.Research(vacuumFreezer);
+                                new Objectives.Research(aluminum);
                                 new Objectives.Research(bauxiteCentrifuge);
                             });
                             node(CrystalCaverns, Seq.with(
+                                    new Objectives.Research(fumeEngine),
                                     new Objectives.SectorComplete(Torrent),
                                     new Objectives.Research(armoredSealedConveyor),
                                     new Objectives.Research(redact)
@@ -126,6 +151,14 @@ public class TantrosTechTree {
                                 new Objectives.SectorComplete(resurgence),
                                 new Objectives.SectorComplete(twinPass)
                         ), () -> {
+                            node(mountainsideComplex, Seq.with(
+                                    new Objectives.SectorComplete(bay)
+                            ), ()->{});
+                            node(lowlandStrait, Seq.with(
+                                    new Objectives.SectorComplete(bay),
+                                    new Objectives.Research(vector),
+                                    new Objectives.Research(SolidBoiler)
+                            ), ()->{});
                         });
                     }));
             nodeProduce(silicon, () -> {
@@ -213,7 +246,6 @@ public class TantrosTechTree {
                         new Objectives.SectorComplete(twinPass)
                 ), () -> node(plasmaExtractor, () -> {
                     node(beamBore, Seq.with(
-                            new Objectives.OnSector(CrystalCaverns)
                     ), () -> {
                     });
                     node(DrillDerrick, Seq.with(
@@ -233,9 +265,12 @@ public class TantrosTechTree {
             node(atmosphericIntake, () -> {
                 node(atmosphericCentrifuge);
                 node(inlet, () -> node(vacuumFreezer, () ->{
-                    node(atmosphericCentrifuge);
                 }));
-                node(AnnealingOven);
+                node(AnnealingOven, () -> {
+                    node(SolidBoiler, Seq.with(
+                            new Objectives.SectorComplete(twinPass)
+                    ), () ->{});
+                });
                 node(magmaDiffser, Seq.with(
                         new Objectives.Research(magmaTap),
                         new Objectives.OnSector(Ingress)

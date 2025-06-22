@@ -10,7 +10,7 @@ public class AquaSectorPresets {
     public static AquaSectorPreset  //tantros
     Ingress, Torrent, CrystalCaverns, Grove,
     //serpulo (fake)
-    resurgence, twinPass, bay;
+    resurgence, twinPass, bay, lowlandStrait, mountainsideComplex;
     /*
     Sector plans
     chasm:10 {
@@ -29,7 +29,7 @@ public class AquaSectorPresets {
     }
      */
     public static void load(){
-        resurgence = new AquaSectorPreset("resurgence", fakeSerpulo, 15){{
+        resurgence = new AquaSectorPreset("resurgence", fakeSerpulo, 361){{
             alwaysUnlocked = true;
             addStartingItems = true;
             captureWave = 3;
@@ -41,20 +41,35 @@ public class AquaSectorPresets {
         twinPass = new AquaSectorPreset("twinPass", fakeSerpulo, 16){{
             addStartingItems = true;
             captureWave = 11;
-            difficulty = 1;
+            difficulty = 2;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        bay = new AquaSectorPreset("Lagoon", fakeSerpulo, 17){{
+        bay = new AquaSectorPreset("Lagoon", fakeSerpulo, 357){{
             addStartingItems = true;
             captureWave = 21;
-            difficulty = 1;
+            difficulty = 3;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        Ingress = new AquaSectorPreset("Ingress", tantros2, 10){{
+        lowlandStrait = new AquaSectorPreset("lowlandStrait", fakeSerpulo, 176){{
+            addStartingItems = true;
+            captureWave = 357;
+            difficulty = 4;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 2f;
+        }};
+        mountainsideComplex = new AquaSectorPreset("mountainsideComplex", fakeSerpulo, 177){{
+            addStartingItems = true;
+            difficulty = 4;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 2f;
+        }};
+        Ingress = new AquaSectorPreset("Ingress", tantros2, 351){{
             addStartingItems = true;
             captureWave = 5;
             difficulty = 1;

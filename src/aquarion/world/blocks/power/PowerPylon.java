@@ -33,7 +33,9 @@ import mindustry.world.meta.*;
 import mindustry.world.modules.*;
 
 import static mindustry.Vars.*;
-public class PowerPylon extends PowerBlock {
+import static mindustry.core.Renderer.laserOpacity;
+
+public class PowerPylon extends PowerNode {
     protected static BuildPlan otherReq;
     protected static int returnInt = 0;
     protected final static ObjectSet<PowerGraph> graphs = new ObjectSet<>();
@@ -69,7 +71,6 @@ public class PowerPylon extends PowerBlock {
         destructible = true;
         update = true;
         noUpdateDisabled = true;
-
         config(Integer.class, (entity, value) -> {
             PowerModule power = entity.power;
             Building other = world.build(value);
@@ -133,65 +134,8 @@ public class PowerPylon extends PowerBlock {
         ));
     }
 
-    public static Func<Building, Bar> makePowerBalance(){
-        return entity -> new Bar(() ->
-                Core.bundle.format("bar.powerbalance",
-                        ((entity.power.graph.getPowerBalance() >= 0 ? "+" : "") + UI.formatAmount((long)(entity.power.graph.getPowerBalance() * 60)))),
-                () -> Pal.powerBar,
-                () -> Mathf.clamp(entity.power.graph.getLastPowerProduced() / entity.power.graph.getLastPowerNeeded())
-        );
-    }
-
-    public static Func<Building, Bar> makeBatteryBalance(){
-        return entity -> new Bar(() ->
-                Core.bundle.format("bar.powerstored",
-                        (UI.formatAmount((long)entity.power.graph.getLastPowerStored())), UI.formatAmount((long)entity.power.graph.getLastCapacity())),
-                () -> Pal.powerBar,
-                () -> Mathf.clamp(entity.power.graph.getLastPowerStored() / entity.power.graph.getLastCapacity())
-        );
-    }
 
     @Override
-    public void setStats(){
-        super.setStats();
-
-        stats.add(Stat.powerRange, laserRange, StatUnit.blocks);
-        stats.add(Stat.powerConnections, maxNodes, StatUnit.none);
-    }
-
-    @Override
-    public void init(){
-        super.init();
-
-        clipSize = Math.max(clipSize, laserRange * tilesize);
-    }
-
-    @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
-        Tile tile = world.tile(x, y);
-
-        if(tile == null || !autolink) return;
-
-        Lines.stroke(1f);
-        Draw.color(Pal.placing);
-        Drawf.circles(x * tilesize + offset, y * tilesize + offset, laserRange * tilesize);
-
-        getPotentialLinks(tile, player.team(), other -> {
-            drawLaser(x * tilesize + offset, y * tilesize + offset, other.x, other.y, size, other.block.size);
-
-            Drawf.square(other.x, other.y, other.block.size * tilesize / 2f + 2f, Pal.place);
-        });
-
-        Draw.reset();
-    }
-
-    @Override
-    public void changePlacementPath(Seq<Point2> points, int rotation){
-        Placement.calculateNodes(points, this, rotation, (point, other) -> overlaps(world.tile(point.x, point.y), world.tile(other.x, other.y)));
-    }
-
-
-
     public void drawLaser(float x1, float y1, float x2, float y2, int size1, int size2){
         float angle1 = Angles.angle(x1, y1, x2, y2),
                 vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
@@ -203,37 +147,18 @@ public class PowerPylon extends PowerBlock {
 
         boolean reverse = pos1.x > pos2.x;
         if(reverse)Draw.xscl = -1;
-
+        Draw.color(Color.white, Renderer.unitLaserOpacity);
         Lines.stroke(thickness);
         Lines.line(cable, x1 + vx*len1, y1 + vy*len1, x2 - vx*len2, y2 - vy*len2, false);
         Draw.rect(cableEnd, x1 + vx*len1, y1 + vy*len1, angle);
         Draw.xscl = -1f;
         Draw.rect(cableEnd, x2 + vx*len1, y2 + vy*len1, angle);
         Draw.xscl = Draw.yscl = 1f;
+        Draw.color();
     }
 
-    public boolean overlaps(float srcx, float srcy, Tile other, Block otherBlock, float range){
-        return Intersector.overlaps(Tmp.cr1.set(srcx, srcy, range), Tmp.r1.setCentered(other.worldx() + otherBlock.offset, other.worldy() + otherBlock.offset,
-                otherBlock.size * tilesize, otherBlock.size * tilesize));
-    }
 
-    public boolean overlaps(float srcx, float srcy, Tile other, float range){
-        return Intersector.overlaps(Tmp.cr1.set(srcx, srcy, range), other.getHitbox(Tmp.r1));
-    }
-
-    public boolean overlaps(Building src, Building other, float range){
-        return overlaps(src.x, src.y, other.tile, range);
-    }
-
-    protected boolean overlaps(Tile src, Tile other, float range){
-        return overlaps(src.drawx(), src.drawy(), other, range);
-    }
-
-    public boolean overlaps(@Nullable Tile src, @Nullable Tile other){
-        if(src == null || other == null) return true;
-        return Intersector.overlaps(Tmp.cr1.set(src.worldx() + offset, src.worldy() + offset, laserRange * tilesize), Tmp.r1.setSize(size * tilesize).setCenter(other.worldx() + offset, other.worldy() + offset));
-    }
-
+    @Override
     protected void getPotentialLinks(Tile tile, Team team, Cons<Building> others){
         if(!autolink) return;
 
@@ -241,11 +166,7 @@ public class PowerPylon extends PowerBlock {
                 isAllowedLinkTarget(other) &&
                 overlaps(tile.x * tilesize + offset, tile.y * tilesize + offset, other.tile, laserRange * tilesize) && other.team == team &&
                 !graphs.contains(other.power.graph) &&
-                !(other instanceof PowerPylonBuild obuild && obuild.power.links.size >= ((PowerPylon)obuild.block).maxNodes) &&
-                !Structs.contains(Edges.getEdges(size), p -> { //do not link to adjacent buildings
-                    var t = world.tile(tile.x + p.x, tile.y + p.y);
-                    return t != null && t.build == other;
-                });
+                !(other instanceof PowerPylonBuild obuild && obuild.power.links.size >= ((PowerPylon)obuild.block).maxNodes);
 
         tempBuilds.clear();
         graphs.clear();
@@ -300,11 +221,11 @@ public class PowerPylon extends PowerBlock {
             Draw.color();
         }
     }
-
+    @Override
     public boolean linkValid(Building tile, Building link){
         return linkValid(tile, link, true);
     }
-
+    @Override
     public boolean linkValid(Building tile, Building link, boolean checkMaxNodes){
         if(tile == link || link == null || !link.block.hasPower || !link.block.connectedPower || tile.team != link.team || (sameBlockConnection && tile.block != link.block && !isAllowedLinkTarget(link))) return false;
 
@@ -317,29 +238,7 @@ public class PowerPylon extends PowerBlock {
         return false;
     }
 
-    public static boolean insulated(Tile tile, Tile other){
-        return insulated(tile.x, tile.y, other.x, other.y);
-    }
-
-    public static boolean insulated(Building tile, Building other){
-        return insulated(tile.tileX(), tile.tileY(), other.tileX(), other.tileY());
-    }
-
-    public static boolean insulated(int x, int y, int x2, int y2){
-        return World.raycast(x, y, x2, y2, (wx, wy) -> {
-            Building tile = world.build(wx, wy);
-            return tile != null && tile.isInsulated();
-        });
-    }
-
     public class PowerPylonBuild extends Building{
-
-        @Override
-        public void created(){ // Called when one is placed/loaded in the world
-            if(autolink && laserRange > maxRange) maxRange = laserRange;
-
-            super.created();
-        }
 
 
         @Override
@@ -443,11 +342,12 @@ public class PowerPylon extends PowerBlock {
             Draw.rect(glowBase, x, y, 0);
             Draw.reset();
 
-            if(Mathf.zero(Renderer.laserOpacity) || isPayload() || team == Team.derelict) return;
+            if(Mathf.zero(laserOpacity) || isPayload() || team == Team.derelict) return;
 
             Draw.z(Layer.power);
 
             for(int i = 0; i < power.links.size; i++){
+                Draw.alpha(laserOpacity);
                 Building link = world.build(power.links.get(i));
 
                 if(!linkValid(this, link)) continue;
@@ -470,11 +370,9 @@ public class PowerPylon extends PowerBlock {
                 Draw.xscl = -1f;
                 Draw.rect(cableEnd, link.x - vx*len2, link.y - vy*len2, angle);
                 Draw.xscl = Draw.yscl = 1f;
-                Draw.blend(Blending.additive);
                 Draw.color(Color.red);
                 Draw.alpha(Mathf.absin(Time.time, 10f, mag));
                 Lines.line(glow, x + vx*len1, y + vy*len1, link.x - vx*len2, link.y - vy*len2, false);
-                Draw.reset();
                 Draw.reset();
                 Draw.blend();
             }
@@ -493,9 +391,6 @@ public class PowerPylon extends PowerBlock {
                 out[i] = Point2.unpack(power.links.get(i)).sub(tile.x, tile.y);
             }
             return out;
-        }
-        @Override
-        public void removeFromProximity(){
         }
         @Override
         public void updateTile(){

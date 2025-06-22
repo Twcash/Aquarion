@@ -43,7 +43,7 @@ public class AquaEnv {
             andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid,
             coral_floor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
-            kelp_floor, roughFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
+            kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum,
@@ -89,9 +89,26 @@ public class AquaEnv {
         }};
         coral_floor = new Floor("coral-floor", 4) {{
         }};
-        feldspar = new Floor("feldspar", 3) {{
+        ferric_extrusions = new Floor("ferric-extrusions", 2) {{
+        }};
+        feldsparRubble = new TiledFloor("feldspar-rubble"){{
+            tilingVariants = 2;
+            tilingSize = 4;
+        }};
+        feldsparPebbles = new OverlayFloor("feldspar-pebbles") {{
+            variants = 4;
+        }};
+        roughFeldspar = new Floor("rough-feldspar", 4) {{
             wall = feldsparWall;
         }};
+        feldspar = new Floor("feldspar-floor", 5) {{
+            wall = feldsparWall;
+        }};
+        smoothFeldspar = new Floor("smooth-feldspar", 6) {{
+            wall = feldsparWall;
+        }};
+
+
         andesiteLayers = new Floor("andesite-layers", 4){{
             wall = daciteWall;
         }};
@@ -121,8 +138,7 @@ public class AquaEnv {
             wall = daciteWall;
         }};
 
-        ferric_extrusions = new Floor("ferric-extrusions", 2) {{
-        }};
+
         redCoralFloor = new Floor("redCoral-floor"){{
             variants = 6;
         }};
@@ -263,9 +279,6 @@ public class AquaEnv {
             walkSound = mindustry.gen.Sounds.mud;
         }};
 
-        roughFeldspar = new Floor("rough-feldspar", 4) {{
-            wall = feldsparWall;
-        }};
 
         phylite_floor = new Floor("phylite-floor", 2) {{
             wall = shaleWall;
@@ -359,7 +372,7 @@ public class AquaEnv {
         }};
 
         feldsparWall = new StaticWall("feldspar-wall") {{
-            variants = 4;
+            variants = 3;
         }};
         redCoralWall = new StaticWall("red-coral-wall") {{
             variants = 3;

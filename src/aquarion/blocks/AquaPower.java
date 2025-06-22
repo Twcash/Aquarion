@@ -33,21 +33,24 @@ import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, radiator, compressor, channel, fumeEngine;
+    public static Block turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent(){
         solarGenerator = new SolarGenerator("solar-generator"){{
             requirements(Category.power, with(lead, 300, nickel, 200, silicon, 500));
             size = 4;
             insulated = true;
-            powerProduction = 50/60f;
+            powerProduction = 150/60f;
             baseExplosiveness = 2;//funny
+            alwaysUnlocked = true;
+            envDisabled |= Env.underwater;
         }};
         hydroxideReactor = new ConsumeGenerator("hydroxide-reactor"){{
             requirements(Category.power, with(ferricMatter, 200, aluminum, 250, silicon, 1200, copper, 500));
             powerProduction = 5000/60f;
             size = 7;
             squareSprite = false;
+            researchCostMultiplier = 0.1f;
             liquidCapacity = 1200;
             ambientSound = AquaSounds.derrick;
             ambientSoundVolume = 0.06f;
@@ -87,6 +90,7 @@ public class AquaPower {
         turbineDynamo = new ConsumeGenerator("turbine-dynamo"){{
             requirements(Category.power, with(copper, 2000, lead, 500, metaglass, 1000, nickel, 1200));
             size = 10;
+            researchCostMultiplier = 0.05f;
             squareSprite = false;
             liquidCapacity = 2000;
             powerProduction = 110;
@@ -119,9 +123,10 @@ public class AquaPower {
 
             requirements(Category.power, with(ferricMatter, 500, aluminum, 2000, silicon, 800, copper, 1200));
             size = 9;
+            researchCostMultiplier = 0.05f;
             insulated = true;
             consumeLiquids(LiquidStack.with(fumes, 20)); //jesus fucking christ;
-            powerProduction = 100; //1 unit of fume = 5 power/s prolly gonna EVER need 2 of these for early to midgame
+            powerProduction = 120; //1 unit of fume = 5 power/s prolly gonna EVER need 2 of these for early to midgame
             liquidCapacity = 5000;
             baseExplosiveness = 10;
             explosionDamage = 2500;
@@ -235,11 +240,13 @@ public class AquaPower {
             requirements(Category.power, with(silicon, 20));
             laserRange = 10;
             maxNodes = 8;
+            alwaysUnlocked = true;
         }};
         outlet = new PowerOutlet("outlet"){{
             requirements(Category.power, with(silicon, 15));
             rotate = true;
             rotateDraw = false;
+            alwaysUnlocked = true;
             drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion(){{
             }});
         }};
@@ -250,10 +257,24 @@ public class AquaPower {
             consumePowerBuffered(8000);
             drawer = new DrawDefault();
         }};
+        ionBattery = new Battery("ion-battery"){{
+            requirements(Category.power, with(aluminum, 120, arsenic, 200, copper, 100));
+            size = 3;
+            insulated = true;
+            researchCostMultiplier = 0;
+            consumePowerBuffered(12000);
+            drawer = new DrawMulti(new DrawDefault(), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.4f;
+                color = Color.valueOf("f5c5aa");
+            }});
+        }};
         heatEngine = new ThermalGenerator("heat-engine"){{
             requirements(Category.power, with(silicon, 220, lead, 200));
             displayEfficiency = false;
             insulated = true;
+            researchCostMultiplier = 0.05f;
             size = 3;
             squareSprite = false;
             displayEfficiencyScale = 1f / 9f;
