@@ -358,7 +358,7 @@ public class PowerPylon extends PowerNode {
             super.draw();
             Draw.color(Color.red);
 
-            Draw.alpha(Mathf.absin(Time.time, 1, 4) * this.power.graph.getSatisfaction());
+            Draw.alpha(Mathf.absin(Time.time, 4, 1) * this.power.graph.getSatisfaction()*0.25f);
             Draw.rect(glowBase, x, y, 0);
             Draw.reset();
 
@@ -391,7 +391,7 @@ public class PowerPylon extends PowerNode {
                 Draw.rect(cableEnd, link.x - vx*len2, link.y - vy*len2, angle);
                 Draw.xscl = Draw.yscl = 1f;
                 Draw.color(Color.red);
-                Draw.alpha(Mathf.absin(Time.time, 1, 4) * this.power.graph.getSatisfaction());
+                Draw.alpha(Mathf.absin(Time.time, 4, 1) * this.power.graph.getSatisfaction()*0.25f);
                 Lines.line(glow, x + vx*len1, y + vy*len1, link.x - vx*len2, link.y - vy*len2, false);
                 Draw.reset();
                 Draw.blend();
