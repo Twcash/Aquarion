@@ -2,12 +2,15 @@ package aquarion.world.blocks.defense;
 
 
 
+import arc.func.Floatf;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.struct.EnumSet;
+import arc.struct.FloatSeq;
+import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.Time;
 import arc.util.Tmp;
@@ -58,42 +61,31 @@ public class BarricadeAbsorb extends Block {
         });
     }
     public class BarricadeAbsBuild extends Building {
-
+        // Keeps track of which blocks have been boosted
+        final ObjectSet<Building> boosted = new ObjectSet<>();
+        //Make sure blocks onlt have Hp and armor added ONCE
         @Override
         public void updateTile(){
-            Seq<Building> blocks = new Seq<>();
-            indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, blocks::add);
-
-            if(blocks.isEmpty()) return;
-
-            float totalHealth = 0f;
-            float totalMax = 0f;
-
-            for(Building b : blocks){
-                totalHealth += b.health();
-                totalMax += b.maxHealth;
-            }
-
-            float sharedRatio = totalHealth / totalMax;
-
-            for(Building b : blocks){
-                float targetHealth = sharedRatio * b.maxHealth;
-                b.health(targetHealth);
-            }
+            indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, b -> {
+                if (!boosted.contains(b)) {
+                    b.maxHealth += 300f;
+                    b.block.armor += 3f;
+                    boosted.add(b);
+                }
+            });
         }
+
         @Override
         public void draw(){
             super.draw();
         }
+
         @Override
         public void drawSelect(){
-
-
             indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t ->
                     Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))
             );
-            Drawf.dashSquare(baseColor.a(0.7f), x, y,range * tilesize );
-
+            Drawf.dashSquare(baseColor.a(0.7f), x, y, range * tilesize);
         }
     }
 }
