@@ -57,14 +57,14 @@ public class AquaSectorPresets {
         lowlandStrait = new AquaSectorPreset("lowlandStrait", fakeSerpulo, 176){{
             addStartingItems = true;
             captureWave = 357;
-            difficulty = 4;
+            difficulty = 5;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
         mountainsideComplex = new AquaSectorPreset("mountainsideComplex", fakeSerpulo, 177){{
             addStartingItems = true;
-            difficulty = 4;
+            difficulty = 5;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
