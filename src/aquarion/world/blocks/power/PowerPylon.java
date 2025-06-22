@@ -45,7 +45,6 @@ public class PowerPylon extends PowerNode {
     public TextureRegion cableEnd;
     public TextureRegion glow;
     public TextureRegion glowBase;
-    public float laserRange = 6;
     public int maxNodes = 3;
     public boolean autolink = true, drawRange = true, sameBlockConnection = false;
 
@@ -121,18 +120,6 @@ public class PowerPylon extends PowerNode {
     public static boolean isAllowedLinkTarget(Building build){
         return build instanceof PowerPylonBuild || build instanceof PowerGenerator.GeneratorBuild || build instanceof PowerOutlet.OutletBuild || (build instanceof Battery.BatteryBuild && build.block.insulated);
     }
-    @Override
-    public void setBars(){
-        super.setBars();
-        addBar("power", makePowerBalance());
-        addBar("batteries", makeBatteryBalance());
-
-        addBar("connections", entity -> new Bar(() ->
-                Core.bundle.format("bar.powerlines", entity.power.links.size, maxNodes),
-                () -> Pal.items,
-                () -> (float)entity.power.links.size / (float)maxNodes
-        ));
-    }
 
 
     @Override
@@ -164,7 +151,7 @@ public class PowerPylon extends PowerNode {
 
         Boolf<Building> valid = other -> other != null && other.tile != tile && other.block.connectedPower && other.power != null &&
                 isAllowedLinkTarget(other) &&
-                overlaps(tile.x * tilesize + offset, tile.y * tilesize + offset, other.tile, laserRange * tilesize) && other.team == team &&
+                overlaps(tile.x * tilesize + offset, tile.y * tilesize + offset, other.tile, maxRange * tilesize) && other.team == team &&
                 !graphs.contains(other.power.graph) &&
                 !(other instanceof PowerPylonBuild obuild && obuild.power.links.size >= ((PowerPylon)obuild.block).maxNodes);
 
@@ -175,7 +162,7 @@ public class PowerPylon extends PowerNode {
             graphs.add(tile.build.power.graph);
         }
 
-        var worldRange = laserRange * tilesize;
+        var worldRange = maxRange * tilesize;
         var tree = team.data().buildingTree;
         if(tree != null){
             tree.intersect(tile.worldx() - worldRange, tile.worldy() - worldRange, worldRange * 2, worldRange * 2, build -> {
@@ -229,7 +216,8 @@ public class PowerPylon extends PowerNode {
     public boolean linkValid(Building tile, Building link, boolean checkMaxNodes){
         if(tile == link || link == null || !link.block.hasPower || !link.block.connectedPower || tile.team != link.team || (sameBlockConnection && tile.block != link.block && !isAllowedLinkTarget(link))) return false;
 
-        if(overlaps(tile, link, laserRange * tilesize) || (link.block instanceof PowerPylon node && overlaps(link, tile, node.laserRange * tilesize))){
+        if(overlaps(tile, link, maxRange
+                * tilesize) || (link.block instanceof PowerPylon node && overlaps(link, tile, node.maxRange * tilesize))){
             if(checkMaxNodes && link.block instanceof PowerPylon node){
                 return link.power.links.size < node.maxNodes || link.power.links.contains(tile.pos()) && isAllowedLinkTarget(link);
             }
@@ -295,7 +283,7 @@ public class PowerPylon extends PowerNode {
             Lines.stroke(1f);
 
             Draw.color(Pal.accent);
-            Drawf.circles(x, y, laserRange * tilesize);
+            Drawf.circles(x, y, maxRange * tilesize);
             Draw.reset();
         }
 
@@ -305,10 +293,10 @@ public class PowerPylon extends PowerNode {
             Drawf.circles(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
 
             if(drawRange){
-                Drawf.circles(x, y, laserRange * tilesize);
+                Drawf.circles(x, y, maxRange * tilesize);
 
-                for(int x = (int)(tile.x - laserRange - 2); x <= tile.x + laserRange + 2; x++){
-                    for(int y = (int)(tile.y - laserRange - 2); y <= tile.y + laserRange + 2; y++){
+                for(int x = (int)(tile.x - maxRange - 2); x <= tile.x + maxRange + 2; x++){
+                    for(int y = (int)(tile.y - maxRange - 2); y <= tile.y + maxRange + 2; y++){
                         Building link = world.build(x, y);
 
                         if(link != this && linkValid(this, link, false)){

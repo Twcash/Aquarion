@@ -98,7 +98,6 @@ public class PowerOutlet extends PowerGenerator {
                 } else {
                     need = Math.min(frontConsume.usage / front().power.status, powerProduction);
                 }
-                Log.info(need);
             } else {
                 front.producers.add(this);
             }
