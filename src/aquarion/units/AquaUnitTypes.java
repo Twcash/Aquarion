@@ -770,7 +770,6 @@ public class AquaUnitTypes {
             setEnginesMirror(
                     new UnitEngine(16 / 4f, 0, 2.5f, 0)
             );
-            armor = 2;
             speed = 9;
             fogRadius = 2;
             buildRange = 160;
@@ -779,9 +778,8 @@ public class AquaUnitTypes {
             drag = 0.1f;
             mineWalls = true;
             mineFloor = true;
-            buildSpeed = 1.2f;
+            buildSpeed = 1.3f;
             rotateSpeed = 12;
-            health = 250;
             engineSize = 0;
             mineTier = 2;
             hitSize = 16;
@@ -798,7 +796,7 @@ public class AquaUnitTypes {
                         controllable = false;
                         targetUnits = true;
                         targetBuildings = true;
-                        fractionRepairSpeed = 0.01f;
+                        fractionRepairSpeed = 0.03f;
                         widthSinMag = 0.11f;
                         healColor = laserColor = Pal.accent;
                         bullet = new BulletType() {{

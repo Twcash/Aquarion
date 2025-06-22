@@ -129,8 +129,7 @@ public class TantrosTechTree {
                                 new Objectives.Research(magmaTap)
                         ), () -> node(Torrent, Seq.with(
                                 new Objectives.SectorComplete(Ingress)
-                        ), () -> {
-                            node(Grove, () -> {
+                        ), () -> { node(Grove, () -> {
                                 new Objectives.Research(beamBore);
                                 new Objectives.SectorComplete(Torrent);
                                 new Objectives.Research(pugnate);

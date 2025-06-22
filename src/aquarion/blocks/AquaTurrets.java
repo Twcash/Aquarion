@@ -694,7 +694,7 @@ public class AquaTurrets {
             inaccuracy = 3;
             targetAir = false;
             outlineColor = tantDarkestTone;
-
+            ammoPerShot = 3;
             ammo(
                     silicon, new ArtilleryBulletType(3, 0){{
                         width = 8;
@@ -706,7 +706,7 @@ public class AquaTurrets {
                         trailInterval = 5;
                         frontColor = Color.white;
                         hitColor = backColor = lightColor = trailColor = silicon.color;
-                        splashDamage = 50f;
+                        splashDamage = 45f;
                         splashDamageRadius = 2.5f*8f;
                         despawnEffect = hitEffect = new ExplosionEffect(){{
                             sparks = 12;
@@ -757,8 +757,9 @@ public class AquaTurrets {
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
                         frontColor = Color.white;
+                        ammoMultiplier = 2;
                         hitColor = backColor = lightColor = trailColor = copper.color;
-                        splashDamage = 40f;
+                        splashDamage = 35f;
                         splashDamageRadius = 1.5f*8f;
                         despawnEffect = hitEffect = new ExplosionEffect(){{
                             sparks = 12;
