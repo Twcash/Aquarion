@@ -238,7 +238,7 @@ public class AquaPower {
         }};
         pylon = new PowerPylon("pylon"){{
             requirements(Category.power, with(silicon, 20));
-            laserRange = 10;
+            maxRange = 10;
             maxNodes = 8;
             alwaysUnlocked = true;
         }};

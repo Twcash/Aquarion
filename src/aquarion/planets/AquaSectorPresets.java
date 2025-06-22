@@ -69,7 +69,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        Ingress = new AquaSectorPreset("Ingress", tantros2, 351){{
+        Ingress = new AquaSectorPreset("Ingress", tantros2, 10){{
             addStartingItems = true;
             captureWave = 5;
             difficulty = 1;

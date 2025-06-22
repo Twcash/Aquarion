@@ -56,6 +56,21 @@ public class PowerPylon extends PowerNode {
         glow = Core.atlas.find(this.name + "-cable-glow");
         glowBase = Core.atlas.find(this.name + "-glow");
     }
+    @Override
+    public void setBars(){
+        super.setBars();
+        removeBar("power");
+        removeBar("batteries");
+        removeBar("connections");
+        addBar("power", makePowerBalance());
+        addBar("batteries", makeBatteryBalance());
+
+        addBar("connections", entity -> new Bar(() ->
+                Core.bundle.format("bar.powerlines", entity.power.links.size, maxNodes),
+                () -> Pal.items,
+                () -> (float)entity.power.links.size / (float)maxNodes
+        ));
+    }
     public PowerPylon(String name){
         super(name);
         configurable = true;

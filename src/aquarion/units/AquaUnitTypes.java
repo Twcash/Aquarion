@@ -760,6 +760,7 @@ public class AquaUnitTypes {
             outlineColor = AquaPal.tantDarkerTone;
             lowAltitude = flying = coreUnitDock = true;
             aiController = BuilderAI::new;
+            health = 25;
             healColor = Pal.accent;
             constructor = UnitEntity::create;
             engines.add(
@@ -1348,7 +1349,7 @@ public class AquaUnitTypes {
             speed = 0.45f;
             hitSize = 8;
             range = 110;
-            health = 300;
+            health = 650;
             armor = 4;
             targetAir = false;
             rotateMoveFirst = true;
