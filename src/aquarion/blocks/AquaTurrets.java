@@ -99,6 +99,22 @@ public class AquaTurrets {
                             hitEffect = Fx.hitFlameSmall;
                             despawnEffect = Fx.reactorsmoke;
                         }},
+                        coal,  new LaserBoltBulletType() {{
+                            frontColor = AquaPal.redDecal1;
+                            backColor = AquaPal.redDecal1Dark;
+                            speed = 20;
+                            lifetime = 8;
+                            damage = 12;
+                            status = burning;
+                            statusDuration = 8*60f;
+                            reloadMultiplier = 1.8f;
+                            rangeChange = 8*5f;
+                            ammoMultiplier = 3f;
+                            shootEffect = Fx.shootPyraFlame;
+                            smokeEffect = Fx.shootPyraFlame;
+                            hitEffect = Fx.hitFlameBeam;
+                            despawnEffect = Fx.hitFlameBeam;
+                        }},
                         AquaItems.arsenic, new LaserBoltBulletType() {{
                             frontColor = AquaPal.redDecal1;
                             backColor = AquaPal.redDecal1Dark;
@@ -365,13 +381,13 @@ public class AquaTurrets {
             health = 800;
             outlineColor = tantDarkestTone;
             range = 190;
-            rotateSpeed = 0.9f;
+            rotateSpeed = 1.8f;
             recoil = 3;
             recoilTime = 85;
             shootCone = 3f;
             reload = 130;
             size = 2;
-            ammoPerShot = 16;
+            ammoPerShot = 12;
             itemCapacity = 32;
             consumeCoolant(20/60f);
             ammo(
@@ -385,6 +401,7 @@ public class AquaTurrets {
                         ammoMultiplier = 5;
                         shrinkY = 0;
                         shrinkX = 0.1f;
+                        hitSize = 8;
                         trailWidth = 2f;
                         trailLength = 12;
                         shootSound = shootAltLong;
@@ -406,6 +423,7 @@ public class AquaTurrets {
                         trailWidth = 3f;
                         trailLength = 16;
                         reloadMultiplier = 0.8f;
+                        hitSize = 8;
                         rangeChange = 30;
                         ammoMultiplier = 2;
                         frontColor = hitColor = Color.white;
@@ -682,7 +700,7 @@ public class AquaTurrets {
                         width = 8;
                         height = 10;
                         status = shocked;
-                        statusDuration = 10;
+                        statusDuration = 10*60;
                         trailLength = 12;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
@@ -708,7 +726,7 @@ public class AquaTurrets {
                         width = 8;
                         height = 10;
                         status = blasted;
-                        statusDuration = 10;
+                        statusDuration = 10*60;
                         trailLength = 12;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
@@ -735,7 +753,7 @@ public class AquaTurrets {
                         height = 10;
                         trailLength = 12;
                         status = electrified;
-                        statusDuration = 30;
+                        statusDuration = 10*60;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
                         frontColor = Color.white;

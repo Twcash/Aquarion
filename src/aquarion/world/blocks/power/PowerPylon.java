@@ -135,7 +135,25 @@ public class PowerPylon extends PowerNode {
     public static boolean isAllowedLinkTarget(Building build){
         return build instanceof PowerPylonBuild || build instanceof PowerGenerator.GeneratorBuild || build instanceof PowerOutlet.OutletBuild || (build instanceof Battery.BatteryBuild && build.block.insulated);
     }
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        Tile tile = world.tile(x, y);
 
+        if(tile == null || !autolink) return;
+
+        Lines.stroke(1f);
+        Draw.color(Pal.placing);
+        Drawf.circles(x * tilesize + offset, y * tilesize + offset, maxRange * tilesize);
+
+        getPotentialLinks(tile, player.team(), other -> {
+            Draw.color(laserColor1, Renderer.laserOpacity * 0.5f);
+            drawLaser(x * tilesize + offset, y * tilesize + offset, other.x, other.y, size, other.block.size);
+
+            Drawf.square(other.x, other.y, other.block.size * tilesize / 2f + 2f, Pal.place);
+        });
+
+        Draw.reset();
+    }
 
     @Override
     public void drawLaser(float x1, float y1, float x2, float y2, int size1, int size2){
@@ -339,9 +357,8 @@ public class PowerPylon extends PowerNode {
         public void draw(){
             super.draw();
             Draw.color(Color.red);
-            float powerDiff = this.power.graph.getPowerProduced() - this.power.graph.getPowerNeeded();
-            float mag = Mathf.clamp(powerDiff / 100f, 0f, 0.5f);
-            Draw.alpha(Mathf.absin(Time.time, 10f, mag));
+
+            Draw.alpha(Mathf.absin(Time.time, 1, 4) * this.power.graph.getSatisfaction());
             Draw.rect(glowBase, x, y, 0);
             Draw.reset();
 
@@ -374,7 +391,7 @@ public class PowerPylon extends PowerNode {
                 Draw.rect(cableEnd, link.x - vx*len2, link.y - vy*len2, angle);
                 Draw.xscl = Draw.yscl = 1f;
                 Draw.color(Color.red);
-                Draw.alpha(Mathf.absin(Time.time, 10f, mag));
+                Draw.alpha(Mathf.absin(Time.time, 1, 4) * this.power.graph.getSatisfaction());
                 Lines.line(glow, x + vx*len1, y + vy*len1, link.x - vx*len2, link.y - vy*len2, false);
                 Draw.reset();
                 Draw.blend();

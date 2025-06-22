@@ -65,6 +65,8 @@ public class PowerOutlet extends PowerGenerator {
     }
     @Override
     public void setBars(){
+        super.setBars();
+        removeBar("power");
     }
     public class OutletBuild extends GeneratorBuild {
         public float need = 0;
@@ -129,7 +131,7 @@ public class PowerOutlet extends PowerGenerator {
             if(power != null){
                 powerGraphRemoved();
             }
-            if(front() == null || front().power.graph == null || this.team != front().team) return;
+            if(front() == null || front().power == null || this.team != front().team) return;
 
             PowerGraph front = this.front().power.graph;
             if(front.producers.contains(this)){

@@ -37,17 +37,17 @@ public class AquaPower {
 
     public static void loadContent(){
         solarGenerator = new SolarGenerator("solar-generator"){{
-            requirements(Category.power, with(lead, 300, nickel, 200, silicon, 500));
+            requirements(Category.power, with(lead, 350, nickel, 200, silicon, 250));
             size = 4;
             insulated = true;
-            powerProduction = 150/60f;
+            powerProduction = 175/60f;
             baseExplosiveness = 2;//funny
             alwaysUnlocked = true;
             envDisabled |= Env.underwater;
         }};
         hydroxideReactor = new ConsumeGenerator("hydroxide-reactor"){{
             requirements(Category.power, with(ferricMatter, 200, aluminum, 250, silicon, 1200, copper, 500));
-            powerProduction = 5000/60f;
+            powerProduction = 4500/60f;
             size = 7;
             squareSprite = false;
             researchCostMultiplier = 0.1f;
