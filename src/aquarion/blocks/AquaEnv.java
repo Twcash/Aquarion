@@ -314,8 +314,6 @@ public class AquaEnv {
         leafLitter = new Floor("leaf-litter", 3) {{
         }};
 
-        // Ore blocks
-        leadNodules = new OreBlock("lead-nodules", lead);
         oreBauxite = new OreBlock("ore-bauxite", bauxite);
         oreGallium= new OreBlock("ore-gallium", AquaItems.gallium);
         oreNickel = new OreBlock("ore-nickel", nickel);

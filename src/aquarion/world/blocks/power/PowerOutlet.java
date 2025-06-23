@@ -43,7 +43,7 @@ public class PowerOutlet extends PowerGenerator {
         consume(new ConsumePowerDynamic(powerProduction, build -> {
             if (!(build instanceof OutletBuild o)) return 0f;
             if (o.front() == null || o.front().power == null || o.front().team != o.team) return 0f;
-           ;
+            if(!o.front().shouldConsume()) return 0;
             return Math.min(o.need, powerProduction);
         }));
     }
@@ -95,11 +95,11 @@ public class PowerOutlet extends PowerGenerator {
             }
             //Add production to current graph
             if(front.producers.contains(this)){
-                if(front().power.status <= 0){
-                    need = Math.min(frontConsume.usage, powerProduction);
-                } else {
-                    need = Math.min(frontConsume.usage / front().power.status, powerProduction);
-                }
+                    if (front().power.status <= 0) {
+                        need = Math.min(frontConsume.usage, powerProduction);
+                    } else {
+                        need = Math.min(frontConsume.usage / front().power.status, powerProduction);
+                    }
             } else {
                 front.producers.add(this);
             }
