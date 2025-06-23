@@ -37,7 +37,7 @@ public class AquaEnv {
             arsenicBoulder, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
             CrasseCoral, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
-    public static Block leafLitter, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
+    public static Block leafLitter, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid,
@@ -272,6 +272,13 @@ public class AquaEnv {
             liquidDrop = Liquids.water;
             liquidMultiplier = 0.75f;
             speedMultiplier = 0.8f;
+            cacheLayer = CacheLayer.water;
+            shallow = true;
+        }};
+        iceWater = new Floor("ice-water", 0) {{
+            liquidDrop = Liquids.water;
+            liquidMultiplier = 0.75f;
+            speedMultiplier = 0.7f;
             cacheLayer = CacheLayer.water;
             shallow = true;
         }};
