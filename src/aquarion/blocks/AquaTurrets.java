@@ -20,6 +20,7 @@ import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.content.Planets;
 import mindustry.entities.Effect;
+import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
@@ -35,10 +36,7 @@ import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.type.StatusEffect;
 import mindustry.world.Block;
-import mindustry.world.blocks.defense.turrets.ItemTurret;
-import mindustry.world.blocks.defense.turrets.LiquidTurret;
-import mindustry.world.blocks.defense.turrets.PointDefenseTurret;
-import mindustry.world.blocks.defense.turrets.PowerTurret;
+import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
@@ -64,7 +62,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block  confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
+    public static Block  refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack, azimuth, condolence, grace;
 
     public static void loadContent() {
@@ -447,6 +445,44 @@ public class AquaTurrets {
                     layer = Layer.turret -1;
                 }});
             }};
+        }};
+        refraction = new ContinuousTurret("refraction"){{
+            requirements(Category.turret, with(metaglass, 90, AquaItems.nickel, 120, lead, 100));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            size = 2;
+            shootType = new PointLaserBulletType(){{
+                damage = 200/6f;
+                damageInterval = 10;
+                buildingDamageMultiplier = 0.3f;
+                collidesGround = false;
+                collidesAir = true;
+                hitColor = Color.valueOf("e3f759");
+                sprite = "aquarion-refraction-point";
+            }};
+            scaleDamageEfficiency = true;
+            shootSound = Sounds.none;
+            loopSoundVolume = 1f;
+            loopSound = Sounds.laserbeam;
+            targetGround = false;
+            targetAir = true;
+
+            shootWarmupSpeed = 0.08f;
+            shootCone = 360f;
+
+            aimChangeSpeed = 2f;
+            rotateSpeed = 3f;
+
+            shootY = 1f;
+            outlineColor = tantDarkestTone;
+            size = 2;
+            envEnabled |= Env.space;
+            range = 200f;
+            scaledHealth = 210;
+
+            unitSort = UnitSorts.strongest;
+
+            consumeLiquid(Liquids.water, 15f / 60f);
+            consumePower(150f / 60f);
         }};
         douse = new LiquidTurret("douse"){{
             requirements(Category.turret, with(metaglass, 90, AquaItems.nickel, 60, copper, 20));

@@ -89,6 +89,7 @@ public class TantrosTechTree {
                 });
                 node(sentry);
                 node(pelt, () -> {
+                    node(refraction);
                     node(douse);
                     node(grace);
                     node(focus, ()->{
