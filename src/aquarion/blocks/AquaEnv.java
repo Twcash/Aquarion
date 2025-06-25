@@ -434,7 +434,8 @@ public class AquaEnv {
             clipSize = 128f;
             shadowAlpha = 0.5f;
             shadowOffset = -2.5f;
-            layer = Layer.blockOver;
+            layer = Layer.blockOver + 1;
+            shadowLayer = Layer.blockOver;
         }};
         towaniteCluster = new TallBlock("towanite-cluster"){{
             variants = 3;
@@ -442,7 +443,8 @@ public class AquaEnv {
             clipSize = 128f;
             shadowAlpha = 0.5f;
             shadowOffset = -2.5f;
-            layer = Layer.blockOver;
+            layer = Layer.blockOver + 1;
+            shadowLayer = Layer.blockOver;
         }};
         parzilPine = new PineTree("parzil-pine"){{
             shadowAlpha = 0.6f;
