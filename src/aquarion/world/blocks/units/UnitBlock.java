@@ -19,6 +19,7 @@ import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.game.EventType.*;
+import mindustry.game.Teams;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.io.*;
@@ -26,6 +27,7 @@ import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.Block;
+import mindustry.world.blocks.ConstructBlock;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
@@ -50,13 +52,10 @@ public class UnitBlock extends Block {
         canPickup = false;
         hasShadow = false;
         createRubble = false;
-        config(Integer.class, (UnitBlockBuild build, Integer i) -> {
-            if(!configurable) return;
-            build.progress = 0;
-            if(build.command != null && (unit == null || !unit.commands.contains(build.command))){
-                build.command = null;
-            }
-        });
+        config(CommandConfig.class, (UnitBlockBuild build, CommandConfig conf) -> {
+            build.command = conf.command;
+            build.commandPos = conf.commandPos == null ? null : new Vec2(conf.commandPos);
+        });;
         region = unit.fullIcon;
 
         config(UnitType.class, (UnitBlockBuild build, UnitType val) -> {
@@ -148,7 +147,7 @@ public class UnitBlock extends Block {
         }
         @Override
         public Object config(){
-            return command;
+            return new UnitBlock.CommandConfig(command, commandPos);
         }
         @Override
         public void buildConfiguration(Table table){
@@ -242,7 +241,6 @@ public class UnitBlock extends Block {
             TypeIO.writeVecNullable(write, commandPos);
             TypeIO.writeCommand(write, command);
         }
-
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
@@ -252,7 +250,7 @@ public class UnitBlock extends Block {
             }
 
             if(revision >= 2){
-                commandPos = TypeIO.readVecNullable(read);
+                if(commandPos != null) commandPos = TypeIO.readVec2(read);
             }
 
             if(revision >= 3){
@@ -260,6 +258,84 @@ public class UnitBlock extends Block {
             }
         }
 
+        /** Called when the block is destroyed. The tile is still intact at this stage. */
+        @Override
+        public void onDestroyed(){
 
+            float explosiveness = block.baseExplosiveness;
+            float flammability = 0f;
+            float power = 0f;
+
+            if(block.hasItems){
+                for(Item item : content.items()){
+                    int amount = Math.min(items.get(item), explosionItemCap());
+                    flammability += item.flammability * amount;
+                    power += item.charge * Mathf.pow(amount, 1.1f) * 150f;
+                }
+            }
+
+            if(block.hasLiquids){
+                flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);
+            }
+
+            if(block.consPower != null && block.consPower.buffered){
+                power += this.power.status * block.consPower.capacity;
+            }
+
+            if(block.hasLiquids && state.rules.damageExplosions){
+
+                liquids.each(this::splashLiquid);
+            }
+
+            //cap explosiveness so fluid tanks/vaults don't instakill units
+            Damage.dynamicExplosion(x, y, flammability, explosiveness, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);
+
+            if(block.createRubble && !floor().solid && !floor().isLiquid){
+                Effect.rubble(x, y, block.size);
+            }
+        }
+        @Override
+        public void addPlan(boolean checkPrevious, boolean ignoreConditions){
+            if(!ignoreConditions && (!block.rebuildable || (team == state.rules.defaultTeam && state.isCampaign() && !block.isVisible()))) return;
+
+            Object overrideConfig = null;
+            Block toAdd = this.block;
+
+            if(self() instanceof ConstructBlock.ConstructBuild entity){
+                if(entity.current != null && entity.current.synthetic() && entity.wasConstructing){
+                    toAdd = entity.current;
+                    overrideConfig = entity.lastConfig;
+                }else{
+                    return;
+                }
+            }
+
+            Teams.TeamData data = team.data();
+
+            if(checkPrevious){
+                for(int i = 0; i < data.plans.size; i++){
+                    Teams.BlockPlan b = data.plans.get(i);
+                    if(b.x == tile.x && b.y == tile.y){
+                        data.plans.removeIndex(i);
+                        break;
+                    }
+                }
+            }
+
+            // use your combined config object
+            CommandConfig conf = new CommandConfig(command, commandPos);
+
+            data.plans.addFirst(new Teams.BlockPlan(tile.x, tile.y, (short)rotation, toAdd, overrideConfig == null ? conf : overrideConfig));
+        }
+
+    }
+    public class CommandConfig {
+        public UnitCommand command;
+        public Vec2 commandPos;
+
+        public CommandConfig(UnitCommand command, Vec2 commandPos){
+            this.command = command;
+            this.commandPos = commandPos == null ? null : new Vec2(commandPos);
+        }
     }
 }

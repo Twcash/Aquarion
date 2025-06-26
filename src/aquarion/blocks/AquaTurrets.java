@@ -6,6 +6,7 @@ import aquarion.AquaStatuses;
 import aquarion.units.uhhShootSummon;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
+import aquarion.world.entities.parts.LightningPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Blending;
@@ -15,10 +16,7 @@ import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
-import mindustry.content.Fx;
-import mindustry.content.Items;
-import mindustry.content.Liquids;
-import mindustry.content.Planets;
+import mindustry.content.*;
 import mindustry.entities.Effect;
 import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
@@ -27,6 +25,8 @@ import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.effect.WrapEffect;
 import mindustry.entities.part.DrawPart;
+import mindustry.entities.part.EffectSpawnerPart;
+import mindustry.entities.part.FlarePart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
 import mindustry.gen.Sounds;
@@ -34,6 +34,7 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
+import mindustry.type.LiquidStack;
 import mindustry.type.StatusEffect;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.*;
@@ -55,6 +56,7 @@ import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
 import static arc.math.Interp.*;
 import static mindustry.content.Items.*;
+import static mindustry.content.Liquids.water;
 import static mindustry.content.StatusEffects.*;
 import static mindustry.entities.part.DrawPart.PartProgress.charge;
 import static mindustry.entities.part.DrawPart.PartProgress.warmup;
@@ -481,7 +483,7 @@ public class AquaTurrets {
 
             unitSort = UnitSorts.strongest;
 
-            consumeLiquid(Liquids.water, 15f / 60f);
+            consumeLiquid(water, 15f / 60f);
             consumePower(150f / 60f);
         }};
         douse = new LiquidTurret("douse"){{
@@ -499,7 +501,7 @@ public class AquaTurrets {
             shootEffect = Fx.shootLiquid;
             velocityRnd = 0.1f;
             ammo(
-                    Liquids.water, new LiquidBulletType(Liquids.water){{
+                    water, new LiquidBulletType(water){{
                         lifetime = 49f;
                         speed = 4f;
                         knockback = 1.7f;
@@ -2047,17 +2049,17 @@ public class AquaTurrets {
                         }});
 
             }};
-        torrefy = new ItemTurret("torrefy"){{
-            requirements(Category.turret, with(AquaItems.aluminum, 700, copper, 1200, AquaItems.ferricMatter, 900, AquaItems.ferrosilicon, 450, AquaItems.nickel, 300, silicon, 900, lead, 1000));
+        torrefy = new LaserTurret("torrefy"){{
+            requirements(Category.turret, with( copper, 3000, steel, 1500, AquaItems.ferrosilicon, 900, lead, 4000, metaglass, 2000));
             reload = 8*60f;
             minWarmup = 0.99f;
-            shootWarmupSpeed = 0.03f;
-            recoil = 3;
-            recoilTime = 120;
+            shootWarmupSpeed = 0.01f;
+            recoil = 0;
+            outlineColor = tantDarkestTone;
+            recoilTime = 10;
             range = 70*8f;
-            size = 5;
-            limitRange(1.1f);
-            consumeLiquid(fluorine, 200/60f);
+            size = 8;
+            squareSprite = false;
             liquidCapacity = 250;
             ammoPerShot = 20;
             itemCapacity = 60;
@@ -2065,37 +2067,195 @@ public class AquaTurrets {
             cooldownTime = 15*60f;
             shootY = 2f;
             rotateSpeed = 0.9f;
-            consumePower(1000/60f);
+            firingMoveFract = 0.25f;
+            shake = 3f;
+            shootDuration = 12*60f;
+            consumePower(2000/60f);
+            loopSound = Sounds.beam;
+            shootY = 138/4f;
+            loopSoundVolume = 2f;
+            consumeLiquids(LiquidStack.with(water, 5000/60f, haze, 1000/60f));
+            shootType = new ContinuousLaserBulletType(145){{
+                length = 600f;
+                hitEffect = Fx.hitMeltdown;
+                hitColor = Pal.meltdownHit;
+                status = StatusEffects.melting;
+                drawSize = 420f;
+                timescaleDamage = true;
+                width = 8*2.5f;
+
+                incendChance = 0.4f;
+                incendSpread = 5f;
+                incendAmount = 1;
+                ammoMultiplier = 1f;
+                colors = new Color[]{
+                        Color.valueOf("c07237").a(0.5f),
+                        Color.valueOf("e1bc57").a(0.75f),
+                        Color.valueOf("fefffb"),
+                        Color.valueOf("f5ed7e"),
+                        Color.valueOf("e1e4b1")
+                };
+            }};
+
+            liquidCapacity = 2000;
+            health = 7000;
             shootSound = Sounds.laserbig;
             baseExplosiveness = 5;
-            ammo(
-                    AquaItems.ferrosilicon, new ArtilleryBulletType(5, 0){{
-                        sprite = "missile-large";
-                        width = height = 16;
-                    }}
-            );
             drawer = new DrawTurret(){{
-                parts.add(new RegionPart("-anchor") {{
-                              layer = Layer.power - 1;
-                              moves.add(new PartMove[]{
-                                      new PartMove(PartProgress.warmup.delay(0.1f), 0f, 6f, 155f),
-                                      new PartMove(PartProgress.warmup.delay(0.25f), 10f, 8f, 190f),
-                                      new PartMove(PartProgress.warmup.delay(0.4f), 15f, -30f, 480f)
-                              });
-                              children.add(new RegionPart("-anchor-shadow"){{
-                                  x = -2;
-                                  y = -2;
-                              }});
-                          }},
-                        new RegionPart("-anchor") {{
-                            layer = Layer.power - 1;
-                        }},
-                        new RegionPart("-anchor") {{
-                            layer = Layer.power - 1;
-                        }},
-                        new RegionPart("-anchor") {{
-                            layer = Layer.power - 1;
-                        }});
+                for(int i = 0; i < 5; i ++) {
+                    int  f = i;
+                    parts.addAll(new RegionPart("-peen"){{
+                        mirror = true;
+                        progress = warmup.curve(linear).delay(f * 0.2f);
+                        moveY = 30/4f * f;
+                        moveX = 1;
+                        moves.add(new PartMove(PartProgress.recoil.curve(pow2In).delay(0.2f * f), 2, 0, 0));
+                    }});
+                }
+                for(int i = 0; i < 9; i ++) {
+                    int f = i;
+                    parts.addAll(new RegionPart("-bar"){{
+                        moveX = 1.5f;
+                        progress = warmup.curve(pow5In).slope().delay(f*0.1f);
+                        moves.add(new PartMove(warmup.curve(pow2In), 0.5f, 3, 0));
+                        moveY = 0;
+                        x = 0;
+                        y = f*(25/4f)-25/4f;
+                        mirror = true;
+                    }},new RegionPart("-bar1"){{
+                        moves.addAll(new PartMove(warmup.curve(pow2In), 0.5f, 3, 0), new PartMove(warmup.curve(pow5In).slope().delay(f*0.1f), 1.5f, 0, 0));
+                        progress = warmup.delay(0.8f).add(-0.1f * f).add(p -> Mathf.sin(12f, 0.4f) * p.warmup);
+                        color = Color.valueOf("e25353").a(0);
+                        colorTo = Color.valueOf("e25353").a(0.6f);
+                        moveY = 0;
+                        x = 0;
+                        y = f*(25/4f)-25/4f;
+                        mirror = true;
+                    }});
+                };
+                    parts.addAll(new RegionPart("-laser"){{
+                        xScl = 0.01f;
+                        growX = 2;
+                        moveY = 3;
+                        color = Color.valueOf("ffffff").a(0);
+                        colorTo = Color.valueOf("ffffff").a(1f);
+                        mixColor = Color.valueOf("e25353").a(0);
+                        mixColorTo = Color.valueOf("ffffff").a(1f);
+                        progress = warmup;
+                        growProgress = PartProgress.recoil.delay(0.2f).add(-0.1f).add(p -> Mathf.sin(9f, 0.2f) * p.recoil);
+                    }},new RegionPart("-barrel"){{
+                        moveX = 2f;
+                        progress = warmup.curve(pow2In);
+                        moveY = 3;
+                        mirror = true;
+                    }}, new RegionPart("-panel1"){{
+                        mirror = true;
+                        moveX = 3f;
+                        moveY = -2;
+                        progress = warmup.curve(pow2In).delay(0.6f);
+                    }}, new RegionPart("-tank"){{
+                        mirror = true;
+                        moveX = 5;
+                        progress = warmup.curve(pow2In).delay(0.6f);
+                    }}, new RegionPart("-tank"){{
+                        mirror = true;
+                        moveX = 5;
+                        y = 25f;
+                        moveY = 20/4f;
+                        progress = warmup.curve(pow2In).delay(0.6f);
+                    }}, new RegionPart("-panel"){{
+                        mirror = true;
+                        moveX = 9;
+                        moveY = -1;
+                        progress = warmup.curve(pow2In).delay(0.5f);
+                    }}, new RegionPart("-panel2"){{
+                        mirror = true;
+                        moveX = 6f;
+                        moveY = -2;
+                        moveRot = -5;
+                        progress = warmup.curve(pow2In).delay(0.7f);
+                    }}, new RegionPart("-panel3"){{
+                        mirror = true;
+                        moveX = 4.5f;
+                        moveY = 0;
+                        moveRot = 2;
+                        progress = warmup.curve(pow2Out).delay(0.8f);
+                    }}, new RegionPart("-panel4"){{
+                        mirror = true;
+                        moveX = 3f;
+                        moveY = 5;
+                        moveRot = 15;
+                        progress = warmup.curve(pow2Out).delay(0.9f);
+                    }}, new EffectSpawnerPart(){{
+                        x = y = 0;
+                        height = 256/4f;
+                        width = 60/4f;
+                        effect = Fx.coalSmeltsmoke;
+                    }}, new EffectSpawnerPart(){{
+                        x = y = 0;
+                        height = 200/4f;
+                        width = 45/4f;
+                        effectRandRot = 5;
+                        effectRot = -180;
+
+                        effectColor = Color.valueOf("e9f984");
+                        effect = Fx.colorSpark;
+                        progress = warmup.delay(0.75f);
+                    }}, new EffectSpawnerPart(){{
+                        x = 90/4f;
+                        y = -50/4f;
+                        rotation = 45;
+                        height = 70/4f;
+                        width = 45/4f;
+                        effectRandRot = 5;
+                        effectRot = -180;
+                        mirror = true;
+                        effectColor = Color.valueOf("e9f984");
+                        effect = Fx.colorSpark;
+                        progress = warmup.delay(0.8f);
+                    }}, new EffectSpawnerPart(){{
+                        x = 90/4f;
+                        y = -60/4f;
+                        rotation = 45;
+                        height = 40/4f;
+                        width = 40/4f;
+                        effectRandRot = 5;
+                        effectRot = -180;
+                        mirror = true;
+                        effectColor = Color.valueOf("e9f984");
+                        effect = new Effect(90f, 200f, b -> {
+                            float intensity = 1.3f;
+
+                            color(b.color, 0.7f);
+                            for(int i = 0; i < 3; i++){
+                                rand.setSeed(b.id*2 + i);
+                                float lenScl = rand.random(0.5f, 1f);
+                                int fi = i;
+                                b.scaled(b.lifetime * lenScl, e -> {
+                                    randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), 13f * intensity, (x, y, in, out) -> {
+                                        float fout = e.fout(Interp.pow5Out) * rand.random(0.25f, 0.5f);
+                                        float rad = fout * ((2f + intensity) * 2.35f);
+
+                                        Fill.circle(e.x + x, e.y + y, rad);
+                                        Drawf.light(e.x + x, e.y + y, rad * 1.5f, b.color, 0.5f);
+                                    });
+                                });
+                            }
+                        }).layer(Layer.turret - 1f);
+                        progress = warmup.delay(0.9f);
+                    }});
+                for(int i = 0; i < 8; i ++) {
+                    int f = i;
+                    parts.addAll(new RegionPart("-barrel-heat"){{
+                        mirror = true;
+                        outline = false;
+                        progress = warmup.delay(0.8f).add(-0.1f * f).add(p -> Mathf.sin(9f, 0.2f) * p.warmup);
+                        y = 0 + (f*18/4f);
+                        color = Color.valueOf("e25353").a(0);
+                        colorTo = Color.valueOf("e25353").a(0.6f);
+                        moves.add(new PartMove(warmup.curve(pow2In),2, 3, 0));
+                    }});
+                }
             }};
         }};
         bend = new PowerTurret("bend"){{

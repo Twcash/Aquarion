@@ -98,10 +98,10 @@ public class AquaCore {
             requirements(Category.effect, with(silicon, 120, copper, 50));
             size = 2;
             outlineRadius = 0;
-            buildSpeed = 0.2f;
-            range = 120;
-            rotateSpeed = 0.7f;
-            consumePower(150/60f);
+            buildSpeed = 0.4f;
+            range = 145;
+            rotateSpeed = 0.85f;
+            consumePower(125/60f);
         }};
         mendPyre = new RegenPylon("mend-pyre"){{
             requirements(Category.effect, with(lead,40, silicon, 40));
