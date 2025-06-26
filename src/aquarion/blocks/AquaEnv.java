@@ -604,7 +604,7 @@ public class AquaEnv {
             breakable = alwaysReplace = false;
             //cacheLayer = CacheLayer.walls;
             destructible = false;
-            timeRange = 100f;
+            timeRange = 150f;
             botAngle = 80;
             magMax = 4;
             magMin = 3;
