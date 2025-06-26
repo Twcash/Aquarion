@@ -602,9 +602,9 @@ public class AquaEnv {
             lobesMax = 10;
             lobesMin = 7;
             breakable = alwaysReplace = false;
-            cacheLayer = CacheLayer.walls;
+            //cacheLayer = CacheLayer.walls;
             destructible = false;
-            timeRange = 150;
+            timeRange = 100f;
             botAngle = 80;
             magMax = 4;
             magMin = 3;
