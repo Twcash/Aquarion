@@ -136,6 +136,9 @@ for f in bundleNames:
 
             if line.startswith("##"):
                 continue
+            if "TODO: LOCALIZE" in line:
+                curBundle[-1][1] += "\n# ^ TODO: LOCALIZE"
+                continue
             if line.strip() == "":
                 continue
 
@@ -153,13 +156,13 @@ for f in bundleNames:
                     print(f"{ERROR}ABORTED - FIX MANUALLY")
                     exit(1)
                 continue
-            curBundle.append((sline[0], sline[1]))
+            curBundle.append([sline[0], sline[1]])
 
         for entry in bundleItems:
             if all(entry[0] != x[0] for x in curBundle):
-                TO_DO = "<TODO: LOCALIZE>"
+                TO_DO = "\n# ^ TODO: LOCALIZE"
                 print(f' - Creating entry "{entry[0]} = {entry[1]} {TO_DO}"')
-                curBundle.append((entry[0], entry[1] + f" {TO_DO}"))
+                curBundle.append([entry[0], entry[1] + f" {TO_DO}"])
 
     newfile = ""
 
