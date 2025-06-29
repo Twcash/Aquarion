@@ -22,7 +22,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
-    public static Block nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+    public static Block steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
@@ -123,6 +123,22 @@ public class AquaDefense {
 
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            researchCostMultiplier = 0.25f;
+        }};
+        steelWall = new AquaWall("steel-wall") {{
+            requirements(Category.defense, with(steel, 24));
+            health = 400*4;
+            size = 2;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            researchCostMultiplier = 0.1f;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        hugeSteelWall = new AquaWall("huge-steel-wall") {{
+            requirements(Category.defense, with(steel, 54));
+            health = 400*9;
+            size = 3;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.25f;
         }};
         ferrosilconWall = new AquaWall("ferrosilicon-wall") {{

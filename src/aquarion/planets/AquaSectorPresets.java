@@ -10,7 +10,7 @@ public class AquaSectorPresets {
     public static AquaSectorPreset  //tantros
     Ingress, Torrent, CrystalCaverns, Grove,
     //serpulo (fake)
-    resurgence, twinPass, bay, lowlandStrait, mountainsideComplex;
+    resurgence, twinPass, floodPlains, bay, lowlandStrait, mountainsideComplex;
     /*
     Sector plans
     chasm:10 {
@@ -46,10 +46,18 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
+        floodPlains = new AquaSectorPreset("floodPlains", fakeSerpulo, 358){{
+            addStartingItems = true;
+            captureWave = 17;
+            difficulty = 4;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 4f;
+        }};
         bay = new AquaSectorPreset("Lagoon", fakeSerpulo, 357){{
             addStartingItems = true;
             captureWave = 21;
-            difficulty = 3;
+            difficulty = 5;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;

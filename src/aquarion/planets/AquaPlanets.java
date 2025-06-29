@@ -75,7 +75,7 @@ public class AquaPlanets {
             defaultCore = AquaCore.corePike;
             allowLaunchLoadout = false;
             clearSectorOnLose = true;
-            allowLaunchToNumbered = false;
+            allowLaunchToNumbered = true;
             //for future me
             //Vars.content.planet("aquarion-fakeSerp").allowLaunchToNumbered = true
             ruleSetter = r -> {

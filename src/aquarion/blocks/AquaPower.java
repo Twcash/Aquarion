@@ -40,8 +40,10 @@ public class AquaPower {
             requirements(Category.power, with(lead, 350, nickel, 200, silicon, 250));
             size = 4;
             insulated = true;
+            explosionDamage =640;
+            explosionRadius = 5;
             powerProduction = 175/60f;
-            baseExplosiveness = 2;//funny
+            baseExplosiveness = 1;//funny
             alwaysUnlocked = true;
             envDisabled |= Env.underwater;
         }};
@@ -93,6 +95,7 @@ public class AquaPower {
             researchCostMultiplier = 0.05f;
             squareSprite = false;
             liquidCapacity = 2000;
+            insulated = true;
             powerProduction = 110;
             consumeLiquid(haze, 2000/60f);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawBlurSpin("-fan", 6), new DrawBlurSpin("-fan", 4), new DrawBlurSpin("-fan", 2), new DrawLiquidTile(haze, 7){{

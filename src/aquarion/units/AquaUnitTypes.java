@@ -43,7 +43,9 @@ public class AquaUnitTypes {
 
     public static UnitType
         //Sharded units
-            bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, retaliate,
+            bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, retaliate, index, byteUnit, truple,
+            //sharded "support" units
+
             //qeralter Units
         weep,
             //core/mining
@@ -1512,6 +1514,51 @@ public class AquaUnitTypes {
                     backColor = trailColor = lightColor = AquaPal.fireLight2;
                     width = height = 7;
                     trailLength = 8;
+                }};
+            }});
+        }};
+        byteUnit = new UnitType("byte"){{
+            flying = true;
+            lowAltitude = true;
+            constructor = UnitEntity::create;
+            speed = 2f;
+            hitSize = 8;
+            range = 110;
+            health = 100;
+            armor = 3;
+            engineSize = 3.5f;
+            defaultCommand = UnitCommand.repairCommand;
+            engineOffset = 3;
+            isEnemy = false;
+            canAttack = false;
+            rotateSpeed = 5f;
+            shadowElevation = 0.4f;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            weapons.add(new RepairBeamWeapon(){{
+                widthSinMag = 0.12f;
+                reload = 20f;
+                x = 0f;
+                y = 2f;
+                rotate = false;
+                shootY = 0f;
+                beamWidth = 0.7f;
+                repairSpeed = 3.1f;
+                fractionRepairSpeed = 0.03f;
+                aimDst = 0f;
+                shootCone = 15f;
+                mirror = false;
+
+                targetUnits = false;
+                targetBuildings = true;
+                autoTarget = false;
+                controllable = true;
+                laserColor = Pal.heal;
+                healColor = Pal.heal;
+
+                bullet = new BulletType(){{
+                    maxRange = 60f;
                 }};
             }});
         }};

@@ -16,7 +16,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class AquaUnitFactories {
-    public static Block bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan;
+    public static Block bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
 
     public static void loadContent(){
         bulwark = new UnitBlock("bulwark"){{
@@ -49,8 +49,17 @@ public class AquaUnitFactories {
             consumePower(200/60f);
             consumeLiquid(oil, 5/60f);
        }};
+        unitByte = new UnitBlock("byte"){{
+            requirements(Category.units, with(silicon, 120, metaglass, 90, copper, 40));
+            unit = AquaUnitTypes.byteUnit;
+            size = 2;
+            time = 7*60;
+            destroySound = AquaSounds.start5;
+            consumePower(150/60f);
+            consumeLiquid(oil, 15/60f);
+        }};
         reave = new UnitBlock("reave"){{
-            requirements(Category.units, with(ferrosilicon, 70, copper, 90, metaglass, 110, lead, 80));
+            requirements(Category.units, with(steel, 100, copper, 120, metaglass, 150));
             unit = AquaUnitTypes.reave;
             size = 3;
             time = 20*60;
@@ -71,7 +80,7 @@ public class AquaUnitFactories {
             destroySound = AquaSounds.start4;
         }};
         shatter = new UnitBlock("shatter"){{
-            requirements(Category.units, with(nickel, 250, silicon, 100, titanium, 60));
+            requirements(Category.units, with(nickel, 250, silicon, 100, steel, 60));
             unit = AquaUnitTypes.shatter;
             size = 3;
             time = 20*60;

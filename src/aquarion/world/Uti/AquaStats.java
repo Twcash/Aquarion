@@ -4,9 +4,6 @@ import mindustry.world.meta.Stat;
 
 public class AquaStats {
     public static final Stat
-            kineticResistance = new Stat("kineticResistance"),
-            heatResistance = new Stat("heatResistance"),
-            energyResistance = new Stat("energyResistance"),
-            concussionResistance = new Stat("concussionResistance"),
+            prodTime = new Stat("production-time"),
             MaxFlow = new Stat("maxflow");
 }

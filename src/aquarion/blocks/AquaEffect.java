@@ -60,7 +60,7 @@ public class AquaEffect {
             requirements(Category.effect, BuildVisibility.lightingOnly, with(silicon, 30));
             brightness = 0.8f;
             size = 2;
-            radius = 350;
+            radius = 90;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             consume(new ConsumeLiquidFlammable(0.1f, 2/60f));

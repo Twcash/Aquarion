@@ -86,7 +86,7 @@ public class AquaLiquid {
             alwaysUnlocked = true;
         }};
         siphonJunction = new ModifiedLiquidJunction("siphon-junction"){{
-            requirements(Category.liquid, with(bauxite, 3, lead, 10));
+            requirements(Category.liquid, with(silicon, 20, lead, 10));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -125,7 +125,7 @@ public class AquaLiquid {
             size = 2;
         }};
         pipe = new Pipe("pipe"){{
-            requirements(Category.liquid, with(electrum, 1, lead, 1));
+            requirements(Category.liquid, with(ferrosilicon, 2));
             buildVisibility = BuildVisibility.sandboxOnly;
             liquidPressure =  10000;
             liquidCapacity = 50;

@@ -1,6 +1,7 @@
 package aquarion.world.blocks.units;
 
 import aquarion.AquaSounds;
+import aquarion.world.Uti.AquaStats;
 import arc.*;
 import arc.Graphics.*;
 import arc.Graphics.Cursor.*;
@@ -28,6 +29,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.ConstructBlock;
+import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
@@ -52,27 +54,110 @@ public class UnitBlock extends Block {
         canPickup = false;
         hasShadow = false;
         createRubble = false;
-        config(CommandConfig.class, (UnitBlockBuild build, CommandConfig conf) -> {
-            build.command = conf.command;
-            build.commandPos = conf.commandPos == null ? null : new Vec2(conf.commandPos);
-        });;
-        region = unit.fullIcon;
+        //Horrifically bad code.
+        //Split the string the config spits back at me and individually set them
+        config(String.class, (UnitBlockBuild build, String str) -> {
+            if(str == null) return;
+
+            for(String part : str.split(",")){
+                if(part.startsWith("cmd=")){
+                    String named = part.substring(4);
+                    build.command = Vars.content.unitCommands().find(c -> c.name.equals(named));
+                }else if(part.startsWith("pos=")){
+                    String[] coords = part.substring(4).split(":");
+                    if(coords.length == 2){
+                        try{
+                            float x = Float.parseFloat(coords[0]);
+                            float y = Float.parseFloat(coords[1]);
+                            build.commandPos = new Vec2(x, y);
+                        }catch(NumberFormatException ignored){}
+                    }
+                }
+            }
+        });
+        config(Integer.class, (UnitBlockBuild build, Integer i) -> {
+            if(!configurable) return;
+            build.progress = 0;
+            if(build.command != null && (unit == null || !unit.commands.contains(build.command))){
+                build.command = null;
+            }
+        });
 
         config(UnitType.class, (UnitBlockBuild build, UnitType val) -> {
             if(!configurable) return;
-
-            build.progress = 0;
             if(build.command != null && !val.commands.contains(build.command)){
                 build.command = null;
             }
         });
 
-        config(UnitCommand.class, (UnitBlockBuild build, UnitCommand command) -> build.command = command );
-
+        config(UnitCommand.class, (UnitBlockBuild build, UnitCommand command) -> build.command = command);
         configClear((UnitBlockBuild build) -> build.command = null);
     }
     public float time = 60;
     public UnitType unit = UnitTypes.alpha;
+    @Override
+    public void load(){
+        super.load();
+        region = unit.fullIcon;
+    }
+    @Override
+    public void setStats(){
+        stats.timePeriod = time;
+        super.setStats();
+        stats.remove(Stat.health);
+        stats.add(Stat.health, health);
+        stats.add(Stat.armor, armor);
+        stats.add(Stat.speed, unit.speed * 60f / tilesize, StatUnit.tilesSecond);
+        stats.add(Stat.size, StatValues.squared(unit.hitSize / tilesize, StatUnit.blocks));
+        stats.add(Stat.itemCapacity, itemCapacity);
+        stats.add(Stat.range, Strings.autoFixed(unit.maxRange / tilesize, 1), StatUnit.blocks);
+        stats.add(Stat.targetsAir, unit.targetAir);
+        stats.add(Stat.targetsGround, unit.targetGround);
+
+        if(unit.abilities.any()){
+            stats.add(Stat.abilities, StatValues.abilities(unit.abilities));
+        }
+
+        stats.add(Stat.flying, unit.flying);
+
+        if(!unit.flying){
+            stats.add(Stat.canBoost, unit.canBoost);
+        }
+
+        if(unit.mineTier >= 1){
+            stats.addPercent(Stat.mineSpeed, unit.mineSpeed);
+            stats.add(Stat.mineTier, StatValues.drillables(unit.mineSpeed, 1f, 1, null, b ->
+                    b.itemDrop != null &&
+                            (b instanceof Floor f && (((f.wallOre && unit.mineWalls) || (!f.wallOre && unit.mineFloor))) ||
+                                    (!(b instanceof Floor) && unit.mineWalls)) &&
+                            b.itemDrop.hardness <= unit.mineTier && (!b.playerUnmineable || Core.settings.getBool("doubletapmine"))));
+        }
+        if(unit.buildSpeed > 0){
+            stats.addPercent(Stat.buildSpeed, unit.buildSpeed);
+        }
+        if(unit.sample instanceof Payloadc){
+            stats.add(Stat.payloadCapacity, StatValues.squared(Mathf.sqrt(unit.payloadCapacity / (tilesize * tilesize)), StatUnit.blocks));
+        }
+
+        var reqs = unit.getFirstRequirements();
+
+        if(reqs != null){
+            stats.add(Stat.buildCost, StatValues.items(reqs));
+        }
+
+        if(unit.weapons.any()){
+            stats.add(Stat.weapons, StatValues.weapons(unit, unit.weapons));
+        }
+
+        if(unit.immunities.size > 0){
+            var imm = unit.immunities.toSeq().sort();
+            //it's redundant to list wet for naval units
+            if(unit.naval){
+                imm.remove(StatusEffects.wet);
+            }
+            stats.add(Stat.immunities, StatValues.statusEffects(imm));
+        }
+    }
     @Override
     public void setBars(){
         super.setBars();
@@ -145,10 +230,32 @@ public class UnitBlock extends Block {
                     }
             }
         }
+        //This is horrific, god awful, inneficient
         @Override
         public Object config(){
-            return new UnitBlock.CommandConfig(command, commandPos);
+            StringBuilder out = new StringBuilder();
+
+            if(command != null){
+                out.append("cmd=").append(command.name);
+            }
+
+            if(commandPos != null){
+                if(out.length() > 0) out.append(",");
+                out.append("pos=").append(commandPos.x).append(":").append(commandPos.y);
+            }
+
+            return out.length() == 0 ? null : out.toString();
         }
+        public class UnitBuildConfig {
+            public final UnitCommand command;
+            public final Vec2 position;
+
+            public UnitBuildConfig(UnitCommand command, Vec2 position){
+                this.command = command;
+                this.position = position == null ? null : new Vec2(position);
+            }
+        }
+
         @Override
         public void buildConfiguration(Table table){
 
@@ -250,7 +357,7 @@ public class UnitBlock extends Block {
             }
 
             if(revision >= 2){
-                if(commandPos != null) commandPos = TypeIO.readVec2(read);
+              commandPos = TypeIO.readVecNullable(read);
             }
 
             if(revision >= 3){
@@ -294,48 +401,7 @@ public class UnitBlock extends Block {
                 Effect.rubble(x, y, block.size);
             }
         }
-        @Override
-        public void addPlan(boolean checkPrevious, boolean ignoreConditions){
-            if(!ignoreConditions && (!block.rebuildable || (team == state.rules.defaultTeam && state.isCampaign() && !block.isVisible()))) return;
-
-            Object overrideConfig = null;
-            Block toAdd = this.block;
-
-            if(self() instanceof ConstructBlock.ConstructBuild entity){
-                if(entity.current != null && entity.current.synthetic() && entity.wasConstructing){
-                    toAdd = entity.current;
-                    overrideConfig = entity.lastConfig;
-                }else{
-                    return;
-                }
-            }
-
-            Teams.TeamData data = team.data();
-
-            if(checkPrevious){
-                for(int i = 0; i < data.plans.size; i++){
-                    Teams.BlockPlan b = data.plans.get(i);
-                    if(b.x == tile.x && b.y == tile.y){
-                        data.plans.removeIndex(i);
-                        break;
-                    }
-                }
-            }
-
-            // use your combined config object
-            CommandConfig conf = new CommandConfig(command, commandPos);
-
-            data.plans.addFirst(new Teams.BlockPlan(tile.x, tile.y, (short)rotation, toAdd, overrideConfig == null ? conf : overrideConfig));
-        }
 
     }
-    public class CommandConfig {
-        public UnitCommand command;
-        public Vec2 commandPos;
 
-        public CommandConfig(UnitCommand command, Vec2 commandPos){
-            this.command = command;
-            this.commandPos = commandPos == null ? null : new Vec2(commandPos);
-        }
-    }
 }

@@ -106,7 +106,7 @@ public class AquaLiquids {
         petroleum = new Liquid("petroleum", Color.valueOf("6d7944")){{
             coolant = false;
             effect = tarred;
-            flammability = 1.2f;
+            flammability = 1.5f;
             explosiveness = 0.2f;
             viscosity = 0.8f;
             boilPoint = 0.7f;
@@ -117,7 +117,6 @@ public class AquaLiquids {
         }};
         ethylene = new Liquid("ethylene", Color.valueOf("edf2de")){{
             coolant = false;
-            flammability = 0.9f;
             effect = slow;
             viscosity = 0.1f;
             boilPoint = 0.1f;

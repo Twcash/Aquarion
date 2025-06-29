@@ -376,7 +376,7 @@ public class AquaTurrets {
             }};
         }};
         pelt = new ItemTurret("pelt"){{
-            requirements(Category.turret, with(lead, 85, AquaItems.nickel, 60f, silicon, 90));
+            requirements(Category.turret, with(lead, 85, AquaItems.nickel, 50f, silicon, 90));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 800;
             outlineColor = tantDarkestTone;
@@ -391,14 +391,16 @@ public class AquaTurrets {
             itemCapacity = 32;
             consumeCoolant(20/60f);
             ammo(
-                    lead, new BasicBulletType(9, 50){{
+                    lead, new BasicBulletType(9, 55){{
                         pierce = true;
                         pierceBuilding = true;
-                        pierceCap = 3;
+                        pierceCap = 2;
                         sprite = "aquarion-bolt";
                         width = 8;
                         height = 14f;
-                        ammoMultiplier = 5;
+                        ammoMultiplier = 3;
+                        reloadMultiplier = 2;
+                        rangeChange = -24;
                         shrinkY = 0;
                         shrinkX = 0.1f;
                         hitSize = 8;
@@ -411,10 +413,10 @@ public class AquaTurrets {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    AquaItems.nickel, new BasicBulletType(5, 110){{
+                    AquaItems.nickel, new BasicBulletType(5, 90){{
                         pierce = true;
                         pierceBuilding = true;
-                        pierceCap = 2;
+                        pierceCap = 3;
                         sprite = "aquarion-bolt";
                         width = 10;
                         height = 18f;
