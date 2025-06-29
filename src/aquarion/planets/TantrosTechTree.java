@@ -161,7 +161,9 @@ public class TantrosTechTree {
                             ), () -> {
                             });
                         }));
-                        node(floodPlains, () -> {
+                        node(floodPlains, Seq.with(
+                                new Objectives.SectorComplete(twinPass)
+                        ), () -> {
                             node(bay, Seq.with(
                                     new Objectives.SectorComplete(resurgence),
                                     new Objectives.SectorComplete(twinPass),
