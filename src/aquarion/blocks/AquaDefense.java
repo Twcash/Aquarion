@@ -48,7 +48,7 @@ public class AquaDefense {
 
             researchCostMultiplier = 0.25f;
         }};
-        bauxiteBarricade = new Wall("bauxite-barricade"){{
+        bauxiteBarricade = new AquaWall("bauxite-barricade"){{
             requirements(Category.defense, with(bauxite, 500, metaglass, 200, silicon, 600, copper, 250));
             size = 5;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
