@@ -2,11 +2,13 @@ package aquarion.world.blocks.distribution;
 
 import arc.Core;
 import arc.graphics.g2d.*;
+import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
 import arc.util.Eachable;
 import arc.util.Nullable;
 import arc.util.Tmp;
+import mindustry.Vars;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.*;
 import mindustry.graphics.Drawf;
@@ -26,9 +28,34 @@ import static mindustry.Vars.renderer;
 import static mindustry.Vars.tilesize;
 import static mindustry.type.Liquid.animationFrames;
 public class Pipe extends LiquidRouter implements Autotiler {
-    public TextureRegion[] topRegions = new TextureRegion[16];
+    public TextureRegion[][][] topRegions;
     public TextureRegion[][] liquidRegions;
-    public TextureRegion bottomRegion, otherRegion;
+    public TextureRegion bottomRegion;
+    //I think this is the second time I've ever just blatantly stole from a mod
+    public static final int[][] blendIndices = {
+            //Labeled these bc there's no way I'm remembering this
+            //P.s Am I a vibe coder for using Chatgpt for labeling these for me bc I'm a lazy ass :troll:
+            {0, 0}, // 0000 - none
+            {1, 0}, // 0001 - right
+            {1, 1}, // 0010 - up
+            {2, 0}, // 0011 - up + right
+            {1, 2}, // 0100 - left
+            {2, 1}, // 0101 - left + right
+            {2, 2}, // 0110 - left + up
+            {3, 0}, // 0111 - left + up + right
+            {1, 3}, // 1000 - down
+            {2, 3}, // 1001 - down + right
+            {2, 4}, // 1010 - down + up
+            {3, 1}, // 1011 - down + up + right
+            {2, 5}, // 1100 - down + left
+            {3, 2}, // 1101 - down + left + right
+            {3, 3}, // 1110 - down + left + up
+            {3, 4}  // 1111 - all
+    };
+    public static final float rotatePad = 6, hpad = rotatePad / 2f / 4f;
+    public static final float[][] rotateOffsets = {{hpad, hpad}, {-hpad, hpad}, {-hpad, -hpad}, {hpad, -hpad}};
+    public TextureRegion[][] regions;
+    public TextureRegion[][][] rotateRegions;
 
     public Pipe(String name) {
         super(name);
@@ -40,66 +67,54 @@ public class Pipe extends LiquidRouter implements Autotiler {
     }
     @Override
     public boolean blends(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock){
-        return otherblock.hasLiquids && (otherblock.outputsLiquid || (lookingAt(tile, rotation, otherx, othery, otherblock))) && lookingAtEither(tile, rotation, otherx, othery, otherrot, otherblock);
+        return otherblock.hasLiquids;
     }
     @Override
     public void load() {
         super.load();
-        bottomRegion = Core.atlas.find(name + "-bottom");
-        otherRegion = Core.atlas.find(name + "-other");
 
-        for (int i = 0; i < 16; i++) {
-            topRegions[i] = Core.atlas.find(name + "-top-" + (i + 1));
-        }
+        regions = Core.atlas.find(name + "-sheet").split(32, 32);
+        bottomRegion = regions[0][1];
 
-        liquidRegions = new TextureRegion[2][animationFrames];
-        if (renderer != null) {
-            var frames = renderer.getFluidFrames();
-            for (int fluid = 0; fluid < 2; fluid++) {
-                for (int frame = 0; frame < animationFrames; frame++) {
-                    TextureRegion base = frames[fluid][frame];
-                    TextureRegion result = new TextureRegion();
-                    result.set(base);
-                    result.setHeight(result.height - liquidPadding);
-                    result.setWidth(result.width - liquidPadding);
-                    result.setX(result.getX() + liquidPadding);
-                    result.setY(result.getY() + liquidPadding);
-                    liquidRegions[fluid][frame] = result;
+        topRegions = new TextureRegion[4][2][Liquid.animationFrames];
+
+        rotateRegions = new TextureRegion[4][2][Liquid.animationFrames];
+
+        if (Vars.renderer != null) {
+            float pad = rotatePad;
+            TextureRegion[][] frames = Vars.renderer.getFluidFrames();
+
+            for (int rot = 0; rot < 4; rot++) {
+                for (int fluid = 0; fluid < 2; fluid++) {
+                    for (int frame = 0; frame < Liquid.animationFrames; frame++) {
+                        TextureRegion base = frames[fluid][frame];
+                        TextureRegion result = new TextureRegion();
+                        result.set(base);
+                        rotateRegions[rot][fluid][frame] = result;
+                    }
                 }
             }
         }
     }
-
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
-        int tiling = 0;
-        BuildPlan[] proximity = new BuildPlan[4];
+        int[] bits = getTiling(plan, list);
 
-        list.each(next -> {
-            for (int i = 0; i < 4; i++) {
-                Point2 side = new Point2(plan.x, plan.y).add(Geometry.d4[i]);
-                if (new Point2(next.x, next.y).equals(side) &&
-                        ((next.block instanceof Pipe) ? (plan.rotation % 2 == i % 2 || next.rotation % 2 == i % 2)
-                                : next.block.outputsLiquid)) {
-                    proximity[i] = next;
-                    break;
-                }
-            }
-        });
+        if (bits == null) return;
 
-        for (int i = 0; i < 4; i++) {
-            if (proximity[i] != null) tiling |= (1 << i);
-        }
+        int[] blending = blendIndices[bits[3]];
+        int index1 = blending[0];
+        int index2 = blending[1];
 
-        Draw.rect(bottomRegion, plan.drawx(), plan.drawy(), 0);
-        Draw.rect(topRegions[tiling], plan.drawx(), plan.drawy(), 0);
+        Draw.rect(bottomRegion, plan.drawx(), plan.drawy());
+        Draw.rect(regions[index1][index2], plan.drawx(), plan.drawy());
     }
 
 
 
     public class PipeBuild extends LiquidRouterBuild {
-        public int tiling = 0, blendbits, blending;
-        public float smoothLiquid;
+        public int tiling = 0, blending;
+        public int index1, index2, underBlending;
 
         private final Set<Building> visited = new HashSet<>();
 
@@ -182,43 +197,53 @@ public class Pipe extends LiquidRouter implements Autotiler {
 
 
 
-
         @Override
         public void onProximityUpdate() {
             super.onProximityUpdate();
-            noSleep();
-            for (int i = 0; i < 4; i++) {
-                int[] bits = buildBlending(tile, rotation, null, true);
-                tiling = bits[3];
-                blendbits = bits[0];
-                blending = bits[4];
+
+            int[] bits = buildBlending(tile, 0, null, true);
+            underBlending = bits[4];
+
+            int[] blending = blendIndices[bits[3]];
+            index1 = blending[0];
+            index2 = blending[1];
+        }
+        public void drawUnderPipes(float x, float y, int index1, int index2, Liquid liquid, float fullness, boolean blending) {
+            Draw.rect(bottomRegion, x, y);
+
+            int frame = liquid.getAnimationFrame();
+            int gas = liquid.gas ? 1 : 0;
+            float ox = 0f, oy = 0f;
+            TextureRegion liquidr = index1 == 1 ? rotateRegions[index2][gas][frame] : Vars.renderer.fluidFrames[gas][frame];
+
+
+            Drawf.liquid(liquidr, x, y, fullness, liquid.color.write(Tmp.c1).a(1f));
+
+            if(blending) {
+                Draw.rect(regions[3][4], x, y);
+            } else {
+                Draw.rect(regions[index1][index2], x, y);
+
             }
         }
+
 
         @Override
         public void draw() {
             Draw.z(Layer.blockUnder);
-            Draw.rect(bottomRegion, x, y);
-
-            if (liquids.currentAmount() > 0.01f) {
-                int frame = liquids.current().getAnimationFrame();
-                int gas = liquids.current().gas ? 1 : 0;
-
-                float xs = Draw.xscl, ys = Draw.yscl;
-                Draw.scl(1f, 1f);
-
-                Drawf.liquid(
-                        liquidRegions[gas][frame],
-                        x, y,
-                        liquids.currentAmount() / liquidCapacity,
-                        liquids.current().color.write(Tmp.c1).a(1f)
-                );
-
-                Draw.scl(xs, ys);
+            for (int i = 0; i < 4; i++) {
+                if ((underBlending & (1 << i)) != 0) {
+                    int j = i % 2 == 0 ? i : i + 2;
+                    drawUnderPipes(
+                            x + Geometry.d4x(j) * Vars.tilesize,
+                            y + Geometry.d4y(j) * Vars.tilesize,
+                            0, i % 2,
+                            liquids.current(), liquids.currentAmount() / liquidCapacity, true
+                    );
+                }
             }
-
-            Draw.rect(topRegions[tiling], x, y);
-            Draw.reset();
+            Draw.z(Layer.block);
+            drawUnderPipes(x, y, index1, index2, liquids.current(), liquids.currentAmount() / liquidCapacity, false);
         }
     }
 }

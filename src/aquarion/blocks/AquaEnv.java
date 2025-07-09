@@ -280,6 +280,7 @@ public class AquaEnv {
             liquidMultiplier = 0.75f;
             speedMultiplier = 0.7f;
             cacheLayer = CacheLayer.water;
+            isLiquid = true;
             shallow = true;
         }};
         kelp_floor = new Floor("kelp-floor", 2) {{

@@ -71,6 +71,12 @@ public class PowerPylon extends PowerNode {
                 () -> (float)entity.power.links.size / (float)maxNodes
         ));
     }
+    @Override
+    public void changePlacementPath(Seq<Point2> points, int rotation){
+        Placement.calculateNodes(points, this, rotation, (point, other) -> overlaps(world.tile(point.x, point.y), world.tile(other.x, other.y)));
+    }
+
+
     public PowerPylon(String name){
         super(name);
         configurable = true;

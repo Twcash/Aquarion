@@ -4,6 +4,7 @@ import aquarion.AquaItems;
 import aquarion.blocks.AquaCore;
 import aquarion.world.AquaTeams;
 import arc.graphics.Color;
+import arc.math.geom.Vec3;
 import mindustry.content.Items;
 import mindustry.game.Team;
 import mindustry.graphics.Pal;
@@ -54,8 +55,8 @@ public class AquaPlanets {
             );
         }};
         fakeSerpulo = new Planet("fakeSerp", citun, 1f, 4){{
-            generator = new SerpuloPlanetGenerator();
-            meshLoader = () -> new HexMesh(this, 5);
+            generator = new FakeSerpuloPlanetGenerator();
+            meshLoader = () -> new HexMesh(this, 6);
             alwaysUnlocked = true;
             accessible = true;
             orbitRadius = 70;

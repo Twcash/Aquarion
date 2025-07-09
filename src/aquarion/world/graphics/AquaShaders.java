@@ -6,9 +6,11 @@ import arc.graphics.*;
 import arc.graphics.Texture.*;
 import arc.graphics.gl.*;
 import arc.math.geom.Vec2;
+import arc.math.geom.Vec3;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.graphics.*;
+import mindustry.type.Planet;
 
 import static aquarion.world.graphics.AquaShaders.ExtendedSurfaceShader.replaceShader;
 import static arc.Core.assets;
@@ -18,6 +20,8 @@ import static mindustry.graphics.Shaders.water;
 
 
 public class AquaShaders {
+    public static PlanetShader planet;
+
     public static @Nullable SurfaceShader brine, shadow;
     public static CacheLayer.ShaderLayer brineLayer, shadowLayer;
     public static Fi file(String name){
@@ -28,7 +32,7 @@ public class AquaShaders {
 
 public static void init(){
 
-
+    planet = new PlanetShader();
         brine = new SurfaceShader("brine");
         shadow = new SurfaceShader("shadow");
 
@@ -285,4 +289,28 @@ public static void init(){
             }
         }
     }
+    public static class PlanetShader extends Shaders.LoadShader {
+        public Vec3 lightDir = new Vec3(1, 1, 1).nor();
+        public Color ambientColor = Color.white.cpy();
+        public Vec3 camDir = new Vec3();
+        public Vec3 camPos = new Vec3();
+        public boolean emissive;
+        public Planet planet;
+
+        public PlanetShader(){
+            super("planet", "planet");
+        }
+
+        @Override
+        public void apply(){
+            camDir.set(renderer.planets.cam.direction).rotate(Vec3.Y, planet.getRotation());
+
+            setUniformf("u_lightdir", lightDir);
+            setUniformf("u_ambientColor", ambientColor.r, ambientColor.g, ambientColor.b);
+            setUniformf("u_camdir", camDir);
+            setUniformf("u_campos", renderer.planets.cam.position);
+            setUniformf("u_emissive", emissive ? 1f : 0f);
+        }
+    }
+
 }

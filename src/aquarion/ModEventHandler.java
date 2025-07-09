@@ -1,6 +1,7 @@
 package aquarion;
 
 import aquarion.dialogs.AquaResearchDialog;
+import aquarion.ui.AquaHud;
 import aquarion.ui.ModSettings;
 import aquarion.world.graphics.AquaMenuRenderer;
 import aquarion.world.graphics.MenuReplacer;
@@ -28,7 +29,6 @@ public class ModEventHandler {
                 Log.err("Failed to replace renderer", ex);
             }
         });
-
         Events.on(EventType.ClientLoadEvent.class, e -> ModMusic.attach());
         Events.on(EventType.ClientLoadEvent.class, e -> ModSettings.init());
 

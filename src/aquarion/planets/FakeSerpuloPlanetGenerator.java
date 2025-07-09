@@ -1,5 +1,6 @@
 package aquarion.planets;
 
+import aquarion.world.Uti.NewSimplex;
 import arc.*;
 import arc.graphics.*;
 import arc.math.*;
@@ -21,13 +22,12 @@ import mindustry.world.blocks.environment.*;
 import static mindustry.Vars.*;
 
 public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
-    public float heightScl = 1.2f, octaves = 8, persistence = 0.7f, heightPow = 3f, heightMult = 1.6f;
     //alternate, less direct generation (wip)
     public static boolean alt = false;
 
     BaseGenerator basegen = new BaseGenerator();
     float scl = 5f;
-    float waterOffset = 0.55f;
+    float waterOffset = 0.05f;
     boolean genLakes = false;
 
     Block[][] arr =
@@ -62,29 +62,28 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     float water = 2f / arr[0].length;
 
     float rawHeight(Vec3 position){
-        return Simplex.noise3d(seed, 8, 0.6f, 1.1f, 10f + position.x, 10f + position.y, 10f + position.z);
+        position = Tmp.v33.set(position).scl(scl);
+        return (Mathf.pow(NewSimplex.voronoi3d(seed, 7, 1/2.5f, 1/2f, position.x, position.y, position.z), 2.3f) + waterOffset) / (1f + waterOffset);
     }
+
     @Override
     public boolean allowLanding(Sector sector){
         return sector.planet.allowLaunchToNumbered && (sector.hasBase() || sector.near().contains(s -> s.hasBase() &&
                 (s.info.bestCoreType.size >= 4 || s.isBeingPlayed() && state.rules.defaultTeam.cores().contains(b -> b.block.size >= 4))));
     }
 
-     @Override
-    public void generateSector(Sector sector){
-        //NO STOP
-    }
 
     @Override
-    public float getHeight(Vec3 position) {
-        if(Mathf.pow(rawHeight(position),heightPow) * 1.5f <= waterOffset) return waterOffset;
-        return Math.min(Mathf.pow(rawHeight(position),1.2f) * 1.1f + 0.1f,1.2f);
+    public float getHeight(Vec3 position){
+        float height = rawHeight(position);
+        return Math.max(height, water);
     }
 
     @Override
     public Color getColor(Vec3 position){
         Block block = getBlock(position);
-        if(block == Blocks.salt);
+        //replace salt with sand color
+        if(block == Blocks.salt) return Blocks.sand.mapColor;
         return Tmp.c1.set(block.mapColor).a(1f - block.albedo);
     }
 
@@ -101,48 +100,42 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     Block getBlock(Vec3 position){
         float height = rawHeight(position);
         Tmp.v31.set(position);
+        float craterNoise = NewSimplex.noise3d(seed, 1, 1, 1f / 22f, position.x + 999f, position.y, position.z);
+        float craterDist = Mathf.clamp(1f - Math.abs(craterNoise) * 3f);
+
+        if(craterDist > 0.85f) return Blocks.deepTaintedWater;
+        if(craterDist > 0.75f) return Blocks.taintedWater;
+        if(craterDist > 0.55f) return Blocks.darksandTaintedWater;
+        if(craterDist > 0.45f) return Blocks.darksand;
+        if(craterDist > 0.3f)  return Blocks.stone;
+
+        float crack = Ridged.noise3d(seed + 1, position.x, position.y, position.z, 2, 1f / 8f);
+        if(crack >= 0.4f && craterDist >= 0.5f && craterDist <= 0.8f){
+            return Blocks.basalt;
+        }
+
         position = Tmp.v33.set(position).scl(scl);
         float rad = scl;
-
-        // --- LATITUDE-BASED HEAT ---
-        float latitude = Math.abs(position.y / rad); // 0 = equator, 1 = poles
-        float heat = 1f + latitude; // 1 = equator (hot), 0 = poles (cold)
-
-        // Add small noise to heat for variety
-        float tnoise = Simplex.noise3d(seed, 7, 0.56f, 1f / 3f, position.x, position.y + 999f, position.z);
-        heat = Mathf.clamp(Mathf.lerp(heat, tnoise, 0.3f));
-
-        // --- HEIGHT ADJUST ---
+        float temp = Mathf.clamp(Math.abs(position.y * 2f) / (rad));
+        float tnoise = NewSimplex.voronoi3d(seed, 7, 0.56, 1f/3f, position.x, position.y + 999f, position.z);
+        temp = Mathf.lerp(temp, tnoise, 0.5f);
         height *= 1.2f;
         height = Mathf.clamp(height);
 
-        if(height <= waterOffset - 0.15f) {
-            return Blocks.deepwater;
-        } else if (height <= waterOffset - 0.05f) {
-            return Blocks.water;
-        } else if(height <= waterOffset) {
-            return Blocks.sandWater;
-        }
+        float tar = NewSimplex.voronoi3d(seed, 4, 0.55f, 1f/2f, position.x, position.y + 999f, position.z) * 0.3f + Tmp.v31.dst(0, 0, 1f) * 0.2f;
 
-        // --- COLUMN SELECTION FROM arr[][]
-        int heatIndex = Mathf.clamp((int)(heat * (arr[0].length - 1)), 0, arr[0].length - 1);
-        int heightIndex = Mathf.clamp((int)(height * arr.length), 0, arr.length - 1);
-        Block selected = arr[heightIndex][heatIndex];
-
-        // --- TAR OVERRIDE ---
-        float tar = Simplex.noise3d(seed, 4, 0.65f, 1f / 2f, position.x, position.y + 999f, position.z) * 0.3f + Tmp.v31.dst(0, 0, 1f) * 0.2f;
+        Block res = arr[Mathf.clamp((int)(temp * arr.length), 0, arr[0].length - 1)][Mathf.clamp((int)(height * arr[0].length), 0, arr[0].length - 1)];
         if(tar > 0.5f){
-            return tars.get(selected, selected);
+            return tars.get(res, res);
         }else{
-            return selected;
+            return res;
         }
     }
-
 
     @Override
     protected float noise(float x, float y, double octaves, double falloff, double scl, double mag){
         Vec3 v = sector.rect.project(x, y).scl(5f);
-        return Simplex.noise3d(seed, octaves, falloff, 1f / scl, v.x, v.y, v.z) * (float)mag;
+        return NewSimplex.voronoi3d(seed, octaves, falloff, 1f / scl, v.x, v.y, v.z) * (float)mag;
     }
 
     @Override
@@ -411,15 +404,15 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         float scl = 1f;
         float addscl = 1.3f;
 
-        if(Simplex.noise3d(seed, 2, 0.5, scl, sector.tile.v.x, sector.tile.v.y, sector.tile.v.z)*nmag + poles > 0.25f*addscl){
+        if(NewSimplex.voronoi3d(seed, 2, 0.5, scl, sector.tile.v.x, sector.tile.v.y, sector.tile.v.z)*nmag + poles > 0.25f*addscl){
             ores.add(Blocks.oreCoal);
         }
 
-        if(Simplex.noise3d(seed, 2, 0.5, scl, sector.tile.v.x + 1, sector.tile.v.y, sector.tile.v.z)*nmag + poles > 0.5f*addscl){
+        if(NewSimplex.voronoi3d(seed, 2, 0.5, scl, sector.tile.v.x + 1, sector.tile.v.y, sector.tile.v.z)*nmag + poles > 0.5f*addscl){
             ores.add(Blocks.oreTitanium);
         }
 
-        if(Simplex.noise3d(seed, 2, 0.5, scl, sector.tile.v.x + 2, sector.tile.v.y, sector.tile.v.z)*nmag + poles > 0.7f*addscl){
+        if(NewSimplex.voronoi3d(seed, 2, 0.5, scl, sector.tile.v.x + 2, sector.tile.v.y, sector.tile.v.z)*nmag + poles > 0.7f*addscl){
             ores.add(Blocks.oreThorium);
         }
 

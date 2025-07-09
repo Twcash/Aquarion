@@ -4,9 +4,12 @@ import aquarion.planets.AquaLoadouts;
 import aquarion.planets.AquaPlanets;
 import aquarion.planets.AquaSectorPresets;
 import aquarion.planets.TantrosTechTree;
+import aquarion.ui.AquaHud;
 import aquarion.units.AquaUnitTypes;
 import aquarion.units.AquaWrecks;
 import aquarion.units.ProspectorUnitTypes;
+import aquarion.world.AI.FishAI;
+import aquarion.world.AI.FishAIDangerMap;
 import aquarion.world.AI.ProspectorBaseBuilderAI;
 import aquarion.world.AquaTeams;
 import aquarion.world.Uti.AquaStates;
@@ -17,6 +20,7 @@ import arc.ApplicationCore;
 import arc.ApplicationListener;
 import arc.Events;
 import arc.assets.Loadable;
+import arc.scene.ui.layout.Table;
 import arc.util.Log;
 import arc.util.Reflect;
 import arc.util.Timer;
@@ -24,15 +28,20 @@ import mindustry.Vars;
 import aquarion.blocks.*;
 import mindustry.game.EventType;
 import mindustry.game.Teams;
+import mindustry.gen.Groups;
+import mindustry.gen.Unit;
 import mindustry.ui.fragments.MenuFragment;
+import mindustry.ui.fragments.PlacementFragment;
+
+import java.lang.reflect.Field;
 
 import static arc.Core.assets;
 import static mindustry.Vars.state;
+import static mindustry.Vars.ui;
 
 public class AquarionMod  implements Loadable{
 
     public static void loadContent() {
-
         //stuff that needs to be loaded first
         AquaStatuses.load();
         AquaLiquids.loadContent();
@@ -67,14 +76,32 @@ public class AquarionMod  implements Loadable{
         ProspectorUnitTypes.loadContent();
         ProspectorBlocks.loadContent();
 
-        MenuReplacer.replaceMenu(Vars.ui.menufrag);
+        MenuReplacer.replaceMenu(ui.menufrag);
         //THIS IS STUPID PLEASE DO NOT REPLICATE
         ProspectorBaseBuilderAI ai = new ProspectorBaseBuilderAI();
 
         Events.on(EventType.WorldLoadEvent.class, e -> {
             Timer.schedule(ai::updateUnit, 0f, 0.3f);
-        });
 
+        });
+        Events.run(EventType.Trigger.draw, FishAIDangerMap::draw);
+        Events.on(EventType.WorldLoadEvent.class, e -> {
+            Timer.schedule(() -> {
+                boolean hasFishAI = false;
+
+                for(Unit u : Groups.unit){
+                    if(u.controller() instanceof FishAI){
+                        hasFishAI = true;
+                        break;
+                    }
+                }
+
+                if(hasFishAI){
+                    FishAIDangerMap.update(); // update only if needed
+                }
+
+            }, 0f, 0.3f);
+        });
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
@@ -83,14 +110,12 @@ public class AquarionMod  implements Loadable{
 
     public static AquaMenuRenderer getMenuRenderer() {
         try{
-            return Reflect.get(MenuFragment.class, Vars.ui.menufrag, "renderer");
+            return Reflect.get(MenuFragment.class, ui.menufrag, "renderer");
         }catch(Exception ex){
             Log.err("Failed to return renderer", ex);
             return new AquaMenuRenderer();
         }
 
     }
-
-
 
 }

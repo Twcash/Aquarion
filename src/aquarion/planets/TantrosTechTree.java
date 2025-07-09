@@ -136,6 +136,7 @@ public class TantrosTechTree {
                     node(twinPass, Seq.with(
                             new Objectives.SectorComplete(resurgence),
                             new Objectives.Research(nickelWall),
+
                             new Objectives.Research(point)
                     ), () -> {
                         node(Ingress, Seq.with(
@@ -162,9 +163,18 @@ public class TantrosTechTree {
                             });
                         }));
                         node(floodPlains, Seq.with(
+                                new Objectives.Research(metaglass),
+                                new Objectives.Research(AnnealingOven),
+
+                                new Objectives.Research(pelt),
                                 new Objectives.SectorComplete(twinPass)
                         ), () -> {
                             node(bay, Seq.with(
+                                    new Objectives.Research(vector),
+                                    new Objectives.Research(bulwark),
+                                    new Objectives.Research(heatEngine),
+                                    new Objectives.Research(convectionHeater),
+                                    new Objectives.Research(CentrifugalPump),
                                     new Objectives.SectorComplete(resurgence),
                                     new Objectives.SectorComplete(twinPass),
                                     new Objectives.SectorComplete(floodPlains)

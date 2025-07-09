@@ -1,5 +1,6 @@
 package aquarion.world.blocks.heatBlocks;
 
+import aquarion.world.Uti.AquaStats;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.*;
@@ -63,8 +64,11 @@ public class AquaHeatCrafter extends GenericCrafter {
     @Override
     public void setStats() {
         super.setStats();
-
-        stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
+        if(baseEfficiency < 1) {
+            stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
+        } else {
+            stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, maxEfficiency, flipHeatScale));
+        }
         stats.add(Stat.maxEfficiency, (int) (maxEfficiency * 100f), StatUnit.percent);
     }
 
@@ -109,6 +113,13 @@ public class AquaHeatCrafter extends GenericCrafter {
                 eff = Math.max(eff, 0);
             }
             return  eff;
+        }
+        @Override
+        public void incrementDump(int prox){
+            //this is possible if transferring an item changed a block
+            if(prox != 0){
+                cdump = (int) ((cdump + 1 * efficiency) % prox);
+            }
         }
     }
 }

@@ -39,7 +39,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
 
     public static void loadContent() {
         disableVanilla();
@@ -693,6 +693,7 @@ public class AquaCrafters {
             size = 3;
             consumePower(25/60f);
             squareSprite = true;
+            researchCostMultiplier = 0.02f;
             pumpAmount = 0.3f;
             liquidCapacity = 300;
             drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawLiquidTile(water, 1.5f){{ alpha = 0.6f;}}
@@ -1025,6 +1026,7 @@ public class AquaCrafters {
             outputItem = new ItemStack(coal, 5);
             liquidCapacity = 300;
             itemCapacity = 60;
+            researchCostMultiplier = 0.1f;
             drawer = new DrawMulti(new DrawDefault(), new DrawGlowRegion());
         }};
         steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
@@ -1041,6 +1043,25 @@ public class AquaCrafters {
             liquidCapacity = 300;
             itemCapacity = 60;
             drawer = new DrawMulti(new DrawDefault(), new DrawGlowRegion());
+        }};
+        desulferizationAssembly = new AquaHeatCrafter("desulferization-assembly"){{
+            requirements(Category.crafting, with( metaglass, 250, copper, 500, lead, 1200));
+            shownPlanets.addAll(tantros2);
+            craftTime = 4*60f;
+            heatRequirement = 45;
+            maxEfficiency = 2;
+            craftEffect = Fx.reactorsmoke;
+            updateEffectChance = 0.08f;
+            updateEffect = Fx.reactorsmoke;
+            researchCostMultiplier = 0.1f;
+            consumeLiquid(petroleum, 450/60f);
+            outputItem = new ItemStack(brimstone, 30);
+            outputLiquid = new LiquidStack(ethylene, 150/60f);
+            liquidCapacity = 900;
+            itemCapacity = 120;
+            size = 4;
+            squareSprite = false;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion());
         }};
         inlet = new GenericCrafter("inlet"){{
             requirements(Category.production, with( copper, 45));

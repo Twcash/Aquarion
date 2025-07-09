@@ -1,17 +1,23 @@
 package aquarion.world.blocks.power;
 
+import aquarion.world.graphics.DrawTop;
+import arc.Core;
 import arc.func.Floatf;
+import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.WindowedMean;
 import arc.struct.Seq;
+import arc.util.Eachable;
 import arc.util.Log;
+import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.world.Tile;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerGraph;
 import mindustry.world.consumers.ConsumePower;
 import mindustry.world.consumers.ConsumePowerDynamic;
+import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawMulti;
 import mindustry.world.draw.DrawSideRegion;
@@ -24,6 +30,8 @@ import static mindustry.Vars.world;
 import static mindustry.entities.part.DrawPart.PartProgress.warmup;
 
 public class PowerOutlet extends PowerGenerator {
+    public DrawBlock drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
+    public TextureRegion sideRegion2, sideRegion1;
     public PowerOutlet(String name) {
         super(name);
         outputsPower = true;
@@ -32,8 +40,13 @@ public class PowerOutlet extends PowerGenerator {
         consumesPower = true;
         powerProduction = 100/60f;
         rotate = true;
-        rotateDraw = false;
-        drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
+        rotateDraw = true;
+    }
+
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        Draw.rect(region, plan.drawx(), plan.drawy());
+        Draw.rect(plan.rotation >= 2 ? sideRegion2 : sideRegion1, plan.drawx(), plan.drawy(), plan.rotation * 90);
     }
     @Override
     public void init() {
@@ -54,6 +67,8 @@ public class PowerOutlet extends PowerGenerator {
     @Override
     public void load(){
         super.load();
+        sideRegion1 = Core.atlas.find(name + "-top1");
+        sideRegion2 = Core.atlas.find(name + "-top2");
         drawer.load(this);
     }
     @Override

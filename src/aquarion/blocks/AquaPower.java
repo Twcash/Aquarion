@@ -33,7 +33,7 @@ import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
+    public static Block voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent(){
         solarGenerator = new SolarGenerator("solar-generator"){{
@@ -242,6 +242,7 @@ public class AquaPower {
         pylon = new PowerPylon("pylon"){{
             requirements(Category.power, with(silicon, 20));
             maxRange = 10;
+            laserRange = 10;
             maxNodes = 8;
             alwaysUnlocked = true;
         }};
@@ -250,8 +251,15 @@ public class AquaPower {
             rotate = true;
             rotateDraw = false;
             alwaysUnlocked = true;
-            drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion(){{
-            }});
+            regionRotated1 = 1;
+            drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
+        }};
+        voltageSupplyUnit = new PowerOutlet("voltage-supply-unit"){{
+            requirements(Category.power, with(copper, 90, silicon, 200, ferrosilicon, 50));
+            rotate = true;
+            size = 2;
+            rotateDraw = false;
+            drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
         }};
         capacitorBank = new Battery("capacitor-bank"){{
             requirements(Category.power, with(copper, 50, silicon, 120, lead, 200));

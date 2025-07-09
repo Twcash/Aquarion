@@ -2,6 +2,7 @@ package aquarion.units;
 
 import aquarion.AquaStatuses;
 import aquarion.type.*;
+import aquarion.world.AI.FishAI;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.units.newTankUnitType;
 import arc.graphics.Blending;
@@ -58,7 +59,7 @@ public class AquaUnitTypes {
   ambassador, consul, legate, monarch,
 
      //steward tree
- curator, custodian, caretaker, warden;
+ curator, custodian, caretaker, warden, fish1;
 
     //gerbUnits
     public static GerbUnitType gerbTest;
@@ -1899,6 +1900,25 @@ public class AquaUnitTypes {
                     backColor = trailColor = lightColor  = AquaPal.fireLight2;
                     width = height = 15;
                     trailLength = 2;
+                }};
+            }});
+        }};
+        fish1 = new FishUnitType("fish"){{
+            flying = true;
+            constructor = UnitEntity::create;
+            controller = u -> new FishAI();
+            speed = 2.5f;
+            health = 120;
+            weapons.add(new Weapon("large-weapon"){{
+                reload = 13f;
+                x = 4f;
+                y = 2f;
+                top = false;
+                ejectEffect = Fx.casing1;
+                bullet = new BasicBulletType(2.5f, 9){{
+                    width = 7f;
+                    height = 9f;
+                    lifetime = 60f;
                 }};
             }});
         }};
