@@ -8,23 +8,23 @@ import mindustry.Vars;
 
 public class AquaSounds {
     public static Sound
-            start = new Sound(),
-            start2 = new Sound(),
-            start3 = new Sound(),
-            start4 = new Sound(),
-            start5 = new Sound(),
-            waterRumble = new Sound(),
-            waterAir = new Sound(),
-            engine = new Sound(),
-            electrolysis = new Sound(),
-            turbulent = new Sound(),
-            turbulent2 = new Sound(),
-            waterHum = new Sound(),
-            waterHum2 = new Sound(),
-            derrick = new Sound(),
-            compressDrill = new Sound(),
-            compressDrillImpact = new Sound(),
-            refine = new Sound();
+        start = new Sound(),
+        start2 = new Sound(),
+        start3 = new Sound(),
+        start4 = new Sound(),
+        start5 = new Sound(),
+        waterRumble = new Sound(),
+        waterAir = new Sound(),
+        engine = new Sound(),
+        electrolysis = new Sound(),
+        turbulent = new Sound(),
+        turbulent2 = new Sound(),
+        waterHum = new Sound(),
+        waterHum2 = new Sound(),
+        derrick = new Sound(),
+        compressDrill = new Sound(),
+        compressDrillImpact = new Sound(),
+        refine = new Sound();
 
     public static void load(){
         start = loadSound("start");
@@ -40,6 +40,7 @@ public class AquaSounds {
         turbulent2 = loadSound("turbulent2");
         waterHum = loadSound("waterHum");
         waterHum2 = loadSound("waterHum2");
+        derrick = loadSound("derrick");
         compressDrill = loadSound("compressDrill");
         compressDrillImpact = loadSound("compressDrillImpact");
         refine = loadSound("refine");

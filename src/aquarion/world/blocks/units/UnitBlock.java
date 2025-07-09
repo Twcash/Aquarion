@@ -37,7 +37,8 @@ public class UnitBlock extends Block {
     public UnitBlock(String name) {
         super(name);
         category = Category.units;
-        destroySound = AquaSounds.start;
+        destroySound = AquaSounds.start == null ? Sounds.artillery : AquaSounds.start;
+        ambientSound = AquaSounds.derrick == null ? Sounds.artillery : AquaSounds.derrick;
         destroyEffect = Fx.none;
         rebuildable = true;
         canOverdrive = false;
@@ -46,7 +47,6 @@ public class UnitBlock extends Block {
         saveConfig = true;
         saveData = true;
         update = true;
-        ambientSound = AquaSounds.derrick;
         canPickup = false;
         hasShadow = false;
         createRubble = false;
