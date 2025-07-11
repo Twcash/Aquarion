@@ -7,10 +7,10 @@
 An Attempt to recreate Tantros, adding a whole new campaign with custom blocks, units, soundtrack, everything.
 
 ## Notes:
-* This is incompatiable with foos client as it breaks the mod
-* Black hole Library will cause graphical issues with the envRenderer. Please do your best only to play with Aquarion
+* Other mod conflicts are almost guaranteed due to how this mod works.
+* Best to be played in a clean save.
 * Remember to reinstall the mod once in a while so new content loads. Updates are often but mainly small.
-* May or may not be good but I will try my best.
+* Remember that this is all still in the works. if you find an issue, let me know.
 
 ### To contribute read [contributing.md](https://github.com/Twcash/Tantros-Test/blob/2.3.0-beta/CONTRIBUTING.md)
 
