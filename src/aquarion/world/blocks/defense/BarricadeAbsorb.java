@@ -2,10 +2,12 @@ package aquarion.world.blocks.defense;
 
 
 
+import arc.Core;
 import arc.func.Floatf;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.struct.EnumSet;
@@ -16,21 +18,17 @@ import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.game.Team;
 import mindustry.gen.Building;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
-import mindustry.world.Block;
+import mindustry.graphics.*;
 import mindustry.world.Tile;
 import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.BlockGroup;
 
 import static mindustry.Vars.*;
 
-public class BarricadeAbsorb extends Block {
+public class BarricadeAbsorb extends AquaWall {
     boolean tooClose = false;
     public float range = 10;
     public Color baseColor = Pal.accentBack;
-
 
     public BarricadeAbsorb(String name) {
         super(name);
@@ -46,6 +44,7 @@ public class BarricadeAbsorb extends Block {
         rotateDraw = false;
         flags = EnumSet.of(BlockFlag.blockRepair);
     }
+
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         super.drawPlace(x, y, rotation, valid);
@@ -60,7 +59,8 @@ public class BarricadeAbsorb extends Block {
             Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
         });
     }
-    public class BarricadeAbsBuild extends Building {
+
+    public class BarricadeAbsBuild extends AquaWallBuild {
         // Keeps track of which blocks have been boosted
         final ObjectSet<Building> boosted = new ObjectSet<>();
         //Make sure blocks onlt have Hp and armor added ONCE
@@ -73,11 +73,6 @@ public class BarricadeAbsorb extends Block {
                     boosted.add(b);
                 }
             });
-        }
-
-        @Override
-        public void draw(){
-            super.draw();
         }
 
         @Override
