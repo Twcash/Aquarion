@@ -96,6 +96,24 @@ public class AquaDefense {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.25f;
         }};
+        cupronickelWall = new AquaWall("cupronickel-wall") {{
+            requirements(Category.defense, with(cupronickel, 24));
+            health = 450*4;
+            size = 2;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            alwaysUnlocked = true;
+            researchCostMultiplier = 0.1f;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        hugeCupronickelWall = new AquaWall("huge-cupronickel-wall") {{
+            requirements(Category.defense, with(cupronickel, 54));
+            health = 450*9;
+            size = 3;
+            alwaysUnlocked = true;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            researchCostMultiplier = 0.25f;
+        }};
         nickelBarricade = new BarricadeAbsorb("nickel-barricade"){{
             requirements(Category.defense, with(nickel, 400, silicon, 750, metaglass, 300));
             size = 5;

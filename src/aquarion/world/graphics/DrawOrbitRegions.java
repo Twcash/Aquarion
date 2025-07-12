@@ -22,7 +22,8 @@ public class DrawOrbitRegions extends DrawRegion {
     //offset of the entire orbit
     public float rotationOffset = 0f;
     public float layer = -1;
-
+    public float countRotOffset = 0;
+    public boolean alternateRot = false;
     public DrawOrbitRegions(String suffix, int regionCount, float radius, float orbitSpeed) {
         this.suffix = suffix;
         this.regionCount = regionCount;
@@ -43,16 +44,17 @@ public class DrawOrbitRegions extends DrawRegion {
         for (int i = 0; i < regionCount; i++) {
             float angle = baseRotation + (360f / regionCount) * i;
             float rad = Mathf.degRad * angle;
-
+            float offset = countRotOffset * i;
+            float rotDir = 1;
+            if(alternateRot && i % 2 == 0) rotDir = -1;
             float cx = build.x + Mathf.cos(rad) * radius;
             float cy = build.y + Mathf.sin(rad) * radius;
             if(spinSprite) {
-                Drawf.spinSprite(region, cx, cy, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));
+                Drawf.spinSprite(region, cx, cy, (build.totalProgress() * rotDir) * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0) + offset);
             } else {
-                Draw.rect(region, cx, cy, build.totalProgress() * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0));
+                Draw.rect(region, cx, cy, (build.totalProgress() * rotDir) * rotateSpeed + rotation + (buildingRotate ? build.rotdeg() : 0) + offset);
             }
         }
-
         Draw.z(z);
     }
 

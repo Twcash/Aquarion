@@ -31,6 +31,10 @@ public class TantrosTechTree {
                     });
                 });
                 node(hugeNickelWall, () -> {
+                    node(cupronickelWall, () -> {
+                                node(hugeCupronickelWall);
+                            }
+                    );
                             node(nickelBarricade);
                             node(steelWall, () -> node(hugeSteelWall));
                         }
@@ -145,15 +149,15 @@ public class TantrosTechTree {
                         ), () -> node(Torrent, Seq.with(
                                 new Objectives.SectorComplete(Ingress)
                         ), () -> {
-                            node(Grove, () -> {
-                                new Objectives.Research(beamBore);
-                                new Objectives.SectorComplete(Torrent);
-                                new Objectives.Research(pugnate);
-                                new Objectives.Research(grace);
-                                new Objectives.Research(vacuumFreezer);
-                                new Objectives.Research(aluminum);
-                                new Objectives.Research(bauxiteCentrifuge);
-                            });
+                            node(Grove, Seq.with(
+                                    new Objectives.Research(beamBore),
+                            new Objectives.SectorComplete(Torrent),
+                            new Objectives.Research(pugnate),
+                            new Objectives.Research(grace),
+                            new Objectives.Research(vacuumFreezer),
+                            new Objectives.Research(aluminum),
+                            new Objectives.Research(bauxiteCentrifuge)
+                            ), ()->{});
                             node(CrystalCaverns, Seq.with(
                                     new Objectives.Research(fumeEngine),
                                     new Objectives.SectorComplete(Torrent),
@@ -308,6 +312,9 @@ public class TantrosTechTree {
                 node(atmosphericCentrifuge);
                 node(inlet, () -> node(vacuumFreezer, () -> {
                 }));
+                node(cupronickelAlloyer, () -> {
+                    node(SolidBoiler, Seq.with(), () -> {});
+                });
                 node(AnnealingOven, () -> {
                     node(SolidBoiler, Seq.with(
                             new Objectives.SectorComplete(twinPass)

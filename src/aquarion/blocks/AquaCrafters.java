@@ -30,6 +30,7 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
+import static aquarion.AquaAttributes.iron;
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.*;
 import static aquarion.planets.AquaPlanets.*;
@@ -39,7 +40,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block cupronickelAlloyer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
 
     public static void loadContent() {
         disableVanilla();
@@ -225,7 +226,7 @@ public class AquaCrafters {
             size = 6;
             squareSprite = false;
             itemCapacity = 120;
-            heatRequirement = 45;
+            heatRequirement = 30;
             maxEfficiency = 5;
             overheatScale = 0.25f;
             researchCostMultiplier = 0.02f;
@@ -233,6 +234,7 @@ public class AquaCrafters {
             consumePower(400/60f);
             consumeItems(with(ferricMatter, 15, silicon, 35));
             outputItem = new ItemStack(ferrosilicon, 40);
+            consumeLiquid(water, 200/60f);
             liquidCapacity = 600;
             updateEffect = new MultiEffect(Fx.coalSmeltsmoke, new ParticleEffect(){{
                 layer = Layer.debris;
@@ -474,6 +476,64 @@ public class AquaCrafters {
                 glowIntensity = 0.3f;
                 glowScale = 6f;
             }});
+            ferricGrinder = new AttributeCrafter("ferric-macerator"){{
+                requirements(Category.production, with( nickel, 250, copper, 100, silicon, 500, metaglass, 200));
+                size = 6;
+                itemCapacity = 100;
+                liquidCapacity = 200;
+                craftTime = 240;
+                attribute = iron;
+                baseEfficiency = 0;
+                minEfficiency = 1;
+                displayEfficiency = true;
+                maxBoost = 2.5f;
+                boostScale = 1/36f;
+                consumePower(400/60f);
+                consumeLiquid(water, 300/60f);
+                outputItems = new ItemStack[]{
+                        new ItemStack(sand, 20),
+                        new ItemStack(ferricMatter, 8),
+                };
+                drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawParticles(){{
+                    color = Color.valueOf("1c4538");
+                    alpha = 0.5f;
+                    particleSize =  4f;
+                    particles = 45;
+                    particleRad = 8*3f;
+                    particleLife = 20;
+                    rotateScl = 1.5f;
+                }}, new DrawOrbitRegions(){{
+                    orbitSpeed = 3f;
+                    radius = 11;
+                    suffix = "-gear";
+                    rotateSpeed = 2.5f;
+                    spinSprite = true;
+                    countRotOffset = 22.5f;
+                    regionCount = 7;
+                }}, new DrawParticles(){{
+                    color = Color.valueOf("356e6c");
+                    alpha = 0.5f;
+                    particleSize =  2.5f;
+                    particles = 20;
+                    particleRad = 8*2.5f;
+                    particleLife = 15;
+                    rotateScl = 1.6f;
+                }}, new DrawRegion("-ring"){{
+                    spinSprite = true;
+                    rotateSpeed = 2;
+                }}, new DrawParticles(){{
+                    color = Color.valueOf("747ae1");
+                    alpha = 0.2f;
+                    particleSize = 1.5f;
+                    particles = 15;
+                    particleRad = 8*2.5f;
+                    particleLife = 10;
+                    rotateScl = 1.7f;
+                }}, new DrawRegion("-bit"){{
+                    spinSprite = true;
+                    rotateSpeed = -4;
+                }}, new DrawDefault());
+            }};
             towaniteReductionVat = new GenericCrafter("towanite-reduction-vat"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -965,11 +1025,40 @@ public class AquaCrafters {
                 sides = 1;
             }}));
         }};
+        cupronickelAlloyer = new AquaHeatCrafter("cupronickel-alloying-crucible"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with( nickel, 700, copper, 400));
+            consumePower(150/60f);
+            squareSprite = false;
+            size = 4;
+            baseEfficiency = 1;
+            heatRequirement = 30;
+            maxEfficiency = 4;
+            craftTime = 120;
+            consumeItems(new ItemStack(copper, 9), new ItemStack(nickel, 3));
+            outputItem = new ItemStack(cupronickel, 12);
+            updateEffect = Fx.coalSmeltsmoke;
+            updateEffectChance = 0.07f;
+            ambientSound = AquaSounds.derrick;
+            consumeLiquid(air, 100/60f);
+            liquidCapacity = 200;
+            itemCapacity = 60;
+            researchCostMultiplier = 0.02f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawSoftParticles(){{
+                color = Color.valueOf("921f12");
+                color2 = Color.valueOf("ff9f4f");
+                alpha = 0.5f;
+                x = -2f;
+                particleRad = 8f;
+                particleSize = 6f;
+                particleLife = 45f;
+                particles = 35;
+            }}, new DrawDefault());
+        }};
         AnnealingOven = new AquaHeatCrafter("metaglass-annealing-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( lead, 300, copper, 550));
             size = 5;
-            consumePower(200/60f);
             itemCapacity = 60;
             squareSprite = false;
             researchCostMultiplier = 0.02f;
@@ -1021,13 +1110,118 @@ public class AquaCrafters {
             updateEffect = AquaFx.heatEngineGenerate;
             squareSprite = false;
             consumeLiquid(oil, 150/60f);
-            outputLiquids = LiquidStack.with(ethylene, 1, petroleum, 90/60f);
+            outputLiquids = LiquidStack.with(methane, 1, petroleum, 90/60f);
             liquidOutputDirections = new int[]{1, 3};
             outputItem = new ItemStack(coal, 5);
             liquidCapacity = 300;
             itemCapacity = 60;
             researchCostMultiplier = 0.1f;
             drawer = new DrawMulti(new DrawDefault(), new DrawGlowRegion());
+        }};
+        SilicaOxidator = new GenericCrafter("silicon-oxidator"){{
+            requirements(Category.crafting, with( copper, 300, silicon, 150, metaglass, 200));
+            size = 3;
+            squareSprite = false;
+            itemCapacity = 60;
+            liquidCapacity = 200;
+            craftTime = 150;
+            consumeItem(silicon, 20);
+            consumeLiquid(oxygen, 40/60f);
+            outputItem = new ItemStack(sand, 20);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawParticles(){{
+                color = Color.valueOf("ffb5ad");
+                alpha = 0.3f;
+                particleSize =  3f;
+                particles = 9;
+                particleRad = 6f;
+                particleLife = 90f;
+                rotateScl = 1.5f;
+            }}, new DrawLiquidTile(oxygen, 3){{
+                alpha = 0.5f;
+            }}, new DrawDefault());
+        }};
+        arcFurnace = new GenericCrafter("arc-furnace"){{
+            requirements(Category.crafting, with( nickel, 250, lead, 500, copper, 120, metaglass, 150));
+            size = 4;
+            squareSprite = false;
+            craftTime = 300;
+            itemCapacity = 80;
+            liquidCapacity = 200;
+            consumePower(400/60f);
+            consumeLiquid(water, 50/60f);
+            consumeItem(sand, 40);
+            outputLiquid = new LiquidStack(oxygen, 40/60f);
+            outputItem = new ItemStack(silicon, 40);
+            drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawSoftParticles(){{
+                alpha = 0.35f;
+                particleRad = 5f;
+                particleSize = 9f;
+                particleLife = 120f;
+                particles = 15;
+            }},new DrawSoftParticles(){{
+                color = Color.valueOf("88d9eb");
+                color2 = Color.white;
+                alpha = 0.25f;
+                particleRad = 3f;
+                particleSize = 7f;
+                particleLife = 120f;
+                particles = 8;
+            }},new DrawSoftParticles(){{
+                alpha = 0.35f;
+                particleRad = 5f;
+                y = 34/4f;
+                particleSize = 9f;
+                particleLife = 120f;
+                particles = 15;
+            }},new DrawSoftParticles(){{
+                color = Color.valueOf("88d9eb");
+                color2 = Color.white;
+                alpha = 0.25f;
+                y = 34/4f;
+                particleRad = 3f;
+                particleSize = 7f;
+                particleLife = 120f;
+                particles = 8;
+            }},new DrawSoftParticles(){{
+                alpha = 0.35f;
+                particleRad = 5f;
+                y = 27/4f;
+                x = -37/4f;
+                particleSize = 9f;
+                particleLife = 120f;
+                particles = 15;
+            }},new DrawSoftParticles(){{
+                color = Color.valueOf("88d9eb");
+                color2 = Color.white;
+                alpha = 0.25f;
+                y = 27/4f;
+                x = -37/4f;
+                particleRad = 3f;
+                particleSize = 7f;
+                particleLife = 120f;
+                particles = 8;
+            }},new DrawSoftParticles(){{
+                alpha = 0.35f;
+                particleRad = 5f;
+                x = 32/4f;
+                particleSize = 9f;
+                particleLife = 120f;
+                particles = 15;
+            }},new DrawSoftParticles(){{
+                color = Color.valueOf("88d9eb");
+                color2 = Color.white;
+                alpha = 0.25f;
+                x = 32/4f;
+                particleRad = 3f;
+                particleSize = 7f;
+                particleLife = 120f;
+                particles = 8;
+            }}, new DrawDefault(), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.5f;
+                color = Color.valueOf("f5c5aa");
+            }});
         }};
         steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
             requirements(Category.crafting, with( steel, 500, ferrosilicon, 250, metaglass, 1000));
@@ -1038,7 +1232,7 @@ public class AquaCrafters {
             updateEffect = Fx.steamCoolSmoke;
             squareSprite = false;
             consumeLiquids(LiquidStack.with(petroleum, 225 / 60f, haze, 125));
-            outputLiquid = new LiquidStack(ethylene, 2);
+            outputLiquid = new LiquidStack(methane, 2);
             outputItems = ItemStack.with(brimstone, 3);
             liquidCapacity = 300;
             itemCapacity = 60;
@@ -1056,10 +1250,10 @@ public class AquaCrafters {
             researchCostMultiplier = 0.1f;
             consumeLiquid(petroleum, 450/60f);
             outputItem = new ItemStack(brimstone, 30);
-            outputLiquid = new LiquidStack(ethylene, 150/60f);
+            outputLiquid = new LiquidStack(methane, 150/60f);
             liquidCapacity = 900;
             itemCapacity = 120;
-            size = 4;
+            size = 5;
             squareSprite = false;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion());
         }};

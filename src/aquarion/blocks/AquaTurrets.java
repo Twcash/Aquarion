@@ -136,7 +136,7 @@ public class AquaTurrets {
                 consumeCoolant(10/60f);
             }};
         vector = new ItemTurret("vector"){{
-            requirements(Category.turret, with(AquaItems.nickel, 85, silicon, 60, copper, 50, metaglass, 40));
+            requirements(Category.turret, with(AquaItems.cupronickel, 85, silicon, 120, metaglass, 80));
             health = 700;
             size = 3;
             squareSprite = false;
@@ -154,8 +154,8 @@ public class AquaTurrets {
             recoils = 4;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             ammo(
-                    copper, new BasicBulletType(){{
-                        damage = 40;
+                    AquaItems.cupronickel, new BasicBulletType(){{
+                        damage = 70;
                         ammoMultiplier = 2;
                         height= 15;
                         speed = 20f;
@@ -166,13 +166,13 @@ public class AquaTurrets {
                         trailInterp = Interp.slope;
                         smokeEffect = Fx.shootSmokeSquareBig;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        knockback = 4f;
+                        knockback = 2f;
                         frontColor = AquaPal.redDecal1;
                         backColor = AquaPal.redDecal1Dark;
                     }},
                     metaglass, new BasicBulletType(){{
                         damage = 45;
-                        ammoMultiplier = 3;
+                        ammoMultiplier = 4;
                         height= 15;
                         speed = 16f;
                         width = 24;

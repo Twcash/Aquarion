@@ -32,6 +32,7 @@ public class AquaSounds {
         start3 = loadSound("start3");
         start4 = loadSound("start4");
         start5 = loadSound("start5");
+        derrick = loadSound("derrick");
         waterRumble = loadSound("waterRumble");
         waterAir = loadSound("waterAir");
         engine = loadSound("engine");

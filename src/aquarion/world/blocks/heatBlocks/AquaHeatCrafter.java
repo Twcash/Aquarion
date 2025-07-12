@@ -95,11 +95,6 @@ public class AquaHeatCrafter extends GenericCrafter {
         }
 
         @Override
-        public float warmupTarget() {
-            return Mathf.clamp(heat / heatRequirement);
-        }
-
-        @Override
         public float efficiencyScale() {
             float eff = 0;
             if (flipHeatScale) {

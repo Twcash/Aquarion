@@ -23,6 +23,8 @@ import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
+import static aquarion.AquaAttributes.fertility;
+import static aquarion.AquaAttributes.iron;
 import static aquarion.AquaItems.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.*;
@@ -89,23 +91,31 @@ public class AquaEnv {
         }};
         coral_floor = new Floor("coral-floor", 4) {{
         }};
+        ferricStone.attributes.set(iron, 0.8f);
         ferric_extrusions = new Floor("ferric-extrusions", 2) {{
+            attributes.set(iron, 1.5f);
         }};
         feldsparRubble = new TiledFloor("feldspar-rubble"){{
             tilingVariants = 2;
             tilingSize = 4;
+            attributes.set(iron, 2f);
         }};
         feldsparPebbles = new OverlayFloor("feldspar-pebbles") {{
             variants = 4;
         }};
         roughFeldspar = new Floor("rough-feldspar", 4) {{
             wall = feldsparWall;
+            attributes.set(iron, 0.75f);
         }};
         feldspar = new Floor("feldspar-floor", 5) {{
             wall = feldsparWall;
+            attributes.set(iron, 1f);
+
         }};
         smoothFeldspar = new Floor("smooth-feldspar", 6) {{
             wall = feldsparWall;
+            attributes.set(iron, 1.3f);
+
         }};
 
 
@@ -316,8 +326,11 @@ public class AquaEnv {
         chertPlates = new Floor("chert-plates", 4) {{
         }};
         brecciaFloor = new Floor("breccia-floor", 4) {{
+            attributes.set(iron, 0.25f);
         }};
+        sporeMoss.attributes.set(fertility, 0.75f);
         smoothBrecciaFloor = new Floor("smooth-breccia-floor", 4) {{
+            attributes.set(iron, 0.5f);
         }};
         leafLitter = new Floor("leaf-litter", 3) {{
         }};
@@ -379,6 +392,7 @@ public class AquaEnv {
 
         feldsparWall = new StaticWall("feldspar-wall") {{
             variants = 3;
+            attributes.set(iron, 1);
         }};
         redCoralWall = new StaticWall("red-coral-wall") {{
             variants = 3;

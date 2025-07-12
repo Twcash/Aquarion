@@ -15,7 +15,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid argon, muriaticAcid, halideWater, air, haze, ethylene, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
+    public static Liquid argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
 
     public static void loadContent() {
 
@@ -24,7 +24,7 @@ public class AquaLiquids {
             viscosity = 0.8f;
             explosiveness = 0.1f;
             effect = slow;
-            canStayOn.addAll(water, petroleum, halideWater, ethylene);
+            canStayOn.addAll(water, petroleum, halideWater);
         }};
 
         helium = new Liquid("helium", Color.valueOf("#ff8080")) {{
@@ -113,14 +113,16 @@ public class AquaLiquids {
             particleSpacing = 30;
             particleEffect = Fx.coalSmeltsmoke;
             gasColor = Color.black;
-            canStayOn.addAll(ethylene, water, halideWater, hydroxide, cryofluid, oil);
+            canStayOn.addAll( water, halideWater, hydroxide, cryofluid, oil);
         }};
-        ethylene = new Liquid("ethylene", Color.valueOf("edf2de")){{
+        methane = new Liquid("methane", Color.valueOf("e3428f")){{
             coolant = false;
-            effect = slow;
+            effect = corroding;
+            gas = true;
             viscosity = 0.1f;
+            flammability = 1.1f;
+            explosiveness = 0.1f;
             boilPoint = 0.1f;
-            gasColor = Pal.redderDust;
             canStayOn.add(water);
         }};
         haze = new Liquid("haze", Color.valueOf("ffffff")){{
@@ -140,7 +142,7 @@ public class AquaLiquids {
             boilPoint = 0.5f;
             gasColor = Color.grays(0.9f);
             alwaysUnlocked = true;
-            canStayOn.addAll(cryofluid, ethylene);
+            canStayOn.addAll(cryofluid);
         }};
         muriaticAcid = new AquaLiquid("muriatic-acid", Color.valueOf("faf3a0")){{
             acidity = 1.1f;
