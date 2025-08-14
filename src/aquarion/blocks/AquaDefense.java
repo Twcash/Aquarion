@@ -3,7 +3,6 @@ package aquarion.blocks;
 import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.blocks.defense.BarricadeAbsorb;
 import aquarion.world.graphics.AquaPal;
-import arc.graphics.Color;
 import mindustry.content.Fx;
 import mindustry.content.Planets;
 import mindustry.entities.bullet.BasicBulletType;
@@ -12,11 +11,9 @@ import mindustry.entities.effect.ExplosionEffect;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.world.Block;
-import mindustry.world.blocks.defense.Wall;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.haze;
 import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
@@ -26,9 +23,7 @@ public class AquaDefense {
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
-    public static void loadContent() {
-        //TODO balance walls
-
+    public static void loadContent(){
         bauxiteWall = new AquaWall("bauxite-wall") {{
             requirements(Category.defense, with(bauxite, 24));
             health = 1000;
@@ -56,11 +51,11 @@ public class AquaDefense {
             armor = 12;
             destroyBulletSameTeam = true;
             destroyBullet = new EmptyBulletType(){{
-                fragBullets = 16;
-                fragBullet = new BasicBulletType(10, 120, "aquarion-bolt"){{
-                    lifetime = 5;
+                fragBullets = 24;
+                fragBullet = new BasicBulletType(10, 90, "aquarion-bolt"){{
+                    lifetime = 15;
                     pierce = true;
-                    knockback = 5;
+                    knockback = 15;
                     width = height = 12;
                     trailLength = 12;
                     despawnEffect = Fx.hitSquaresColor;

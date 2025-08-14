@@ -3,27 +3,22 @@ package aquarion.world.graphics;
 import arc.*;
 import arc.files.*;
 import arc.graphics.*;
-import arc.graphics.Texture.*;
 import arc.graphics.gl.*;
-import arc.math.geom.Vec2;
 import arc.math.geom.Vec3;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.graphics.*;
 import mindustry.type.Planet;
 
-import static aquarion.world.graphics.AquaShaders.ExtendedSurfaceShader.replaceShader;
 import static arc.Core.assets;
 import static mindustry.Vars.*;
-import static mindustry.graphics.Shaders.getShaderFi;
-import static mindustry.graphics.Shaders.water;
 
 
 public class AquaShaders {
     public static PlanetShader planet;
 
-    public static @Nullable SurfaceShader brine, shadow;
-    public static CacheLayer.ShaderLayer brineLayer, shadowLayer;
+    public static @Nullable SurfaceShader brine, shadow, heat, heatDistort;
+    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, heatDistortLayer;
     public static Fi file(String name){
         return Core.files.internal("shaders/" + name);
     }
@@ -35,11 +30,11 @@ public static void init(){
     planet = new PlanetShader();
         brine = new SurfaceShader("brine");
         shadow = new SurfaceShader("shadow");
-
+        heat = new SurfaceShader("heat");
         shadowLayer = new CacheLayer.ShaderLayer(shadow);
         brineLayer = new CacheLayer.ShaderLayer(brine);
+        heatLayer = new CacheLayer.ShaderLayer(heat);
         CacheLayer.addLast(brineLayer);
-        CacheLayer.add(25, shadowLayer);
     }
 
     public static void dispose(){
@@ -71,6 +66,30 @@ public static void init(){
                 t.setWrap(Texture.TextureWrap.repeat);
             };
         }
+        public static class FogShader extends Shader{
+            Texture noiseTex;
+
+            public FogShader(String frag){
+                super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/" + frag + ".frag"));
+                loadNoise();
+            }
+
+            public FogShader(String vertRaw, String fragRaw){
+                super(vertRaw, fragRaw);
+                loadNoise();
+            }
+
+            public String textureName(){
+                return "noise";
+            }
+
+            public void loadNoise(){
+                assets.load("sprites/" + textureName() + ".png", Texture.class).loaded = t -> {
+                    t.setFilter(Texture.TextureFilter.linear);
+                    t.setWrap(Texture.TextureWrap.repeat);
+                };
+            }
+            }
         @Override
         public void apply(){
             setUniformf("u_campos", Core.camera.position.x - Core.camera.width / 2, Core.camera.position.y - Core.camera.height / 2);
@@ -289,6 +308,7 @@ public static void init(){
             }
         }
     }
+
     public static class PlanetShader extends Shaders.LoadShader {
         public Vec3 lightDir = new Vec3(1, 1, 1).nor();
         public Color ambientColor = Color.white.cpy();

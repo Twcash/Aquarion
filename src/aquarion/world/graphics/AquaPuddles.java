@@ -1,11 +1,9 @@
 package aquarion.world.graphics;
-import arc.graphics.g2d.Fill;
+
 import arc.math.*;
-import arc.struct.IntMap;
 import arc.util.*;
 import mindustry.*;
 import mindustry.content.*;
-import mindustry.entities.Effect;
 import mindustry.entities.Fires;
 import mindustry.entities.Puddles;
 import mindustry.game.*;
@@ -14,30 +12,29 @@ import mindustry.type.*;
 import mindustry.world.Tile;
 import mindustry.world.meta.*;
 
-import static arc.graphics.g2d.Draw.alpha;
-import static arc.graphics.g2d.Draw.color;
-import static arc.math.Angles.randLenVectors;
 import static mindustry.Vars.*;
 
 
-public class AquaPuddles extends Puddles {
-    private static final IntMap<Puddle> map = new IntMap<>();
-
+public class AquaPuddles extends  Puddles{
     public static final float maxLiquid = 70f;
 
     /** Deposits a Puddle between tile and source. */
+
     public static void deposit(Tile tile, Tile source, Liquid liquid, float amount){
         deposit(tile, source, liquid, amount, true);
     }
 
-    /** Deposits a Puddle at a tile. */
     public static void deposit(Tile tile, Liquid liquid, float amount){
         deposit(tile, tile, liquid, amount, true);
     }
 
     /** Returns the Puddle on the specified tile. May return null. */
-    public static Puddle get(Tile tile){
-        return map.get(tile.pos());
+    public static @Nullable Puddle get(Tile tile){
+        return tile == null ? null : world.tiles.getPuddle(tile.array());
+    }
+
+    public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial){
+        deposit(tile, source, liquid, amount, initial, false);
     }
 
     public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial, boolean cap){
@@ -51,26 +48,23 @@ public class AquaPuddles extends Puddles {
             }
             return;
         }
-        if(Vars.state.rules.hasEnv(Env.underwater) && liquid.viscosity < 0.7f){
-            if(Mathf.chanceDelta(0.16f)&& liquid.temperature < 0.6f){
-                liquid.vaporEffect.at(ax, ay, liquid.gasColor);
-            }
-            return;
-        }
-        if(Vars.state.rules.hasEnv(Env.underwater) && liquid.temperature > 0.6f) {
-            if (Mathf.chanceDelta(0.16f)) {
-                Fx.steam.at(ax, ay, liquid.gasColor);
-                Fx.ballfire.at(ax, ay, liquid.gasColor);
-            }
-            return;
-        }
+
         if(Vars.state.rules.hasEnv(Env.space)){
             if(Mathf.chanceDelta(0.11f) && tile != source){
                 Bullets.spaceLiquid.create(null, source.team(), ax, ay, source.angleTo(tile) + Mathf.range(50f), -1f, Mathf.random(0f, 0.2f), Mathf.random(0.6f, 1f), liquid);
             }
             return;
+        } else if (Vars.state.rules.hasEnv(Env.underwater) && liquid.viscosity < 0.6f && liquid.temperature <0.9f){
+            if(Mathf.chanceDelta(0.16f)){
+                liquid.vaporEffect.at(ax, ay, liquid.color);
+            }
+            return;
+        } else if (Vars.state.rules.hasEnv(Env.underwater) && liquid.temperature >= 0.9f){
+            if(Mathf.chanceDelta(0.16f)){
+                Fx.fire.at(ax, ay, liquid.color);
+            }
+            return;
         }
-
 
         if(tile.floor().isLiquid && !canStayOn(liquid, tile.floor().liquidDrop)){
             reactPuddle(tile.floor().liquidDrop, liquid, amount, tile, ax, ay);
@@ -79,6 +73,7 @@ public class AquaPuddles extends Puddles {
 
             if(initial && p != null && p.lastRipple <= Time.time - 40f){
                 Fx.ripple.at(ax, ay, 1f, tile.floor().liquidDrop.color);
+
                 p.lastRipple = Time.time;
             }
             return;
@@ -116,7 +111,6 @@ public class AquaPuddles extends Puddles {
         }
     }
 
-
     public static boolean hasLiquid(Tile tile, Liquid liquid){
         if(tile == null) return false;
         var p = get(tile);
@@ -130,7 +124,7 @@ public class AquaPuddles extends Puddles {
     }
 
     public static void register(Puddle puddle){
-        world.tiles.setPuddle(puddle.tile().array(), puddle);
+        world.tiles.setPuddle(puddle.tile.array(), puddle);
     }
 
     /** Reacts two liquids together at a location. */

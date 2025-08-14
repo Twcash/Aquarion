@@ -43,12 +43,12 @@ public class CoradumPlanetGenerator extends PlanetGenerator{
     }
 
     @Override
-    public Color getColor(Vec3 position){
+    public void getColor(Vec3 position, Color out){
         Block block = getBlock(position);
         if(block == Blocks.crystallineStone) block = Blocks.slag;
         if(block == Blocks.crystalFloor) block = Blocks.slag;
 
-        return Tmp.c1.set(block.mapColor).a(1f - block.albedo);
+        out.set(block.mapColor).a(1f - block.albedo);
     }
 
     @Override

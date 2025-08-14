@@ -1,20 +1,15 @@
 package aquarion.blocks;
 
-import aquarion.AquaLiquids;
 import aquarion.AquaSounds;
-import aquarion.world.blocks.heatBlocks.AquaheatMover;
 import aquarion.world.blocks.heatBlocks.CoolingBlock;
 import aquarion.world.blocks.power.*;
 import aquarion.world.graphics.AquaFx;
-import aquarion.world.graphics.DrawBetterRegion;
+import aquarion.world.graphics.drawers.DrawBetterRegion;
 
 import arc.graphics.Color;
-import arc.math.Interp;
 import mindustry.content.Fx;
 import mindustry.content.Items;
-import mindustry.content.Liquids;
 import mindustry.entities.effect.MultiEffect;
-import mindustry.entities.effect.ParticleEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.*;
 import mindustry.world.Block;
@@ -26,7 +21,8 @@ import mindustry.world.meta.*;
 
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.*;
-import static arc.math.Interp.pow3Out;
+import static aquarion.world.graphics.Renderer.Layer.heat;
+import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.slag;
 import static mindustry.content.Liquids.water;
@@ -46,17 +42,23 @@ public class AquaPower {
             baseExplosiveness = 1;//funny
             alwaysUnlocked = true;
             envDisabled |= Env.underwater;
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault(), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.4f;
+                color = Color.valueOf("f5c5aa");
+            }});
         }};
         hydroxideReactor = new ConsumeGenerator("hydroxide-reactor"){{
             requirements(Category.power, with(ferricMatter, 200, aluminum, 250, silicon, 1200, copper, 500));
-            powerProduction = 4500/60f;
+            powerProduction = 2500/60f;
             size = 7;
             squareSprite = false;
             researchCostMultiplier = 0.1f;
             liquidCapacity = 1200;
             ambientSound = AquaSounds.derrick;
             ambientSoundVolume = 0.06f;
-            consumeLiquids(LiquidStack.with(hydroxide, 0.5f, water, 120/60f));
+            consumeLiquids(LiquidStack.with(hydroxide, 500/60f, water, 250/60f));
             insulated = true;
             generateEffectRange = 7*8/2f;
             generateEffect = new MultiEffect(
@@ -64,7 +66,7 @@ public class AquaPower {
                     Fx.mineSmall,
                     AquaFx.hydroxideReactorGenerate
             );
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(hydroxide){{
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawRegion("-bottom"), new DrawLiquidTile(hydroxide){{
                 alpha = 0.8f;
                 padTop = 6;
                 padLeft = padBottom = padRight = 4;
@@ -73,16 +75,19 @@ public class AquaPower {
                 padBottom = 6;
                 padLeft = padTop = padRight = 4;
             }}, new DrawDefault(), new DrawGlowRegion(){{
+                layer = heat;
                 glowIntensity = 0.7f;
                 glowScale = 9;
                 alpha = 0.4f;
                 color = Color.valueOf("f5c5aa");
             }},new DrawGlowRegion("-glow1"){{
+                layer = heat;
                 glowIntensity = 0.9f;
                 glowScale = 8;
                 alpha = 0.3f;
                 color = Color.valueOf("f5c5aa");
             }},new DrawGlowRegion("-glow2"){{
+                layer = heat;
                 glowIntensity = 0.6f;
                 glowScale = 10;
                 alpha = 0.5f;
@@ -96,9 +101,9 @@ public class AquaPower {
             squareSprite = false;
             liquidCapacity = 2000;
             insulated = true;
-            powerProduction = 110;
-            consumeLiquid(haze, 2000/60f);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawBlurSpin("-fan", 6), new DrawBlurSpin("-fan", 4), new DrawBlurSpin("-fan", 2), new DrawLiquidTile(haze, 7){{
+            powerProduction = 12500/60f;
+            consumeLiquid(haze, 4000/60f);
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawRegion("-bottom"), new DrawBlurSpin("-fan", 6), new DrawBlurSpin("-fan", 4), new DrawBlurSpin("-fan", 2), new DrawLiquidTile(haze, 7){{
                 alpha =0.6f;
             }}, new DrawRegion("-bars"){{
                 rotateSpeed = 2;
@@ -142,7 +147,7 @@ public class AquaPower {
                     Fx.steam,
                     Fx.mineSmall
             );
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2), new DrawRegion("-cookie"),
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2), new DrawRegion("-cookie"),
                     //sigh
                     new DrawBetterRegion("-coil"){{
                         spinSprite = true;
@@ -258,6 +263,7 @@ public class AquaPower {
             requirements(Category.power, with(copper, 90, silicon, 200, ferrosilicon, 50));
             rotate = true;
             size = 2;
+            powerProduction = 400/60f;
             rotateDraw = false;
             drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
         }};
@@ -266,7 +272,7 @@ public class AquaPower {
             size = 4;
             insulated = true;
             consumePowerBuffered(8000);
-            drawer = new DrawDefault();
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault());
         }};
         ionBattery = new Battery("ion-battery"){{
             requirements(Category.power, with(aluminum, 120, arsenic, 200, copper, 100));
@@ -274,7 +280,7 @@ public class AquaPower {
             insulated = true;
             researchCostMultiplier = 0;
             consumePowerBuffered(12000);
-            drawer = new DrawMulti(new DrawDefault(), new DrawGlowRegion(){{
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault(), new DrawGlowRegion(){{
                 glowIntensity = 0.7f;
                 glowScale = 9;
                 alpha = 0.4f;
@@ -295,7 +301,7 @@ public class AquaPower {
             ambientSound = Sounds.hum;
             ambientSoundVolume = 0.06f;
             outputLiquid = new LiquidStack(slag, 10/60f);
-            drawer = new DrawMulti( new DrawDefault(), new DrawGlowRegion(){{
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}}, new DrawDefault(), new DrawGlowRegion(){{
                 glowIntensity = 0.7f;
                 glowScale = 9;
                 alpha = 0.4f;

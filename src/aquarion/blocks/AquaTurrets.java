@@ -3,10 +3,7 @@ package aquarion.blocks;
 import aquarion.AquaItems;
 import aquarion.AquaLiquids;
 import aquarion.AquaStatuses;
-import aquarion.units.uhhShootSummon;
-import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
-import aquarion.world.entities.parts.LightningPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Blending;
@@ -22,11 +19,8 @@ import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
-import mindustry.entities.effect.ParticleEffect;
-import mindustry.entities.effect.WrapEffect;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.EffectSpawnerPart;
-import mindustry.entities.part.FlarePart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
 import mindustry.gen.Sounds;
@@ -35,10 +29,8 @@ import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.type.LiquidStack;
-import mindustry.type.StatusEffect;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.*;
-import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
 
@@ -46,7 +38,6 @@ import static aquarion.AquaItems.*;
 import static aquarion.AquaItems.manganese;
 import static aquarion.AquaLiquids.*;
 import static aquarion.AquaLiquids.fumes;
-import static aquarion.AquaStatuses.corroding;
 import static aquarion.planets.AquaPlanets.*;
 import static aquarion.world.graphics.AquaFx.rand;
 import static aquarion.world.graphics.AquaFx.v;
@@ -433,6 +424,28 @@ public class AquaTurrets {
                         despawnEffect = hitEffect = Fx.hitSquaresColor;
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
+                    }},
+                    AquaItems.cupronickel, new BasicBulletType(5, 25){{
+                        pierce = true;
+                        pierceBuilding = false;
+                        pierceCap = 2;
+                        sprite = "aquarion-bolt";
+                        width = 8;
+                        height = 12f;
+                        shrinkY = 0;
+                        rangeChange = 54;
+                        shrinkX = 0.2f;
+                        trailWidth = 3f;
+                        trailLength = 16;
+                        reloadMultiplier = 2f;
+                        shieldDamageMultiplier = 3;
+                        hitSize = 6;
+                        ammoMultiplier = 3;
+                        frontColor = hitColor = Color.white;
+                        backColor = lightColor = trailColor = copper.color;
+                        despawnEffect = hitEffect = Fx.hitSquaresColor;
+                        shootEffect = Fx.shootBig2;
+                        smokeEffect = Fx.shootSmokeDisperse;
                     }}
             );
             limitRange(1.1f);
@@ -451,7 +464,7 @@ public class AquaTurrets {
             }};
         }};
         refraction = new ContinuousTurret("refraction"){{
-            requirements(Category.turret, with(metaglass, 90, AquaItems.nickel, 120, lead, 100));
+            requirements(Category.turret, with(metaglass, 90, AquaItems.cupronickel, 120, lead, 100));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             shootType = new PointLaserBulletType(){{
@@ -721,7 +734,7 @@ public class AquaTurrets {
             envDisabled = Env.none;
         }};
         grace = new ItemTurret("grace"){{
-            requirements(Category.turret, with(copper, 150, metaglass, 100, lead, 260));
+            requirements(Category.turret, with(AquaItems.cupronickel, 150, metaglass, 100, lead, 260));
             size = 3;
             shootSound = shootBig;
             researchCostMultiplier = 0.1f;

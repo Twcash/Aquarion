@@ -316,6 +316,7 @@ public class TantrosTechTree {
                     node(SolidBoiler, Seq.with(), () -> {});
                 });
                 node(AnnealingOven, () -> {
+                    node(cupronickelAlloyer, () -> {});
                     node(SolidBoiler, Seq.with(
                             new Objectives.SectorComplete(twinPass)
                     ), () -> {

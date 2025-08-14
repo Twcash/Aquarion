@@ -26,9 +26,9 @@ import mindustry.world.meta.Attribute;
 import static aquarion.AquaAttributes.fertility;
 import static aquarion.AquaAttributes.iron;
 import static aquarion.AquaItems.*;
+import static aquarion.AquaItems.salt;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.*;
-import static mindustry.content.Items.copper;
 import static mindustry.type.ItemStack.with;
 import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
@@ -117,7 +117,7 @@ public class AquaEnv {
             attributes.set(iron, 1.3f);
 
         }};
-
+        Blocks.salt.itemDrop = salt;
 
         andesiteLayers = new Floor("andesite-layers", 4){{
             wall = daciteWall;

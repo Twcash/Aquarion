@@ -1,23 +1,16 @@
 package aquarion.planets;
 
-import aquarion.AquaItems;
 import aquarion.blocks.AquaCore;
-import aquarion.world.AquaTeams;
 import arc.graphics.Color;
-import arc.math.geom.Vec3;
-import mindustry.content.Items;
+import mindustry.Vars;
 import mindustry.game.Team;
 import mindustry.graphics.Pal;
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
 import mindustry.graphics.g3d.MultiMesh;
 import mindustry.graphics.g3d.SunMesh;
-import mindustry.maps.planet.SerpuloPlanetGenerator;
 import mindustry.type.Planet;
 import mindustry.world.meta.Env;
-
-import static aquarion.AquaItems.*;
-import static mindustry.content.Items.*;
 
 public class AquaPlanets {
     public static Planet
@@ -78,6 +71,7 @@ public class AquaPlanets {
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
             //for future me
+            //Vars.content.createModContent();
             //Vars.content.planet("aquarion-fakeSerp").allowLaunchToNumbered = true
             ruleSetter = r -> {
                 r.fire = true;
@@ -90,6 +84,10 @@ public class AquaPlanets {
                 r.onlyDepositCore = true;
                 r.deconstructRefundMultiplier = 1.01f;
             };
+            campaignRuleDefaults.fog = false;
+            campaignRuleDefaults.showSpawns = true;
+            campaignRuleDefaults.rtsAI = false;
+            allowCampaignRules = true;
         }};
         qeraltar = new Planet("qeraltar", citun, 0.9f, 2){{
             generator = new QeralterPlanetGen();
@@ -130,11 +128,10 @@ public class AquaPlanets {
             atmosphereRadOut = 1.5f;
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
-
+            allowCampaignRules = true;
             defaultEnv = Env.terrestrial | Env.underwater & ~(Env.groundOil | Env.scorching | Env.spores);
             ruleSetter = r -> {
                 r.fire = false;
-                r.waveTeam = AquaTeams.tendere;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
                 r.coreDestroyClear = true;

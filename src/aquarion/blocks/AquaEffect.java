@@ -2,7 +2,6 @@ package aquarion.blocks;
 
 import aquarion.world.blocks.core.OverdrivePylon;
 import arc.graphics.Color;
-import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.type.Category;
 import mindustry.world.Block;
@@ -15,7 +14,6 @@ import mindustry.world.meta.Env;
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.magma;
 import static aquarion.planets.AquaPlanets.*;
-import static mindustry.content.Items.lead;
 import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 

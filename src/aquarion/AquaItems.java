@@ -11,7 +11,7 @@ import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.*;
 
 public class AquaItems {
-    public static Item serpentine, magnesiumPowder, steel, acuminite, strontium, hexogen, coke, galena, boron, cryolite, caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, manganese, sodium, ceramic;
+    public static Item serpentine, pentlandite, magnesiumPowder, steel, acuminite, strontium, hexogen, coke, galena, boron, cryolite, caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, manganese, sodium, ceramic;
     public static void load() {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
@@ -168,6 +168,10 @@ public class AquaItems {
             explosiveness = 0.8f;
         }};
         serpentine = new Item("serpentine", Color.valueOf("e7e58f")){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            hardness = 2;
+        }};
+        pentlandite = new Item("pentlandite", Color.valueOf("9a948b")){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             hardness = 2;
         }};

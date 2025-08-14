@@ -1,43 +1,32 @@
 package aquarion.blocks;
 
 import aquarion.units.AquaUnitTypes;
-import aquarion.world.blocks.core.QeralterCoreBlock;
-import aquarion.world.blocks.core.SnakeStorageBlock;
 import aquarion.world.blocks.core.TantrosCoreBlock;
 import aquarion.world.blocks.defense.BlockingForceProjector;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
-import aquarion.world.blocks.distribution.DistributionCatalyst;
 
-import arc.graphics.Color;
 import mindustry.content.Planets;
-import mindustry.core.GameState;
-import mindustry.core.World;
-import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
-import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 
 import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.*;
-import static mindustry.content.Liquids.cryofluid;
 import static mindustry.type.ItemStack.with;
 
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.*;
-import static aquarion.units.AquaUnitTypes.*;
 
 
 public class AquaCore {
     public static Block coreAnnex, buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
-            coreEscarpment, corePike, coreExpedite, buildCairn,
-            overdriveCatalyst, forceBarrier;
+            coreEscarpment, corePike, buildCairn, forceBarrier, crate;
 
     public static void loadContent(){
         cache = new StorageBlock("cache") {{
@@ -47,6 +36,17 @@ public class AquaCore {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             squareSprite = false;
             size = 3;
+            researchCostMultiplier = 0.02f;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        crate = new StorageBlock("crate") {{
+            requirements(Category.effect, with(cupronickel, 400, silicon, 1200));
+            itemCapacity = 150;
+            coreMerge = false;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            squareSprite = false;
+            size = 2;
             researchCostMultiplier = 0.02f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;

@@ -8,6 +8,7 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.effect.MultiEffect;
@@ -43,7 +44,6 @@ import static arc.graphics.g2d.Lines.*;
 import static arc.math.Angles.*;
 import static mindustry.Vars.*;
 public class AquaFx {
-    //I tried... I couldnt
     public static final Rand rand = new Rand();
     public static final Vec2 v = new Vec2();
 
@@ -310,7 +310,31 @@ public class AquaFx {
                             );
                         }
                     }),
-            parzilDebrisSmall = new Effect(85, e -> {
+
+    hitCryoSmall = new Effect(14, e -> {
+        color(Pal.techBlue, Color.blue, e.fin());
+        stroke(0.5f + e.fout());
+
+        randLenVectors(e.id, 2, 1f + e.fin() * 15f, e.rotation, 50f, (x, y) -> {
+            float ang = Mathf.angle(x, y);
+            lineAngle(e.x + x, e.y + y, ang, e.fout() * 3 + 1f);
+        });
+    }),
+            shootSmallCryo = new Effect(32f, 80f, e -> {
+                color(Pal.techBlue, Color.blue, Liquids.cryofluid.color, e.fin());
+
+                randLenVectors(e.id, 8, e.finpow() * 60f, e.rotation, 10f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, 0.65f + e.fout() * 1.5f);
+                });
+            }),
+            shootBigCryo = new Effect(42f, 120f, e -> {
+                color(Pal.techBlue, Color.blue, Liquids.cryofluid.color, e.fin());
+
+                randLenVectors(e.id, 12, e.finpow() * 85f, e.rotation, 14f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, 1.23f + e.fout() * 1.5f);
+                });
+            }),
+    parzilDebrisSmall = new Effect(85, e -> {
                 rand.setSeed(e.id);
                 color( Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
 
@@ -338,6 +362,52 @@ public class AquaFx {
                     Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(45) + Interp.pow2In.apply(rand.random(10f, 20f) * e.fout()));
                 }
             }).layer(Layer.debris),
+            PermafrostExplosion = new Effect(30, 500f, b -> {
+                float intensity = 6f;
+                float baseLifetime = 25f + intensity * 15f;
+                b.lifetime = 65f + intensity * 64f;
+
+                color(Pal.techBlue);
+                alpha(0.8f);
+                for(int i = 0; i < 5; i++){
+                    rand.setSeed(b.id*4 + i);
+                    float lenScl = rand.random(0.35f, 1.5f);
+                    int fi = i;
+                    b.scaled(b.lifetime * lenScl, e -> {
+                        randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(3f * intensity), 40f * intensity, (x, y, in, out) -> {
+                            float fout = e.fout(Interp.pow10Out) * rand.random(0.5f, 1f);
+                            float rad = fout * ((1.5f + intensity) * 2.35f);
+
+                            Fill.circle(e.x + x, e.y + y, rad);
+                            Drawf.light(e.x + x, e.y + y, rad * 3.6f, Color.valueOf("8ca9e8"), 0.7f);
+                        });
+                    });
+                }
+
+                b.scaled(baseLifetime, e -> {
+                    Draw.color();
+                    e.scaled(5 + intensity * 2f, i -> {
+                        stroke((3.1f + intensity/5f) * i.fout());
+                        Lines.circle(e.x, e.y, (3f + i.fin() * 14f) * intensity);
+                        Drawf.light(e.x, e.y, i.fin() * 14f * 2f * intensity, Color.white, 0.9f * e.fout());
+                    });
+
+                    color(Color.white, Pal.lighterOrange, e.fin());
+                    stroke((2f * e.fout()));
+
+                    Draw.z(Layer.effect + 0.001f);
+                    randLenVectors(e.id + 1, e.finpow() + 0.001f, (int)(8 * intensity), 30f * intensity, (x, y, in, out) -> {
+                        lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1f + out * 4 * (4f + intensity));
+                        Drawf.light(e.x + x, e.y + y, (out * 4 * (3f + intensity)) * 3.5f, Draw.getColor(), 0.8f);
+                    });
+                });
+            }),
+            liquidSpill = new Effect(20f, e -> {
+                color(e.color);
+                randLenVectors(e.id, 4, 1.5f + e.finpow() * 5f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, 0.8f + e.fin() * 5f);
+                });
+            }),
             azuriteSmelt = new Effect(45, e -> {
                 color(Color.valueOf("9eb8f5"), Color.lightGray, e.fin());
                 randLenVectors(e.id, 4, e.fin() * 5f, (x, y) ->

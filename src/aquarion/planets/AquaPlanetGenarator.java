@@ -43,11 +43,12 @@ public class AquaPlanetGenarator extends PlanetGenerator{
         if (depth + poles> 1.1f) {return Mathf.pow(rawHeight(position), 0.25f) /3.5f;} else return 0;
     }
 
+
     @Override
-    public Color getColor(Vec3 position){
+    public void getColor(Vec3 position, Color out){
         float depth = Simplex.noise3d(seed, 2, 0.56, 1.7f, position.x, position.y, position.z) / 2f;
-        if (Math.abs(position.y) + depth> 0.98) {return c5.write(out).lerp(c6, Mathf.clamp(Mathf.round(depth, 0.25f))).a(0.6f);} else  if (Math.abs(position.y) + depth> 0.8) {return c3.write(out).lerp(c4, Mathf.clamp(Mathf.round(depth, 0.25f))).a(0.5f);}
-        return c1.write(out).lerp(c2, Mathf.clamp(Mathf.round(depth, 0.15f))).a(0.2f);
+        if (Math.abs(position.y) + depth> 0.98) {out.set(out.lerp(c6, Mathf.clamp(Mathf.round(depth, 0.25f))).a(0.6f));} else  if (Math.abs(position.y) + depth> 0.8) {out.set(out.lerp(c4, Mathf.clamp(Mathf.round(depth, 0.25f))).a(0.5f));}
+        out.set(out.lerp(c2, Mathf.clamp(Mathf.round(depth, 0.15f))).a(0.2f));
     }
 
     @Override
