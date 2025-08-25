@@ -447,8 +447,8 @@ public class AquaCrafters {
                 glowIntensity = 0.3f;
                 glowScale = 6f;
             }});
-            graphiteConcentrator = new AttributeCrafter("graphite-concntrator"){{
-                requirements(Category.production, with( copper, 40, silicon, 80, metaglass, 60));
+            graphiteConcentrator = new AttributeCrafter("graphite-concentrator"){{
+                requirements(Category.production, with( copper, 40, silicon, 80));
                 attribute = metamorphic;
                 craftTime = 120;
                 outputItem = new ItemStack(graphite, 2);
@@ -1177,7 +1177,7 @@ public class AquaCrafters {
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());
         }};
         SilicaOxidator = new GenericCrafter("silicon-oxidator"){{
-            requirements(Category.crafting, with( copper, 300, silicon, 150, metaglass, 200));
+            requirements(Category.crafting, with( copper, 300, graphite, 200, metaglass, 200));
             size = 3;
             squareSprite = false;
             itemCapacity = 60;
@@ -1199,7 +1199,7 @@ public class AquaCrafters {
             }}, new DrawDefault());
         }};
         arcFurnace = new GenericCrafter("arc-furnace"){{
-            requirements(Category.crafting, with( nickel, 250, lead, 500, copper, 120, metaglass, 150));
+            requirements(Category.crafting, with( graphite, 250, copper, 120, metaglass, 150));
             size = 4;
             squareSprite = false;
             craftTime = 300;
@@ -1379,7 +1379,7 @@ public class AquaCrafters {
         }};
         vacuumFreezer = new GenericCrafter("vacuum-freezer"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( copper, 200, aluminum, 500));
+            requirements(Category.crafting, with( copper, 120, aluminum, 420, graphite, 150));
             size = 6;
             researchCostMultiplier = 0.08f;
             squareSprite = false;

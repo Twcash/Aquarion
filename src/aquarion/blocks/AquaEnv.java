@@ -23,9 +23,9 @@ import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
-import static aquarion.AquaAttributes.fertility;
-import static aquarion.AquaAttributes.iron;
+import static aquarion.AquaAttributes.*;
 import static aquarion.AquaItems.*;
+import static aquarion.AquaItems.bauxite;
 import static aquarion.AquaItems.salt;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.*;
@@ -300,42 +300,53 @@ public class AquaEnv {
 
         phylite_floor = new Floor("phylite-floor", 2) {{
             wall = shaleWall;
+            attributes.set(metamorphic, 1f);
+
         }};
         slate = new Floor("slate", 3) {{
             wall = shaleWall;
+            attributes.set(metamorphic, 1f);
         }};
         basaltSpikes = new Floor("basalt-spikes", 4) {{
             wall = duneWall;
+            attributes.set(metamorphic, 0.7f);
         }};
         basaltPlates = new TiledFloor("basalt-plates"){{
             tilingVariants = 2;
             tilingSize = 4;
+            attributes.set(metamorphic, 0.7f);
         }};
         andesiteExtrusions = new TallBlock("andesite-extrusions"){{
             variants = 2;
             clipSize = 128f;
             shadowAlpha = 0.5f;
             shadowOffset = -2.5f;
+            attributes.set(metamorphic, 0.2f);
         }};
         arsenideFloor = new Floor("arsenide-floor", 4) {{
         }};
         arsenideLayers = new Floor("arsenide-layers", 4) {{
         }};
         chertFloor = new Floor("chert-floor", 4) {{
+            attributes.set(metamorphic, 0.2f);
         }};
         chertPlates = new Floor("chert-plates", 4) {{
+            attributes.set(metamorphic, 0.2f);
         }};
         brecciaFloor = new Floor("breccia-floor", 4) {{
             attributes.set(iron, 0.25f);
+            attributes.set(metamorphic, 0.1f);
         }};
         sporeMoss.attributes.set(fertility, 0.75f);
+        basalt.attributes.set(metamorphic, 0.5f);
+        darksand.attributes.set(metamorphic, 0.5f);
         smoothBrecciaFloor = new Floor("smooth-breccia-floor", 4) {{
             attributes.set(iron, 0.5f);
+            attributes.set(metamorphic, 0.2f);
         }};
         leafLitter = new Floor("leaf-litter", 3) {{
         }};
-
-        oreBauxite = new OreBlock("ore-bauxite", bauxite);
+        oreBauxite= new OreBlock("ore-bauxite", AquaItems.bauxite);
         oreGallium= new OreBlock("ore-gallium", AquaItems.gallium);
         oreNickel = new OreBlock("ore-nickel", nickel);
         oreLithium= new OreBlock("ore-lithium", AquaItems.lithium);
@@ -371,17 +382,6 @@ public class AquaEnv {
             variants = 3;
         }};
 
-        // Walls & blocks
-        bauxiticWall = new StaticWall("bauxitic-wall"){{
-            variants = 3;
-            itemDrop = bauxite;
-            attributes.set(AquaAttributes.bauxite, 1f);
-        }};
-        exposedGallium = new StaticWall("exposed-gallium-wall"){{
-            variants = 3;
-            itemDrop = gallium;
-            attributes.set(AquaAttributes.gallium, 1f);
-        }};
         ultrafamicWall = new StaticWall("ultrafamic-wall") {{
             variants = 3;
         }};
