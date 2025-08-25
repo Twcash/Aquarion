@@ -2,12 +2,12 @@ package aquarion.blocks;
 
 import aquarion.AquaAttributes;
 import aquarion.AquaSounds;
-import aquarion.world.blocks.heatBlocks.AquaHeatCrafter;
 import aquarion.world.blocks.production.*;
 import aquarion.world.graphics.*;
 
 import aquarion.world.graphics.drawers.*;
 import aquarion.world.graphics.drawers.DrawBetterArcSmelt;
+import aquarion.world.type.AquaGenericCrafter;
 import aquarion.world.type.GroundDrill;
 import arc.graphics.Blending;
 import arc.graphics.Color;
@@ -29,6 +29,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
 import static aquarion.AquaAttributes.iron;
+import static aquarion.AquaAttributes.metamorphic;
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.*;
 import static aquarion.planets.AquaPlanets.*;
@@ -40,7 +41,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer,atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester,galenaCrucible ,DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, FractionalDistillery, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
 
     public static void loadContent() {
         disableVanilla();
@@ -220,7 +221,7 @@ public class AquaCrafters {
                 sides = 1;
             }});
         }};
-        ferroSiliconFoundry = new AquaHeatCrafter("ferrosilicon-foundry") {{
+        ferroSiliconFoundry = new AquaGenericCrafter("ferrosilicon-foundry") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( silicon, 900, metaglass, 500, copper, 500, ferricMatter, 500));
             size = 6;
@@ -430,10 +431,9 @@ public class AquaCrafters {
             consumeLiquid(magma, 45/60f);
             consumeItem(azurite, 15);
             itemCapacity = 300;
-            liquidCapacity = 1500f;
             outputItem = new ItemStack(copper, 45);
             outputLiquid = new LiquidStack(hydroxide, 500/60f);
-            liquidCapacity = 250;
+            liquidCapacity = 1500;
             ignoreLiquidFullness = true;
             dumpExtraLiquid = true;
             size = 5;
@@ -447,6 +447,27 @@ public class AquaCrafters {
                 glowIntensity = 0.3f;
                 glowScale = 6f;
             }});
+            graphiteConcentrator = new AttributeCrafter("graphite-concntrator"){{
+                requirements(Category.production, with( copper, 40, silicon, 80, metaglass, 60));
+                attribute = metamorphic;
+                craftTime = 120;
+                outputItem = new ItemStack(graphite, 2);
+                consumeLiquid(water, 20);
+                liquidCapacity = 80;
+                itemCapacity = 18;
+                size = 2;
+                squareSprite = false;
+                consumePower(20/60f);
+                drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new BetterDrawParticles(){{
+                    color = Color.valueOf("50706d");
+                    alpha = 0.1f;
+                    particleSize =  1.5f;
+                    particles = 12;
+                    particleRad = 3f;
+                    particleLife = 160f;
+                    rotateScl = 2f;
+                }}, new DrawDefault());
+            }};
             ferricGrinder = new AttributeCrafter("ferric-macerator"){{
                 requirements(Category.production, with( nickel, 250, copper, 100, silicon, 500, metaglass, 200));
                 size = 6;
@@ -678,8 +699,13 @@ public class AquaCrafters {
             size = 3;
             drillTime= 150;
             liquidBoostIntensity = 1.25f;
-            consumePower(5/60f);
-            consumeLiquid(Liquids.water, 75/60f).boost();
+            consumePower(10/60f);
+            consumeLiquid(Liquids.water, 60/60f).boost();
+            consumeItems(new ItemStack(cupronickel, 2)).boost();
+            itemCapacity = 25;
+            separateItemCapacity = true;
+            ItemBoostUseTime = 6*60;
+            itemBoostIntensity = 1.2f;
             tier = 2;
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawPistons(){{
@@ -721,6 +747,26 @@ public class AquaCrafters {
                 x = -24/4f;
                 layer = Layer.block +4;
             }});
+        }};
+        fluxExcavator = new GroundDrill("flux-excavator"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.production, with( nickel, 70, lead, 50, silicon, 90));
+            size = 9;
+            drillTime = 5500;
+            heatRequirement = 50;
+            overheatScale = 0.75f;
+            maxEfficiency = 10;
+            consumeLiquid(oil, (float) 2000 /60).boost();
+
+            consumeItem(steel, 10).boost();
+            consumePower(2500/60f);
+            itemBoostIntensity = 1.54f;
+            liquidBoostIntensity = 1.54f;
+            itemCapacity = 2500;
+            liquidCapacity = 8000;
+            ItemBoostUseTime = 240;
+            tier = 5;
+            drawer = new DrawDefault();
         }};
         CentrifugalPump = new Pump("centrifugal-pump"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -1040,7 +1086,7 @@ public class AquaCrafters {
                 sides = 1;
             }});
         }};
-        cupronickelAlloyer = new AquaHeatCrafter("cupronickel-alloying-crucible"){{
+        cupronickelAlloyer = new AquaGenericCrafter("cupronickel-alloying-crucible"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( nickel, 700, copper, 400));
             consumePower(150/60f);
@@ -1070,7 +1116,7 @@ public class AquaCrafters {
                 particles = 35;
             }}, new DrawDefault());
         }};
-        AnnealingOven = new AquaHeatCrafter("metaglass-annealing-furnace"){{
+        AnnealingOven = new AquaGenericCrafter("metaglass-annealing-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( lead, 300, copper, 550));
             size = 5;
@@ -1250,7 +1296,7 @@ public class AquaCrafters {
             itemCapacity = 60;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());
         }};
-        desulferizationAssembly = new AquaHeatCrafter("desulferization-assembly"){{
+        desulferizationAssembly = new AquaGenericCrafter("desulferization-assembly"){{
             requirements(Category.crafting, with( metaglass, 250, copper, 500, lead, 1200));
             shownPlanets.addAll(tantros2);
             craftTime = 4*60f;
@@ -1814,7 +1860,7 @@ public class AquaCrafters {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        ultrafamicRefinery = new AquaHeatCrafter("ultrafamic-refinery"){{
+        ultrafamicRefinery = new AquaGenericCrafter("ultrafamic-refinery"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(  silicon, 500, copper, 700, metaglass, 500));
             size = 5;

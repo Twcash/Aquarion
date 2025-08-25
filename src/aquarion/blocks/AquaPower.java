@@ -29,7 +29,7 @@ import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
+    public static Block energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent(){
         solarGenerator = new SolarGenerator("solar-generator"){{
@@ -259,7 +259,7 @@ public class AquaPower {
             regionRotated1 = 1;
             drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
         }};
-        voltageSupplyUnit = new PowerOutlet("voltage-supply-unit"){{
+        voltageSupplyUnit = new PowerOutlet("power-supply-unit"){{
             requirements(Category.power, with(copper, 90, silicon, 200, ferrosilicon, 50));
             rotate = true;
             size = 2;
@@ -283,6 +283,19 @@ public class AquaPower {
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault(), new DrawGlowRegion(){{
                 glowIntensity = 0.7f;
                 glowScale = 9;
+                alpha = 0.4f;
+                color = Color.valueOf("f5c5aa");
+            }});
+        }};
+        energyBank = new Battery("energy-bank"){{
+            requirements(Category.power, with(copper, 30));
+            size = 1;
+            insulated = true;
+            researchCostMultiplier = 0;
+            consumePowerBuffered(250);
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault(), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 3;
                 alpha = 0.4f;
                 color = Color.valueOf("f5c5aa");
             }});

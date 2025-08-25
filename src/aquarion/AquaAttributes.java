@@ -7,12 +7,13 @@ public class AquaAttributes {
             fertility,
             bauxite,
             gallium,
+    metamorphic,
     chromium;
 
     public static void load() {
         bauxite = Attribute.add("bauxite");
         gallium = Attribute.add("gallium");
-        gallium = Attribute.add("gallium");
+        metamorphic = Attribute.add("metamorphic");
         chromium = Attribute.add("chromium");
         iron = Attribute.add("iron");
         fertility = Attribute.add("fertility");

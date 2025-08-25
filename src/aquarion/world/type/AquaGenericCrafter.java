@@ -1,4 +1,7 @@
 package aquarion.world.type;
+import aquarion.world.Uti.AquaStats;
+import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -9,12 +12,16 @@ import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
-import mindustry.logic.*;
-import mindustry.type.*;
-import mindustry.world.*;
+import mindustry.graphics.*;
+import mindustry.world.blocks.heat.HeatConsumer;
 import mindustry.world.blocks.liquid.Conduit.*;
+import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import mindustry.world.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+import mindustry.logic.*;
 
 import static mindustry.Vars.*;
 
@@ -43,7 +50,19 @@ public class AquaGenericCrafter extends AquaBlock{
     public float warmupSpeed = 0.019f;
     /** Only used for legacy cultivator blocks. */
     public boolean legacyReadWarmup = false;
-
+    /**Base heat requirement for 100% efficiency. if put into negatives it will invert*/
+    public float heatRequirement = 10f;
+    /**After heat meets this requirement, excess heat will be scaled by this number.*/
+    public float overheatScale = 0.8f;
+    /**Maximum possible efficiency after overheat.*/
+    public float maxEfficiency = 4f;
+    /** Base heat efficiency*/
+    public float baseEfficiency;
+    /**if you go below the heat req eff goes up*/
+    public boolean flipHeatScale = false;
+    /** Boost intensities for respective item and liquid boosters*/
+    public float liquidBoostIntensity = 1.6f, itemBoostIntensity = 1.5f;
+    
     public DrawBlock drawer = new DrawDefault();
 
     public AquaGenericCrafter(String name){
@@ -73,12 +92,21 @@ public class AquaGenericCrafter extends AquaBlock{
         if(outputLiquids != null){
             stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
         }
+        if(baseEfficiency < 1) {
+            stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
+        } else {
+            stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, maxEfficiency, flipHeatScale));
+        }
+        stats.add(Stat.maxEfficiency, (int) (maxEfficiency * 100f), StatUnit.percent);
+        if(itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni){
+            stats.remove(Stat.booster);
+            stats.add(Stat.booster, AquaStats.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, craftTime));
+        }
     }
 
     @Override
     public void setBars(){
         super.setBars();
-
         //set up liquid bars for liquid outputs
         if(outputLiquids != null && outputLiquids.length > 0){
             //no need for dynamic liquid bar
@@ -88,6 +116,29 @@ public class AquaGenericCrafter extends AquaBlock{
             for(var stack : outputLiquids){
                 addLiquidBar(stack.liquid);
             }
+        }
+        if(heatRequirement > 0 || heatRequirement < 0){
+
+            addBar("efficiency", (AquaGenericCrafter.AquaGenericCrafterBuild entity) ->
+                    new Bar(() ->
+                            Core.bundle.format("bar.heatpercent",
+                                    (int)(entity.heat + 0.01f),
+                                    (int)(entity.efficiencyScale() * 100 + 0.01f)),
+                            () -> {
+                                float max = heatRequirement * 5f;
+                                float heat = entity.heat;
+
+                                if(heat < 0f){
+                                    float t = Mathf.clamp(1f + heat / max);
+                                    return Tmp.c1.set(Color.black).lerp(Pal.techBlue, t);
+                                }else{
+                                    float t = Mathf.clamp(heat / max);
+                                    return Tmp.c1.set(Pal.lightOrange).lerp(Color.white, t);
+                                }
+                            },
+                            () -> Mathf.clamp(Math.abs(entity.heat) / Math.abs(heatRequirement) + entity.efficiency)
+                    )
+            );
         }
     }
 
@@ -170,10 +221,12 @@ public class AquaGenericCrafter extends AquaBlock{
         }
     }
 
-    public class AquaGenericCrafterBuild extends Building{
+    public class AquaGenericCrafterBuild extends Building implements HeatConsumer {
         public float progress;
         public float totalProgress;
         public float warmup;
+        public float[] sideHeat = new float[4];
+        public float heat = 0f;
 
         @Override
         public void draw(){
@@ -219,33 +272,39 @@ public class AquaGenericCrafter extends AquaBlock{
 
         @Override
         public void updateTile(){
+            heat = calculateHeat(sideHeat);
+
             if(efficiency > 0){
-
+                // calculate boosters
+                float liquidEff = 0f, itemEff = 0f;
+                Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
+                if(liquidBooster != null) liquidEff = liquidBooster.efficiency(this);
+                Consume itemBooster = findConsumer(c -> c instanceof ConsumeItems && c.booster);
+                if(itemBooster != null) itemEff = itemBooster.efficiency(this);
+                // actual crafting speed
+                float speed = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
+                        Mathf.lerp(1f, itemBoostIntensity, itemEff) *
+                        efficiency;
+                warmup = Mathf.approachDelta(warmup, speed > 0 ? 1f : 0f, warmupSpeed);
                 progress += getProgressIncrease(craftTime);
-                warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
-
-                //continuously output based on efficiency
-                if(outputLiquids != null){
-                    float inc = getProgressIncrease(1f);
-                    for(var output : outputLiquids){
-                        handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
+                if(outputLiquids != null) {
+                    float inc = getProgressIncrease(speed);
+                    for (var output : outputLiquids) {
+                        handleLiquid(this, output.liquid,
+                                Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
                     }
                 }
-
                 if(wasVisible && Mathf.chanceDelta(updateEffectChance)){
-                    updateEffect.at(x + Mathf.range(size * updateEffectSpread), y + Mathf.range(size * updateEffectSpread));
+                    updateEffect.at(x + Mathf.range(size * updateEffectSpread),
+                            y + Mathf.range(size * updateEffectSpread));
                 }
             }else{
                 warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
             }
-
-            //TODO may look bad, revert to edelta() if so
             totalProgress += warmup * Time.delta;
-
             if(progress >= 1f){
                 craft();
             }
-
             dumpOutputs();
         }
 
@@ -254,8 +313,6 @@ public class AquaGenericCrafter extends AquaBlock{
             if(ignoreLiquidFullness){
                 return super.getProgressIncrease(baseTime);
             }
-
-            //limit progress increase by maximum amount of liquid it can produce
             float scaling = 1f, max = 1f;
             if(outputLiquids != null){
                 max = 0f;
@@ -265,10 +322,9 @@ public class AquaGenericCrafter extends AquaBlock{
                     max = Math.max(max, value);
                 }
             }
-
-            //when dumping excess take the maximum value instead of the minimum.
             return super.getProgressIncrease(baseTime) * (dumpExtraLiquid ? Math.min(max, 1f) : scaling);
         }
+
 
         public float warmupTarget(){
             return 1f;
@@ -339,7 +395,28 @@ public class AquaGenericCrafter extends AquaBlock{
         public boolean shouldAmbientSound(){
             return efficiency > 0;
         }
+        @Override
+        public float efficiencyScale() {
+            float eff;
+            float over = Math.max(heat - heatRequirement, 0f);
+            if (flipHeatScale) {
+                eff = -Math.min((heat / -heatRequirement) + over / -heatRequirement * overheatScale, maxEfficiency);
+                if (eff > 1) eff = Math.min(((eff - 1) * overheatScale) + 1, maxEfficiency);
+            } else {
+                eff = Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) + baseEfficiency;
+            }
+            eff = Math.max(eff, 0);
+            return  eff;
+        }
+        @Override
+        public float heatRequirement() {
+            return heatRequirement;
+        }
 
+        @Override
+        public float[] sideHeat() {
+            return sideHeat;
+        }
         @Override
         public void write(Writes write){
             super.write(write);

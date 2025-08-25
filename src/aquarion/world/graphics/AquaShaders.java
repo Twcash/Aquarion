@@ -17,12 +17,12 @@ import static mindustry.Vars.*;
 public class AquaShaders {
     public static PlanetShader planet;
 
-    public static @Nullable SurfaceShader brine, shadow, heat, heatDistort;
-    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, heatDistortLayer;
+    public static @Nullable SurfaceShader brine, shadow, heat;
+    public static @Nullable GlitchShader glitch;
+    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer;
     public static Fi file(String name){
         return Core.files.internal("shaders/" + name);
     }
-
 
 
 public static void init(){
@@ -31,9 +31,12 @@ public static void init(){
         brine = new SurfaceShader("brine");
         shadow = new SurfaceShader("shadow");
         heat = new SurfaceShader("heat");
+        glitch = new GlitchShader("glitch");
+
         shadowLayer = new CacheLayer.ShaderLayer(shadow);
         brineLayer = new CacheLayer.ShaderLayer(brine);
         heatLayer = new CacheLayer.ShaderLayer(heat);
+    glitchLayer= new CacheLayer.ShaderLayer(glitch);
         CacheLayer.addLast(brineLayer);
     }
 
@@ -206,6 +209,43 @@ public static void init(){
                     newLayer.id = i;
                 }
             }
+        }
+    }
+    public static class GlitchShader extends AquaShaders.SurfaceShader {
+
+        public FrameBuffer prevBuffer; // stores the previous frame
+        private final Shader passthrough;
+
+        public GlitchShader(String frag) {
+            super(frag);
+
+            int w = Core.graphics.getWidth();
+            int h = Core.graphics.getHeight();
+            prevBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
+
+            // Simple passthrough shader to copy texture into prevBuffer
+            passthrough = new Shader(Shaders.getShaderFi("screenspace.vert"), Shaders.getShaderFi("screenspace.frag"));
+        }
+
+        @Override
+        public void apply() {
+            super.apply();
+            setUniformf("u_resolution", Core.camera.width*5, Core.camera.height*5);
+            setUniformf("u_time", Time.time/3.0f);
+            // Bind current frame as texture unit 0
+            renderer.effectBuffer.getTexture().bind(0);
+            setUniformi("u_texture", 0);
+
+            // Bind previous frame as texture unit 1
+            prevBuffer.getTexture().bind(1);
+            setUniformi("u_prevFrame", 1);
+        }
+
+        /** Call this AFTER drawing the frame with glitchShader */
+        public void updatePreviousFrame() {
+            prevBuffer.begin(Color.clear);
+            renderer.effectBuffer.blit(passthrough);
+            prevBuffer.end();
         }
     }
     //Replacing block shaders
