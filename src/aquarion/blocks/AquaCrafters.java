@@ -945,7 +945,7 @@ public class AquaCrafters {
                 particleSize = 6f;
                 particleLife = 45f;
                 particles = 35;
-            }}, new DrawDefault());
+            }}, new DrawDefault(), new DrawHeatInputBitmask());
         }};
         AnnealingOven = new AquaGenericCrafter("metaglass-annealing-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
