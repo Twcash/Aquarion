@@ -96,7 +96,6 @@ public class AquaDefense {
             health = 450*4;
             size = 2;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            alwaysUnlocked = true;
             researchCostMultiplier = 0.1f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -105,7 +104,6 @@ public class AquaDefense {
             requirements(Category.defense, with(cupronickel, 54));
             health = 450*9;
             size = 3;
-            alwaysUnlocked = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.25f;
         }};

@@ -138,7 +138,7 @@ public class ModMusic {
     }
 
     public static void enableCustomMusic() {
-        if (!ModSettings.getModMusOnly()) {
+        if (!ModSettings.getOnlyModMus()) {
             Vars.control.sound.ambientMusic = Seq.with(aquaAmbientMusic).addAll(origAmbientMusic);
             Vars.control.sound.darkMusic = Seq.with(aquaDarkMusic).addAll(origDarkMusic);
             Vars.control.sound.bossMusic = Seq.with(aquaBossMusic).addAll(origBossMusic);

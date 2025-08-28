@@ -6,6 +6,8 @@ import aquarion.world.blocks.power.*;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.drawers.DrawBetterRegion;
 
+import aquarion.world.graphics.drawers.DrawRadialEngine;
+import aquarion.world.graphics.drawers.DrawWheel;
 import arc.graphics.Color;
 import mindustry.content.Fx;
 import mindustry.content.Items;
@@ -21,16 +23,15 @@ import mindustry.world.meta.*;
 
 import static aquarion.AquaItems.*;
 import static aquarion.AquaLiquids.*;
+import static aquarion.world.Uti.Utilities.stupid;
 import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
-import static mindustry.content.Liquids.slag;
-import static mindustry.content.Liquids.water;
+import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
-
+    public static Block heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
     public static void loadContent(){
         solarGenerator = new SolarGenerator("solar-generator"){{
             requirements(Category.power, with(lead, 350, nickel, 200, silicon, 250));
@@ -38,7 +39,7 @@ public class AquaPower {
             insulated = true;
             explosionDamage =640;
             explosionRadius = 5;
-            powerProduction = 175/60f;
+            powerProduction = 175f/60f;
             baseExplosiveness = 1;//funny
             alwaysUnlocked = true;
             envDisabled |= Env.underwater;
@@ -49,16 +50,18 @@ public class AquaPower {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        hydroxideReactor = new ConsumeGenerator("hydroxide-reactor"){{
-            requirements(Category.power, with(ferricMatter, 200, aluminum, 250, silicon, 1200, copper, 500));
-            powerProduction = 2500/60f;
+        hydroxideReactor = new HeaterGenerator("hydroxide-reactor"){{
+            requirements(Category.power, with(ferricMatter, 200, aluminum, 250, silicon, 1200, copper, 500, graphite, 200));
+            powerProduction = 25;
             size = 7;
             squareSprite = false;
+            outputLiquid = new LiquidStack(hydrogen, 2);
+            heatOutput = 35;
             researchCostMultiplier = 0.1f;
             liquidCapacity = 1200;
             ambientSound = AquaSounds.derrick;
             ambientSoundVolume = 0.06f;
-            consumeLiquids(LiquidStack.with(hydroxide, 500/60f, water, 250/60f));
+            consumeLiquids(LiquidStack.with(hydroxide, 8.5, water, 4.25));
             insulated = true;
             generateEffectRange = 7*8/2f;
             generateEffect = new MultiEffect(
@@ -74,7 +77,7 @@ public class AquaPower {
                 alpha = 0.8f;
                 padBottom = 6;
                 padLeft = padTop = padRight = 4;
-            }}, new DrawDefault(), new DrawGlowRegion(){{
+            }}, new DrawDefault(), new DrawHeatOutput(), new DrawGlowRegion(){{
                 layer = heat;
                 glowIntensity = 0.7f;
                 glowScale = 9;
@@ -95,36 +98,102 @@ public class AquaPower {
             }});
         }};
         turbineDynamo = new ConsumeGenerator("turbine-dynamo"){{
-            requirements(Category.power, with(copper, 2000, lead, 500, metaglass, 1000, nickel, 1200));
+            requirements(Category.power, with( lead, 1500, metaglass, 1200, cupronickel, 900, graphite, 250));
             size = 10;
-            researchCostMultiplier = 0.05f;
             squareSprite = false;
+            effectChance = 0.09f;
+            generateEffect = AquaFx.turbineGenerate;
+            generateEffectRange = 12/4f;
             liquidCapacity = 2000;
             insulated = true;
-            powerProduction = 12500/60f;
-            consumeLiquid(haze, 4000/60f);
+            powerProduction = 180;
+            consumeLiquid(haze, 34);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawRegion("-bottom"), new DrawBlurSpin("-fan", 6), new DrawBlurSpin("-fan", 4), new DrawBlurSpin("-fan", 2), new DrawLiquidTile(haze, 7){{
                 alpha =0.6f;
-            }}, new DrawRegion("-bars"){{
-                rotateSpeed = 2;
+            }}, new DrawRegion("-mid"), new DrawRadialEngine(){{
+                radius = 7;
+                rodLength = 20;
+                pistonCount = 6;
+                speed = 0.08f;
+            }}, new DrawRegion("-coggers"){{
+                rotateSpeed = 1.2f;
                 spinSprite = true;
+                x = -70/4f;
+                y = -60/4f;
+            }}, new DrawRegion("-coggers"){{
+                rotateSpeed = 1.2f;
+                spinSprite = true;
+                x = -20/4f;
+                y = 60/4f;
+                rotation = 45;
             }}, new DrawParticles(){{
                 color = Color.gray;
-                alpha = 0.8f;
+                alpha = 0.2f;
                 particleRad = 5*7f;
                 particleSize = 8;
                 poly = true;
                 sides = 8;
-            }}, new DrawParticles(){{
-                color = Color.white;
-                alpha = 0.7f;
-                particleRad = 5*6f;
-                particleSize = 8;
-                poly = true;
-                sides = 8;
-            }}, new DrawDefault(), new DrawRegion("-bars"){{
-                rotateSpeed = -2;
-                spinSprite = true;
+            }}, new DrawWheel(){{
+                width = 63/4f;
+                height = 74/4f;
+                rotation = -45;
+                rotationSpeed = 1.2f;
+                suffix = "-tick";
+                x = -110/4f;
+                y = 110/4f;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }}, new DrawWheel(){{
+                width = 70/4f;
+                height = 60/4f;
+                rotation = -45;
+                rotationSpeed = -1.2f;
+                suffix = "-tick";
+                x = -110/4f;
+                y = 110/4f;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }}, new DrawWheel(){{
+                width = 160/4f;
+                height = 30/4f;
+                rotation = -45;
+                rotationSpeed = 1.3f;
+                suffix = "-tick";
+                x = -60/4f;
+                y = 60/4f;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }}, new DrawWheel(){{
+                width = 90/4f;
+                height = 48/4f;
+                rotation = -45;
+                rotationSpeed = 1.2f;
+                suffix = "-tick";
+                x = -80/4f;
+                y = 80/4f;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }}, new DrawDefault(), new DrawLiquidTile(haze){{
+                padTop = 135/4f;
+                padBottom = 130/4f;
+                padLeft = 130/4f;
+                padRight = 135/4f;
             }}, new DrawRegion("-top"));
         }};
         fumeEngine = new ConsumeGenerator("fume-engine"){{
@@ -133,8 +202,8 @@ public class AquaPower {
             size = 9;
             researchCostMultiplier = 0.05f;
             insulated = true;
-            consumeLiquids(LiquidStack.with(fumes, 20)); //jesus fucking christ;
-            powerProduction = 120; //1 unit of fume = 5 power/s prolly gonna EVER need 2 of these for early to midgame
+            consumeLiquids(LiquidStack.with(fumes, 30));
+            powerProduction = 200;
             liquidCapacity = 5000;
             baseExplosiveness = 10;
             explosionDamage = 2500;
@@ -228,7 +297,7 @@ public class AquaPower {
             }});
         }};
         channel = new HeatConductor("channel"){{
-            requirements(Category.power, with(Items.lead, 5));
+            requirements(Category.power, with(Items.copper, 5));
             size = 2;
         }};
         radiator = new CoolingBlock("radiator"){{
@@ -255,17 +324,31 @@ public class AquaPower {
             requirements(Category.power, with(silicon, 15));
             rotate = true;
             rotateDraw = false;
+            powerProduction = 1;
             alwaysUnlocked = true;
             regionRotated1 = 1;
             drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
         }};
         voltageSupplyUnit = new PowerOutlet("power-supply-unit"){{
-            requirements(Category.power, with(copper, 90, silicon, 200, ferrosilicon, 50));
+            requirements(Category.power, with(copper, 90, silicon, 200, ferrosilicon, 50, graphite, 140));
             rotate = true;
             size = 2;
-            powerProduction = 400/60f;
+            powerProduction =4;
             rotateDraw = false;
             drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
+        }};
+        energyBank = new Battery("energy-bank"){{
+            requirements(Category.power, with(copper, 30));
+            size = 1;
+            insulated = true;
+            researchCostMultiplier = 0;
+            consumePowerBuffered(250);
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault(), new DrawGlowRegion(){{
+                glowIntensity = 0.7f;
+                glowScale = 3;
+                alpha = 0.4f;
+                color = Color.valueOf("f5c5aa");
+            }});
         }};
         capacitorBank = new Battery("capacitor-bank"){{
             requirements(Category.power, with(copper, 50, silicon, 120, lead, 200));
@@ -287,19 +370,7 @@ public class AquaPower {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        energyBank = new Battery("energy-bank"){{
-            requirements(Category.power, with(copper, 30));
-            size = 1;
-            insulated = true;
-            researchCostMultiplier = 0;
-            consumePowerBuffered(250);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault(), new DrawGlowRegion(){{
-                glowIntensity = 0.7f;
-                glowScale = 3;
-                alpha = 0.4f;
-                color = Color.valueOf("f5c5aa");
-            }});
-        }};
+
         heatEngine = new ThermalGenerator("heat-engine"){{
             requirements(Category.power, with(silicon, 220, lead, 200));
             displayEfficiency = false;
@@ -308,12 +379,12 @@ public class AquaPower {
             size = 3;
             squareSprite = false;
             displayEfficiencyScale = 1f / 9f;
-            powerProduction = 400/60f / 9f;
+            powerProduction = 4/9f;
             generateEffect = AquaFx.heatEngineGenerate;
             effectChance = 0.02f;
             ambientSound = Sounds.hum;
             ambientSoundVolume = 0.06f;
-            outputLiquid = new LiquidStack(slag, 10/60f);
+            outputLiquid = new LiquidStack(slag, 0.125f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}}, new DrawDefault(), new DrawGlowRegion(){{
                 glowIntensity = 0.7f;
                 glowScale = 9;
@@ -325,6 +396,11 @@ public class AquaPower {
                 alpha = 0.3f;
                 color = Color.valueOf("f5c5aa");
             }});
+        }};
+        heatExchanger = new VariableReactor("basic-heat-exchanger"){{
+            powerProduction = 300;
+            maxHeat = 1000;
+            drawer = new DrawMulti(new DrawRadialEngine());
         }};
     }
 }

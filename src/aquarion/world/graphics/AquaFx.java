@@ -1,6 +1,7 @@
 package aquarion.world.graphics;
 
 import arc.*;
+import arc.func.Floatc2;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -261,8 +262,34 @@ public class AquaFx {
                         color(Pal.lightOrange, AquaPal.smoke, Interp.pow2In.apply(e.fin()));
                         alpha(Interp.pow2In.apply(e.fout()));
                         randLenVectors(e.id, 4,Interp.pow5In.apply(e.finpow()) * 56f, 32f, 26f, (x, y) ->
-                                Fill.circle(e.x + x, e.y + y, Interp.pow5In.apply(e.finpow()) * 3.5f + 0.1f)
+                                Fill.circle(e.x + x , e.y + y, Interp.pow5In.apply(e.finpow()) * 3.5f + 0.1f)
                         );
+                    }),
+                    boilerSmoke = new Effect(220f, e -> {
+                        for(int i = 0; i < 4; i++){
+                            int f = i;
+                            alpha(e.fout());
+                            color(Pal.lightOrange, Pal.stoneGray, Interp.pow2In.apply(e.fin()));
+                            randLenVectors(e.id+i, 2, Interp.pow5In.apply(e.finpow()) * 66f, 13f, 19f, 1.5f, (x, y) ->
+                                    Fill.circle(e.x + x +24, e.y + y + (16 - (f *8.5f)), Interp.pow2In.apply(e.finpow()) * 4.5f + 0.1f));
+                        }
+                    }),
+
+                    turbineGenerate = new Effect(180f, e -> {
+                        color(Color.white, AquaPal.smoke.a(0.5f), Interp.pow2In.apply(e.fin()));
+                        alpha(Interp.pow2In.apply(e.fout()));
+                        randLenVectors(e.id, 2,Interp.pow5In.apply(e.finpow()) * 80f, 32f, 30f, (x, y) ->
+                        {
+                            Fill.circle(e.x + x + 77 / 4f, e.y + y - 90 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
+                        });
+                        randLenVectors(e.id + 1,  2,Interp.pow5In.apply(e.finpow()) * 80f, 32f, 30f, (x, y) ->
+                        {
+                            Fill.circle(e.x + x+77/4f, e.y + y-72/4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
+                        });
+                        randLenVectors(e.id +2, 2,Interp.pow5In.apply(e.finpow()) * 80f, 32f, 30f, (x, y) ->
+                        {
+                            Fill.circle(e.x + x+77/4f, e.y + y-110/4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
+                        });
                     }),
                     hydroxideReactorGenerate = new Effect(220f, e -> {
                         color(Pal.sap, AquaPal.smoke, Interp.pow2In.apply(e.fin()));
@@ -414,5 +441,14 @@ public class AquaFx {
                     Fill.square(e.x + x, e.y + y, e.fout() + 0.5f, 0)
                 );
             });
+    private static final Vec2 rv = new Vec2();
+    public static void randMinLenVectors(long seed, int amount, float minLength, float maxLength, float angle, float range, float spread, Floatc2 cons) {
+        rand.setSeed(seed);
 
+        for(int i = 0; i < amount; ++i){
+            float len = minLength + rand.random(maxLength - minLength); // ensures len >= minLength
+            rv.trns(angle + rand.range(range), len);
+            cons.get(rv.x + rand.range(spread), rv.y + rand.range(spread));
+        }
+    }
 }

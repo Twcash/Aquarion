@@ -34,7 +34,6 @@ public class AquaDistribution {
             visualSpeed = 35;
             underBullets = true;
             stopSpeed = 70;
-            researchCostMultiplier = 0.25f;
             buildCostMultiplier = 2f;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -45,7 +44,6 @@ public class AquaDistribution {
             speed = 2;
             health = 75;
             solid = true;
-            researchCostMultiplier = 0.25f;
             armored = true;
             visualSpeed = 35;
             underBullets = true;
@@ -59,7 +57,6 @@ public class AquaDistribution {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             alwaysUnlocked = true;
-            researchCostMultiplier = 0.25f;
             speed = 2.1f;
             hasItems = true;
         }};
@@ -72,14 +69,12 @@ public class AquaDistribution {
             size = 2;
             hasItems = true;
             solid = true;
-            researchCostMultiplier = 0.25f;
         }};
         sealedJunction = new Junction("sealed-junction"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             capacity = 8;
             speed = 10;
-            researchCostMultiplier = 0.25f;
             hasItems = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             ((SealedConveyor)sealedConveyor).junctionReplacement = this;
@@ -90,7 +85,6 @@ public class AquaDistribution {
             requirements(Category.distribution, with(aluminum, 40));
             speed = 2f;
             allowCoreUnload = true;
-            researchCostMultiplier = 0.25f;
         }};
         sealedSorter = new Sorter("sealed-sorter"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -99,7 +93,6 @@ public class AquaDistribution {
             envDisabled = Env.none;
             hasItems = true;
             alwaysUnlocked = true;
-            researchCostMultiplier = 0.25f;
 
         }};
         sealedOverflow = new OverflowGate("sealed-overflow"){{
@@ -109,7 +102,6 @@ public class AquaDistribution {
             hasItems = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            researchCostMultiplier = 0.25f;
 
         }};
         sealedUnderflow = new OverflowGate("sealed-underflow"){{
@@ -119,7 +111,6 @@ public class AquaDistribution {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             hasItems = true;
-            researchCostMultiplier = 0.25f;
 
         }};
         cargoDock = new UnitCargoLoader("cargo-dock"){{
@@ -128,8 +119,6 @@ public class AquaDistribution {
             size = 2;
             polySides = 0;
             buildTime = 240;
-
-            researchCostMultiplier = 0.2f;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             unitType = rivulet;
@@ -139,7 +128,6 @@ public class AquaDistribution {
         cargoDepot = new UnitCargoUnloadPoint("cargo-depot"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(aluminum,15));
-            researchCostMultiplier = 0.2f;
             itemCapacity = 120;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -173,7 +161,6 @@ public class AquaDistribution {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             speed = 2f / 60f;
             itemCapacity = 30;
-            researchCostMultiplier = 0;
             drawDisabled = false;
             outputRouter = true;
             hasPower = true;

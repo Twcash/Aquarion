@@ -33,7 +33,6 @@ public class AquaEffect {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            researchCostMultiplier = 0.25f;
             consumePower(40/60f);
         }};
         overdriveTerminus = new OverdriveProjector("overdrive-terminus") {
@@ -49,7 +48,6 @@ public class AquaEffect {
                         phaseColor = Color.valueOf("f6675b");
                         envEnabled |= Env.terrestrial | Env.underwater;
                         envDisabled = Env.none;
-                        researchCostMultiplier = 0.25f;
                         consumePower(1f);
                     }
                 };

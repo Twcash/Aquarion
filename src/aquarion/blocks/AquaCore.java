@@ -1,11 +1,13 @@
 package aquarion.blocks;
 
 import aquarion.units.AquaUnitTypes;
+import aquarion.world.blocks.core.AquaStorageBlock;
 import aquarion.world.blocks.core.TantrosCoreBlock;
 import aquarion.world.blocks.defense.BlockingForceProjector;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
 
+import aquarion.world.graphics.drawers.DrawBetterRegion;
 import mindustry.content.Planets;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
@@ -13,10 +15,13 @@ import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
+import mindustry.world.draw.DrawDefault;
+import mindustry.world.draw.DrawMulti;
 import mindustry.world.meta.Env;
 
 
 import static aquarion.planets.AquaPlanets.*;
+import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
@@ -29,7 +34,7 @@ public class AquaCore {
             coreEscarpment, corePike, buildCairn, forceBarrier, crate;
 
     public static void loadContent(){
-        cache = new StorageBlock("cache") {{
+        cache = new AquaStorageBlock("cache") {{
             requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));
             itemCapacity = 900;
             coreMerge = true;
@@ -39,8 +44,9 @@ public class AquaCore {
             researchCostMultiplier = 0.02f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
         }};
-        crate = new StorageBlock("crate") {{
+        crate = new AquaStorageBlock("crate") {{
             requirements(Category.effect, with(cupronickel, 400, silicon, 1200));
             itemCapacity = 150;
             coreMerge = false;
@@ -50,9 +56,10 @@ public class AquaCore {
             researchCostMultiplier = 0.02f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
         }};
         corePike = new TantrosCoreBlock("core-pike") {{
-            requirements(Category.effect, with( silicon, 2000));
+            requirements(Category.effect, with( silicon, 1500));
             squareSprite = false;
             health = 1500;
             itemCapacity = 8000;
@@ -101,13 +108,13 @@ public class AquaCore {
             buildSpeed = 0.4f;
             range = 145;
             rotateSpeed = 0.85f;
-            consumePower(125/60f);
+            consumePower(1.5f);
         }};
         mendPyre = new RegenPylon("mend-pyre"){{
             requirements(Category.effect, with(lead,40, silicon, 40));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 1;
-            consumeLiquid(magma, 10/60f);
+            consumeLiquid(magma, 0.05f);
             range = 20;
             healPercent = 1.6f;
             squareSprite = false;
@@ -119,8 +126,8 @@ public class AquaCore {
             requirements(Category.effect, with(silicon,60, aluminum, 40));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
-            consumePower(5/60f);
-            consumeLiquid(fumes, 1.25f/60f);
+            consumePower(0.125f);
+            consumeLiquid(fumes, 0.05f);
             range = 30;
             healPercent = 3;
             squareSprite = false;
@@ -128,27 +135,11 @@ public class AquaCore {
             liquidCapacity = 60;
             researchCostMultiplier = 0;
         }};
-        forceBarrier = new BlockingForceProjector("force-barrier"){{
-            requirements(Category.defense, ItemStack.with(lead,80, duralumin, 120, metaglass, 90));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            consumePower(3f / 60f);
-            sides = 18;
-            radius = 120;
-            shieldRotation = 0;
-            outputsPower = false;
-            hasPower = true;
-            consumesPower = true;
-            conductivePower = true;
-            envEnabled|= Env.terrestrial | Env.underwater;
-            envDisabled|= Env.spores | Env.scorching;
-            shieldHealth = 660;
-            size = 5;
-        }};
         buzzSaw = new ChainsawTurret("buzzsaw"){{
             requirements(Category.turret, with(silicon, 250, lead, 300));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 3;
-            consumePower(400/60f);
+            consumePower(4);
             researchCostMultiplier = 0.02f;
             damage = 15;
             range = 180;

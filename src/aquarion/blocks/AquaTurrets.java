@@ -61,7 +61,6 @@ public class AquaTurrets {
     public static void loadContent() {
         //1 by 1 turret that can be boosted hellishly beyond what it should be
         point = new ItemTurret("point"){{
-            researchCostMultiplier = 0;
             requirements(Category.turret, with( silicon, 35f, lead, 50));
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 health = 250;
@@ -83,6 +82,23 @@ public class AquaTurrets {
                             knockback = 0.75f;
                             damage = 15;
                             ammoMultiplier = 2f;
+                            //this thing can shred late game stuff if you do it right
+                            pierceArmor = true;
+                            shootEffect = Fx.shootPyraFlame;
+                            smokeEffect = Fx.shootSmallFlame;
+                            hitEffect = Fx.hitFlameSmall;
+                            despawnEffect = Fx.reactorsmoke;
+                        }},
+                        graphite, new LaserBoltBulletType() {{
+                            frontColor = graphite.color;
+                            backColor = graphite.color;
+                            speed = 25;
+                            lifetime = 9;
+                            reloadMultiplier = 1.2f;
+                            knockback = 0.5f;
+                            damage = 20;
+                            ammoMultiplier = 3f;
+                            rangeChange = 24;
                             //this thing can shred late game stuff if you do it right
                             pierceArmor = true;
                             shootEffect = Fx.shootPyraFlame;
@@ -127,7 +143,7 @@ public class AquaTurrets {
                 consumeCoolant(10/60f);
             }};
         vector = new ItemTurret("vector"){{
-            requirements(Category.turret, with(AquaItems.cupronickel, 85, silicon, 120, metaglass, 80));
+            requirements(Category.turret, with(AquaItems.cupronickel, 85, silicon, 120, metaglass, 80, graphite, 90));
             health = 700;
             size = 3;
             squareSprite = false;
@@ -278,7 +294,7 @@ public class AquaTurrets {
             limitRange(1.2f);
         }};
         sentry = new ItemPointDefenseTurret("sentry"){{
-            requirements(Category.turret, with(metaglass, 85, copper, 60f, silicon, 110));
+            requirements(Category.turret, with(metaglass, 85, copper, 60f, silicon, 80, graphite, 90));
             shootCone = 20;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             outlineColor = tantDarkestTone;
@@ -309,6 +325,7 @@ public class AquaTurrets {
                         backColor = trailColor = Pal.siliconAmmoBack;
                         trailInterp = v -> Math.max(Mathf.slope(v), 0.9f);
                     }},
+
                     copper, new InterceptorBulletType(25, 45f, "aquarion-flechette"){{
                         collidesGround = false;
                         trailLength = 7;
@@ -367,7 +384,7 @@ public class AquaTurrets {
             }};
         }};
         pelt = new ItemTurret("pelt"){{
-            requirements(Category.turret, with(lead, 85, AquaItems.nickel, 50f, silicon, 90));
+            requirements(Category.turret, with(lead, 85, AquaItems.nickel, 50f, silicon, 90, graphite, 50));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 800;
             outlineColor = tantDarkestTone;
@@ -464,7 +481,7 @@ public class AquaTurrets {
             }};
         }};
         refraction = new ContinuousTurret("refraction"){{
-            requirements(Category.turret, with(metaglass, 90, AquaItems.cupronickel, 120, lead, 100));
+            requirements(Category.turret, with(metaglass, 90, AquaItems.cupronickel, 120, lead, 100, graphite, 120));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             shootType = new PointLaserBulletType(){{
@@ -502,7 +519,7 @@ public class AquaTurrets {
             consumePower(150f / 60f);
         }};
         douse = new LiquidTurret("douse"){{
-            requirements(Category.turret, with(metaglass, 90, AquaItems.nickel, 60, copper, 20));
+            requirements(Category.turret, with(metaglass, 90, AquaItems.nickel, 60, copper, 20, graphite, 25));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             liquidCapacity = 90;
@@ -702,7 +719,6 @@ public class AquaTurrets {
                 ammoEjectBack = 2;
                 ammoUseEffect = Fx.casing3;
                 reload = 45;
-                researchCostMultiplier = 0;
                 consumeAmmoOnce = true;
                 maxAmmo = 15;
                 inaccuracy = 3;
@@ -734,10 +750,9 @@ public class AquaTurrets {
             envDisabled = Env.none;
         }};
         grace = new ItemTurret("grace"){{
-            requirements(Category.turret, with(AquaItems.cupronickel, 150, metaglass, 100, lead, 260));
+            requirements(Category.turret, with(AquaItems.cupronickel, 150, metaglass, 100, lead, 260, graphite, 200f));
             size = 3;
             shootSound = shootBig;
-            researchCostMultiplier = 0.1f;
             squareSprite = false;
             consumeCoolant(40/60f);
             coolantMultiplier = 0.3f;
@@ -845,7 +860,6 @@ public class AquaTurrets {
             inaccuracy = 2;
             ammoPerShot = 1;
             outlineColor = tantDarkestTone;
-            researchCostMultiplier = 0.02f;
             recoils = 4;
             shootWarmupSpeed = 0.05f;
             minWarmup = 0.65f;
@@ -1194,7 +1208,6 @@ public class AquaTurrets {
             inaccuracy = 0;
             ammoPerShot = 3;
             outlineColor = tantDarkestTone;
-            researchCostMultiplier = 0.02f;
             shoot.shotDelay = 5;
             recoils = 2;
             shootWarmupSpeed = 0.01f;
@@ -1220,7 +1233,6 @@ public class AquaTurrets {
             consumeCoolant(120/60f);
         }};
         focus = new ItemTurret("focus"){{
-            researchCostMultiplier = 0.1f;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.turret, with(strontium, 250, manganese, 600));
             size = 4;
@@ -1315,7 +1327,6 @@ public class AquaTurrets {
             }};
         }};
         gyre = new ItemTurret("gyre") {{
-            researchCostMultiplier = 0.1f;
             requirements(Category.turret, with(lead, 150, AquaItems.bauxite, 90f, AquaItems.ceramic, 60, AquaItems.chirenium, 30));
             ammo(
                     AquaItems.chirenium, new BasicBulletType(2.5f, 30, "bullet") {{
@@ -1901,7 +1912,6 @@ public class AquaTurrets {
                 shoot.shots = 5;
                 ammoPerShot = 2;
                 inaccuracy = 25;
-                researchCostMultiplier = 0.02f;
                 reload = 2;
                 outlineColor = tantDarkestTone;
                 loopSound = Sounds.bioLoop;

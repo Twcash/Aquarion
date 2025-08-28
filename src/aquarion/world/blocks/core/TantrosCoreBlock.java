@@ -26,7 +26,10 @@ public class TantrosCoreBlock extends CoreBlock {
                 }
             }
         }
-
+        @Override
+        public boolean owns(Building core, Building tile){
+            return tile instanceof AquaStorageBlock.AStorageBuild b && ((AquaStorageBlock)b.block).coreMerge && (b.linkedCore == core || b.linkedCore == null);
+        }
         @Override
         public void handleItem(Building source, Item item) {
             super.handleItem(source, item);

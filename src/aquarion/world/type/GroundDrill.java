@@ -36,8 +36,6 @@ public class GroundDrill extends AquaBlock {
     public boolean hasHeat = false;
     public float baseEfficiency = 1f;
 
-    protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
-    protected final Seq<Item> itemArray = new Seq<>();
     public DrawBlock drawer = new DrawMulti(new DrawDefault());
 
     public int tier;
@@ -59,10 +57,6 @@ public class GroundDrill extends AquaBlock {
 
     public final int timerUse = timers++;
     public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();
-
-    // Multiple item support
-    protected Seq<Item> returnItems = new Seq<>();
-    protected ObjectIntMap<Item> returnCounts = new ObjectIntMap<>();
 
     public GroundDrill(String name) {
         super(name);
@@ -105,17 +99,19 @@ public class GroundDrill extends AquaBlock {
         Tile tile = plan.tile();
         if (tile == null) return;
 
-        countOre(tile);
-        if (returnItems.isEmpty() || !drawMineItem) return;
+        DrillBuild fake = new DrillBuild();
+        fake.tile = tile;
+        countOre(tile, fake);
+        if (fake.returnItems.isEmpty() || !drawMineItem) return;
 
         float r = 0, g = 0, b = 0;
-        for(Item item : returnItems){
+        for(Item item : fake.returnItems){
             Color c = item.color;
             r += c.r;
             g += c.g;
             b += c.b;
         }
-        int count = returnItems.size;
+        int count = fake.returnItems.size;
         Draw.color(r/count, g/count, b/count);
         Draw.rect(itemRegion, plan.drawx(), plan.drawy());
         Draw.color();
@@ -174,16 +170,20 @@ public class GroundDrill extends AquaBlock {
         super.drawPlace(x, y, rotation, valid);
         Tile tile = world.tile(x, y);
         if (tile == null) return;
-        countOre(tile);
+
+        DrillBuild fake = new DrillBuild();
+        fake.tile = tile;
+        countOre(tile, fake);
+
         float baseX = x * tilesize + offset;
         float baseY = y * tilesize + offset;
         float spacing = 12f;
         int i = 0;
-        for (Item item : returnItems) {
+        for (Item item : fake.returnItems) {
             if (item.hardness <= tier) {
                 float width = drawPlaceText(
                         Core.bundle.formatFloat("bar.drillspeed",
-                                60f / getDrillTime(item) * returnCounts.get(item, 0), 2),
+                                60f / getDrillTime(item) * fake.returnCounts.get(item, 0), 2),
                         x, y + (int)(i * spacing / 4f), valid
                 );
                 float dx = baseX - width / 2f - 6f;
@@ -200,12 +200,13 @@ public class GroundDrill extends AquaBlock {
             }
             i++;
         }
-        if (drawMineItem && !returnItems.isEmpty()) {
-            Draw.color(averageItemColor(returnItems));
+        if (drawMineItem && !fake.returnItems.isEmpty()) {
+            Draw.color(averageItemColor(fake.returnItems));
             Draw.rect(itemRegion, baseX, baseY);
             Draw.color();
         }
     }
+
     protected Color averageItemColor(Seq<Item> items){
         if(items.isEmpty()) return Color.white;
 
@@ -254,12 +255,13 @@ public class GroundDrill extends AquaBlock {
         return drawer.finalIcons(this);
     }
 
-    protected void countOre(Tile tile) {
-        returnItems.clear();
-        returnCounts.clear();
+    /** refactored to fill *per-build* item lists */
+    protected void countOre(Tile tile, DrillBuild build) {
+        build.returnItems.clear();
+        build.returnCounts.clear();
 
-        oreCount.clear();
-        itemArray.clear();
+        ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
+        Seq<Item> itemArray = new Seq<>();
 
         for (Tile other : tile.getLinkedTilesAs(this, tempTiles)) {
             if (canMine(other)) {
@@ -280,8 +282,8 @@ public class GroundDrill extends AquaBlock {
         });
 
         for (Item item : itemArray) {
-            returnItems.add(item);
-            returnCounts.put(item, oreCount.get(item, 0));
+            build.returnItems.add(item);
+            build.returnCounts.put(item, oreCount.get(item, 0));
         }
     }
 
@@ -292,6 +294,9 @@ public class GroundDrill extends AquaBlock {
     }
 
     public class DrillBuild extends Building implements HeatConsumer {
+        public Seq<Item> returnItems = new Seq<>();
+        public ObjectIntMap<Item> returnCounts = new ObjectIntMap<>();
+
         public float progress;
         public float totalProgress;
         public float warmup;
@@ -323,12 +328,12 @@ public class GroundDrill extends AquaBlock {
         public void drawSelect() {
             int i = 0;
             for (Item item : returnItems){
-                    float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * item.fullIcon.ratio(), h = iconSmall / 4f;
-                    Draw.mixcol(Color.darkGray, 1f);
-                    Draw.rect(item.fullIcon, dx+(i*5), dy - 1, s, h);
-                    Draw.reset();
-                    Draw.rect(item.fullIcon, dx+(i*5), dy, s, h);
-                    i++;
+                float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * item.fullIcon.ratio(), h = iconSmall / 4f;
+                Draw.mixcol(Color.darkGray, 1f);
+                Draw.rect(item.fullIcon, dx+(i*5), dy - 1, s, h);
+                Draw.reset();
+                Draw.rect(item.fullIcon, dx+(i*5), dy, s, h);
+                i++;
             }
         }
 
@@ -338,7 +343,7 @@ public class GroundDrill extends AquaBlock {
         @Override
         public void onProximityUpdate() {
             super.onProximityUpdate();
-            countOre(tile);
+            countOre(tile, this);
         }
 
         @Override
@@ -353,7 +358,7 @@ public class GroundDrill extends AquaBlock {
 
             for (Item dominantItem : returnItems) {
                 if(timer(timerDump, dumpTime / timeScale)){
-                    dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);
+                    dump(dominantItem);
                 }
                 int curItems = items.get(dominantItem);
                 if (curItems >= itemCapacity) continue;
@@ -420,18 +425,18 @@ public class GroundDrill extends AquaBlock {
             drawDefaultCracks();
 
             Draw.z(Layer.blockAfterCracks);
-                if (drawMineItem) {
-                    float r = 0, g = 0, b = 0;
-                    for(Item itemb : returnItems){
-                        Color c = itemb.color;
-                        r += c.r;
-                        g += c.g;
-                        b += c.b;
-                    }
-                    int count = returnItems.size;
-                    Draw.color(r/count, g/count, b/count);
-                    Draw.rect(itemRegion, x, y);
+            if (drawMineItem) {
+                float r = 0, g = 0, b = 0;
+                for(Item itemb : returnItems){
+                    Color c = itemb.color;
+                    r += c.r;
+                    g += c.g;
+                    b += c.b;
                 }
+                int count = returnItems.size;
+                Draw.color(r/count, g/count, b/count);
+                Draw.rect(itemRegion, x, y);
+            }
             Draw.color();
         }
 

@@ -4,6 +4,7 @@ import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.geom.Geometry;
+import arc.struct.EnumSet;
 import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Nullable;
@@ -17,6 +18,7 @@ import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawMulti;
 import mindustry.world.draw.DrawSideRegion;
+import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatCat;
 
@@ -27,6 +29,7 @@ public class PowerOutlet extends PowerGenerator {
         super(name);
         outputsPower = true;
         hasPower = true;
+        flags = EnumSet.of(BlockFlag.battery);
         insulated = true;
         consumesPower = true;
         powerProduction = 100/60f;

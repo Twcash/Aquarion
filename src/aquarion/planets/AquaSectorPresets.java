@@ -41,6 +41,7 @@ public class AquaSectorPresets {
         twinPass = new AquaSectorPreset("twinPass", fakeSerpulo, 16){{
             addStartingItems = true;
             captureWave = 11;
+            alwaysUnlocked = false;
             difficulty = 2;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
@@ -52,6 +53,7 @@ public class AquaSectorPresets {
             difficulty = 4;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
+            alwaysUnlocked = false;
             startWaveTimeMultiplier = 4f;
         }};
         bay = new AquaSectorPreset("Lagoon", fakeSerpulo, 357){{

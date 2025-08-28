@@ -18,7 +18,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class AquaLiquid {
-    public static Block pipeTank, pipeJunction, liquidVessel, siphonReservoir, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
+    public static Block siphonOverflow, siphonUnderflow, pipeTank, pipeJunction, liquidVessel, siphonReservoir, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
 
     public static void loadContent() {
         siphonBridge = new ModifiedLiquidBridge("siphon-bridge"){{
@@ -40,7 +40,14 @@ public class AquaLiquid {
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            researchCostMultiplier = 0;
+        }};
+        siphonOverflow = new LiquidUnderflow("siphon-overflow"){{
+            requirements(Category.liquid, with(silicon, 15));
+
+        }};
+        siphonUnderflow = new LiquidUnderflow("siphon-underflow"){{
+            requirements(Category.liquid, with(silicon, 15));
+            invert = true;
         }};
         siphon = new ModifiedConduit("siphon") {{
             requirements(Category.liquid, with(silicon, 3));
@@ -58,7 +65,6 @@ public class AquaLiquid {
             //but what if siligone? SOLVEDDD!
             requirements(Category.liquid, with(manganese, 2));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            researchCostMultiplier = 0;
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 120;
@@ -76,7 +82,7 @@ public class AquaLiquid {
             alwaysUnlocked = true;
         }};
         siphonJunction = new ModifiedLiquidJunction("siphon-junction"){{
-            requirements(Category.liquid, with(silicon, 20, lead, 10));
+            requirements(Category.liquid, with(silicon, 35));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
