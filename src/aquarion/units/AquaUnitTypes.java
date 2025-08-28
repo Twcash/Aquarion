@@ -1939,7 +1939,7 @@ public class AquaUnitTypes {
             rotateMoveFirst = true;
             rotateSpeed = 1.5f;
             envDisabled = Env.none;
-            speed = 0.75f;
+            speed = 0.65f;
             crushDamage = 0.002f;
             constructor = TankUnit::create;
             treadRects = new Rect[] {
@@ -1947,8 +1947,8 @@ public class AquaUnitTypes {
             };
             hitSize = 14;
             treadPullOffset = 3;
-            health = 750;
-            armor = 4;
+            health = 320;
+            armor = 2;
             weapons.add(new Weapon("aquarion-missile-weapon") {{
                 rotate = true;
                 x = 0;
@@ -1998,7 +1998,7 @@ public class AquaUnitTypes {
             };
             hitSize = 14;
             treadPullOffset = 3;
-            health = 750;
+            health = 500;
             armor = 4;
             weapons.add(new Weapon("aquarion-small-missiles") {{
                 rotate = true;
@@ -2324,7 +2324,7 @@ public class AquaUnitTypes {
             rotateSpeed = 6;
             engineSize = 2.5f;
             health = 120;
-            armor = 2;
+            armor = 0;
             engineOffset = 6;
             abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f) {{
                 teamColor = true;
@@ -2381,8 +2381,8 @@ public class AquaUnitTypes {
             speed = 1.8f;
             engineSize = 3.5f;
             rotateSpeed = 3.5f;
-            health = 480;
-            armor = 4;
+            health = 320;
+            armor = 2;
             engineOffset = 8;
             abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f) {{
                 teamColor = true;

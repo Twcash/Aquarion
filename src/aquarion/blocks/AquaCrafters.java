@@ -247,7 +247,7 @@ public class AquaCrafters {
                 glowScale = 8;
                 alpha = 0.6f;
                 color = Color.valueOf("f5c5aa");
-            }});
+            }}, new DrawHeatInputBitmask());
         }};
         fumeFilter = new AttributeCrafter("fume-filter"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -1063,7 +1063,7 @@ public class AquaCrafters {
                 glowScale = 5f;
                 layer = heat;
                 blending = Blending.additive;
-            }});
+            }}, new DrawHeatInputBitmask());
         }};
         thermalCrackingUnit = new AquaGenericCrafter("thermal-cracking-unit"){{
             requirements(Category.crafting, with( copper, 250, silicon, 600, metaglass, 900));
@@ -1085,7 +1085,7 @@ public class AquaCrafters {
             outputItem = new ItemStack(graphite, 3);
             liquidCapacity = 300;
             itemCapacity = 60;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask());
         }};
         SilicaOxidator = new GenericCrafter("silicon-oxidator"){{
             requirements(Category.crafting, with( copper, 300, graphite, 200, metaglass, 200));
@@ -1226,7 +1226,7 @@ public class AquaCrafters {
             itemCapacity = 120;
             size = 5;
             squareSprite = false;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion());
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion(),new DrawHeatInputBitmask());
         }};
         inlet = new AquaGenericCrafter("inlet"){{
             requirements(Category.production, with( copper, 45));
