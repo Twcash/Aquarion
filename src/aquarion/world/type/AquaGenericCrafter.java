@@ -42,6 +42,7 @@ public class AquaGenericCrafter extends AquaBlock{
     public boolean dumpExtraLiquid = true;
     public boolean ignoreLiquidFullness = false;
 
+    public boolean hasHeat = false;
     public float craftTime = 80;
     public Effect craftEffect = Fx.none;
     public Effect updateEffect = Fx.none;
@@ -51,13 +52,13 @@ public class AquaGenericCrafter extends AquaBlock{
     /** Only used for legacy cultivator blocks. */
     public boolean legacyReadWarmup = false;
     /**Base heat requirement for 100% efficiency. if put into negatives it will invert*/
-    public float heatRequirement = 10f;
+    public float heatRequirement = 0f;
     /**After heat meets this requirement, excess heat will be scaled by this number.*/
     public float overheatScale = 0.8f;
     /**Maximum possible efficiency after overheat.*/
-    public float maxEfficiency = 4f;
+    public float maxEfficiency = 1f;
     /** Base heat efficiency*/
-    public float baseEfficiency;
+    public float baseEfficiency = 1;
     /**if you go below the heat req eff goes up*/
     public boolean flipHeatScale = false;
     /** Boost intensities for respective item and liquid boosters*/
@@ -107,18 +108,15 @@ public class AquaGenericCrafter extends AquaBlock{
     @Override
     public void setBars(){
         super.setBars();
-        //set up liquid bars for liquid outputs
-        if(outputLiquids != null && outputLiquids.length > 0){
-            //no need for dynamic liquid bar
-            removeBar("liquid");
 
-            //then display output buffer
+        if(outputLiquids != null && outputLiquids.length > 0){
+            removeBar("liquid");
             for(var stack : outputLiquids){
                 addLiquidBar(stack.liquid);
             }
         }
-        if(heatRequirement > 0 || heatRequirement < 0){
 
+        if(hasHeat && (heatRequirement > 0 || heatRequirement < 0)){
             addBar("efficiency", (AquaGenericCrafter.AquaGenericCrafterBuild entity) ->
                     new Bar(() ->
                             Core.bundle.format("bar.heatpercent",
@@ -141,6 +139,7 @@ public class AquaGenericCrafter extends AquaBlock{
             );
         }
     }
+
 
     @Override
     public boolean rotatedOutput(int fromX, int fromY, Tile destination){
@@ -272,28 +271,33 @@ public class AquaGenericCrafter extends AquaBlock{
 
         @Override
         public void updateTile(){
-            heat = calculateHeat(sideHeat);
+            if(hasHeat){
+                heat = calculateHeat(sideHeat);
+            }
 
             if(efficiency > 0){
-                // calculate boosters
+                // boosters + crafting speed
                 float liquidEff = 0f, itemEff = 0f;
                 Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
                 if(liquidBooster != null) liquidEff = liquidBooster.efficiency(this);
                 Consume itemBooster = findConsumer(c -> c instanceof ConsumeItems && c.booster);
                 if(itemBooster != null) itemEff = itemBooster.efficiency(this);
-                // actual crafting speed
+
                 float speed = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
                         Mathf.lerp(1f, itemBoostIntensity, itemEff) *
                         efficiency;
+
                 warmup = Mathf.approachDelta(warmup, speed > 0 ? 1f : 0f, warmupSpeed);
                 progress += getProgressIncrease(craftTime);
-                if(outputLiquids != null) {
+
+                if(outputLiquids != null){
                     float inc = getProgressIncrease(speed);
-                    for (var output : outputLiquids) {
+                    for(var output : outputLiquids){
                         handleLiquid(this, output.liquid,
                                 Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
                     }
                 }
+
                 if(wasVisible && Mathf.chanceDelta(updateEffectChance)){
                     updateEffect.at(x + Mathf.range(size * updateEffectSpread),
                             y + Mathf.range(size * updateEffectSpread));
@@ -301,6 +305,7 @@ public class AquaGenericCrafter extends AquaBlock{
             }else{
                 warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
             }
+
             totalProgress += warmup * Time.delta;
             if(progress >= 1f){
                 craft();
@@ -397,26 +402,30 @@ public class AquaGenericCrafter extends AquaBlock{
         }
         @Override
         public float efficiencyScale() {
+            if(!hasHeat) return 1f; // default full efficiency
+
             float eff;
             float over = Math.max(heat - heatRequirement, 0f);
-            if (flipHeatScale) {
+
+            if(flipHeatScale){
                 eff = -Math.min((heat / -heatRequirement) + over / -heatRequirement * overheatScale, maxEfficiency);
-                if (eff > 1) eff = Math.min(((eff - 1) * overheatScale) + 1, maxEfficiency);
-            } else {
+                if(eff > 1) eff = Math.min(((eff - 1) * overheatScale) + 1, maxEfficiency);
+            }else{
                 eff = Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) + baseEfficiency;
             }
-            eff = Math.max(eff, 0);
-            return  eff;
+
+            return Math.max(eff, 0f);
         }
         @Override
         public float heatRequirement() {
-            return heatRequirement;
+            return hasHeat ? heatRequirement : 0f;
         }
 
         @Override
         public float[] sideHeat() {
-            return sideHeat;
+            return hasHeat ? sideHeat : new float[4];
         }
+
         @Override
         public void write(Writes write){
             super.write(write);

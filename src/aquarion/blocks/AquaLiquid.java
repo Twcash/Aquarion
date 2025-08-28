@@ -42,11 +42,11 @@ public class AquaLiquid {
             envDisabled = Env.none;
         }};
         siphonOverflow = new LiquidUnderflow("siphon-overflow"){{
-            requirements(Category.liquid, with(silicon, 15));
+            requirements(Category.liquid, with(silicon, 70));
 
         }};
         siphonUnderflow = new LiquidUnderflow("siphon-underflow"){{
-            requirements(Category.liquid, with(silicon, 15));
+            requirements(Category.liquid, with(silicon, 70));
             invert = true;
         }};
         siphon = new ModifiedConduit("siphon") {{
@@ -82,7 +82,7 @@ public class AquaLiquid {
             alwaysUnlocked = true;
         }};
         siphonJunction = new ModifiedLiquidJunction("siphon-junction"){{
-            requirements(Category.liquid, with(silicon, 35));
+            requirements(Category.liquid, with(silicon, 70));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;

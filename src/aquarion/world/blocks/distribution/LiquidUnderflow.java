@@ -21,6 +21,7 @@ public class LiquidUnderflow extends LiquidBlock {
         solid = false;
         update = true;
         liquidCapacity = 120;
+        hasLiquids = true;
     }
     @Override
     public TextureRegion[] icons(){
@@ -30,7 +31,7 @@ public class LiquidUnderflow extends LiquidBlock {
     public class liqUnderBuild extends LiquidBuild{
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid){
-            return (liquids.current() == liquid || liquids.currentAmount() < 0.2f);
+            return (liquids.current() == liquid || liquids.currentAmount() < 0.1f);
         }
 
         public @Nullable Building getLiquidDestination(Building source, Liquid liquid){
@@ -41,12 +42,14 @@ public class LiquidUnderflow extends LiquidBlock {
                     Fx.steam.at(x, y);
                 }
             }
+            int dir = (source.relativeTo(tile.x, tile.y) + 4) % 4;
+            Building next = nearby(dir);
             int from = relativeToEdge(source.tile);
             if(from == -1) return null;
 
-            Building forward = nearby((from + 2) % 4);
-            Building left    = nearby(Mathf.mod(from - 1, 4));
-            Building right   = nearby(Mathf.mod(from + 1, 4));
+            Building forward=resolveJunction(nearby((from + 2) % 4), this);
+            Building left=resolveJunction(nearby(Mathf.mod(from - 1, 4)), this);
+            Building right=resolveJunction(nearby(Mathf.mod(from + 1, 4)), this);
 
             boolean inv = invert;
 
@@ -70,10 +73,18 @@ public class LiquidUnderflow extends LiquidBlock {
             }
 
             if(canForward) return forward;
-
-            return this;
+            if(next == null) return this;
+            return next.getLiquidDestination(this, liquid);
         }
-
+        private Building resolveJunction(Building build, Building from){
+            while(build != null && build.block instanceof LiquidJunction){
+                Building next = build.nearby((build.relativeTo(from.tile.x, from.tile.y) + 2) % 4);
+                if(next == from) break;
+                from = build;
+                build = next;
+            }
+            return build;
+        }
 
         @Override
         public void draw(){

@@ -20,6 +20,7 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.units.UnitAssembler.*;
 
+import static aquarion.AquaLiquids.magma;
 import static arc.graphics.g2d.Draw.rect;
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.*;
@@ -265,14 +266,84 @@ public class AquaFx {
                                 Fill.circle(e.x + x , e.y + y, Interp.pow5In.apply(e.finpow()) * 3.5f + 0.1f)
                         );
                     }),
+                    diffuserSmoke = new Effect(40, e->{
+                        color(Pal.darkestestGray, Pal.darkishGray, e.foutpowdown());
+                        Draw.z(Layer.effect -1);
+                        blend(Blending.normal);
+                        Draw.z(Layer.effect);
+                        randLenVectors(e.id, 4, e.fin()*8, (x, y)->{
+                            Fill.circle(e.x+x, e.y+y, 6*e.fout());
+                        });
+                        rand.setSeed(e.id);
+                        Color base = Pal.turretHeat.cpy().lerp(Pal.accent, rand.random(1f));
+                        Draw.alpha(e.foutpowdown());
+                        Draw.z(Layer.effect+1);
+
+                        blend(Blending.additive);
+                        color( Pal.darkestestGray, base, Interp.circleIn.apply(e.foutpowdown()));
+                        randLenVectors(e.id+1, 3, e.fin()*6, (x, y)->{
+                            Fill.circle(e.x+x, e.y+y, 4*e.fout());
+                        });
+                        Draw.alpha(1);
+                        blend();
+                    }),
+                    diffuserCraft = new Effect(110, e->{
+                        color(Color.black, Pal.darkishGray, e.fin());
+                        alpha(1);
+                        blend(Blending.normal);
+                        z(Layer.effect-1);
+                        randLenVectors(e.id, 18, Interp.circleOut.apply(e.finpow())*44, 0+e.rotation, 18, (x, y)->{
+                            Fill.circle(e.x+x, e.y+y, 8*e.fout());
+                        });
+                        rand.setSeed(e.id);
+
+                        Color base = Pal.turretHeat.cpy().lerp(Pal.accent, rand.random(1f));
+                        Draw.alpha(e.foutpowdown());
+                        Draw.z(Layer.effect+1);
+
+                        blend(Blending.additive);
+                        color( Pal.darkestestGray, base, Interp.circleOut.apply(e.foutpowdown()));
+                        alpha(e.foutpowdown());
+                        randLenVectors(e.id+1, 7, Interp.circleOut.apply(e.finpow())*25, 0+e.rotation, 12, (x, y)->{
+                            Fill.circle(e.x+x, e.y+y, 4.5f*e.fout());
+                        });
+                        blend();
+                    }),
+                    ovenCraft = new Effect(70, e->{
+                        color(Pal.darkishGray, Pal.lightishGray, e.fin());
+                        alpha(1*e.fout());
+                        blend(Blending.normal);
+                        z(Layer.effect-1);
+                        randLenVectors(e.id, 6, Interp.circleOut.apply(e.finpow())*15, 0+e.rotation, 180, (x, y)->{
+                            Fill.circle(e.x+x - 27/4f, e.y+y-66/4f, 3.5f*e.fin());
+                        });
+                        randLenVectors(e.id, 6, Interp.circleOut.apply(e.finpow())*15, 0+e.rotation, 180, (x, y)->{
+                            Fill.circle(e.x+x - 56/4f, e.y+y-66/4f, 3.5f*e.fin());
+                        });
+                        rand.setSeed(e.id);
+                    }),
                     boilerSmoke = new Effect(220f, e -> {
                         for(int i = 0; i < 4; i++){
                             int f = i;
-                            alpha(e.fout());
-                            color(Pal.lightOrange, Pal.stoneGray, Interp.pow2In.apply(e.fin()));
-                            randLenVectors(e.id+i, 2, Interp.pow5In.apply(e.finpow()) * 66f, 13f, 19f, 1.5f, (x, y) ->
-                                    Fill.circle(e.x + x +24, e.y + y + (16 - (f *8.5f)), Interp.pow2In.apply(e.finpow()) * 4.5f + 0.1f));
+                            rand.setSeed(e.id);
+                            blend(Blending.normal);
+                            Color base2 = Pal.darkestGray.cpy().lerp(Pal.darkerMetal, rand.random(1f));
+                            color(base2, Pal.darkestestGray, Interp.circleIn.apply(e.foutpowdown()));
+                            Draw.alpha(e.foutpowdown());
+                            Draw.z(Layer.effect - 1);
+                            randLenVectors(e.id+i,  3, Interp.pow5In.apply(e.finpow()) * 38f, 13f, 15f, 1.5f, (x, y) ->
+                                    Fill.circle(e.x + x +24, e.y + y + (16 - (f *8.5f)), Interp.pow2In.apply(e.finpow()) * 5.5f + 0.1f));
+                            blend(Blending.additive);
+                            Draw.z(Layer.effect);
+                            Color base = Pal.turretHeat.cpy().lerp(Pal.accent, rand.random(1f));
+                            color(base, Pal.darkestestGray, Interp.circleIn.apply(e.foutpowdown()));
+                            Draw.alpha(e.foutpowdown());
+                            randLenVectors(e.id+i, 2, Interp.pow5In.apply(e.finpow()) * 24f, 13f, 12f, 1.5f, (x, y) ->
+                                    Fill.circle(e.x + x +24, e.y + y + (16 - (f *8.5f)), Interp.pow2In.apply(e.finpow()) * 2.5f + 0.1f));
+
                         }
+                        Draw.alpha(1);
+                        blend();
                     }),
 
                     turbineGenerate = new Effect(180f, e -> {

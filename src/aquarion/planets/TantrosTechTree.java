@@ -26,7 +26,7 @@ public class TantrosTechTree {
     public static void load() {
         var costMultipliers = new ObjectFloatMap<Item>();
 
-        for(var item : Vars.content.items()) costMultipliers.put(item, 0.05f);
+        for(var item : Vars.content.items()) costMultipliers.put(item, 0.08f);
 
         AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             context().researchCostMultipliers = costMultipliers;

@@ -17,8 +17,10 @@ import mindustry.content.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.effect.RadialEffect;
+import mindustry.entities.effect.SeqEffect;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.heat.HeatConductor;
@@ -97,65 +99,11 @@ public class AquaCrafters {
             ambientSound = AquaSounds.waterRumble;
             ambientSoundVolume = 0.1f;
             updateEffectChance = 0.01f;
-            updateEffect = new MultiEffect(new ParticleEffect(){{
-                sizeFrom = 2;
-                sizeTo = 0;
-                particles = 5;
-                lifetime = 15f;
-                length = 4;
-                interp = linear;
-                sizeInterp = linear;
-                colorFrom = AquaPal.smoke;
-                colorTo = AquaPal.smokeLight.a(0.2f);
-            }},new ParticleEffect(){{
-                sizeFrom = 1;
-                sizeTo = 0;
-                particles = 3;
-                length = 4;
-                lifetime = 15f;
-                interp = linear;
-                sizeInterp = linear;
-                colorFrom = AquaPal.fire2;
-                colorTo = AquaPal.fire2;
-            }});
+            updateEffect = AquaFx.diffuserSmoke;
             craftEffect = new MultiEffect(new RadialEffect(){{
                 rotationOffset = 45;
                 lengthOffset = 16;
-                effect = new MultiEffect(new ParticleEffect(){{
-                    particles = 8;
-                    layer = 80;
-                    sizeFrom = 7;
-                    sizeTo = 0;
-                    cone = 25;
-                    length = 40;
-                    lifetime = 120;
-                    sizeInterp = linear;
-                    interp = linear;
-                    colorFrom = AquaPal.smoke;
-                    colorTo = AquaPal.smokeLight.a(0.2f);
-                }}, new ParticleEffect(){{
-                    particles = 6;
-                    layer = 81;
-                    length = 38;
-                    sizeFrom = 6;
-                    sizeTo = 0;
-                    cone = 20;
-                    lifetime = 120;
-                    sizeInterp = linear;
-                    interp = linear;
-                    colorFrom = AquaPal.smoke;
-                    colorTo = AquaPal.smokeLight.a(0.2f);
-                }},new ParticleEffect(){{
-                    sizeFrom = 3;
-                    sizeTo = 0;
-                    cone = 15;
-                    length = 35;
-                    lifetime = 120;
-                    sizeInterp = linear;
-                    interp = linear;
-                    colorFrom = AquaPal.fire2;
-                    colorTo = AquaPal.fireLight2;
-                }});
+                effect = AquaFx.diffuserCraft;
             }});
         }};
         magmaTap = new AttributeCrafter("magma-tap") {{
@@ -227,6 +175,7 @@ public class AquaCrafters {
             squareSprite = false;
             itemCapacity = 120;
             heatRequirement = 30;
+            hasHeat = true;
             maxEfficiency = 5;
             overheatScale = 0.25f;
             craftTime = 10*60f;
@@ -751,6 +700,8 @@ public class AquaCrafters {
             size = 9;
             drillTime = 5500;
             heatRequirement = 50;
+            hasHeat = true;
+
             overheatScale = 0.75f;
             maxEfficiency = 10;
             consumeLiquid(oil, 34).boost();
@@ -973,6 +924,8 @@ public class AquaCrafters {
             size = 4;
             baseEfficiency = 1;
             heatRequirement = 30;
+            hasHeat = true;
+
             maxEfficiency = 4;
             craftTime = 120;
             consumeItems(new ItemStack(copper, 9), new ItemStack(nickel, 3));
@@ -981,7 +934,7 @@ public class AquaCrafters {
             updateEffectChance = 0.07f;
             ambientSound = AquaSounds.derrick;
             consumeLiquid(air, 2);
-            liquidCapacity = 200;
+            liquidCapacity = 700;
             itemCapacity = 60;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"),new DrawSoftParticles(){{
                 color = Color.valueOf("921f12");
@@ -1004,38 +957,120 @@ public class AquaCrafters {
             heatRequirement = 15;
             maxEfficiency = 4;
             overheatScale = 0.5f;
+            hasHeat = true;
+
+            liquidCapacity = 600;
             craftTime = 120;
             consumeItems(new ItemStack(lead, 10), new ItemStack(sand, 10));
             outputItem = new ItemStack(metaglass, 15);
             updateEffect = Fx.coalSmeltsmoke;
+            craftEffect = new SeqEffect(){{
+                effects = new mindustry.entities.Effect[]{
+                        AquaFx.ovenCraft,
+                        AquaFx.ovenCraft,
+                        AquaFx.ovenCraft,
+                        AquaFx.ovenCraft,
+                        AquaFx.ovenCraft
+                };
+            }};
             updateEffectChance = 0.07f;
             ambientSound = AquaSounds.refine;
             ambientSoundVolume = 0.07f;
             consumeLiquid(air, 4);
             consumePower(3);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawDefault(), new PhaseOffsetGlowRegion("-glow"){{
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom")
+                    , new DrawWheel(){{
+                width = 152/4f;
+                height = 106/4f;
+                rotation = 0;
+                sideCount = 36;
+                rotationSpeed = 0.8f;
+                suffix = "-tick";
+                x = 0;
+                y = 0;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }}, new DrawWheel(){{
+                width = 25/4f;
+                height = 110/4f;
+                rotation = 0;
+                sideCount = 12;
+                rotationSpeed = -1f;
+                suffix = "-tick";
+                x = -6;
+                y = 0;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }}, new DrawWheel(){{
+                width = 25/4f;
+                height = 110/4f;
+                rotation = 0;
+                sideCount = 12;
+                rotationSpeed = -1f;
+                suffix = "-tick";
+                x = 6;
+                y = 0;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }}, new DrawPistons(){{
+                        sides = 1;
+                        sinMag = 18;
+                        sinScl = 12;
+                    lenOffset = -6f;
+                    }},new DrawPistons(){{
+                        suffix = "-piston2";
+                sides = 1;
+                sinMag = 18;
+                sinScl = 7;
+                lenOffset = -6f;
+            }}, new DrawDefault(), new DrawGlowRegion("-glow"){{
                 alpha = 0.55f;
                 color = Color.valueOf("e68569");
                 glowIntensity = 0.4f;
                 glowScale = 9f;
                 layer = heat;
                 blending = Blending.additive;
-                phaseOffset = 20;
-            }}, new PhaseOffsetGlowRegion("-glow1"){{
+            }}, new DrawGlowRegion("-glow1"){{
                 alpha = 0.40f;
                 color = Color.valueOf("e68569");
                 glowIntensity = 0.4f;
                 glowScale = 7f;
                 layer = heat;
                 blending = Blending.additive;
-                phaseOffset = 10;
+            }}, new DrawGlowRegion("-glow2"){{
+                alpha = 0.350f;
+                color = Pal.turretHeat;
+                glowIntensity = 0.5f;
+                glowScale = 8f;
+                layer = heat;
+                blending = Blending.additive;
+            }}, new DrawGlowRegion("-glow3"){{
+                alpha = 0.450f;
+                color = Pal.turretHeat;
+                glowIntensity = 0.8f;
+                glowScale = 5f;
+                layer = heat;
+                blending = Blending.additive;
             }});
         }};
-        thermalCrackingUnit = new HeatCrafter("thermal-cracking-unit"){{
+        thermalCrackingUnit = new AquaGenericCrafter("thermal-cracking-unit"){{
             requirements(Category.crafting, with( copper, 250, silicon, 600, metaglass, 900));
             shownPlanets.addAll(tantros2);
             heatRequirement = 30;
             maxEfficiency = 5;
+            hasHeat = true;
             craftTime = 2.5f*60f;
             overheatScale = 0.75f;
             rotate = true;
@@ -1178,6 +1213,8 @@ public class AquaCrafters {
             shownPlanets.addAll(tantros2);
             craftTime = 4*60f;
             heatRequirement = 45;
+            hasHeat = true;
+
             maxEfficiency = 2;
             craftEffect = Fx.reactorsmoke;
             updateEffectChance = 0.08f;
@@ -1191,10 +1228,11 @@ public class AquaCrafters {
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion());
         }};
-        inlet = new GenericCrafter("inlet"){{
+        inlet = new AquaGenericCrafter("inlet"){{
             requirements(Category.production, with( copper, 45));
             shownPlanets.addAll(tantros2);
             craftTime = 10;
+            researchCost = ItemStack.with(copper, 90);
             outputLiquid = new LiquidStack(halideWater, 0.25f);
             envDisabled = Env.groundOil | Env.scorching | Env.spores;
             liquidCapacity = 90;
@@ -1743,6 +1781,7 @@ public class AquaCrafters {
             liquidCapacity = 500;
             craftTime = 5*60f;
             heatRequirement = 5;
+            hasHeat = true;
             overheatScale = 0.75f;
             maxEfficiency = 8;
             consumePower(2);

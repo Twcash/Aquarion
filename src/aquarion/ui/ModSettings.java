@@ -22,8 +22,7 @@ public class ModSettings {
 
             root.pref(new ButtonPref(Core.bundle.get("settings.clearTech-category"), Icon.trash, () -> {
                 Vars.ui.showConfirm("@confirm", Core.bundle.get("settings.clearTech-confirm"), () -> {
-                    AquaPlanets.tantros2.techTree.reset();
-                    AquaPlanets.fakeSerpulo.techTree.reset();
+                    Vars.universe.clearLoadoutInfo();
 
                     for(TechTree.TechNode node : AquaPlanets.tantros2.techTree.children){
                         node.reset();
@@ -37,6 +36,9 @@ public class ModSettings {
                             u.clearUnlock();
                         }
                     });
+
+                    AquaPlanets.tantros2.techTree.reset();
+                    AquaPlanets.fakeSerpulo.techTree.reset();
                     Core.settings.remove("unlocks");
                 });
             }));
