@@ -1575,9 +1575,9 @@ public class AquaUnitTypes {
                 y = 2f;
                 rotate = false;
                 shootY = 0f;
-                beamWidth = 0.7f;
+                beamWidth = 0.6f;
                 repairSpeed = 3.1f;
-                fractionRepairSpeed = 0.03f;
+                fractionRepairSpeed = 0.035f;
                 aimDst = 0f;
                 shootCone = 15f;
                 mirror = false;
@@ -1590,9 +1590,10 @@ public class AquaUnitTypes {
                 healColor = Pal.heal;
 
                 bullet = new BulletType() {{
-                    maxRange = 60f;
+                    maxRange = 75f;
                 }};
             }});
+            range = 60;
         }};
         reave = new UnitType("reave") {{
             constructor = LegsUnit::create;
@@ -1949,6 +1950,55 @@ public class AquaUnitTypes {
             treadPullOffset = 3;
             health = 320;
             armor = 2;
+            weapons.add(new Weapon("aquarion-small-missiles") {{
+                rotate = true;
+                x = 4;
+                y = -0.5f;
+                reload = 90;
+                mirror = true;
+                shootSound = Sounds.missile;
+                shoot.shots = 2;
+                inaccuracy = 5f;
+                shake = 0.5f;
+                bullet = new MissileBulletType(2.5f, 30) {{
+                    width = 8f;
+                    height = 8;
+                    trailLength = 5;
+                    sprite = "missile";
+                    shrinkY = 0.2f;
+                    drag = -0.002f;
+                    homingRange = 80f;
+                    keepVelocity = false;
+                    lifetime = 65f;
+                    trailColor = Color.valueOf("974861");
+                    backColor = Color.valueOf("974861");
+                    frontColor = Color.valueOf("ff81a8");
+                    hitEffect = Fx.blastExplosion;
+                    despawnEffect = Fx.blastExplosion;
+                    weaveScale = 4f;
+                    weaveMag = 1.5f;
+                    velocityRnd = 0.3f;
+                }};
+            }});
+        }};
+        empusa = new UnitType("empusa") {{
+            squareShape = true;
+            omniMovement = false;
+            rotateMoveFirst = true;
+            rotateSpeed = 1.5f;
+            envDisabled = Env.none;
+            speed = 0.75f;
+            crushDamage = 0.002f;
+            constructor = TankUnit::create;
+            treadRects = new Rect[]{
+                    new Rect(-36f, -17f, 17, 49),
+                    new Rect(-18f, -43f, 35, 84)
+
+            };
+            hitSize = 14;
+            treadPullOffset = 3;
+            health = 500;
+            armor = 4;
             weapons.add(new Weapon("aquarion-missile-weapon") {{
                 rotate = true;
                 x = 0;
@@ -1982,54 +2032,7 @@ public class AquaUnitTypes {
                     velocityRnd = 0.3f;
                 }};
             }});
-        }};empusa = new UnitType("empusa") {{
-            squareShape = true;
-            omniMovement = false;
-            rotateMoveFirst = true;
-            rotateSpeed = 1.5f;
-            envDisabled = Env.none;
-            speed = 0.75f;
-            crushDamage = 0.002f;
-            constructor = TankUnit::create;
-            treadRects = new Rect[]{
-                    new Rect(-36f, -17f, 17, 49),
-                    new Rect(-18f, -43f, 35, 84)
 
-            };
-            hitSize = 14;
-            treadPullOffset = 3;
-            health = 500;
-            armor = 4;
-            weapons.add(new Weapon("aquarion-small-missiles") {{
-                rotate = true;
-                x = 2;
-                y = -0.5f;
-                reload = 90;
-                mirror = true;
-                shootSound = Sounds.missile;
-                shoot.shots = 2;
-                inaccuracy = 5f;
-                shake = 0.5f;
-                bullet = new MissileBulletType(2.5f, 30) {{
-                    width = 8f;
-                    height = 8;
-                    trailLength = 5;
-                    sprite = "missile";
-                    shrinkY = 0.2f;
-                    drag = -0.002f;
-                    homingRange = 80f;
-                    keepVelocity = false;
-                    lifetime = 65f;
-                    trailColor = Color.valueOf("974861");
-                    backColor = Color.valueOf("974861");
-                    frontColor = Color.valueOf("ff81a8");
-                    hitEffect = Fx.blastExplosion;
-                    despawnEffect = Fx.blastExplosion;
-                    weaveScale = 4f;
-                    weaveMag = 1.5f;
-                    velocityRnd = 0.3f;
-                }};
-            }});
         }};
         oratoria = new UnitType("oratoria") {{
             squareShape = true;

@@ -247,7 +247,7 @@ public class AquaCrafters {
                 glowScale = 8;
                 alpha = 0.6f;
                 color = Color.valueOf("f5c5aa");
-            }}, new DrawHeatInputBitmask());
+            }}, new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
         }};
         fumeFilter = new AttributeCrafter("fume-filter"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -945,7 +945,7 @@ public class AquaCrafters {
                 particleSize = 6f;
                 particleLife = 45f;
                 particles = 35;
-            }}, new DrawDefault(), new DrawHeatInputBitmask());
+            }}, new DrawDefault(), new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
         }};
         AnnealingOven = new AquaGenericCrafter("metaglass-annealing-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -1226,7 +1226,7 @@ public class AquaCrafters {
             itemCapacity = 120;
             size = 5;
             squareSprite = false;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion(),new DrawHeatInputBitmask());
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion(),new DrawHeatInputBitmask(),new AquaHeatRegion("-heats"));
         }};
         inlet = new AquaGenericCrafter("inlet"){{
             requirements(Category.production, with( copper, 45));
@@ -1246,7 +1246,7 @@ public class AquaCrafters {
                 particles = 20;
                 particleRad = 2.5f;
                 particleLife = 90f;
-            }});
+            }}, new AquaHeatRegion("-heats"));
         }};
         inletArray = new GenericCrafter("inlet-array"){{
             requirements(Category.production, with( copper, 150, ferricMatter, 100, metaglass, 75));

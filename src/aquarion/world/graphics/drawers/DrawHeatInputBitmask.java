@@ -41,7 +41,7 @@ public class DrawHeatInputBitmask extends DrawBlock {
             for(int i = 0; i < 4; i++){
                 if(side[i] > 0){
                     Draw.blend(Blending.additive);
-                    Draw.color(heatColor, side[i] / hc.heatRequirement() * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))));
+                    Draw.color(heatColor, (side[i] / hc.heatRequirement() * (heatColor.a * (1f - heatPulse + Mathf.absin(heatPulseScl, heatPulse))))/10);
                     Draw.rect(heat[i][0], build.x, build.y, i * 90f);
                     Draw.blend();
                     Draw.color();
