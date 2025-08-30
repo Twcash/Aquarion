@@ -2781,6 +2781,8 @@ public class AquaUnitTypes {
                 effectRadius = 0.5f;
                 maxTargets = 3;
             }});
+            canAttack = true;
+            range = 100;
         }};
         tenon = new UnitType("tenon") {{
             health = 360;
