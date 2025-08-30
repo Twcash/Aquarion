@@ -39,6 +39,7 @@ import static aquarion.world.Uti.Utilities.stupid;
 import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static arc.math.Interp.*;
+import static mindustry.Vars.player;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
@@ -211,11 +212,7 @@ public class AquaCrafters {
             craftEffect = Fx.reactorsmoke;
             ambientSound = AquaSounds.waterHum;
             ambientSoundVolume = 0.09f;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawLiquidTile(magma){{
-                padRight = 40;
-                padTop = 25;
-                padBottom = 7;
-            }}, new DrawRegion("-mid"),new DrawArcSmelt(){{
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawRegion("-mid"),new DrawArcSmelt(){{
                 circleStroke = 1.2f;
                 particles = 10;
                 particleLife = 35;
