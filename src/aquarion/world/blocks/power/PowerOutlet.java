@@ -93,10 +93,8 @@ public class PowerOutlet extends PowerGenerator {
         public @Nullable Building lastFront;
         @Override
         public void updateTile() {
-            if(this.rotation != lastRotation){
-                fronts.clear();
-                fronts = getFrontBuildings();
-            }
+            fronts.clear();
+            fronts.set(getFrontBuildings());
             lastRotation = this.rotation;
             //Remove production from current graph.
             if (this.power.graph.producers.contains(this)) {
@@ -149,7 +147,12 @@ public class PowerOutlet extends PowerGenerator {
             if(!enabled || need <= 0) return 0f;
             return need;
         }
-
+        @Override
+        public void onProximityAdded() {
+            super.onProximityAdded();
+            fronts.clear();
+            fronts.set(getFrontBuildings());
+        }
         @Override
         public void onProximityRemoved() {
             super.onProximityRemoved();
