@@ -21,6 +21,7 @@ import mindustry.world.draw.DrawSideRegion;
 import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatCat;
+import mindustry.world.modules.PowerModule;
 
 public class PowerOutlet extends PowerGenerator {
     public DrawBlock drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
@@ -50,14 +51,16 @@ public class PowerOutlet extends PowerGenerator {
         consume(new ConsumePowerDynamic(powerProduction, build -> {
             if (!(build instanceof OutletBuild o)) return 0f;
             float totalNeeded = 0f;
-            Seq<Building> fronts = o.getFrontBuildings();
+            Seq<Building> fronts = o.fronts;
             for (Building frontBuild : fronts) {
                 if (frontBuild.power == null || frontBuild.team != o.team) continue;
+                if (frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild) continue;
+
                 ConsumePower cp = frontBuild.block.findConsumer(f -> f instanceof ConsumePower);
                 if (cp == null || !frontBuild.shouldConsume()) continue;
-                totalNeeded += Math.min(o.need, powerProduction);
+                totalNeeded += Math.min(o.need, powerProduction) * frontBuild.power.status;
             }
-            return Math.min(totalNeeded, powerProduction);
+            return 0;
         }));
     }
     @Override
@@ -85,10 +88,16 @@ public class PowerOutlet extends PowerGenerator {
     }
     public class OutletBuild extends GeneratorBuild {
         public float need = 0;
-
+        public float lastRotation = 0;
+        public Seq<Building> fronts = new Seq<>();
+        public @Nullable Building lastFront;
         @Override
         public void updateTile() {
-            Seq<Building> fronts = getFrontBuildings();
+            if(this.rotation != lastRotation){
+                fronts.clear();
+                fronts = getFrontBuildings();
+            }
+            lastRotation = this.rotation;
             //Remove production from current graph.
             if (this.power.graph.producers.contains(this)) {
                 this.power.graph.producers.remove(this);
@@ -99,57 +108,46 @@ public class PowerOutlet extends PowerGenerator {
             }
             for (Building frontBuild : fronts) {
             //Stop if front doesn't exist or has power
-            if (frontBuild == null || !(frontBuild.block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)) {
+                if (frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild) continue;
+                if (frontBuild == null || !(frontBuild.block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)) {
                 need = 0;
                 productionEfficiency = 0;
                 return;
             }
             ConsumePower frontConsume = frontBuild.block.findConsumer(f -> f instanceof ConsumePower);
             //Remove consumption from target graph.
-            PowerGraph front = frontBuild.power.graph;
-            if (front.consumers.contains(this)) {
-                front.consumers.remove(this);
-            }
-            //Add production to current graph
-            if (front.producers.contains(this)) {
-                if (frontBuild.power.status <= 0) {
-                    need = Math.min(frontConsume.usage, powerProduction);
-                } else {
-                    need = Math.min(frontConsume.usage / frontBuild.power.status, powerProduction);
+                if(lastFront != null && lastFront == frontBuild) {
+                    PowerGraph front = frontBuild.power.graph;
+                    if (front.consumers.contains(this)) {
+                        front.consumers.remove(this);
+                    }
+                    //Add production to current graph
+                    if (front.producers.contains(this)) {
+                        if (frontBuild.power.status <= 0) {
+                            need = Math.min(frontConsume.usage, powerProduction);
+                        } else {
+                            need = Math.min(frontConsume.usage / frontBuild.power.status, powerProduction);
+                        }
+                    } else {
+                        front.producers.add(this);
+                    }
+                } else if(lastFront != null) {
+                    //Hope this works
+                    PowerGraph last = lastFront.power.graph;
+                    if (last.consumers.contains(this)) {
+                        last.consumers.remove(this);
+                    }
+                    if (last.producers.contains(this)) {
+                        last.producers.remove(this);
+                    }
                 }
-            } else {
-                front.producers.add(this);
-            }
+            lastFront = frontBuild;
             }
         }
-
         @Override
-        public float getPowerProduction() {
-            if (!enabled) return 0f;
-            Seq<Building> fronts = getFrontBuildings();
-            boolean NoBitches = false;
-            if (fronts.size > 0) {
-                for (Building frontBuild : fronts) {
-                    for (Building b : this.power.graph.producers) {
-                        if (b.block != this.block) {
-                            NoBitches = true;
-                            break;
-                        }
-                    }
-                    if (!NoBitches) {
-                        return 0f;
-                    }
-                    if (frontBuild == null || !(frontBuild.block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)) {
-                        need = 0;
-                        productionEfficiency = 0;
-                        return 0;
-                    }
-
-                }
-                return need * this.power.status / fronts.size;
-            } else {
-                return 0;
-            }
+        public float getPowerProduction(){
+            if(!enabled || need <= 0) return 0f;
+            return need;
         }
 
         @Override

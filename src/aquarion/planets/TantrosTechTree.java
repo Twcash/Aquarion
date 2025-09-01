@@ -82,7 +82,7 @@ public class TantrosTechTree {
             });
             node(pylon, () -> {
                 node(outlet, () ->{
-                    node(voltageSupplyUnit);
+                    //node(voltageSupplyUnit);
                 });
                 node(energyBank, ()->{
                     node(capacitorBank, () -> {
@@ -278,12 +278,12 @@ public class TantrosTechTree {
                         });
                         nodeProduce(cupronickel, () -> {
                         });
-                        nodeProduce(azurite, () -> nodeProduce(towanite, () -> nodeProduce(acuminite, () -> {
-                            nodeProduce(strontium, () -> {
+                        nodeProduce(azurite, () -> {
+                            nodeProduce(towanite, () ->{
+                                nodeProduce(acuminite, () ->{});
                             });
-                            nodeProduce(fluorine, () -> {
-                            });
-                        })));
+                            nodeProduce(arsenic, () ->{});
+                        });
                     });
 
                 });
@@ -334,6 +334,9 @@ public class TantrosTechTree {
                 node(atmosphericCentrifuge);
                 node(inlet, () -> node(vacuumFreezer, () -> {
                 }));
+                node(SilicaOxidator, () ->{
+                    node(arcFurnace);
+                });
                 node(AnnealingOven, () -> {
                             node(cupronickelAlloyer, () -> {
                                 node(ferricGrinder, () -> {
@@ -365,7 +368,6 @@ public class TantrosTechTree {
                         ), () -> {
                         });
                         node(fumeMixer);
-                        node(steelFoundry);
                     });
                     node(bauxiteCentrifuge);
                 }));

@@ -34,7 +34,7 @@ public class AquaCore {
             coreEscarpment, corePike, buildCairn, forceBarrier, crate;
 
     public static void loadContent(){
-        cache = new AquaStorageBlock("cache") {{
+        cache = new StorageBlock("cache") {{
             requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));
             itemCapacity = 900;
             coreMerge = true;
@@ -44,9 +44,9 @@ public class AquaCore {
             researchCostMultiplier = 0.02f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
+            //drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
         }};
-        crate = new AquaStorageBlock("crate") {{
+        crate = new StorageBlock("crate") {{
             requirements(Category.effect, with(cupronickel, 400, silicon, 1200));
             itemCapacity = 150;
             coreMerge = false;
@@ -56,9 +56,9 @@ public class AquaCore {
             researchCostMultiplier = 0.02f;
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
+            //drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
         }};
-        corePike = new TantrosCoreBlock("core-pike") {{
+        corePike = new CoreBlock("core-pike") {{
             requirements(Category.effect, with( silicon, 1500));
             squareSprite = false;
             health = 1500;

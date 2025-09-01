@@ -74,8 +74,8 @@ public class AquaItems {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         arsenic = new Item("arsenic", Color.valueOf("#ff8f8f")) {{
-            cost = 0.9f;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            cost = 0.9f;
         }};
         cupronickel = new AquaItem("cupronickel", Color.valueOf("#dfaf88")) {{
             cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

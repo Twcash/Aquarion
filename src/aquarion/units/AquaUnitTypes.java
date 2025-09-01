@@ -1489,6 +1489,7 @@ public class AquaUnitTypes {
                 shootSound = Sounds.cannon;
                 shootY = 4;
                 reload = 160;
+                range = 90;
                 bullet = new BasicBulletType(8f, 110, "aquarion-flechette") {{
                     shrinkY = 0;
                     shrinkX = 0.2f;
@@ -1503,6 +1504,7 @@ public class AquaUnitTypes {
                     trailLength = 14;
                 }};
             }});
+
         }};
         crest = new UnitType("crest") {{
             flying = true;
@@ -2782,7 +2784,43 @@ public class AquaUnitTypes {
                 maxTargets = 3;
             }});
             canAttack = true;
-            range = 100;
+            weapons.add(new Weapon() {{
+                x = 0;
+                y = 0;
+                rotate = false;
+                mirror = false;
+                reload = 90;
+                velocityRnd = 0.1f;
+                inaccuracy = 1f;
+                bullet = new FlakBulletType() {{
+                    lifetime = 35f;
+                    sprite = "missile";
+                    collidesGround = collidesAir = true;
+                    explodeRange = 40f;
+                    width = height = 3.5f;
+                    frontColor = Color.white;
+                    lightColor = backColor = trailColor = hitColor = Pal.accent;
+                    hitEffect = new ExplosionEffect() {{
+                        smokeColor = Pal.accentBack;
+                        waveColor = Color.white;
+                        sparkColor = Pal.accent;
+                        smokes = 8;
+                    }};
+                    splashDamageRadius = 30;
+                    splashDamage = 10;
+                    fragBullets = 10;
+                    homingPower = 0.05f;
+                    weaveScale = 8f;
+                    weaveMag = 1f;
+                    fragBullet = new ArtilleryBulletType(2.3f, 5) {{
+                        lifetime = 15;
+                        frontColor = Pal.accent;
+                        backColor = lightColor = hitColor = Pal.accentBack;
+                        width = 7;
+                        homingPower = 0.2f;
+                    }};
+                }};
+            }});
         }};
         tenon = new UnitType("tenon") {{
             health = 360;
