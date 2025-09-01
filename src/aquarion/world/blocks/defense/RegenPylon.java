@@ -58,6 +58,9 @@ Effect effect =  new Effect(100f, e -> {
         indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, r * tilesize), b -> true, t ->
                 Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)))
         );
+        Draw.alpha(0.25f);
+        Drawf.dashSquare(baseColor.a(0.9f), x * tilesize + offset, y * tilesize + offset, r * tilesize );
+        Draw.alpha(1f);
         Drawf.dashSquare(baseColor.a(0.9f), x * tilesize + offset, y * tilesize + offset, r * tilesize );
     }
 

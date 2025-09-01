@@ -10,6 +10,7 @@ import arc.util.Eachable;
 import arc.util.Nullable;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
+import mindustry.world.Tile;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerGraph;
 import mindustry.world.consumers.ConsumePower;
@@ -96,6 +97,20 @@ public class PowerOutlet extends PowerGenerator {
             fronts.clear();
             fronts.set(getFrontBuildings());
             lastRotation = this.rotation;
+            Tile tile = this.tile;
+            Tile[] neighbors = new Tile[4];
+
+            neighbors[0] = tile.nearby(0, 1);
+            neighbors[1] = tile.nearby(1, 0);
+            neighbors[2] = tile.nearby(0, -1);
+            neighbors[3] = tile.nearby(-1, 0);
+            for(Tile neighbor : neighbors){
+                if(neighbor.build != null && neighbor.build.power != null) {
+                    if (neighbor.build.power.graph.producers.contains(this) && !(fronts.contains(neighbor.build))) {
+                        neighbor.build.power.graph.producers.remove(this);
+                    }
+                }
+            }
             //Remove production from current graph.
             if (this.power.graph.producers.contains(this)) {
                 this.power.graph.producers.remove(this);
