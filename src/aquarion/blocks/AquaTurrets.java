@@ -1234,7 +1234,7 @@ public class AquaTurrets {
         }};
         focus = new ItemTurret("focus"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.turret, with(strontium, 250, manganese, 600));
+            requirements(Category.turret, with(AquaItems.aluminum, 250, lead, 600));
             size = 4;
             shootY = 85/4f;
             itemCapacity = 60;
