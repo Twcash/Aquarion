@@ -134,7 +134,7 @@ public class AquaCrafters {
         }};
         bauxiteCentrifuge = new GenericCrafter("bauxite-centrifuge") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(lead, 400, bauxite, 300, silicon, 250, copper, 150, graphite, 200));
+            requirements(Category.crafting, with(lead, 400, bauxite, 300, silicon, 250, copper, 150));
             craftTime = 60;
             consumeItem(bauxite, 10);
             consumePower(2);
