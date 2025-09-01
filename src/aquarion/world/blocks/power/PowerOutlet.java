@@ -51,17 +51,26 @@ public class PowerOutlet extends PowerGenerator {
 
         consume(new ConsumePowerDynamic(powerProduction, build -> {
             if (!(build instanceof OutletBuild o)) return 0f;
+
             float totalNeeded = 0f;
-            Seq<Building> fronts = o.fronts;
+            Seq<Building> fronts = o.getFrontBuildings(); // safer than using o.fronts directly
+
             for (Building frontBuild : fronts) {
                 if (frontBuild.power == null || frontBuild.team != o.team) continue;
                 if (frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild) continue;
 
                 ConsumePower cp = frontBuild.block.findConsumer(f -> f instanceof ConsumePower);
                 if (cp == null || !frontBuild.shouldConsume()) continue;
-                totalNeeded += Math.min(o.need, powerProduction) * frontBuild.power.status;
+
+                // Amount needed by this front building
+                float need = cp.usage / frontBuild.power.status;
+                totalNeeded += Math.min(need, powerProduction);
             }
-            return 0;
+
+            // Clamp to max available power
+            totalNeeded = Math.min(totalNeeded, powerProduction);
+            o.need = totalNeeded; // store for updateTile
+            return totalNeeded;   // <-- this is the key: return what you need to consume
         }));
     }
     @Override
@@ -94,8 +103,6 @@ public class PowerOutlet extends PowerGenerator {
         public @Nullable Building lastFront;
         @Override
         public void updateTile() {
-            fronts.clear();
-            fronts.set(getFrontBuildings());
             lastRotation = this.rotation;
             Tile tile = this.tile;
             Tile[] neighbors = new Tile[4];
@@ -104,10 +111,13 @@ public class PowerOutlet extends PowerGenerator {
             neighbors[1] = tile.nearby(1, 0);
             neighbors[2] = tile.nearby(0, -1);
             neighbors[3] = tile.nearby(-1, 0);
+            fronts = getFrontBuildings();
             for(Tile neighbor : neighbors){
                 if(neighbor.build != null && neighbor.build.power != null) {
                     if (neighbor.build.power.graph.producers.contains(this) && !(fronts.contains(neighbor.build))) {
                         neighbor.build.power.graph.producers.remove(this);
+                    } else if((fronts.contains(neighbor.build))){
+                        fronts.addUnique(neighbor.build);
                     }
                 }
             }

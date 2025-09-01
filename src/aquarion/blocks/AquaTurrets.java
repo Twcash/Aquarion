@@ -1912,6 +1912,7 @@ public class AquaTurrets {
                 shoot.shots = 5;
                 ammoPerShot = 2;
                 inaccuracy = 25;
+                liquidCapacity = 200;
                 reload = 2;
                 outlineColor = tantDarkestTone;
                 loopSound = Sounds.bioLoop;
