@@ -8,6 +8,7 @@ import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
 
 import aquarion.world.graphics.drawers.DrawBetterRegion;
+import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
@@ -111,15 +112,17 @@ public class AquaCore {
             consumePower(1.5f);
         }};
         mendPyre = new RegenPylon("mend-pyre"){{
-            requirements(Category.effect, with(lead,40, silicon, 40));
+            requirements(Category.effect, with(lead,55, silicon, 80));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 1;
-            consumeLiquid(magma, 0.05f);
+            consumePower(0.75f);
+            consumeItem(Items.silicon).boost();
             range = 20;
-            healPercent = 1.6f;
+            phaseRangeBoost = 1.25f;
+            phaseBoost = 2;
+            healPercent = 1.4f;
             squareSprite = false;
             reload = 400;
-            liquidCapacity = 120;
             alwaysUnlocked = true;
         }};
         mendPylon = new RegenPylon("mend-pylon"){{

@@ -62,19 +62,13 @@ public class BarricadeAbsorb extends AquaWall {
 
     public class BarricadeAbsBuild extends AquaWallBuild {
         // Keeps track of which blocks have been boosted
-        final ObjectSet<Building> boosted = new ObjectSet<>();
-        //Make sure blocks onlt have Hp and armor added ONCE
         @Override
-        public void updateTile(){
+        public void updateTile() {
             indexer.eachBlock(team, Tmp.r1.setCentered(x, y, range * tilesize), b -> true, b -> {
-                if (!boosted.contains(b)) {
-                    b.maxHealth += 300f;
-                    b.block.armor += 3f;
-                    boosted.add(b);
-                }
+                b.maxHealth += 500f;
+                b.block.armor += 3f;
             });
         }
-
         @Override
         public void drawSelect(){
             indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t ->
