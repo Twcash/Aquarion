@@ -145,7 +145,7 @@ public class PowerOutlet extends PowerGenerator {
         @Override
         public float getPowerProduction(){
             if(!enabled || need <= 0) return 0f;
-            return need;
+            return need * this.power.status;
         }
         @Override
         public void onProximityAdded() {
