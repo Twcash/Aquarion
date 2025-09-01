@@ -134,7 +134,7 @@ public class AquaGenericCrafter extends AquaBlock{
                                     return Tmp.c1.set(Pal.lightOrange).lerp(Color.white, t);
                                 }
                             },
-                            () -> Mathf.clamp(Math.abs(entity.heat) / Math.abs(heatRequirement) + entity.efficiency)
+                            () -> Mathf.clamp(Math.abs(entity.heat) / Math.abs(heatRequirement) + entity.efficiency-baseEfficiency)
                     )
             );
         }
