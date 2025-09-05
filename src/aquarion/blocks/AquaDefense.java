@@ -107,13 +107,12 @@ public class AquaDefense {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.25f;
         }};
-        nickelBarricade = new BarricadeAbsorb("nickel-barricade"){{
+        nickelBarricade = new AquaWall("nickel-barricade"){{
             requirements(Category.defense, with(nickel, 400, silicon, 750, metaglass, 300));
             size = 5;
-            range = 10f;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            health = 300*25;
-            armor = 5;
+            health = 500*25;
+            armor = 15;
             researchCostMultiplier = 0.5f;
         }};
         aluminumWall = new AquaWall("aluminum-wall") {{
