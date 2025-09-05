@@ -1098,7 +1098,7 @@ public class AquaCrafters {
             baseEfficiency = 0;
             hasHeat = true;
             maxEfficiency = 3;
-            consumePower(6);
+            consumePower(4);
             consumeLiquids(LiquidStack.with(petroleum, 4, haze, 8.5f));
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawPump("-press"){{
                 timeOffset = 0;

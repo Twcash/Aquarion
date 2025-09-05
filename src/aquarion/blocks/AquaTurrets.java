@@ -841,13 +841,14 @@ public class AquaTurrets {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             shootType = new PointLaserBulletType(){{
-                damage = 200/6f;
+                damage = 240/6f;
                 damageInterval = 10;
                 buildingDamageMultiplier = 0.3f;
                 collidesGround = false;
                 collidesAir = true;
                 hitColor = Color.valueOf("e3f759");
                 sprite = "aquarion-refraction-point";
+                maxRange = 260;
             }};
             scaleDamageEfficiency = true;
             shootSound = Sounds.none;
@@ -859,20 +860,20 @@ public class AquaTurrets {
             shootWarmupSpeed = 0.08f;
             shootCone = 360f;
 
-            aimChangeSpeed = 2f;
-            rotateSpeed = 3f;
+            aimChangeSpeed = 3f;
+            rotateSpeed = 6f;
 
             shootY = 1f;
             outlineColor = tantDarkestTone;
             size = 2;
             envEnabled |= Env.space;
-            range = 200f;
+            range = 240f;
             scaledHealth = 210;
 
             unitSort = UnitSorts.strongest;
 
             consumeLiquid(water, 15f / 60f);
-            consumePower( 3);
+            consumePower( 2);
         }};
         douse = new LiquidTurret("douse"){{
             requirements(Category.turret, with(metaglass, 90, nickel, 60, copper, 20, graphite, 25));
@@ -1110,10 +1111,11 @@ public class AquaTurrets {
             size = 3;
             shootSound = shootBig;
             squareSprite = false;
-            consumeCoolant(40/60f);
+            consumeLiquid(water, 12);
             coolantMultiplier = 0.3f;
             reload = 25;
-            consumePower(5);
+            liquidCapacity = 1200;
+            //consumePower(5);
             range = 300;
             inaccuracy = 3;
             targetAir = false;

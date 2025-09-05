@@ -63,7 +63,8 @@ public class PowerOutlet extends PowerGenerator {
                 if (cp == null || !frontBuild.shouldConsume()) continue;
 
                 // Amount needed by this front building
-                float need = cp.usage / frontBuild.power.status;
+                float powerSat = (frontBuild.power.status - 1) * -1;
+                float need = cp.usage;
                 totalNeeded += Math.min(need, powerProduction);
             }
 
@@ -149,7 +150,7 @@ public class PowerOutlet extends PowerGenerator {
                         if (frontBuild.power.status <= 0) {
                             need = Math.min(frontConsume.usage, powerProduction);
                         } else {
-                            need = Math.min(frontConsume.usage / frontBuild.power.status, powerProduction);
+                            need = Math.min(frontConsume.usage, powerProduction);
                         }
                     } else {
                         front.producers.add(this);

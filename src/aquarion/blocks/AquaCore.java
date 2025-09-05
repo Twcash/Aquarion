@@ -120,7 +120,7 @@ public class AquaCore {
             range = 25;
             phaseRangeBoost = 3f;
             phaseBoost = 2;
-            healPercent = 1.6f;
+            healPercent = 8f;
             squareSprite = false;
             reload = 300;
             alwaysUnlocked = true;
@@ -132,7 +132,7 @@ public class AquaCore {
             consumePower(0.125f);
             consumeLiquid(fumes, 0.05f);
             range = 28;
-            healPercent = 3;
+            healPercent = 6;
             squareSprite = false;
             reload = 240;
             liquidCapacity = 60;
