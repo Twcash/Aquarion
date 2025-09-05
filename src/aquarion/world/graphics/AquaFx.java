@@ -187,6 +187,7 @@ public class AquaFx {
                     }}
 
             ),
+
     fomentShootSmoke = new MultiEffect(new Effect(85f, e -> {
         color(Color.gray, Color.black, e.color, e.fin());
 
@@ -369,6 +370,23 @@ public class AquaFx {
                                 Fill.circle(e.x + x, e.y + y, Interp.pow5In.apply(e.finpow()) * 5f + 0.1f)
                         );
                     }),
+                            thrashExplosion = new Effect(90f, 160f, e -> {
+                                color(Pal.lightOrange);
+                                stroke(e.fout() * 4f);
+                                float circleRad = 6f + e.finpow() * 64f;
+                                Lines.circle(e.x, e.y, circleRad);
+
+                                rand.setSeed(e.id);
+                                for(int i = 0; i < 6; i++){
+                                    float angle = rand.random(360f);
+                                    float lenRand = rand.random(0.8f, 1f);
+                                    Tmp.v1.trns(angle, circleRad);
+
+                                    for(int s : Mathf.signs){
+                                        Drawf.tri(e.x + Tmp.v1.x, e.y + Tmp.v1.y, e.foutpow() * 30f, e.fout() * 50f * lenRand + 7f, angle - 90f + s * 90f);
+                                    }
+                                }
+                            }),
             GyreShootSmoke = new Effect(48, e -> {
                 color(Color.valueOf("e8586c"), e.fin());
                 stroke(0.8f + e.fout() * 2.7f);
@@ -380,6 +398,84 @@ public class AquaFx {
                     lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(6f, 7f) + 1.5f);
                 }
             }),
+                            shootSmokeMassive = new Effect(120f, e -> {
+                                rand.setSeed(e.id);
+                                for(int i = 0; i < 18; i++){
+                                    v.trns(e.rotation + rand.range(25f), rand.random(e.finpow() * 60f));
+                                    e.scaled(e.lifetime * rand.random(0.6f, 1f), b -> {
+                                        color(e.color, Pal.lightishGray, b.fin());
+                                        Fill.circle(e.x + v.x, e.y + v.y, b.fout() * 7.4f + 0.3f);
+                                    });
+                                }
+                            }),
+                            shootLudicrous = new Effect(14, e -> {
+                                color(Pal.lighterOrange, Pal.lightOrange, e.fin());
+                                float w = 1.2f + 12 * e.fout();
+                                Drawf.tri(e.x, e.y, w, 40f * e.fout(), e.rotation);
+                                Drawf.tri(e.x, e.y, w, 15f * e.fout(), e.rotation-90);
+                                Drawf.tri(e.x, e.y, w, 15f * e.fout(), e.rotation+90);
+                                Drawf.tri(e.x, e.y, w, 7f * e.fout(), e.rotation + 180f);
+
+                            }),
+                            thrashShootSmoke = new Effect(145f, e -> {
+                                color(Pal.lightOrange, Color.black, e.color, e.fin());
+
+                                randLenVectors(e.id, 12, Interp.pow5Out.apply(e.fin() )* 40f, e.rotation, 35f, (x, y) -> {
+                                            Fill.circle(e.x + x / Interp.pow2In.apply(e.fout()), e.y + y / Interp.pow2In.apply(e.fout()), Interp.pow2In.apply(e.fout()) * 6f + 0.1f);
+                                        }
+                                );
+
+                            }),
+                            flagellateExplosion = new Effect(30, 500f, b -> {
+                                float intensity = 4.8f;
+                                float baseLifetime = 25f + intensity * 11f;
+                                b.lifetime = 50f + intensity * 65f;
+                                rand.setSeed(b.id);
+
+                                color(Pal.lighterOrange, Pal.stoneGray, Interp.pow2In.apply(b.fin()));
+                                alpha(0.7f);
+                                for(int i = 0; i < 4; i++){
+                                    rand.setSeed(b.id*2 + i);
+                                    float lenScl = rand.random(0.4f, 1f);
+                                    int fi = i;
+                                    b.scaled(b.lifetime * lenScl, e -> {
+                                        randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), 24f * intensity, (x, y, in, out) -> {
+                                            float fout = e.fout(Interp.pow5Out) * rand.random(0.5f, 1f);
+                                            float rad = fout * ((3f + intensity) * 2.35f);
+
+                                            Fill.circle(e.x + x, e.y + y, rad);
+                                            Drawf.light(e.x + x, e.y + y, rad * 3.5f, Pal.reactorPurple, 1f);
+                                        });
+                                    });
+                                }
+
+                                b.scaled(baseLifetime, e -> {
+                                    Draw.color();
+                                    e.scaled(15 + intensity * 2f, i -> {
+                                        stroke((4.1f + intensity/5f) * i.fout());
+                                        Lines.circle(e.x, e.y, (3f + i.fin() * 20f) * intensity);
+                                        Drawf.light(e.x, e.y, i.fin() * 14f * 2f * intensity, Color.white, 0.9f * e.fout());
+                                    });
+
+                                    color(Pal.lighterOrange, Pal.turretHeat, e.fin());
+                                    stroke((2f * e.fout()));
+
+                                    Draw.z(Layer.effect + 0.001f);
+                                    randLenVectors(e.id + 1, e.finpow() + 0.001f, (int)(8 * intensity), 32f * intensity, (x, y, in, out) -> {
+                                        lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1f + out * 6 * (4f + intensity));
+                                        Drawf.light(e.x + x, e.y + y, (out * 5 * (3f + intensity)) * 3.5f, Draw.getColor(), 0.8f);
+                                    });
+                                });
+                            }),
+                            thrashTrailSmoke = new Effect(90f, e -> {
+                                color(Pal.lightOrange, Color.black, e.color, e.fin());
+
+                                randLenVectors(e.id, 4, Interp.pow5Out.apply(e.fin() )* 5f, e.rotation, 180f, (x, y) -> {
+                                            Fill.circle(e.x + x / Interp.pow2In.apply(e.fout()), e.y + y / Interp.pow2In.apply(e.fout()), Interp.pow2In.apply(e.fout()) * 3f + 0.1f);
+                                        }
+                                );
+
+                            }),
 
     shootSmokeTri = new Effect(45f, e -> {
         color(e.color, e.color, e.fin());
@@ -500,6 +596,21 @@ public class AquaFx {
                     });
                 });
             }),
+            casing1 = new Effect(60f, e -> {
+                color(Pal.lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
+                alpha(e.fout(0.5f));
+                float rot = Math.abs(e.rotation) + 90f;
+                int i = -Mathf.sign(e.rotation);
+
+                float len = (2f + e.finpow() * 6f) * i;
+                float lr = rot + e.fin() * 30f * i;
+                Fill.rect(
+                        e.x + trnsx(lr, len) + Mathf.randomSeedRange(e.id + i + 7, 3f * e.fin()),
+                        e.y + trnsy(lr, len) + Mathf.randomSeedRange(e.id + i + 8, 3f * e.fin()),
+                        4f, 6f, rot + e.fin() * 50f * i
+                );
+
+            }).layer(Layer.bullet),
             liquidSpill = new Effect(20f, e -> {
                 color(e.color);
                 randLenVectors(e.id, 4, 1.5f + e.finpow() * 5f, (x, y) -> {

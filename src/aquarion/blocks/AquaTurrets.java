@@ -35,7 +35,10 @@ import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
+import static aquarion.AquaItems.cupronickel;
+import static aquarion.AquaItems.ferrosilicon;
 import static aquarion.AquaItems.manganese;
+import static aquarion.AquaItems.nickel;
 import static aquarion.AquaLiquids.*;
 import static aquarion.AquaLiquids.fumes;
 import static aquarion.planets.AquaPlanets.*;
@@ -55,7 +58,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block  refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
+    public static Block  flagellate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack, azimuth, condolence, grace;
 
     public static void loadContent() {
@@ -96,7 +99,7 @@ public class AquaTurrets {
                             lifetime = 9;
                             reloadMultiplier = 1.2f;
                             knockback = 0.5f;
-                            damage = 20;
+                            damage = 35;
                             ammoMultiplier = 3f;
                             rangeChange = 24;
                             //this thing can shred late game stuff if you do it right
@@ -143,7 +146,7 @@ public class AquaTurrets {
                 consumeCoolant(10/60f);
             }};
         vector = new ItemTurret("vector"){{
-            requirements(Category.turret, with(AquaItems.cupronickel, 85, silicon, 120, metaglass, 80, graphite, 90));
+            requirements(Category.turret, with(cupronickel, 85, silicon, 110, metaglass, 80, graphite, 70));
             health = 700;
             size = 3;
             squareSprite = false;
@@ -153,6 +156,7 @@ public class AquaTurrets {
             range = 200;
             shootSound = shootAltLong;
             outlineColor = tantDarkestTone;
+            maxAmmo = 40;
             recoilTime = 45;
             warmupMaintainTime = 120;
             shootWarmupSpeed = 0.05f;
@@ -161,11 +165,9 @@ public class AquaTurrets {
             recoils = 4;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             ammo(
-                    AquaItems.cupronickel, new BasicBulletType(){{
-                        damage = 70;
+                    cupronickel, new BasicBulletType(20, 85){{
                         ammoMultiplier = 2;
                         height= 15;
-                        speed = 20f;
                         width = 24;
                         trailWidth = 12;
                         trailLength = 12;
@@ -173,12 +175,12 @@ public class AquaTurrets {
                         trailInterp = Interp.slope;
                         smokeEffect = Fx.shootSmokeSquareBig;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        knockback = 2f;
+                        knockback = 8f;
                         frontColor = AquaPal.redDecal1;
                         backColor = AquaPal.redDecal1Dark;
                     }},
                     metaglass, new BasicBulletType(){{
-                        damage = 45;
+                        damage = 65;
                         ammoMultiplier = 4;
                         height= 15;
                         speed = 16f;
@@ -277,7 +279,7 @@ public class AquaTurrets {
                     mirror = true;
                     moveY = -7/4f;
                     moveX = 10/4f;
-                    x = 26/4;
+                    x = 26/4f;
                     moveRot = 5;
                     progress = warmup;
                     moves.add(new PartMove(PartProgress.recoil, -.25f, -.25f, -12));
@@ -306,6 +308,7 @@ public class AquaTurrets {
             recoil = 0.1f;
             xRand = 1;
             rotateSpeed  = 5;
+            maxAmmo = 20;
             shoot.shotDelay = 0.5f;
             ammoUseEffect = Fx.casing2;
             shootSound = shootSnap;
@@ -383,8 +386,361 @@ public class AquaTurrets {
                 }});
             }};
         }};
+        thrash = new ItemTurret("thrash"){{
+            requirements(Category.turret, with(polymer,400, cupronickel, 450, lead, 1200));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            size = 4;
+            squareSprite = false;
+            outlineColor = tantDarkestTone;
+            rotateSpeed = 0.7f;
+            inaccuracy = 5;
+            range = 440;
+            reload = 240;
+            recoil = 4;
+            recoilTime = 120;
+            cooldownTime = 90;
+            ammoUseEffect = AquaFx.casing1;
+            ammoEjectBack = 9f;
+            maxAmmo = 80;
+            ammoPerShot = 20;
+            targetAir = false;
+            liquidCapacity = 200;
+            shake = 4;
+            shootEffect = AquaFx.shootLong;
+            consumeLiquid(petroleum, 3);
+            shootSound = mediumCannon;
+            ammo(
+                    coal, new ArtilleryBulletType(18f, 150f) {{
+                        smokeEffect = AquaFx.thrashShootSmoke;
+                        trailEffect = AquaFx.thrashTrailSmoke;
+                        despawnShake = 3;
+                        trailInterval = 2;
+                        despawnEffect = hitEffect = AquaFx.thrashExplosion;
+                        velocityRnd = 0.1f;
+                        splashDamage = 200;
+                        splashDamageRadius = 64f;
+                        drag = 0.018f;
+                        makeFire = true;
+                        status = burning;
+                        shrinkX = 0.35F;
+                        shrinkY = 0.63F;
+                        width = 12;
+                        height = 18;
+                        statusDuration = 600;
+                        shrinkInterp = Interp.pow2Out;
+                        despawnSound = dullExplosion;
+                    }},
+                    magnesiumPowder, new ArtilleryBulletType(22f, 200f) {{
+                        smokeEffect = AquaFx.thrashShootSmoke;
+                        trailEffect = AquaFx.thrashTrailSmoke;
+                        despawnShake = 3;
+                        trailInterval = 2;
+                        despawnEffect = hitEffect = AquaFx.thrashExplosion;
+                        velocityRnd = 0.1f;
+                        splashDamage = 125;
+                        splashDamageRadius = 80f;
+                        drag = 0.016f;
+                        makeFire = true;
+                        status = burning;
+                        shrinkX = 0.35F;
+                        shrinkY = 0.63F;
+                        width = 12;
+                        height = 18;
+                        statusDuration = 1200;
+                        shrinkInterp = Interp.pow2Out;
+                        despawnSound = dullExplosion;
+                    }},
+                    AquaItems.brimstone, new ArtilleryBulletType(18f, 80f) {{
+                        smokeEffect = AquaFx.thrashShootSmoke;
+                        trailEffect = AquaFx.thrashTrailSmoke;
+                        despawnShake = 7;
+                        trailInterval = 1;
+                        despawnEffect = hitEffect = AquaFx.thrashExplosion;
+                        velocityRnd = 0.12f;
+                        splashDamage = 400;
+                        splashDamageRadius = 50f;
+                        drag = 0.013f;
+                        makeFire = true;
+                        status = burning;
+                        shrinkX = 0.35F;
+                        shrinkY = 0.63F;
+                        width = 12;
+                        height = 18;
+                        statusDuration = 450;
+                        shrinkInterp = Interp.pow2Out;
+                        despawnSound = dullExplosion;
+                    }});
+            drawer = new DrawTurret(){{
+                parts.addAll(new RegionPart("-eject"){{
+                    moveY = -5f;
+                    progress = PartProgress.recoil.curve(pow5Out);
+                    moves.add(new PartMove(PartProgress.smoothReload.curve(pow2Out), 0, -7, 0));
+                }},new RegionPart("-mid"){{
+                    moveY = -7f;
+                    progress = PartProgress.smoothReload.curve(pow2Out);
+                }},new RegionPart("-barrel"){{
+                    moveY = -10f;
+                    growY = 0.4f;
+                    growProgress = PartProgress.smoothReload.curve(pow2Out);
+                    progress = PartProgress.smoothReload.curve(pow2Out);
+                }} );
+            }};
+            limitRange(1.1f);
+        }};
+        flagellate = new ItemTurret("flagellate"){{
+            requirements(Category.turret, with(steel, 2500, cupronickel, 1200, ferrosilicon, 2000, metaglass, 4000, nickel, 8000));
+            size = 7;
+            squareSprite = false;
+            rotateSpeed = 0.1f;
+            recoil = 0;
+            reload = 540;
+            shake = 12;
+            targetAir = false;
+            outlineColor = tantDarkestTone;
+            ammoUseEffect = AquaFx.casing1;
+            ammoEjectBack = 22;
+            shoot = new ShootAlternate(92/4f);
+            shootY = 216/4f;
+            shootSound = largeCannon;
+            recoils = 2;
+            range = 1025;
+            maxAmmo = 240;
+            ammoPerShot = 60;
+            consumeAmmoOnce = false;
+            ammo(
+                    steel, new ArtilleryBulletType(14, 300){{
+                        drag = 0.007f;
+                        splashDamage = 1800;
+                        splashDamageRadius = 12*8f;
+                        width = 20;
+                        frontColor = hitColor = Pal.turretHeat;
+                        backColor = trailColor = lightColor =  Pal.accentBack;
+                        height = 32;
+                        trailLength = 18;
+                        trailWidth = 8;
+                        ammoMultiplier = 1;
+                        shrinkY = 0.8f;
+                        shrinkInterp = Interp.pow2In;
+                        trailInterp = Interp.pow2In;
+                        shootEffect = Fx.shootBig2;
+                        smokeEffect = AquaFx.shootSmokeMassive;
+                        despawnEffect = AquaFx.flagellateExplosion;
+                    }});
+
+            limitRange(1.1f);
+            drawer = new DrawTurret(){{
+                turretLayer = Layer.legUnit +10;
+                parts.addAll(new RegionPart("-end"){{
+                    progress = PartProgress.recoil.curve(pow4In);
+                    y = 0f;
+                    heatProgress = PartProgress.recoil.curve(pow5Out);
+                    moveY = -80/4f;
+                    recoilIndex = 0;
+                    turretHeatLayer = Layer.legUnit + 11;
+                    moves.add(new PartMove(PartProgress.reload.curve(Interp.pow2In).inv(), 0,  100/4f, 0));
+                }}, new RegionPart("-end"){{
+                    progress = PartProgress.recoil.curve(pow4In);
+                    y = 0f;
+                    moveY = -80/4f;
+                    x = 91/4f;
+                    turretHeatLayer = Layer.legUnit + 11;
+                    heatProgress = PartProgress.recoil.curve(pow5Out);
+                    recoilIndex = 1;
+                    moves.add(new PartMove(PartProgress.reload.curve(Interp.pow2In).inv(), 0, 100/4f, 0));
+                }},new RegionPart("-barrel"){{
+                    progress = PartProgress.recoil.curve(pow4In);
+                    y = -12f;
+                    moveY = -8;
+                    recoilIndex = 0;
+                    moves.add(new PartMove(PartProgress.reload.curve(Interp.pow2In).inv(), 0, 12, 0));
+                }}, new RegionPart("-barrel"){{
+                    progress = PartProgress.recoil.curve(pow4In);
+                    y = -12f;
+                    moveY = -8;
+                    x = 91/4f;
+                    recoilIndex = 1;
+                    moves.add(new PartMove(PartProgress.reload.curve(Interp.pow2In).inv(), 0, 12, 0));
+                }}, new RegionPart("-case"){{
+                    moveY = -8f;
+                    progress = PartProgress.recoil.curve(Interp.pow2In);
+                }});
+            }};
+        }};
+        dislocate = new ItemTurret("dislocate"){
+            {
+                requirements(Category.turret, with(ferrosilicon, 700, metaglass, 900, graphite, 250));
+                shootCone = 45;
+                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+                outlineColor = tantDarkestTone;
+                size = 5;
+                squareSprite = false;
+                range = 300;
+                inaccuracy = 15;
+                reload = 6;
+                recoil = 0.2f;
+                xRand = 1;
+                rotateSpeed = 7;
+                itemCapacity = 30;
+                ammoUseEffect = Fx.casing2;
+                shootSound = shootBig;
+                warmupMaintainTime = 90;
+                shootWarmupSpeed = 0.01f;
+                minWarmup = 0.01f;
+                ammo(
+                        ferrosilicon, new FlakBulletType(25, 15f) {{
+                            trailLength = 7;
+                            hitSize = 8;
+                            scaleLife = true;
+                            ammoMultiplier = 10;
+                            explodeRange = 80;
+                            fragBullets = 4;
+                            collidesGround = true;
+                            fragBullet = new BasicBulletType(4, 10f, "aquarion-flechette"){{
+                                width = 4;
+                                height = 6;
+                                lifetime = 12;
+                                frontColor = lightColor = Pal.siliconAmmoFront;
+                                backColor = trailColor = Pal.siliconAmmoBack;
+                            }};
+                            width = 8;
+                            height = 12;
+                            frontColor = lightColor = Pal.siliconAmmoFront;
+                            backColor = trailColor = Pal.siliconAmmoBack;
+                            velocityRnd = 0.2f;
+                            trailInterp = v -> Math.max(Mathf.slope(v), 0.9f);
+                        }},
+                        AquaItems.steel, new FlakBulletType(30, 45) {{
+                            trailLength = 9;
+                            hitSize = 12;
+                            ammoMultiplier = 20;
+                            explodeRange = 90;
+                            splashDamage = 60;
+                            scaleLife = true;
+                            fragBullets = 4;
+                            collidesGround = true;
+                            fragBullet = new BasicBulletType(4, 10f, "aquarion-flechette"){{
+                                width = 4;
+                                height = 6;
+                                lifetime = 12;
+                                frontColor = lightColor = Color.white;
+                                backColor = trailColor = Pal.gray;
+                            }};
+                            width = 8;
+                            height = 12;
+                            frontColor = lightColor = Color.white;
+                            backColor = trailColor = Pal.gray;
+                            velocityRnd = 0.2f;
+                            trailInterp = v -> Math.max(Mathf.slope(v), 0.9f);
+                        }}
+                );
+                consumeCoolant(4);
+                limitRange(1.2f);
+                coolantMultiplier = 0.2f;
+                shoot.shots = 5;
+                cooldownTime = 240;
+                warmupMaintainTime = 240;
+                shootWarmupSpeed = 0.02f;
+                recoils = 2;
+                shoot = new ShootAlternate(1);
+                drawer = new DrawTurret() {{
+                    parts.addAll(
+
+                            //abs right
+                            new RegionPart("-barrel1"){{
+                                growProgress =  PartProgress.smoothReload.curve(circleIn).mul(-1);
+                                progress = PartProgress.smoothReload.curve(circleIn);
+                                growX = -0.1f;
+                                xScl = 0.9f;
+                                mixColor = Pal.darkestestGray.a(0.2f);
+                                mixColorTo = Pal.darkestestGray.a(0.4f);
+                                moveX = -22/4f;
+                                moveY = 3/4f;
+                                y = 12-6/4f;
+                                x = 44/4f;
+                            }},
+                            //mid right
+                            new RegionPart("-barrel1"){{
+                                growProgress =  PartProgress.smoothReload.curve(circleIn).mul(-1);
+                                progress = PartProgress.smoothReload.curve(circleIn);
+                                growX = -0.1f;
+                                moveX = -22/4f;
+                                mixColor = Pal.darkestestGray.a(0.0f);
+                                mixColorTo = Pal.darkestestGray.a(0.1f);
+                                moveY = 3/4f;
+                                y = 12-3/4f;
+                                x = 22/4f;
+                            }},
+                            //abs left
+                            new RegionPart("-barrel1"){{
+                                growProgress =  PartProgress.smoothReload.curve(circleIn);
+                                progress = PartProgress.smoothReload.curve(circleIn);
+                                growX = -0.1f;
+                                mixColor = Pal.darkestestGray.a(0.4f);
+                                mixColorTo = Pal.darkestestGray.a(0.2f);
+                                xScl = 0.9f;
+                                moveX = 22/4f;
+                                moveY = 3/4f;
+                                y = 12-6/4f;
+                                x = -44/4f;
+                            }},
+                            //mid left
+                            new RegionPart("-barrel1"){{
+                                growProgress =  PartProgress.smoothReload.curve(circleIn);
+                                progress = PartProgress.smoothReload.curve(circleIn);
+                                mixColor = Pal.darkestestGray.a(0.2f);
+                                mixColorTo = Pal.darkestestGray.a(0.1f);
+                                growX = -0.1f;
+                                moveX = -22/4f;
+                                moveY = -3/4f;
+                                y = 12-3/4f;
+                                x = -22/4f;
+                            }},
+                            //Abs middle
+                            new RegionPart("-barrel1"){{
+                                progress = PartProgress.smoothReload.curve(circleIn);
+                                mixColor = Pal.darkestestGray.a(0.1f);
+                                mixColorTo = Pal.darkestestGray.a(0);
+                                moveX = -22/4f;
+                                moveY = -3/4f;
+                                y = 12f;
+                                x = 0;
+                            }},
+                            new RegionPart("-plunger"){{
+                        progress = DrawPart.PartProgress.recoil;
+                        recoilIndex = 0;
+                        moveY = -5f;
+                                y = 0.25f;
+                    }},
+                    new RegionPart("-plunger"){{
+                        progress = PartProgress.recoil;
+                        recoilIndex = 1;
+                        x = 55/4f;
+                        moveY = -5f;
+                        y = 0.25f;
+                    }},
+                            new RegionPart("-mid") {{
+                                progress = PartProgress.recoil;
+                                moveY = -1f;
+                                heatProgress = warmup;
+                            }},
+                            new RegionPart("-back"){{
+                                progress = PartProgress.recoil;
+                                moveY = 1f;
+                            }},
+                            new RegionPart("-side"){{
+                                progress = PartProgress.recoil;
+                                moveX = 0.5f;
+                                moveY = -1.5f;
+                                moveRot = -8f;
+                                mirror = true;
+                                x = 9.25f;
+                                y = 5.5f;
+                            }}
+                    );
+                }};
+            }};
         pelt = new ItemTurret("pelt"){{
-            requirements(Category.turret, with(lead, 85, AquaItems.nickel, 50f, silicon, 90, graphite, 50));
+            requirements(Category.turret, with(lead, 85, nickel, 50f, silicon, 90, graphite, 35));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 800;
             outlineColor = tantDarkestTone;
@@ -407,7 +763,7 @@ public class AquaTurrets {
                         width = 8;
                         height = 14f;
                         ammoMultiplier = 3;
-                        reloadMultiplier = 2;
+                        reloadMultiplier = 1.8f;
                         rangeChange = -24;
                         shrinkY = 0;
                         shrinkX = 0.1f;
@@ -421,7 +777,7 @@ public class AquaTurrets {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    AquaItems.nickel, new BasicBulletType(5, 90){{
+                    nickel, new BasicBulletType(5, 90){{
                         pierce = true;
                         pierceBuilding = true;
                         pierceCap = 3;
@@ -442,7 +798,7 @@ public class AquaTurrets {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    AquaItems.cupronickel, new BasicBulletType(5, 25){{
+                    cupronickel, new BasicBulletType(5, 25){{
                         pierce = true;
                         pierceBuilding = false;
                         pierceCap = 2;
@@ -481,7 +837,7 @@ public class AquaTurrets {
             }};
         }};
         refraction = new ContinuousTurret("refraction"){{
-            requirements(Category.turret, with(metaglass, 90, AquaItems.cupronickel, 120, lead, 100, graphite, 120));
+            requirements(Category.turret, with(metaglass, 90, cupronickel, 120, lead, 100, graphite, 120));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             shootType = new PointLaserBulletType(){{
@@ -516,10 +872,10 @@ public class AquaTurrets {
             unitSort = UnitSorts.strongest;
 
             consumeLiquid(water, 15f / 60f);
-            consumePower(150f / 60f);
+            consumePower( 3);
         }};
         douse = new LiquidTurret("douse"){{
-            requirements(Category.turret, with(metaglass, 90, AquaItems.nickel, 60, copper, 20, graphite, 25));
+            requirements(Category.turret, with(metaglass, 90, nickel, 60, copper, 20, graphite, 25));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             liquidCapacity = 90;
@@ -687,7 +1043,7 @@ public class AquaTurrets {
                         backColor = trailColor = Color.valueOf("8d706a");
                         hitEffect = despawnEffect = AquaFx.fomentHitColor;
                     }},
-                        AquaItems.ferrosilicon, new MissileBulletType(7.5f, 190, "bullet") {{
+                        ferrosilicon, new MissileBulletType(7.5f, 190, "bullet") {{
                         width = 12f;
                         height = 18f;
                         rangeChange = 16;
@@ -750,21 +1106,23 @@ public class AquaTurrets {
             envDisabled = Env.none;
         }};
         grace = new ItemTurret("grace"){{
-            requirements(Category.turret, with(AquaItems.cupronickel, 150, metaglass, 100, lead, 260, graphite, 200f));
+            requirements(Category.turret, with(cupronickel, 150, metaglass, 100, lead, 260, graphite, 200f));
             size = 3;
             shootSound = shootBig;
             squareSprite = false;
             consumeCoolant(40/60f);
             coolantMultiplier = 0.3f;
             reload = 25;
-            consumePower(500/60f);
+            consumePower(5);
             range = 300;
             inaccuracy = 3;
             targetAir = false;
+            targetGround = true;
+            maxAmmo = 24;
             outlineColor = tantDarkestTone;
             ammoPerShot = 3;
             ammo(
-                    silicon, new ArtilleryBulletType(3, 0){{
+                    silicon, new ArtilleryBulletType(3, 45){{
                         width = 8;
                         height = 10;
                         status = shocked;
@@ -775,7 +1133,7 @@ public class AquaTurrets {
                         frontColor = Color.white;
                         hitColor = backColor = lightColor = trailColor = silicon.color;
                         splashDamage = 45f;
-                        splashDamageRadius = 2.5f*8f;
+                        splashDamageRadius = 3f*8f;
                         despawnEffect = hitEffect = new ExplosionEffect(){{
                             sparks = 12;
                             sparkLen = 20;
@@ -790,7 +1148,7 @@ public class AquaTurrets {
                             sparkColor = Pal.sap;
                         }};
                     }},
-                    magnesiumPowder, new ArtilleryBulletType(2.5f, 0){{
+                    magnesiumPowder, new ArtilleryBulletType(2.5f, 80){{
                         width = 8;
                         height = 10;
                         status = blasted;
@@ -816,7 +1174,7 @@ public class AquaTurrets {
                             sparkColor = Color.red;
                         }};
                     }},
-                    copper, new ArtilleryBulletType(6f, 0){{
+                    copper, new ArtilleryBulletType(6f, 45){{
                         width = 8;
                         height = 10;
                         trailLength = 12;
@@ -828,7 +1186,7 @@ public class AquaTurrets {
                         ammoMultiplier = 2;
                         hitColor = backColor = lightColor = trailColor = copper.color;
                         splashDamage = 35f;
-                        splashDamageRadius = 1.5f*8f;
+                        splashDamageRadius = 3.5f*8f;
                         despawnEffect = hitEffect = new ExplosionEffect(){{
                             sparks = 12;
                             sparkLen = 20;
@@ -1699,7 +2057,7 @@ public class AquaTurrets {
                             });
                         });
                     }},
-                    AquaItems.nickel, new RailBulletType() {{
+                    nickel, new RailBulletType() {{
                         length = 160f;
                         damage = 70f;
                         knockback = 0.5f;
@@ -1818,7 +2176,7 @@ public class AquaTurrets {
                         shootEffect = Fx.shootSmokeSquareSparse;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
                     }},
-                    AquaItems.nickel, new BasicBulletType(2.5f, 6){{
+                    nickel, new BasicBulletType(2.5f, 6){{
                         frontColor = Color.white;
                         backColor = trailColor = Color.valueOf("ffbaba");
                         lightColor = Color.valueOf("ffbaba");
@@ -2076,7 +2434,7 @@ public class AquaTurrets {
 
             }};
         torrefy = new LaserTurret("torrefy"){{
-            requirements(Category.turret, with( copper, 3000, steel, 1500, AquaItems.ferrosilicon, 900, lead, 4000, metaglass, 2000));
+            requirements(Category.turret, with( copper, 3000, steel, 1500, ferrosilicon, 900, lead, 4000, metaglass, 2000));
             reload = 8*60f;
             minWarmup = 0.99f;
             shootWarmupSpeed = 0.01f;

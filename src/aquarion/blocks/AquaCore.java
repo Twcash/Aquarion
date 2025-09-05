@@ -117,12 +117,12 @@ public class AquaCore {
             size = 1;
             consumePower(0.75f);
             consumeItem(Items.silicon).boost();
-            range = 20;
-            phaseRangeBoost = 1.25f;
+            range = 25;
+            phaseRangeBoost = 3f;
             phaseBoost = 2;
-            healPercent = 1.4f;
+            healPercent = 1.6f;
             squareSprite = false;
-            reload = 400;
+            reload = 300;
             alwaysUnlocked = true;
         }};
         mendPylon = new RegenPylon("mend-pylon"){{
@@ -131,7 +131,7 @@ public class AquaCore {
             size = 2;
             consumePower(0.125f);
             consumeLiquid(fumes, 0.05f);
-            range = 30;
+            range = 28;
             healPercent = 3;
             squareSprite = false;
             reload = 240;

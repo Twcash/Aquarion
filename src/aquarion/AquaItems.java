@@ -11,7 +11,7 @@ import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.*;
 
 public class AquaItems {
-    public static Item serpentine, pentlandite, magnesiumPowder, steel, acuminite, strontium, hexogen, coke, galena, boron, cryolite, caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, manganese, sodium, ceramic;
+    public static Item polymer, serpentine, pentlandite, magnesiumPowder, steel, acuminite, strontium, hexogen, coke, galena, boron, cryolite, caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, manganese, sodium, ceramic;
     public static void load() {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
@@ -32,7 +32,7 @@ public class AquaItems {
             hardness = 2;
             alwaysUnlocked = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            cost = 1.5f;
+            cost = 1.1f;
             magnetism = 1;
         }};
         chirenium = new Item("chirenium", Color.valueOf("b2acb5")){{
@@ -80,6 +80,10 @@ public class AquaItems {
         cupronickel = new AquaItem("cupronickel", Color.valueOf("#dfaf88")) {{
             cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             magnetism = 0.5f;
+        }};
+        polymer = new AquaItem("polymer", Color.valueOf("#eaeadf")) {{
+            cost = 1.3f;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         chromium = new Item("chromium", Color.valueOf("#d2c8d9")) {{
             cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -166,10 +170,11 @@ public class AquaItems {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             flammability = 0.4f;
             explosiveness = 0.8f;
+            buildable = false;
         }};
         serpentine = new Item("serpentine", Color.valueOf("e7e58f")){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            hardness = 2;
+            hardness = 1;
         }};
         pentlandite = new Item("pentlandite", Color.valueOf("9a948b")){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

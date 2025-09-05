@@ -71,7 +71,6 @@ public class AquaPlanets {
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
             //for future me
-            //Vars.content.createModContent();
             //Vars.content.planet("aquarion-fakeSerp").allowLaunchToNumbered = true
             ruleSetter = r -> {
                 r.fire = true;

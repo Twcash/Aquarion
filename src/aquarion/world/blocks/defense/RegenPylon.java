@@ -29,7 +29,6 @@ public class RegenPylon extends MendProjector {
     public final int timerUse;
     public Color baseColor;
     public Color phaseColor;
-    public TextureRegion topRegion;
     public float reload;
     public float range;
     public float healPercent;
@@ -40,8 +39,8 @@ public class RegenPylon extends MendProjector {
     public RegenPylon(String name) {
         super(name);
         this.timerUse = this.timers++;
-        this.baseColor = Color.valueOf("84f491");
-        this.phaseColor = this.baseColor;
+        this.baseColor = Pal.heal;
+        this.phaseColor = Pal.heal;
         this.reload = 250.0F;
         this.range = 60.0F;
         this.healPercent = 12.0F;
@@ -83,18 +82,11 @@ public class RegenPylon extends MendProjector {
     }
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid) {
-        super.drawPlace(x, y, rotation, valid);
         x *= tilesize;
         y *= tilesize;
         x += offset;
         y += offset;
-        float realRange = range/2f  * phaseRangeBoost;
         Drawf.dashSquare(baseColor, x, y, range/2f * tilesize);
-        Draw.alpha(0.5f);
-        Draw.color(phaseColor);
-        Drawf.dashSquare(baseColor, x, y, realRange * tilesize);
-        Draw.color(baseColor);
-        Draw.alpha(1f);
         indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range/2f * tilesize), b -> true, t -> {
             Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
         });
@@ -145,13 +137,16 @@ public class RegenPylon extends MendProjector {
         }
         @Override
         public void drawSelect() {
-            float realRange = RegenPylon.this.range + this.phaseHeat * RegenPylon.this.phaseRangeBoost;
+            float realRange = RegenPylon.this.range/2f + this.phaseHeat * RegenPylon.this.phaseRangeBoost;
             indexer.eachBlock(this.team, Tmp.r1.setCentered(x, y, realRange * tilesize), (b) -> {
                 return true;
             }, (other) -> {
                 Drawf.selected(other, Tmp.c1.set(RegenPylon.this.baseColor).a(Mathf.absin(4.0F, 1.0F)));
             });
-            Drawf.dashCircle(this.x, this.y, realRange, RegenPylon.this.baseColor);
+            Drawf.dashSquare(baseColor.lerp(phaseColor, phaseHeat), x, y, realRange * tilesize);
+            indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range/2f * tilesize), b -> true, t -> {
+                Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
+            });
         }
         @Override
         public void draw() {

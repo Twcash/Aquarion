@@ -34,18 +34,18 @@ public class AquaPower {
     public static Block heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
     public static void loadContent(){
         solarGenerator = new SolarGenerator("solar-generator"){{
-            requirements(Category.power, with(lead, 350, nickel, 200, silicon, 250));
+            requirements(Category.power, with(lead, 250, nickel, 200, silicon, 250));
             size = 4;
             insulated = true;
             explosionDamage =640;
             explosionRadius = 5;
-            powerProduction = 175f/60f;
+            powerProduction = 2.75f;
             baseExplosiveness = 1;//funny
             alwaysUnlocked = true;
             envDisabled |= Env.underwater;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault(), new DrawGlowRegion(){{
                 glowIntensity = 0.7f;
-                glowScale = 9;
+                glowScale = 12;
                 alpha = 0.4f;
                 color = Color.valueOf("f5c5aa");
             }});
@@ -296,32 +296,15 @@ public class AquaPower {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        channel = new HeatConductor("channel"){{
-            requirements(Category.power, with(Items.copper, 5));
-            size = 2;
-        }};
-        radiator = new CoolingBlock("radiator"){{
-            requirements(Category.power, with(Items.lead, 5));
-            heatSubtraction = 10;
-            heatRequirement = 0;
-
-            size = 2;
-            consumeLiquid(water, 10/60f);
-            consumePower(50/60f);
-        }};
-        compressor = new HeatProducer("compressor"){{
-            requirements(Category.power, with(Items.lead, 5));
-            heatOutput = 10;
-        }};
         pylon = new PowerPylon("pylon"){{
-            requirements(Category.power, with(silicon, 20));
-            maxRange = 10;
-            laserRange = 10;
-            maxNodes = 8;
+            requirements(Category.power, with(silicon, 15));
+            maxRange = 12;
+            laserRange = 12;
+            maxNodes = 9;
             alwaysUnlocked = true;
         }};
         outlet = new PowerOutlet("outlet"){{
-            requirements(Category.power, with(silicon, 15));
+            requirements(Category.power, with(silicon, 10));
             rotate = true;
             rotateDraw = false;
             powerProduction = 1;
@@ -342,7 +325,7 @@ public class AquaPower {
             size = 1;
             insulated = true;
             researchCostMultiplier = 0;
-            consumePowerBuffered(250);
+            consumePowerBuffered(500);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault(), new DrawGlowRegion(){{
                 glowIntensity = 0.7f;
                 glowScale = 3;
@@ -354,7 +337,7 @@ public class AquaPower {
             requirements(Category.power, with(copper, 50, silicon, 120, lead, 200));
             size = 4;
             insulated = true;
-            consumePowerBuffered(8000);
+            consumePowerBuffered(11000);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;}},new DrawDefault());
         }};
         ionBattery = new Battery("ion-battery"){{
