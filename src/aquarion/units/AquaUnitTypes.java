@@ -1387,14 +1387,14 @@ public class AquaUnitTypes {
                 shootSound = Sounds.shootAltLong;
                 shootY = 3;
                 reload = 90;
-                bullet = new BasicBulletType(3, 25) {{
+                bullet = new BasicBulletType(3, 30) {{
                     collidesAir = false;
                     shrinkY = 0;
                     shrinkX = 0.2f;
                     hitSize = 4;
                     recoil = 1;
                     fragBullets = 3;
-                    fragBullet = new BasicBulletType(4, 10) {{
+                    fragBullet = new BasicBulletType(4, 15) {{
                         frontColor = AquaPal.fireLight1;
                         backColor = trailColor = lightColor = trailColor = AquaPal.fireLight2;
                         lifetime = 20;
