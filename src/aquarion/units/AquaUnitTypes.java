@@ -1367,6 +1367,7 @@ public class AquaUnitTypes {
             speed = 0.45f;
             hitSize = 8;
             range = 110;
+            drownTimeMultiplier = 2.5f;
             health = 550;
             armor = 2;
             targetAir = false;
