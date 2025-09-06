@@ -1421,7 +1421,7 @@ public class AquaUnitTypes {
             speed = 0.7f;
             hitSize = 8;
             range = 110;
-            health = 180;
+            health = 260;
             armor = 6;
             targetAir = true;
             rotateSpeed = 1.2f;
@@ -1438,8 +1438,8 @@ public class AquaUnitTypes {
                 recoil = 2;
                 shootSound = Sounds.shootAltLong;
                 shootY = 4;
-                reload = 35;
-                bullet = new BasicBulletType(4, 15, "aquarion-bolt") {{
+                reload = 20;
+                bullet = new BasicBulletType(4, 25, "aquarion-bolt") {{
                     shrinkY = 0;
                     shrinkX = 0.2f;
                     hitSize = 2;
