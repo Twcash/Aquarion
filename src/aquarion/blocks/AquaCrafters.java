@@ -2,6 +2,7 @@ package aquarion.blocks;
 
 import aquarion.AquaAttributes;
 import aquarion.AquaSounds;
+import aquarion.world.blocks.heatBlocks.AquaHeatCrafter;
 import aquarion.world.blocks.production.*;
 import aquarion.world.graphics.*;
 
@@ -1083,7 +1084,11 @@ public class AquaCrafters {
             outputItem = new ItemStack(graphite, 3);
             liquidCapacity = 300;
             itemCapacity = 60;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask());
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawRegion("-bottom"), new DrawRegion("-mider"), new DrawLiquidTile(petroleum, 4){{padBottom = 7;}}, new DrawRegion("-mid"), new DrawLiquidTile(methane){{
+                padRight = padLeft = 4;
+                padBottom = 12;
+                padTop = 73/4f;
+            }},new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask(), new AquaDrawLiquidOutputs());
         }};
         polymerPress = new AquaGenericCrafter("polymer-press"){{
             requirements(Category.crafting, with( cupronickel, 700, graphite, 250, metaglass, 500));
@@ -1223,21 +1228,21 @@ public class AquaCrafters {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
-            requirements(Category.crafting, with( steel, 500, ferrosilicon, 250, metaglass, 1000));
-            shownPlanets.addAll(tantros2);
-            craftTime = 1.5f*60f;
-            size = 5;
-            updateEffectChance = 0.08f;
-            updateEffect = Fx.steamCoolSmoke;
-            squareSprite = false;
-            consumeLiquids(LiquidStack.with(petroleum, 4, haze, 2));
-            outputLiquid = new LiquidStack(methane, 2);
-            outputItems = ItemStack.with(brimstone, 3);
-            liquidCapacity = 300;
-            itemCapacity = 60;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());
-        }};
+//        steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
+//            requirements(Category.crafting, with( steel, 500, ferrosilicon, 250, metaglass, 1000));
+//            shownPlanets.addAll(tantros2);
+//            craftTime = 1.5f*60f;
+//            size = 5;
+//            updateEffectChance = 0.08f;
+//            updateEffect = Fx.steamCoolSmoke;
+//            squareSprite = false;
+//            consumeLiquids(LiquidStack.with(petroleum, 4, haze, 2));
+//            outputLiquid = new LiquidStack(methane, 2);
+//            outputItems = ItemStack.with(brimstone, 3);
+//            liquidCapacity = 300;
+//            itemCapacity = 60;
+//            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());
+//        }};
         desulferizationAssembly = new AquaGenericCrafter("desulferization-assembly"){{
             requirements(Category.crafting, with( metaglass, 250, copper, 500, lead, 1200, graphite, 450));
             shownPlanets.addAll(tantros2);
@@ -1748,18 +1753,19 @@ public class AquaCrafters {
         }};
         algalTerrace = new AttributeCrafter("algal-terrace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with( strontium, 500, lead, 700, metaglass, 500));
+            requirements(Category.production, with( metaglass, 1200, polymer, 450, lead, 1200));
             size = 7;
-            baseEfficiency = 0;
+            baseEfficiency = 0.5f;
             squareSprite = false;
             attribute = AquaAttributes.fertility;
             boostScale = 1/(49/2f);
+            consumePower(1);
             maxBoost = 2;
             liquidCapacity = 1200;
             itemCapacity = 20;
             minEfficiency = 0.25f;
-            outputLiquid = new LiquidStack(bioPulp, 3.5f);
-            consumeLiquids(LiquidStack.with(water, 2.5f, brine, 1));
+            outputLiquid = new LiquidStack(bioPulp, 3.75f);
+            consumeLiquids(LiquidStack.with(water, 10));
             craftTime = 90;
             consumeItem(brimstone, 1);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawLiquidTile(water){{
@@ -1775,16 +1781,18 @@ public class AquaCrafters {
                 padding = 3;
             }}, new DrawDefault());
         }};
-        gasifier = new GenericCrafter("gasifier"){{
+        gasifier = new HeatProducer("gasifier"){{
             size = 6;
             squareSprite = false;
             liquidCapacity = 500;
             itemCapacity = 100;
+            consumePower(2);
+            heatOutput = 45;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( aluminum, 500, strontium, 700, metaglass, 500));
             consumeLiquid(bioPulp, 1.25f);
-            outputItem = new ItemStack(coal, 5);
-            outputLiquid = new LiquidStack(haze, 0.5f);
+            liquidOutputDirections = new int[]{3, 2};
+            outputLiquids = LiquidStack.with(haze, 0.5f, oil, 1.5f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion(){{
                 glowIntensity = 0.7f;
                 glowScale = 9;

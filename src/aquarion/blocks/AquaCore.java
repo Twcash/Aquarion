@@ -3,10 +3,10 @@ package aquarion.blocks;
 import aquarion.units.AquaUnitTypes;
 import aquarion.world.blocks.core.AquaStorageBlock;
 import aquarion.world.blocks.core.TantrosCoreBlock;
-import aquarion.world.blocks.defense.BlockingForceProjector;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
 
+import aquarion.world.blocks.defense.deflectorShield;
 import aquarion.world.graphics.drawers.DrawBetterRegion;
 import mindustry.content.Items;
 import mindustry.content.Planets;
@@ -32,7 +32,7 @@ import static aquarion.AquaLiquids.*;
 
 public class AquaCore {
     public static Block coreAnnex, buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
-            coreEscarpment, corePike, buildCairn, forceBarrier, crate;
+            coreEscarpment, corePike, buildCairn, forceBarrier, crate, deflectorWell;
 
     public static void loadContent(){
         cache = new StorageBlock("cache") {{
@@ -62,7 +62,7 @@ public class AquaCore {
         corePike = new CoreBlock("core-pike") {{
             requirements(Category.effect, with( silicon, 1500));
             squareSprite = false;
-            health = 1500;
+            health = 2500;
             itemCapacity = 8000;
             size = 4;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -120,9 +120,9 @@ public class AquaCore {
             range = 25;
             phaseRangeBoost = 3f;
             phaseBoost = 2;
-            healPercent = 8f;
+            healPercent = 10f;
             squareSprite = false;
-            reload = 300;
+            reload = 280;
             alwaysUnlocked = true;
         }};
         mendPylon = new RegenPylon("mend-pylon"){{
@@ -137,6 +137,16 @@ public class AquaCore {
             reload = 240;
             liquidCapacity = 60;
             researchCostMultiplier = 0;
+        }};
+        deflectorWell = new deflectorShield("deflector-well"){{
+            requirements(Category.effect, with(polymer, 800, metaglass, 900, silicon, 1200));
+            size = 4;
+            squareSprite = false;
+            liquidCapacity = 500;
+            sides = 10;
+            shieldRotation = 45;
+            consumeLiquid(haze, 2.5f);
+            radius = 120;
         }};
         buzzSaw = new ChainsawTurret("buzzsaw"){{
             requirements(Category.turret, with(silicon, 250, lead, 300));

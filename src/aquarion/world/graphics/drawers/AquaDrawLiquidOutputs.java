@@ -16,7 +16,7 @@ public class AquaDrawLiquidOutputs extends DrawBlock {
 
     @Override
     public void draw(Building build){
-        GenericCrafter crafter = (GenericCrafter)build.block;
+        AquaGenericCrafter crafter = (AquaGenericCrafter)build.block;
         if(crafter.outputLiquids == null) return;
 
         for(int i = 0; i < crafter.outputLiquids.length; i++){
@@ -30,7 +30,7 @@ public class AquaDrawLiquidOutputs extends DrawBlock {
 
     @Override
     public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list){
-        GenericCrafter crafter = (GenericCrafter)block;
+        AquaGenericCrafter crafter = (AquaGenericCrafter)block;
         if(crafter.outputLiquids == null) return;
 
         for(int i = 0; i < crafter.outputLiquids.length; i++){

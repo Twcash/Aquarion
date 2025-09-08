@@ -5,6 +5,7 @@ import arc.files.*;
 import arc.graphics.*;
 import arc.graphics.gl.*;
 import arc.math.geom.Vec3;
+import arc.scene.ui.layout.Scl;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.graphics.*;
@@ -18,8 +19,9 @@ public class AquaShaders {
     public static PlanetShader planet;
 
     public static @Nullable SurfaceShader brine, shadow, heat;
+    public static @Nullable deflectorShader deflectorShield;
     public static @Nullable GlitchShader glitch;
-    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer;
+    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer, deflecterLayer;
     public static Fi file(String name){
         return Core.files.internal("shaders/" + name);
     }
@@ -32,11 +34,12 @@ public static void init(){
         shadow = new SurfaceShader("shadow");
         heat = new SurfaceShader("heat");
         glitch = new GlitchShader("glitch");
-
+    deflectorShield = new deflectorShader();
         shadowLayer = new CacheLayer.ShaderLayer(shadow);
         brineLayer = new CacheLayer.ShaderLayer(brine);
         heatLayer = new CacheLayer.ShaderLayer(heat);
     glitchLayer= new CacheLayer.ShaderLayer(glitch);
+    deflecterLayer= new CacheLayer.ShaderLayer(deflectorShield);
         CacheLayer.addLast(brineLayer);
     }
 
@@ -348,7 +351,23 @@ public static void init(){
             }
         }
     }
+    public static class deflectorShader extends Shaders.LoadShader {
 
+        public deflectorShader(){
+            super("deflectorShield", "screenspace");
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_dp", Scl.scl(1f));
+            setUniformf("u_time", Time.time / Scl.scl(1f));
+            setUniformf("u_offset",
+                    Core.camera.position.x - Core.camera.width / 2,
+                    Core.camera.position.y - Core.camera.height / 2);
+            setUniformf("u_texsize", Core.camera.width, Core.camera.height);
+            setUniformf("u_invsize", 1f/Core.camera.width, 1f/Core.camera.height);
+        }
+    }
     public static class PlanetShader extends Shaders.LoadShader {
         public Vec3 lightDir = new Vec3(1, 1, 1).nor();
         public Color ambientColor = Color.white.cpy();

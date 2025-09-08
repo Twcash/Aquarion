@@ -31,6 +31,8 @@ public class Renderer {
     public static class Layer extends mindustry.graphics.Layer {
         public static final float shadow = 29.8936f;
         public static final float heat = 39.7656f;
+        public static final float deflector = 126.05f;
+
         public static final float glitch = 159f;
     }
 
@@ -40,13 +42,11 @@ public class Renderer {
         int w = Core.graphics.getWidth();
         int h = Core.graphics.getHeight();
 
-        // Initialize frame buffers if needed
         if (buffer == null) buffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
         if (prevBuffer == null) prevBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
 
         buffer.resize(w, h);
 
-        // --- Shadow Layer ---
         Draw.drawRange(Layer.shadow, 0.01f,
                 () -> buffer.begin(Color.clear),
                 () -> {
@@ -54,13 +54,18 @@ public class Renderer {
                     buffer.blit(AquaShaders.shadow);
                 }
         );
-
-        // --- Heat Layer ---
         Draw.drawRange(Layer.heat, 0.1f,
                 () -> buffer.begin(Color.clear),
                 () -> {
                     buffer.end();
                     buffer.blit(AquaShaders.heat);
+                }
+        );
+        Draw.drawRange(Layer.deflector, 0.01f,
+                () -> buffer.begin(Color.clear),
+                () -> {
+                    buffer.end();
+                    buffer.blit(AquaShaders.deflectorShield);
                 }
         );
 

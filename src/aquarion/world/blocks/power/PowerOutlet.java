@@ -52,26 +52,12 @@ public class PowerOutlet extends PowerGenerator {
         consume(new ConsumePowerDynamic(powerProduction, build -> {
             if (!(build instanceof OutletBuild o)) return 0f;
 
-            float totalNeeded = 0f;
-            Seq<Building> fronts = o.getFrontBuildings(); // safer than using o.fronts directly
+            float balance = o.power.graph.getPowerBalance();
+            if (balance >= 0f) return 0f; // no need
 
-            for (Building frontBuild : fronts) {
-                if (frontBuild.power == null || frontBuild.team != o.team) continue;
-                if (frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild) continue;
-
-                ConsumePower cp = frontBuild.block.findConsumer(f -> f instanceof ConsumePower);
-                if (cp == null || !frontBuild.shouldConsume()) continue;
-
-                // Amount needed by this front building
-                float powerSat = (frontBuild.power.status - 1) * -1;
-                float need = cp.usage;
-                totalNeeded += Math.min(need, powerProduction);
-            }
-
-            // Clamp to max available power
-            totalNeeded = Math.min(totalNeeded, powerProduction);
-            o.need = totalNeeded; // store for updateTile
-            return totalNeeded;   // <-- this is the key: return what you need to consume
+            float need = Math.min(-balance, powerProduction);
+            o.need = need;
+            return need;
         }));
     }
     @Override
@@ -131,7 +117,7 @@ public class PowerOutlet extends PowerGenerator {
                 this.power.graph.consumers.add(this);
             }
             for (Building frontBuild : fronts) {
-            //Stop if front doesn't exist or has power
+            //Stop if front doesn't exist or has no power
                 if (frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild) continue;
                 if (frontBuild == null || !(frontBuild.block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)) {
                 need = 0;
@@ -156,7 +142,7 @@ public class PowerOutlet extends PowerGenerator {
                         front.producers.add(this);
                     }
                 } else if(lastFront != null) {
-                    //Hope this works
+                    //Hope this works (It doesn't)
                     PowerGraph last = lastFront.power.graph;
                     if (last.consumers.contains(this)) {
                         last.consumers.remove(this);
@@ -171,7 +157,7 @@ public class PowerOutlet extends PowerGenerator {
         @Override
         public float getPowerProduction(){
             if(!enabled || need <= 0) return 0f;
-            return need * this.power.status;
+            return powerProduction * this.power.status;
         }
         @Override
         public void onProximityAdded() {

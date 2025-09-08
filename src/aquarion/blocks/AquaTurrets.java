@@ -151,7 +151,7 @@ public class AquaTurrets {
             size = 3;
             squareSprite = false;
             reload = 170;
-            ammoPerShot = 20;
+            ammoPerShot = 12;
             itemCapacity = 80;
             range = 200;
             shootSound = shootAltLong;
@@ -407,7 +407,7 @@ public class AquaTurrets {
             liquidCapacity = 200;
             shake = 4;
             shootEffect = AquaFx.shootLong;
-            consumeLiquid(petroleum, 3);
+            consumeLiquid(petroleum, 1);
             shootSound = mediumCannon;
             ammo(
                     coal, new ArtilleryBulletType(18f, 150f) {{
@@ -417,7 +417,7 @@ public class AquaTurrets {
                         trailInterval = 2;
                         despawnEffect = hitEffect = AquaFx.thrashExplosion;
                         velocityRnd = 0.1f;
-                        splashDamage = 200;
+                        splashDamage = 340;
                         splashDamageRadius = 64f;
                         drag = 0.018f;
                         makeFire = true;
@@ -798,7 +798,7 @@ public class AquaTurrets {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    cupronickel, new BasicBulletType(5, 25){{
+                    cupronickel, new BasicBulletType(5, 120){{
                         pierce = true;
                         pierceBuilding = false;
                         pierceCap = 2;
@@ -811,7 +811,7 @@ public class AquaTurrets {
                         trailWidth = 3f;
                         trailLength = 16;
                         reloadMultiplier = 2f;
-                        shieldDamageMultiplier = 3;
+                        shieldDamageMultiplier = 4;
                         hitSize = 6;
                         ammoMultiplier = 3;
                         frontColor = hitColor = Color.white;

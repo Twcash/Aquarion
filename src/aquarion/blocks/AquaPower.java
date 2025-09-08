@@ -381,9 +381,11 @@ public class AquaPower {
             }});
         }};
         heatExchanger = new VariableReactor("basic-heat-exchanger"){{
-            powerProduction = 300;
+            requirements(Category.power, with(silicon, 2500, metaglass, 950, polymer, 500));
+            powerProduction = 120;
             maxHeat = 1000;
-            drawer = new DrawMulti(new DrawRadialEngine());
+            size = 8;
+            squareSprite = false;
         }};
     }
 }
