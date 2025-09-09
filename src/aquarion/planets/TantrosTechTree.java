@@ -32,6 +32,7 @@ public class TantrosTechTree {
             context().researchCostMultipliers = costMultipliers;
             node(nickelWall, () -> {
                 node(mendPyre, () -> {
+                    node(deflectorWell);
                     node(lantern);
                     node(mendPylon, Seq.with(
                             new Objectives.OnSector(CrystalCaverns)

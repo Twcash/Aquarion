@@ -153,7 +153,7 @@ public class AquaTurrets {
             reload = 170;
             ammoPerShot = 12;
             itemCapacity = 80;
-            range = 200;
+            range = 250;
             shootSound = shootAltLong;
             outlineColor = tantDarkestTone;
             maxAmmo = 40;
