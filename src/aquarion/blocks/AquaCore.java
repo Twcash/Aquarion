@@ -145,7 +145,8 @@ public class AquaCore {
             liquidCapacity = 500;
             sides = 10;
             shieldRotation = 45;
-            consumeLiquid(haze, 2.5f);
+            consumeLiquid(haze, 3.5f);
+            consumePower(4);
             radius = 120;
         }};
         buzzSaw = new ChainsawTurret("buzzsaw"){{
