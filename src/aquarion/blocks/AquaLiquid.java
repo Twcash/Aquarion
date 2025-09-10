@@ -26,6 +26,7 @@ public class AquaLiquid {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             fadeIn = false;
             range = 4;
+            willMelt = false;
             hasPower = false;
             liquidCapacity = 80;
             envEnabled |= Env.terrestrial | Env.underwater;

@@ -1,6 +1,7 @@
 package aquarion.blocks;
 
 import aquarion.units.AquaUnitTypes;
+import aquarion.world.blocks.core.AquaCoreBlock;
 import aquarion.world.blocks.core.AquaStorageBlock;
 import aquarion.world.blocks.core.TantrosCoreBlock;
 import aquarion.world.blocks.defense.ChainsawTurret;
@@ -59,7 +60,7 @@ public class AquaCore {
             envDisabled = Env.none;
             //drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
         }};
-        corePike = new CoreBlock("core-pike") {{
+        corePike = new AquaCoreBlock("core-pike") {{
             requirements(Category.effect, with( silicon, 1500));
             squareSprite = false;
             health = 2500;
@@ -79,6 +80,7 @@ public class AquaCore {
             squareSprite = false;
             itemCapacity = 12000;
             size = 6;
+            absorbLasers = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             unitCapModifier = 50;
             unitType = AquaUnitTypes.cull;

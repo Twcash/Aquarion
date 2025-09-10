@@ -79,7 +79,7 @@ public class PowerPylon extends PowerNode {
 
     public PowerPylon(String name){
         super(name);
-        configurable = true;
+        configurable = false;
         consumesPower = false;
         insulated = true;
         outputsPower = false;
