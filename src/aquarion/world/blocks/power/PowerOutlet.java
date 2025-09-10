@@ -59,7 +59,7 @@ public class PowerOutlet extends PowerGenerator {
                     int feeders = 0;
                     for (Building other : o.front().proximity) {
                         if (other instanceof OutletBuild ob && ob.front() == front) {
-                            if(other.front() == o.front()) feeders++;
+                             feeders++;
                         }
                     }
                     if (feeders <= 0) feeders = 1;

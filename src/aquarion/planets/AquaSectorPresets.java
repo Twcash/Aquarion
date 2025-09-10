@@ -66,7 +66,7 @@ public class AquaSectorPresets {
         }};
         erodedCanyon = new AquaSectorPreset("erodedCanyon", fakeSerpulo, 178){{
             addStartingItems = true;
-            captureWave = 36;
+            captureWave = 37;
             difficulty = 7;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
