@@ -228,24 +228,24 @@ public class PowerPylon extends PowerNode {
     }
     @Override
     public void drawPlanConfigTop(BuildPlan plan, Eachable<BuildPlan> list){
-        if(plan.config instanceof Point2[] ps){
-            for(Point2 point : ps){
-                int px = plan.x + point.x, py = plan.y + point.y;
-                otherReq = null;
-                list.each(other -> {
-                    if(other.block != null
-                            && (px >= other.x - ((other.block.size-1)/2) && py >= other.y - ((other.block.size-1)/2) && px <= other.x + other.block.size/2 && py <= other.y + other.block.size/2)
-                            && other != plan && other.block.hasPower && (other.build() instanceof PowerPylonBuild || other.build() instanceof PowerGenerator.GeneratorBuild || other.build() instanceof PowerOutlet.OutletBuild)){
-                        otherReq = other;
-                    }
-                });
-
-                if(otherReq == null || otherReq.block == null) continue;
-
-                drawLaser(plan.drawx(), plan.drawy(), otherReq.drawx(), otherReq.drawy(), size, otherReq.block.size);
-            }
-            Draw.color();
-        }
+//        if(plan.config instanceof Point2[] ps){
+//            for(Point2 point : ps){
+//                int px = plan.x + point.x, py = plan.y + point.y;
+//                otherReq = null;
+//                list.each(other -> {
+//                    if(other.block != null
+//                            && (px >= other.x - ((other.block.size-1)/2) && py >= other.y - ((other.block.size-1)/2) && px <= other.x + other.block.size/2 && py <= other.y + other.block.size/2)
+//                            && other != plan && other.block.hasPower && (other.build() instanceof PowerPylonBuild || other.build() instanceof PowerGenerator.GeneratorBuild || other.build() instanceof PowerOutlet.OutletBuild)){
+//                        otherReq = other;
+//                    }
+//                });
+//
+//                if(otherReq == null || otherReq.block == null) continue;
+//
+//                drawLaser(plan.drawx(), plan.drawy(), otherReq.drawx(), otherReq.drawy(), size, otherReq.block.size);
+//            }
+//            Draw.color();
+//        }
     }
     @Override
     public boolean linkValid(Building tile, Building link){
@@ -288,75 +288,76 @@ public class PowerPylon extends PowerNode {
         }
         @Override
         public boolean onConfigureBuildTapped(Building other){
-            if(linkValid(this, other)){
-                configure(other.pos());
-                return false;
-            }
-
-            if(this == other){ //double tapped
-                if(other.power.links.size == 0){ //find links
-                    Seq<Point2> points = new Seq<>();
-                    getPotentialLinks(tile, team, link -> {
-                        if(points.size < maxNodes){
-                            if(isAllowedLinkTarget(link))points.add(new Point2(link.tileX() - tile.x, link.tileY() - tile.y));
-
-                        }
-                    });
-                    configure(points.toArray(Point2.class));
-                }else{ //clear links
-                    configure(new Point2[0]);
-                }
-                deselect();
-                return false;
-            }
-
-            return true;
+//            if(linkValid(this, other)){
+//                configure(other.pos());
+//                return false;
+//            }
+//
+//            if(this == other){ //double tapped
+//                if(other.power.links.size == 0){ //find links
+//                    Seq<Point2> points = new Seq<>();
+//                    getPotentialLinks(tile, team, link -> {
+//                        if(points.size < maxNodes){
+//                            if(isAllowedLinkTarget(link))points.add(new Point2(link.tileX() - tile.x, link.tileY() - tile.y));
+//
+//                        }
+//                    });
+//                    configure(points.toArray(Point2.class));
+//                }else{ //clear links
+//                    configure(new Point2[0]);
+//                }
+//                deselect();
+//                return false;
+//            }
+//
+//            return true;
+            return false;
         }
 
         @Override
         public void drawSelect(){
-            super.drawSelect();
-
-            if(!drawRange) return;
-
-            Lines.stroke(1f);
-
-            Draw.color(Pal.accent);
-            Drawf.circles(x, y, maxRange * tilesize);
-            Draw.reset();
+//            super.drawSelect();
+//
+//            if(!drawRange) return;
+//
+//            Lines.stroke(1f);
+//
+//            Draw.color(Pal.accent);
+//            Drawf.circles(x, y, maxRange * tilesize);
+//            Draw.reset();
         }
 
         @Override
         public void drawConfigure(){
-
-            Drawf.circles(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
-
-            if(drawRange){
-                Drawf.circles(x, y, maxRange * tilesize);
-
-                for(int x = (int)(tile.x - maxRange - 2); x <= tile.x + maxRange + 2; x++){
-                    for(int y = (int)(tile.y - maxRange - 2); y <= tile.y + maxRange + 2; y++){
-                        Building link = world.build(x, y);
-
-                        if(link != this && linkValid(this, link, false)){
-                            boolean linked = linked(link);
-
-                            if(linked){
-                                Drawf.square(link.x, link.y, link.block.size * tilesize / 2f + 1f, Pal.place);
-                            }
-                        }
-                    }
-                }
-
-                Draw.reset();
-            }else{
-                power.links.each(i -> {
-                    var link = world.build(i);
-                    if(link != null && linkValid(this, link, false)){
-                        Drawf.square(link.x, link.y, link.block.size * tilesize / 2f + 1f, Pal.place);
-                    }
-                });
-            }
+//
+//            Drawf.circles(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
+//
+//            if(drawRange){
+//                Drawf.circles(x, y, maxRange * tilesize);
+//
+//                for(int x = (int)(tile.x - maxRange - 2); x <= tile.x + maxRange + 2; x++){
+//                    for(int y = (int)(tile.y - maxRange - 2); y <= tile.y + maxRange + 2; y++){
+//                        Building link = world.build(x, y);
+//
+//                        if(link != this && linkValid(this, link, false)){
+//                            boolean linked = linked(link);
+//
+//                            if(linked){
+//                                Drawf.square(link.x, link.y, link.block.size * tilesize / 2f + 1f, Pal.place);
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                Draw.reset();
+//            }else{
+//                power.links.each(i -> {
+//                    var link = world.build(i);
+//                    if(link != null && linkValid(this, link, false)){
+//                        Drawf.square(link.x, link.y, link.block.size * tilesize / 2f + 1f, Pal.place);
+//                    }
+//                });
+//            }
         }
 
         @Override

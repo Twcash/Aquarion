@@ -1,5 +1,6 @@
 package aquarion.world.blocks.power;
 
+import aquarion.world.graphics.drawers.SwitchRegion;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
@@ -8,8 +9,11 @@ import arc.struct.EnumSet;
 import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Nullable;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
+import mindustry.gen.Sounds;
 import mindustry.world.Tile;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerGraph;
@@ -25,8 +29,8 @@ import mindustry.world.meta.StatCat;
 import mindustry.world.modules.PowerModule;
 
 public class PowerOutlet extends PowerGenerator {
-    public DrawBlock drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion());
-    public TextureRegion sideRegion2, sideRegion1;
+    public DrawBlock drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion(), new SwitchRegion());
+    public TextureRegion sideRegion2, sideRegion1, onRegion;
     public PowerOutlet(String name) {
         super(name);
         outputsPower = true;
@@ -37,6 +41,9 @@ public class PowerOutlet extends PowerGenerator {
         powerProduction = 100/60f;
         rotate = true;
         rotateDraw = true;
+        configurable = true;
+        autoResetEnabled = false;
+        config(Boolean.class, (OutletBuild entity, Boolean b) -> entity.enabled = b);
     }
 
     @Override
@@ -78,6 +85,7 @@ public class PowerOutlet extends PowerGenerator {
         super.load();
         sideRegion1 = Core.atlas.find(name + "-top1");
         sideRegion2 = Core.atlas.find(name + "-top2");
+        onRegion = Core.atlas.find(name + "-switch");
         drawer.load(this);
     }
     @Override
@@ -194,10 +202,17 @@ public class PowerOutlet extends PowerGenerator {
                 front.producers.remove(this);
             }
         }
-
+        @Override
+        public boolean configTapped(){
+            configure(!enabled);
+            Sounds.click.at(this);
+            return false;
+        }
         @Override
         public void draw() {
             drawer.draw(this);
+            if(enabled)             Draw.rect(onRegion, x, y);
+
         }
         public Seq<Building> frontEdges() {
             Seq<Building> buildings = new Seq<>();
@@ -237,6 +252,10 @@ public class PowerOutlet extends PowerGenerator {
 
             return nearby(dirX * frontOffset, dirY * frontOffset);
         }
+        @Override
+        public Boolean config(){
+            return enabled;
+        }
         public Seq<Building> getFrontBuildings() {
             Seq<Building> buildings = new Seq<>();
             int size = block.size;
@@ -267,6 +286,6 @@ public class PowerOutlet extends PowerGenerator {
 
             return buildings;
         }
-
     }
+
 }

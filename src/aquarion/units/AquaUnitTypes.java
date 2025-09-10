@@ -780,7 +780,7 @@ public class AquaUnitTypes {
             outlineColor = AquaPal.tantDarkerTone;
             lowAltitude = flying = coreUnitDock = true;
             aiController = BuilderAI::new;
-            health = 25;
+            health = 80;
             healColor = Pal.accent;
             constructor = UnitEntity::create;
             engines.add(
