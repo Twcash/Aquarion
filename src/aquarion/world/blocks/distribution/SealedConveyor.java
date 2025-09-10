@@ -77,7 +77,7 @@ public class SealedConveyor extends Duct implements Autotiler{
 
         public float clogHeat = 0f;
         protected void drawAt(float x, float y, int bits, float rotation, SliceMode slice){
-            int frame = enabled && clogHeat <= 0.5f ? (int) (((Time.time * visualSpeed * .05f * timeScale * efficiency)) % 4) : 0;
+            int frame = enabled && clogHeat < 1f ? (int) (((Time.time * visualSpeed * .05f * timeScale * efficiency / clogHeat)) % 4) : 0;
             Draw.z(Layer.blockUnder + 0.1f);
             Draw.rect(regions[blendbits][frame], x, y, tilesize * blendsclx, tilesize * blendscly, rotation);
             Draw.z(Layer.blockUnder + 0.3f);

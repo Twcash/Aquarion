@@ -2,6 +2,7 @@ package aquarion.blocks;
 
 import aquarion.AquaItems;
 import aquarion.AquaLiquids;
+import aquarion.AquaSounds;
 import aquarion.AquaStatuses;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
 import aquarion.world.graphics.AquaFx;
@@ -153,8 +154,8 @@ public class AquaTurrets {
             reload = 170;
             ammoPerShot = 12;
             itemCapacity = 80;
-            range = 250;
-            shootSound = shootAltLong;
+            range = 255;
+            shootSound = AquaSounds.vectorShot;
             outlineColor = tantDarkestTone;
             maxAmmo = 40;
             recoilTime = 45;
@@ -165,7 +166,7 @@ public class AquaTurrets {
             recoils = 4;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             ammo(
-                    cupronickel, new BasicBulletType(20, 85){{
+                    cupronickel, new BasicBulletType(20, 95){{
                         ammoMultiplier = 2;
                         height= 15;
                         width = 24;
@@ -180,7 +181,7 @@ public class AquaTurrets {
                         backColor = AquaPal.redDecal1Dark;
                     }},
                     metaglass, new BasicBulletType(){{
-                        damage = 65;
+                        damage = 80;
                         ammoMultiplier = 4;
                         height= 15;
                         speed = 16f;
@@ -197,7 +198,7 @@ public class AquaTurrets {
                     }},
                     //LOAD THE 20 POUNDER CHAPS
                     steel, new BasicBulletType(){{
-                        damage = 150;
+                        damage = 140;
                         ammoMultiplier = 4;
                         height= 30;
                         speed = 16f;
@@ -403,6 +404,8 @@ public class AquaTurrets {
             ammoEjectBack = 9f;
             maxAmmo = 80;
             ammoPerShot = 20;
+            consumeCoolant(2);
+            coolantMultiplier = 0.08f;
             targetAir = false;
             liquidCapacity = 200;
             shake = 4;
@@ -410,7 +413,7 @@ public class AquaTurrets {
             consumeLiquid(petroleum, 1);
             shootSound = mediumCannon;
             ammo(
-                    coal, new ArtilleryBulletType(18f, 150f) {{
+                    coal, new ArtilleryBulletType(18f, 220f) {{
                         smokeEffect = AquaFx.thrashShootSmoke;
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 3;
@@ -430,7 +433,7 @@ public class AquaTurrets {
                         shrinkInterp = Interp.pow2Out;
                         despawnSound = dullExplosion;
                     }},
-                    magnesiumPowder, new ArtilleryBulletType(22f, 200f) {{
+                    magnesiumPowder, new ArtilleryBulletType(22f, 320f) {{
                         smokeEffect = AquaFx.thrashShootSmoke;
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 3;
@@ -450,7 +453,7 @@ public class AquaTurrets {
                         shrinkInterp = Interp.pow2Out;
                         despawnSound = dullExplosion;
                     }},
-                    AquaItems.brimstone, new ArtilleryBulletType(18f, 80f) {{
+                    AquaItems.brimstone, new ArtilleryBulletType(18f, 250f) {{
                         smokeEffect = AquaFx.thrashShootSmoke;
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 7;
@@ -750,9 +753,13 @@ public class AquaTurrets {
             recoilTime = 85;
             shootCone = 3f;
             reload = 130;
+            soundPitchMax = 1.5f;
+            soundPitchMin = 1.2f;
+            shootSound = shootAltLong;
+
             size = 2;
-            ammoPerShot = 12;
-            itemCapacity = 32;
+            ammoPerShot = 8;
+            maxAmmo = 24;
             consumeCoolant(20/60f);
             ammo(
                     lead, new BasicBulletType(9, 55){{
@@ -770,7 +777,6 @@ public class AquaTurrets {
                         hitSize = 8;
                         trailWidth = 2f;
                         trailLength = 12;
-                        shootSound = shootAltLong;
                         frontColor = hitColor = Color.white;
                         backColor = lightColor = trailColor = Color.valueOf("8d70ab");
                         despawnEffect = hitEffect = Fx.hitSquaresColor;
@@ -1109,7 +1115,7 @@ public class AquaTurrets {
         grace = new ItemTurret("grace"){{
             requirements(Category.turret, with(cupronickel, 150, metaglass, 100, lead, 260, graphite, 200f));
             size = 3;
-            shootSound = shootBig;
+            shootSound = AquaSounds.graceShot;
             squareSprite = false;
             consumeLiquid(water, 12);
             coolantMultiplier = 0.3f;

@@ -19,7 +19,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
-    public static Block steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+    public static Block polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
@@ -133,6 +133,30 @@ public class AquaDefense {
 
             envEnabled|= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            researchCostMultiplier = 0.25f;
+        }};
+        polymerWall = new AquaWall("polymer-wall") {{
+            requirements(Category.defense, with(polymer, 24));
+            health = 200*4;
+            size = 2;
+            flammabilityScale = 2;
+            insulated = true;
+            chanceDeflect = 0.1f;
+            absorbLasers = true;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            researchCostMultiplier = 0.1f;
+            envEnabled|= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        hugePolymerWall = new AquaWall("huge-polymer-wall") {{
+            requirements(Category.defense, with(polymer, 54));
+            health = 200*9;
+            size = 3;
+            absorbLasers = true;
+            flammabilityScale = 2;
+            insulated = true;
+            chanceDeflect = 0.1f;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.25f;
         }};
         steelWall = new AquaWall("steel-wall") {{

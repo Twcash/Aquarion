@@ -1753,7 +1753,7 @@ public class AquaCrafters {
         }};
         algalTerrace = new AttributeCrafter("algal-terrace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with( metaglass, 1600, polymer, 900, lead, 1200));
+            requirements(Category.production, with( metaglass, 1200, polymer, 450, lead, 1200));
             size = 7;
             baseEfficiency = 0.5f;
             squareSprite = false;
@@ -1789,7 +1789,7 @@ public class AquaCrafters {
             consumePower(2);
             heatOutput = 45;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with( polymer, 600, cupronickel, 1000, ferricMatter , 900, silicon, 1800));
+            requirements(Category.crafting, with( aluminum, 500, strontium, 700, metaglass, 500));
             consumeLiquid(bioPulp, 1.25f);
             liquidOutputDirections = new int[]{3, 2};
             outputLiquids = LiquidStack.with(haze, 0.5f, oil, 1.5f);
@@ -1808,11 +1808,11 @@ public class AquaCrafters {
                 glowScale = 6;
                 alpha = 0.5f;
                 color = Color.valueOf("f5c5aa");
-            }}, new DrawHeatOutput());
+            }});
         }};
         ultrafamicRefinery = new AquaGenericCrafter("ultramafic-refinery"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(   cupronickel, 1500, metaglass, 900, silicon, 1200, polymer, 1000));
+            requirements(Category.crafting, with(   cupronickel, 700, metaglass, 500, silicon, 2000, polymer, 800));
             size = 7;
             squareSprite = false;
             itemCapacity = 200;
@@ -1881,9 +1881,9 @@ public class AquaCrafters {
             size = 4;
             squareSprite = false;
             regionRotated1 = 1;
-            consume(new ConsumeLiquidFlammable(1f, 0.75f));
+            consume(new ConsumeLiquidFlammable(1f, 1));
             consumeLiquid(oxygen, .125f);
-            heatOutput = 30;
+            heatOutput = 25;
             rotateDraw = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawLiquidTile(oil, 4),new DrawSoftParticles(){{
                 alpha = 0.35f;

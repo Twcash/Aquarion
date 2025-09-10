@@ -6,6 +6,7 @@ import mindustry.content.Planets;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.storage.Unloader;
 import mindustry.world.blocks.units.UnitCargoLoader;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint;
 import mindustry.world.meta.Env;
@@ -20,7 +21,7 @@ public class AquaDistribution {
     public static Block  manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
             electrumConveyor, armoredSealedConveyor, sealedOverflow,sealedDistributor,
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
-            sealedUnderflow, sealedJunction;
+            sealedUnderflow, sealedJunction, exporter;
     public static Block cargoDepot, cargoDock;
 
     public static void loadContent() {
@@ -85,6 +86,11 @@ public class AquaDistribution {
             requirements(Category.distribution, with(aluminum, 40));
             speed = 2f;
             allowCoreUnload = true;
+        }};
+        exporter = new Unloader("exporter"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.distribution, with(polymer, 35, cupronickel, 90));
+            speed = 0.9f;
         }};
         sealedSorter = new Sorter("sealed-sorter"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

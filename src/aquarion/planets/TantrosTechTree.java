@@ -42,6 +42,10 @@ public class TantrosTechTree {
                 node(hugeNickelWall, () -> {
                     node(cupronickelWall, () -> {
                                 node(hugeCupronickelWall);
+                        node(polymerWall, () -> {
+                                    node(hugePolymerWall);
+                                }
+                        );
                             }
                     );
                             node(nickelBarricade);

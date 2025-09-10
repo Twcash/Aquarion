@@ -2358,7 +2358,7 @@ public class AquaUnitTypes {
                 shootSound = Sounds.flame;
                 recoil = 1f;
                 ejectEffect = Fx.none;
-                bullet = new BulletType(5f, 15f) {{
+                bullet = new BulletType(5f, 12f) {{
                     ammoMultiplier = 3f;
                     hitSize = 7f;
                     pierce = true;
@@ -2387,8 +2387,8 @@ public class AquaUnitTypes {
             speed = 1.8f;
             engineSize = 3.5f;
             rotateSpeed = 3.5f;
-            health = 320;
-            armor = 2;
+            health = 280;
+            armor = 1;
             engineOffset = 8;
             abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f) {{
                 teamColor = true;
@@ -2428,7 +2428,7 @@ public class AquaUnitTypes {
                 shootSound = Sounds.laser;
                 recoil = 1.5f;
                 ejectEffect = Fx.none;
-                bullet = new BasicBulletType(2f, 45) {{
+                bullet = new BasicBulletType(2f, 35) {{
                     ammoMultiplier = 3f;
                     hitSize = 7f;
                     lifetime = 45;
