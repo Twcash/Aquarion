@@ -3,6 +3,8 @@ package aquarion.world.content;
 import aquarion.blocks.AquaCrafters;
 import aquarion.blocks.AquaLiquid;
 import aquarion.blocks.AquaPower;
+import aquarion.blocks.AquaTurrets;
+import aquarion.planets.AquaSectorPresets;
 import aquarion.world.blocks.power.PowerPylon;
 import arc.Core;
 import arc.Events;
@@ -15,8 +17,7 @@ import mindustry.game.EventType;
 import mindustry.ui.fragments.HintsFragment;
 import mindustry.world.Block;
 
-import static mindustry.Vars.player;
-import static mindustry.Vars.ui;
+import static mindustry.Vars.*;
 
 public class AquaHints {
     static ObjectSet<String> events = new ObjectSet<>();
@@ -49,10 +50,19 @@ public class AquaHints {
                     () -> placedBlocks.contains(AquaPower.solarGenerator),
                     () -> false
             ),
+            outposts(
+                    () -> state.rules.sector == AquaSectorPresets.twinPass.sector,
+                    () -> false
+            ),
+            ammo(
+                    () -> placedBlocks.contains(AquaTurrets.pelt),
+                    () -> false
+            ),
             siphon(
                     () -> placedBlocks.contains(AquaLiquid.siphon),
                     () -> false
             );
+            
             @Nullable
             String text;
             int visibility = visibleAll;
