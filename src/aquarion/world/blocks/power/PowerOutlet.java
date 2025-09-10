@@ -129,10 +129,10 @@ public class PowerOutlet extends PowerGenerator {
             //Stop if front doesn't exist or has no power
                 if (frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild) continue;
                 if (frontBuild == null || !(frontBuild.block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)) {
-                need = 0;
-                productionEfficiency = 0;
-                return;
-            }
+                    need = 0;
+                    productionEfficiency = 0;
+                    return;
+                }
             ConsumePower frontConsume = frontBuild.block.findConsumer(f -> f instanceof ConsumePower);
             //Remove consumption from target graph.
                 if(lastFront != null && lastFront == frontBuild) {
@@ -166,8 +166,13 @@ public class PowerOutlet extends PowerGenerator {
         @Override
         public float getPowerProduction(){
             if(!enabled || need <= 0) return 0f;
-            ConsumePower frontCons = front().block.findConsumer(f -> f instanceof ConsumePower);
-            if(frontCons == null) return 0;
+
+            Building f = front();
+            if(f == null || f.block == null) return 0f;
+
+            ConsumePower frontCons = f.block.findConsumer(cons -> cons instanceof ConsumePower);
+            if(frontCons == null) return 0f;
+
             return Math.min(frontCons.usage, powerProduction) * this.power.status;
         }
         @Override
