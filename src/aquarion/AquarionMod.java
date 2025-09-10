@@ -7,6 +7,7 @@ import aquarion.planets.TantrosTechTree;
 import aquarion.units.AquaUnitTypes;
 import aquarion.units.AquaWrecks;
 import aquarion.units.ProspectorUnitTypes;
+import aquarion.world.content.AquaHints;
 import aquarion.world.graphics.AquaMenuRenderer;
 import aquarion.world.graphics.AquaWeather;
 import aquarion.world.graphics.MenuReplacer;
@@ -46,7 +47,12 @@ import static mindustry.Vars.ui;
 
 
 public class AquarionMod  implements Loadable{
+    public static AquaHints hints = new AquaHints();
     public static void loadContent() {
+        Events.on(EventType.ClientLoadEvent.class, e -> {
+            clientLoaded();
+        });
+
         //stuff that needs to be loaded first
         AquaStatuses.load();
         AquaLiquids.loadContent();
@@ -84,8 +90,11 @@ public class AquarionMod  implements Loadable{
         AquaSectorPresets.load();
         TantrosTechTree.load();
 
-    }
 
+    }
+    public static void clientLoaded(){
+        hints.load();
+    }
     public static AquaMenuRenderer getMenuRenderer() {
         try {
             return Reflect.get(MenuFragment.class, ui.menufrag, "renderer");
