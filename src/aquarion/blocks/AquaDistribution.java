@@ -18,7 +18,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDistribution {
-    public static Block  manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
+    public static Block  sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
             electrumConveyor, armoredSealedConveyor, sealedOverflow,sealedDistributor,
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, exporter;
@@ -100,6 +100,15 @@ public class AquaDistribution {
             hasItems = true;
             alwaysUnlocked = true;
 
+        }};
+        sealedInvertedSorter = new Sorter("sealed-inverted-sorter"){{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.distribution, with(silicon, 15));
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            hasItems = true;
+            alwaysUnlocked = true;
+            invert = true;
         }};
         sealedOverflow = new OverflowGate("sealed-overflow"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
