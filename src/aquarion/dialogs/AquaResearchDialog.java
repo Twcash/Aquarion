@@ -63,7 +63,6 @@ public class AquaResearchDialog extends BaseDialog {
         Vars.ui.research.fill(t -> t.update(() -> {
             if (Vars.ui.research.root.node == AquaPlanets.tantros2.techTree && Vars.ui.research.root.node == AquaPlanets.fakeSerpulo.techTree) {
                 Vars.ui.research.hide(Actions.fadeOut(0f));
-                ui.hudfrag.shown = false;
                 ModEventHandler.techDialog.show();
             }
         }));
