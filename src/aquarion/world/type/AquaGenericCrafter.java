@@ -93,15 +93,17 @@ public class AquaGenericCrafter extends AquaBlock{
         if(outputLiquids != null){
             stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
         }
-        if(baseEfficiency < 1) {
-            stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
-        } else {
-            stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, maxEfficiency+baseEfficiency, flipHeatScale));
-        }
-        stats.add(Stat.maxEfficiency, (int) (maxEfficiency * 100f), StatUnit.percent);
-        if(itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni){
-            stats.remove(Stat.booster);
-            stats.add(Stat.booster, AquaStats.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, craftTime));
+        if(hasHeat) {
+            if (baseEfficiency < 1) {
+                stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
+            } else {
+                stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, maxEfficiency + baseEfficiency, flipHeatScale));
+            }
+            stats.add(Stat.maxEfficiency, (int) (maxEfficiency * 100f), StatUnit.percent);
+            if (itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni) {
+                stats.remove(Stat.booster);
+                stats.add(Stat.booster, AquaStats.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, craftTime));
+            }
         }
     }
 

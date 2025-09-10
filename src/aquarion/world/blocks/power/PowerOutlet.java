@@ -51,13 +51,22 @@ public class PowerOutlet extends PowerGenerator {
 
         consume(new ConsumePowerDynamic(powerProduction, build -> {
             if (!(build instanceof OutletBuild o)) return 0f;
-
-            float balance = o.power.graph.getPowerBalance();
-            if (balance >= 0f) return 0f; // no need
-
-            float need = Math.min(-balance, powerProduction);
-            o.need = need;
-            return need;
+            Building front = o.front();
+            if (front != null && front.power != null) {
+                ConsumePower frontCons = front.block.findConsumer(f -> f instanceof ConsumePower);
+                //P jank but collects every "feeder" to split power.
+                if (frontCons != null) {
+                    int feeders = 0;
+                    for (Building other : o.front().proximity) {
+                        if (other instanceof OutletBuild ob && ob.front() == front) {
+                            if(other.front() == o.front()) feeders++;
+                        }
+                    }
+                    if (feeders <= 0) feeders = 1;
+                    return frontCons.efficiency(front) >= 1f ? Math.min(frontCons.usage / feeders, powerProduction) : 0f;
+                }
+            }
+            return 0f;
         }));
     }
     @Override
@@ -157,7 +166,9 @@ public class PowerOutlet extends PowerGenerator {
         @Override
         public float getPowerProduction(){
             if(!enabled || need <= 0) return 0f;
-            return powerProduction * this.power.status;
+            ConsumePower frontCons = front().block.findConsumer(f -> f instanceof ConsumePower);
+            if(frontCons == null) return 0;
+            return Math.min(frontCons.usage, powerProduction) * this.power.status;
         }
         @Override
         public void onProximityAdded() {

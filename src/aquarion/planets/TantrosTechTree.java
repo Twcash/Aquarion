@@ -99,6 +99,7 @@ public class TantrosTechTree {
                         node(combustionHeater);
                     });
                     node(turbineDynamo);
+                    node(heatExchanger);
                     node(heatEngine, () -> {
                         node(fumeEngine);
                         node(hydroxideReactor);
@@ -356,6 +357,7 @@ public class TantrosTechTree {
                 node(AnnealingOven, () -> {
                             node(cupronickelAlloyer, () -> {
                                 node(ferricGrinder, () -> {
+                                    node(ultrafamicRefinery);
                                     node(ferroSiliconFoundry, Seq.with(
                                             new Objectives.SectorComplete(Torrent),
                                             new Objectives.Research(bauxiteCentrifuge)
@@ -380,7 +382,7 @@ public class TantrosTechTree {
                     node(towaniteReductionVat, Seq.with(
                             new Objectives.OnSector(CrystalCaverns)
                     ), () -> {
-                        node(ultrafamicRefinery);
+
                         node(acuminiteDegredationArray, Seq.with(
                                 new Objectives.SectorComplete(Grove)
                         ), () -> {
