@@ -99,8 +99,9 @@ public class AquaTurrets {
                             speed = 25;
                             lifetime = 9;
                             reloadMultiplier = 1.2f;
+                            ammoMultiplier = 3;
                             knockback = 0.5f;
-                            damage = 35;
+                            damage = 45;
                             ammoMultiplier = 3f;
                             rangeChange = 24;
                             //this thing can shred late game stuff if you do it right

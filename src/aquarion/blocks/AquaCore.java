@@ -145,7 +145,7 @@ public class AquaCore {
             size = 4;
             squareSprite = false;
             liquidCapacity = 500;
-            sides = 10;
+            sides = 180;
             shieldRotation = 45;
             consumeLiquid(haze, 3.5f);
             consumePower(4);

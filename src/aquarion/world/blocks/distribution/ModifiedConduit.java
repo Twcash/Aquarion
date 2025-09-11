@@ -84,16 +84,26 @@ public class ModifiedConduit extends Conduit {
             next = next.getLiquidDestination(self(), liquid);
 
             if (next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f) {
-                float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;
-                float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;
-                float flow = Math.min(Mathf.clamp((fract - ofract)) * (block.liquidCapacity), liquids.get(liquid));
-                flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));
+                float levelHere = liquids.get(liquid) / block.liquidCapacity;
+                float levelNext = next.liquids.get(liquid) / next.block.liquidCapacity;
+                float deltaLevel = Math.max(levelHere - levelNext, 0f) * 50;
 
-                if(flow > 0f && ofract <= fract && next.acceptLiquid(self(), liquid)){
+                float rho = 1f;
+                float viscosityFactor = Mathf.clamp(1f - liquid.viscosity * 0.5f, 0.2f, 1f);
+                float Cd = 0.8f;
+                float A = 1f;
+
+                float flow = Cd * A * Mathf.sqrt(2f * deltaLevel / rho) * viscosityFactor;
+
+                flow *= 10f;
+
+                flow = Math.min(flow, liquids.get(liquid));
+                flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));
+                if(flow > 0f && next.acceptLiquid(self(), liquid)){
                     next.handleLiquid(self(), liquid, flow);
                     liquids.remove(liquid, flow);
                     return flow;
-                } else if (!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f) {
+                } else if (!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f ) {
                     float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;
                     Liquid other = next.liquids.current();
                     if (other.blockReactive && liquid.blockReactive) {
