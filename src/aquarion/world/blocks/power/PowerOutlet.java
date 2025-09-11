@@ -24,6 +24,7 @@ import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawMulti;
 import mindustry.world.draw.DrawSideRegion;
 import mindustry.world.meta.BlockFlag;
+import mindustry.world.meta.BlockStatus;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatCat;
 import mindustry.world.modules.PowerModule;
@@ -58,22 +59,7 @@ public class PowerOutlet extends PowerGenerator {
 
         consume(new ConsumePowerDynamic(powerProduction, build -> {
             if (!(build instanceof OutletBuild o)) return 0f;
-            Building front = o.front();
-            if (front != null && front.power != null) {
-                ConsumePower frontCons = front.block.findConsumer(f -> f instanceof ConsumePower);
-                //P jank but collects every "feeder" to split power.
-                if (frontCons != null) {
-                    int feeders = 0;
-                    for (Building other : o.front().proximity) {
-                        if (other instanceof OutletBuild ob && ob.front() == front) {
-                             feeders++;
-                        }
-                    }
-                    if (feeders <= 0) feeders = 1;
-                    return frontCons.efficiency(front) >= 1f ? Math.min(frontCons.usage / feeders, powerProduction) : 0f;
-                }
-            }
-            return 0f;
+                    return Math.min(o.need, powerProduction);
         }));
     }
     @Override
@@ -150,11 +136,22 @@ public class PowerOutlet extends PowerGenerator {
                     }
                     //Add production to current graph
                     if (front.producers.contains(this)) {
-                        if (frontBuild.power.status <= 0) {
-                            need = Math.min(frontConsume.usage, powerProduction);
-                        } else {
-                            need = Math.min(frontConsume.usage, powerProduction);
-                        }
+                            BlockStatus status = front().status();
+                            //TBH I could have just used an if/else but this was more fun
+                            switch (status) {
+                                case active:
+                                    need = Math.min(frontConsume.usage, powerProduction);
+                                    break;
+                                case logicDisable:
+                                    need = 0;
+                                    break;
+                                case noOutput:
+                                    need = 0;
+                                    break;
+                                case noInput:
+                                    need = Math.min(frontConsume.usage, powerProduction);
+                                    break;
+                            }
                     } else {
                         front.producers.add(this);
                     }
@@ -175,13 +172,7 @@ public class PowerOutlet extends PowerGenerator {
         public float getPowerProduction(){
             if(!enabled || need <= 0) return 0f;
 
-            Building f = front();
-            if(f == null || f.block == null) return 0f;
-
-            ConsumePower frontCons = f.block.findConsumer(cons -> cons instanceof ConsumePower);
-            if(frontCons == null) return 0f;
-
-            return Math.min(frontCons.usage, powerProduction) * this.power.status;
+            return Math.min(need, powerProduction) * power.status;
         }
         @Override
         public void onProximityAdded() {

@@ -792,7 +792,7 @@ public class AquaCrafters {
             liquidCapacity = 1000;
             consume(new ConsumeItemFlammable(0.25f));
             consume(new ConsumeItemExplode(0.2f));
-            consumeLiquids(new LiquidStack(water, 9), new LiquidStack(air, 4));
+            consumeLiquids(new LiquidStack(water, 9), new LiquidStack(air, 3.5f));
             outputLiquid = new LiquidStack(haze, 8.5f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new BetterDrawParticles(){{
                 color = Color.valueOf("dd5f41");
@@ -1758,7 +1758,7 @@ public class AquaCrafters {
             squareSprite = false;
             attribute = AquaAttributes.fertility;
             boostScale = 1/(49/2f);
-            consumePower(1);
+            consumePower(5);
             maxBoost = 2;
             liquidCapacity = 1200;
             itemCapacity = 20;
@@ -1785,14 +1785,15 @@ public class AquaCrafters {
             squareSprite = false;
             liquidCapacity = 500;
             itemCapacity = 100;
+            craftTime = 120;
             consumePower(2);
-            heatOutput = 45;
+            heatOutput = 55;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( aluminum, 500, strontium, 700, metaglass, 500));
             consumeLiquid(bioPulp, 1.25f);
-            liquidOutputDirections = new int[]{3, 2};
-            outputLiquids = LiquidStack.with(haze, 0.5f, oil, 1.5f);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion(){{
+            outputItem = new ItemStack(coal, 5);
+            outputLiquid= new LiquidStack(haze, 0.5f);
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawHeatOutput(), new DrawGlowRegion(){{
                 glowIntensity = 0.7f;
                 glowScale = 9;
                 alpha = 0.5f;

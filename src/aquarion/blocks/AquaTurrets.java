@@ -158,7 +158,7 @@ public class AquaTurrets {
             size = 3;
             squareSprite = false;
             reload = 170;
-            ammoPerShot = 12;
+            ammoPerShot = 9;
             itemCapacity = 80;
             range = 255;
             shootSound = AquaSounds.vectorShot;
