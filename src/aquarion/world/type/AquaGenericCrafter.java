@@ -295,7 +295,7 @@ public class AquaGenericCrafter extends AquaBlock{
                 if(outputLiquids != null){
                     for(var output : outputLiquids){
                         handleLiquid(this, output.liquid,
-                                Math.min(output.amount * efficiencyScale(), liquidCapacity - liquids.get(output.liquid)));
+                                Math.min(output.amount , liquidCapacity - liquids.get(output.liquid)) * efficiencyScale());
                     }
                 }
 
