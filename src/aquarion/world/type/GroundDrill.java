@@ -327,18 +327,19 @@ public class GroundDrill extends AquaBlock {
         @Override
         public void drawSelect() {
             int i = 0;
-            for (Item item : returnItems){
-                float dx = x - block.size * tilesize/2f, dy = y + block.size * tilesize/2f, s = iconSmall / 4f * item.fullIcon.ratio(), h = iconSmall / 4f;
+            for (Item item : returnItems) {
+                float dx = x - block.size * tilesize / 2f, dy = y + block.size * tilesize / 2f, s = iconSmall / 4f * item.fullIcon.ratio(), h = iconSmall / 4f;
                 Draw.mixcol(Color.darkGray, 1f);
-                Draw.rect(item.fullIcon, dx+(i*5), dy - 1, s, h);
+                Draw.rect(item.fullIcon, dx + (i * 5), dy - 1, s, h);
                 Draw.reset();
-                Draw.rect(item.fullIcon, dx+(i*5), dy, s, h);
+                Draw.rect(item.fullIcon, dx + (i * 5), dy, s, h);
                 i++;
             }
         }
 
         @Override
-        public void pickedUp() {}
+        public void pickedUp() {
+        }
 
         @Override
         public void onProximityUpdate() {
@@ -357,7 +358,7 @@ public class GroundDrill extends AquaBlock {
             heat = calculateHeat(sideHeat);
 
             for (Item dominantItem : returnItems) {
-                if(timer(timerDump, dumpTime / timeScale)){
+                if (timer(timerDump, dumpTime / timeScale)) {
                     dump(dominantItem);
                 }
                 int curItems = items.get(dominantItem);
@@ -384,7 +385,7 @@ public class GroundDrill extends AquaBlock {
                 totalProgress += warmup * Time.delta;
 
                 if (progress >= delay) {
-                    int amount = (int)(progress / delay);
+                    int amount = (int) (progress / delay);
                     for (int i = 0; i < amount; i++) offload(dominantItem);
                     progress %= delay;
 
@@ -412,7 +413,8 @@ public class GroundDrill extends AquaBlock {
         }
 
         @Override
-        public void drawCracks() {}
+        public void drawCracks() {
+        }
 
         public void drawDefaultCracks() {
             super.drawCracks();
@@ -427,14 +429,14 @@ public class GroundDrill extends AquaBlock {
             Draw.z(Layer.blockAfterCracks);
             if (drawMineItem) {
                 float r = 0, g = 0, b = 0;
-                for(Item itemb : returnItems){
+                for (Item itemb : returnItems) {
                     Color c = itemb.color;
                     r += c.r;
                     g += c.g;
                     b += c.b;
                 }
                 int count = returnItems.size;
-                Draw.color(r/count, g/count, b/count);
+                Draw.color(r / count, g / count, b / count);
                 Draw.rect(itemRegion, x, y);
             }
             Draw.color();
@@ -457,7 +459,7 @@ public class GroundDrill extends AquaBlock {
 
         @Override
         public void incrementDump(int prox) {
-            if (prox != 0) cdump = (int)((cdump + 1 * efficiency) % prox);
+            if (prox != 0) cdump = (int) ((cdump + 1 * efficiency) % prox);
         }
 
         @Override
@@ -493,6 +495,34 @@ public class GroundDrill extends AquaBlock {
         @Override
         public float[] sideHeat() {
             return sideHeat;
+        }
+
+        //Visual liquid is bugging out causing flickering issues.
+        //No clue what's causing it, but it's easier to override the method than to find out.
+        public float lastOpacity = 0f;
+        @Override
+        public void drawLight() {
+            if (!block.hasLiquids || !block.drawLiquidLight) return;
+
+            Liquid curLiq = maxLiquid();
+            if(curLiq != null){
+                float targetOpacity = curLiq.color.a * (liquids.get(curLiq)/liquidCapacity);
+                lastOpacity = Mathf.lerpDelta(lastOpacity, targetOpacity, 0.1f);
+
+                Drawf.light(x, y, block.size * 30f, curLiq.color, lastOpacity);
+            }
+        }
+        public @Nullable Liquid maxLiquid(){
+            Liquid[] max = new Liquid[1];
+            float[] highest = new float[1];
+
+            liquids.each((liq, amount) -> {
+                if(amount > highest[0]){
+                    highest[0] = amount;
+                    max[0] = liq;
+                }
+            });
+            return max[0];
         }
     }
 }

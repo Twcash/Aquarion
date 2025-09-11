@@ -133,7 +133,7 @@ public class AquaCrafters {
                 glowScale = 6f;
             }});
         }};
-        bauxiteCentrifuge = new GenericCrafter("bauxite-centrifuge") {{
+        bauxiteCentrifuge = new AquaGenericCrafter("bauxite-centrifuge") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(lead, 400, bauxite, 300, silicon, 250, copper, 150));
             craftTime = 60;
@@ -340,7 +340,7 @@ public class AquaCrafters {
                 color = Color.valueOf("ffc99e");
             }});
         }};
-        slagRefinementAssemblage = new GenericCrafter("slag-refinement-array"){{
+        slagRefinementAssemblage = new AquaGenericCrafter("slag-refinement-array"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(graphite, 1500, nickel, 1200, ferricMatter, 300, silicon, 3000));
             size = 7;
@@ -366,7 +366,7 @@ public class AquaCrafters {
 
             }}, new DrawDefault(), new DrawGlowRegion());
         }};
-        azuriteKiln = new GenericCrafter("azurite-kiln"){{
+        azuriteKiln = new AquaGenericCrafter("azurite-kiln"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( bauxite, 750, lead, 750));
             craftTime = 5*60f;
@@ -383,7 +383,6 @@ public class AquaCrafters {
             size = 5;
             updateEffect = Fx.steam;
             updateEffectChance = 0.05f;
-            lightRadius = 0;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawRegion("-bottom"), new DrawLiquidTile(magma, 1.5f){{ alpha = 0.6f;}}, new DrawDefault(), new DrawGlowRegion() {{
                 alpha = 0.65f;
                 color = Color.valueOf("e68569");
@@ -471,7 +470,7 @@ public class AquaCrafters {
                     rotateSpeed = -4;
                 }}, new DrawDefault());
             }};
-            towaniteReductionVat = new GenericCrafter("towanite-reduction-vat"){{
+            towaniteReductionVat = new AquaGenericCrafter("towanite-reduction-vat"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with( copper, 150, silicon ,500));
@@ -535,7 +534,7 @@ public class AquaCrafters {
                 boostHeatColor = Color.valueOf("e1f28c");
     ;
             }};
-            fumeMixer = new GenericCrafter("fume-mixer"){{
+            fumeMixer = new AquaGenericCrafter("fume-mixer"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with(ferrosilicon, 800, metaglass, 1200, cupronickel, 2000, graphite, 1500));
                 size = 6;
@@ -598,7 +597,7 @@ public class AquaCrafters {
                     spinSprite = true;
                 }}, new DrawRegion("-top"));
             }};
-            galenaCrucible = new GenericCrafter("galena-crucible"){{
+            galenaCrucible = new AquaGenericCrafter("galena-crucible"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with( manganese, 500, aluminum, 250, strontium, 250));
                 size = 6;
@@ -625,7 +624,7 @@ public class AquaCrafters {
                     blending = Blending.additive;
                 }});
             }};
-            fumeSeparator = new GenericCrafter("fume-separator"){{
+            fumeSeparator = new AquaGenericCrafter("fume-separator"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with( silicon, 500, aluminum, 450, copper, 200));
                 size = 6;
@@ -779,7 +778,7 @@ public class AquaCrafters {
                 blending = Blending.additive;
             }});
         }};
-        SolidBoiler = new GenericCrafter("solid-boiler"){{
+        SolidBoiler = new AquaGenericCrafter("solid-boiler"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( lead, 700, copper, 900, metaglass, 400, graphite, 1500));
             size = 7;
@@ -1123,7 +1122,7 @@ public class AquaCrafters {
                 y= 16/4f;
             }}, new DrawDefault(), new DrawHeatInputBitmask());
         }};
-        SilicaOxidator = new GenericCrafter("silicon-oxidator"){{
+        SilicaOxidator = new AquaGenericCrafter("silicon-oxidator"){{
             requirements(Category.crafting, with( copper, 300, graphite, 200, metaglass, 200));
             size = 3;
             squareSprite = false;
@@ -1283,7 +1282,7 @@ public class AquaCrafters {
                 particleLife = 90f;
             }}, new AquaHeatRegion("-heats"));
         }};
-        inletArray = new GenericCrafter("inlet-array"){{
+        inletArray = new AquaGenericCrafter("inlet-array"){{
             requirements(Category.production, with( copper, 150, ferricMatter, 100, metaglass, 75));
             shownPlanets.addAll(tantros2);
             craftTime = 10;
@@ -1326,7 +1325,7 @@ public class AquaCrafters {
                 x = -25/4f; y = -13/4f;
             }});
         }};
-        vacuumFreezer = new GenericCrafter("vacuum-freezer"){{
+        vacuumFreezer = new AquaGenericCrafter("vacuum-freezer"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( copper, 120, aluminum, 420));
             size = 6;
@@ -1423,9 +1422,9 @@ public class AquaCrafters {
                 layer = Layer.block +3;
                 blending = Blending.additive;
                 phaseOffset = 10;
-            }}, new DrawLiquidOutputs());
+            }}, new AquaDrawLiquidOutputs());
         }};
-        atmosphericIntake = new GenericCrafter("air-intake"){{
+        atmosphericIntake = new AquaGenericCrafter("air-intake"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with( nickel, 50, silicon, 150));
             size = 2;
@@ -1446,7 +1445,7 @@ public class AquaCrafters {
                 particleLife = 140f;
             }});
         }};
-        acuminiteDegredationArray = new GenericCrafter("acuminite-degredation-array"){{
+        acuminiteDegredationArray = new AquaGenericCrafter("acuminite-degredation-array"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( manganese, 550, aluminum, 700, strontium, 500));
             squareSprite = false;
@@ -1550,7 +1549,7 @@ public class AquaCrafters {
                 color = Color.valueOf("ef6a60");
             }});
         }};
-        atmosphericCentrifuge = new GenericCrafter("atmospheric-centrifuge"){{
+        atmosphericCentrifuge = new AquaGenericCrafter("atmospheric-centrifuge"){{
             liquidOutputDirections = new int[]{1, 2, 3};
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(ferricMatter, 150, copper, 100));
@@ -1610,9 +1609,9 @@ public class AquaCrafters {
                 layer = Layer.block +3;
                 blending = Blending.additive;
                 phaseOffset = 20;
-            }}, new DrawLiquidOutputs());
+            }}, new AquaDrawLiquidOutputs());
         }};
-        steelFoundry = new GenericCrafter("blast-furnace"){{
+        steelFoundry = new AquaGenericCrafter("blast-furnace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( polymer, 900, ferrosilicon, 1200, cupronickel, 600, metaglass, 450, graphite, 650, ferricMatter, 900, aluminum, 1200));
             size = 7;
@@ -1668,7 +1667,7 @@ public class AquaCrafters {
 ;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawPump("-bit"));
         }};
-        brineMixer = new GenericCrafter("brine-mixer"){{
+        brineMixer = new AquaGenericCrafter("brine-mixer"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( cupronickel, 200, metaglass, 350, graphite, 250));
             size = 5;
@@ -1702,7 +1701,7 @@ public class AquaCrafters {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        brineElectrolyzer = new GenericCrafter("brine-electrolysis-manifold"){{
+        brineElectrolyzer = new AquaGenericCrafter("brine-electrolysis-manifold"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( cupronickel, 2500, silicon, 3000, metaglass, 500));
             size = 7;
@@ -1729,7 +1728,7 @@ public class AquaCrafters {
                 padBottom = 130/4f;
                 padRight = 151/4f;
                 alpha = 0.8f;
-            }}, new DrawRegion("-top"), new DrawLiquidOutputs(), new DrawGlowRegion(){{
+            }}, new DrawRegion("-top"), new AquaDrawLiquidOutputs(), new DrawGlowRegion(){{
                 glowIntensity = 0.7f;
                 glowScale = 9;
                 alpha = 0.5f;

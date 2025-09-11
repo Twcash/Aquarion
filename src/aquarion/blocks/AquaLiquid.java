@@ -1,6 +1,7 @@
 package aquarion.blocks;
 
 import aquarion.world.blocks.distribution.*;
+import mindustry.content.Liquids;
 import mindustry.content.Planets;
 import mindustry.type.Category;
 import mindustry.world.Block;
@@ -57,6 +58,7 @@ public class AquaLiquid {
             junctionReplacement = siphonJunction;
             bridgeReplacement = siphonBridge;
             liquidCapacity = 80;
+            health = 110;
             leaks = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -69,6 +71,7 @@ public class AquaLiquid {
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 120;
+
             willMelt = false;
             leaks = true;
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -89,7 +92,7 @@ public class AquaLiquid {
             envDisabled = Env.none;
             ((ModifiedConduit)siphon).junctionReplacement = this;
         }};
-
+        Liquids.oil.explosiveness = 0.7f;
         pipeTank = new ModifiedLiquidRouter("siphon-tank"){{
             requirements(Category.liquid, with(silicon, 150, ferricMatter, 50));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

@@ -235,9 +235,28 @@ public class AquaGenericCrafter extends AquaBlock{
         }
 
         @Override
-        public void drawLight(){
-            super.drawLight();
-            drawer.drawLight(this);
+        public void drawLight() {
+            if (!block.hasLiquids || !block.drawLiquidLight) return;
+
+            Liquid curLiq = maxLiquid();
+            if(curLiq != null){
+                float targetOpacity = curLiq.color.a * (liquids.get(curLiq)/liquidCapacity);
+                lastOpacity = Mathf.lerpDelta(lastOpacity, targetOpacity, 0.1f);
+
+                Drawf.light(x, y, block.size * 30f, curLiq.color, lastOpacity);
+            }
+        }
+        public @Nullable Liquid maxLiquid(){
+            Liquid[] max = new Liquid[1];
+            float[] highest = new float[1];
+
+            liquids.each((liq, amount) -> {
+                if(amount > highest[0]){
+                    highest[0] = amount;
+                    max[0] = liq;
+                }
+            });
+            return max[0];
         }
 
         @Override
@@ -434,6 +453,9 @@ public class AquaGenericCrafter extends AquaBlock{
             write.f(warmup);
             if(legacyReadWarmup) write.f(0f);
         }
+        public float lastOpacity = 0;
+
+
 
         @Override
         public void read(Reads read, byte revision){
