@@ -19,7 +19,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class AquaLiquid {
-    public static Block siphonOverflow, siphonUnderflow, pipeTank, pipeJunction, liquidVessel, siphonReservoir, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
+    public static Block  siphonUnderflow, pipeTank, pipeJunction, liquidVessel, siphonReservoir, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
 
     public static void loadContent() {
         siphonBridge = new ModifiedLiquidBridge("siphon-bridge"){{
@@ -42,10 +42,6 @@ public class AquaLiquid {
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-        }};
-        siphonOverflow = new LiquidUnderflow("siphon-overflow"){{
-            requirements(Category.liquid, with(silicon, 70));
-
         }};
         siphonUnderflow = new LiquidUnderflow("siphon-underflow"){{
             requirements(Category.liquid, with(silicon, 70));

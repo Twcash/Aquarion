@@ -51,6 +51,7 @@ import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
 import static arc.math.Interp.*;
 import static mindustry.content.Items.*;
+import static mindustry.content.Liquids.nitrogen;
 import static mindustry.content.Liquids.water;
 import static mindustry.content.StatusEffects.*;
 import static mindustry.entities.part.DrawPart.PartProgress.charge;
@@ -59,7 +60,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block  flagellate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
+    public static Block  flagellate,truncate,  thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack, azimuth, condolence, grace;
 
     public static void loadContent() {
@@ -71,8 +72,8 @@ public class AquaTurrets {
                 squareSprite = true;
                 shootSound = Sounds.lasershoot;
                 ammoUseEffect = Fx.colorSpark;
-                ammoPerShot = 10;
-                shootCone = 0;
+                ammoPerShot = 4;
+                shootCone = 2;
                 outlineColor = tantDarkestTone;
                 shoot.shots = 5;
                 inaccuracy = 19;
@@ -152,6 +153,189 @@ public class AquaTurrets {
                 limitRange(1.2f);
                 consumeCoolant(10/60f);
             }};
+        truncate = new ItemTurret("truncate"){{
+            requirements(Category.turret, with( AquaItems.ferricMatter, 500, polymer, 350, graphite, 200));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            health = 1120;
+            size = 4;
+            squareSprite = true;
+            shootSound = shootAlt;
+            soundPitchMin = 0.6f;
+            soundPitchMax = 1.2f;
+            ammoUseEffect = Fx.casing3;
+            shootCone = 9;
+            outlineColor = tantDarkestTone;
+            shoot.shots = 2;
+            shoot.shotDelay = 10;
+            inaccuracy = 6;
+            recoil = 8;
+            recoilTime = 300;
+            reload = 240;
+            range = 250;
+            maxAmmo = 5;
+            ammoPerShot = 5;
+            ammo(
+                    graphite, new BasicBulletType(4.5f, 20){{
+                        splashDamage = 90;
+                        splashDamageRadius = 70;
+                        hitEffect = despawnEffect = new ExplosionEffect(){{
+                            waveRad = 30;
+                            waveLife = 90;
+                            waveColor = methane.color;
+                        }};
+                        sprite = "aquarion-bolt";
+                        width = 6;
+                        height = 9;
+                        frontColor =Color.white;
+                        backColor = methane.color;
+                        collidesGround = true;
+                        collidesAir = false;
+                        scaleLife = true;
+                        scaleLifetimeOffset = 60;
+                        sticky = true;
+                        stickyExtraLifetime = 200;
+                        drag = 0.02f;
+                        intervalBullets = 3;
+                        bulletInterval = 10;
+                        trailInterval = 10;
+                        despawnShake = 8;
+                        despawnSound = dullExplosion;
+                        fragOffsetMax = 3;
+                        fragOffsetMin = 0;
+                        trailEffect = new Effect(400f * 1.2f, 250f, e -> {
+                            color(methane.color, 0.35f);
+
+                            randLenVectors(e.id, 3, 15f, (x, y) -> {
+                                Fill.circle(e.x + x, e.y + y, 3.75f * Mathf.clamp(e.fin() / 0.1f) * Mathf.clamp(e.fout() / 0.1f));
+                            });
+                        });
+                        intervalBullet = new EmptyBulletType(){{
+                            lifetime = 400;
+                            hittable = false;
+                            collides = false;
+                            fragBullets = 1;
+                            hitEffect = Fx.ballfire;
+                            fragBullet = new BasicBulletType(0, 200){{
+                                collidesAir = false;
+                                width = height = 0;
+                                instantDisappear = true;
+                                lifetime = 0;
+                                splashDamage = 45;
+                                splashDamageRadius = 34;
+                                hitEffect = despawnEffect = new ExplosionEffect(){{
+                                    waveRad = 30;
+                                    waveLife = 90;
+                                    waveColor = methane.color;
+                                }};
+                                despawnShake = 1;
+
+                            }};
+                        }};
+                    }});
+            drawer = new DrawTurret(){{
+                parts.addAll(new RegionPart("-shell"){{
+                    growProgress = progress = PartProgress.reload;
+                    x = 11f;
+                    moveX = -1;
+                    y = -1;
+                    xScl = 0.5f;
+                    growX = -0.5f;
+                    colorTo = Color.black;
+                    color = Color.grays(0.5f);
+                }},new RegionPart("-shell"){{
+                    growProgress = progress = PartProgress.reload;
+                    x = 0;
+                    y = -1;
+                    moveX = 11;
+                    xScl = -0.75f;
+                    growX = 1.25f;
+                    colorTo = Color.grays(0.5f);
+                    color = Color.white;
+                }},
+                        new RegionPart("-shell"){{
+                            growProgress = progress = PartProgress.reload;
+                            x = -11f;
+                            moveX = 1;
+                            y = -1;
+                            xScl = 0.5f;
+                            growX = -0.5f;
+                            colorTo = Color.black;
+                            color = Color.grays(0.5f);
+                        }},new RegionPart("-shell"){{
+                            growProgress = progress = PartProgress.reload;
+                            x = 0;
+                            y = -1;
+                            moveX = -11;
+                            xScl = -0.75f;
+                            growX = 1.25f;
+                            colorTo = Color.grays(0.5f);
+                            color = Color.white;
+                        }}, new RegionPart("-tap"){{
+                            progress = PartProgress.recoil.curve(pow2In);
+                            moveY = -8f;
+                        }}, new RegionPart("-mid"){{}}, new RegionPart("-cover"){{
+                            mirror = true;
+                            progress = PartProgress.recoil.curve(pow5Out);
+                            growProgress = PartProgress.recoil.curve(pow5Out);
+                            color = new Color(1f, 1f, 1f, 0f);
+                            colorTo = new Color(1f, 1f, 1f, 1f);
+                            progress = PartProgress.recoil.curve(pow5Out);
+                            growProgress = PartProgress.recoil.curve(pow5Out);
+                            rotation = 180;
+                            yScl = -1;
+                            growX = -1.5f;
+                            moveX = -86/4f;
+                        }}, new RegionPart("-cover"){{
+                            mirror = true;
+                            progress = PartProgress.recoil.curve(pow5Out);
+                            growProgress = PartProgress.recoil.curve(pow5Out);
+                            color = new Color(1f, 1f, 1f, 0f);
+                            colorTo = new Color(1f, 1f, 1f, 1f);
+                            progress = PartProgress.recoil.curve(pow5Out);
+                            growProgress = PartProgress.recoil.curve(pow5Out);
+                            rotation = 180;
+                            yScl = -1;
+                            growX = -1.5f;
+                            moveX = -85/4f;
+                        }}, new RegionPart("-cover"){{
+                            mirror = true;
+                            color = new Color(1f, 1f, 1f, 0f);
+                            colorTo = new Color(1f, 1f, 1f, 1f);
+                            progress = PartProgress.recoil.curve(pow5Out);
+                            growProgress = PartProgress.recoil.curve(pow5Out);
+                            rotation = 180;
+                            yScl = -1;
+                            growX = -1.5f;
+                            moveX = -84/4f;
+                        }}, new RegionPart("-cover"){{
+                            mirror = true;
+                            progress = PartProgress.recoil.curve(pow5Out);
+                            growProgress = PartProgress.recoil.curve(pow5Out);
+                            color = new Color(1f, 1f, 1f, 1f);
+                            colorTo = new Color(1f, 1f, 1f, 0f);
+                            growX = -1.5f;
+                            moveX = 86/4f;
+                        }}, new RegionPart("-cover"){{
+                            mirror = true;
+                            progress = PartProgress.recoil.curve(pow5Out);
+                            growProgress = PartProgress.recoil.curve(pow5Out);
+                            color = new Color(1f, 1f, 1f, 1f);
+                            colorTo = new Color(1f, 1f, 1f, 0f);
+                            growX = -1.5f;
+                            moveX = 85/4f;
+                        }}, new RegionPart("-cover"){{
+                            mirror = true;
+                            color = new Color(1f, 1f, 1f, 1f);
+                            colorTo = new Color(1f, 1f, 1f, 0f);
+                            progress = PartProgress.recoil.curve(pow5Out);
+                            growProgress = PartProgress.recoil.curve(pow5Out);
+                            growX = -1.5f;
+                            moveX = 84/4f;
+                        }});
+            }};
+            limitRange(1.6f);
+            consumeCoolant(10/60f);
+        }};
         vector = new ItemTurret("vector"){{
             requirements(Category.turret, with(cupronickel, 85, silicon, 110, metaglass, 80, graphite, 70));
             health = 700;
@@ -1606,14 +1790,14 @@ public class AquaTurrets {
         }};
         focus = new ItemTurret("focus"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.turret, with(AquaItems.aluminum, 250, lead, 600));
+            requirements(Category.turret, with(AquaItems.aluminum, 500, lead, 600, metaglass, 500, AquaItems.ferricMatter, 250));
             size = 4;
             shootY = 85/4f;
             itemCapacity = 60;
             chargeSound = lasercharge2;
             shootSound = malignShoot;
             squareSprite = false;
-            consumeLiquid(fluorine, 5/60f);
+            consumeLiquid(nitrogen, 0.25f);
             shoot.firstShotDelay = 60;
             range = 400;
             reload = 5*60f;

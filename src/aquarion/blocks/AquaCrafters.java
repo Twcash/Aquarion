@@ -741,7 +741,7 @@ public class AquaCrafters {
         }};
         pumpAssembly = new Pump("pump-assembly"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.liquid, with( cupronickel, 500, ferrosilicon, 250, metaglass, 250, graphite, 400));
+            requirements(Category.liquid, with( cupronickel, 500, ferricMatter, 250, metaglass, 250, graphite, 400));
             size = 6;
             squareSprite = false;
             consumePower(3.5f);
@@ -1287,7 +1287,7 @@ public class AquaCrafters {
             shownPlanets.addAll(tantros2);
             craftTime = 10;
             size = 3;
-            consumePower(1);
+            consumePower(2);
             outputLiquid = new LiquidStack(halideWater, 4);
             envDisabled = Env.groundOil | Env.scorching | Env.spores;
             liquidCapacity = 700;
@@ -1752,7 +1752,7 @@ public class AquaCrafters {
         }};
         algalTerrace = new AttributeCrafter("algal-terrace"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with( metaglass, 1200, polymer, 450, lead, 1200));
+            requirements(Category.production, with( metaglass, 1200, lead, 1200));
             size = 7;
             baseEfficiency = 0.5f;
             squareSprite = false;
@@ -1880,6 +1880,7 @@ public class AquaCrafters {
             requirements(Category.crafting, with(  metaglass, 400, copper, 500, polymer, 200));
             size = 4;
             squareSprite = false;
+            liquidCapacity = 150;
             regionRotated1 = 1;
             consume(new ConsumeLiquidFlammable(1f, 1));
             consumeLiquid(oxygen, .125f);

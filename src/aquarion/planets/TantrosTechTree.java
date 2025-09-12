@@ -130,6 +130,7 @@ public class TantrosTechTree {
                         node(confront);
                     });
                     node(vector, ()->{
+                        node(truncate);
                         node(dislocate);
                         node(thrash, ()->{
                             node(flagellate);
@@ -156,6 +157,7 @@ public class TantrosTechTree {
                 node(armoredSealedConveyor, () -> {
                 });
                 node(sealedSorter, () -> {
+                    node(sealedInvertedSorter);
                 });
                 node(sealedJunction, () -> {
                 });
@@ -234,8 +236,19 @@ public class TantrosTechTree {
                     }));
             nodeProduce(silicon, () -> {
                 nodeProduce(oil, () -> {
+                    nodeProduce(petroleum, () -> {
+                        nodeProduce(hydrogen, () -> {
+
+                        });
+                    });
+                    nodeProduce(methane, () -> {
+
+                    });
                 });
                 nodeProduce(brine, () -> {
+                    nodeProduce(chlorine, () -> {
+
+                    });
                     nodeProduce(bioPulp, () -> {
                     });
                     nodeProduce(coke, () -> {
@@ -312,9 +325,7 @@ public class TantrosTechTree {
             node(siphon, () -> {
                 node(siphonRouter, () -> {
                     node(pipeTank);
-                    node(siphonOverflow, () ->{
-                        node(siphonUnderflow);
-                    });
+                    node(siphonUnderflow);
                 });
                 node(siphonBridge, () -> {
                 });
@@ -329,7 +340,9 @@ public class TantrosTechTree {
                         new Objectives.SectorComplete(Grove)
                 ), () -> {
                 });
-                node(CentrifugalPump);
+                node(CentrifugalPump, ()->{
+                    node(pumpAssembly);
+                });
                 node(magmaTap, Seq.with(
                         new Objectives.SectorComplete(twinPass)
                 ), () -> node(plasmaExtractor, () -> {
@@ -351,10 +364,14 @@ public class TantrosTechTree {
                 }));
             });
             node(atmosphericIntake, () -> {
+
                 node(graphiteConcentrator);
                 node(atmosphericCentrifuge);
-                node(inlet, () -> node(vacuumFreezer, () -> {
-                }));
+                node(inlet, () -> {
+                            node(vacuumFreezer, () -> {
+                            });
+                            node(inletArray);
+                        });
                 node(SilicaOxidator, () ->{
                     node(arcFurnace);
                 });

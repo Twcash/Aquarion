@@ -152,6 +152,8 @@ public class PowerOutlet extends PowerGenerator {
                                 case noInput:
                                     need = Math.min(frontConsume.usage, powerProduction);
                                     break;
+
+                                    
                             }
                             if(front() instanceof Turret.TurretBuild){
                                 if(( front().shouldConsume())){ need = Math.min(frontConsume.usage, powerProduction);} else need = 0.01f;
