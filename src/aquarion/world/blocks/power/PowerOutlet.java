@@ -15,6 +15,7 @@ import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
 import mindustry.world.Tile;
+import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerGraph;
@@ -155,7 +156,7 @@ public class PowerOutlet extends PowerGenerator {
 
                                     
                             }
-                            if(front() instanceof Turret.TurretBuild){
+                            if(front() instanceof Turret.TurretBuild || front() instanceof BuildTurret.BuildTurretBuild){
                                 if(( front().shouldConsume())){ need = Math.min(frontConsume.usage, powerProduction);} else need = 0.01f;
                             }
                     } else {

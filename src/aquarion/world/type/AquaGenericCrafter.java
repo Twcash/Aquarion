@@ -311,10 +311,10 @@ public class AquaGenericCrafter extends AquaBlock{
                 warmup = Mathf.approachDelta(warmup, speed > 0 ? 1f : 0f, warmupSpeed);
                 progress += getProgressIncrease(craftTime);
 
-                if(outputLiquids != null){
-                    for(var output : outputLiquids){
-                        handleLiquid(this, output.liquid,
-                                Math.min(output.amount * speed, liquidCapacity - liquids.get(output.liquid)) );
+                if(outputLiquids != null) {
+                    float inc = getProgressIncrease(1f);
+                    for (var output : outputLiquids) {
+                        handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
                     }
                 }
 
