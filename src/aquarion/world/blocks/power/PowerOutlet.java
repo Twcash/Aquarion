@@ -60,7 +60,8 @@ public class PowerOutlet extends PowerGenerator {
 
 
         consume(new ConsumePowerDynamic(powerProduction, build -> {
-            if (!(build instanceof OutletBuild o)) return 0f;
+            if (!(build instanceof OutletBuild o))return 0f;
+                    if(!o.enabled) return 0;
                     return Math.min(o.need, powerProduction);
         }));
     }
