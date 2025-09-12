@@ -158,6 +158,7 @@ public class AquaTurrets {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 1120;
             size = 4;
+            consumeLiquid(methane, 2);
             squareSprite = true;
             shootSound = shootAlt;
             soundPitchMin = 0.6f;
@@ -172,7 +173,7 @@ public class AquaTurrets {
             recoilTime = 300;
             reload = 240;
             range = 250;
-            maxAmmo = 5;
+            maxAmmo = 25;
             ammoPerShot = 5;
             ammo(
                     graphite, new BasicBulletType(4.5f, 20){{
