@@ -578,7 +578,7 @@ public class AquaTurrets {
             }};
         }};
         thrash = new ItemTurret("thrash"){{
-            requirements(Category.turret, with(polymer,400, cupronickel, 450, lead, 1200));
+            requirements(Category.turret, with(polymer,400, metaglass, 450, lead, 1200));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 4;
             squareSprite = false;
