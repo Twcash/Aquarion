@@ -1090,7 +1090,7 @@ public class AquaCrafters {
             }},new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask(), new AquaDrawLiquidOutputs());
         }};
         polymerPress = new AquaGenericCrafter("polymer-press"){{
-            requirements(Category.crafting, with( cupronickel, 700, graphite, 250, metaglass, 500));
+            requirements(Category.crafting, with( silicon, 700, graphite, 250, metaglass, 500));
             size = 4;
             liquidCapacity = 400;
             squareSprite = false;
@@ -1287,7 +1287,7 @@ public class AquaCrafters {
             shownPlanets.addAll(tantros2);
             craftTime = 10;
             size = 3;
-            consumePower(2);
+            consumePower(1.25f);
             outputLiquid = new LiquidStack(halideWater, 4);
             envDisabled = Env.groundOil | Env.scorching | Env.spores;
             liquidCapacity = 700;
@@ -1331,7 +1331,7 @@ public class AquaCrafters {
             size = 6;
             squareSprite = false;
             ambientSound = Sounds.electricHum;
-            consumePower(3.5f);
+            consumePower(3);
             consumeLiquid(halideWater, 6.5f);
             craftTime = 10;
             outputLiquids = LiquidStack.with( air, 3.5f,water, 6.375f);
@@ -1763,7 +1763,7 @@ public class AquaCrafters {
             liquidCapacity = 1200;
             itemCapacity = 20;
             minEfficiency = 0.25f;
-            outputLiquid = new LiquidStack(bioPulp, 3.75f);
+            outputLiquid = new LiquidStack(bioPulp, 6.5f);
             consumeLiquids(LiquidStack.with(water, 10));
             craftTime = 90;
             consumeItem(brimstone, 1);
@@ -1786,8 +1786,8 @@ public class AquaCrafters {
             liquidCapacity = 500;
             itemCapacity = 100;
             craftTime = 120;
-            consumePower(2);
-            heatOutput = 55;
+            consumePower(1.25f);
+            heatOutput = 65;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with( aluminum, 250, silicon, 700, metaglass, 500));
             consumeLiquid(bioPulp, 1.25f);

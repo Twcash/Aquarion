@@ -358,7 +358,7 @@ public class TantrosTechTree {
                         node(algalTerrace, Seq.with(
                                 new Objectives.SectorComplete(Grove)
                         ), () -> {
-
+                            node(gasifier);
                         });
                     });
                 }));

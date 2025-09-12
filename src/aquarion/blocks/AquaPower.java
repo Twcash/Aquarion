@@ -382,7 +382,7 @@ public class AquaPower {
         }};
         heatExchanger = new VariableReactor("basic-heat-exchanger"){{
             requirements(Category.power, with(silicon, 2500, metaglass, 950, cupronickel, 500));
-            powerProduction = 120;
+            powerProduction = 240;
             maxHeat = 1000;
             size = 8;
             squareSprite = false;
