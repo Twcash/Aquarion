@@ -1,7 +1,6 @@
 package aquarion.blocks;
 
 import aquarion.world.blocks.defense.AquaWall;
-import aquarion.world.blocks.defense.BarricadeAbsorb;
 import aquarion.world.graphics.AquaPal;
 import mindustry.content.Fx;
 import mindustry.content.Planets;
@@ -23,36 +22,36 @@ public class AquaDefense {
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
-    public static void loadContent(){
+    public static void loadContent() {
         bauxiteWall = new AquaWall("bauxite-wall") {{
             requirements(Category.defense, with(bauxite, 24));
             health = 1000;
             size = 2;
             researchCostMultiplier = 0.02f;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         hugeBauxiteWall = new AquaWall("huge-bauxite-wall") {{
             requirements(Category.defense, with(bauxite, 54));
             health = 2250;
             size = 3;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
 
             researchCostMultiplier = 0.25f;
         }};
-        bauxiteBarricade = new AquaWall("bauxite-barricade"){{
+        bauxiteBarricade = new AquaWall("bauxite-barricade") {{
             requirements(Category.defense, with(bauxite, 500, metaglass, 200, silicon, 600, copper, 250));
             size = 5;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = (int) (6250 * 0.75f);
             armor = 12;
             destroyBulletSameTeam = true;
-            destroyBullet = new EmptyBulletType(){{
+            destroyBullet = new EmptyBulletType() {{
                 fragBullets = 24;
-                fragBullet = new BasicBulletType(10, 90, "aquarion-bolt"){{
+                fragBullet = new BasicBulletType(10, 90, "aquarion-bolt") {{
                     lifetime = 15;
                     pierce = true;
                     knockback = 15;
@@ -62,12 +61,12 @@ public class AquaDefense {
                     collidesGround = collidesAir = true;
                 }};
             }};
-            destroyEffect =  new ExplosionEffect(){{
+            destroyEffect = new ExplosionEffect() {{
                 waveColor = Pal.surge;
                 smokeColor = AquaPal.bauxiteLightTone;
                 sparkColor = Pal.sap;
                 waveStroke = 4f;
-                waveRad = 7*8f;
+                waveRad = 7 * 8f;
                 waveLife = 20;
                 smokeSize = 8;
             }};
@@ -75,17 +74,17 @@ public class AquaDefense {
         }};
         nickelWall = new AquaWall("nickel-wall") {{
             requirements(Category.defense, with(nickel, 24));
-            health = 290*4;
+            health = 290 * 4;
             size = 2;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             alwaysUnlocked = true;
             researchCostMultiplier = 0.1f;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         hugeNickelWall = new AquaWall("huge-nickel-wall") {{
             requirements(Category.defense, with(nickel, 54));
-            health = 290*9;
+            health = 290 * 9;
             size = 3;
             alwaysUnlocked = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -93,25 +92,25 @@ public class AquaDefense {
         }};
         cupronickelWall = new AquaWall("cupronickel-wall") {{
             requirements(Category.defense, with(cupronickel, 24));
-            health = 450*4;
+            health = 450 * 4;
             size = 2;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.1f;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         hugeCupronickelWall = new AquaWall("huge-cupronickel-wall") {{
             requirements(Category.defense, with(cupronickel, 54));
-            health = 450*9;
+            health = 450 * 9;
             size = 3;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.25f;
         }};
-        nickelBarricade = new AquaWall("nickel-barricade"){{
+        nickelBarricade = new AquaWall("nickel-barricade") {{
             requirements(Category.defense, with(nickel, 400, silicon, 750, metaglass, 300));
             size = 5;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            health = 500*25;
+            health = 500 * 25;
             armor = 15;
             researchCostMultiplier = 0.5f;
         }};
@@ -121,7 +120,7 @@ public class AquaDefense {
             size = 2;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
 
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
         }};
@@ -131,13 +130,13 @@ public class AquaDefense {
             size = 3;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
 
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
         }};
         polymerWall = new AquaWall("polymer-wall") {{
             requirements(Category.defense, with(polymer, 24));
-            health = 200*4;
+            health = 200 * 4;
             size = 2;
             flammabilityScale = 2;
             insulated = true;
@@ -145,12 +144,12 @@ public class AquaDefense {
             absorbLasers = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.1f;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         hugePolymerWall = new AquaWall("huge-polymer-wall") {{
             requirements(Category.defense, with(polymer, 54));
-            health = 200*9;
+            health = 200 * 9;
             size = 3;
             absorbLasers = true;
             flammabilityScale = 2;
@@ -161,16 +160,16 @@ public class AquaDefense {
         }};
         steelWall = new AquaWall("steel-wall") {{
             requirements(Category.defense, with(steel, 24));
-            health = 400*4;
+            health = 400 * 4;
             size = 2;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.1f;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         hugeSteelWall = new AquaWall("huge-steel-wall") {{
             requirements(Category.defense, with(steel, 54));
-            health = 400*9;
+            health = 400 * 9;
             size = 3;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             researchCostMultiplier = 0.25f;
@@ -180,7 +179,7 @@ public class AquaDefense {
             health = 3200;
             size = 2;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
         }};
@@ -190,7 +189,7 @@ public class AquaDefense {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
 
             size = 3;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
         }};

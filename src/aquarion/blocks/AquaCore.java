@@ -2,40 +2,31 @@ package aquarion.blocks;
 
 import aquarion.units.AquaUnitTypes;
 import aquarion.world.blocks.core.AquaCoreBlock;
-import aquarion.world.blocks.core.AquaStorageBlock;
-import aquarion.world.blocks.core.TantrosCoreBlock;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
-
 import aquarion.world.blocks.defense.deflectorShield;
-import aquarion.world.graphics.drawers.DrawBetterRegion;
 import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.type.Category;
-import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
-import mindustry.world.draw.DrawDefault;
-import mindustry.world.draw.DrawMulti;
 import mindustry.world.meta.Env;
 
-
+import static aquarion.AquaItems.*;
+import static aquarion.AquaLiquids.fumes;
+import static aquarion.AquaLiquids.haze;
 import static aquarion.planets.AquaPlanets.*;
-import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
-
-import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.*;
 
 
 public class AquaCore {
     public static Block coreAnnex, buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
             coreEscarpment, corePike, buildCairn, forceBarrier, crate, deflectorWell;
 
-    public static void loadContent(){
+    public static void loadContent() {
         cache = new StorageBlock("cache") {{
             requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));
             itemCapacity = 900;
@@ -44,7 +35,7 @@ public class AquaCore {
             squareSprite = false;
             size = 3;
             researchCostMultiplier = 0.02f;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             //drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
         }};
@@ -56,12 +47,12 @@ public class AquaCore {
             squareSprite = false;
             size = 2;
             researchCostMultiplier = 0.02f;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             //drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
         }};
         corePike = new AquaCoreBlock("core-pike") {{
-            requirements(Category.effect, with( silicon, 1500));
+            requirements(Category.effect, with(silicon, 1500));
             squareSprite = false;
             health = 2500;
             itemCapacity = 8000;
@@ -72,11 +63,11 @@ public class AquaCore {
             alwaysUnlocked = true;
             hasItems = true;
             hasColor = true;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         coreCuesta = new CoreBlock("core-cuesta") {{
-            requirements(Category.effect, with( duralumin, 2500, metaglass, 1200, lead, 5000));
+            requirements(Category.effect, with(duralumin, 2500, metaglass, 1200, lead, 5000));
             squareSprite = false;
             itemCapacity = 12000;
             size = 6;
@@ -86,11 +77,11 @@ public class AquaCore {
             unitType = AquaUnitTypes.cull;
             hasItems = true;
             hasColor = true;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         coreEscarpment = new CoreBlock("core-escarpment") {{
-            requirements(Category.effect, with( duralumin, 2500, metaglass, 1200, lead, 5000));
+            requirements(Category.effect, with(duralumin, 2500, metaglass, 1200, lead, 5000));
             squareSprite = false;
             itemCapacity = 12000;
             size = 6;
@@ -100,10 +91,10 @@ public class AquaCore {
             category = Category.effect;
             hasItems = true;
             hasColor = true;
-            envEnabled|= Env.terrestrial | Env.underwater;
+            envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        buildCairn = new BuildTurret("build-cairn"){{
+        buildCairn = new BuildTurret("build-cairn") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.effect, with(silicon, 120, copper, 50));
             size = 2;
@@ -113,8 +104,8 @@ public class AquaCore {
             rotateSpeed = 0.85f;
             consumePower(1.5f);
         }};
-        mendPyre = new RegenPylon("mend-pyre"){{
-            requirements(Category.effect, with(lead,55, silicon, 80));
+        mendPyre = new RegenPylon("mend-pyre") {{
+            requirements(Category.effect, with(lead, 55, silicon, 80));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 1;
             consumePower(0.75f);
@@ -127,8 +118,8 @@ public class AquaCore {
             reload = 280;
             alwaysUnlocked = true;
         }};
-        mendPylon = new RegenPylon("mend-pylon"){{
-            requirements(Category.effect, with(silicon,60, aluminum, 40));
+        mendPylon = new RegenPylon("mend-pylon") {{
+            requirements(Category.effect, with(silicon, 60, aluminum, 40));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             consumePower(0.125f);
@@ -140,7 +131,7 @@ public class AquaCore {
             liquidCapacity = 60;
             researchCostMultiplier = 0;
         }};
-        deflectorWell = new deflectorShield("deflector-well"){{
+        deflectorWell = new deflectorShield("deflector-well") {{
             requirements(Category.effect, with(polymer, 800, metaglass, 900, silicon, 1200));
             size = 4;
             squareSprite = false;
@@ -151,7 +142,7 @@ public class AquaCore {
             consumePower(4);
             radius = 120;
         }};
-        buzzSaw = new ChainsawTurret("buzzsaw"){{
+        buzzSaw = new ChainsawTurret("buzzsaw") {{
             requirements(Category.turret, with(silicon, 250, lead, 300));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 3;

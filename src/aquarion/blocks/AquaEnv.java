@@ -24,11 +24,11 @@ import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
 import static aquarion.AquaAttributes.*;
-import static aquarion.AquaItems.*;
 import static aquarion.AquaItems.bauxite;
 import static aquarion.AquaItems.salt;
+import static aquarion.AquaItems.*;
 import static mindustry.content.Blocks.*;
-import static mindustry.content.Items.*;
+import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
@@ -42,7 +42,7 @@ public class AquaEnv {
     public static Block leafLitter, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
-            andesiteLayers, basaltSpikes ,algal_carpet, brine_liquid,
+            andesiteLayers, basaltSpikes, algal_carpet, brine_liquid,
             coral_floor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
             kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
@@ -54,7 +54,7 @@ public class AquaEnv {
     public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
             arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall,
             chertOutcrop, pillarCoral, loteasCoral, songCoral,
-            bauxiticWall ,algalBloom, parzilPine, algalWall,
+            bauxiticWall, algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
             feldsparWall, gabbroWall, andesiteExtrusions, CrystalGalena,
             elderParzil, boraxCluster;
@@ -65,7 +65,7 @@ public class AquaEnv {
 
         }};
 
-        brine_liquid = new Floor("brine-liquid"){{
+        brine_liquid = new Floor("brine-liquid") {{
             speedMultiplier = 0.1f;
             variants = 0;
             liquidDrop = AquaLiquids.brine;
@@ -75,18 +75,18 @@ public class AquaEnv {
             albedo = 1f;
             supportsOverlay = true;
         }};
-        ultrafamicFloor = new Floor("ultrafamic-floor", 3){{
+        ultrafamicFloor = new Floor("ultrafamic-floor", 3) {{
             wall = ultrafamicWall;
 
         }};
-        ultrafamicPlates = new Floor("ultrafamic-plates", 6){{
+        ultrafamicPlates = new Floor("ultrafamic-plates", 6) {{
             wall = ultrafamicWall;
             blendGroup = ultrafamicFloor;
         }};
-        boricFloor = new Floor("boric-floor", 4){{
+        boricFloor = new Floor("boric-floor", 4) {{
             wall = boricWall;
         }};
-        boricFloorDense = new Floor("boric-floor-dense", 4){{
+        boricFloorDense = new Floor("boric-floor-dense", 4) {{
             wall = boricWall;
         }};
         coral_floor = new Floor("coral-floor", 4) {{
@@ -95,7 +95,7 @@ public class AquaEnv {
         ferric_extrusions = new Floor("ferric-extrusions", 2) {{
             attributes.set(iron, 1.5f);
         }};
-        feldsparRubble = new TiledFloor("feldspar-rubble"){{
+        feldsparRubble = new TiledFloor("feldspar-rubble") {{
             tilingVariants = 2;
             tilingSize = 4;
             attributes.set(iron, 2f);
@@ -119,7 +119,7 @@ public class AquaEnv {
         }};
         Blocks.salt.itemDrop = salt;
 
-        andesiteLayers = new Floor("andesite-layers", 4){{
+        andesiteLayers = new Floor("andesite-layers", 4) {{
             wall = daciteWall;
         }};
         feldspar_vent = new SteamVent("feldspar-vent") {{
@@ -127,7 +127,7 @@ public class AquaEnv {
             variants = 3;
             parent = blendGroup = AquaEnv.feldspar;
             effectSpacing = 15f;
-            effect = new ParticleEffect(){{
+            effect = new ParticleEffect() {{
                 particles = 3;
                 lifetime = 340;
                 length = 125;
@@ -149,13 +149,13 @@ public class AquaEnv {
         }};
 
 
-        redCoralFloor = new Floor("redCoral-floor"){{
+        redCoralFloor = new Floor("redCoral-floor") {{
             variants = 6;
         }};
-        BlueCoralFloor = new Floor("blue-coral-floor"){{
+        BlueCoralFloor = new Floor("blue-coral-floor") {{
             variants = 4;
         }};
-        greenCoralFloor = new Floor("green-coral-floor"){{
+        greenCoralFloor = new Floor("green-coral-floor") {{
             variants = 6;
         }};
         andesiteVent = new SteamVent("andesite-vent-") {{
@@ -163,7 +163,7 @@ public class AquaEnv {
             variants = 2;
             parent = blendGroup = AquaEnv.andesiteRubble;
             effectSpacing = 15f;
-            effect = new ParticleEffect(){{
+            effect = new ParticleEffect() {{
                 particles = 3;
                 lifetime = 340;
                 length = 125;
@@ -190,13 +190,12 @@ public class AquaEnv {
         }};
 
 
-
         shaleVent = new SteamVent("shale-vent") {{
             attributes.set(Attribute.steam, 1f);
             parent = blendGroup = Blocks.shale;
             effectSpacing = 15f;
             variants = 3;
-            effect = new ParticleEffect(){{
+            effect = new ParticleEffect() {{
                 particles = 3;
                 lifetime = 340;
                 length = 125;
@@ -215,7 +214,7 @@ public class AquaEnv {
             parent = blendGroup = brimstoneFloor;
             effectSpacing = 15f;
             variants = 2;
-            effect = new ParticleEffect(){{
+            effect = new ParticleEffect() {{
                 particles = 3;
                 lifetime = 340;
                 length = 125;
@@ -240,7 +239,7 @@ public class AquaEnv {
             parent = blendGroup = AquaEnv.gabbro_extrusions;
             effectSpacing = 15f;
             variants = 3;
-            effect = new ParticleEffect(){{
+            effect = new ParticleEffect() {{
                 particles = 3;
                 lifetime = 340;
                 length = 125;
@@ -260,7 +259,7 @@ public class AquaEnv {
             parent = blendGroup = Blocks.basalt;
             effectSpacing = 15f;
             variants = 2;
-            effect = new ParticleEffect(){{
+            effect = new ParticleEffect() {{
                 particles = 3;
                 lifetime = 340;
                 length = 125;
@@ -311,12 +310,12 @@ public class AquaEnv {
             wall = duneWall;
             attributes.set(metamorphic, 0.7f);
         }};
-        basaltPlates = new TiledFloor("basalt-plates"){{
+        basaltPlates = new TiledFloor("basalt-plates") {{
             tilingVariants = 2;
             tilingSize = 4;
             attributes.set(metamorphic, 0.7f);
         }};
-        andesiteExtrusions = new TallBlock("andesite-extrusions"){{
+        andesiteExtrusions = new TallBlock("andesite-extrusions") {{
             variants = 2;
             clipSize = 128f;
             shadowAlpha = 0.5f;
@@ -346,39 +345,39 @@ public class AquaEnv {
         }};
         leafLitter = new Floor("leaf-litter", 3) {{
         }};
-        oreBauxite= new OreBlock("ore-bauxite", AquaItems.bauxite);
-        oreGallium= new OreBlock("ore-gallium", AquaItems.gallium);
+        oreBauxite = new OreBlock("ore-bauxite", AquaItems.bauxite);
+        oreGallium = new OreBlock("ore-gallium", AquaItems.gallium);
         oreNickel = new OreBlock("ore-nickel", nickel);
-        oreLithium= new OreBlock("ore-lithium", AquaItems.lithium);
-        oreManganese= new OreBlock("ore-manganese", AquaItems.manganese);
-        acuminiteOre= new OreBlock("acuminite-ore", acuminite){{
+        oreLithium = new OreBlock("ore-lithium", AquaItems.lithium);
+        oreManganese = new OreBlock("ore-manganese", AquaItems.manganese);
+        acuminiteOre = new OreBlock("acuminite-ore", acuminite) {{
             variants = 5;
         }};
-        ferricOre= new OreBlock("ferric-ore", ferricMatter){{
+        ferricOre = new OreBlock("ferric-ore", ferricMatter) {{
             variants = 8;
         }};
-        oreArsenic= new OreBlock("arsenic-ore", arsenic){{
+        oreArsenic = new OreBlock("arsenic-ore", arsenic) {{
             wallOre = true;
             variants = 3;
         }};
-        serpentineOre= new OreBlock("ore-serpentine", serpentine){{
+        serpentineOre = new OreBlock("ore-serpentine", serpentine) {{
             variants = 3;
         }};
-        oreNickelWall= new OreBlock("ore-nickel-wall", nickel){{
+        oreNickelWall = new OreBlock("ore-nickel-wall", nickel) {{
             wallOre = true;
             variants = 2;
         }};
-        oreTitaniumWall= new OreBlock("ore-titanium-wall", Items.titanium){{
+        oreTitaniumWall = new OreBlock("ore-titanium-wall", Items.titanium) {{
             wallOre = true;
             variants = 3;
         }};
-        oreElectrum= new OreBlock("electrum-ore", electrum){{
+        oreElectrum = new OreBlock("electrum-ore", electrum) {{
             variants = 3;
         }};
-        oreAluminum= new OreBlock("ore-aluminum", aluminum){{
+        oreAluminum = new OreBlock("ore-aluminum", aluminum) {{
             variants = 3;
         }};
-        oreSilicon= new OreBlock("ore-silicon", silicon){{
+        oreSilicon = new OreBlock("ore-silicon", silicon) {{
             variants = 3;
         }};
 
@@ -410,7 +409,7 @@ public class AquaEnv {
         arsenideWall = new StaticWall("arsenide-wall") {{
             variants = 3;
         }};
-        boricWall = new StaticWall("boric-wall"){{
+        boricWall = new StaticWall("boric-wall") {{
             variants = 3;
         }};
         chertWall = new StaticWall("chert-wall") {{
@@ -443,7 +442,7 @@ public class AquaEnv {
             shadowAlpha = 0.6f;
             shadowOffset = -2.5f;
         }};
-        azuriteLarge = new TallBlock("azurite-large"){{
+        azuriteLarge = new TallBlock("azurite-large") {{
             variants = 3;
             itemDrop = AquaItems.azurite;
             clipSize = 128f;
@@ -452,7 +451,7 @@ public class AquaEnv {
             layer = Layer.blockOver + 1;
             shadowLayer = Layer.blockOver;
         }};
-        towaniteCluster = new TallBlock("towanite-cluster"){{
+        towaniteCluster = new TallBlock("towanite-cluster") {{
             variants = 3;
             itemDrop = towanite;
             clipSize = 128f;
@@ -461,7 +460,7 @@ public class AquaEnv {
             layer = Layer.blockOver + 1;
             shadowLayer = Layer.blockOver;
         }};
-        parzilPine = new PineTree("parzil-pine"){{
+        parzilPine = new PineTree("parzil-pine") {{
             shadowAlpha = 0.6f;
             buildVisibility = sandboxOnly;
             variants = 2;
@@ -476,10 +475,10 @@ public class AquaEnv {
             createRubble = false;
             layer = Layer.power - 3;
             shadowLayer = Layer.blockOver;
-            buildTime = 15*60f;
+            buildTime = 15 * 60f;
         }};
-        elderParzil = new PineTree("elder-parzil"){{
-            buildTime = 30*60f;
+        elderParzil = new PineTree("elder-parzil") {{
+            buildTime = 30 * 60f;
             buildVisibility = sandboxOnly;
             underBullets = false;
             destroyEffect = AquaFx.parzilDebrisLarge;
@@ -496,8 +495,8 @@ public class AquaEnv {
             shadowAlpha = 0.8f;
             shadowOffset = -4;
         }};
-        basaltRock = new rokBlock("basalt-rock"){{
-            requirements(Category.effect, with( bauxite, 100, silicon, 150));
+        basaltRock = new rokBlock("basalt-rock") {{
+            requirements(Category.effect, with(bauxite, 100, silicon, 150));
             buildVisibility = sandboxOnly;
             size = 1;
             health = 1200;
@@ -507,11 +506,11 @@ public class AquaEnv {
             targetable = false;
             destroyEffect = Fx.breakProp;
             createRubble = false;
-            buildTime = 20*60f;
+            buildTime = 20 * 60f;
             forceDark = true;
         }};
-        largeBasaltRock = new rokBlock("large-basalt-rock"){{
-            requirements(Category.effect, with( bauxite, 900, silicon, 1200));
+        largeBasaltRock = new rokBlock("large-basalt-rock") {{
+            requirements(Category.effect, with(bauxite, 900, silicon, 1200));
             buildVisibility = sandboxOnly;
             size = 2;
             health = 3500;
@@ -521,11 +520,11 @@ public class AquaEnv {
             targetable = false;
             destroyEffect = Fx.breakProp;
             createRubble = false;
-            buildTime = 45*60f;
+            buildTime = 45 * 60f;
             forceDark = true;
         }};
-        hugeBasaltRock = new rokBlock("huge-basalt-rock"){{
-            requirements(Category.effect, with( bauxite, 2100, silicon, 3000));
+        hugeBasaltRock = new rokBlock("huge-basalt-rock") {{
+            requirements(Category.effect, with(bauxite, 2100, silicon, 3000));
             buildVisibility = sandboxOnly;
             size = 3;
             health = 8000;
@@ -535,11 +534,11 @@ public class AquaEnv {
             targetable = false;
             destroyEffect = Fx.breakProp;
             createRubble = false;
-            buildTime = 90*60f;
+            buildTime = 90 * 60f;
             forceDark = true;
         }};
-        massiveBasaltRock = new rokBlock("massive-basalt-rock"){{
-            requirements(Category.effect, with( bauxite, 4000, silicon, 6000));
+        massiveBasaltRock = new rokBlock("massive-basalt-rock") {{
+            requirements(Category.effect, with(bauxite, 4000, silicon, 6000));
             buildVisibility = sandboxOnly;
             size = 4;
             health = 12000;
@@ -548,7 +547,7 @@ public class AquaEnv {
             targetable = false;
             destroyEffect = Fx.breakProp;
             createRubble = false;
-            buildTime = 280*60f;
+            buildTime = 280 * 60f;
             forceDark = true;
         }};
         bloom = new TreeBlock("bloom");
@@ -567,52 +566,52 @@ public class AquaEnv {
         pillarCoral = new NonRandomTreeBlock("pillar-coral") {{
             variants = 3;
         }};
-        azurite = new Prop("azurite"){{
+        azurite = new Prop("azurite") {{
             variants = 3;
         }};
         //boulders
-        algalBoulder = new Prop("algal-boulder"){{
+        algalBoulder = new Prop("algal-boulder") {{
             variants = 2;
         }};
-        ultrafamicBoulder = new Prop("ultrafamic-boulder"){{
+        ultrafamicBoulder = new Prop("ultrafamic-boulder") {{
             variants = 2;
             ultrafamicFloor.asFloor().decoration = this;
             ultrafamicPlates.asFloor().decoration = this;
         }};
-        gabbroBoulder = new Prop("gabbro-boulder"){{
+        gabbroBoulder = new Prop("gabbro-boulder") {{
             variants = 3;
             gabbro.asFloor().decoration = this;
             gabbro_extrusions.asFloor().decoration = this;
         }};
-        feldsparBoulder = new Prop("feldspar-boulder"){{
+        feldsparBoulder = new Prop("feldspar-boulder") {{
             variants = 3;
             feldspar.asFloor().decoration = this;
         }};
-        chertBoulder = new Prop("chert-boulder"){{
+        chertBoulder = new Prop("chert-boulder") {{
             variants = 3;
             chertFloor.asFloor().decoration = this;
         }};
-        brecciaBoulder = new Prop("breccia-boulder"){{
+        brecciaBoulder = new Prop("breccia-boulder") {{
             variants = 2;
             brecciaFloor.asFloor().decoration = this;
             smoothBrecciaFloor.asFloor().decoration = this;
         }};
-        parzilSprig = new Prop("parzil-sprig"){{
+        parzilSprig = new Prop("parzil-sprig") {{
             variants = 3;
 
         }};
-        arsenideBoulder = new Prop("arsenide-boulder"){{
+        arsenideBoulder = new Prop("arsenide-boulder") {{
             variants = 3;
             arsenideFloor.asFloor().decoration = this;
         }};
-        blueSandBoulder = new Prop("blue-sand-boulder"){{
+        blueSandBoulder = new Prop("blue-sand-boulder") {{
             variants = 2;
         }};
-        arsenicBoulder = new Prop("arsenic-boulder"){{
+        arsenicBoulder = new Prop("arsenic-boulder") {{
             variants = 3;
             arsenideFloor.asFloor().decoration = this;
         }};
-        CrasseCoral = new SeaBush("crasse-coral"){{
+        CrasseCoral = new SeaBush("crasse-coral") {{
             solid = true;
             lobesMax = 10;
             lobesMin = 7;
@@ -631,7 +630,7 @@ public class AquaEnv {
         }};
 
         //plants and stuff
-        kelp = new SeaBush("kelp"){{
+        kelp = new SeaBush("kelp") {{
         }};
 
         rockweed = new SeaBush("rockweed") {{
@@ -650,21 +649,21 @@ public class AquaEnv {
             magMin = 10;
 
         }};
-        tile = new Floor("tile", 1){{
+        tile = new Floor("tile", 1) {{
         }};
-        engravedTile = new Floor("engraved-tile", 1){{
+        engravedTile = new Floor("engraved-tile", 1) {{
             blendGroup = tile;
         }};
-        gildedTile = new Floor("gilded-tile", 1){{
+        gildedTile = new Floor("gilded-tile", 1) {{
 
         }};
-        pottedGrass = new Floor("potted-grass", 2){{
+        pottedGrass = new Floor("potted-grass", 2) {{
 
         }};
-        soil = new Floor("soil", 3){{
+        soil = new Floor("soil", 3) {{
             attributes.set(AquaAttributes.fertility, 1f);
         }};
-        fertileSoil = new Floor("fertile-soil", 3){{
+        fertileSoil = new Floor("fertile-soil", 3) {{
             attributes.set(AquaAttributes.fertility, 1.5f);
         }};
 

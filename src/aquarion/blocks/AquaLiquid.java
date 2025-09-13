@@ -14,15 +14,16 @@ import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
 import static aquarion.planets.AquaPlanets.*;
-import static mindustry.content.Items.*;
+import static mindustry.content.Items.lead;
+import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 
 
 public class AquaLiquid {
-    public static Block  siphonUnderflow, pipeTank, pipeJunction, liquidVessel, siphonReservoir, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
+    public static Block siphonUnderflow, pipeTank, pipeJunction, liquidVessel, siphonReservoir, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
 
     public static void loadContent() {
-        siphonBridge = new ModifiedLiquidBridge("siphon-bridge"){{
+        siphonBridge = new ModifiedLiquidBridge("siphon-bridge") {{
             requirements(Category.liquid, with(silicon, 35));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             fadeIn = false;
@@ -33,7 +34,7 @@ public class AquaLiquid {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge"){{
+        pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge") {{
             //long boi. Prolly unbalanced asf but I'm working on it
             requirements(Category.liquid, with(manganese, 45));
             willMelt = true;
@@ -43,7 +44,7 @@ public class AquaLiquid {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        siphonUnderflow = new LiquidUnderflow("siphon-underflow"){{
+        siphonUnderflow = new LiquidUnderflow("siphon-underflow") {{
             requirements(Category.liquid, with(silicon, 70));
             invert = true;
         }};
@@ -73,7 +74,7 @@ public class AquaLiquid {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        siphonRouter = new ModifiedLiquidRouter("siphon-router"){{
+        siphonRouter = new ModifiedLiquidRouter("siphon-router") {{
             requirements(Category.liquid, with(silicon, 30));
             envEnabled |= Env.terrestrial | Env.underwater;
             liquidCapacity = 80;
@@ -81,15 +82,15 @@ public class AquaLiquid {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             alwaysUnlocked = true;
         }};
-        siphonJunction = new ModifiedLiquidJunction("siphon-junction"){{
+        siphonJunction = new ModifiedLiquidJunction("siphon-junction") {{
             requirements(Category.liquid, with(silicon, 70));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            ((ModifiedConduit)siphon).junctionReplacement = this;
+            ((ModifiedConduit) siphon).junctionReplacement = this;
         }};
         Liquids.oil.explosiveness = 0.7f;
-        pipeTank = new ModifiedLiquidRouter("siphon-tank"){{
+        pipeTank = new ModifiedLiquidRouter("siphon-tank") {{
             requirements(Category.liquid, with(silicon, 150, ferricMatter, 50));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             liquidPadding = 3;
@@ -100,7 +101,7 @@ public class AquaLiquid {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        siphonReservoir = new ModifiedLiquidRouter("siphon-reservoir"){{
+        siphonReservoir = new ModifiedLiquidRouter("siphon-reservoir") {{
             requirements(Category.liquid, with(aluminum, 50, manganese, 250));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             liquidPadding = 3;
@@ -111,7 +112,7 @@ public class AquaLiquid {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        electrumPump = new Pump("electrum-pump"){{
+        electrumPump = new Pump("electrum-pump") {{
             requirements(Category.liquid, with(electrum, 35));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             pumpAmount = 0.1f;
@@ -120,24 +121,24 @@ public class AquaLiquid {
             hasPower = true;
             size = 2;
         }};
-        pipe = new Pipe("pipe"){{
+        pipe = new Pipe("pipe") {{
             requirements(Category.liquid, with(ferrosilicon, 2));
             buildVisibility = BuildVisibility.sandboxOnly;
-            liquidPressure =  10000;
+            liquidPressure = 10000;
             liquidCapacity = 50;
         }};
-        pipeJunction = new LiquidJunction("pipe-junction"){{
+        pipeJunction = new LiquidJunction("pipe-junction") {{
             requirements(Category.liquid, with(electrum, 5, lead, 12));
             buildVisibility = BuildVisibility.sandboxOnly;
 
         }};
-        pipeBridge = new DirectionLiquidBridge("pipe-bridge"){{
+        pipeBridge = new DirectionLiquidBridge("pipe-bridge") {{
             requirements(Category.liquid, with(electrum, 15, lead, 20));
             buildVisibility = BuildVisibility.sandboxOnly;
 
             range = 5;
         }};
-        liquidVessel = new LiquidRouter("liquid-vessel"){{
+        liquidVessel = new LiquidRouter("liquid-vessel") {{
             requirements(Category.liquid, with(electrum, 25, lead, 30));
             buildVisibility = BuildVisibility.sandboxOnly;
 
@@ -145,7 +146,7 @@ public class AquaLiquid {
             liquidCapacity = 700f;
             solid = true;
         }};
-        liquidReservoir = new LiquidRouter("liquid-reservoir"){{
+        liquidReservoir = new LiquidRouter("liquid-reservoir") {{
             requirements(Category.liquid, with(electrum, 110, lead, 50, silver, 45));
             buildVisibility = BuildVisibility.sandboxOnly;
             liquidCapacity = 2000f;

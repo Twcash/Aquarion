@@ -19,9 +19,10 @@ import static mindustry.type.ItemStack.with;
 
 public class AquaEffect {
     public static Block overdrivePylon, overdriveTerminus, lantern;
+
     public static void loadContent() {
         overdrivePylon = new OverdrivePylon("overdrive-pylon") {{
-            requirements(Category.effect, with(ferrosilicon, 200, invar, 500, aluminum, 250 ));
+            requirements(Category.effect, with(ferrosilicon, 200, invar, 500, aluminum, 250));
             reload = 90;
             size = 2;
             range = 4;
@@ -29,29 +30,29 @@ public class AquaEffect {
             category = Category.effect;
             baseColor = Color.valueOf("f6675b");
             phaseColor = Color.valueOf("f6675b");
-            consumeLiquid(magma, 40/60f);
+            consumeLiquid(magma, 40 / 60f);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            consumePower(40/60f);
+            consumePower(40 / 60f);
         }};
         overdriveTerminus = new OverdriveProjector("overdrive-terminus") {
-                    {
-                        requirements(Category.effect, with(nickel, 120, invar, 450, silicon, 120));
-                        reload = 90;
-                        size = 5;
-                        range = 110;
-                        useTime = 420;
-                        shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                        category = Category.effect;
-                        baseColor = Color.valueOf("f6675b");
-                        phaseColor = Color.valueOf("f6675b");
-                        envEnabled |= Env.terrestrial | Env.underwater;
-                        envDisabled = Env.none;
-                        consumePower(1f);
-                    }
-                };
-        lantern  = new LightBlock("lantern"){{
+            {
+                requirements(Category.effect, with(nickel, 120, invar, 450, silicon, 120));
+                reload = 90;
+                size = 5;
+                range = 110;
+                useTime = 420;
+                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+                category = Category.effect;
+                baseColor = Color.valueOf("f6675b");
+                phaseColor = Color.valueOf("f6675b");
+                envEnabled |= Env.terrestrial | Env.underwater;
+                envDisabled = Env.none;
+                consumePower(1f);
+            }
+        };
+        lantern = new LightBlock("lantern") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.effect, BuildVisibility.lightingOnly, with(silicon, 30));
             brightness = 0.8f;
@@ -59,7 +60,7 @@ public class AquaEffect {
             radius = 90;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            consume(new ConsumeLiquidFlammable(0.1f, 2/60f));
+            consume(new ConsumeLiquidFlammable(0.1f, 2 / 60f));
         }};
     }
 }

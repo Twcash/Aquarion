@@ -18,14 +18,14 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDistribution {
-    public static Block  sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
-            electrumConveyor, armoredSealedConveyor, sealedOverflow,sealedDistributor,
+    public static Block sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
+            electrumConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, exporter;
     public static Block cargoDepot, cargoDock;
 
     public static void loadContent() {
-        sealedConveyor = new SealedConveyor("sealed-conveyor"){{
+        sealedConveyor = new SealedConveyor("sealed-conveyor") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(lead, 1));
             envEnabled = 4;
@@ -39,7 +39,7 @@ public class AquaDistribution {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        armoredSealedConveyor = new SealedConveyor("armored-sealed-conveyor"){{
+        armoredSealedConveyor = new SealedConveyor("armored-sealed-conveyor") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(aluminum, 2));
             speed = 2;
@@ -52,7 +52,7 @@ public class AquaDistribution {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        sealedRouter = new SealedRouter("sealed-router"){{
+        sealedRouter = new SealedRouter("sealed-router") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 10));
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -61,7 +61,7 @@ public class AquaDistribution {
             speed = 2.1f;
             hasItems = true;
         }};
-        sealedDistributor = new SealedRouter("sealed-distributor"){{
+        sealedDistributor = new SealedRouter("sealed-distributor") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 30, ferricMatter, 5));
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -71,28 +71,28 @@ public class AquaDistribution {
             hasItems = true;
             solid = true;
         }};
-        sealedJunction = new Junction("sealed-junction"){{
+        sealedJunction = new Junction("sealed-junction") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             capacity = 8;
             speed = 10;
             hasItems = true;
             envEnabled |= Env.terrestrial | Env.underwater;
-            ((SealedConveyor)sealedConveyor).junctionReplacement = this;
+            ((SealedConveyor) sealedConveyor).junctionReplacement = this;
             envDisabled = Env.none;
         }};
-        sealedUnloader = new DirectionalUnloader("sealed-unloader"){{
+        sealedUnloader = new DirectionalUnloader("sealed-unloader") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(aluminum, 40));
             speed = 2f;
             allowCoreUnload = true;
         }};
-        exporter = new Unloader("exporter"){{
+        exporter = new Unloader("exporter") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(polymer, 35, cupronickel, 90));
             speed = 0.9f;
         }};
-        sealedSorter = new Sorter("sealed-sorter"){{
+        sealedSorter = new Sorter("sealed-sorter") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -101,7 +101,7 @@ public class AquaDistribution {
             alwaysUnlocked = true;
 
         }};
-        sealedInvertedSorter = new Sorter("sealed-inverted-sorter"){{
+        sealedInvertedSorter = new Sorter("sealed-inverted-sorter") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -110,7 +110,7 @@ public class AquaDistribution {
             alwaysUnlocked = true;
             invert = true;
         }};
-        sealedOverflow = new OverflowGate("sealed-overflow"){{
+        sealedOverflow = new OverflowGate("sealed-overflow") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 5));
             invert = false;
@@ -119,7 +119,7 @@ public class AquaDistribution {
             envDisabled = Env.none;
 
         }};
-        sealedUnderflow = new OverflowGate("sealed-underflow"){{
+        sealedUnderflow = new OverflowGate("sealed-underflow") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 5));
             invert = true;
@@ -128,7 +128,7 @@ public class AquaDistribution {
             hasItems = true;
 
         }};
-        cargoDock = new UnitCargoLoader("cargo-dock"){{
+        cargoDock = new UnitCargoLoader("cargo-dock") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(aluminum, 50, silicon, 120, copper, 120));
             size = 2;
@@ -140,23 +140,23 @@ public class AquaDistribution {
             itemCapacity = 200;
         }};
 
-        cargoDepot = new UnitCargoUnloadPoint("cargo-depot"){{
+        cargoDepot = new UnitCargoUnloadPoint("cargo-depot") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.distribution, with(aluminum,15));
+            requirements(Category.distribution, with(aluminum, 15));
             itemCapacity = 120;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             size = 2;
         }};
 
-        electrumRouter = new Router("electrum-router"){{
+        electrumRouter = new Router("electrum-router") {{
             requirements(Category.distribution, with(electrum, 6));
         }};
-        electrumDistributor = new Router("electrum-distributor"){{
+        electrumDistributor = new Router("electrum-distributor") {{
             requirements(Category.distribution, with(electrum, 24, lead, 24));
             size = 2;
         }};
-        electrumConveyor = new ArmoredConveyor("electrum-conveyor"){{
+        electrumConveyor = new ArmoredConveyor("electrum-conveyor") {{
             requirements(Category.distribution, with(electrum, 1));
             health = 60;
             speed = 0.042f;
@@ -164,14 +164,14 @@ public class AquaDistribution {
             buildCostMultiplier = 2f;
             researchCost = with(electrum, 5);
         }};
-        electrumSorter = new Sorter("electrum-sorter"){{
+        electrumSorter = new Sorter("electrum-sorter") {{
             requirements(Category.distribution, with(electrum, 4, lead, 4));
         }};
-        electrumSorterInverted = new Sorter("inverted-electrum-sorter"){{
+        electrumSorterInverted = new Sorter("inverted-electrum-sorter") {{
             requirements(Category.distribution, with(electrum, 4, lead, 4));
             invert = true;
         }};
-        manganeseRail = new StackConveyor("manganese-rail"){{
+        manganeseRail = new StackConveyor("manganese-rail") {{
             requirements(Category.distribution, with(manganese, 3));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             speed = 2f / 60f;
