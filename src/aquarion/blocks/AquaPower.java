@@ -5,9 +5,7 @@ import aquarion.world.blocks.power.HeatGenerator;
 import aquarion.world.blocks.power.PowerOutlet;
 import aquarion.world.blocks.power.PowerPylon;
 import aquarion.world.graphics.AquaFx;
-import aquarion.world.graphics.drawers.DrawBetterRegion;
-import aquarion.world.graphics.drawers.DrawRadialEngine;
-import aquarion.world.graphics.drawers.DrawWheel;
+import aquarion.world.graphics.drawers.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import mindustry.content.Fx;
@@ -437,7 +435,7 @@ public class AquaPower {
         }};
         heatExchanger = new HeatGenerator("basic-heat-exchanger") {{
             requirements(Category.power, with(silicon, 1500, metaglass, 950, cupronickel, 500));
-            powerProduction = 90;
+            powerProduction = 10;
             maxHeat = 500;
             size = 8;
             liquidCapacity = 6000;
@@ -448,12 +446,21 @@ public class AquaPower {
             unstableSpeed = 0.001f;
             flashSpeed = 10;
             warmupSpeed = 0.0001f;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawRadialEngine(){{
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
+                layer = shadow;
+            }},new DrawRegion("-bottom"), new DrawLiquidTile(water, 4), new DrawOrbitRegions("-weeeeee", 24, 24f, 3f){{
+                spinSprite = true;
+                rotateSpeed = -1.5f;
+            }}, new DrawRadialEngine(){{
                 pistonCount = 3;
                 radius = 5;
-                speed = 0.5f;
-                rodLength = 20;
-            }}, new DrawDefault());
+                speed = 0.25f;
+                rodLength = 15;
+            }}, new DrawLiquidTile(water, 4){{alpha = 0.2f;}}, new DrawRegion("-mid"), new DrawLiquidTile(haze, 4), new DrawAdvancedPistons(){{
+                    angleOffset = 0;
+                suffix = "-pistone";
+                    sides = 1;
+            }}, new DrawDefault(), new DrawHeatInputBitmask("-heats"));
         }};
     }
 }

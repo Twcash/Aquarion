@@ -253,6 +253,11 @@ public class AquaEnv {
                 interp = Interp.pow3Out;
             }};
         }};
+        sporeMoss.itemDrop = Items.sporePod;
+        sporeWall.itemDrop = Items.sporePod;
+        sporePine.itemDrop = Items.sporePod;
+        moss.itemDrop = Items.sporePod;
+
 
         geothermal_vent = new SteamVent("geothermal-vent") {{
             attributes.set(Attribute.steam, 1f);
