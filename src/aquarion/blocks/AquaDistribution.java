@@ -83,7 +83,7 @@ public class AquaDistribution {
         }};
         sealedUnloader = new DirectionalUnloader("sealed-unloader") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.distribution, with(aluminum, 40));
+            requirements(Category.distribution, with(metaglass, 40, silicon, 80));
             speed = 2f;
             allowCoreUnload = true;
         }};

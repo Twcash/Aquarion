@@ -124,10 +124,12 @@ public class AquaCore {
             size = 2;
             consumePower(0.125f);
             consumeLiquid(fumes, 0.05f);
-            range = 28;
+            range = 35;
             healPercent = 6;
             squareSprite = false;
             reload = 240;
+            phaseBoost = 0;
+            phaseRangeBoost = 0;
             liquidCapacity = 60;
             researchCostMultiplier = 0;
         }};

@@ -55,7 +55,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
 
     public static void loadContent() {
         disableVanilla();
@@ -2006,6 +2006,26 @@ public class AquaCrafters {
             }}, new DrawDefault(), new DrawGlowRegion() {{
                 color = new Color(1f, 0.22f, 0.22f, 0.4f);
             }}, new DrawHeatOutput() {{
+                heatColor = new Color(1f, 0.22f, 0.22f, 0.4f);
+            }});
+        }};
+
+        coalHeater = new HeatProducer("solid-heater") {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with(metaglass, 120, silicon, 300, copper, 400));
+            size = 2;
+            squareSprite = false;
+            liquidCapacity = 150;
+            regionRotated1 = 1;
+            consumeLiquid(oxygen, .0125f);
+            consume(new ConsumeItemFlammable(0.8f));
+            craftTime =90;
+            heatOutput = 10;
+            rotateDraw = false;
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
+                layer = shadow;
+                drawIcon = false;
+            }}, new DrawDefault(), new DrawHeatOutput() {{
                 heatColor = new Color(1f, 0.22f, 0.22f, 0.4f);
             }});
         }};

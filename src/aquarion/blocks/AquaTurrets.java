@@ -358,8 +358,11 @@ public class AquaTurrets {
             recoils = 4;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             ammo(
-                    cupronickel, new BasicBulletType(20, 95) {{
-                        ammoMultiplier = 2;
+                    copper, new BasicBulletType(15, 75) {{
+                        ammoMultiplier = 1;
+                        lightning = 4;
+                        lightningLength = 12;
+                        lightningDamage = 10;
                         height = 15;
                         width = 24;
                         trailWidth = 12;
@@ -368,7 +371,20 @@ public class AquaTurrets {
                         trailInterp = Interp.slope;
                         smokeEffect = Fx.shootSmokeSquareBig;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        knockback = 8f;
+                        frontColor = AquaPal.redDecal1;
+                        backColor = AquaPal.redDecal1Dark;
+                    }},
+                    cupronickel, new BasicBulletType(20, 95) {{
+                        ammoMultiplier = 3;
+                        height = 15;
+                        width = 24;
+                        trailWidth = 12;
+                        trailLength = 12;
+                        shootEffect = Fx.shootBig2;
+                        trailInterp = Interp.slope;
+                        smokeEffect = Fx.shootSmokeSquareBig;
+                        hitEffect = despawnEffect = Fx.hitSquaresColor;
+                        knockback = -8f;
                         frontColor = AquaPal.redDecal1;
                         backColor = AquaPal.redDecal1Dark;
                     }},
@@ -384,14 +400,14 @@ public class AquaTurrets {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeSquareBig;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        knockback = 12f;
+                        knockback = -12f;
                         frontColor = Color.white;
                         backColor = Color.lightGray;
                     }},
                     //LOAD THE 20 POUNDER CHAPS
                     steel, new BasicBulletType() {{
                         damage = 140;
-                        ammoMultiplier = 4;
+                        ammoMultiplier = 6;
                         height = 30;
                         speed = 16f;
                         width = 30;
@@ -404,7 +420,7 @@ public class AquaTurrets {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeSquareBig;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        knockback = 18f;
+                        knockback = -18f;
                         frontColor = Color.white;
                         backColor = trailColor = Color.lightGray;
                     }}
@@ -945,14 +961,14 @@ public class AquaTurrets {
             recoil = 3;
             recoilTime = 85;
             shootCone = 3f;
-            reload = 130;
+            reload = 150;
             soundPitchMax = 1.5f;
             soundPitchMin = 1.2f;
             shootSound = shootAltLong;
 
             size = 2;
             ammoPerShot = 8;
-            maxAmmo = 24;
+            maxAmmo = 32;
             consumeCoolant(20 / 60f);
             ammo(
                     lead, new BasicBulletType(9, 55) {{
@@ -962,7 +978,7 @@ public class AquaTurrets {
                         sprite = "aquarion-bolt";
                         width = 8;
                         height = 14f;
-                        ammoMultiplier = 3;
+                        ammoMultiplier = 4;
                         reloadMultiplier = 1.8f;
                         rangeChange = -24;
                         shrinkY = 0;
@@ -976,10 +992,10 @@ public class AquaTurrets {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    nickel, new BasicBulletType(5, 90) {{
+                    nickel, new BasicBulletType(5, 70) {{
                         pierce = true;
-                        pierceBuilding = true;
-                        pierceCap = 3;
+                        pierceBuilding = false;
+                        pierceCap = 2;
                         sprite = "aquarion-bolt";
                         width = 10;
                         height = 18f;
@@ -988,9 +1004,8 @@ public class AquaTurrets {
                         trailWidth = 3f;
                         trailLength = 16;
                         reloadMultiplier = 0.8f;
-                        hitSize = 8;
-                        rangeChange = 30;
-                        ammoMultiplier = 2;
+                        hitSize = 6;
+                        ammoMultiplier = 1;
                         frontColor = hitColor = Color.white;
                         backColor = lightColor = trailColor = Color.valueOf("e1d9bc");
                         despawnEffect = hitEffect = Fx.hitSquaresColor;
@@ -1012,7 +1027,7 @@ public class AquaTurrets {
                         reloadMultiplier = 2f;
                         shieldDamageMultiplier = 4;
                         hitSize = 6;
-                        ammoMultiplier = 3;
+                        ammoMultiplier = 5;
                         frontColor = hitColor = Color.white;
                         backColor = lightColor = trailColor = copper.color;
                         despawnEffect = hitEffect = Fx.hitSquaresColor;

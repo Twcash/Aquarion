@@ -1,6 +1,7 @@
 package aquarion.blocks;
 
 import aquarion.AquaSounds;
+import aquarion.world.blocks.power.HeatGenerator;
 import aquarion.world.blocks.power.PowerOutlet;
 import aquarion.world.blocks.power.PowerPylon;
 import aquarion.world.graphics.AquaFx;
@@ -434,12 +435,25 @@ public class AquaPower {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        heatExchanger = new VariableReactor("basic-heat-exchanger") {{
-            requirements(Category.power, with(silicon, 2500, metaglass, 950, cupronickel, 500));
-            powerProduction = 240;
-            maxHeat = 1000;
+        heatExchanger = new HeatGenerator("basic-heat-exchanger") {{
+            requirements(Category.power, with(silicon, 1500, metaglass, 950, cupronickel, 500));
+            powerProduction = 90;
+            maxHeat = 500;
             size = 8;
+            liquidCapacity = 6000;
+            consumeLiquid(water, 17);
+            outputLiquid = new LiquidStack(haze, 17);
+            explodeOnFull = true;
             squareSprite = false;
+            unstableSpeed = 0.001f;
+            flashSpeed = 10;
+            warmupSpeed = 0.0001f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawRadialEngine(){{
+                pistonCount = 3;
+                radius = 5;
+                speed = 0.5f;
+                rodLength = 20;
+            }}, new DrawDefault());
         }};
     }
 }
