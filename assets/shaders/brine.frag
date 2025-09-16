@@ -23,7 +23,7 @@ void main(){
     vec2 c = v_texCoords.xy;
     vec2 coords = vec2(c.x * u_resolution.x + u_campos.x, c.y * u_resolution.y + u_campos.y);
 
-    float btime = u_time / 1200.0;
+    float btime = u_time / 2400.0;
 
     // First noise layer with original scale
     float noise1 = (texture2D(u_noise, (coords) /( NSCALE*1.3) + vec2(btime) * vec2(-0.9, 0.8)).r + 

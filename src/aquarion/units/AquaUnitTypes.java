@@ -703,6 +703,102 @@ public class AquaUnitTypes {
                 armor = 10;
             }
         };
+        cyprin = new MechanicalUnitType("cyprin") {
+            {
+                abilities.add(
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 8;
+                            sizeTo = 0;
+                            lenFrom = 0;
+                            lenTo = 6;
+                            line = true;
+                            length = 15;
+                            baseLength = 2;
+                            layer = 90;
+                            lifetime = 10;
+                            colorFrom = Color.valueOf("ffea97");
+                            colorTo = Color.valueOf("ffea9710");
+                        }}, 90f, .6f) {{
+                        }},
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 0;
+                            sizeTo = 4;
+                            lifetime = 80;
+                            layer = 80;
+                            colorFrom = Color.valueOf("262323");
+                            colorTo = Color.valueOf("746f6f10");
+                        }}, 15f, .4f) {{
+                        }}, new SpawnDeathAbility(cyprinWreck, 0, 1) {{
+                            randAmount = 1;
+                        }},
+                        new MoveEffectAbility(6, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
+                abilities.add(new MoveEffectAbility(-6, -5, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1),
+                        new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t2TrailAnguilli, 1));
+                weapons.add(new Weapon() {{
+                    x = 6;
+                    y = 0;
+                    rotate = false;
+                    shake = 2;
+                    shoot.shots = 10;
+                    reload = 120;
+                    mirror = true;
+                    shootCone = 360;
+                    rotateSpeed = 180;
+                    baseRotation = 180;
+                    shootSound = Sounds.mineDeploy;
+                    shoot.shotDelay = 3;
+                    bullet = new BasicBulletType(2.5f, 75) {{
+                        sprite = "mine-bullet";
+                        ignoreRotation = true;
+                        keepVelocity = false;
+                        shootEffect = smokeEffect = Fx.none;
+                        shrinkX = 0.5f;
+                        lifetime = 180;
+                        shrinkY = 0.5f;
+                        homingPower = 0.07f;
+                        sticky = true;
+                        stickyExtraLifetime = 20;
+                        splashDamage = 90;
+                        splashDamageRadius = 22;
+                        status = AquaStatuses.concussed;
+                        statusDuration = 15*60f;
+                        homingDelay = 15;
+                        weaveMag = 6f;
+                        weaveScale = 4f;
+                        hitSize = 12;
+                        width = 9;
+                        height = 9;
+                        trailLength = 7;
+                        loopSound = Sounds.techloop;
+                        loopSoundVolume = 0.06f;
+                        hitSoundVolume = 0.6f;
+                        frontColor = hitColor = Color.white;
+                        backColor = trailColor = lightColor = Color.valueOf("8ca4fc");
+                        hitSound = Sounds.plasmaboom;
+                        inaccuracy = 5f;
+                        hitEffect = Fx.blastExplosion;
+                    }};
+                }});
+                engineSize = 0f;
+                groundLayer = 90;
+                envEnabled |= Env.terrestrial | Env.underwater;
+                envDisabled = Env.none;
+                hitSize = 22;
+                rotateSpeed = 2.5f;
+                constructor = UnitEntity::create;
+                lowAltitude = true;
+                health = 3500f;
+                flying = true;
+                omniMovement = false;
+                outlineColor = Color.valueOf("232826");
+                speed = 1.1f;
+                accel = 0.9f;
+                drag = 0.8f;
+                armor = 14;
+            }
+        };
 
         // steward tree
         steward = new MechanicalUnitType("steward") {{

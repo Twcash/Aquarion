@@ -182,6 +182,10 @@ public class TantrosTechTree {
                         ), () -> node(Torrent, Seq.with(
                                 new Objectives.SectorComplete(Ingress)
                         ), () -> {
+                            node(Ecotone, Seq.with(
+                                    new Objectives.SectorComplete(CrystalCaverns),
+                                    new Objectives.SectorComplete(Torrent)
+                            ), ()->{});
                             node(Grove, Seq.with(
                                     new Objectives.Research(beamBore),
                             new Objectives.SectorComplete(Torrent),
@@ -409,7 +413,8 @@ public class TantrosTechTree {
                     node(towaniteReductionVat, Seq.with(
                             new Objectives.OnSector(CrystalCaverns)
                     ), () -> {
-
+                        node(brineMixer);
+                        node(brineElectrolyzer);
                         node(acuminiteDegredationArray, Seq.with(
                                 new Objectives.SectorComplete(Grove)
                         ), () -> {

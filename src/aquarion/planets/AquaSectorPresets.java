@@ -8,7 +8,7 @@ import static aquarion.planets.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
     public static AquaSectorPreset  //tantros
-    Ingress, Torrent, CrystalCaverns, Grove,
+    Ingress, Torrent, CrystalCaverns, Grove, Ecotone,
     //serpulo (fake)
     resurgence, twinPass, floodPlains, bay, lowlandStrait, mountainsideComplex, erodedCanyon;
     /*
@@ -115,6 +115,14 @@ public class AquaSectorPresets {
             addStartingItems = true;
             captureWave = 17;
             difficulty = 6;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 3;
+        }};
+        Ecotone = new AquaSectorPreset("Ecotone", tantros2, 146){{
+            addStartingItems = true;
+            captureWave = 26;
+            difficulty = 8;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
