@@ -359,10 +359,7 @@ public class TantrosTechTree {
                     node(fumeFilter, Seq.with(
                             new Objectives.OnSector(CrystalCaverns)
                     ), () -> {
-                        node(algalTerrace, Seq.with(
-                        ), () -> {
-                            node(gasifier);
-                        });
+
                     });
                 }));
             });
@@ -398,6 +395,10 @@ public class TantrosTechTree {
                 node(thermalCrackingUnit, () -> {
                     node(desulferizationAssembly);
                     node(polymerPress);
+                });
+                node(algalTerrace, Seq.with(
+                ), () -> {
+                    node(gasifier);
                 });
                 node(magmaDiffser, Seq.with(
                         new Objectives.Research(magmaTap),
