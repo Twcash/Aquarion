@@ -443,9 +443,10 @@ public class AquaPower {
             outputLiquid = new LiquidStack(haze, 17);
             explodeOnFull = true;
             squareSprite = false;
-            unstableSpeed = 0.001f;
+            insulated = true;
+            unstableSpeed = 0.0001f;
             flashSpeed = 10;
-            generateEffect = AquaFx.heatEngineGenerate;
+            effect = AquaFx.heatEngineGenerate;
             generateEffectRange = this.size * 8/2f;
             warmupSpeed = 0.0001f;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
