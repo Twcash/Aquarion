@@ -1822,7 +1822,7 @@ public class AquaCrafters {
         }};
         brineElectrolyzer = new AquaGenericCrafter("brine-electrolysis-manifold") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(cupronickel, 2500, silicon, 3000, metaglass, 500));
+            requirements(Category.crafting, with(aluminum, 1500, silicon, 3000, metaglass, 500, ferrosilicon, 500));
             size = 7;
             rotate = true;
             liquidCapacity = 4000;
