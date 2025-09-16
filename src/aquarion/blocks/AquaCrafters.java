@@ -1874,7 +1874,7 @@ public class AquaCrafters {
         }};
         algalTerrace = new AttributeCrafter("algal-terrace") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with(metaglass, 1200, lead, 1200, aluminum, 500));
+            requirements(Category.production, with(metaglass, 1200, lead, 1200, ferricMatter, 500));
             size = 7;
             baseEfficiency = 0.5f;
             squareSprite = false;
@@ -1914,7 +1914,7 @@ public class AquaCrafters {
             consumePower(1.25f);
             heatOutput = 65;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(aluminum, 250, silicon, 700, metaglass, 500));
+            requirements(Category.crafting, with(ferricMatter, 250, silicon, 700, metaglass, 500));
             consumeLiquid(bioPulp, 1.25f);
             outputItem = new ItemStack(coal, 5);
             outputLiquid = new LiquidStack(haze, 0.5f);

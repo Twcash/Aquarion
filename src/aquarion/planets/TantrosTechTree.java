@@ -360,7 +360,6 @@ public class TantrosTechTree {
                             new Objectives.OnSector(CrystalCaverns)
                     ), () -> {
                         node(algalTerrace, Seq.with(
-                                new Objectives.SectorComplete(Grove)
                         ), () -> {
                             node(gasifier);
                         });
