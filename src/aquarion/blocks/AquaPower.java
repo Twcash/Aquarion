@@ -50,7 +50,7 @@ public class AquaPower {
             }});
         }};
         hydroxideReactor = new HeaterGenerator("hydroxide-reactor") {{
-            requirements(Category.power, with(ferricMatter, 200, aluminum, 250, silicon, 1200, copper, 500, graphite, 200));
+            requirements(Category.power, with(ferricMatter, 500, silicon, 1200, copper, 900, graphite, 500));
             powerProduction = 25;
             size = 7;
             squareSprite = false;
@@ -99,7 +99,7 @@ public class AquaPower {
             }});
         }};
         turbineDynamo = new ConsumeGenerator("turbine-dynamo") {{
-            requirements(Category.power, with(lead, 1500, metaglass, 1200, cupronickel, 900, graphite, 250));
+            requirements(Category.power, with(lead, 1500, metaglass, 1200, cupronickel, 1200, graphite, 400));
             size = 10;
             squareSprite = false;
             effectChance = 0.09f;
@@ -435,8 +435,8 @@ public class AquaPower {
         }};
         heatExchanger = new HeatGenerator("basic-heat-exchanger") {{
             requirements(Category.power, with(silicon, 1500, metaglass, 950, cupronickel, 500));
-            powerProduction = 10;
-            maxHeat = 500;
+            powerProduction = 2.5f;
+            maxHeat = 90;
             size = 8;
             liquidCapacity = 6000;
             consumeLiquid(water, 17);
@@ -445,6 +445,8 @@ public class AquaPower {
             squareSprite = false;
             unstableSpeed = 0.001f;
             flashSpeed = 10;
+            generateEffect = AquaFx.heatEngineGenerate;
+            generateEffectRange = this.size * 8/2f;
             warmupSpeed = 0.0001f;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -459,6 +461,7 @@ public class AquaPower {
             }}, new DrawLiquidTile(water, 4){{alpha = 0.2f;}}, new DrawRegion("-mid"), new DrawLiquidTile(haze, 4), new DrawAdvancedPistons(){{
                     angleOffset = 0;
                 suffix = "-pistone";
+                    sinMag = 2.5f;
                     sides = 1;
             }}, new DrawDefault(), new DrawHeatInputBitmask("-heats"));
         }};

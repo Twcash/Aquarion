@@ -100,9 +100,13 @@ public class TantrosTechTree {
                 node(solarGenerator, () -> {
                     node(convectionHeater, () -> {
                         node(heatChannel);
-                        node(combustionHeater);
+                        node(coalHeater, ()->{
+                            node(combustionHeater);
+                        });
                     });
-                    node(turbineDynamo);
+                    node(turbineDynamo, ()->{
+                        node(petroleumEngine);
+                    });
                     node(heatExchanger);
                     node(heatEngine, () -> {
                         node(fumeEngine);
