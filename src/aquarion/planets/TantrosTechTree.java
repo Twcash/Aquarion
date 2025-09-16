@@ -1,5 +1,6 @@
 package aquarion.planets;
 
+import arc.graphics.Pixmap;
 import arc.struct.ObjectFloatMap;
 import arc.struct.Seq;
 import mindustry.Vars;
@@ -393,6 +394,7 @@ public class TantrosTechTree {
                             });
                         });
                 node(thermalCrackingUnit, () -> {
+                    Pixmap pix = new Pixmap(250, 250);
                     node(desulferizationAssembly);
                     node(polymerPress);
                 });

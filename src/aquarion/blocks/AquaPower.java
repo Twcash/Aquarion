@@ -107,7 +107,7 @@ public class AquaPower {
             generateEffectRange = 12 / 4f;
             liquidCapacity = 2000;
             insulated = true;
-            powerProduction = 180;
+            powerProduction = 155;
             consumeLiquid(haze, 34);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -435,12 +435,12 @@ public class AquaPower {
         }};
         heatExchanger = new HeatGenerator("basic-heat-exchanger") {{
             requirements(Category.power, with(silicon, 1500, metaglass, 950, cupronickel, 500));
-            powerProduction = 2.5f;
-            maxHeat = 90;
+            powerProduction = 1f;
+            maxHeat = 150;
             size = 8;
-            liquidCapacity = 6000;
-            consumeLiquid(water, 17);
-            outputLiquid = new LiquidStack(haze, 17);
+            liquidCapacity = 12000;
+            consumeLiquid(water, 17f);
+            outputLiquid = new LiquidStack(haze, 17f);
             explodeOnFull = true;
             squareSprite = false;
             insulated = true;
@@ -459,7 +459,7 @@ public class AquaPower {
                 radius = 5;
                 speed = 0.25f;
                 rodLength = 15;
-            }}, new DrawLiquidTile(water, 4){{alpha = 0.2f;}}, new DrawRegion("-mid"), new DrawLiquidTile(haze, 4), new DrawAdvancedPistons(){{
+            }}, new DrawLiquidTile(water, 4){{alpha = 0.4f;}}, new DrawRegion("-mid"), new DrawLiquidTile(haze, 4), new DrawAdvancedPistons(){{
                     angleOffset = 0;
                 suffix = "-pistone";
                     sinMag = 2.5f;

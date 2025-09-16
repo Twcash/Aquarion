@@ -30,22 +30,6 @@ public class ModifiedLiquidBridge extends LiquidBridge {
                 }
             }
         }
-        public float moveLiquidForward(boolean leaks, Liquid liquid){
-            Tile next = tile.nearby(rotation);
-
-            if(next == null) return 0;
-
-            if(next.build != null){
-                return moveLiquid(next.build, liquid);
-            }else if(leaks && !next.block().solid && !next.block().hasLiquids){
-                float leakAmount = liquids.get(liquid) / 1.5f;
-                Puddles.deposit(next, tile, liquid, leakAmount, true, true);
-                liquids.remove(liquid, leakAmount);
-            }
-            return 0;
-
-        }
-
         public float moveLiquid(Building next, Liquid liquid){
             if(next == null) return 0;
 

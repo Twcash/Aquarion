@@ -766,7 +766,7 @@ public class AquaCrafters {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.liquid, with(copper, 120, metaglass, 50));
             size = 3;
-            consumePower(.230f);
+            consumePower(0.75f);
             squareSprite = true;
             pumpAmount = 0.375f;
             liquidCapacity = 300;
@@ -1177,7 +1177,7 @@ public class AquaCrafters {
             itemCapacity = 60;
             outputItem = new ItemStack(polymer, 30);
             craftTime = 30 / 4f * 60f;
-            heatRequirement = 45;
+            heatRequirement = 20;
             overheatScale = 1f;
             baseEfficiency = 0;
             hasHeat = true;
@@ -1669,7 +1669,7 @@ public class AquaCrafters {
             regionRotated1 = 1;
             liquidCapacity = 400;
             consumeLiquid(air, 3.25f);
-            outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 1.75f, nitrogen, 1.25f);
+            outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 2f, nitrogen, 1.25f);
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -1995,11 +1995,11 @@ public class AquaCrafters {
             requirements(Category.crafting, with(silicon, 150, copper, 350, metaglass, 200, graphite, 120));
             size = 3;
             squareSprite = false;
-            consumePower(3);
+            consumePower(6);
             regionRotated1 = 1;
-            consumeLiquid(water, .325f);
+            consumeLiquid(water, 1);
             rotateDraw = false;
-            heatOutput = 25;
+            heatOutput = 10;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
@@ -2020,7 +2020,7 @@ public class AquaCrafters {
             consumeLiquid(oxygen, .0125f);
             consume(new ConsumeItemFlammable(0.8f));
             craftTime =90;
-            heatOutput = 10;
+            heatOutput = 15;
             rotateDraw = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -2037,8 +2037,8 @@ public class AquaCrafters {
             liquidCapacity = 150;
             regionRotated1 = 1;
             consume(new ConsumeLiquidFlammable(1f, 1));
-            consumeLiquid(oxygen, .125f);
-            heatOutput = 25;
+            consumeLiquid(oxygen, .2f);
+            heatOutput = 30;
             rotateDraw = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;

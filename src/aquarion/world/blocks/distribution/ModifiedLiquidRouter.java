@@ -1,22 +1,45 @@
 package aquarion.world.blocks.distribution;
 
 import arc.math.Mathf;
+import arc.util.Time;
 import mindustry.content.Fx;
+import mindustry.entities.Puddles;
 import mindustry.gen.Building;
 import mindustry.type.Liquid;
+import mindustry.world.Build;
+import mindustry.world.Tile;
 import mindustry.world.blocks.liquid.LiquidRouter;
+
+import static mindustry.Vars.state;
 
 public class ModifiedLiquidRouter extends LiquidRouter {
     public boolean willMelt = false;
+
     public ModifiedLiquidRouter(String name) {
         super(name);
     }
-    public class ughBuild extends LiquidRouterBuild{
-        //Possible that this will not evenly dump liquid
-        public void dumpLiquid(Liquid liquid, float scaling, int outputDir){
+
+    public class ughBuild extends LiquidRouterBuild {
+
+        public void updateTransport(Building other){
+            if(liquids.currentAmount() > 0.001f){
+                 moveLiquid(other, liquids.current());
+            }
+            Liquid liquid = liquids.current();
+
+            if(liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt){
+                damageContinuous(liquid.temperature/100f);
+                if(Mathf.chanceDelta(0.01)){
+                    Fx.steam.at(x, y);
+                }
+            }
+        }
+        public void moveLiquide(Liquid liquid, int outputDir){
             int dump = this.cdump;
 
             if(liquids.get(liquid) <= 0.0001f) return;
+
+            if(state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();
 
             for(int i = 0; i < proximity.size; i++){
                 incrementDump(proximity.size);
@@ -42,30 +65,23 @@ public class ModifiedLiquidRouter extends LiquidRouter {
 
                     flow = Math.min(flow, liquids.get(liquid));
                     flow = Math.min(flow, other.block.liquidCapacity - other.liquids.get(liquid));
-                    if(flow > 0f && other.acceptLiquid(self(), liquid)){
-                        other.handleLiquid(self(), liquid, flow);
-                        liquids.remove(liquid, flow);
-                    } else if (!other.block.consumesLiquid(liquid) && other.liquids.currentAmount() / other.block.liquidCapacity > 0.1f ) {
-                        other.handleLiquid(self(), liquid, flow);
-                        liquids.remove(liquid, flow);
-                    }
+
+                    if(flow > 0.001) transferLiquid(other, flow, liquid);
                 }
             }
         }
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
+            if (liquids.currentAmount() < 0.01f) return;
             Liquid liquid = liquids.current();
-            if(liquids.currentAmount() > 0.01f){
-                dumpLiquid(liquids.current());
-            }
-            if(liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt){
-                damageContinuous(liquid.temperature/100f);
-                if(Mathf.chanceDelta(0.01)){
+            moveLiquide(liquid, -1);
+            if (liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt) {
+                damageContinuous(liquid.temperature / 100f);
+                if (Mathf.chanceDelta(0.01f)) {
                     Fx.steam.at(x, y);
                 }
             }
         }
-
     }
 }
