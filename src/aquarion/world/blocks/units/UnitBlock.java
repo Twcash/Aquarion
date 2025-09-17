@@ -20,6 +20,7 @@ import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.game.EventType.*;
+import mindustry.game.Team;
 import mindustry.game.Teams;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -28,6 +29,7 @@ import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.Block;
+import mindustry.world.Tile;
 import mindustry.world.blocks.ConstructBlock;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.payloads.*;
@@ -95,6 +97,13 @@ public class UnitBlock extends Block {
     }
     public float time = 60;
     public UnitType unit = UnitTypes.alpha;
+    @Override
+    public boolean canPlaceOn(Tile tile, Team team, int rotation){
+        if(floating){
+            return tile.floor().isLiquid;
+        }
+        return true;
+    }
     @Override
     public void load(){
         super.load();

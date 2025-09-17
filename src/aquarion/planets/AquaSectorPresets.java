@@ -74,7 +74,7 @@ public class AquaSectorPresets {
         }};
         lowlandStrait = new AquaSectorPreset("lowlandStrait", fakeSerpulo, 176){{
             addStartingItems = true;
-            captureWave = 35;
+            captureWave = 15;
             difficulty = 5;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;

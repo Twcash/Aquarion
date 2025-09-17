@@ -102,12 +102,14 @@ public class AquaCore {
             buildSpeed = 0.4f;
             range = 145;
             rotateSpeed = 0.85f;
+            schematicPriority = 8;
             consumePower(1.5f);
         }};
         mendPyre = new RegenPylon("mend-pyre") {{
             requirements(Category.effect, with(lead, 55, silicon, 80));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 1;
+            schematicPriority = 7;
             consumePower(0.75f);
             consumeItem(Items.silicon).boost();
             range = 25;
@@ -122,6 +124,8 @@ public class AquaCore {
             requirements(Category.effect, with(silicon, 60, aluminum, 40));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
+            schematicPriority = 7;
+
             consumePower(0.125f);
             consumeLiquid(fumes, 0.05f);
             range = 35;

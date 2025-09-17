@@ -68,6 +68,7 @@ public class TantrosTechTree {
                     new Objectives.OnSector(twinPass),
                     new Objectives.Produce(metaglass)
             ), () -> {
+                node(weld);
                 node(unitByte);
                 node(crest, () -> {
                     node(soar, () -> {
@@ -254,13 +255,10 @@ public class TantrosTechTree {
 
                     });
                 });
+                nodeProduce(bioPulp, () -> {
+                });
                 nodeProduce(brine, () -> {
                     nodeProduce(chlorine, () -> {
-
-                    });
-                    nodeProduce(bioPulp, () -> {
-                    });
-                    nodeProduce(coke, () -> {
                     });
                 });
 
@@ -382,6 +380,7 @@ public class TantrosTechTree {
                     node(arcFurnace);
                 });
                 node(AnnealingOven, () -> {
+                    node(sporeProcessor);
                             node(cupronickelAlloyer, () -> {
                                 node(ferricGrinder, () -> {
                                     node(ultrafamicRefinery);
@@ -399,7 +398,7 @@ public class TantrosTechTree {
                             });
                         });
                 node(thermalCrackingUnit, () -> {
-                    Pixmap pix = new Pixmap(250, 250);
+                    node(coalLiquefactor);
                     node(desulferizationAssembly);
                     node(polymerPress);
                 });

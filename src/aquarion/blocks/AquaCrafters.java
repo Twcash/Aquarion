@@ -55,7 +55,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block sporeProcessor, coalLiquefactor, coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
 
     public static void loadContent() {
         disableVanilla();
@@ -1354,6 +1354,28 @@ public class AquaCrafters {
                 drawIcon = false;
             }}, new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
         }};
+        coalLiquefactor = new AquaGenericCrafter("coal-liquefactor"){{
+            requirements(Category.crafting, with(copper, 450, ferricMatter, 200, silicon, 800, aluminum, 250));
+            hasHeat = true;
+            heatRequirement = 25;
+            overheatScale = 1;
+            baseEfficiency = 0;
+            maxEfficiency = 10;
+            craftTime = 240;
+            itemCapacity = 60;
+            size = 4;
+            squareSprite = false;
+            liquidCapacity = 500;
+            consumePower(2.5f);
+            consumeItem(coal, 12);
+            consumeLiquid(oxygen, 0.25f);
+            outputLiquid = new LiquidStack(oil, 3f);
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
+                layer = shadow;
+                drawIcon = false;
+            }}, new DrawRegion("-bottom"), new DrawLiquidTile(oil, 4), new DrawDefault(), new DrawHeatInputBitmask("-heats"));
+        }};
+
         inlet = new AquaGenericCrafter("inlet") {{
             requirements(Category.production, with(copper, 45));
             shownPlanets.addAll(tantros2);
@@ -1435,7 +1457,7 @@ public class AquaCrafters {
             consumePower(3);
             consumeLiquid(halideWater, 6.5f);
             craftTime = 10;
-            outputLiquids = LiquidStack.with(air, 3.5f, water, 6.375f);
+            outputLiquids = LiquidStack.with(air, 4f, water, 6.375f);
             liquidOutputDirections = new int[]{1, 4};
             rotate = true;
             rotateDraw = false;
@@ -1871,6 +1893,21 @@ public class AquaCrafters {
                 alpha = 0.5f;
                 color = Color.valueOf("f5c5aa");
             }});
+        }};
+        sporeProcessor = new AquaGenericCrafter("spore-processor"){{
+            requirements(Category.crafting, with(cupronickel, 90, silicon, 150, metaglass, 40));
+            size = 3;
+            squareSprite = false;
+            craftTime = 720;
+            itemCapacity = 36;
+            consumeItem(sporePod, 9);
+            consumePower(0.5f);
+            outputLiquid = new LiquidStack(bioPulp, 0.125f);
+            liquidCapacity = 120;
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
+                layer = shadow;
+                drawIcon = false;
+            }}, new DrawRegion("-bottom"), new DrawLiquidTile(bioPulp, 4), new DrawPump("-pump"), new DrawDefault());
         }};
         algalTerrace = new AttributeCrafter("algal-terrace") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

@@ -2,16 +2,52 @@ package aquarion;
 
 import aquarion.world.content.AquaItem;
 import arc.graphics.Color;
-import arc.struct.Seq;
 import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.type.Item;
 
 import static aquarion.planets.AquaPlanets.*;
-import static mindustry.content.Items.*;
 
 public class AquaItems {
-    public static Item polymer, serpentine, pentlandite, magnesiumPowder, steel, acuminite, strontium, hexogen, coke, galena, boron, cryolite, caustrolite, mangalumin, vacodur, towanite, brimstone, cobalt, azurite, invar, borax, ferrosilicon, aluminum, ferricMatter,cupronickel, inconel, electrum, arsenic, chromium, silver, salt, chirenium, nickel, bauxite, duralumin, gallium, lithium, manganese, sodium, ceramic;
+    public static Item polymer;
+    public static Item serpentine;
+    public static Item pentlandite;
+    public static Item magnesiumPowder;
+    public static Item steel;
+    public static Item acuminite;
+    public static Item strontium;
+    public static Item hexogen;
+    public static Item galena;
+    public static Item boron;
+    public static Item cryolite;
+    public static Item caustrolite;
+    public static Item mangalumin;
+    public static Item vacodur;
+    public static Item towanite;
+    public static Item brimstone;
+    public static Item cobalt;
+    public static Item azurite;
+    public static Item invar;
+    public static Item borax;
+    public static Item ferrosilicon;
+    public static Item aluminum;
+    public static Item ferricMatter;
+    public static Item cupronickel;
+    public static Item inconel;
+    public static Item electrum;
+    public static Item arsenic;
+    public static Item chromium;
+    public static Item silver;
+    public static Item salt;
+    public static Item chirenium;
+    public static Item nickel;
+    public static Item bauxite;
+    public static Item duralumin;
+    public static Item gallium;
+    public static Item lithium;
+    public static Item manganese;
+    public static Item sodium;
+    public static Item ceramic;
     public static void load() {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
@@ -146,12 +182,6 @@ public class AquaItems {
         }};
         boron = new Item("boron", Color.valueOf("d9cff2")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-        }};
-        coke = new Item("coke", Color.valueOf("8e947c")) {{
-            buildable = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            flammability = 1f;
-            explosiveness = 0.1f;
-            radioactivity = 0.05f;
         }};
         hexogen = new Item("hexogen", Color.valueOf("fff47a")) {{
             explosiveness = 8f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

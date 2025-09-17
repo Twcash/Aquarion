@@ -13,6 +13,7 @@ import mindustry.world.Block;
 import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.meta.BuildVisibility;
+import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
 import static aquarion.units.AquaUnitTypes.*;
@@ -21,7 +22,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class AquaUnitFactories {
-    public static Block bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
+    public static Block weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -34,6 +35,16 @@ public class AquaUnitFactories {
             size = 2;
             time = 15 * 60;
             consumePower(0.75f);
+        }};
+        weld = new UnitBlock("weld") {{
+            requirements(Category.units, with(polymer, 20, lead, 80));
+            unit = AquaUnitTypes.weld;
+            size = 2;
+            time = 25 * 60;
+            floating = true;
+            placeableLiquid = true;
+            envDisabled = Env.underwater | Env.space;
+            consumePower(2);
         }};
         pugnate = new UnitBlock("pugnate") {{
             requirements(Category.units, with(silicon, 90, aluminum, 50, copper, 70, graphite, 45));
@@ -68,28 +79,28 @@ public class AquaUnitFactories {
             consumeLiquid(oil, 0.125f);
         }};
         reave = new UnitBlock("reave") {{
-            requirements(Category.units, with(ferrosilicon, 110, graphite, 90, cupronickel, 70));
+            requirements(Category.units, with(polymer, 80, graphite, 120, ferricMatter, 150));
             unit = AquaUnitTypes.reave;
             size = 3;
             time = 20 * 60;
             destroySound = AquaSounds.start4;
         }};
         soar = new UnitBlock("soar") {{
-            requirements(Category.units, with(steel, 200, ferrosilicon, 450, metaglass, 90));
+            requirements(Category.units, with(cupronickel, 200, polymer, 450, metaglass, 90));
             unit = AquaUnitTypes.soar;
             size = 3;
             time = 15 * 60;
             destroySound = AquaSounds.start2;
         }};
         raze = new UnitBlock("raze") {{
-            requirements(Category.units, with(steel, 250, silicon, 150, cupronickel, 120));
+            requirements(Category.units, with(polymer, 250, silicon, 150, cupronickel, 120));
             unit = AquaUnitTypes.raze;
             size = 3;
             time = 20 * 60;
             destroySound = AquaSounds.start4;
         }};
         shatter = new UnitBlock("shatter") {{
-            requirements(Category.units, with(ferrosilicon, 120, copper, 400));
+            requirements(Category.units, with(polymer, 100, copper, 600));
             unit = AquaUnitTypes.shatter;
             size = 3;
             time = 20 * 60;

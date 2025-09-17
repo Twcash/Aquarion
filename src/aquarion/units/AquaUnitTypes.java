@@ -60,7 +60,7 @@ public class AquaUnitTypes {
 
     public static UnitType
         //Sharded units
-            bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, retaliate, index, byteUnit, truple,
+            weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, retaliate, index, byteUnit, truple,
             //sharded "support" units
 
             //qeralter Units
@@ -1510,6 +1510,50 @@ public class AquaUnitTypes {
                     width = height = 12;
                     knockback = 2;
                     trailLength = 12;
+                }};
+            }});
+        }};
+        weld = new UnitType("weld") {{
+            constructor = UnitWaterMove::create;
+            speed = 0.45f;
+            hitSize = 8;
+            range = 80;
+            health = 600;
+            armor = 4;
+            targetAir = false;
+            rotateMoveFirst = false;
+            omniMovement = true;
+            rotateSpeed = 1.5f;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            weapons.addAll(new Weapon("aquarion-weld-weapon") {{
+                rotate = true;
+                rotateSpeed = 1.5f;
+                mirror = false;
+                x = 0;
+                y = -1;
+                recoil = 3;
+                shootY = 5;
+                reload = 120;
+                shoot.shots = 2;
+                shootSound = Sounds.spark;
+                bullet = new LightningBulletType(){{
+                    lightningColor = hitColor = Pal.techBlue;
+                    damage = 25f;
+                    lightningLength = 17;
+                    lightningCone = 2f;
+                    lightningLengthRand = 5;
+                    shootEffect = Fx.shootSmokeSquareSparse;
+                    lightningType = new BulletType(0.0001f, 0f){{
+                        lifetime = Fx.lightning.lifetime;
+                        hitEffect = Fx.hitLancer;
+                        despawnEffect = Fx.none;
+                        status = StatusEffects.shocked;
+                        statusDuration = 45f;
+                        hittable = false;
+                        collidesTeam = true;
+                    }};
                 }};
             }});
         }};

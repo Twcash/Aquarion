@@ -105,9 +105,9 @@ public class AquaTurrets {
                         reloadMultiplier = 1.2f;
                         ammoMultiplier = 3;
                         knockback = 0.5f;
-                        damage = 45;
-                        ammoMultiplier = 3f;
-                        rangeChange = 24;
+                        damage = 35;
+                        ammoMultiplier = 2f;
+                        rangeChange = 16;
                         //this thing can shred late game stuff if you do it right
                         pierceArmor = true;
                         shootEffect = Fx.shootPyraFlame;
@@ -141,7 +141,7 @@ public class AquaTurrets {
                         pierce = true;
                         pierceCap = 3;
                         knockback = 2f;
-                        damage = 60;
+                        damage = 110;
                         rangeChange = 48;
                         reloadMultiplier = 0.1f;
                         shootEffect = Fx.shootSmall;
@@ -992,7 +992,7 @@ public class AquaTurrets {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    nickel, new BasicBulletType(5, 70) {{
+                    nickel, new BasicBulletType(5, 75) {{
                         pierce = true;
                         pierceBuilding = false;
                         pierceCap = 2;
@@ -1004,8 +1004,8 @@ public class AquaTurrets {
                         trailWidth = 3f;
                         trailLength = 16;
                         reloadMultiplier = 0.8f;
-                        hitSize = 6;
-                        ammoMultiplier = 1;
+                        hitSize = 8;
+                        ammoMultiplier = 2;
                         frontColor = hitColor = Color.white;
                         backColor = lightColor = trailColor = Color.valueOf("e1d9bc");
                         despawnEffect = hitEffect = Fx.hitSquaresColor;

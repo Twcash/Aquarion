@@ -347,6 +347,7 @@ public class AquaPower {
             laserRange = 12;
             maxNodes = 9;
             alwaysUnlocked = true;
+            schematicPriority = 10;
         }};
         outlet = new PowerOutlet("outlet") {{
             requirements(Category.power, with(silicon, 10));
@@ -355,6 +356,7 @@ public class AquaPower {
             powerProduction = 1;
             alwaysUnlocked = true;
             regionRotated1 = 1;
+            schematicPriority = 9;
             drawer = new DrawMulti(new DrawDefault(), new DrawSideRegion());
         }};
         voltageSupplyUnit = new PowerOutlet("power-supply-unit") {{
