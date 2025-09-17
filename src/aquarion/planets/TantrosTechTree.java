@@ -295,6 +295,7 @@ public class TantrosTechTree {
                         });
                     });
                     nodeProduce(Items.copper, () -> {
+                        nodeProduce(coal, ()->{});
                         nodeProduce(graphite, () -> {});
                         nodeProduce(galena, () -> {
                         });

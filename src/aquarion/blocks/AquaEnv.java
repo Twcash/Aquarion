@@ -71,6 +71,7 @@ public class AquaEnv {
             liquidDrop = AquaLiquids.brine;
             liquidMultiplier = 1.1f;
             isLiquid = true;
+            drownTime = 6000;
             cacheLayer = AquaShaders.brineLayer;
             albedo = 1f;
             supportsOverlay = true;
