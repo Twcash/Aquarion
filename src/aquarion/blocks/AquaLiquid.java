@@ -30,6 +30,7 @@ public class AquaLiquid {
             range = 4;
             willMelt = false;
             hasPower = false;
+            health = 110;
             liquidCapacity = 80;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -47,6 +48,7 @@ public class AquaLiquid {
         siphonUnderflow = new LiquidUnderflow("siphon-underflow") {{
             requirements(Category.liquid, with(silicon, 70));
             invert = true;
+            health = 110;
         }};
         siphon = new ModifiedConduit("siphon") {{
             requirements(Category.liquid, with(silicon, 3));
@@ -77,6 +79,7 @@ public class AquaLiquid {
         siphonRouter = new ModifiedLiquidRouter("siphon-router") {{
             requirements(Category.liquid, with(silicon, 30));
             envEnabled |= Env.terrestrial | Env.underwater;
+            health = 120;
             liquidCapacity = 80;
             envDisabled = Env.none;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -87,6 +90,7 @@ public class AquaLiquid {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            health = 110;
             ((ModifiedConduit) siphon).junctionReplacement = this;
         }};
         Liquids.oil.explosiveness = 0.7f;

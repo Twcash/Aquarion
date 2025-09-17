@@ -45,7 +45,7 @@ public class ModifiedLiquidRouter extends LiquidRouter {
                 incrementDump(proximity.size);
 
                 Building other = proximity.get((i + dump) % proximity.size);
-                if(outputDir != -1 && (outputDir + rotation) % 4 != relativeTo(other)) continue;
+                if((outputDir + rotation) % 4 != relativeTo(other)) continue;
 
                 other = other.getLiquidDestination(self(), liquid);
 
