@@ -231,6 +231,7 @@ public class TantrosTechTree {
                                         new Objectives.Research(combustionHeater),
                                         new Objectives.Research(arcFurnace)
                                         ), ()->{});
+                                node(diseasedCleft, Seq.with(new Objectives.SectorComplete(bay)), ()->{});
                                 node(mountainsideComplex, Seq.with(
                                         new Objectives.SectorComplete(bay)
                                 ), () -> {

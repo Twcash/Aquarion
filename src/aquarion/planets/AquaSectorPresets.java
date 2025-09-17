@@ -8,7 +8,7 @@ import static aquarion.planets.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
     public static AquaSectorPreset  //tantros
-    Ingress, Torrent, CrystalCaverns, Grove, Ecotone,
+    Ingress, diseasedCleft, Torrent, CrystalCaverns, Grove, Ecotone,
     //serpulo (fake)
     resurgence, twinPass, floodPlains, bay, lowlandStrait, mountainsideComplex, erodedCanyon;
     /*
@@ -126,6 +126,12 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
+        }};
+        diseasedCleft = new AquaSectorPreset("diseasedCleft", fakeSerpulo, 456){{
+            addStartingItems = true;
+            difficulty = 8;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
         }};
     }
 }
