@@ -1,6 +1,7 @@
 package aquarion.world.blocks.distribution;
 
 import arc.math.Mathf;
+import arc.struct.Seq;
 import arc.util.Time;
 import mindustry.content.Fx;
 import mindustry.entities.Puddles;
@@ -20,62 +21,35 @@ public class ModifiedLiquidRouter extends LiquidRouter {
     }
 
     public class ughBuild extends LiquidRouterBuild {
-
-        public void updateTransport(Building other){
-            if(liquids.currentAmount() > 0.001f){
-                 moveLiquid(other, liquids.current());
-            }
-            Liquid liquid = liquids.current();
-
-            if(liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt){
-                damageContinuous(liquid.temperature/100f);
-                if(Mathf.chanceDelta(0.01)){
-                    Fx.steam.at(x, y);
-                }
-            }
-        }
-        public void moveLiquide(Liquid liquid, int outputDir){
-            int dump = this.cdump;
-
+        public void moveLiquide(Liquid liquid){
             if(liquids.get(liquid) <= 0.0001f) return;
-
             if(state.isCampaign() && team == state.rules.defaultTeam) liquid.unlock();
-
-            for(int i = 0; i < proximity.size; i++){
-                incrementDump(proximity.size);
-
-                Building other = proximity.get((i + dump) % proximity.size);
-                if((outputDir + rotation) % 4 != relativeTo(other)) continue;
-
-                other = other.getLiquidDestination(self(), liquid);
-
-                if(other != null && other.block.hasLiquids && canDumpLiquid(other, liquid) && other.liquids != null){
-                    float levelHere = liquids.get(liquid) / block.liquidCapacity;
-                    float levelNext = other.liquids.get(liquid) / other.block.liquidCapacity;
-                    float deltaLevel = Math.max(levelHere - levelNext, 0f) * 50;
-
-                    float rho = 1f;
-                    float viscosityFactor = Mathf.clamp(1f - liquid.viscosity * 0.5f, 0.2f, 1f);
-                    float Cd = 0.8f;
-                    float A = 1f;
-
-                    float flow = Cd * A * Mathf.sqrt(2f * deltaLevel / rho) * viscosityFactor;
-
-                    flow *= 10f;
-
-                    flow = Math.min(flow, liquids.get(liquid));
-                    flow = Math.min(flow, other.block.liquidCapacity - other.liquids.get(liquid));
-
-                    if(flow > 0.001) transferLiquid(other, flow, liquid);
+            Seq<Building> valid = new Seq<>();
+            for(Building other : proximity){
+                if(other == null) continue;
+                Building dest = other.getLiquidDestination(self(), liquid);
+                if(dest != null && dest.block.hasLiquids && canDumpLiquid(dest, liquid) && dest.liquids != null){
+                    valid.add(dest);
+                }
+            }
+            if(valid.isEmpty()) return;
+            float totalAvailable = liquids.get(liquid);
+            float perTarget = totalAvailable / valid.size;
+            for(Building dest : valid){
+                float space = dest.block.liquidCapacity - dest.liquids.get(liquid);
+                float flow = Math.min(perTarget, space);
+                if(flow > 0.001f){
+                    transferLiquid(dest, flow, liquid);
                 }
             }
         }
+
 
         @Override
         public void updateTile() {
             if (liquids.currentAmount() < 0.01f) return;
             Liquid liquid = liquids.current();
-            moveLiquide(liquid, -1);
+            moveLiquide(liquid);
             if (liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt) {
                 damageContinuous(liquid.temperature / 100f);
                 if (Mathf.chanceDelta(0.01f)) {
