@@ -4,6 +4,7 @@ import aquarion.AquaSounds;
 import aquarion.units.AquaUnitTypes;
 import aquarion.world.blocks.units.UnitBlock;
 import arc.func.Cons;
+import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.ctype.UnlockableContent;
@@ -37,7 +38,7 @@ public class AquaUnitFactories {
             consumePower(0.75f);
         }};
         weld = new UnitBlock("weld") {{
-            requirements(Category.units, with(polymer, 20, lead, 80));
+            requirements(Category.units, with(metaglass, 120, lead, 80));
             unit = AquaUnitTypes.weld;
             size = 2;
             time = 25 * 60;
@@ -82,28 +83,32 @@ public class AquaUnitFactories {
             requirements(Category.units, with(polymer, 80, graphite, 120, ferricMatter, 150));
             unit = AquaUnitTypes.reave;
             size = 3;
+            consumePower(3);
             time = 20 * 60;
             destroySound = AquaSounds.start4;
         }};
         soar = new UnitBlock("soar") {{
-            requirements(Category.units, with(cupronickel, 200, polymer, 450, metaglass, 90));
+            requirements(Category.units, with(cupronickel, 140, polymer, 120, metaglass, 90));
             unit = AquaUnitTypes.soar;
             size = 3;
             time = 15 * 60;
+            consumePower(5);
             destroySound = AquaSounds.start2;
         }};
         raze = new UnitBlock("raze") {{
-            requirements(Category.units, with(polymer, 250, silicon, 150, cupronickel, 120));
+            requirements(Category.units, with(polymer, 100, silicon, 150, cupronickel, 120));
             unit = AquaUnitTypes.raze;
             size = 3;
+            consumePower(3);
             time = 20 * 60;
             destroySound = AquaSounds.start4;
         }};
         shatter = new UnitBlock("shatter") {{
-            requirements(Category.units, with(polymer, 100, copper, 600));
+            requirements(Category.units, with(graphite, 120, metaglass, 250));
             unit = AquaUnitTypes.shatter;
             size = 3;
-            time = 20 * 60;
+            consumePower(4);
+            time = 30 * 60;
             destroySound = AquaSounds.start;
         }};
         castellan = new UnitBlock("castellan") {{

@@ -846,7 +846,7 @@ public class AquaCrafters {
         }};
         SolidBoiler = new AquaGenericCrafter("solid-boiler") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(lead, 700, copper, 900, metaglass, 400, graphite, 1500));
+            requirements(Category.crafting, with(lead, 700, copper, 900, metaglass, 500, graphite, 800));
             size = 7;
             itemCapacity = 60;
             squareSprite = false;
