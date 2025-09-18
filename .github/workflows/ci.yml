@@ -39,4 +39,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.event_name == 'release' && github.event.action == 'created'
         with:
-          files: build/libs/MineDusty.jar
+          files: build/libs/Aquarion.jar
