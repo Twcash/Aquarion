@@ -2,7 +2,6 @@ package aquarion.world.type;
 
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
-import mindustry.graphics.BlockRenderer;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 

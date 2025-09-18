@@ -11,7 +11,6 @@ import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
-import mindustry.ai.BlockIndexer;
 import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.game.*;

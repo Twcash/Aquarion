@@ -3,14 +3,11 @@ package aquarion.ui;
 import aquarion.planets.AquaPlanets;
 import arc.Core;
 import arc.struct.Seq;
-import arc.util.Log;
 import mindustry.Vars;
 import mindustry.content.TechTree;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Saves;
 import mindustry.gen.Icon;
-
-import static arc.Core.settings;
 
 public class ModSettings {
     public static void init() {
@@ -32,7 +29,7 @@ public class ModSettings {
                     }
 
                     Vars.content.each(c -> {
-                        if(c instanceof UnlockableContent u && u.minfo != null && u.minfo.mod != null && u.minfo.mod.name.equals("aquarion")){
+                        if(c instanceof UnlockableContent u && u.minfo != null && u.minfo.mod != null && u.minfo.mod.name.equals("src/aquarion")){
                             u.clearUnlock();
                         }
                     });

@@ -1,6 +1,5 @@
 package aquarion.planets;
 
-import arc.graphics.Pixmap;
 import arc.struct.ObjectFloatMap;
 import arc.struct.Seq;
 import mindustry.Vars;
@@ -269,6 +268,10 @@ public class TantrosTechTree {
                         });
                     });
                     nodeProduce(Items.lead, () -> {
+                        nodeProduce(zinc, ()->{});
+                        nodeProduce(biotite, ()->{
+                            nodeProduce(rareSludge, ()->{});
+                        });
                         nodeProduce(bauxite, () -> {
                             nodeProduce(aluminum, () -> {
                             });

@@ -1,11 +1,7 @@
 package aquarion.world.consumers;
 
-import aquarion.world.blocks.production.AdaptiveCrafter;
 import arc.struct.Seq;
 import mindustry.gen.Building;
-import mindustry.type.Item;
-import mindustry.type.Liquid;
-import mindustry.world.Block;
 import mindustry.world.consumers.Consume;
 
 public class ConsumeRecipes extends Consume {

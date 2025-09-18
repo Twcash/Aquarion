@@ -24,7 +24,6 @@ import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
 import static aquarion.AquaAttributes.*;
-import static aquarion.AquaItems.bauxite;
 import static aquarion.AquaItems.salt;
 import static aquarion.AquaItems.*;
 import static mindustry.content.Blocks.*;
@@ -260,25 +259,14 @@ public class AquaEnv {
         moss.itemDrop = Items.sporePod;
 
 
-        geothermal_vent = new SteamVent("geothermal-vent") {{
-            attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = Blocks.basalt;
-            effectSpacing = 15f;
-            variants = 2;
-            effect = new ParticleEffect() {{
-                particles = 3;
-                lifetime = 340;
-                length = 125;
-                cone = 20;
-                baseRotation = 50;
-                sizeFrom = 0f;
-                sizeTo = 12f;
-                colorFrom = Color.valueOf("18161c90");
-                colorTo = Color.valueOf("2a282d10");
-                sizeInterp = Interp.pow3Out;
-                interp = Interp.pow3Out;
+        geothermal_vent = new SteamVent("geothermal-vent") {
+            {
+                attributes.set(Attribute.steam, 1f);
+                parent = blendGroup = Blocks.basalt;
+                effectSpacing = 15f;
+                variants = 2;
+                effect = AquaFx.vent1;
             }};
-        }};
         blueSandFLoor = new Floor("blue-sand-floor", 3) {{
             itemDrop = Items.sand;
             playerUnmineable = true;
@@ -502,7 +490,7 @@ public class AquaEnv {
             shadowOffset = -4;
         }};
         basaltRock = new rokBlock("basalt-rock") {{
-            requirements(Category.effect, with(bauxite, 100, silicon, 150));
+            requirements(Category.effect, with(biotite, 100, silicon, 150));
             buildVisibility = sandboxOnly;
             size = 1;
             health = 1200;
@@ -516,7 +504,7 @@ public class AquaEnv {
             forceDark = true;
         }};
         largeBasaltRock = new rokBlock("large-basalt-rock") {{
-            requirements(Category.effect, with(bauxite, 900, silicon, 1200));
+            requirements(Category.effect, with(biotite, 900, silicon, 1200));
             buildVisibility = sandboxOnly;
             size = 2;
             health = 3500;
@@ -530,7 +518,7 @@ public class AquaEnv {
             forceDark = true;
         }};
         hugeBasaltRock = new rokBlock("huge-basalt-rock") {{
-            requirements(Category.effect, with(bauxite, 2100, silicon, 3000));
+            requirements(Category.effect, with(biotite, 2100, silicon, 3000));
             buildVisibility = sandboxOnly;
             size = 3;
             health = 8000;
@@ -544,7 +532,7 @@ public class AquaEnv {
             forceDark = true;
         }};
         massiveBasaltRock = new rokBlock("massive-basalt-rock") {{
-            requirements(Category.effect, with(bauxite, 4000, silicon, 6000));
+            requirements(Category.effect, with(biotite, 4000, silicon, 6000));
             buildVisibility = sandboxOnly;
             size = 4;
             health = 12000;

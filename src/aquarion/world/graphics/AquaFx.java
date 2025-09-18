@@ -6,45 +6,18 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
-import arc.struct.*;
 import arc.util.*;
-import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.entities.*;
-import mindustry.entities.abilities.*;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
-import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.world.*;
-import mindustry.world.blocks.units.UnitAssembler.*;
-
-import static aquarion.AquaLiquids.magma;
-import static arc.graphics.g2d.Draw.rect;
-import static arc.graphics.g2d.Draw.*;
-import static arc.graphics.g2d.Lines.*;
-import static arc.math.Angles.*;
-import static mindustry.Vars.*;import arc.*;
-import arc.graphics.*;
-import arc.graphics.g2d.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
-import arc.util.*;
-import mindustry.entities.*;
-import mindustry.entities.abilities.*;
-import mindustry.gen.*;
-import mindustry.graphics.*;
-import mindustry.type.*;
-import mindustry.world.*;
-import mindustry.world.blocks.units.UnitAssembler.*;
 
 import static arc.graphics.g2d.Draw.rect;
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.*;
 import static arc.math.Angles.*;
-import static mindustry.Vars.*;
+
 public class AquaFx {
     public static final Rand rand = new Rand();
     public static final Vec2 v = new Vec2();
@@ -346,7 +319,21 @@ public class AquaFx {
                         Draw.alpha(1);
                         blend();
                     }),
-
+                    vent1 = new Effect(220f, e -> {
+                        rand.setSeed(e.id+1);
+                        Color base = Color.valueOf("f2f17f").lerp(Color.valueOf("99784f"), rand.random(0, 1));
+                        rand.setSeed(e.id+5);
+                        color(base, AquaPal.smoke.a(0.5f).lerp(Color.valueOf("4a3f3c"), rand.random(0, 1)), Interp.pow2Out.apply(e.fin()));
+                        alpha(Interp.pow2In.apply(e.fout()));
+                        rand.setSeed(e.id+2);
+                        randLenVectors(e.id, 4,Interp.pow5In.apply(e.finpow()) * 110f, 32f+Time.time/100, 25f, (x, y) ->
+                        {
+                            rand.setSeed(e.id+4);
+                            float lift = Interp.pow2Out.apply(e.fin()) * rand.random(0, 72);
+                            rand.setSeed(e.id+7);
+                            Fill.circle(e.x+x+rand.random(-4, 4), e.y + lift+y+rand.random(-4, 4), Interp.pow5In.apply(e.finpow()) * 9.5f + 0.4f);
+                        });
+                    }),
                     turbineGenerate = new Effect(180f, e -> {
                         color(Color.white, AquaPal.smoke.a(0.5f), Interp.pow2In.apply(e.fin()));
                         alpha(Interp.pow2In.apply(e.fout()));

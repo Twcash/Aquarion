@@ -6,15 +6,10 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.math.*;
-import arc.util.Time;
-import arc.util.Tmp;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
-import mindustry.content.Fx;
-import mindustry.entities.Units;
 import mindustry.gen.Groups;
-import mindustry.graphics.Pal;
 import mindustry.world.blocks.defense.ForceProjector;
 
 public class deflectorShield extends ForceProjector {

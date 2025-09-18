@@ -7,21 +7,6 @@ import arc.graphics.g2d.Bloom;
 import arc.graphics.g2d.Draw;
 import arc.graphics.gl.FrameBuffer;
 import arc.util.Nullable;
-import mindustry.game.EventType;
-
-import java.util.HashMap;
-import java.util.Map;
-import arc.*;
-import arc.graphics.*;
-import arc.graphics.g2d.*;
-import arc.graphics.gl.*;
-import arc.util.*;
-import mindustry.game.EventType.*;
-import mindustry.graphics.*;
-
-import static arc.Core.*;
-import static mindustry.Vars.*;
-import static aquarion.world.graphics.AquaShaders.glitch;
 
 
 public class Renderer {

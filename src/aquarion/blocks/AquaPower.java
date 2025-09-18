@@ -7,7 +7,6 @@ import aquarion.world.blocks.power.PowerPylon;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.drawers.*;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
 import mindustry.content.Fx;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.gen.Sounds;

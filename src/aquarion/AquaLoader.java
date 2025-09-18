@@ -10,7 +10,6 @@ import mindustry.mod.Mod;
 import mindustry.game.*;
 
 import static arc.Core.app;
-import static mindustry.Vars.mobile;
 
 public class AquaLoader extends Mod {
 

@@ -3,7 +3,6 @@ package aquarion.world.blocks.defense;
 import arc.graphics.Color;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
-import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.effect.WrapEffect;
 import mindustry.logic.LAccess;
@@ -17,12 +16,10 @@ import arc.util.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.world.*;
 import mindustry.world.consumers.Consume;
 import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.meta.*;
 
-import static arc.graphics.g2d.Draw.*;
 import static mindustry.Vars.*;
 
 public class RegenPylon extends MendProjector {

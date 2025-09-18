@@ -9,8 +9,6 @@ import arc.struct.EnumSet;
 import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Nullable;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
@@ -29,7 +27,6 @@ import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.BlockStatus;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatCat;
-import mindustry.world.modules.PowerModule;
 
 public class PowerOutlet extends PowerGenerator {
     public DrawBlock drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion(), new SwitchRegion());

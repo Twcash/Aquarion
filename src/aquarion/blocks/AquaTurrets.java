@@ -1282,7 +1282,7 @@ public class AquaTurrets {
                             frontColor = lightColor = hitColor = Color.white;
                             backColor = trailColor = Color.valueOf("98a1ab");
                         }});
-                requirements(Category.turret, with(lead, 90, AquaItems.bauxite, 60f));
+                requirements(Category.turret, with(lead, 90, AquaItems.zinc, 60f, silicon, 90));
                 size = 3;
                 squareSprite = false;
                 range = 170;
@@ -1629,7 +1629,7 @@ public class AquaTurrets {
                             }};
                         }};
                     }},
-                    AquaItems.bauxite, new BasicBulletType(7f, 55, "missile-large") {{
+                    AquaItems.zinc, new BasicBulletType(7f, 55, "missile-large") {{
                         width = 15f;
                         pierce = true;
                         pierceCap = 2;
@@ -1663,7 +1663,7 @@ public class AquaTurrets {
                             color(e.color);
                             Drawf.tri(e.x, e.y, e.fout() * 1.7f, 12f, e.rotation);
                         });
-                        backColor = trailColor = AquaPal.bauxiteLightTone;
+                        backColor = trailColor = AquaItems.zinc.color;
 
                     }},
                     AquaItems.aluminum, new BasicBulletType(5f, 155, "missile-large") {{

@@ -5,8 +5,6 @@ import arc.graphics.Color;
 import mindustry.content.Fx;
 import mindustry.content.Planets;
 import mindustry.content.StatusEffects;
-import mindustry.graphics.Pal;
-import mindustry.type.CellLiquid;
 import mindustry.type.Liquid;
 
 import static aquarion.AquaStatuses.*;
@@ -15,7 +13,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
+    public static Liquid rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
 
     public static void loadContent() {
 
@@ -45,6 +43,12 @@ public class AquaLiquids {
             coolant = false;
             effect = ionized;
             gas = true;
+        }};
+        rareSludge = new Liquid("rare-earth-sludge", Color.valueOf("#696b4c")) {{
+            coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            viscosity = 0.94f;
+            effect = slow;
+            canStayOn.addAll(water, petroleum, halideWater);
         }};
         dioxide = new Liquid("dioxide", Color.valueOf("#6b6565")) {{
             explosiveness = 0f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

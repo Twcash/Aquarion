@@ -5,7 +5,6 @@ import aquarion.blocks.AquaLiquid;
 import aquarion.blocks.AquaPower;
 import aquarion.blocks.AquaTurrets;
 import aquarion.planets.AquaSectorPresets;
-import aquarion.world.blocks.power.PowerPylon;
 import arc.Core;
 import arc.Events;
 import arc.func.Boolp;

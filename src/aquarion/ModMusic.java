@@ -4,7 +4,6 @@ import aquarion.ui.ModSettings;
 import aquarion.ui.UIEvents;
 import arc.Events;
 import arc.audio.Music;
-import arc.audio.Sound;
 import arc.struct.ArrayMap;
 import arc.struct.Seq;
 import arc.util.Log;

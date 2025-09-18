@@ -4,7 +4,6 @@ import aquarion.AquaSounds;
 import aquarion.units.AquaUnitTypes;
 import aquarion.world.blocks.units.UnitBlock;
 import arc.func.Cons;
-import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.ctype.UnlockableContent;

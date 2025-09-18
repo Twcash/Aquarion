@@ -1,9 +1,10 @@
 package aquarion.blocks;
 
 import aquarion.AquaAttributes;
+import aquarion.AquaItems;
 import aquarion.AquaSounds;
-import aquarion.world.blocks.production.MagmaProcessor;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
+import aquarion.world.consumers.ConsumeLiquidAcidic;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.graphics.NewParticleEffect;
@@ -55,25 +56,30 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block sporeProcessor, coalLiquefactor, coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
 
     public static void loadContent() {
         disableVanilla();
-        magmaDiffser = new MagmaProcessor("magma-diffuser") {{
+        magmaDiffser = new AquaGenericCrafter("magma-diffuser") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(lead, 150, bauxite, 120, silicon, 80));
+            requirements(Category.crafting, with(lead, 150, zinc, 120, silicon, 80));
             size = 5;
             squareSprite = false;
             alwaysUnlocked = true;
 
-            outputItems = new ItemStack[]{new ItemStack(lead, 25), new ItemStack(bauxite, 30), new ItemStack(silicon, 25)};
+            outputItems = new ItemStack[]{
+                    new ItemStack(lead, 25),
+                    new ItemStack(zinc, 15),
+                    new ItemStack(AquaItems.biotite, 30),
+                    new ItemStack(silicon, 25)};
             itemCapacity = 300;
             outputLiquid = new LiquidStack(slag, 0.5f);
             ignoreLiquidFullness = true;
             liquidCapacity = 500;
             craftTime = 300;
             consumeLiquid(magma, 2);
-            consumeItem(borax, 5).boost();
+            itemBoostIntensity = 2;
+            consumeItem(salt, 1).boost();
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
@@ -120,10 +126,14 @@ public class AquaCrafters {
                 effect = AquaFx.diffuserCraft;
             }});
         }};
+        evaporationPool = new AquaGenericCrafter("evaporation-pool"){{
+            requirements(Category.production, with(lead, 225, silicon, 100));
+        }};
         magmaTap = new AttributeCrafter("magma-tap") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(lead, 225, silicon, 100));
             size = 4;
+            floating = true;
             updateEffect = Fx.steam;
             attribute = Attribute.heat;
             minEfficiency = 1;
@@ -136,7 +146,9 @@ public class AquaCrafters {
             ambientSound = Sounds.smelter;
             ambientSoundVolume = 0.05f;
             squareSprite = false;
+
             liquidCapacity = 900;
+            maxBoost = 3;
             outputLiquid = new LiquidStack(magma, 1.5f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -148,9 +160,63 @@ public class AquaCrafters {
                 glowScale = 6f;
             }});
         }};
+        leachingVessel = new AquaGenericCrafter("leaching-vessel"){{
+            requirements(Category.crafting, with(lead, 250, silicon, 150, copper, 200));
+            size = 8;
+            squareSprite = false;
+            liquidCapacity = 400;
+            baseEfficiency = 0.5f;
+            heatRequirement = 30;
+            maxEfficiency = 3;
+            overheatScale = 1;
+            consumePower(4);
+            liquidOutputDirections = new int[]{1,2,3};
+            craftTime = 60;
+            consumeItem(biotite, 35);
+            outputItems = new ItemStack[]{
+                    new ItemStack(sand, 6),
+                    new ItemStack(ferricMatter, 10),
+                    new ItemStack(aluminum, 5)
+            };
+            outputLiquids = new LiquidStack[]{
+                    new LiquidStack(hydroxide, 0.5f),
+                    new LiquidStack(oxygen, 2),
+                    new LiquidStack(rareSludge, 0.1f)
+            };
+        }};
+        thermalEvaporator = new AttributeCrafter("geothermal-evaporator"){{
+            requirements(Category.crafting, with(lead, 250, zinc, 150, silicon, 150));
+            size = 5;
+            squareSprite = false;
+            minEfficiency = 0.5f;
+            updateEffect = Fx.steam;
+            attribute = Attribute.heat;
+            updateEffectChance = 0.02f;
+            liquidCapacity = 500;
+            consumePower(2);
+            boostScale = 1f / 25f;
+            ambientSound = Sounds.smelter;
+            floating = true;
+            ambientSoundVolume = 0.06f;
+            baseEfficiency = 0;
+            consumeLiquid(halideWater, 4f);
+            craftTime = 60;
+            outputItem = new ItemStack(salt, 1);
+            outputLiquid = new LiquidStack(muriaticAcid, 1.5f);
+        }};
+        nuetralizationChamber = new HeatProducer("nuetralization-chamber"){{
+            requirements(Category.crafting, with(copper, 400, zinc, 500, silicon, 1200));
+            size = 4;
+            squareSprite = false;
+            liquidCapacity = 500;
+            heatOutput = 20;
+            consume(new ConsumeLiquidAcidic(0.25f));
+            consumeLiquid(hydroxide, 0.5f);
+            outputLiquid = new LiquidStack(water, 2);
+        }};
         bauxiteCentrifuge = new AquaGenericCrafter("bauxite-centrifuge") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(lead, 400, bauxite, 300, silicon, 250, copper, 150));
+            requirements(Category.crafting, with(lead, 450, silicon, 600, copper, 300));
             craftTime = 60;
             consumeItem(bauxite, 10);
             consumePower(2);
@@ -367,7 +433,7 @@ public class AquaCrafters {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(graphite, 1500, nickel, 1200, ferricMatter, 300, silicon, 3000));
             size = 7;
-            consumePower(1.25f);
+            consumePower(3f);
             itemCapacity = 300;
             liquidCapacity = 400;
             updateEffect = Fx.ventSteam;
@@ -375,11 +441,11 @@ public class AquaCrafters {
             squareSprite = false;
 
             craftTime = 600;
-            consumeLiquids(LiquidStack.with(slag, 1.5f, haze, 1.25f));
+            consumeLiquids(LiquidStack.with(slag,4, fumes, 0.5f));
             outputItems = new ItemStack[]{
                     new ItemStack(nickel, 50),
-                    new ItemStack(silicon, 80),
-                    new ItemStack(titanium, 40),
+                    new ItemStack(sand, 80),
+                    new ItemStack(zinc, 40),
                     new ItemStack(ferricMatter, 60)};
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -394,11 +460,11 @@ public class AquaCrafters {
         }};
         azuriteKiln = new AquaGenericCrafter("azurite-kiln") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(bauxite, 750, lead, 750));
+            requirements(Category.crafting, with(silicon, 750, zinc, 250, lead, 750));
             craftTime = 5 * 60f;
             squareSprite = false;
-            consumePower(5);
-            consumeLiquid(magma, 0.5f);
+            consumePower(4.5f);
+            consumeLiquid(muriaticAcid, 0.5f);
             consumeItem(azurite, 15);
             itemCapacity = 300;
             outputItem = new ItemStack(copper, 45);
@@ -545,13 +611,13 @@ public class AquaCrafters {
                 tier = 1;
                 itemCapacity = 50;
                 squareSprite = false;
-                consumePower(1);
+                consumePower(0.25f);
 
                 drillTime = 240;
                 size = 4;
                 range = 8;
-                consumeLiquid(slag, 0.125f);
-                consumeLiquid(fumes, 0.05f).boost();
+                consumeLiquid(muriaticAcid, 0.125f);
+                consumeLiquid(oxygen, 1).boost();
                 optionalBoostIntensity = 1.5f;
                 heatColor = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
@@ -1377,7 +1443,7 @@ public class AquaCrafters {
         }};
 
         inlet = new AquaGenericCrafter("inlet") {{
-            requirements(Category.production, with(copper, 45));
+            requirements(Category.production, with(silicon, 70));
             shownPlanets.addAll(tantros2);
             craftTime = 10;
             researchCost = ItemStack.with(copper, 90);

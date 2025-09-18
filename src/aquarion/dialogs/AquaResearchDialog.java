@@ -1,10 +1,8 @@
 package aquarion.dialogs;
 
 import aquarion.ModEventHandler;
-import aquarion.ModMusic;
 import aquarion.planets.AquaPlanets;
 import aquarion.ui.AquaStyles;
-import aquarion.world.Uti.AquaStates;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -24,19 +22,14 @@ import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.content.TechTree.*;
 import mindustry.core.*;
-import mindustry.ctype.UnlockableContent;
 import mindustry.game.EventType.*;
 import mindustry.game.Objectives.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.input.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.BaseDialog;
-import mindustry.ui.layout.*;
 import mindustry.ui.layout.TreeLayout.*;
-
-import java.util.*;
 
 import static mindustry.Vars.*;
 import static mindustry.gen.Tex.*;

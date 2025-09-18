@@ -1,7 +1,6 @@
 package aquarion.planets;
 
 import aquarion.world.Uti.NewSimplex;
-import arc.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -12,8 +11,6 @@ import mindustry.ai.*;
 import mindustry.ai.BaseRegistry.*;
 import mindustry.content.*;
 import mindustry.game.*;
-import mindustry.gen.*;
-import mindustry.graphics.g3d.PlanetGrid.*;
 import mindustry.maps.generators.*;
 import mindustry.type.*;
 import mindustry.world.*;

@@ -1,6 +1,5 @@
 package aquarion.world.blocks.defense;
 
-import aquarion.world.graphics.Renderer;
 import arc.Core;
 import arc.graphics.Blending;
 import arc.graphics.g2d.Draw;
@@ -8,11 +7,7 @@ import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.util.Time;
-import mindustry.gen.Building;
-import mindustry.graphics.BlockRenderer;
-import mindustry.world.Tile;
 import mindustry.world.blocks.defense.Wall;
-import mindustry.world.blocks.environment.StaticWall;
 
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.Vars.state;

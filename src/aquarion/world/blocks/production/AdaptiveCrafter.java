@@ -6,14 +6,10 @@ import arc.struct.Seq;
 import arc.util.Time;
 import mindustry.gen.Building;
 import mindustry.type.Item;
-import mindustry.type.ItemStack;
 import mindustry.type.Liquid;
-import mindustry.type.LiquidStack;
 import mindustry.world.blocks.production.GenericCrafter;
-import mindustry.world.consumers.Consume;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
-import mindustry.world.meta.StatValue;
 
 public class AdaptiveCrafter extends GenericCrafter {
     public Seq<Recipe> recipes = new Seq<>();

@@ -104,7 +104,7 @@ public class AquaPlanets {
             );
         }};
         tantros2 = new Planet("tantros", citun, 1.5f, 3){{
-            generator = new AquaPlanetGenarator();
+            generator = new AquaPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 5);
             alwaysUnlocked = true;
             accessible = true;

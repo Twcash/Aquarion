@@ -1,7 +1,6 @@
 package aquarion.planets;
 
 import aquarion.world.AquaSectorPreset;
-import mindustry.type.SectorPreset;
 
 import static aquarion.planets.AquaPlanets.fakeSerpulo;
 import static aquarion.planets.AquaPlanets.tantros2;

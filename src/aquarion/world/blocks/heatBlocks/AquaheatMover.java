@@ -13,12 +13,10 @@ import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
 import mindustry.world.blocks.heat.HeatBlock;
-import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
 
 import java.util.Arrays;
-import java.util.Iterator;
 
 /** block that takes het from the block behind it and moves it forward. **/
 public class AquaheatMover extends Block {

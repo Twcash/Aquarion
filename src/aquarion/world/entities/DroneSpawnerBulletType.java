@@ -1,6 +1,5 @@
 package aquarion.world.entities;
 
-import aquarion.units.AquaUnitTypes;
 import aquarion.world.AI.DroneAI;
 import arc.util.Log;
 import mindustry.content.Fx;

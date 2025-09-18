@@ -1,18 +1,23 @@
 package aquarion.world.Uti;
 
+import arc.Core;
+import arc.func.Boolf;
+import arc.func.Floatf;
 import arc.graphics.Color;
+import arc.scene.ui.layout.Cell;
+import arc.scene.ui.layout.Table;
 import arc.util.Strings;
+import mindustry.Vars;
 import mindustry.gen.Iconc;
-import mindustry.type.Item;
 import mindustry.type.ItemStack;
+import mindustry.type.Liquid;
 import mindustry.ui.Styles;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValue;
-import mindustry.world.meta.StatValues;
 
 import static mindustry.Vars.tilesize;
-import static mindustry.world.meta.StatValues.displayItem;
+import static mindustry.world.meta.StatValues.*;
 
 public class AquaStats {
     public static final Stat
@@ -61,6 +66,24 @@ public class AquaStats {
                 }).growX().pad(5).padBottom(-5).row();
             }).growX().colspan(table.getColumns());
             table.row();
+        };
+    }
+    public static StatValue liquidEffMultiplier(Floatf<Liquid> efficiency, float amount, Boolf<Liquid> filter){
+        return (Table table) -> {
+            if(table.getCells().size > 0){
+                ((Cell<?>)table.getCells().peek()).growX();
+            }
+
+            table.row();
+            table.table(c -> {
+                for(Liquid liquid : Vars.content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){
+                    c.table(Styles.grayPanel, b -> {
+                        b.add(displayLiquid(liquid, amount, true)).pad(10f).left().grow();
+                        b.add(Core.bundle.format("stat.efficiency", fixValue(efficiency.get(liquid) * 100f)))
+                                .right().pad(10f).padRight(15f);
+                    }).growX().pad(5f).row();
+                }
+            }).growX().colspan(table.getColumns()).row();
         };
     }
 }

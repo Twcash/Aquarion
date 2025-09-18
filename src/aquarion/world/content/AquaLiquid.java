@@ -3,7 +3,6 @@ package aquarion.world.content;
 import aquarion.world.Statf;
 import arc.graphics.Color;
 import mindustry.type.Liquid;
-import mindustry.world.meta.Stat;
 
 public class AquaLiquid extends Liquid {
     public float acidity = 0;

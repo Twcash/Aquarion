@@ -25,7 +25,7 @@ import mindustry.logic.*;
 
 import static mindustry.Vars.*;
 
-public class AquaGenericCrafter extends AquaBlock{
+public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
     /** Written to outputItems as a single-element array if outputItems is null. */
     public @Nullable ItemStack outputItem;
     /** Overwrites outputItem if not null. */
@@ -63,7 +63,7 @@ public class AquaGenericCrafter extends AquaBlock{
     public boolean flipHeatScale = false;
     /** Boost intensities for respective item and liquid boosters*/
     public float liquidBoostIntensity = 1.6f, itemBoostIntensity = 1.5f;
-    
+    public float ItemBoostUseTime = 60;
     public DrawBlock drawer = new DrawDefault();
 
     public AquaGenericCrafter(String name){
@@ -103,6 +103,18 @@ public class AquaGenericCrafter extends AquaBlock{
             if (itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni) {
                 stats.remove(Stat.booster);
                 stats.add(Stat.booster, AquaStats.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, craftTime));
+            }
+            stats.remove(Stat.booster);
+            if (itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni) {
+                stats.remove(Stat.booster);
+                stats.add(Stat.booster, AquaStats.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, ItemBoostUseTime));
+            }
+            if (liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase) {
+                stats.add(Stat.booster,
+                        StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
+                                consBase.amount,
+                                liquidBoostIntensity * liquidBoostIntensity, false, liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
+                );
             }
         }
     }

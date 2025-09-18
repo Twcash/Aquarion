@@ -19,6 +19,7 @@ public class AquaItems {
     public static Item hexogen;
     public static Item galena;
     public static Item boron;
+    public static Item biotite;
     public static Item cryolite;
     public static Item caustrolite;
     public static Item mangalumin;
@@ -43,6 +44,7 @@ public class AquaItems {
     public static Item nickel;
     public static Item bauxite;
     public static Item duralumin;
+    public static Item zinc;
     public static Item gallium;
     public static Item lithium;
     public static Item manganese;
@@ -103,6 +105,13 @@ public class AquaItems {
         }};
         electrum = new Item("electrum", Color.valueOf("#eedeaf")) {{
             cost = 0.8f;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+        }};
+        zinc = new Item("zinc", Color.valueOf("#a0b9af")) {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            hardness = 3;
+        }};
+        biotite = new Item("biotite", Color.valueOf("#2e3e43")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         silver = new Item("silver", Color.valueOf("#d7e0e4")) {{
