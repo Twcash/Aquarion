@@ -1,7 +1,7 @@
-template.annotations.processors.impl.AssetsProcessor
-template.annotations.processors.impl.LoadProcessor
-template.annotations.processors.impl.StructProcessor
-template.annotations.processors.impl.RegionsProcessor
-template.annotations.processors.entity.EntityProcessor
-template.annotations.processors.entity.MergeProcessor
-template.annotations.processors.entity.DupeProcessor
+aquarion.annotations.processors.impl.AssetsProcessor
+aquarion.annotations.processors.impl.LoadProcessor
+aquarion.annotations.processors.impl.StructProcessor
+aquarion.annotations.processors.impl.RegionsProcessor
+aquarion.annotations.processors.entity.EntityProcessor
+aquarion.annotations.processors.entity.MergeProcessor
+aquarion.annotations.processors.entity.DupeProcessor

@@ -2,13 +2,13 @@ sourceSets.main{
     java.srcDirs = ['src/']
 }
 
-import arc.files.*
+
+import arc.files.Fi
 import arc.func.Func2
 import arc.struct.IntMap
 import arc.struct.ObjectMap
 import arc.struct.OrderedMap
 import arc.struct.Seq
-import arc.util.Log
 import arc.util.io.PropertiesUtils
 
 dependencies{
@@ -120,3 +120,4 @@ task updateBundles{
         })
     }
 }
+

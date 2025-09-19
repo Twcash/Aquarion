@@ -1,0 +1,12 @@
+{
+"repo": "Twcash/Tantros-test",
+"name": "aquarion",
+"displayName": "aquarion",
+"author": "twcash",
+"description": "Sins drowned in the vast, dark, deep. A campaign rewrite in progress.",
+"version": "3.0",
+"minGameVersion": "150",
+"hidden": false,
+"java": true,
+"main": "aquarion.AquaLoader"
+}
