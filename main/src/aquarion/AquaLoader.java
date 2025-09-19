@@ -28,7 +28,11 @@ import static mindustry.Vars.*;
 @LoadRegs("error")// Need this temporarily, so the class gets generated.
 @EnsureLoad
 public class AquaLoader extends Mod {
-    public static boolean tools;
+    public static boolean tools = false;
+    protected static Mods.LoadedMod mod;
+    public AquaLoader(){
+        this(false);
+    }
     public AquaLoader(boolean tools){
         Events.run(EventType.Trigger.draw, Renderer::draw);
         ModEventHandler.init();
@@ -76,5 +80,7 @@ public class AquaLoader extends Mod {
         AquarionMod.loadContent();
         aquarionEntityMapping.init();;
     }
-
+    public static Mods.LoadedMod mod(){
+        return mod;
+    }
 }
