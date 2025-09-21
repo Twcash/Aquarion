@@ -1815,12 +1815,12 @@ public class AquaTurrets {
             chargeSound = lasercharge2;
             shootSound = malignShoot;
             squareSprite = false;
-            consumeLiquid(nitrogen, 0.25f);
+            consumeLiquid(nitrogen, 2f);
             shoot.firstShotDelay = 60;
             range = 400;
             reload = 5 * 60f;
             shootWarmupSpeed = 0.01f;
-            rotateSpeed = 0.6f;
+            rotateSpeed = 0.4f;
             minWarmup = 0.95f;
             warmupMaintainTime = 250;
             ammoPerShot = 20;
@@ -1828,7 +1828,7 @@ public class AquaTurrets {
             ammo(
                     AquaItems.towanite, new LaserBulletType() {{
                         length = 400;
-                        damage = 650;
+                        damage = 450;
                         sideAngle = 45;
 
                         shootEffect = Fx.shootTitan;

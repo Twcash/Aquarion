@@ -9,12 +9,14 @@ import aquarion.world.blocks.environment.TiledFloor;
 import aquarion.world.blocks.environment.rokBlock;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaShaders;
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
+import mindustry.ctype.UnlockableContent;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
@@ -33,6 +35,9 @@ import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
 
 public class AquaEnv {
+    public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
+        setter.get((T) target);
+    }
     public static Block azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, boricBoulder, ultrafamicBoulder;
@@ -122,24 +127,21 @@ public class AquaEnv {
         andesiteLayers = new Floor("andesite-layers", 4) {{
             wall = daciteWall;
         }};
+        overwrite(arkyicVent, (SteamVent s) -> s.effect = AquaFx.vent1);
+        overwrite(basaltVent, (SteamVent s) -> s.effect = AquaFx.vent1);
+        overwrite(carbonVent, (SteamVent s) -> s.effect = AquaFx.vent1);
+        overwrite(stoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
+        overwrite(rhyoliteVent, (SteamVent s) -> s.effect = AquaFx.vent1);
+        overwrite(crystallineVent, (SteamVent s) -> s.effect = AquaFx.vent1);
+        overwrite(yellowStoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
+        overwrite(redStoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
+
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
             variants = 3;
             parent = blendGroup = AquaEnv.feldspar;
             effectSpacing = 15f;
-            effect = new ParticleEffect() {{
-                particles = 3;
-                lifetime = 340;
-                length = 125;
-                cone = 20;
-                baseRotation = 50;
-                sizeFrom = 0f;
-                sizeTo = 12f;
-                colorFrom = Color.valueOf("18161c90");
-                colorTo = Color.valueOf("2a282d10");
-                sizeInterp = Interp.pow3Out;
-                interp = Interp.pow3Out;
-            }};
+            effect = AquaFx.vent1;
         }};
         andesiteRubble = new Floor("andesite-rubble-", 4) {{
             wall = daciteWall;
@@ -163,20 +165,7 @@ public class AquaEnv {
             variants = 2;
             parent = blendGroup = AquaEnv.andesiteRubble;
             effectSpacing = 15f;
-            effect = new ParticleEffect() {{
-                particles = 3;
-                lifetime = 340;
-                length = 125;
-                cone = 20;
-                baseRotation = 50;
-                sizeFrom = 0f;
-                sizeTo = 12f;
-                layer = 90;
-                colorFrom = Color.valueOf("65666090");
-                colorTo = Color.valueOf("a2a2a200");
-                sizeInterp = Interp.pow3Out;
-                interp = Interp.pow3Out;
-            }};
+            effect = AquaFx.vent1;
         }};
 
         gabbro = new Floor("gabbro", 3) {{
@@ -195,38 +184,14 @@ public class AquaEnv {
             parent = blendGroup = Blocks.shale;
             effectSpacing = 15f;
             variants = 3;
-            effect = new ParticleEffect() {{
-                particles = 3;
-                lifetime = 340;
-                length = 125;
-                cone = 20;
-                baseRotation = 50;
-                sizeFrom = 0f;
-                sizeTo = 12f;
-                colorFrom = Color.valueOf("18161c90");
-                colorTo = Color.valueOf("2a282d10");
-                sizeInterp = Interp.pow3Out;
-                interp = Interp.pow3Out;
-            }};
+            effect = AquaFx.vent1;
         }};
         brimstoneVent = new SteamVent("brimstone-vent") {{
             attributes.set(Attribute.steam, 1f);
             parent = blendGroup = brimstoneFloor;
             effectSpacing = 15f;
             variants = 2;
-            effect = new ParticleEffect() {{
-                particles = 3;
-                lifetime = 340;
-                length = 125;
-                cone = 20;
-                baseRotation = 50;
-                sizeFrom = 0f;
-                sizeTo = 12f;
-                colorFrom = Color.valueOf("f0ed85");
-                colorTo = Color.valueOf("22221d10");
-                sizeInterp = Interp.pow3Out;
-                interp = Interp.pow3Out;
-            }};
+            effect = AquaFx.vent1;
         }};
         exposedSerpentine = new StaticWall("exposed-serpentine") {{
             itemDrop = serpentine;
@@ -239,19 +204,7 @@ public class AquaEnv {
             parent = blendGroup = AquaEnv.gabbro_extrusions;
             effectSpacing = 15f;
             variants = 3;
-            effect = new ParticleEffect() {{
-                particles = 3;
-                lifetime = 340;
-                length = 125;
-                cone = 20;
-                baseRotation = 50;
-                sizeFrom = 0f;
-                sizeTo = 12f;
-                colorFrom = Color.valueOf("18161c90");
-                colorTo = Color.valueOf("2a282d10");
-                sizeInterp = Interp.pow3Out;
-                interp = Interp.pow3Out;
-            }};
+            effect = AquaFx.vent1;
         }};
         sporeMoss.itemDrop = Items.sporePod;
         sporeWall.itemDrop = Items.sporePod;

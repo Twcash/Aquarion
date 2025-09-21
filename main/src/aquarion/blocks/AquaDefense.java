@@ -18,7 +18,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
-    public static Block polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+    public static Block zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
@@ -27,7 +27,6 @@ public class AquaDefense {
             requirements(Category.defense, with(bauxite, 24));
             health = 1000;
             size = 2;
-            researchCostMultiplier = 0.02f;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -40,7 +39,22 @@ public class AquaDefense {
             envDisabled = Env.none;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
 
-            researchCostMultiplier = 0.25f;
+        }};
+        zincWall = new AquaWall("zinc-wall") {{
+            requirements(Category.defense, with(zinc, 24));
+            health = 1200;
+            size = 2;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        hugeZincWall = new AquaWall("huge-zinc-wall") {{
+            requirements(Category.defense, with(zinc, 54));
+            health = 2450;
+            size = 3;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         bauxiteBarricade = new AquaWall("bauxite-barricade") {{
             requirements(Category.defense, with(bauxite, 500, metaglass, 200, silicon, 600, copper, 250));

@@ -417,6 +417,7 @@ public class AquaPower {
             powerProduction = 4 / 9f;
             generateEffect = AquaFx.heatEngineGenerate;
             effectChance = 0.02f;
+            floating = true;
             ambientSound = Sounds.hum;
             ambientSoundVolume = 0.06f;
             outputLiquid = new LiquidStack(slag, 0.125f);

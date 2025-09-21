@@ -29,7 +29,36 @@ public class AssetsProcessor extends BaseProcessor{
 
     @Override
     public void process(RoundEnvironment roundEnv) throws Exception{
+
         if(round == 1){
+            assets.clear().addAll(
+                new Asset(){
+                    @Override
+                    public TypeElement type(){
+                        return toType(Sound.class);
+                    }
+
+                    @Override
+                    public String directory(){
+                        return "sounds";
+                    }
+
+                    @Override
+                    public String name(){
+                        return classPrefix + "Sounds";
+                    }
+
+                    @Override
+                    public boolean valid(Fi file){
+                        return file.extEquals("ogg") || file.extEquals("mp3");
+                    }
+
+                    @Override
+                    public void load(MethodSpec.Builder builder){
+                        builder.addStatement("return $T.tree.loadSound($S + name)", cName(Vars.class), directory() + "/");
+                    }
+                }
+            );
         }else if(round == 2){
             for(Asset a : assets){
                 TypeElement type = a.type();
