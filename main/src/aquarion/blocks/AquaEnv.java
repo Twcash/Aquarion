@@ -620,7 +620,7 @@ public class AquaEnv {
             emitLight = true;
         }};
         regoubloom = new TallBlock("regou-bloom"){{
-            variants = 2;
+            variants = 3;
             lightColor = Color.valueOf("f2f2c1");
             lightRadius = 35;
             emitLight = true;

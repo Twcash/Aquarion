@@ -192,7 +192,7 @@ public class AquaCrafters {
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(muriaticAcid, 5), new DrawRegion("-spinny", 0.8f, true), new DrawDefault(), new AquaDrawLiquidOutputs(), new DrawHeatInputBitmask("heats"));
+            }}, new DrawRegion("-bottom"), new DrawLiquidTile(muriaticAcid, 5), new DrawRegion("-spinny", 0.8f, true), new DrawDefault(), new AquaDrawLiquidOutputs(), new DrawHeatInputBitmask("-heats"));
         }};
         thermalEvaporator = new AttributeCrafter("geothermal-evaporator"){{
             requirements(Category.crafting, with(lead, 250, zinc, 150, silicon, 150));
