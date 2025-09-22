@@ -366,6 +366,40 @@ public class AquaFx {
                                 Fill.circle(e.x + x, e.y + y, Interp.pow5In.apply(e.finpow()) * 5f + 0.1f)
                         );
                     }),
+                    tyrqExplode = new Effect(45f, 160f, e -> {
+                        color(Color.valueOf("d8f99d"));
+                        stroke(e.fout() * 2f);
+                        float circleRad = 3f + e.finpow() * 44f;
+                        Lines.circle(e.x, e.y, circleRad);
+
+                        rand.setSeed(e.id);
+                        for(int i = 0; i < 5; i++){
+                            float angle = rand.random(360f);
+                            float lenRand = rand.random(0.8f, 1f);
+                            Tmp.v1.trns(angle, circleRad);
+
+                            for(int s : Mathf.signs){
+                                Drawf.tri(e.x + Tmp.v1.x, e.y + Tmp.v1.y, e.foutpow() * 10f, e.fout() * 22 * lenRand + 4f, angle - 90f + s * 90f);
+                            }
+                        }
+                        alpha(e.fin());
+                        randLenVectors(e.id, 12, Interp.pow5Out.apply(e.fin() )* 40f, e.rotation, 180f, (x, y) -> {
+                                    Fill.circle(e.x + x / Interp.pow2In.apply(e.fout()), e.y + y / Interp.pow2In.apply(e.fout()), Interp.pow2In.apply(e.fout()) * 6f + 0.1f);
+                                }
+                        );
+                    }),
+                    parzilLeaf = new Effect(420f, 160f, e -> {
+                        rand.setSeed(e.id+4);
+                        Color base = Color.valueOf("8fc3d7").lerp(Color.valueOf("2f5074"), rand.random(0,1));
+                        color(base);
+                        Draw.z(Layer.blockOver+5);
+                        alpha(e.fout());
+                        randLenVectors(e.id, 1, Interp.pow5Out.apply(e.fin() )* 60f, e.rotation, 180f, 4, (x, y) -> {
+                            Drawf.tri(e.x+x, e.y+y, 4*Interp.pow5In.apply(e.fout()), 4 * Interp.pow5In.apply(e.fout()), rand.random(0, 720)* Interp.pow2Out.apply(e.fin()));
+                        }
+                        );
+                       reset();
+                    }),
                             thrashExplosion = new Effect(90f, 160f, e -> {
                                 color(Pal.lightOrange);
                                 stroke(e.fout() * 4f);

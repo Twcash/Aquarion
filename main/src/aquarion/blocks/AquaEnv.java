@@ -4,20 +4,18 @@ import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaLiquids;
 import aquarion.world.blocks.environment.NonRandomTreeBlock;
-import aquarion.world.blocks.environment.PineTree;
+import aquarion.world.blocks.environment.FloraBlock;
 import aquarion.world.blocks.environment.TiledFloor;
 import aquarion.world.blocks.environment.rokBlock;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaShaders;
 import arc.func.Cons;
 import arc.graphics.Color;
-import arc.math.Interp;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.ctype.UnlockableContent;
-import mindustry.entities.effect.ParticleEffect;
 import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
 import mindustry.type.Category;
@@ -61,7 +59,7 @@ public class AquaEnv {
             bauxiticWall, algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
             feldsparWall, gabbroWall, andesiteExtrusions, CrystalGalena,
-            elderParzil, boraxCluster;
+            elderParzil, boraxCluster, yulrCoral, bewCoral, tranticaBush, regoubloom, tyrqPod, bigTyrqPod;
 
     public static void loadContent() {
         //TODO fix the blend group
@@ -407,11 +405,61 @@ public class AquaEnv {
             layer = Layer.blockOver + 1;
             shadowLayer = Layer.blockOver;
         }};
-        parzilPine = new PineTree("parzil-pine") {{
+        tyrqPod = new FloraBlock("tyrq-pod") {{
+            shadowAlpha = 0.7f;
+            buildVisibility = sandboxOnly;
+            variants = 2;
+            rotationRand = 50;
+            size = 2;
+            breakable = false;
+            health = 6000;
+            buildTime = 30*60f;
+            baseExplosiveness = 5;
+            emitLight = true;
+            lightColor = Color.valueOf("dcf270");
+            lightRadius = 75;
+            explosionShake = 2;
+            explodeEffect =AquaFx.tyrqExplode;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            explosionRadius = 6*8/2;
+            destroyEffect = AquaFx.parzilDebrisSmall;
+            createRubble = false;
+            layer = Layer.power - 5;
+            shadowLayer = Layer.blockOver;
+        }};
+        bigTyrqPod = new FloraBlock("big-tyrq-pod") {{
+            shadowAlpha = 0.7f;
+            buildVisibility = sandboxOnly;
+            variants = 2;
+            buildTime = 30*60f;
+            rotationRand = 50;
+            size = 3;
+            breakable = false;
+            health = 9000;
+            baseExplosiveness = 12;
+            explosionDamage = 2500;
+            explosionRadius = 10*8/2;
+            emitLight = true;
+            lightColor = Color.valueOf("dcf270");
+            lightRadius = 110;
+            explosionShake = 5;
+            explodeEffect =AquaFx.tyrqExplode;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = AquaFx.parzilDebrisSmall;
+            createRubble = false;
+            layer = Layer.power - 3;
+            shadowLayer = Layer.power - 4;
+        }};
+        parzilPine = new FloraBlock("parzil-pine") {{
             shadowAlpha = 0.6f;
             buildVisibility = sandboxOnly;
             variants = 2;
             rotationRand = 30;
+            effect = AquaFx.parzilLeaf;
             size = 3;
             breakable = false;
             health = 2500;
@@ -424,10 +472,11 @@ public class AquaEnv {
             shadowLayer = Layer.blockOver;
             buildTime = 15 * 60f;
         }};
-        elderParzil = new PineTree("elder-parzil") {{
+        elderParzil = new FloraBlock("elder-parzil") {{
             buildTime = 30 * 60f;
             buildVisibility = sandboxOnly;
             underBullets = false;
+            effect = AquaFx.parzilLeaf;
             destroyEffect = AquaFx.parzilDebrisLarge;
             createRubble = false;
             targetable = false;
@@ -557,6 +606,24 @@ public class AquaEnv {
         arsenicBoulder = new Prop("arsenic-boulder") {{
             variants = 3;
             arsenideFloor.asFloor().decoration = this;
+        }};
+        yulrCoral = new TallBlock("yulr-coral"){{
+            variants = 2;
+        }};
+        bewCoral = new TallBlock("bew-coral"){{
+            variants = 2;
+        }};
+        tranticaBush = new TallBlock("trantica-bush"){{
+            variants = 2;
+            lightColor = Color.valueOf("f1563c45");
+            lightRadius = 40;
+            emitLight = true;
+        }};
+        regoubloom = new TallBlock("regou-bloom"){{
+            variants = 2;
+            lightColor = Color.valueOf("f2f2c1");
+            lightRadius = 35;
+            emitLight = true;
         }};
         CrasseCoral = new SeaBush("crasse-coral") {{
             solid = true;
