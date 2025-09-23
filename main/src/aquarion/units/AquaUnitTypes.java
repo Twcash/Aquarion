@@ -1,6 +1,9 @@
 package aquarion.units;
 
 import aquarion.AquaStatuses;
+import aquarion.annotations.Annotations;
+import aquarion.gen.AquaBuilderc;
+import aquarion.gen.AquaUnitc;
 import aquarion.type.GerbUnitType;
 import aquarion.type.MechanicalUnitType;
 import aquarion.world.AI.DroneAI;
@@ -59,7 +62,6 @@ public class AquaUnitTypes {
     public static UnitType isop, empusa, oratoria, rhombodera, parasphendale;
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant, architect;
-
     //core units and transport
 
     public static UnitType
@@ -72,7 +74,7 @@ public class AquaUnitTypes {
             //core/mining
             mite, iris,
         //strut tree
-        strut, truss, joist, buttress, stanchion, cull,
+        strut, truss, joist, buttress, stanchion,
 
             //Qeralter Units End Region
     //messenger tree
@@ -80,6 +82,7 @@ public class AquaUnitTypes {
 
      //steward tree
  curator, custodian, caretaker, warden, fish1;
+    public static @Annotations.EntityDef({AquaUnitc.class}) UnitType cull;
 
     //gerbUnits
     public static GerbUnitType gerbTest;
@@ -882,7 +885,7 @@ public class AquaUnitTypes {
             aiController = BuilderAI::new;
             health = 80;
             healColor = Pal.accent;
-            constructor = UnitEntity::create;
+
             engines.add(
                     new UnitEngine(0, -18 / 4f, 2.5f, -90),
                     new UnitEngine(0, 18 / 4f, 2.5f, 90)

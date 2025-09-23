@@ -1,14 +1,33 @@
 package aquarion.world.blocks.environment;
 
+import aquarion.annotations.Annotations;
 import arc.Core;
+import arc.Events;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.util.Nullable;
+import arc.util.Time;
+import mindustry.content.Blocks;
 import mindustry.content.Fx;
-import mindustry.gen.Sounds;
+import mindustry.core.World;
+import mindustry.entities.Puddles;
+import mindustry.game.EventType;
+import mindustry.game.Team;
+import mindustry.gen.*;
 import mindustry.graphics.Layer;
+import mindustry.logic.GlobalVars;
+import mindustry.logic.LAccess;
+import mindustry.logic.Ranged;
+import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.Tile;
+import mindustry.world.blocks.ControlBlock;
+
+import static mindustry.Vars.emptyTile;
+import static mindustry.Vars.tilesize;
+import static mindustry.world.Build.validBreak;
 
 public class rokBlock extends Block {
     public float layer = Layer.power + 10;
@@ -20,16 +39,31 @@ public class rokBlock extends Block {
         update = true;
         breakSound = Sounds.rockBreak;
         destroySound = Sounds.rockBreak;
+        //desperation
+        buildType = HpDeconstructBuild::new;
     }
 
     @Override
-    public void drawBase(Tile tile){
+    public void drawBase(Tile tile) {
         Draw.z(layer);
         Draw.rect(variants > 0 ? variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))] : region, tile.worldx(), tile.worldy());
     }
 
     @Override
-    public TextureRegion[] icons(){
+    public TextureRegion[] icons() {
         return variants == 0 ? super.icons() : new TextureRegion[]{Core.atlas.find(name + "1")};
+    }
+    public class HpDeconstructBuild extends Building {
+        public Unit builder;
+        public boolean beingDeconstructed = false;
+        @Override
+        public void updateTile(){
+            if(tile.build != null && beingDeconstructed){
+                tile.build.health -= Time.delta * 10f; // scaled to match deconstruction speed
+                if(tile.build.health <= 0){
+                    tile.build.kill();
+                }
+            }
+        }
     }
 }

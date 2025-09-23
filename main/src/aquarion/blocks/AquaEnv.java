@@ -59,7 +59,7 @@ public class AquaEnv {
             bauxiticWall, algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
             feldsparWall, gabbroWall, andesiteExtrusions, CrystalGalena,
-            elderParzil, boraxCluster, yulrCoral, bewCoral, tranticaBush, regoubloom, tyrqPod, bigTyrqPod;
+            elderParzil, boraxCluster, yulrCoral, bewCoral, tranticaBush, regoubloom, tyrqPod, bigTyrqPod, basaltBluff, basaltOutcrop;
 
     public static void loadContent() {
         //TODO fix the blend group
@@ -405,6 +405,17 @@ public class AquaEnv {
             layer = Layer.blockOver + 1;
             shadowLayer = Layer.blockOver;
         }};
+        basaltBluff = new TallBlock("basalt-bluff") {{
+            variants = 0;
+            itemDrop = towanite;
+            clipSize = 200f;
+            shadowAlpha = 0.7f;
+            layer = Layer.blockOver + 2;
+            shadowLayer = Layer.blockOver;
+        }};
+        basaltOutcrop = new StaticTree("basalt-outcrop"){{
+           variants = 2;
+        }};
         tyrqPod = new FloraBlock("tyrq-pod") {{
             shadowAlpha = 0.7f;
             buildVisibility = sandboxOnly;
@@ -500,6 +511,7 @@ public class AquaEnv {
             underBullets = true;
             variants = 2;
             targetable = false;
+            layer = Layer.groundUnit + 1;
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 20 * 60f;
@@ -510,6 +522,7 @@ public class AquaEnv {
             buildVisibility = sandboxOnly;
             size = 2;
             health = 3500;
+            layer = Layer.groundUnit + 2;
             clipSize = 120;
             underBullets = true;
             variants = 2;
@@ -524,6 +537,7 @@ public class AquaEnv {
             buildVisibility = sandboxOnly;
             size = 3;
             health = 8000;
+            layer = Layer.groundUnit + 3;
             clipSize = 120;
             underBullets = true;
             variants = 2;
@@ -538,6 +552,7 @@ public class AquaEnv {
             buildVisibility = sandboxOnly;
             size = 4;
             health = 12000;
+            layer = Layer.groundUnit + 4;
             clipSize = 120;
             underBullets = true;
             targetable = false;
