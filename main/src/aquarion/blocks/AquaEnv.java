@@ -41,7 +41,7 @@ public class AquaEnv {
             arsenicBoulder, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
             CrasseCoral, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
-    public static Block leafLitter, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
+    public static Block leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, algal_carpet, brine_liquid,
@@ -290,6 +290,8 @@ public class AquaEnv {
         }};
         leafLitter = new Floor("leaf-litter", 3) {{
         }};
+        leafLitterDense = new Floor("leaf-litter-dense", 3) {{
+        }};
         oreBauxite = new OreBlock("ore-bauxite", AquaItems.bauxite);
         oreGallium = new OreBlock("ore-gallium", AquaItems.gallium);
         oreNickel = new OreBlock("ore-nickel", nickel);
@@ -493,7 +495,7 @@ public class AquaEnv {
             targetable = false;
             size = 5;
             variants = 1;
-            health = 2500;
+            health = 7500;
             breakable = false;
             rotationRand = 30;
             clipSize = 300;

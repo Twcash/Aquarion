@@ -119,11 +119,11 @@ public class AquaPlanets {
             );
             startSector = 10;
             atmosphereRadIn = 0.09f;
-            atmosphereRadOut = 1.6f;
             orbitSpacing = 6f;
             defaultCore = AquaCore.corePike;
             allowLaunchLoadout = false;
             atmosphereRadOut = 1.5f;
+            lightColor = Color.valueOf("171e53");
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
             allowCampaignRules = true;
@@ -150,7 +150,7 @@ public class AquaPlanets {
             orbitRadius = 20;
             orbitOffset = 34;
             atmosphereRadOut = 0.19f;
-            atmosphereColor = Color.valueOf("ff4545");
+            atmosphereColor = Color.valueOf("101e2c");
             cloudMeshLoader = () -> new MultiMesh(
                     new HexSkyMesh(this, 2, 0.7f, 0.17f, 5, Pal.metalGrayDark, 2, 0.42f, 1f, 0.43f),
                     new HexSkyMesh(this, 3, 1.5f, 0.18f, 5,Pal.stoneGray, 2, 0.42f, 1.2f, 0.45f)
