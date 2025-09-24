@@ -1,41 +1,35 @@
+
 package aquarion.annotations.processors;
 
-import arc.files.Fi;
-import arc.struct.Seq;
-import arc.util.Log;
-import arc.util.OS;
-import arc.util.Strings;
+import arc.files.*;
+import arc.struct.*;
+import arc.util.*;
+
 import com.squareup.javapoet.*;
-import com.sun.tools.javac.api.JavacTrees;
-import com.sun.tools.javac.code.AnnoConstruct;
-import com.sun.tools.javac.code.Attribute.Compound;
-import com.sun.tools.javac.model.AnnotationProxyMaker;
-import com.sun.tools.javac.model.JavacElements;
-import com.sun.tools.javac.model.JavacTypes;
-import com.sun.tools.javac.processing.JavacFiler;
-import com.sun.tools.javac.processing.JavacProcessingEnvironment;
-import mindustry.Vars;
+import com.sun.tools.javac.api.*;
+import com.sun.tools.javac.code.*;
+import com.sun.tools.javac.code.Attribute.*;
+import com.sun.tools.javac.model.*;
+import com.sun.tools.javac.processing.*;
+
+import mindustry.*;
+
+import aquarion.annotations.Annotations.AnnotationProxyMaker;
 
 import javax.annotation.processing.*;
-import javax.lang.model.SourceVersion;
+import javax.lang.model.*;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.*;
-import javax.lang.model.type.ArrayType;
-import javax.lang.model.type.MirroredTypesException;
-import javax.lang.model.type.NoType;
-import javax.lang.model.type.TypeMirror;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardLocation;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import javax.lang.model.type.*;
+import javax.tools.*;
+import java.io.*;
+import java.lang.Class;
+import java.lang.annotation.*;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.regex.*;
 
-import static javax.lang.model.type.TypeKind.BOOLEAN;
+import static javax.lang.model.type.TypeKind.*;
 
 /**
  * @author Anuke
@@ -63,7 +57,7 @@ public abstract class BaseProcessor extends AbstractProcessor{
     }
 
     @Override
-    public Set<String> getSupportedOptions() {
+    public Set<String> getSupportedOptions(){
         Set<String> options = new HashSet<>();
         options.add("modName");
         options.add("classPrefix");
@@ -94,8 +88,8 @@ public abstract class BaseProcessor extends AbstractProcessor{
         if(rootDir == null){
             try{
                 String path = Fi.get(filer.getResource(StandardLocation.CLASS_OUTPUT, "no", "no")
-                .toUri().toURL().toString().substring(OS.isWindows ? 6 : "file:".length()))
-                .parent().parent().parent().parent().parent().parent().parent().toString().replace("%20", " ");
+                                .toUri().toURL().toString().substring(OS.isWindows ? 6 : "file:".length()))
+                        .parent().parent().parent().parent().parent().parent().parent().toString().replace("%20", " ");
 
                 rootDir = Fi.get(path);
             }catch(IOException e){
@@ -127,9 +121,9 @@ public abstract class BaseProcessor extends AbstractProcessor{
     public void write(TypeSpec spec, Seq<String> imports) throws Exception{
         try{
             JavaFile file = JavaFile.builder(generatedPackageName, spec)
-                .indent("    ")
-                .skipJavaLangImports(true)
-                .build();
+                    .indent("    ")
+                    .skipJavaLangImports(true)
+                    .build();
 
             if(imports == null || imports.isEmpty()){
                 file.writeTo(filer);
@@ -165,7 +159,8 @@ public abstract class BaseProcessor extends AbstractProcessor{
                 stream.close();
             }
         }catch(FilerException e){
-            throw new RuntimeException("FilerException: " + e.getMessage() + ". Misbehaving files might prevent annotation processing. Try running `gradlew clean`.", e);        }
+            throw new RuntimeException("FilerException: " + e.getMessage() + ". Misbehaving files might prevent annotation processing. Try running `gradlew clean`.", e);
+        }
     }
 
     public TypeElement toEl(TypeMirror t){
@@ -259,8 +254,8 @@ public abstract class BaseProcessor extends AbstractProcessor{
 
     public static boolean isConstructor(ExecutableElement e){
         return
-            simpleName(e).equals("<init>") ||
-                simpleName(e).equals("<clinit>");
+                simpleName(e).equals("<init>") ||
+                        simpleName(e).equals("<clinit>");
     }
 
     public boolean hasMethod(TypeElement type, ExecutableElement method){
@@ -277,9 +272,9 @@ public abstract class BaseProcessor extends AbstractProcessor{
             List<? extends VariableElement> realParams = m.getParameters();
 
             return
-                simpleName(m).equals(name) &&
-                    (retType == null || types.isSameType(m.getReturnType(), retType)) &&
-                    paramEquals(realParams, params);
+                    simpleName(m).equals(name) &&
+                            (retType == null || types.isSameType(m.getReturnType(), retType)) &&
+                            paramEquals(realParams, params);
         });
     }
 
@@ -326,7 +321,7 @@ public abstract class BaseProcessor extends AbstractProcessor{
 
     public static boolean isPrimitive(String type){
         return type.equals("boolean") || type.equals("byte") || type.equals("short") || type.equals("int")
-            || type.equals("long") || type.equals("float") || type.equals("double") || type.equals("char");
+                || type.equals("long") || type.equals("float") || type.equals("double") || type.equals("char");
     }
 
     public boolean isNumeric(TypeMirror type){
@@ -337,8 +332,10 @@ public abstract class BaseProcessor extends AbstractProcessor{
                 case INT:
                 case FLOAT:
                 case LONG:
-                case DOUBLE: return true;
-                default: return false;
+                case DOUBLE:
+                    return true;
+                default:
+                    return false;
             }
         }catch(IllegalArgumentException t){
             return false;
@@ -347,8 +344,8 @@ public abstract class BaseProcessor extends AbstractProcessor{
 
     public boolean isNumeric(String type){
         return type.equals("byte") || type.equals("short") || type.equals("int") || type.equals("float")
-            || type.equals("long") || type.equals("double") || type.equals("Byte") || type.equals("Short")
-            || type.equals("Integer") || type.equals("Float") || type.equals("Long") || type.equals("Double");
+                || type.equals("long") || type.equals("double") || type.equals("Byte") || type.equals("Short")
+                || type.equals("Integer") || type.equals("Float") || type.equals("Long") || type.equals("Double");
     }
 
     public boolean isBool(TypeMirror type){
@@ -405,10 +402,10 @@ public abstract class BaseProcessor extends AbstractProcessor{
             if(line.startsWith("    ")) line = line.substring(4);
 
             line = line
-                .replaceAll("this\\.<(.*)>self\\(\\)", "this")
-                .replaceAll("self\\(\\)(?!\\s+instanceof)", "this")
-                .replaceAll(" yield ", "")
-                .replaceAll("/\\*missing\\*/", "var");
+                    .replaceAll("this\\.<(.*)>self\\(\\)", "this")
+                    .replaceAll("self\\(\\)(?!\\s+instanceof)", "this")
+                    .replaceAll(" yield ", "")
+                    .replaceAll("/\\*missing\\*/", "var");
 
             builder.append(line).append('\n');
         }

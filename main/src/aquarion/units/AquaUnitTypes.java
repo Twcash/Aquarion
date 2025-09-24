@@ -82,7 +82,7 @@ public class AquaUnitTypes {
 
      //steward tree
  curator, custodian, caretaker, warden, fish1;
-    public static @Annotations.EntityDef({AquaUnitc.class}) UnitType cull;
+    public static /*@Annotations.EntityDef({Unitc.class})*/ UnitType cull;
 
     //gerbUnits
     public static GerbUnitType gerbTest;
@@ -793,6 +793,7 @@ public class AquaUnitTypes {
                 envEnabled |= Env.terrestrial | Env.underwater;
                 envDisabled = Env.none;
                 hitSize = 22;
+                range = 170;
                 rotateSpeed = 2.5f;
                 constructor = UnitEntity::create;
                 lowAltitude = true;
@@ -883,6 +884,7 @@ public class AquaUnitTypes {
             outlineColor = AquaPal.tantDarkerTone;
             lowAltitude = flying = coreUnitDock = true;
             aiController = BuilderAI::new;
+            constructor = UnitEntity::create;
             health = 80;
             healColor = Pal.accent;
 
@@ -1893,7 +1895,7 @@ public class AquaUnitTypes {
             constructor = LegsUnit::create;
             speed = 0.35f;
             hitSize = 16;
-            range = 150;
+            range = 90;
             health = 350;
             stepShake = 0.2f;
             armor = 3;

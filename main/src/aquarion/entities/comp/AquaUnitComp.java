@@ -34,7 +34,7 @@ import aquarion. annotations. Annotations.*;
 import static mindustry.Vars.*;
 import static mindustry.logic.GlobalVars.*;
 //@EntityDef(value = AquaUnitc.class, genio = true, serialize = true)
-@EntityComponent(base = true)
-abstract class AquaUnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, Itemsc, Rotc, Unitc, Weaponsc, Drawc, Syncc, Shieldc, Displayable, Ranged, Minerc, AquaBuilderc, Senseable, Settable{
+@EntityComponent
+abstract class AquaUnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, Itemsc, Rotc, Unitc, Weaponsc, Drawc, Syncc, Shieldc, Displayable, Ranged, Minerc, Builderc, Senseable, Settable{
 
 }
