@@ -129,7 +129,7 @@ public class AquaCore {
             consumePower(0.125f);
             consumeLiquid(fumes, 0.05f);
             range = 35;
-            healPercent = 6;
+            healPercent = 14;
             squareSprite = false;
             reload = 240;
             phaseBoost = 0;

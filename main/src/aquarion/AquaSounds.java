@@ -8,6 +8,7 @@ import mindustry.Vars;
 
 public class AquaSounds {
     public static Sound
+            underwater1 = new Sound(),
             graceShot = new Sound(),
             vectorShot = new Sound(),
             start = new Sound(),
@@ -29,6 +30,7 @@ public class AquaSounds {
             refine = new Sound();
 
     public static void load(){
+        underwater1 = loadSound("underwater");
         vectorShot = loadSound("vectorShot");
         graceShot = loadSound("graceShot");
         start = loadSound("start");
@@ -51,7 +53,7 @@ public class AquaSounds {
     }
 
     private static Sound loadSound(String soundName){
-        if(!Vars.headless) {
+        if(!Vars.headless){
             String name = "sounds/" + soundName;
             String path = Vars.tree.get(name + ".ogg").exists() ? name + ".ogg" : name + ".mp3";
 
@@ -62,7 +64,7 @@ public class AquaSounds {
 
             return sound;
 
-        } else {
+        }else{
             return new Sound();
         }
     }

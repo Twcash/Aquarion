@@ -2,6 +2,7 @@ package aquarion;
 
 import aquarion.annotations.Annotations;
 import aquarion.blocks.*;
+import aquarion.content.AquaWeathers;
 import aquarion.planets.AquaLoadouts;
 import aquarion.planets.AquaPlanets;
 import aquarion.planets.AquaSectorPresets;
@@ -30,7 +31,7 @@ public class AquarionMod  implements Loadable{
         Events.on(EventType.ClientLoadEvent.class, e -> {
             clientLoaded();
         });
-
+        AquaSounds.load();
         //stuff that needs to be loaded first
         AquaStatuses.load();
         AquaLiquids.loadContent();
@@ -38,7 +39,7 @@ public class AquarionMod  implements Loadable{
         AquaItems.load();
         AquaAttributes.load();
         AquaEffect.loadContent();
-        AquaWeather.load();
+        AquaWeathers.load();
         //actual content needs items liquids FX ect
         AquaEnv.loadContent();
         AquaPower.loadContent();

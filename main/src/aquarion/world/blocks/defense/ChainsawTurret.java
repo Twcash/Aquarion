@@ -88,8 +88,7 @@ public class ChainsawTurret extends Block {
         public float sawx, sawy;
         public float sawRange = 15;
         public float sawSpeed = 0.1f;
-        public int damageTick = 0;
-
+        private float damageTimer = 0f;
         public Posc target;
         public Vec2 targetPos = new Vec2();
         private boolean sawInitialized = false;
@@ -163,9 +162,21 @@ public class ChainsawTurret extends Block {
             return efficiency > 0;
         }
         protected void applySawDamage() {
-            if (damageTick++ % 10 == 0) {
+            // Increase timer by delta time
+            damageTimer += Time.delta;
+
+            // Apply damage every 0.167 seconds (roughly 10 ticks at 60fps)
+            float damageInterval = 0.167f;
+
+            if (damageTimer >= damageInterval) {
+                // Reset timer
+                damageTimer -= damageInterval;
+
+                // Apply damage
                 Damage.damage(this.team, sawx, sawy, sawRange, damage);
-                if(wasVisible && Mathf.chanceDelta(0.1f)){
+
+                // Spawn particles
+                if (wasVisible && Mathf.chanceDelta(0.1f) && efficiency > 0) {
                     Fx.colorSpark.at(sawx + Mathf.range(sawRange), sawy + Mathf.range(sawRange));
                 }
             }

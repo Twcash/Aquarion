@@ -49,10 +49,6 @@ public class AquaLoader extends Mod {
         AquaLoader.tools = tools;
 
 
-        if(!headless){
-            Events.on(EventType.FileTreeInitEvent.class, e -> Core.app.post(AquaSounds::load));
-
-        }
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
                 Regions.load();
@@ -80,6 +76,7 @@ public class AquaLoader extends Mod {
     @Override
     public void loadContent() {
         AquarionMod.loadContent();
+
         aquarionEntityMapping.init();
     }
     public static Mods.LoadedMod mod(){
