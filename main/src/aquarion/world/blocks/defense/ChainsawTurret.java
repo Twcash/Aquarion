@@ -147,6 +147,7 @@ public class ChainsawTurret extends Block {
                 sawy += Mathf.cos(wobbleSpeed, wobbleAmount, 0.1f) * Time.delta * efficiency;
             }
         }
+        public float timer = 0;
         @Override
         public void drawSelect(){
             Draw.color(selectColor);
@@ -162,20 +163,11 @@ public class ChainsawTurret extends Block {
             return efficiency > 0;
         }
         protected void applySawDamage() {
-            // Increase timer by delta time
-            damageTimer += Time.delta;
-
-            // Apply damage every 0.167 seconds (roughly 10 ticks at 60fps)
-            float damageInterval = 0.167f;
-
-            if (damageTimer >= damageInterval) {
-                // Reset timer
-                damageTimer -= damageInterval;
-
-                // Apply damage
+            timer += edelta()/10f;
+            if(timer >= 1){
+                timer = 0;
                 Damage.damage(this.team, sawx, sawy, sawRange, damage);
 
-                // Spawn particles
                 if (wasVisible && Mathf.chanceDelta(0.1f) && efficiency > 0) {
                     Fx.colorSpark.at(sawx + Mathf.range(sawRange), sawy + Mathf.range(sawRange));
                 }
