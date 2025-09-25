@@ -1,6 +1,7 @@
 package aquarion.planets;
 
 import aquarion.blocks.AquaCore;
+import aquarion.content.AquaWeathers;
 import arc.graphics.Color;
 import mindustry.game.Team;
 import mindustry.graphics.Pal;
@@ -9,6 +10,7 @@ import mindustry.graphics.g3d.HexSkyMesh;
 import mindustry.graphics.g3d.MultiMesh;
 import mindustry.graphics.g3d.SunMesh;
 import mindustry.type.Planet;
+import mindustry.type.Weather;
 import mindustry.world.meta.Env;
 
 public class AquaPlanets {
@@ -127,8 +129,10 @@ public class AquaPlanets {
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
             allowCampaignRules = true;
+            landCloudColor = Pal.spore.cpy().a(0);
             defaultEnv = Env.terrestrial | Env.underwater & ~(Env.groundOil | Env.scorching | Env.spores);
             ruleSetter = r -> {
+                r.weather.addAll(new Weather.WeatherEntry(AquaWeathers.currents));
                 r.fire = false;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
