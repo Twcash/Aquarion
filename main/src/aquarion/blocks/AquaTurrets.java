@@ -76,8 +76,8 @@ public class AquaTurrets {
             shootCone = 2;
             outlineColor = tantDarkestTone;
             shoot.shots = 5;
-            inaccuracy = 19;
-            reload = 92;
+            inaccuracy = 12;
+            reload = 90;
             range = 110;
             ammo(
                     silicon, new LaserBoltBulletType() {{
@@ -86,7 +86,7 @@ public class AquaTurrets {
                         speed = 20;
                         lifetime = 5;
                         knockback = 0.75f;
-                        hitSize = 4;
+                        hitSize = 9;
                         damage = 15;
                         ammoMultiplier = 2f;
                         //this thing can shred late game stuff if you do it right
@@ -101,7 +101,7 @@ public class AquaTurrets {
                         backColor = graphite.color;
                         speed = 25;
                         lifetime = 9;
-                        hitSize = 4;
+                        hitSize = 11;
                         reloadMultiplier = 1.2f;
                         ammoMultiplier = 3;
                         knockback = 0.5f;
@@ -121,7 +121,7 @@ public class AquaTurrets {
                         speed = 20;
                         lifetime = 8;
                         damage = 12;
-                        hitSize = 4;
+                        hitSize = 14;
                         status = burning;
                         statusDuration = 8 * 60f;
                         reloadMultiplier = 1.8f;
@@ -136,7 +136,7 @@ public class AquaTurrets {
                         frontColor = AquaPal.redDecal1;
                         backColor = AquaPal.redDecal1Dark;
                         speed = 40;
-                        hitSize = 4;
+                        hitSize = 12;
                         lifetime = 2;
                         pierce = true;
                         pierceCap = 3;

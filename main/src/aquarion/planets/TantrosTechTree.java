@@ -195,9 +195,8 @@ public class TantrosTechTree {
                             new Objectives.Research(pugnate),
                             new Objectives.Research(grace),
                             new Objectives.Research(vacuumFreezer),
-                            new Objectives.Research(aluminum),
-                            new Objectives.Research(bauxiteCentrifuge)
-                            ), ()->{});
+                            new Objectives.Research(aluminum)
+                                    ), ()->{});
                             node(CrystalCaverns, Seq.with(
                                     new Objectives.Research(fumeEngine),
                                     new Objectives.SectorComplete(Torrent),
@@ -392,8 +391,7 @@ public class TantrosTechTree {
                                 node(ferricGrinder, () -> {
                                     node(ultrafamicRefinery);
                                     node(ferroSiliconFoundry, Seq.with(
-                                            new Objectives.SectorComplete(Torrent),
-                                            new Objectives.Research(bauxiteCentrifuge)
+                                            new Objectives.SectorComplete(Torrent)
                                     ), () -> {
                                         node(steelFoundry);
                                     });
@@ -429,6 +427,7 @@ public class TantrosTechTree {
                         node(fumeMixer);
                     });
                     node(bauxiteCentrifuge);
+                    node(leachingVessel);
                 }));
             });
         });
