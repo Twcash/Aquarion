@@ -52,6 +52,9 @@ public class TantrosTechTree {
                             node(steelWall, () -> node(hugeSteelWall));
                         }
                 );
+                node(zincWall, ()->{
+                    node(hugeZincWall);
+                });
                 node(bauxiteWall, () -> {
                     node(hugeBauxiteWall, () -> {
                         node(bauxiteBarricade);

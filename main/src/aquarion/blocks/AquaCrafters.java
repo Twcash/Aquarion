@@ -210,9 +210,9 @@ public class AquaCrafters {
             ambientSoundVolume = 0.06f;
             baseEfficiency = 0;
             consumeLiquid(halideWater, 4f);
-            craftTime = 60;
+            craftTime = 240;
             outputItem = new ItemStack(salt, 1);
-            outputLiquid = new LiquidStack(muriaticAcid, 1.5f);
+            outputLiquid = new LiquidStack(muriaticAcid, 3.5f);
         }};
         nuetralizationChamber = new HeatProducer("nuetralization-vessel"){{
             requirements(Category.crafting, with(copper, 150, zinc, 250, silicon, 500));
@@ -220,8 +220,8 @@ public class AquaCrafters {
             squareSprite = false;
             liquidCapacity = 500;
             heatOutput = 20;
-            consume(new ConsumeLiquidAcidic(0.25f));
-            consumeLiquid(hydroxide, 0.5f);
+            consume(new ConsumeLiquidAcidic(1f));
+            consumeLiquid(hydroxide, 1f);
             outputLiquid = new LiquidStack(halideWater, 2);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;

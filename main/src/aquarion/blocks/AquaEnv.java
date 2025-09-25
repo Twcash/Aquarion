@@ -476,6 +476,7 @@ public class AquaEnv {
             size = 3;
             breakable = false;
             health = 2500;
+            updateEffectChance = 0.01f;
             clipSize = 120;
             underBullets = true;
             targetable = false;
@@ -494,6 +495,7 @@ public class AquaEnv {
             createRubble = false;
             targetable = false;
             size = 5;
+            updateEffectChance = 0.02f;
             variants = 1;
             health = 7500;
             breakable = false;
