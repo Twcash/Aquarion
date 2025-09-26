@@ -38,7 +38,7 @@ public class AquaEnv {
     }
     public static Block azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
-            arsenicBoulder, boricBoulder, ultrafamicBoulder;
+            arsenicBoulder, floor1, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
             CrasseCoral, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
     public static Block leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
@@ -59,14 +59,19 @@ public class AquaEnv {
             bauxiticWall, algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
             feldsparWall, gabbroWall, andesiteExtrusions, CrystalGalena,
-            elderParzil, boraxCluster, yulrCoral, bewCoral, tranticaBush, regoubloom, tyrqPod, bigTyrqPod, basaltBluff, basaltOutcrop;
+            elderParzil, boraxCluster, ksaRoot, yulrCoral, bewCoral, herylBush, tranticaBush, regoubloom, tyrqPod, bigTyrqPod, basaltBluff, basaltOutcrop;
 
     public static void loadContent() {
         //TODO fix the blend group
         algal_carpet = new Floor("algal-carpet", 5) {{
 
         }};
-
+        floor1 = new Floor("floor1"){{
+           tilingVariants = 1;
+            autotile = true;
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+        }};
         brine_liquid = new Floor("brine-liquid") {{
             speedMultiplier = 0.1f;
             variants = 0;
@@ -409,7 +414,6 @@ public class AquaEnv {
         }};
         basaltBluff = new TallBlock("basalt-bluff") {{
             variants = 0;
-            itemDrop = towanite;
             clipSize = 200f;
             shadowAlpha = 0.7f;
             layer = Layer.blockOver + 2;
@@ -638,6 +642,14 @@ public class AquaEnv {
             lightRadius = 40;
             emitLight = true;
         }};
+        herylBush = new WobbleProp("heryl-bush"){{
+            buildTime = 120;
+            variants = 2;
+            instantDeconstruct = false;
+        }};
+        ksaRoot = new TallBlock("ksa-root"){{
+            variants = 2;
+        }};
         regoubloom = new TallBlock("regou-bloom"){{
             variants = 3;
             lightColor = Color.valueOf("f2f2c1");
@@ -649,7 +661,6 @@ public class AquaEnv {
             lobesMax = 10;
             lobesMin = 7;
             breakable = alwaysReplace = false;
-            //cacheLayer = CacheLayer.walls;
             destructible = false;
             timeRange = 150f;
             botAngle = 80;

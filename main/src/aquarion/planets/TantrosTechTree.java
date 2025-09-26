@@ -357,9 +357,11 @@ public class TantrosTechTree {
                 node(CentrifugalPump, ()->{
                     node(pumpAssembly);
                 });
+                node(thermalEvaporator);
                 node(magmaTap, Seq.with(
                         new Objectives.SectorComplete(twinPass)
                 ), () -> node(plasmaExtractor, () -> {
+
                     node(beamBore, Seq.with(
                     ), () -> {
                     });

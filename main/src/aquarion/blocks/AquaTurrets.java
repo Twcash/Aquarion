@@ -786,7 +786,7 @@ public class AquaTurrets {
                 size = 5;
                 squareSprite = false;
                 range = 300;
-                inaccuracy = 15;
+                inaccuracy = 12;
                 reload = 6;
                 recoil = 0.2f;
                 xRand = 1;
@@ -798,7 +798,7 @@ public class AquaTurrets {
                 shootWarmupSpeed = 0.01f;
                 minWarmup = 0.01f;
                 ammo(
-                        ferrosilicon, new FlakBulletType(25, 15f) {{
+                        ferrosilicon, new FlakBulletType(35, 15f) {{
                             trailLength = 7;
                             hitSize = 8;
                             scaleLife = true;
@@ -806,7 +806,7 @@ public class AquaTurrets {
                             explodeRange = 80;
                             fragBullets = 4;
                             collidesGround = true;
-                            fragBullet = new BasicBulletType(4, 10f, "aquarion-flechette") {{
+                            fragBullet = new BasicBulletType(4, 15f, "aquarion-flechette") {{
                                 width = 4;
                                 height = 6;
                                 lifetime = 12;
@@ -820,7 +820,7 @@ public class AquaTurrets {
                             velocityRnd = 0.2f;
                             trailInterp = v -> Math.max(Mathf.slope(v), 0.9f);
                         }},
-                        AquaItems.steel, new FlakBulletType(30, 45) {{
+                        AquaItems.steel, new FlakBulletType(45, 45) {{
                             trailLength = 9;
                             hitSize = 12;
                             ammoMultiplier = 20;

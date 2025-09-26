@@ -31,7 +31,7 @@ import static mindustry.world.Build.validBreak;
 
 public class rokBlock extends Block {
     public float layer = Layer.power + 10;
-
+    public float rotationRand = 10;
     public rokBlock(String name) {
         super(name);
         breakable = true;
@@ -39,14 +39,13 @@ public class rokBlock extends Block {
         update = true;
         breakSound = Sounds.rockBreak;
         destroySound = Sounds.rockBreak;
-        //desperation
-        buildType = HpDeconstructBuild::new;
     }
 
     @Override
     public void drawBase(Tile tile) {
         Draw.z(layer);
-        Draw.rect(variants > 0 ? variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))] : region, tile.worldx(), tile.worldy());
+        float rot = Mathf.randomSeed(tile.pos(), -rotationRand, rotationRand);
+        Draw.rect(variants > 0 ? variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))] : region, tile.worldx(), tile.worldy(), rot);
     }
 
     @Override
@@ -54,16 +53,5 @@ public class rokBlock extends Block {
         return variants == 0 ? super.icons() : new TextureRegion[]{Core.atlas.find(name + "1")};
     }
     public class HpDeconstructBuild extends Building {
-        public Unit builder;
-        public boolean beingDeconstructed = false;
-        @Override
-        public void updateTile(){
-            if(tile.build != null && beingDeconstructed){
-                tile.build.health -= Time.delta * 10f; // scaled to match deconstruction speed
-                if(tile.build.health <= 0){
-                    tile.build.kill();
-                }
-            }
-        }
     }
 }

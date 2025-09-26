@@ -110,6 +110,7 @@ public class AquaItems {
         zinc = new Item("zinc", Color.valueOf("#a0b9af")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             hardness = 3;
+            alwaysUnlocked = true;
         }};
         biotite = new Item("biotite", Color.valueOf("#2e3e43")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

@@ -12,7 +12,6 @@ import aquarion.units.AquaWrecks;
 import aquarion.units.ProspectorUnitTypes;
 import aquarion.world.content.AquaHints;
 import aquarion.world.graphics.AquaMenuRenderer;
-import aquarion.world.graphics.AquaWeather;
 import aquarion.world.graphics.MenuReplacer;
 import arc.Events;
 import arc.assets.Loadable;

@@ -132,7 +132,7 @@ public class AquaPlanets {
             landCloudColor = Pal.spore.cpy().a(0);
             defaultEnv = Env.terrestrial | Env.underwater & ~(Env.groundOil | Env.scorching | Env.spores);
             ruleSetter = r -> {
-                r.weather.addAll(new Weather.WeatherEntry(AquaWeathers.currents));
+                r.weather.addAll(new Weather.WeatherEntry(AquaWeathers.currents), new Weather.WeatherEntry(AquaWeathers.sedimentDisturance), new Weather.WeatherEntry(AquaWeathers.bioluminescentBlooms));
                 r.fire = false;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
