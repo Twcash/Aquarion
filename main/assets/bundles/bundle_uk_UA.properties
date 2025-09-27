@@ -146,6 +146,8 @@ block.aquarion-redact.name = Redact
 block.aquarion-redact.description = Shoots powerful long-range projectiles at enemies.
 block.aquarion-maelstrom.name = Maelstrom
 block.aquarion-maelstrom.description = Fires a barrage of weak homing bullets at air enemies. Operates on fumes.
+block.aquarion-torrefy.name = Torrefy
+block.aquarion-torrefy.description = Thats it, it just shoots a fat laser ... did you expect more?
 block.aquarion-buzzsaw.name = Buzzsaw
 block.aquarion-buzzsaw.description = A turret with a saw attached. Used to destroy debris, trees, and unit wrecks.
 block.aquarion-mend-pyre.name = Mend Pyre
@@ -219,7 +221,8 @@ block.aquarion-fume-mixer.name = Fume Mixer
 block.aquarion-fume-mixer.description = Mixes components of fumes inefficiently.
 block.aquarion-pump-assembly.name = Pump Assembly
 block.aquarion-pump-assembly.description = Extracts large amounts of liquids from tiles underneath. Requires power to function.
-
+block.aquarion-metaglass-pulverizer.name = Metaglass Pulverizer
+block.aquarion-metaglass-pulverizer.description = Crushes down Metaglass into its base components as well as trace amounts of Silicon and Oxygen.
 block.aquarion-convection-heater.name = Convection Heater
 block.aquarion-convection-heater.description = Uses thermal convection of water to produce a small amount of heat.
 block.aquarion-solid-heater.name = Solid Combustion Heater
@@ -262,12 +265,12 @@ block.aquarion-pylon.details = P.S it connects to batteries directly.
 block.aquarion-heat-engine.name = Heat Engine
 block.aquarion-geothermal-evaporator.name = Geothermal Evaporator
 block.aquarion-geothermal-evaporator.description = Uses geothermal heat to evaporate Halidic Water, leaving behind [#ffffff]Salt[] and [#f5e380]Muriatic Acid[].
-block.aquarion-neutralization-chamber.name = Neutralization Chamber
-block.aquarion-neutralization-chamber.description = Neutralizes [#83746b]Fumes[] or Haze with [violet]Hydroxide[] to produce [blue]Water[] and some heat.
+block.aquarion-neutralization-vessel.name = Neutralization Vessel
+block.aquarion-neutralization-vessel.description = Neutralizes [#83746b]Fumes[] or Haze with [violet]Hydroxide[] to produce [blue]Water[] and some heat.
 block.aquarion-biotite-leaching-vessel.name = Biotite Leaching Vessel
 block.aquarion-biotite-leaching-vessel.description = Uses muriatic acid and power to reduce biotite into it's core components. Can function without heat, however heat will be needed to function at maximum efficiency.
-
 block.aquarion-heat-engine.description = Uses geothermal heat to produce electrical power. Outputs slag as a by-product.
+
 block.aquarion-hydroxide-reactor.name = Hydroxide Reactor
 block.aquarion-hydroxide-reactor.description = Produces a moderate amount of power from bubbling [violet]Hydroxide[] into [blue]Water[] and residual heat. \n By-products are deemed unnecessary to our missions, and therefore will be dumped into the environment.
 block.aquarion-fume-engine.name = Fume Engine
@@ -302,8 +305,8 @@ block.aquarion-heat-channel.name = Heat Channel
 block.aquarion-heat-channel.description = Transfers heat to blocks in front of it.
 block.aquarion-ultramafic-refinery.name = Ultramafic Refinery
 block.aquarion-ultramafic-refinery.description = Dissasembles ultramafic Serpentine for its raw materials.
-
 block.aquarion-cupronickel-alloying-crucible.name = Cupronickel Alloying Crucible
+
 block.aquarion-cupronickel-alloying-crucible.description = Alloys copper and nickel to produce cupronickel. Requires air to function. Can be boosted with heat.
 block.aquarion-brine-electrolysis-manifold.name = Brine Electrolysis Manifold
 block.aquarion-brine-electrolysis-manifold.description = Electrolyzes brine into more pure components. Such as chlorine, hydrogen, and hydroxide.
@@ -316,10 +319,10 @@ block.aquarion-basalt-rock.name = Basalt Rock
 block.aquarion-large-basalt-rock.name = Large Basalt Rock
 block.aquarion-huge-basalt-rock.name = Huge Basalt Rock
 block.aquarion-massive-basalt-rock.name = Massive Basalt Rock
+item.aquarion-ferrosilicon.name = Ferrosilicon
 
 
 ## ITEMS
-item.aquarion-ferrosilicon.name = Ferrosilicon
 item.aquarion-ferrosilicon.description = A hard, ductile metal used for stronger structures.
 item.aquarion-ferrosilicon.details = it's not as fragile or reactve as silicon.
 item.aquarion-steel.name = Steel
@@ -360,8 +363,8 @@ item.aquarion-aluminum.details = not aloo-min-e-um it's a-loo-min-um.
 item.aquarion-magnesium-powder.name = Magnesium Powder.
 item.aquarion-magnesium-powder.description = Highly reactive powdered magnesium. Used for alloying.
 item.aquarion-magnesium-powder.details = May be useful in reactor casings...
-
 item.aquarion-serpentine.name = Serpentine
+
 item.aquarion-serpentine.description = Inorganic ultramafic mineral containing iron, aluminum, silicon, and magnesium.
 item.aquarion-polymer.name = Polymer
 item.aquarion-polymer.description = Polymerized monomer organic compounds forming a malleable lattice structure. Useful for non-conductive construction.
@@ -380,8 +383,8 @@ item.aquarion-strontium.name = Strontium
 item.aquarion-strontium.description = A highly reactive and magnetic element used for ammunition structures or alloying purposes.
 item.aquarion-cupronickel.name = Cupronickel
 item.aquarion-cupronickel.description = A ductile metal with a high heat tolerance. Used for a wide variety of purposes.
-## LIQUIDS
 liquid.aquarion-brine.name = Brine
+## LIQUIDS
 liquid.aquarion-brine.description = A highly saline liquid solution used in , or salt processing. Required for , or hydroxide processing.
 liquid.aquarion-brine.details = I can't even make pickles from this. Disgusting.
 liquid.aquarion-hydroxide.name = Hydroxide
@@ -409,8 +412,8 @@ liquid.aquarion-petroleum.name = Petroleum
 liquid.aquarion-petroleum.description = Refined oil. Useful for plastic synthesis, combustion, or concentrated into petroleum coke.
 liquid.aquarion-methane.name = Methane
 liquid.aquarion-methane.description = Combustible hydrocarbon gas.
-
 liquid.aquarion-fluorine.name = Fluorine
+
 liquid.aquarion-fluorine.description = Highly reactive gas. Can be used for plastic synthesis, defenses, and structural healing.
 liquid.aquarion-fluorine.details = spicy gas.
 liquid.aquarion-muriatic-acid.name = Muriatic Acid
@@ -421,12 +424,12 @@ liquid.aquarion-argon.name = Argon
 liquid.aquarion-argon.description = An inert gas abundantly found in air.
 liquid.aquarion-rare-earth-sludge.name = Rare Earth Sludge
 liquid.aquarion-rare-earth-sludge.description = A mineral sludge containing hydrous rare earth element such as Yttrium and neodymium.
-## SECTORS
 sector.aquarion-Ingress.name = Ingress
+## SECTORS
 sector.aquarion-Ecotone.name = Ecotone
 sector.aquarion-diseasedCleft.name = Diseased Cleft
-
 sector.aquarion-EnsuingTorrent.name = Ensuing Torrent
+
 sector.aquarion-CrystalCavern.name = Crystal Cavern
 sector.aquarion-Grove.name = Grove
 sector.aquarion-resurgence.name = Resurgence
@@ -438,9 +441,9 @@ sector.aquarion-Lagoon.name = Lagoon
 sector.aquarion-Lagoon.description = This point of interest is highly defended. Adequate tech and strategy is required.
 sector.aquarion-lowlandStrait.name = Lowland Strait
 sector.aquarion-mountainsideComplex.name = Mountainside Complex
+settings.betterland = The better landing sound (needs restart)
 
 ## UI
-settings.betterland = The better landing sound (needs restart)
 settings.betterfine = The better fine.ogg (needs restart)
 settings.onlyModMus = Remove vanilla music (needs restart)
 settings.clearTech-category = Clear Research.(Aquarion only)
@@ -448,21 +451,21 @@ settings.clearTech-confirm = [scarlet]Are you doubly sure?[]
 settings.clearCampaign = Clear Campaign saves.(Aquarion only)
 settings.clearCampaign-confirm = [scarlet]Are you Really, Really sure?[]
 settings.clearCampaign-closeConfirm = [green]Gotta restart then :p[]
+planet.aquarion-tantros.name = Tantros
 
 ## PLANETS
-planet.aquarion-tantros.name = Tantros
 planet.aquarion-qeralter.name = Qeralter
 planet.aquarion-fakeSerp.name = Serpulo
 planet.aquarion-coradum.name = Coradum
 planet.aquarion-citun.name = Citun
+unit.aquarion-cull.name = Cull
 
 ## UNITS
 
 ## SHARDED UNITS
-unit.aquarion-cull.name = Cull
 unit.aquarion-cull.description = A weak, unarmed base unit capable of construction and repairs.
-
 unit.aquarion-rampart.name = Rampart
+
 block.aquarion-rampart.name = Rampart
 unit.aquarion-rampart.description = A moderately fast ground unit. Very susceptible to fast attacks.
 unit.aquarion-byte.name = Byte
@@ -496,8 +499,8 @@ unit.aquarion-shatter.description = A legged unit equipped with a cannon that fi
 unit.aquarion-soar.name = Soar
 block.aquarion-soar.name = Soar
 unit.aquarion-soar.description = A flying unit that drops clusters of bombs onto ground enemies.
-## CRUX UNITS
 unit.aquarion-isop.name = Isop
+## CRUX UNITS
 unit.aquarion-isop.description = Fires missiles at enemies.
 unit.aquarion-empusa.name = Empusa
 unit.aquarion-empusa.description = Fires salvos of missiles at enemies.
@@ -507,8 +510,8 @@ unit.aquarion-rhombodera.name = Rhombodera
 unit.aquarion-rhombodera.description = Fires barrages of debilitating missiles at enemies.
 unit.aquarion-parasphendale.name = Parasphendale
 unit.aquarion-parasphendale.description = Fires a powerful long range missile at enemies.
-
 unit.aquarion-frost.name = Frost
+
 unit.aquarion-frost.description = Shoots cryo frozen shards at enemies.
 unit.aquarion-rime.name = Rime
 unit.aquarion-rime.description = Shoots cryo frozen shards at enemies.
@@ -518,8 +521,8 @@ unit.aquarion-glaciate.name = Glaciate
 unit.aquarion-glaciate.description = Shoots cryo frozen shards that leave a damaging cloud of supercooled gas in its wake.
 unit.aquarion-permafrost.name = Permafrost.
 unit.aquarion-permafrost.description = Has a moderately powerful main cannon. Self-destructs upon death. Leaving a supercooled gas behind.
-## TENDERE UNITS
 unit.aquarion-zoarcid.name = Zoarcid
+## TENDERE UNITS
 unit.aquarion-anguilli.name = Anguilli
 unit.aquarion-goss.name = Goss
 unit.aquarion-heed.name = Heed
@@ -528,28 +531,28 @@ unit.aquarion-curator.name = Curator
 unit.aquarion-messenger.name = Messenger
 unit.aquarion-ambassador.name = Ambassador
 unit.aquarion-consul.name = Consul
+resurgenceTutorialDeconstruct = Valuable materials reside in the nearby ruins. \n Deconstruct these structures to obtain them.
 
 ## MESSAGES
-resurgenceTutorialDeconstruct = Valuable materials reside in the nearby ruins. \n Deconstruct these structures to obtain them.
 resurgenceSolar = No direct power sources has been found. Construct a 쎄[accent] Solar generator[] To start production. \n Be advised, these structures fluctuate in production and are [red]mildly explosive[].
 resurgenceHarvester = To obtain basic resources a 쎃[accent] harvester[] Is needed. Construct one.
 resurgenceSupply = 쎃[accent] Harvesters[] require a power supply. Place a 쎂[accent] Outlet[] facing the harvester to power it.
 resurgenceSupplyHint = An쎂[accent] Outlet[] can only supply so much power.\n Search the [accent]Core Database[] Or the [accent]?[] button in your build menu to view the stats.
-
 ingress-welcome = This is[cyan] Tantros[]
+
 ingress-decon = Begin by deconstructing [#655a5a]Derelict[] structures.\n[accent]Deconstructing structures will return all resources.
 ingress-magTap = 썐[accent] Magma taps[] are required to be built on [#d24040] Magma Tiles []
 ingress-magDif = Now build the  썑[accent] Magma Diffuser[].\nThis block requires [#d24040] []썓[accent] Magma[] [] to operate.
 ingress-goodLuck = Use 썒[accent] siphons[] to connect structures.[#d24040]\n []썒[accent] Siphons[] will accumulate damage when containing high temperature liquids such as []썓[accent]Magma[]. []\n[accent]Use []쎐[accent] Mend pyres[] to counteract this.[]
 torrent-azurite = 썫[royal]Azurite[] is a [accent]copper[] containing crystal, use Plasma extractors to exploit it.\n Use the [accent]Azurite Kiln[] to refine this resource.
+stat.power-throughput = Power Throughput
 
 ## STATS
-stat.power-throughput = Power Throughput
 stat.maxflow = Max Flow
 stat.acidity = Acidity
 stat.magnetism = Magnetism
-
 sectors.threat = Overtone:
+
 sectors.enemybase = [scarlet]Denizens present.
 sector.abandon = Try again.
 sector.abandon.confirm = You can do better next time \n [#5effa0]Failure is temporary.[]
@@ -560,8 +563,8 @@ threat.medium = [#b4e77b]Facile[]
 threat.high = [#a9fff0]Odd[]
 threat.extreme = [#b4e77b]Noteworthy[]
 threat.eradication = [#a9fff0]Aberration...[]
-
 hint.aquarion-ammo = Although some turrets require higher tier materials it is advised to look into their ammo consumption.\nTurrets such as the [accent]pelt[] Consume a large amount of ammunition per shot.
+
 hint.aquarion-outposts = Some sectors will contain enemy outposts. Most of these will produce units after a set amount of time.\nApon sector victory these bases will self-destruct.
 hint.aquarion-boosting = A large amount of production and crafting related blocks can accept boosters.\nUse the [accent]?[] menu to understand which boosters a block can take.
 hint.aquarion-solar = Solar generators supply a large amount of power but is very unreliable./n It is highly reccomended to switch to a more stable power source.
