@@ -15,9 +15,11 @@ import aquarion.world.units.newTankUnitType;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Rect;
+import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
@@ -40,6 +42,7 @@ import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.entities.pattern.ShootSine;
 import mindustry.gen.*;
+import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
@@ -52,6 +55,7 @@ import mindustry.world.meta.Env;
 import static aquarion.AquaItems.electrum;
 import static aquarion.units.AquaWrecks.*;
 import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
 import static mindustry.Vars.tilePayload;
 import static mindustry.gen.Sounds.spray;
@@ -877,6 +881,179 @@ public class AquaUnitTypes {
                     healPercent = 0.2f;
                     collidesTeam = true;
                 }};
+            }});
+        }};
+        curator = new MechanicalUnitType("curator") {{
+            rotateMoveFirst = true;
+            armor = 4;
+            health = 900;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            constructor = MechUnit::create;
+            mechLegColor = AquaPal.tantDarkestTone;
+            drawCell = false;
+            mechFrontSway = 0.1f;
+            mechSideSway = 0.1f;
+            speed = 0.43f;
+            rotateSpeed = 1.5f;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(curatorWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
+            weapons.add(new Weapon() {{
+                mirror = false;
+                alternate = true;
+                recoil = 1f;
+                x = 0f;
+                outlineColor = AquaPal.tantDarkerTone;
+                recoilTime = 5f;
+                reload = 140;
+                top = false;
+                shootSound = Sounds.blaster;
+                soundPitchMax = 0.8f;
+                soundPitchMin = 0.2f;
+                bullet = new LaserBoltBulletType(1.5f, 170) {{
+                    width = 6f;
+                    recoil = 10;
+                    height = 7;
+                    homingPower = 0.05f;
+                    homingDelay = 10;
+                    shootEffect = Fx.shootSmall;
+                    smokeEffect = Fx.shootBigSmoke;
+                    lifetime = 90f;
+                    maxRange = 80;
+                    trailLength = 14;
+                    trailWidth = 3;
+                    trailColor = AquaPal.techGreen;
+                    weaveMag = 10;
+                    weaveScale = 2;
+                    trailEffect = Fx.none;
+                    collidesTiles = true;
+                    hitColor = lightColor = Color.white;
+                    frontColor = Color.white;
+                    backColor = AquaPal.techGreen;
+                    healPercent = 30f;
+                    collidesTeam = true;
+                }};
+            }});
+        }};
+        custodian = new MechanicalUnitType("custodian") {{
+            rotateMoveFirst = true;
+            armor = 6;
+            health = 2700;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            constructor = MechUnit::create;
+            mechLegColor = AquaPal.tantDarkestTone;
+            drawCell = false;
+            mechFrontSway = 0.1f;
+            mechSideSway = 0.1f;
+            speed = 0.23f;
+            rotateSpeed = 1.2f;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(custodianWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
+            weapons.add(new Weapon() {{
+                mirror = true;
+                recoil = 1f;
+                x = 9f;
+                y = 5;
+                shootX = 5;
+                outlineColor = AquaPal.tantDarkerTone;
+                recoilTime = 5f;
+                reload = 90;
+                alternate = false;
+                top = false;
+                shootCone = 4;
+                shootSound = Sounds.lasershoot;
+                soundPitchMax = 1.2f;
+                soundPitchMin = 0.9f;
+                bullet = new RailBulletType() {{
+                    length = 8*25;
+                    hitColor = AquaPal.techGreen;
+                    damage = 150;
+                    smokeEffect = Fx.colorSpark;
+                    endEffect = new Effect(14f, e -> {
+                        color(e.color);
+                        Drawf.tri(e.x, e.y, e.fout() * 1.5f, 5f, e.rotation);
+                    });
+                    lineEffect = new Effect(20f, e -> {
+                        if(!(e.data instanceof Vec2 v)) return;
+
+                        color(e.color);
+                        stroke(e.fout() * 1.1f + 1f);
+
+                        Fx.rand.setSeed(e.id);
+                        for(int i = 0; i < 7; i++){
+                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
+                        }
+                        for(int i = 0; i < 7; i++){
+                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow()+90, e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.7f);
+                        }
+                        for(int i = 0; i < 7; i++){
+                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow()-90, e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.7f);
+                        }
+
+                        e.scaled(14f, b -> {
+                            stroke(b.fout() * 1.5f);
+                            color(e.color);
+                            Lines.line(e.x, e.y, v.x, v.y);
+                        });
+                    });
+                }};
+
             }});
         }};
         cull = new UnitType("cull") {{
