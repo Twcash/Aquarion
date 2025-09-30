@@ -4,12 +4,17 @@ import aquarion.tools.IconLoader;
 import aquarion.ui.AquaStyles;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
+import aquarion.world.map.TemperatureMap;
 import arc.*;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.ctype.*;
 import mindustry.game.EventType;
 import mindustry.game.EventType.*;
+import mindustry.graphics.Layer;
+import mindustry.graphics.Pal;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 import aquarion.annotations.Annotations.*;
@@ -32,7 +37,9 @@ import static mindustry.Vars.*;
 @EnsureLoad
 public class AquaLoader extends Mod {
     public static boolean tools = false;
+//    public boolean debug = true;
     protected static Mods.LoadedMod mod;
+//    public static TemperatureMap tempMap = new TemperatureMap();
     public AquaLoader(){
         this(false);
     }
@@ -47,7 +54,22 @@ public class AquaLoader extends Mod {
                 AquaShaders.dispose()
         );
         AquaLoader.tools = tools;
-
+//        if (debug) {
+//            Events.run(EventType.Trigger.draw, () -> {
+//                for (int i = 0; i < tempMap.tempMap.length; i++) {
+//                    if (tempMap.tempMap[i] != 0) continue;
+//
+//                    Draw.z(Layer.flyingUnit+2);
+//                    Draw.color(Pal.orangeSpark);
+//                    //256 will be the max temperature EVER
+//                    Draw.alpha(tempMap.tempMap[i] / 256f);
+//
+//                    Draw.rect("empty", world.tiles.geti(i).worldx(), world.tiles.geti(i).worldy());
+//
+//                    Draw.reset();
+//                }
+//            });
+//        }
 
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
