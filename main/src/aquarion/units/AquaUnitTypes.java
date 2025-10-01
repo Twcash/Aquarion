@@ -3,11 +3,14 @@ package aquarion.units;
 import aquarion.AquaStatuses;
 import aquarion.annotations.Annotations;
 import aquarion.gen.AquaBuilderc;
+import aquarion.gen.AquaLegsUnit;
+import aquarion.gen.AquaLegsc;
 import aquarion.gen.AquaUnitc;
 import aquarion.type.GerbUnitType;
 import aquarion.type.MechanicalUnitType;
 import aquarion.world.AI.DroneAI;
 import aquarion.world.abilities.LightningFieldAbility;
+import aquarion.world.entities.AquaLegConfig;
 import aquarion.world.entities.DroneSpawnerBulletType;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
@@ -87,6 +90,7 @@ public class AquaUnitTypes {
      //steward tree
  curator, custodian, caretaker, warden, fish1;
     public static /*@Annotations.EntityDef({Unitc.class})*/ UnitType cull;
+    public static @Annotations.EntityDef({Unitc.class, AquaLegsc.class}) AquaLegUnitType legExample;
 
     //gerbUnits
     public static GerbUnitType gerbTest;
@@ -97,7 +101,31 @@ public class AquaUnitTypes {
     public static  MechanicalUnitType zoarcid, anguilli, cyprin, pycogen, batoid, goss, heed, effect, consummate, efectuate;
     public static  UnitType rivulet;
     public static void loadContent() {
-        messenger = new MechanicalUnitType("messenger") {{
+        legExample = new AquaLegUnitType("HAHAHAH") {{
+            drawBody = false;
+            drawCell = false;
+            constructor = AquaLegsUnit::create;
+            legSequence = new AquaLegConfig[] {
+                    new AquaLegConfig(
+                            new AquaLegConfig.JointConfig(-5, 5, 45f, 6f, 12f, 60f)
+                    ),
+                    new AquaLegConfig(
+                            new AquaLegConfig.JointConfig(5, 5, -45f, 6f, 12f, 60f)
+                    ),
+                    new AquaLegConfig(
+                            new AquaLegConfig.JointConfig(-10, -5, -30f, 6f, 15f, 60f),
+                            new AquaLegConfig.JointConfig(-12, -10, -60f, 6f, 15f, 60f),
+                            new AquaLegConfig.JointConfig(-14, -15, -90f, 6f, 15f, 60f)
+                    ),
+                    new AquaLegConfig(
+                            new AquaLegConfig.JointConfig(10, -5, 30f, 6f, 15f, 60f),
+                            new AquaLegConfig.JointConfig(12, -10, 60f, 6f, 15f, 60f),
+                            new AquaLegConfig.JointConfig(14, -15, 90f, 6f, 15f, 60f)
+                    )
+            };
+        }};
+
+    messenger = new MechanicalUnitType("messenger") {{
             speed = 0.65f;
             health = 480;
             armor = 2;

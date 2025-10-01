@@ -4,7 +4,6 @@ import aquarion.tools.IconLoader;
 import aquarion.ui.AquaStyles;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
-import aquarion.world.map.TemperatureMap;
 import arc.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
