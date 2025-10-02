@@ -104,24 +104,16 @@ public class AquaUnitTypes {
         legExample = new AquaLegUnitType("HAHAHAH") {{
             drawBody = false;
             drawCell = false;
+            legMoveSpace = 0.98f;
+            legContinuousMove = true;
             constructor = AquaLegsUnit::create;
             legSequence = new AquaLegConfig[] {
-                    new AquaLegConfig(
-                            new AquaLegConfig.JointConfig(-5, 5, 45f, 6f, 12f, 60f)
-                    ),
-                    new AquaLegConfig(
-                            new AquaLegConfig.JointConfig(5, 5, -45f, 6f, 12f, 60f)
-                    ),
-                    new AquaLegConfig(
-                            new AquaLegConfig.JointConfig(-10, -5, -30f, 6f, 15f, 60f),
-                            new AquaLegConfig.JointConfig(-12, -10, -60f, 6f, 15f, 60f),
-                            new AquaLegConfig.JointConfig(-14, -15, -90f, 6f, 15f, 60f)
-                    ),
-                    new AquaLegConfig(
-                            new AquaLegConfig.JointConfig(10, -5, 30f, 6f, 15f, 60f),
-                            new AquaLegConfig.JointConfig(12, -10, 60f, 6f, 15f, 60f),
-                            new AquaLegConfig.JointConfig(14, -15, 90f, 6f, 15f, 60f)
-                    )
+                    new AquaLegConfig(-5, 5, 45, 10, 8),
+                    new AquaLegConfig(5, 5, -45, 10, 8),
+                    new AquaLegConfig(-8, -9, 90, 14, 4),
+                    new AquaLegConfig(8, -9, -90, 14, 4),
+                    new AquaLegConfig(-5, 8-5, 45+90, 10, 10),
+                    new AquaLegConfig(5, 8-5, -45-90, 10, 10)
             };
         }};
 

@@ -22,17 +22,24 @@ import mindustry.world.blocks.ConstructBlock;
 import mindustry.world.blocks.environment.Floor;
 
 import static mindustry.Vars.headless;
+import static mindustry.Vars.player;
 
 //I don't smoke weed.
 @Annotations.EntityComponent
-abstract class AquaLegsComp implements Posc, Rotc, Hitboxc, Unitc {
+abstract class AquaLegsComp implements Posc, Rotc, Unitc {
+    private static final Vec2 straightVec = new Vec2();
 
-    @Annotations.Import float x, y, rotation, speedMultiplier;
-    @Annotations.Import UnitType type;
-    @Annotations.Import Team team;
+    @Annotations.Import
+    float x, y, rotation, speedMultiplier;
+    @Annotations.Import
+    UnitType type;
+    @Annotations.Import
+    Team team;
+    @Annotations.Import
+    boolean disarmed;
 
-    transient AquaLeg[] legs = {};
-    transient float[] totalLengths = {};
+    transient Leg[] legs = {};
+    transient float totalLength;
     transient float moveSpace;
     transient float baseRotation;
     transient Floor lastDeepFloor;
@@ -40,163 +47,214 @@ abstract class AquaLegsComp implements Posc, Rotc, Hitboxc, Unitc {
 
     @Annotations.Replace
     @Override
-    public EntityCollisions.SolidPred solidity() {
+    public EntityCollisions.SolidPred solidity(){
         return ignoreSolids() ? null : type.allowLegStep ? EntityCollisions::legsSolid : EntityCollisions::solid;
     }
 
     @Override
     @Annotations.Replace
-    public Floor drownFloor() {
+    public Floor drownFloor(){
         return lastDeepFloor;
     }
 
     @Override
-    public void add() {
+    public void add(){
         resetLegs();
     }
 
     @Override
-    public void unloaded() {
+    public void unloaded(){
         resetLegs(1f);
     }
 
-    public void resetLegs() {
+    @Annotations.MethodPriority(-1)
+    @Override
+    public void destroy(){
+        if(!isAdded() || Vars.headless) return;
+
+        float legExplodeRad = type.legRegion.height  / 4f / 1.45f;
+
+        //create effects for legs being destroyed
+        for(int i = 0; i < legs.length; i++){
+            Leg l = legs[i];
+
+            Vec2 base = legOffset(Tmp.v1, i).add(x, y);
+
+            Tmp.v2.set(l.base).sub(l.joint).inv().setLength(type.legExtension);
+
+            for(Vec2 vec : new Vec2[]{base, l.joint, l.base}){
+                Damage.dynamicExplosion(vec.x, vec.y, 0f, 0f, 0f, legExplodeRad, Vars.state.rules.damageExplosions, false, team, type.deathExplosionEffect);
+            }
+
+            Fx.legDestroy.at(base.x, base.y, 0f, new LegDestroyData(base.cpy(), l.joint, type.legRegion));
+            Fx.legDestroy.at(l.joint.x, l.joint.y, 0f, new LegDestroyData(l.joint.cpy().add(Tmp.v2), l.base, type.legBaseRegion));
+
+        }
+    }
+
+    public void resetLegs(){
         resetLegs(type.legLength);
     }
 
     public void resetLegs(float legLength) {
-        AquaLegUnitType aType = type instanceof AquaLegUnitType e ? e : null;
-        if (aType == null) return;
+        if (type instanceof AquaLegUnitType unit) {
 
-        AquaLegConfig[] legSeq = aType.legSequence;
-        legs = new AquaLeg[legSeq.length];
-        totalLengths = new float[legSeq.length];
+            this.legs = new Leg[unit.legSequence.length];
 
-        for (int i = 0; i < legSeq.length; i++) {
-            AquaLegConfig config = legSeq[i];
-            AquaLeg leg = new AquaLeg(config.jointConfigs.length);
+            baseRotation = rotation;
 
-            for (int j = 0; j < config.jointConfigs.length; j++) {
-                leg.joints[j].set(config.defaultPositions[j].x + x, config.defaultPositions[j].y + y);
-                config.jointPositions[j].set(leg.joints[j]);
+            for (int i = 0; i < legs.length; i++) {
+                Leg l = new Leg();
+
+                float dstRot = legAngle(i);
+                Vec2 baseOffset = legOffset(Tmp.v5, i).add(x, y);
+
+                l.joint.trns(dstRot, unit.legSequence[i].baseLength).add(baseOffset);
+                l.base.trns(dstRot, unit.legSequence[i].baseLength+unit.legSequence[i].legLength).add(baseOffset);
+
+                legs[i] = l;
             }
-
-            // foot/base initially at last joint
-            leg.base.set(leg.joints[leg.joints.length - 1]);
-            legs[i] = leg;
-            totalLengths[i] = Mathf.random(100f);
+            totalLength = Mathf.random(100f);
         }
-
-        if (type.lockLegBase) baseRotation = rotation;
     }
 
     @Override
     public void update() {
-        AquaLegUnitType aType = type instanceof AquaLegUnitType e ? e : null;
-        if (aType == null) return;
-        AquaLegConfig[] legSeq = aType.legSequence;
+        if (type instanceof AquaLegUnitType unit) {
 
-        // Update base rotation
-        if (Mathf.dst(deltaX(), deltaY()) > 0.001f) {
-            baseRotation = Angles.moveToward(baseRotation, Mathf.angle(deltaX(), deltaY()), type.rotateSpeed);
-        }
-        if (type.lockLegBase) baseRotation = rotation;
+            baseRotation = rotation;
 
-        float legLength = type.legLength;
+            //set up initial leg positions
+            if (legs.length != unit.legSequence.length) {
+                resetLegs();
+            }
 
-        // Ensure legs exist
-        if (legs.length != legSeq.length) resetLegs();
+            float moveSpeed = type.legSpeed;
+            int div = Math.max(legs.length / type.legGroupSize, 2);
+            //TODO should move legs even when still, based on speed. also, to prevent "slipping", make sure legs move when they are too far from their destination
+            totalLength += type.legContinuousMove ? type.speed * speedMultiplier * Time.delta : Mathf.dst(deltaX(), deltaY());
 
-        float moveSpeed = type.legSpeed;
-        int div = Math.max(legs.length / type.legGroupSize, 2);
-        moveSpace = legLength / 1.6f / (div / 2f) * type.legMoveSpace;
+            float trns = moveSpace * 0.85f * type.legForwardScl;
 
-        // Advance leg cycles
-        for (int i = 0; i < legs.length; i++) {
-            totalLengths[i] += type.legContinuousMove ? type.speed * speedMultiplier * Time.delta
-                    : Mathf.dst(deltaX(), deltaY());
-        }
+            //rotation + offset vector
+            boolean moving = moving();
+            Vec2 moveOffset = !moving ? Tmp.v4.setZero() : Tmp.v4.trns(Angles.angle(deltaX(), deltaY()), trns);
+            //make it smooth, not jumpy
+            moveOffset = curMoveOffset.lerpDelta(moveOffset, 0.1f);
 
-        float trns = moveSpace * 0.85f * type.legForwardScl;
-        boolean moving = moving();
-        Vec2 moveOffset = !moving ? Tmp.v4.setZero() : Tmp.v4.trns(Angles.angle(deltaX(), deltaY()), trns);
-        moveOffset = curMoveOffset.lerpDelta(moveOffset, 0.1f);
+            lastDeepFloor = null;
+            int deeps = 0;
 
-        lastDeepFloor = null;
-        int deeps = 0;
+            for (int i = 0; i < legs.length; i++) {
+                float dstRot = legAngle(i);
+                Vec2 baseOffset = legOffset(Tmp.v5, i).add(x, y);
+                Leg l = legs[i];
+                float totalLength = unit.legSequence[i].baseLength+unit.legSequence[i].legLength;
+                AquaLegConfig conf = unit.legSequence[i];
+                moveSpace = totalLength / 1.6f / (div / 2f) * type.legMoveSpace;
 
-        for (int i = 0; i < legs.length; i++) {
-            AquaLeg leg = legs[i];
-            AquaLegConfig config = legSeq[i];
+                //TODO is limiting twice necessary?
+                l.joint.sub(baseOffset).clampLength(conf.legMinLen * conf.legLength, conf.legMaxLen * conf.legLength).add(baseOffset);
+                l.base.sub(baseOffset).clampLength(conf.baseMinLen * conf.baseLength, conf.baseMaxLen * conf.baseLength).add(baseOffset);
 
-            Vec2 baseOffset = legOffset(Tmp.v5, i).add(x, y);
-            Vec2 footTarget = Tmp.v1.trns(defaultLegAngle(i), legLength * type.legLengthScl).add(baseOffset).add(moveOffset);
+                float stageF = (totalLength + i * type.legPairOffset) / moveSpace;
+                int stage = (int) stageF;
+                int group = stage % div;
+                boolean move = i % div == group;
+                boolean side = unit.legSequence[i].baseX > 0;
+                //Shoulf "back legs" have reversed direction when legAngle handles direction now?
+                boolean backLeg = unit.legSequence[i].baseY > 0;
+                if (backLeg && type.flipBackLegs) side = !side;
+                //if (type.flipLegSide) side = !side;
 
-            float stageF = (totalLengths[i] + i * type.legPairOffset) / moveSpace;
-            int stage = (int) stageF;
-            int group = stage % div;
-            boolean move = i % div == group;
-            leg.moving = move;
-            leg.group = group;
+                l.moving = move;
+                l.stage = moving ? stageF % 1f : Mathf.lerpDelta(l.stage, 0f, 0.1f);
 
-            // Multi-joint IK
-            Vec2 prev = new Vec2(baseOffset);
-            for (int j = 0; j < leg.joints.length; j++) {
-                AquaLegConfig.JointConfig jc = config.jointConfigs[j];
-
-                // Single-joint compatibility
-                Vec2 target = footTarget.cpy();
-                if (leg.joints.length > 1) {
-                    Vec2 dir = footTarget.cpy().sub(prev);
-                    float len = Mathf.clamp(dir.len(), jc.minLen, jc.maxLen);
-                    dir.setLength(len);
-
-                    float angle = dir.angle();
-                    float rotDiff = angleDiff(jc.baseRot, angle);
-                    if (Math.abs(rotDiff) > jc.rotationLimit) {
-                        angle = jc.baseRot + Mathf.clamp(rotDiff, -jc.rotationLimit, jc.rotationLimit);
-                        dir.trns(angle, len);
-                    }
-                    target = prev.cpy().add(dir);
+                Floor floor = Vars.world.floorWorld(l.base.x, l.base.y);
+                if (floor.isDeep()) {
+                    deeps++;
+                    lastDeepFloor = floor;
                 }
 
-                float lerpFactor = Math.max(0.1f, move ? moveSpeed * Time.delta : moveSpeed / 4f);
-                leg.joints[j].lerpDelta(target, lerpFactor);
-                config.jointPositions[j].set(leg.joints[j]);
-                prev.set(leg.joints[j]);
+                if (l.group != group) {
+
+                    //create effect when transitioning to a group it can't move in
+                    if (!move && (moving || !type.legContinuousMove) && i % div == l.group) {
+                        if (!headless && !inFogTo(player.team())) {
+                            if (floor.isLiquid) {
+                                floor.walkEffect.at(l.base.x, l.base.y, type.rippleScale, floor.mapColor);
+                                floor.walkSound.at(x, y, 1f, floor.walkSoundVolume);
+                            } else {
+                                Fx.unitLandSmall.at(l.base.x, l.base.y, type.rippleScale, floor.mapColor);
+                            }
+
+                            //shake when legs contact ground
+                            if (type.stepShake > 0) {
+                                Effect.shake(type.stepShake, type.stepShake, l.base);
+                            }
+                        }
+
+                        if (type.legSplashDamage > 0 && !disarmed) {
+                            Damage.damage(team, l.base.x, l.base.y, type.legSplashRange, type.legSplashDamage * Vars.state.rules.unitDamage(team), false, true);
+
+                            var tile = Vars.world.tileWorld(l.base.x, l.base.y);
+                            if (tile != null && tile.block().unitMoveBreakable) {
+                                ConstructBlock.deconstructFinish(tile, tile.block(), self());
+                            }
+                        }
+                    }
+
+                    l.group = group;
+                }
+
+                //leg destination
+                Vec2 legDest = Tmp.v1.trns(dstRot, conf.baseLength * type.legLengthScl).add(baseOffset).add(moveOffset);
+                //join destination
+                Vec2 jointDest = Tmp.v2;
+                InverseKinematics.solve(conf.baseLength, conf.legLength, Tmp.v6.set(l.base).sub(baseOffset), false, jointDest);
+                jointDest.add(baseOffset);
+                Tmp.v6.set(baseOffset).lerp(l.base, 0.5f);
+
+                if (move) {
+                    float moveFract = stageF % 1f;
+
+                    l.base.lerpDelta(legDest, moveFract);
+                    l.joint.lerpDelta(jointDest, moveFract / 2f);
+                }
+
+                l.joint.lerpDelta(jointDest, moveSpeed / 4f);
+
+                //limit again after updating
+                l.joint.sub(baseOffset).clampLength(conf.legMinLen * conf.legLength, conf.legMaxLen * conf.legLength).add(baseOffset);
+                l.base.sub(baseOffset).clampLength(conf.baseMinLen * conf.baseLength, conf.baseMaxLen * conf.baseLength).add(baseOffset);
             }
 
-            leg.base.lerpDelta(footTarget, Math.max(0.1f, move ? moveSpeed * Time.delta : moveSpeed / 4f));
-
-            // Deep floor detection
-            Floor floor = Vars.world.floorWorld(leg.base.x, leg.base.y);
-            if (floor.isDeep()) {
-                deeps++;
-                lastDeepFloor = floor;
+            //when at least 1 leg is touching land, it can't drown
+            if (deeps != legs.length || !floorOn().isDeep()) {
+                lastDeepFloor = null;
             }
         }
-
-        if (deeps != legs.length || !floorOn().isDeep()) lastDeepFloor = null;
     }
 
-    Vec2 legOffset(Vec2 out, int index) {
-        AquaLegUnitType aType = type instanceof AquaLegUnitType e ? e : null;
-        if (aType == null) return out.trns(0f, 0f);
-        out.trns(defaultLegAngle(index), aType.legBaseOffset);
+    Vec2 legOffset(Vec2 out, int index){
+        if(type instanceof AquaLegUnitType unit) {
+            out.set(new Vec2(unit.legSequence[index].baseX,unit.legSequence[index].baseY));
+            out.rotate(rotation -90);
+        }
         return out;
     }
 
+
     float legAngle(int index) {
-        return defaultLegAngle(index);
+        if (type instanceof AquaLegUnitType unit) {
+            return defaultLegAngle(index);
+        }
+        return 0;
     }
-
-    float defaultLegAngle(int index) {
-        return baseRotation + 360f / legs.length * index;
-    }
-
-    float angleDiff(float a, float b) {
-        float diff = (b - a + 180f) % 360f - 180f;
-        return diff < -180f ? diff + 360f : diff;
+    float defaultLegAngle(int index){
+        if(type instanceof AquaLegUnitType unit) {
+            return rotation + unit.legSequence[index].baseRot;
+        }
+        return  0;
     }
 }
-
