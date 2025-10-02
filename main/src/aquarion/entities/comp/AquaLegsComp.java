@@ -149,23 +149,22 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                 float dstRot = legAngle(i);
                 Vec2 baseOffset = legOffset(Tmp.v5, i).add(x, y);
                 Leg l = legs[i];
-                float totalLength = unit.legSequence[i].baseLength+unit.legSequence[i].legLength;
-                AquaLegConfig conf = unit.legSequence[i];
-                moveSpace = totalLength / 1.6f / (div / 2f) * type.legMoveSpace;
+                float legLength = type.legLength;
+                moveSpace = legLength / 1.6f / (div / 2f) * type.legMoveSpace;
 
                 //TODO is limiting twice necessary?
-                l.joint.sub(baseOffset).clampLength(conf.legMinLen * conf.legLength, conf.legMaxLen * conf.legLength).add(baseOffset);
-                l.base.sub(baseOffset).clampLength(conf.baseMinLen * conf.baseLength, conf.baseMaxLen * conf.baseLength).add(baseOffset);
+                l.joint.sub(baseOffset).clampLength(type.legMinLength * legLength / 2f, type.legMaxLength * legLength / 2f).add(baseOffset);
+                l.base.sub(baseOffset).clampLength(type.legMinLength * legLength, type.legMaxLength * legLength).add(baseOffset);
 
                 float stageF = (totalLength + i * type.legPairOffset) / moveSpace;
                 int stage = (int) stageF;
                 int group = stage % div;
                 boolean move = i % div == group;
                 boolean side = unit.legSequence[i].baseX > 0;
-                //Shoulf "back legs" have reversed direction when legAngle handles direction now?
+                //back legs have reversed directions
                 boolean backLeg = unit.legSequence[i].baseY > 0;
                 if (backLeg && type.flipBackLegs) side = !side;
-                //if (type.flipLegSide) side = !side;
+                if (type.flipLegSide) side = !side;
 
                 l.moving = move;
                 l.stage = moving ? stageF % 1f : Mathf.lerpDelta(l.stage, 0f, 0.1f);
@@ -208,10 +207,10 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                 }
 
                 //leg destination
-                Vec2 legDest = Tmp.v1.trns(dstRot, conf.baseLength * type.legLengthScl).add(baseOffset).add(moveOffset);
+                Vec2 legDest = Tmp.v1.trns(dstRot, legLength * type.legLengthScl).add(baseOffset).add(moveOffset);
                 //join destination
                 Vec2 jointDest = Tmp.v2;
-                InverseKinematics.solve(conf.baseLength, conf.legLength, Tmp.v6.set(l.base).sub(baseOffset), false, jointDest);
+                InverseKinematics.solve(legLength / 2f, legLength / 2f, Tmp.v6.set(l.base).sub(baseOffset), false, jointDest);
                 jointDest.add(baseOffset);
                 Tmp.v6.set(baseOffset).lerp(l.base, 0.5f);
 
@@ -225,8 +224,8 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                 l.joint.lerpDelta(jointDest, moveSpeed / 4f);
 
                 //limit again after updating
-                l.joint.sub(baseOffset).clampLength(conf.legMinLen * conf.legLength, conf.legMaxLen * conf.legLength).add(baseOffset);
-                l.base.sub(baseOffset).clampLength(conf.baseMinLen * conf.baseLength, conf.baseMaxLen * conf.baseLength).add(baseOffset);
+                l.joint.sub(baseOffset).clampLength(type.legMinLength * legLength / 2f, type.legMaxLength * legLength / 2f).add(baseOffset);
+                l.base.sub(baseOffset).clampLength(type.legMinLength * legLength, type.legMaxLength * legLength).add(baseOffset);
             }
 
             //when at least 1 leg is touching land, it can't drown
