@@ -1,12 +1,16 @@
 package aquarion.units;
 
+import aquarion.gen.AquaLegsUnit;
 import aquarion.gen.AquaLegsc;
 import aquarion.world.entities.AquaLeg;
 import aquarion.world.entities.AquaLegConfig;
+import arc.Core;
 import arc.graphics.Color;
+import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.Scaled;
@@ -22,18 +26,19 @@ import mindustry.entities.units.WeaponMount;
 import mindustry.gen.*;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
+import mindustry.graphics.MultiPacker;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 
 import static arc.graphics.g2d.Draw.xscl;
 
 public class AquaLegUnitType extends UnitType {
-    public AquaLegConfig[] legSequence = new AquaLegConfig[0];
+    public Seq<AquaLegConfig> legSequence = new Seq();
     private static final Vec2 legOffset = new Vec2();
-
     public AquaLegUnitType(String name) {
         super(name);
     }
+    public Seq<TextureRegion> regione = new Seq<>();
 
     @Override
     public void draw(Unit unit){
@@ -41,79 +46,76 @@ public class AquaLegUnitType extends UnitType {
         if(!(unit instanceof AquaLegsc unite)) return;
         applyColor(unit);
         Tmp.c3.set(Draw.getMixColor());
-
         Leg[] legs = unite.legs();
-
-        float ssize = footRegion.width * footRegion.scl() * 1.5f;
         float rotation = unite.baseRotation();
         float invDrown = 1f - unit.drownTime;
 
-        if(footRegion.found()){
-            for(Leg leg : legs){
-                Drawf.shadow(leg.base.x, leg.base.y, ssize, invDrown);
-            }
-        }
-
-        //legs are drawn front first
         for(int j = legs.length - 1; j >= 0; j--){
             int i = (j % 2 == 0 ? j/2 : legs.length - 1 - j/2);
             Leg leg = legs[i];
+            AquaLegConfig cfg = legSequence.get(i);
+            if(cfg.footRegion != null && cfg.footRegion.found()){
+                float ssize = cfg.footRegion.width * cfg.footRegion.scl() * 1.5f;
+                Drawf.shadow(leg.base.x, leg.base.y, ssize, invDrown);
+            }
+        }
+        for(int j = legs.length - 1; j >= 0; j--){
+            int i = (j % 2 == 0 ? j/2 : legs.length - 1 - j/2);
+            Leg leg = legs[i];
+            AquaLegConfig cfg = legSequence.get(i);
             boolean flip = i >= legs.length/2f;
             int flips = Mathf.sign(flip);
-
             Vec2 position = unite.legOffset(legOffset, i).add(unit);
-
-            Tmp.v1.set(leg.base).sub(leg.joint).inv().setLength(legExtension);
-
-            if(footRegion.found() && leg.moving && shadowElevation > 0){
+            Tmp.v1.set(leg.base).sub(leg.joint).inv().setLength(legSequence.get(i).legExtension);
+            if(cfg.footRegion != null && cfg.footRegion.found() && leg.moving && shadowElevation > 0){
                 float scl = shadowElevation * invDrown;
                 float elev = Mathf.slope(1f - leg.stage) * scl;
                 Draw.color(Pal.shadow);
-                Draw.rect(footRegion, leg.base.x + shadowTX * elev, leg.base.y + shadowTY * elev, position.angleTo(leg.base));
+                Draw.rect(cfg.footRegion, leg.base.x + shadowTX * elev, leg.base.y + shadowTY * elev, position.angleTo(leg.base));
                 Draw.color();
             }
-
             Draw.mixcol(Tmp.c3, Tmp.c3.a);
-
-            if(footRegion.found()){
-                Draw.rect(footRegion, leg.base.x, leg.base.y, position.angleTo(leg.base));
+            if(cfg.footRegion != null && cfg.footRegion.found()){
+                Draw.rect(cfg.footRegion, leg.base.x, leg.base.y, position.angleTo(leg.base));
             }
-
             if(legBaseUnder){
-                Lines.stroke(legBaseRegion.height * legRegion.scl() * flips);
-                Lines.line(legBaseRegion, leg.joint.x + Tmp.v1.x, leg.joint.y + Tmp.v1.y, leg.base.x, leg.base.y, false);
-
-                Lines.stroke(legRegion.height * legRegion.scl() * flips);
-                Lines.line(legRegion, position.x, position.y, leg.joint.x, leg.joint.y, false);
+                if(cfg.legBaseRegion != null && cfg.legBaseRegion.found()){
+                    Lines.stroke(cfg.legBaseRegion.height * cfg.legRegion.scl() * flips);
+                    Lines.line(cfg.legBaseRegion, leg.joint.x + Tmp.v1.x, leg.joint.y + Tmp.v1.y, leg.base.x, leg.base.y, false);
+                }
+                if(cfg.legRegion != null && cfg.legRegion.found()){
+                    Lines.stroke(cfg.legRegion.height * cfg.legRegion.scl() * flips);
+                    Lines.line(cfg.legRegion, position.x, position.y, leg.joint.x, leg.joint.y, false);
+                }
             }else{
-                Lines.stroke(legRegion.height * legRegion.scl() * flips);
-                Lines.line(legRegion, position.x, position.y, leg.joint.x, leg.joint.y, false);
-
-                Lines.stroke(legBaseRegion.height * legRegion.scl() * flips);
-                Lines.line(legBaseRegion, leg.joint.x + Tmp.v1.x, leg.joint.y + Tmp.v1.y, leg.base.x, leg.base.y, false);
+                if(cfg.legRegion != null && cfg.legRegion.found()){
+                    Lines.stroke(cfg.legRegion.height * cfg.legRegion.scl() * flips);
+                    Lines.line(cfg.legRegion, position.x, position.y, leg.joint.x, leg.joint.y, false);
+                }
+                if(cfg.legBaseRegion != null && cfg.legBaseRegion.found()){
+                    Lines.stroke(cfg.legBaseRegion.height * cfg.legRegion.scl() * flips);
+                    Lines.line(cfg.legBaseRegion, leg.joint.x + Tmp.v1.x, leg.joint.y + Tmp.v1.y, leg.base.x, leg.base.y, false);
+                }
             }
-
-            if(jointRegion.found()){
-                Draw.rect(jointRegion, leg.joint.x, leg.joint.y);
-            }
-        }
-
-        //base joints are drawn after everything else
-        if(baseJointRegion.found()){
-            for(int j = legs.length - 1; j >= 0; j--){
-                //TODO does the index / draw order really matter?
-                Vec2 position = unite.legOffset(legOffset, (j % 2 == 0 ? j/2 : legs.length - 1 - j/2)).add(unit);
-                Draw.rect(baseJointRegion, position.x, position.y, rotation);
+            if(cfg.jointRegion != null && cfg.jointRegion.found()){
+                Draw.rect(cfg.jointRegion, leg.joint.x, leg.joint.y);
             }
         }
+        for(int j = legs.length - 1; j >= 0; j--){
+            int i = (j % 2 == 0 ? j/2 : legs.length - 1 - j/2);
+            AquaLegConfig cfg = legSequence.get(i);
+            Vec2 position = unite.legOffset(legOffset, i).add(unit);
 
+            if(cfg.baseJointRegion != null && cfg.baseJointRegion.found()){
+                Draw.rect(cfg.baseJointRegion, position.x, position.y, rotation);
+            }
+        }
         if(baseRegion.found()){
             Draw.rect(baseRegion, unit.x, unit.y, rotation - 90);
         }
 
         Draw.reset();
     }
-
 
 
 
@@ -132,7 +134,47 @@ public class AquaLegUnitType extends UnitType {
             drawMiningBeam(unit, px, py);
         }
     }
+    public void drawBody(Unit unit){
+        applyColor(unit);
+        Draw.z(groundLayer);
+        Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
 
+        Draw.reset();
+    }
+    @Override
+    public void createIcons(MultiPacker packer){
+        super.createIcons(packer);
+        for(AquaLegConfig cfg : legSequence) {
+            if(cfg.suffix == null) continue;
+            Seq<TextureRegion> outlineSeq = Seq.with(cfg.footRegion, cfg.legRegion, cfg.legBaseRegion, cfg.jointRegion, cfg.baseJointRegion);
+            for (var outlineTarget : outlineSeq) {
+                if (!outlineTarget.found()) continue;
+                makeOutline(MultiPacker.PageType.main, packer, outlineTarget, alwaysCreateOutline && region == outlineTarget, outlineColor, outlineRadius);
+            }
+        }
+    }
+    @Override
+    public void load(){
+        super.load();
+
+        for(AquaLegConfig cfg : legSequence){
+            if(cfg.suffix != null){
+                cfg.footRegion = Core.atlas.find(name + "-foot" + cfg.suffix, footRegion);
+                cfg.legRegion = Core.atlas.find(name + "-leg" + cfg.suffix, legRegion);
+                cfg.legBaseRegion = Core.atlas.find(name + "-leg-base" + cfg.suffix, legBaseRegion);
+                cfg.jointRegion = Core.atlas.find(name + "-joint" + cfg.suffix, jointRegion);
+                cfg.baseJointRegion = Core.atlas.find(name + "-base-joint" + cfg.suffix, baseJointRegion);
+
+            }else{
+                // fallback to defaults
+                cfg.footRegion = footRegion;
+                cfg.legRegion = legRegion;
+                cfg.legBaseRegion = legBaseRegion;
+                cfg.jointRegion = jointRegion;
+                cfg.baseJointRegion = baseJointRegion;
+            }
+        }
+    }
 
 }
 /*

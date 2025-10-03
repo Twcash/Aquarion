@@ -90,7 +90,7 @@ public class AquaUnitTypes {
      //steward tree
  curator, custodian, caretaker, warden, fish1;
     public static /*@Annotations.EntityDef({Unitc.class})*/ UnitType cull;
-    public static @Annotations.EntityDef({Unitc.class, AquaLegsc.class}) AquaLegUnitType legExample;
+    public static @Annotations.EntityDef({Unitc.class, AquaLegsc.class}) AquaLegUnitType rally;
 
     //gerbUnits
     public static GerbUnitType gerbTest;
@@ -101,22 +101,6 @@ public class AquaUnitTypes {
     public static  MechanicalUnitType zoarcid, anguilli, cyprin, pycogen, batoid, goss, heed, effect, consummate, efectuate;
     public static  UnitType rivulet;
     public static void loadContent() {
-        legExample = new AquaLegUnitType("HAHAHAH") {{
-            drawBody = false;
-            drawCell = false;
-            legMoveSpace = 0.98f;
-            legContinuousMove = true;
-            constructor = AquaLegsUnit::create;
-            legSequence = new AquaLegConfig[] {
-                    new AquaLegConfig(-5, 5, 45, 10, 8),
-                    new AquaLegConfig(5, 5, -45, 10, 8),
-                    new AquaLegConfig(-8, -9, 90, 14, 4),
-                    new AquaLegConfig(8, -9, -90, 14, 4),
-                    new AquaLegConfig(-5, 8-5, 45+90, 10, 10),
-                    new AquaLegConfig(5, 8-5, -45-90, 10, 10)
-            };
-        }};
-
     messenger = new MechanicalUnitType("messenger") {{
             speed = 0.65f;
             health = 480;
@@ -2180,6 +2164,28 @@ public class AquaUnitTypes {
                     trailLength = 12;
                 }};
             }});
+        }};
+        rally = new AquaLegUnitType("rally"){{
+            hitSize = 4*8;
+            speed = 0.6f;
+            health = 1700;
+            armor = 5;
+            omniMovement = false;
+            drawCell = false;
+            stepShake = 0.1f;
+            legMoveSpace = 1.4f;
+            legContinuousMove = true;
+            lockLegBase = true;
+            legMinLength = 0.25f;
+            groundLayer = Layer.legUnit+1;
+            outlineColor = AquaPal.tantDarkestTone;
+            legSequence.addAll(
+                    new AquaLegConfig(4, 4, -22.5f, 15){{suffix = "-front";legExtension = 5;}},
+                    new AquaLegConfig(-6, 6, 22.5f, 15){{suffix = "-front";legExtension = 5;}},
+                    new AquaLegConfig(-10, -5, 90, 11){{legExtension = 5;}},
+                    new AquaLegConfig(10, -5, -90, 11){{legExtension = 5;}},
+                    new AquaLegConfig(0, -9, 180, 9){{legExtension = 5;}}
+            );
         }};
         retaliate = new newTankUnitType("retaliate") {{
             constructor = TankUnit::create;

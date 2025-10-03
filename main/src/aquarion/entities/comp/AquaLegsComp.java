@@ -69,26 +69,27 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
 
     @Annotations.MethodPriority(-1)
     @Override
-    public void destroy(){
-        if(!isAdded() || Vars.headless) return;
+    public void destroy() {
+        if (!isAdded() || Vars.headless) return;
 
-        float legExplodeRad = type.legRegion.height  / 4f / 1.45f;
+        float legExplodeRad = type.legRegion.height / 4f / 1.45f;
 
         //create effects for legs being destroyed
-        for(int i = 0; i < legs.length; i++){
+        for (int i = 0; i < legs.length; i++) {
             Leg l = legs[i];
 
             Vec2 base = legOffset(Tmp.v1, i).add(x, y);
 
             Tmp.v2.set(l.base).sub(l.joint).inv().setLength(type.legExtension);
 
-            for(Vec2 vec : new Vec2[]{base, l.joint, l.base}){
+            for (Vec2 vec : new Vec2[]{base, l.joint, l.base}) {
                 Damage.dynamicExplosion(vec.x, vec.y, 0f, 0f, 0f, legExplodeRad, Vars.state.rules.damageExplosions, false, team, type.deathExplosionEffect);
             }
-
-            Fx.legDestroy.at(base.x, base.y, 0f, new LegDestroyData(base.cpy(), l.joint, type.legRegion));
-            Fx.legDestroy.at(l.joint.x, l.joint.y, 0f, new LegDestroyData(l.joint.cpy().add(Tmp.v2), l.base, type.legBaseRegion));
-
+            if (type instanceof AquaLegUnitType unit) {
+                AquaLegConfig conf = unit.legSequence.get(i);
+                Fx.legDestroy.at(base.x, base.y, 0f, new LegDestroyData(base.cpy(), l.joint, conf.legRegion));
+                Fx.legDestroy.at(l.joint.x, l.joint.y, 0f, new LegDestroyData(l.joint.cpy().add(Tmp.v2), l.base, conf.legBaseRegion));
+            }
         }
     }
 
@@ -99,7 +100,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
     public void resetLegs(float legLength) {
         if (type instanceof AquaLegUnitType unit) {
 
-            this.legs = new Leg[unit.legSequence.length];
+            this.legs = new Leg[unit.legSequence.size];
 
             baseRotation = rotation;
 
@@ -109,8 +110,8 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                 float dstRot = legAngle(i);
                 Vec2 baseOffset = legOffset(Tmp.v5, i).add(x, y);
 
-                l.joint.trns(dstRot, unit.legSequence[i].baseLength).add(baseOffset);
-                l.base.trns(dstRot, unit.legSequence[i].baseLength+unit.legSequence[i].legLength).add(baseOffset);
+                l.joint.trns(dstRot, unit.legSequence.get(i).legLength/2f).add(baseOffset);
+                l.base.trns(dstRot, unit.legSequence.get(i).legLength/2f+unit.legSequence.get(i).legLength).add(baseOffset);
 
                 legs[i] = l;
             }
@@ -125,7 +126,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
             baseRotation = rotation;
 
             //set up initial leg positions
-            if (legs.length != unit.legSequence.length) {
+            if (legs.length != unit.legSequence.size) {
                 resetLegs();
             }
 
@@ -149,7 +150,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                 float dstRot = legAngle(i);
                 Vec2 baseOffset = legOffset(Tmp.v5, i).add(x, y);
                 Leg l = legs[i];
-                float legLength = type.legLength;
+                float legLength = unit.legSequence.get(i).legLength;
                 moveSpace = legLength / 1.6f / (div / 2f) * type.legMoveSpace;
 
                 //TODO is limiting twice necessary?
@@ -160,9 +161,9 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                 int stage = (int) stageF;
                 int group = stage % div;
                 boolean move = i % div == group;
-                boolean side = unit.legSequence[i].baseX > 0;
+                boolean side = unit.legSequence.get(i).baseX > 0;
                 //back legs have reversed directions
-                boolean backLeg = unit.legSequence[i].baseY > 0;
+                boolean backLeg = unit.legSequence.get(i).baseY > 0;
                 if (backLeg && type.flipBackLegs) side = !side;
                 if (type.flipLegSide) side = !side;
 
@@ -237,7 +238,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
 
     Vec2 legOffset(Vec2 out, int index){
         if(type instanceof AquaLegUnitType unit) {
-            out.set(new Vec2(unit.legSequence[index].baseX,unit.legSequence[index].baseY));
+            out.set(new Vec2(unit.legSequence.get(index).baseX,unit.legSequence.get(index).baseY));
             out.rotate(rotation -90);
         }
         return out;
@@ -252,7 +253,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
     }
     float defaultLegAngle(int index){
         if(type instanceof AquaLegUnitType unit) {
-            return rotation + unit.legSequence[index].baseRot;
+            return rotation + unit.legSequence.get(index).baseRot;
         }
         return  0;
     }
