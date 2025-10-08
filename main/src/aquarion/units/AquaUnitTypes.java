@@ -2180,11 +2180,10 @@ public class AquaUnitTypes {
             groundLayer = Layer.legUnit+1;
             outlineColor = AquaPal.tantDarkestTone;
             legSequence.addAll(
-                    new AquaLegConfig(4, 4, -22.5f, 15){{suffix = "-front";legExtension = 5;}},
-                    new AquaLegConfig(-6, 6, 22.5f, 15){{suffix = "-front";legExtension = 5;}},
-                    new AquaLegConfig(-10, -5, 90, 11){{legExtension = 5;}},
-                    new AquaLegConfig(10, -5, -90, 11){{legExtension = 5;}},
-                    new AquaLegConfig(0, -9, 180, 9){{legExtension = 5;}}
+                    new AquaLegConfig(4, 4, -22.5f, 11){{suffix = "-front";legExtension = 5;}},
+                    new AquaLegConfig(-6, 6, 22.5f, 11){{suffix = "-front";legExtension = 5;}},
+                    new AquaLegConfig(-10, -5, 110, 8){{legExtension = 5;}},
+                    new AquaLegConfig(10, -5, -110, 8){{legExtension = 5;}}
             );
         }};
         retaliate = new newTankUnitType("retaliate") {{

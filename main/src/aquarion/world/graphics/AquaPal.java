@@ -17,7 +17,7 @@ public class AquaPal {
 
         //base Palette
 
-        tantDarkestTone = Color.valueOf("232826"),
+        tantDarkestTone = Color.valueOf("11171c"),
                 tantDarkerTone = Color.valueOf("2f3734"),
                 tantDarkTone = Color.valueOf("444b49"),
                 tantMidTone = Color.valueOf("5f6b68"),
