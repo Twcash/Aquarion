@@ -14,6 +14,7 @@ public class AquaItems {
     public static Item pentlandite;
     public static Item magnesiumPowder;
     public static Item steel;
+    public static Item chalkalloy;
     public static Item acuminite;
     public static Item strontium;
     public static Item hexogen;
@@ -219,6 +220,9 @@ public class AquaItems {
         pentlandite = new Item("pentlandite", Color.valueOf("9a948b")){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             hardness = 2;
+        }};
+        chalkalloy = new Item("chalkalloy", Color.valueOf("#9dccba")) {{
+            cost = 1.1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
     }
 }

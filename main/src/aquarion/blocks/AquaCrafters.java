@@ -12,6 +12,7 @@ import aquarion.world.graphics.NewParticleEffect;
 import aquarion.world.graphics.drawers.*;
 import aquarion.world.type.AquaGenericCrafter;
 import aquarion.world.type.GroundDrill;
+import arc.func.Cons;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.math.Interp;
@@ -20,6 +21,7 @@ import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.Liquids;
 import mindustry.content.Planets;
+import mindustry.ctype.UnlockableContent;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.effect.RadialEffect;
@@ -34,14 +36,17 @@ import mindustry.world.Block;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.AttributeCrafter;
+import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.Pump;
 import mindustry.world.consumers.ConsumeItemExplode;
 import mindustry.world.consumers.ConsumeItemFlammable;
+import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.consumers.ConsumeLiquidFlammable;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
+import mindustry.world.modules.ItemModule;
 
 import static aquarion.AquaAttributes.iron;
 import static aquarion.AquaAttributes.metamorphic;
@@ -57,8 +62,10 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
-
+    public static Block chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
+        setter.get((T) target);
+    }
     public static void loadContent() {
         disableVanilla();
         magmaDiffser = new AquaGenericCrafter("magma-diffuser") {{
@@ -2210,6 +2217,34 @@ public class AquaCrafters {
             }}, new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"));
             size = 2;
         }};
+        chalkalloySmelter = new GenericCrafter("chalkalloy-smelter"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.crafting, with(copper, 60, lead, 45, silicon, 25));
+            consumeItems(ItemStack.with(copper, 2, lead, 3));
+            consumeLiquid(water, 0.2f);
+            liquidCapacity = 20;
+            itemCapacity = 25;
+            craftTime = 90;
+            outputItem = new ItemStack(chalkalloy, 4);
+            size = 2;
+            consumePower(1);
+            ambientSoundVolume = 0.06f;
+            ambientSound = Sounds.smelter;
+            craftEffect = Fx.mineBig;
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame());
+        }};
+        overwrite(Blocks.plastaniumCompressor, (GenericCrafter r) ->{
+            r.requirements = null;
+            r.requirements(Category.crafting, ItemStack.with(silicon, 120, chalkalloy, 60, graphite, 40));
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(ItemStack.with(chalkalloy, 2));
+        });
+        overwrite(Blocks.cryofluidMixer, (GenericCrafter r) ->{
+            r.requirements = null;
+            r.requirements(Category.crafting, ItemStack.with(silicon, 120, chalkalloy, 90, graphite, 40, metaglass, 60));
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(ItemStack.with(chalkalloy, 1));
+        });
     }
 
     public static void disableVanilla() {

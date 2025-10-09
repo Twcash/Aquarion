@@ -12,8 +12,10 @@ import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitFactory;
+import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
+import mindustry.world.modules.ItemModule;
 
 import static aquarion.AquaItems.*;
 import static aquarion.units.AquaUnitTypes.*;
@@ -137,17 +139,27 @@ public class AquaUnitFactories {
                 new UnitType[]{cog, tenon}
 
         ));
-        overwrite(Blocks.multiplicativeReconstructor, (Reconstructor r) -> r.upgrades.addAll(
+        overwrite(Blocks.multiplicativeReconstructor, (Reconstructor r) ->{
+            r.requirements = null;
+            r.requirements(Category.units, with(Items.lead, 650, Items.silicon, 450, chalkalloy, 350, plastanium, 650));
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(with(Items.silicon, 130, chalkalloy, 80, Items.metaglass, 40));
+            r.upgrades.addAll(
                 new UnitType[]{empusa, oratoria},
                 new UnitType[]{rime, verglas}
 
-        ));
-        overwrite(Blocks.exponentialReconstructor, (Reconstructor r) -> r.upgrades.addAll(
+        );});
+        overwrite(Blocks.exponentialReconstructor, (Reconstructor r) -> {
+            r.requirements = null;
+            r.requirements(Category.units, with(Items.lead, 2000, Items.silicon, 1000, chalkalloy, 2000, Items.plastanium, 450));
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(with(Items.silicon, 850, chalkalloy, 750, Items.plastanium, 650));
+            r.upgrades.addAll(
                 new UnitType[]{oratoria, rhombodera},
                 new UnitType[]{verglas, glaciate}
-
-        ));
-        overwrite(Blocks.exponentialReconstructor, (Reconstructor r) -> r.upgrades.addAll(
+        );
+        });
+        overwrite(Blocks.tetrativeReconstructor, (Reconstructor r) -> r.upgrades.addAll(
                 new UnitType[]{rhombodera, parasphendale},
                 new UnitType[]{glaciate, permafrost}
 

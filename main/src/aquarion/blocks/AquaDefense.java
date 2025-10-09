@@ -3,13 +3,16 @@ package aquarion.blocks;
 import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.graphics.AquaPal;
 import mindustry.content.Fx;
+import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.EmptyBulletType;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
+import mindustry.type.ItemStack;
 import mindustry.world.Block;
+import mindustry.world.blocks.defense.Wall;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
@@ -18,7 +21,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
-    public static Block zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+    public static Block chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
@@ -206,6 +209,15 @@ public class AquaDefense {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             researchCostMultiplier = 0.25f;
+        }};
+        chalkalloyWall = new Wall("chalkalloy-wall"){{
+            requirements(Category.defense, with(chalkalloy, 6));
+            health = 110 * 4;
+        }};
+        chalkalloyWallLarge = new Wall("chalkalloy-wall-large"){{
+            requirements(Category.defense, ItemStack.mult(chalkalloyWall.requirements, 4));
+            health = 110 * 4 * 4;
+            size = 2;
         }};
     }
 }

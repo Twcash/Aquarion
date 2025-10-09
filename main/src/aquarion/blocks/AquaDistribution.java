@@ -3,14 +3,26 @@ package aquarion.blocks;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
 import aquarion.world.blocks.payload.PayloadTram;
+import arc.func.Cons;
+import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.content.Items;
 import mindustry.content.Planets;
+import mindustry.ctype.ContentType;
+import mindustry.ctype.MappableContent;
+import mindustry.ctype.UnlockableContent;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.storage.Unloader;
+import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitCargoLoader;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint;
 import mindustry.world.meta.Env;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import static aquarion.AquaItems.*;
 import static aquarion.planets.AquaPlanets.*;
@@ -24,7 +36,9 @@ public class AquaDistribution {
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, exporter;
     public static Block cargoDepot, cargoDock;
-
+    public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
+        setter.get((T) target);
+    }
     public static void loadContent() {
         sealedConveyor = new SealedConveyor("sealed-conveyor") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -193,5 +207,15 @@ public class AquaDistribution {
             range = 8*15;
             size = 3;
         }};
+        overwrite(Blocks.titaniumConveyor, (Conveyor r) -> {
+            r.requirements = null;
+            r.requirements(Category.distribution, with(Items.copper, 1, Items.lead, 1, chalkalloy, 1));
+            Block conveyor = Vars.content.blocks().find(f -> f == Blocks.titaniumConveyor);
+
+            if (conveyor != null) {
+                Vars.content.blocks().find(f -> f == Blocks.titaniumConveyor).name.replace("titanium-conveyor","chalkalloy-conveyor");
+            }
+        });
+
     }
 }

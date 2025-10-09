@@ -7,6 +7,7 @@ import aquarion.AquaStatuses;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
+import arc.func.Cons;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Fill;
@@ -15,11 +16,13 @@ import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import mindustry.content.*;
+import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
 import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.WrapEffect;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.EffectSpawnerPart;
 import mindustry.entities.part.RegionPart;
@@ -29,10 +32,13 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
+import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.draw.DrawTurret;
+import mindustry.world.meta.BlockGroup;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.cupronickel;
@@ -51,8 +57,7 @@ import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
 import static arc.math.Interp.*;
 import static mindustry.content.Items.*;
-import static mindustry.content.Liquids.nitrogen;
-import static mindustry.content.Liquids.water;
+import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 import static mindustry.entities.part.DrawPart.PartProgress.charge;
 import static mindustry.entities.part.DrawPart.PartProgress.warmup;
@@ -60,9 +65,11 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
+    public static Block mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack, azimuth, condolence, grace;
-
+    public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
+        setter.get((T) target);
+    }
     public static void loadContent() {
         //1 by 1 turret that can be boosted hellishly beyond what it should be
         point = new ItemTurret("point") {{
@@ -2481,11 +2488,200 @@ public class AquaTurrets {
             }};
 
         }};
+        clobber = new ItemTurret("clobber"){{
+            requirements(Category.turret, with(copper, 120, lead, 90, graphite, 60));
+            size = 2;
+            ammoPerShot = 2;
+            reload = 45;
+            maxAmmo = 16;
+            shootSound = shootBig;
+            inaccuracy = 2;
+            range = 8*22;
+            shake = 0.5f;
+            scaledHealth = 200;
+            shootCone = 3f;
+            coolant = consumeCoolant(0.2f);
+            limitRange(1.2f);
+            ammoUseEffect = Fx.casing2;
+            ammo(
+                    lead, new BasicBulletType(4,140){{
+                        width = 10;
+                        height = 12;
+                        trailLength = 8;
+                        hitSize = 8;
+                        despawnShake = 0.25f;
+                        despawnSound = dullExplosion;
+                        hitSound = dullExplosion;
+                        despawnEffect = hitEffect = Fx.hitBulletBig;
+                        smokeEffect = Fx.shootBigSmoke;
+                        ammoMultiplier = 1;
+                        shootEffect = Fx.shootSmokeSquareSparse;
+                        frontColor = Color.white;
+                        backColor = trailColor = lightColor = hitColor = lead.color;
+                    }},
+                    chalkalloy, new BasicBulletType(4,200){{
+                        width = 10;
+                        height = 12;
+                        trailLength = 8;
+                        hitSize = 8;
+                        despawnShake = 0.25f;
+                        ammoMultiplier = 1;
+                        reloadMultiplier = 0.8f;
+                        despawnSound = dullExplosion;
+                        hitSound = dullExplosion;
+                        despawnEffect = hitEffect = Fx.hitBulletBig;
+                        smokeEffect = Fx.shootBigSmoke;
+                        shootEffect = Fx.shootSmokeSquareSparse;
+                        frontColor = Color.white;
+                        backColor = trailColor = lightColor = hitColor = chalkalloy.color;
+                    }}
+            );
+            drawer = new DrawTurret(){{
+                parts.addAll(new RegionPart("-barrel"){{
+                    mirror = false;
+                    moveY = -4;
+                    progress = PartProgress.reload;
+                    layerOffset = -.00001f;
+                    heatLayer = Layer.turret - 0.0001f;
+                    heatProgress = PartProgress.heat;
+                }});
+            }};
+        }};
+        mayhem = new LiquidTurret("mayhem"){{
+            requirements(Category.turret, with(copper, 90, metaglass, 60, silicon, 45));
+            loopSound = fire;
+            size = 2;
+            recoilTime = 90;
+            shootY = 2;
+            scaledHealth = 200;
+            shootSound = Sounds.none;
+            range = 8*19;
+            maxAmmo = 90;
+            inaccuracy = 6;
+            shoot.shots = 2;
+            liquidCapacity = 90;
+            ammoPerShot = 2;
+            reload = 4;
+            limitRange(new BasicBulletType(1.2f, 10){{
+                sprite = "circle";
+                puddleLiquid = oil;
+                velocityRnd = 0.03f;
+                makeFire = true;
+                puddles = 3;
+                puddleRange = 12;
+                puddleAmount = 10;
+                width = height = 5;
+                lifetime = 90;
+                status = burning;
+                frontColor = backColor = trailColor = lightColor = hitColor = Pal.lighterOrange;
+                trailInterval = 2;
+                trailLength = 9;
+                hitEffect = Fx.fireHit;
+                shootEffect = Fx.fireSmoke;
+                trailEffect = new MultiEffect(Fx.ballfire, Fx.fireballsmoke);
+            }}, 1.1f);
+            ammo(
+                    oil, new BasicBulletType(1.5f, 15){{
+                        sprite = "circle";
+                        puddleLiquid = oil;
+                        makeFire = true;
+                        width = height = 5;
+                        puddles = 3;
+                        puddleRange = 12;
+                        lifetime = 110;
+                        puddleAmount = 10;
+                        status = burning;
+                        frontColor = backColor = trailColor = lightColor = hitColor = Pal.lighterOrange;
+                        trailInterval = 2;
+                        trailLength = 9;
+                        hitEffect = Fx.fireHit;
+                        shootEffect = Fx.fireSmoke;
+                        trailEffect = new MultiEffect(Fx.ballfire, Fx.fireballsmoke);
+                    }}
+            );
+            drawer = new DrawTurret(){{
+                for(int i = 0; i < 2; i ++){
+                    int finalI = i;
+                    parts.add(new RegionPart("-barrel-" + (finalI == 0 ? "l" : "r")){{
+                        progress = warmup;
+                        under = true;
+                        xScl = (finalI == 0) ? -1 : 1;
+                        moveY = -1f;
+                        moveX = (finalI == 1) ? -1 : 1;
+                        moveRot = (finalI == 1) ? 7 : -7;
+                    }});
+                }
+            }};
+        }};
+        illustrate = new ItemTurret("illustrate"){{
+            requirements(Category.turret, with(silicon, 120, chalkalloy, 110, graphite, 80, lead, 100));
+            reload = 15;
+            shoot = new ShootAlternate(6){{
+            }};
+            recoils = 2;
+            recoil = 2;
+            recoilTime = 12;
+            targetGround = false;
+            ammoUseEffect = Fx.casing1;
+            range = 8*35f;
+            limitRange(1.1f);
+            size = 3;
+            scaledHealth = 250;
+            consumeCoolant(0.3f);
+            inaccuracy = 12;
+            shootSound = shotgun;
+            soundPitchMax = 0.6f;
+            soundPitchMin = 0.4f;
+            ammo(
+                    metaglass, new EmptyBulletType(){{
+                        instantDisappear = true;
+                        fragOffsetMin = 0;
+                        fragOffsetMax = 0;
+                        fragRandomSpread = 15f;
+                        fragLifeMin = 1;
+                        fragLifeMax = 1;
+                        fragVelocityMax = 1.1f;
+                        fragVelocityMin = 1;
+                        fragBullets = 4;
+                        fragBullet = new BasicBulletType(4, 30){{
+                            width = height = 6;
+                            velocityRnd = 0.1f;
+                            lifetime = 80;
+                            splashDamage = 25;
+                            splashDamageRadius = 16;
+                            frontColor = Color.white;
+                            backColor = hitColor = lightColor = Pal.gray;
+                            collidesGround = false;
+                            ammoMultiplier = 5;
+                        }};
+                    }},
+                    cupronickel, new BasicBulletType(2.5f, 80){{
+                        width = height = 6;
+                        frontColor = Color.white;
+                        ammoMultiplier = 3;
+                        backColor = hitColor = lightColor = Pal.gray;
+                        collidesGround = false;
+                    }}
+            );
+            drawer = new DrawTurret(){{
+                for(int i = 0; i < 2; i ++){
+                    int finalI = i;
+                    parts.add(new RegionPart("-barrel-" + (finalI == 0 ? "l" : "r")){{
+                        progress = PartProgress.recoil;
+                        under = true;
+                        recoilIndex = finalI;
+                        xScl = (finalI == 0) ? -1 : 1;
+                        moveY = -5f;
+                    }});
+                }
+            }};
+        }};
         maelstrom = new LiquidTurret("maelstrom") {{
             shoot.shotDelay = 2;
             shoot.shots = 5;
             ammoPerShot = 2;
             inaccuracy = 25;
+            extinguish = false;
             liquidCapacity = 200;
             reload = 2;
             outlineColor = tantDarkestTone;
@@ -2902,5 +3098,30 @@ public class AquaTurrets {
                 pierceCap = 4;
             }};
         }};
+        overwrite(Blocks.ripple, (ItemTurret r) -> {
+            r.requirements = null;
+            r.requirements(Category.turret, ItemStack.with(Items.copper, 150, Items.graphite, 135, chalkalloy, 60));
+                }
+        );
+        overwrite(Blocks.fuse, (ItemTurret r) -> {
+            r.ammoTypes = null;
+            float brange = r.range + 10f;
+            r.ammo(
+                    chalkalloy, new ShrapnelBulletType(){{
+                        length = brange;
+                        damage = 66f;
+                        ammoMultiplier = 4f;
+                        width = 17f;
+                        reloadMultiplier = 1.3f;
+                    }},
+                    steel, new ShrapnelBulletType(){{
+                        length = brange;
+                        damage = 105f;
+                        ammoMultiplier = 5f;
+                        toColor = Color.gray;
+                        shootEffect = smokeEffect = Fx.thoriumShoot;
+                    }}
+            );
+        });
     }
 }
