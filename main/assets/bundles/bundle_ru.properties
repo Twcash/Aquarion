@@ -563,6 +563,8 @@ threat.high = [#a9fff0]Odd[]
 threat.extreme = [#b4e77b]Noteworthy[]
 threat.eradication = [#a9fff0]Aberration...[]
 
+block.titanium-conveyor.name = Alloy Conveyor
+
 hint.aquarion-ammo = Although some turrets require higher tier materials it is advised to look into their ammo consumption.\nTurrets such as the [accent]pelt[] Consume a large amount of ammunition per shot.
 hint.aquarion-outposts = Some sectors will contain enemy outposts. Most of these will produce units after a set amount of time.\nApon sector victory these bases will self-destruct.
 hint.aquarion-boosting = A large amount of production and crafting related blocks can accept boosters.\nUse the [accent]?[] menu to understand which boosters a block can take.
