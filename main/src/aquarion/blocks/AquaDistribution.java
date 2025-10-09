@@ -2,6 +2,7 @@ package aquarion.blocks;
 
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
+import aquarion.world.blocks.payload.PayloadTram;
 import mindustry.content.Planets;
 import mindustry.type.Category;
 import mindustry.world.Block;
@@ -18,7 +19,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDistribution {
-    public static Block sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
+    public static Block payloadTram, sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
             electrumConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, exporter;
@@ -186,6 +187,11 @@ public class AquaDistribution {
             consumePower(1f / 60f);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+        }};
+        payloadTram = new PayloadTram("payload-tram"){{
+            requirements(Category.distribution, with(silicon, 3));
+            range = 8*15;
+            size = 3;
         }};
     }
 }
