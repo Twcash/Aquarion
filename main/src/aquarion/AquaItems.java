@@ -14,6 +14,7 @@ public class AquaItems {
     public static Item pentlandite;
     public static Item magnesiumPowder;
     public static Item steel;
+    public static Item minium;
     public static Item chalkalloy;
     public static Item acuminite;
     public static Item strontium;
@@ -73,6 +74,9 @@ public class AquaItems {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             cost = 1.1f;
             magnetism = 1;
+        }};
+        minium = new AquaItem("minium", Color.valueOf("#5f4b60")) {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         chirenium = new Item("chirenium", Color.valueOf("b2acb5")){{
             cost = 3;

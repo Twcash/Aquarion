@@ -1,6 +1,7 @@
 package aquarion.blocks;
 
 import aquarion.AquaSounds;
+import aquarion.world.blocks.power.GenericGenerator;
 import aquarion.world.blocks.power.HeatGenerator;
 import aquarion.world.blocks.power.PowerOutlet;
 import aquarion.world.blocks.power.PowerPylon;
@@ -11,6 +12,7 @@ import mindustry.content.Fx;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
+import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.power.*;
@@ -23,10 +25,11 @@ import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
+import static mindustry.graphics.Layer.power;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
+    public static Block leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent() {
         solarGenerator = new SolarGenerator("solar-generator") {{
@@ -48,9 +51,24 @@ public class AquaPower {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
+        leadBurner = new GenericGenerator("lead-burner"){{
+            requirements(Category.power, with(lead, 70, copper, 80));
+            consumeLiquid(air, 1/3f);
+            consumeItem(lead, 1);
+            itemDuration = 60;
+            liquidCapacity = 20;
+            powerProduction = 0.5f;
+            conductivePower = false;
+            insulated = true;
+            size = 2;
+            squareSprite = false;
+            outputItem = new ItemStack(minium, 1);
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
+                layer = shadow;
+            }}, new DrawDefault(), new DrawLiquidTile(air, 2), new DrawBlurFadeRegion("-rotator", 2), new DrawRegion("-top"));
+        }};
         hydroxideReactor = new HeaterGenerator("hydroxide-reactor") {{
             requirements(Category.power, with(ferricMatter, 500, silicon, 1200, copper, 900, graphite, 500));
-            powerProduction = 25;
             size = 7;
             squareSprite = false;
             outputLiquid = new LiquidStack(hydrogen, 2);
@@ -59,6 +77,9 @@ public class AquaPower {
             liquidCapacity = 1200;
             ambientSound = AquaSounds.derrick;
             ambientSoundVolume = 0.06f;
+            insulated = true;
+            conductivePower = false;
+            powerProduction = 25;
             consumeLiquids(LiquidStack.with(hydroxide, 8.5, water, 4.25));
             insulated = true;
             generateEffectRange = 7 * 8 / 2f;
