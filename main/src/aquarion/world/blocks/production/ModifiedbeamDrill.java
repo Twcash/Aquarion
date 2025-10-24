@@ -1,5 +1,6 @@
 package aquarion.world.blocks.production;
 
+import aquarion.world.Uti.AquaStats;
 import arc.Core;
 import arc.graphics.Blending;
 import arc.graphics.Color;
@@ -24,6 +25,8 @@ import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.StaticWall;
 import mindustry.world.blocks.environment.TallBlock;
 import mindustry.world.blocks.production.BeamDrill;
+import mindustry.world.consumers.Consume;
+import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.consumers.ConsumeLiquidBase;
 import mindustry.world.meta.Stat;
@@ -37,6 +40,8 @@ public class ModifiedbeamDrill extends BeamDrill {
     public @Nullable Item blockedItem;
     /** Special exemption items that this drill can't mine. */
     public @Nullable Seq<Item> blockedItems;
+    public float itemBoostIntensity, liquidBoostIntensity = 1.5f;
+    public float itemBoostUseTime = 60;
     @Override
     public void load() {
         super.load();
@@ -64,15 +69,15 @@ public class ModifiedbeamDrill extends BeamDrill {
                         (b instanceof StaticWall w && w.itemDrop != null && w.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(w.itemDrop)) ||
                                 (b instanceof TallBlock d && d.itemDrop != null && d.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(d.itemDrop)))
         )));
-
-        stats.add(Stat.drillSpeed, 60f / drillTime * size, StatUnit.itemsSecond);
-
-        if(optionalBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase){
+        if (itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni) {
             stats.remove(Stat.booster);
+            stats.add(Stat.booster, AquaStats.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, itemBoostUseTime));
+        }
+        if (liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase) {
             stats.add(Stat.booster,
                     StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
                             consBase.amount,
-                            optionalBoostIntensity * optionalBoostIntensity, false,  liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid)consBase).liquid == liquid)
+                            liquidBoostIntensity * liquidBoostIntensity, false, liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
             );
         }
     }
@@ -80,7 +85,23 @@ public class ModifiedbeamDrill extends BeamDrill {
         super(name);
     }
     public class ModifiedBeamDrillBuild extends BeamDrillBuild{
+        @Override
+        public void updateTile(){
+            super.updateTile();
+            float liquidEff = 0f;
+            float itemEff = 0f;
 
+            Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
+            if (liquidBooster != null) liquidEff = liquidBooster.efficiency(this);
+
+            Consume itemBooster = findConsumer(c -> c instanceof ConsumeItems && c.booster);
+            if (itemBooster != null) itemEff = itemBooster.efficiency(this);
+
+            float speed = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
+                    Mathf.lerp(1f, itemBoostIntensity, itemEff) *
+                    efficiency;
+            lastDrillSpeed *= speed;
+        }
         @Override
         public void draw(){
             Draw.rect(block.region, x, y);

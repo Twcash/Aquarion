@@ -327,19 +327,17 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             if(hasHeat){
                 heat = calculateHeat(sideHeat);
             }
+            float liquidEff = 0f, itemEff = 0f;
+            Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
+            if(liquidBooster != null) liquidEff = liquidBooster.efficiency(this);
+            Consume itemBooster = findConsumer(c -> c instanceof ConsumeItems && c.booster);
+            if(itemBooster != null) itemEff = itemBooster.efficiency(this);
 
+            float speed = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
+                    Mathf.lerp(1f, itemBoostIntensity, itemEff) *
+                    efficiency;
+            efficiency *= speed;
             if(efficiency > 0){
-                // boosters + crafting speed
-                float liquidEff = 0f, itemEff = 0f;
-                Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
-                if(liquidBooster != null) liquidEff = liquidBooster.efficiency(this);
-                Consume itemBooster = findConsumer(c -> c instanceof ConsumeItems && c.booster);
-                if(itemBooster != null) itemEff = itemBooster.efficiency(this);
-
-                float speed = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
-                        Mathf.lerp(1f, itemBoostIntensity, itemEff) *
-                        efficiency;
-
                 warmup = Mathf.approachDelta(warmup, speed > 0 ? 1f : 0f, warmupSpeed);
                 progress += getProgressIncrease(craftTime);
 

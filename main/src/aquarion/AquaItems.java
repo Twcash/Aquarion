@@ -132,7 +132,7 @@ public class AquaItems {
             cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             magnetism = 0.5f;
         }};
-        polymer = new AquaItem("polymer", Color.valueOf("#eaeadf")) {{
+        polymer = new Item("polymer", Color.valueOf("#eaeadf")) {{
             cost = 1.3f;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};

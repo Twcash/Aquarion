@@ -1147,6 +1147,8 @@ public class AquaCrafters {
             liquidCapacity = 600;
             craftTime = 120;
             consumeItems(new ItemStack(lead, 10), new ItemStack(sand, 10));
+            consumeItem(minium, 2).boost();
+            itemBoostIntensity = 2;
             outputItem = new ItemStack(metaglass, 15);
             updateEffect = Fx.coalSmeltsmoke;
             craftEffect = new SeqEffect() {{
@@ -2092,7 +2094,7 @@ public class AquaCrafters {
         }};
         ultrafamicRefinery = new AquaGenericCrafter("ultramafic-refinery") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(cupronickel, 700, metaglass, 500, silicon, 2000, polymer, 800));
+            requirements(Category.crafting, with(cupronickel, 700, metaglass, 500, silicon, 2000, polymer, 400));
             size = 7;
             squareSprite = false;
             itemCapacity = 200;
@@ -2105,8 +2107,8 @@ public class AquaCrafters {
             outputLiquids = LiquidStack.with(hydroxide, 4.25);
             outputItems = new ItemStack[]{
                     new ItemStack(sand, 4),
-                    new ItemStack(aluminum, 2),
-                    new ItemStack(ferricMatter, 8),
+                    new ItemStack(aluminum, 5),
+                    new ItemStack(ferricMatter, 7),
                     new ItemStack(nickel, 6),
                     new ItemStack(magnesiumPowder, 10)
             };

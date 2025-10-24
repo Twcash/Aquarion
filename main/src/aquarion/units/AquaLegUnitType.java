@@ -1,6 +1,5 @@
 package aquarion.units;
 
-import aquarion.gen.AquaLegsUnit;
 import aquarion.gen.AquaLegsc;
 import aquarion.world.entities.AquaLeg;
 import aquarion.world.entities.AquaLegConfig;
@@ -141,18 +140,19 @@ public class AquaLegUnitType extends UnitType {
 
         Draw.reset();
     }
-    @Override
-    public void createIcons(MultiPacker packer){
-        super.createIcons(packer);
-        for(AquaLegConfig cfg : legSequence) {
-            if(cfg.suffix == null) continue;
-            Seq<TextureRegion> outlineSeq = Seq.with(cfg.footRegion, cfg.legRegion, cfg.legBaseRegion, cfg.jointRegion, cfg.baseJointRegion);
-            for (var outlineTarget : outlineSeq) {
-                if (!outlineTarget.found()) continue;
-                makeOutline(MultiPacker.PageType.main, packer, outlineTarget, alwaysCreateOutline && region == outlineTarget, outlineColor, outlineRadius);
-            }
-        }
-    }
+    //Crash related to unit icons. Spoopy;
+//    @Override
+//    public void createIcons(MultiPacker packer){
+//        for(AquaLegConfig cfg : legSequence) {
+//            if(cfg.suffix == null) continue;
+//            Seq<TextureRegion> outlineSeq2 = Seq.with(cfg.footRegion, cfg.legRegion, cfg.legBaseRegion, cfg.jointRegion, cfg.baseJointRegion);
+//            for (var outlineTarget : outlineSeq2) {
+//                if (!outlineTarget.found()) continue;
+//                makeOutline(MultiPacker.PageType.main, packer, outlineTarget, alwaysCreateOutline && region == outlineTarget, outlineColor, outlineRadius);
+//            }
+//        }
+//        super.createIcons(packer);
+//    }
     @Override
     public void load(){
         super.load();

@@ -111,7 +111,7 @@ public class EntityProcessor extends BaseProcessor{
                     toComp(Bulletc.class), "bullet",
                     toComp(Unitc.class), "unit",
                     toComp(Buildingc.class), "build",
-                    toComp(Syncc.class), "sync",
+                    //toComp(Syncc.class), "sync",
                     toComp(Drawc.class), "draw",
                     toComp(Firec.class), "fire",
                     toComp(Puddlec.class), "puddle"

@@ -2149,6 +2149,8 @@ public class AquaUnitTypes {
                 x = 0;
                 y = 0;
                 recoil = 3;
+                shootStatus = StatusEffects.slow;
+                shootStatusDuration = 160;
                 shootSound = Sounds.shootAltLong;
                 shootY = 4;
                 reload = 160;
