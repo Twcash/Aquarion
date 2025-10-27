@@ -25,34 +25,39 @@ import static mindustry.Vars.tree;
 public class AquaShaders {
     public static PlanetShader planet;
 
-    public static @Nullable SurfaceShader brine, shadow, heat;
+    public static @Nullable SurfaceShader brine, shadow, heat, beamPit;
     public static @Nullable deflectorShader deflectorShield;
     public static @Nullable GlitchShader glitch;
-    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer, deflecterLayer;
+    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer, deflecterLayer, beamPitLayer;
     public static Fi file(String name){
         return Core.files.internal("shaders/" + name);
     }
 
 
-public static void init(){
+public static void init() {
 
     planet = new PlanetShader();
-        brine = new SurfaceShader("brine");
-        shadow = new SurfaceShader("shadow");
-        heat = new SurfaceShader("heat");
-        glitch = new GlitchShader("glitch");
+    brine = new SurfaceShader("brine");
+    shadow = new SurfaceShader("shadow");
+    heat = new SurfaceShader("heat");
+    beamPit = new SurfaceShader("beamPit");
+    glitch = new GlitchShader("glitch");
+
     deflectorShield = new deflectorShader();
-        shadowLayer = new CacheLayer.ShaderLayer(shadow);
-        brineLayer = new CacheLayer.ShaderLayer(brine);
-        heatLayer = new CacheLayer.ShaderLayer(heat);
-    glitchLayer= new CacheLayer.ShaderLayer(glitch);
-    deflecterLayer= new CacheLayer.ShaderLayer(deflectorShield);
-        CacheLayer.addLast(brineLayer);
-    }
+    shadowLayer = new CacheLayer.ShaderLayer(shadow);
+    beamPitLayer = new CacheLayer.ShaderLayer(beamPit);
+    brineLayer = new CacheLayer.ShaderLayer(brine);
+    heatLayer = new CacheLayer.ShaderLayer(heat);
+    glitchLayer = new CacheLayer.ShaderLayer(glitch);
+    deflecterLayer = new CacheLayer.ShaderLayer(deflectorShield);
+    CacheLayer.addLast(brineLayer);
+    CacheLayer.addLast(beamPitLayer);
+}
 
     public static void dispose(){
         if (!Vars.headless) {
             brine.dispose();
+            beamPit.dispose();
         }
     }
 

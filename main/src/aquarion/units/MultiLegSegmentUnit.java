@@ -5,10 +5,12 @@ import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.PixmapRegion;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
+import arc.util.Log;
 import arc.util.Tmp;
 import mindustry.entities.Leg;
 import mindustry.gen.Legsc;
@@ -54,28 +56,39 @@ public class MultiLegSegmentUnit extends UnitType {
     }
 
 
-    @Override
-    public void createIcons(MultiPacker packer) {
-        super.createIcons(packer);
-
-        for (int i = 0; i < legSegments; i++) {
-            String segmentName = String.format("%s-leg-%d", this.name, i + 1);
-            if (!Core.atlas.has(segmentName + "-outline")) {
-                Pixmap outlined = Pixmaps.outline(Core.atlas.getPixmap(Core.atlas.find(segmentName)), outlineColor, outlineRadius);
-
-                Drawf.checkBleed(outlined);
-
-                packer.add(MultiPacker.PageType.main, segmentName + "-outline", outlined);
-                outlined.dispose();
-            }
-        }
-
-        for (Weapon weapon : weapons) {
-            if (!weapon.name.isEmpty() && (minfo.mod == null || weapon.name.startsWith(minfo.mod.name))) {
-                makeOutline(packer, weapon.region, weapon.name + "-outline", outlineColor, outlineRadius);
-            }
-        }
-    }
+//    @Override
+//    public void createIcons(MultiPacker packer) {
+//        super.createIcons(packer);
+//
+//        for (int i = 0; i < legSegments; i++) {
+//            String segmentName = name + "-leg-" + (i + 1);
+//            if (!Core.atlas.has(segmentName + "-outline")) {
+//                var region = Core.atlas.find(segmentName);
+//
+//                // sanity check
+//                if (region == Core.atlas.find("error") || region.width <= 0 || region.height <= 0) {
+//                    Log.err("Missing or invalid leg segment sprite for unit @: @", name, segmentName);
+//                    continue;
+//                }
+//
+//                PixmapRegion base = Core.atlas.getPixmap(region);
+//                if (base == null) {
+//                    Log.err("Null pixmap for region @ in unit @", segmentName, name);
+//                    continue;
+//                }
+//
+//                Pixmap outlined = Pixmaps.outline(base, outlineColor, outlineRadius);
+//                Drawf.checkBleed(outlined);
+//                packer.add(MultiPacker.PageType.main, segmentName + "-outline", outlined);
+//                outlined.dispose();
+//            }
+//        }
+//        for (Weapon weapon : weapons) {
+//            if (!weapon.name.isEmpty() && (minfo.mod == null || weapon.name.startsWith(minfo.mod.name))) {
+//                makeOutline(packer, weapon.region, weapon.name + "-outline", outlineColor, outlineRadius);
+//            }
+//        }
+//    }
     @Override
     public <T extends Unit & Legsc> void drawLegs(T unit) {
         applyColor(unit);
@@ -91,42 +104,29 @@ public class MultiLegSegmentUnit extends UnitType {
             int flips = Mathf.sign(flip);
             Segment[] segments = generateSegments(basePosition, targetPosition);
 
-            // Draw each segment starting from the joint
             for (int j = 0; j < segments.length - 1; j++) {
                 int f = (j % 2 == 0 ? j/2 : legs.length - 1 - j/2);
                 Segment segmentA = segments[j];
                 Segment segmentB = segments[j + 1];
 
-                // Texture region for the segment and its outline
                 TextureRegion segmentSprite = segmentSprites[j % legSegments];
                 TextureRegion segmentOutline = segmentSpritesOutline[j % legSegments];
 
-                // Calculate the angle between the two segments
                 float angle = segmentA.position.angleTo(segmentB.position);
 
-                // Midpoint between segments for drawing the texture
                 Vec2 midPosition = Tmp.v1.set(segmentA.position).add(segmentB.position).scl(0.5f);
 
-                // Adjust the line stroke based on the current segment's length
                 float segmentDistance = segmentA.position.dst(segmentB.position);
                 float lineStroke = Math.min(segmentDistance / segmentLength, 1f); // Adjust stroke based on distance
-
-                // Draw the outline if it exists
                 if (segmentOutline.found()) {
                     Draw.rect(segmentOutline, midPosition.x, midPosition.y, angle);
                 }
-
-                // Set the stroke width dynamically based on distance
-                Lines.stroke(lineStroke);  // Adjust line width based on distance
+                Lines.stroke(lineStroke);
                 Lines.line(segmentSprite, segmentA.position.x, segmentA.position.y, segmentB.position.x, segmentB.position.y, false);
-
-                // Optionally draw a joint sprite at the position of each segment's joint
                 if (jointRegion.found()) {
                     Draw.rect(jointRegion, segmentA.position.x, segmentA.position.y);
                 }
             }
-
-            // Draw the foot of the leg (the last segment in the leg)
             if (footRegion.found()) {
                 Segment lastSegment = segments[segments.length - 1];
                 Draw.rect(footRegion, lastSegment.position.x, lastSegment.position.y, basePosition.angleTo(targetPosition));

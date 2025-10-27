@@ -3,14 +3,12 @@ package aquarion.blocks;
 import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaLiquids;
-import aquarion.world.blocks.environment.NonRandomTreeBlock;
-import aquarion.world.blocks.environment.FloraBlock;
-import aquarion.world.blocks.environment.TiledFloor;
-import aquarion.world.blocks.environment.rokBlock;
+import aquarion.world.blocks.environment.*;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaShaders;
 import arc.func.Cons;
 import arc.graphics.Color;
+import arc.math.Mathf;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.Items;
@@ -36,7 +34,7 @@ public class AquaEnv {
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
-    public static Block azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
+    public static Block plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, floor1, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
@@ -710,6 +708,24 @@ public class AquaEnv {
         fertileSoil = new Floor("fertile-soil", 3) {{
             attributes.set(AquaAttributes.fertility, 1.5f);
         }};
-
+        plates1 = new Floor("plates"){{
+            autotile = true;
+            variants = 0;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        plates4 = new Floor("plates4"){{
+            autotile = true;
+            variants = 0;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        metalGrating = new Floor("metal-grating") {{
+            variants = 0;
+            tilingVariants = 1;
+            tilingSize = 4;
+            drawEdgeIn = drawEdgeOut = false;
+            cacheLayer = AquaShaders.beamPitLayer;
+        }};
+        metalPlates = new GreedyFloor("metal-plates", 3, 2){{
+        }};
     }
 }
