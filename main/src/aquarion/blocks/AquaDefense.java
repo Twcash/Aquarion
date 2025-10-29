@@ -13,15 +13,18 @@ import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.Wall;
+import mindustry.world.blocks.production.Drill;
+import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
 import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.*;
+import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class AquaDefense {
-    public static Block chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+    public static Block defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
@@ -219,5 +222,18 @@ public class AquaDefense {
             health = 110 * 4 * 4;
             size = 2;
         }};
+        smallDefunctWall = new Wall("defunct-wall-small"){{
+            size = 1;
+            health = 200;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            category = Category.defense;
+        }};
+        defunctWall = new Wall("defunct-wall"){{
+            size = 2;
+            health = 800;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            category = Category.defense;
+        }};
+
     }
 }

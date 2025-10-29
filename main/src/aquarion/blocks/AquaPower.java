@@ -16,7 +16,10 @@ import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.power.*;
+import mindustry.world.blocks.production.Drill;
+import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.draw.*;
+import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.*;
@@ -29,7 +32,7 @@ import static mindustry.graphics.Layer.power;
 import static mindustry.type.ItemStack.with;
 
 public class AquaPower {
-    public static Block leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
+    public static Block defunctGenerator, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent() {
         solarGenerator = new SolarGenerator("solar-generator") {{
@@ -50,6 +53,25 @@ public class AquaPower {
                 alpha = 0.4f;
                 color = Color.valueOf("f5c5aa");
             }});
+        }};
+        defunctNode = new PowerNode("defunct-node"){{
+            consumesPower = outputsPower = true;
+            consumePowerBuffered(500);
+            health = 200;
+            laserRange = 8;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            category = Category.power;
+        }};
+
+        defunctGenerator = new PowerSource("defunct-generator"){{
+            size = 2;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            category = Category.power;
+            powerProduction = 4;
+            baseExplosiveness = 2;
+            maxNodes = 10;
+            maxRange = 1;
+            laserRange = 1;
         }};
         leadBurner = new GenericGenerator("lead-burner"){{
             requirements(Category.power, with(lead, 70, copper, 80));

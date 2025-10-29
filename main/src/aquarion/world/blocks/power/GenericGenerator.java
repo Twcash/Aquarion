@@ -22,9 +22,7 @@ public class GenericGenerator extends ConsumeGenerator {
     public void setStats(){
         stats.timePeriod = itemDuration;
         super.setStats();
-        if((hasItems && itemCapacity > 0) || outputItems != null){
-            stats.add(Stat.productionTime, itemDuration / 60f, StatUnit.seconds);
-        }
+        stats.remove(Stat.productionTime);
 
         if(outputItems != null){
             stats.add(Stat.output, StatValues.items(itemDuration, outputItems));

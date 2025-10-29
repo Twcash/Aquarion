@@ -39,6 +39,7 @@ import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.BlockGroup;
+import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.AquaItems.cupronickel;
@@ -65,7 +66,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaTurrets {
-    public static Block mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
+    public static Block nostalgia, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack, azimuth, condolence, grace;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -3123,5 +3124,31 @@ public class AquaTurrets {
                     }}
             );
         });
+        nostalgia = new PowerTurret("nostalgia"){{
+            size = 2;
+            category = Category.turret;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            range = 190;
+            consumePower(5);
+            consumeCoolant(0.2f);
+
+            reload = 20;
+            ammoUseEffect = Fx.casing1;
+            inaccuracy = 7;
+            outlineColor = Color.valueOf("2d2e37");
+            shootSound = shootAlt;
+            shootType = new BasicBulletType(5, 15, "missile"){{
+                trailLength = 14;
+                width = 6;
+                height = 8;
+                frontColor = Color.white;
+                backColor = Pal.berylShot;
+                shootEffect = Fx.shootSmallColor;
+                smokeEffect = Fx.shootSmallSmoke;
+                homingDelay = 5;
+                homingPower = 0.03f;
+                homingRange = 20;
+            }};
+        }};
     }
 }

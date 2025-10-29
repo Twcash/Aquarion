@@ -1,29 +1,38 @@
 package aquarion.world.blocks.environment;
 
+import aquarion.world.graphics.Renderer;
 import arc.Core;
 import arc.Events;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
 import arc.struct.ObjectMap;
+import arc.util.Time;
 import mindustry.Vars;
+import mindustry.content.Blocks;
+import mindustry.content.Fx;
+import mindustry.entities.Effect;
 import mindustry.game.EventType;
 import mindustry.world.Tile;
 import mindustry.world.blocks.environment.Floor;
+
+import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
-
+//TODO This can work with non-square blocks. I could also add the ability for shape variants
 public class GreedyFloor extends Floor {
-    //Honestly scared to remove one. I already forgot what they do and it's 2Am.
-    public int maxPower = 2;
     public int maxSize = 2;
-
+    public Effect effect = Fx.none;
+    public Color effectColor = Color.white;
+    public boolean[][] claimed;
+    public float effectSpacing = 60;
     public ObjectMap<Integer, TextureRegion[]> sizeRegions = new ObjectMap<>();
-    public GreedyFloor(String name, int variants, int maxPower){
+
+    public GreedyFloor(String name, int variants, int maxSize){
         super(name, variants);
-        this.maxPower = maxPower;
-        this.maxSize = 1 << maxPower;
+        this.maxSize = maxSize;
     }
     private final ObjectMap<Integer, Anchor> anchorMap = new ObjectMap<>();
 
@@ -34,25 +43,54 @@ public class GreedyFloor extends Floor {
             this.size = size; this.variant = variant;
         }
     }
+    @Override
+    public boolean updateRender(Tile tile){
+        if(Vars.state.isEditor() && !built){
+            buildAnchorMap();
+        }
+        return true;
+    }
+    @Override
+    public void init(){
+        super.init();
 
+        Events.on(EventType.WorldLoadEvent.class, e -> {
+            built = false;
+        });
+        Events.on(EventType.TileFloorChangeEvent.class, e -> {
+            if(e.tile != null && e.tile.floor() == this){
+                Time.run(1f, () -> {built = false;anchorMap.clear();});//BAD
+            }
+        });
+    }
+    @Override
+    public void renderUpdate(UpdateRenderState state){
+        if( (state.data += Time.delta) >= 120){
+            built = false;
+        }
+        if(state.tile.nearby(-1, -1) != null && state.tile.block() == Blocks.air && (state.data += Time.delta) >= effectSpacing){
+            Anchor a = anchorMap.get(posKey(state.tile.x, state.tile.y));
+            if(a==null) return;
+            if (claimed[a.tx][a.ty]) {
+                float wx = (a.tx + a.size / 2f) * tilesize-tilesize;
+                float wy = (a.ty + a.size / 2f) * tilesize-tilesize;
+                effect.at(wx, wy, effectColor);
+            }
+            state.data = 0f;
+        }
+    }
     public GreedyFloor(String name, int variants){
         super(name);
         this.variants = Math.max(1, variants);
     }
-
     @Override
     public void load(){
         super.load();
-
-        this.maxSize = 1 << this.maxPower;
-
         sizeRegions.clear();
         for(int size = 1; size <= maxSize; size++){
             TextureRegion[] regs = new TextureRegion[variants];
             for(int v = 0; v < variants; v++){
-                // Try variant first
                 TextureRegion found = Core.atlas.find(name + "-" + size + "-" + v);
-                // Fallback to no-variant texture
                 if(!found.found()) found = Core.atlas.find(name + "-" + size);
                 regs[v] = found.found() ? found : null;
             }
@@ -68,31 +106,27 @@ public class GreedyFloor extends Floor {
         anchorMap.clear();
         int w = Vars.world.width();
         int h = Vars.world.height();
-        boolean[][] claimed = new boolean[w][h];
-
-        // Loop over all tiles in the world
+        boolean[][] claimeds = new boolean[w][h];
+        claimed = claimeds;
         for(int y = 0; y < h; y++){
             for(int x = 0; x < w; x++){
-                if(claimed[x][y]) continue;
+                if(claimeds[x][y]) continue;
 
                 Tile tile = Vars.world.tile(x, y);
                 if(tile == null || tile.floor() != this) continue;
-
-                // <-- REPLACE THE OLD POWER LOOP WITH THIS -->
-                int maxSize = this.maxSize; // largest possible square
+                int maxSize = this.maxSize;
                 for(int size = maxSize; size >= 1; size--){
-                    if(regionMatches(x, y, size, claimed)){
+                    if(regionMatches(x, y, size, claimeds)){
                         int variant = pickRegion(x, y);
                         Anchor a = new Anchor(x, y, size, variant);
 
-                        // Mark all tiles in this region as claimed
                         for(int yy = y; yy < y + size; yy++){
                             for(int xx = x; xx < x + size; xx++){
                                 anchorMap.put(posKey(xx, yy), a);
-                                claimed[xx][yy] = true;
+                                claimeds[xx][yy] = true;
                             }
                         }
-                        break; // done with this anchor
+                        break;
                     }
                 }
             }
@@ -122,7 +156,10 @@ public class GreedyFloor extends Floor {
     }
     @Override
     public void drawBase(Tile tile){
-        Events.on(EventType.WorldLoadEvent.class, t-> built = false);
+        drawOverlay(tile);
+        if(Vars.state.isEditor() && !built){
+            buildAnchorMap();
+        }
         ensureAnchorMap();
         Anchor a = anchorMap.get(posKey(tile.x, tile.y));
         if(a == null) return;
@@ -134,6 +171,8 @@ public class GreedyFloor extends Floor {
         float drawSize = a.size * 8f;
         float cx = tile.worldx() + (drawSize - 8f)/2f;
         float cy = tile.worldy() + (drawSize - 8f)/2f;
+        Draw.z(Renderer.Layer.floor-1);
         Draw.rect(reg, cx, cy, drawSize, drawSize);
+        Draw.reset();
     }
     }

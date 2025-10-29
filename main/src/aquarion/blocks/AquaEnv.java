@@ -14,8 +14,11 @@ import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.ctype.UnlockableContent;
+import mindustry.game.Team;
+import mindustry.game.Teams;
 import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
+import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
@@ -34,7 +37,7 @@ public class AquaEnv {
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
-    public static Block plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
+    public static Block floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, floor1, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
@@ -710,22 +713,70 @@ public class AquaEnv {
         }};
         plates1 = new Floor("plates"){{
             autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+            emitLight = true;
+            lightRadius = 30f;
+            lightColor = Team.crux.color.cpy().a(0.1f);
+        }};
+        plates2 = new Floor("metal-plates2"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        plates3 = new Floor("metal-plates3"){{
+            autotile = true;
             variants = 0;
             drawEdgeIn = drawEdgeOut = false;
         }};
         plates4 = new Floor("plates4"){{
             autotile = true;
-            variants = 0;
             drawEdgeIn = drawEdgeOut = false;
         }};
-        metalGrating = new Floor("metal-grating") {{
-            variants = 0;
-            tilingVariants = 1;
-            tilingSize = 4;
+        damagedPlates1 = new Floor("damaged-metal1"){{
+            autotile = true;
             drawEdgeIn = drawEdgeOut = false;
-            cacheLayer = AquaShaders.beamPitLayer;
+            autotileVariants = 3;
+            autotileMidVariants = 6;
         }};
-        metalPlates = new GreedyFloor("metal-plates", 3, 2){{
+//        metalGrating = new Floor("metal-grating") {{
+//            variants = 0;
+//            tilingVariants = 1;
+//            tilingSize = 4;
+//            drawEdgeIn = drawEdgeOut = false;
+//            cacheLayer = AquaShaders.beamPitLayer;
+//        }};
+        metalPlates = new GreedyFloor("metal-plates", 3, 4){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+        }};
+        metalPlates1 = new GreedyFloor("metal-plates1", 2, 8){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+        }};
+        floorLight = new Floor("floor-light", 0){{
+            lightRadius = 70;
+            emitLight = true;
+            drawEdgeIn = drawEdgeOut = false;
+            lightColor = Pal.techBlue.cpy().a(0.7f);
+        }};
+        brokenFloorLight = new Floor("broken-floor-light", 4){{
+            lightRadius = 5;
+            emitLight = true;
+            drawEdgeIn = drawEdgeOut = false;
+            lightColor = Color.gray.cpy().a(0.05f);
+        }};
+
+        metalBankFloor = new Floor("metal-bank-floor"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+            emitLight = true;
+            lightRadius = 20f;
+            lightColor = Pal.reactorPurple.cpy().a(0.1f);
+        }};
+        metalVent = new GreedyFloor("metal-vent", 1, 3){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            effect = AquaFx.vent1;
+            attributes.set(Attribute.steam, 1f);
         }};
     }
 }

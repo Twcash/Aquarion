@@ -36,6 +36,7 @@ import mindustry.world.Block;
 import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.AttributeCrafter;
+import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.Pump;
 import mindustry.world.consumers.ConsumeItemExplode;
@@ -62,7 +63,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class AquaCrafters {
-    public static Block chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block defunctDrill, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -809,6 +810,7 @@ public class AquaCrafters {
             itemCapacity = 25;
             separateItemCapacity = true;
             ItemBoostUseTime = 6 * 60;
+            liquidCapacity = 200;
             itemBoostIntensity = 1.2f;
             tier = 2;
             squareSprite = false;
@@ -2234,6 +2236,22 @@ public class AquaCrafters {
             ambientSound = Sounds.smelter;
             craftEffect = Fx.mineBig;
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame());
+        }};
+
+        defunctDrill = new Drill("defunct-drill"){{
+            size = 2;
+            squareSprite = false;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            drawMineItem = false;
+            consumeLiquid(water, 1).boost();
+            liquidBoostIntensity = 3;
+            drillTime = 250;
+            itemCapacity = 15;
+            liquidCapacity = 100;
+            drillEffect = Fx.mineBig;
+            consumePower(1);
+            tier = 1;
+            category = Category.power;
         }};
         overwrite(Blocks.plastaniumCompressor, (GenericCrafter r) ->{
             r.requirements = null;
