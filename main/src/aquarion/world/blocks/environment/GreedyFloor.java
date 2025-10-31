@@ -13,6 +13,7 @@ import arc.util.Time;
 import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
+import mindustry.core.GameState;
 import mindustry.entities.Effect;
 import mindustry.game.EventType;
 import mindustry.world.Tile;
@@ -53,7 +54,7 @@ public class GreedyFloor extends Floor {
     @Override
     public void init(){
         super.init();
-
+        clipSize = maxSize*8*2;
         Events.on(EventType.WorldLoadEvent.class, e -> {
             built = false;
         });
@@ -106,6 +107,7 @@ public class GreedyFloor extends Floor {
         anchorMap.clear();
         int w = Vars.world.width();
         int h = Vars.world.height();
+
         boolean[][] claimeds = new boolean[w][h];
         claimed = claimeds;
         for(int y = 0; y < h; y++){
@@ -157,9 +159,7 @@ public class GreedyFloor extends Floor {
     @Override
     public void drawBase(Tile tile){
         drawOverlay(tile);
-        if(Vars.state.isEditor() && !built){
             buildAnchorMap();
-        }
         ensureAnchorMap();
         Anchor a = anchorMap.get(posKey(tile.x, tile.y));
         if(a == null) return;
@@ -167,12 +167,12 @@ public class GreedyFloor extends Floor {
 
         TextureRegion reg = sizeRegions.get(a.size)[Mathf.randomSeed(Point2.pack(tile.x, tile.y), 0, Math.max(0, variants - 1))];
         if(reg == null) return;
-
         float drawSize = a.size * 8f;
         float cx = tile.worldx() + (drawSize - 8f)/2f;
         float cy = tile.worldy() + (drawSize - 8f)/2f;
-        Draw.z(Renderer.Layer.floor-1);
         Draw.rect(reg, cx, cy, drawSize, drawSize);
+        drawOverlay(tile);
         Draw.reset();
+
     }
     }

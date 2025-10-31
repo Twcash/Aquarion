@@ -2239,19 +2239,20 @@ public class AquaCrafters {
         }};
 
         defunctDrill = new Drill("defunct-drill"){{
+            requirements(Category.production, with(silicon, 250, lead, 100));
             size = 2;
             squareSprite = false;
             buildVisibility = BuildVisibility.sandboxOnly;
             drawMineItem = false;
             consumeLiquid(water, 1).boost();
             liquidBoostIntensity = 3;
-            drillTime = 250;
+            drillTime = 180;
             itemCapacity = 15;
             liquidCapacity = 100;
             drillEffect = Fx.mineBig;
             consumePower(1);
             tier = 1;
-            category = Category.power;
+            category = Category.production;
         }};
         overwrite(Blocks.plastaniumCompressor, (GenericCrafter r) ->{
             r.requirements = null;

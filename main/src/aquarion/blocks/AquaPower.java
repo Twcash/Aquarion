@@ -64,6 +64,7 @@ public class AquaPower {
         }};
 
         defunctGenerator = new PowerSource("defunct-generator"){{
+            requirements(Category.power, with(silicon, 1200, lead, 500));
             size = 2;
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.power;

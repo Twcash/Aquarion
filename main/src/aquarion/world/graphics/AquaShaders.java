@@ -25,7 +25,7 @@ import static mindustry.Vars.tree;
 public class AquaShaders {
     public static PlanetShader planet;
 
-    public static @Nullable SurfaceShader brine, shadow, heat, beamPit;
+    public static @Nullable SurfaceShader brine, shadow, heat, beamPit, monsoon;
     public static @Nullable deflectorShader deflectorShield;
     public static @Nullable GlitchShader glitch;
     public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer, deflecterLayer, beamPitLayer;
@@ -40,6 +40,8 @@ public static void init() {
     brine = new SurfaceShader("brine");
     shadow = new SurfaceShader("shadow");
     heat = new SurfaceShader("heat");
+    monsoon = new SurfaceShader("monsoon");
+
     beamPit = new SurfaceShader("beamPit");
     glitch = new GlitchShader("glitch");
 

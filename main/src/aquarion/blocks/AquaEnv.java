@@ -3,16 +3,14 @@ package aquarion.blocks;
 import aquarion.AquaAttributes;
 import aquarion.AquaItems;
 import aquarion.AquaLiquids;
+import aquarion.AquaStatuses;
 import aquarion.world.blocks.environment.*;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaShaders;
 import arc.func.Cons;
 import arc.graphics.Color;
 import arc.math.Mathf;
-import mindustry.content.Blocks;
-import mindustry.content.Fx;
-import mindustry.content.Items;
-import mindustry.content.Liquids;
+import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Team;
 import mindustry.game.Teams;
@@ -37,11 +35,11 @@ public class AquaEnv {
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
-    public static Block floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
+    public static Block sparseSnow, packedSnow, floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, floor1, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
-            CrasseCoral, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
+            CrasseCoral,stoneRock,largeStoneRock,hugeStoneRock,massiveStoneRock, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
     public static Block leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
@@ -242,6 +240,14 @@ public class AquaEnv {
             cacheLayer = CacheLayer.water;
             isLiquid = true;
             shallow = true;
+        }};
+        packedSnow = new Floor("packed-snow", 4){{
+            speedMultiplier = 0.85f;
+            status = AquaStatuses.cold;
+            statusDuration = 20;
+        }};
+        sparseSnow = new OverlayFloor("sparse-snow"){{
+            variants = 3;
         }};
         kelp_floor = new Floor("kelp-floor", 2) {{
             walkSound = mindustry.gen.Sounds.mud;
@@ -570,6 +576,62 @@ public class AquaEnv {
             buildTime = 280 * 60f;
             forceDark = true;
         }};
+        stoneRock = new rokBlock("stone-rock") {{
+            requirements(Category.effect, with( silicon, 150));
+            buildVisibility = sandboxOnly;
+            size = 1;
+            health = 1200;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            layer = Layer.groundUnit + 1;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 20 * 60f;
+            forceDark = true;
+        }};
+        largeStoneRock = new rokBlock("large-stone-rock") {{
+            requirements(Category.effect, with( silicon, 1200));
+            buildVisibility = sandboxOnly;
+            size = 2;
+            health = 3500;
+            layer = Layer.groundUnit + 2;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 45 * 60f;
+            forceDark = true;
+        }};
+        hugeStoneRock = new rokBlock("huge-stone-rock") {{
+            requirements(Category.effect, with( silicon, 3000));
+            buildVisibility = sandboxOnly;
+            size = 3;
+            health = 8000;
+            layer = Layer.groundUnit + 3;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 90 * 60f;
+            forceDark = true;
+        }};
+        massiveStoneRock = new rokBlock("massive-stone-rock") {{
+            requirements(Category.effect, with( silicon, 6000));
+            buildVisibility = sandboxOnly;
+            size = 4;
+            health = 12000;
+            layer = Layer.groundUnit + 4;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 280 * 60f;
+            forceDark = true;
+        }};
         bloom = new TreeBlock("bloom");
 
         algalWall = new TreeBlock("algal-wall") {{
@@ -737,20 +799,22 @@ public class AquaEnv {
             autotileVariants = 3;
             autotileMidVariants = 6;
         }};
-//        metalGrating = new Floor("metal-grating") {{
-//            variants = 0;
-//            tilingVariants = 1;
-//            tilingSize = 4;
+//        metalGrating = new Floor("metal-pit") {{
+//            autotile = true;
 //            drawEdgeIn = drawEdgeOut = false;
 //            cacheLayer = AquaShaders.beamPitLayer;
 //        }};
         metalPlates = new GreedyFloor("metal-plates", 3, 4){{
             drawEdgeOut = false;
             drawEdgeIn = false;
+            clipSize = 600;
+
         }};
         metalPlates1 = new GreedyFloor("metal-plates1", 2, 8){{
             drawEdgeOut = false;
             drawEdgeIn = false;
+            clipSize = 3000;
+
         }};
         floorLight = new Floor("floor-light", 0){{
             lightRadius = 70;
@@ -777,6 +841,7 @@ public class AquaEnv {
             drawEdgeIn = false;
             effect = AquaFx.vent1;
             attributes.set(Attribute.steam, 1f);
+            clipSize = 150;
         }};
     }
 }

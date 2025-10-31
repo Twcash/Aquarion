@@ -8,6 +8,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
+import arc.math.Angles;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.Rand;
@@ -42,6 +43,13 @@ public class AquaFx {
             lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(2f, 7f) + 1.5f);
         }
     }),
+            snow = new Effect(15, e -> {
+                randLenVectors(e.id, 4, e.fin() * 4f, (x, y) -> {
+                    float size = 2f + e.fout() * 6f;
+                    color(Color.white);
+                    Fill.circle(e.x + x, e.y + y, size);
+                });
+            }),
             shootHori = new Effect(12, e -> {
                 color(Color.white, Pal.lightOrange, e.fin());
                 float w = 1.2f + 7 * Interp.pow2Out.apply(e.fout());
@@ -328,8 +336,16 @@ public class AquaFx {
                         Draw.alpha(1);
                         blend();
                     }),
+   cold = new Effect(20.0F, (e) -> {
+        Draw.color(Liquids.cryofluid.color);
+        Angles.randLenVectors((long)e.id, 1, 1.0F + e.fin() * 1.5F, (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, e.fout() * 0.9F);
+        });
+    }),
+
                     vent1 = new Effect(220f, e -> {
                         rand.setSeed(e.id+1);
+
                         Color base = Color.valueOf("f2f17f").lerp(Color.valueOf("99784f"), rand.random(0, 1));
                         rand.setSeed(e.id+5);
                         color(base, AquaPal.smoke.a(0.5f).lerp(Color.valueOf("4a3f3c"), rand.random(0, 1)), Interp.pow2Out.apply(e.fin()));

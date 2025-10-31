@@ -7,6 +7,7 @@ import aquarion.AquaStatuses;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
+import arc.Events;
 import arc.func.Cons;
 import arc.graphics.Blending;
 import arc.graphics.Color;
@@ -27,6 +28,7 @@ import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.EffectSpawnerPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
+import mindustry.game.EventType;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
@@ -3125,6 +3127,7 @@ public class AquaTurrets {
             );
         });
         nostalgia = new PowerTurret("nostalgia"){{
+            requirements(Category.turret, with(silicon, 300));
             size = 2;
             category = Category.turret;
             buildVisibility = BuildVisibility.sandboxOnly;
@@ -3137,17 +3140,19 @@ public class AquaTurrets {
             inaccuracy = 7;
             outlineColor = Color.valueOf("2d2e37");
             shootSound = shootAlt;
-            shootType = new BasicBulletType(5, 15, "missile"){{
+            shootType = new BasicBulletType(5, 25, "missile"){{
                 trailLength = 14;
                 width = 6;
                 height = 8;
                 frontColor = Color.white;
-                backColor = Pal.berylShot;
+                backColor = trailColor = hitColor = lightColor = Pal.berylShot;
                 shootEffect = Fx.shootSmallColor;
                 smokeEffect = Fx.shootSmallSmoke;
                 homingDelay = 5;
                 homingPower = 0.03f;
                 homingRange = 20;
+                trailInterval = 5;
+                trailEffect = Fx.artilleryTrail;
             }};
         }};
     }

@@ -9,8 +9,18 @@ import mindustry.type.StatusEffect;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaStatuses {
-    public static StatusEffect ionized, concussed, corroding;
+    public static StatusEffect ionized, concussed, corroding, cold;
     public static void load(){
+        cold = new StatusEffect("cold"){{
+            speedMultiplier = 0.8f;
+            damageMultiplier = 0.8f;
+            reloadMultiplier = 0.9f;
+            applyColor = Color.valueOf("a8b1ff");
+            outline = false;
+            buildSpeedMultiplier = 0.8f;
+            effect = AquaFx.cold;
+            allDatabaseTabs = true;
+        }};
         ionized = new StatusEffect("ionized"){{
             color = Color.valueOf("ffab84");
             damage = 0.167f;

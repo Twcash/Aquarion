@@ -2,6 +2,8 @@ package aquarion.content;
 
 import aquarion.AquaSounds;
 import aquarion.world.graphics.AquaParticleWeather;
+import aquarion.world.graphics.Blizzard;
+import aquarion.world.graphics.Monsoon;
 import arc.graphics.Color;
 import arc.util.Time;
 import mindustry.content.StatusEffects;
@@ -10,8 +12,10 @@ import mindustry.type.Weather;
 import mindustry.type.weather.ParticleWeather;
 
 public class AquaWeathers {
-    public static Weather currents, sedimentDisturance, volcanicFallout, bioluminescentBlooms;
+    public static Weather monsoon, blizzard, currents, sedimentDisturance, volcanicFallout, bioluminescentBlooms;
     public static void load(){
+        monsoon = new Monsoon("monsoon");
+        blizzard = new Blizzard("blizzard");
         bioluminescentBlooms = new ParticleWeather("bioluminescent-blooms"){{
             color =   Color.valueOf("currents");
             noiseColor = Color.valueOf("63f0b2");
@@ -35,7 +39,7 @@ public class AquaWeathers {
             maxAlpha = 0.9f;
             density = 90000;
             baseSpeed = 0.5f;
-            duration = 2 * Time.toMinutes;
+            duration = 1.2f * Time.toMinutes;
         }};
         volcanicFallout = new AquaParticleWeather("volcanic-fallout"){{
             color =   Color.valueOf("393837");

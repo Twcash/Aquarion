@@ -67,6 +67,7 @@ public class AquaUnitTypes {
     //cruxahh
     public static UnitType fabricantDrone;
     public static UnitType isop, empusa, oratoria, rhombodera, parasphendale;
+    public static UnitType endure;
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant, architect;
     //core units and transport
@@ -3349,4 +3350,58 @@ public class AquaUnitTypes {
                 });
             }
         };
+        endure = new UnitType("endure"){{
+            constructor = LegsUnit::create;
+            legCount = 4;
+            legLength = 9;
+            legMaxLength = 1.2f;
+            legMinLength = 0.7f;
+            hitSize = 16;
+            speed = 0.9f;
+            health= 900;
+            outlineColor = Color.valueOf("2d2e37");
+            drawCell = false;
+            stepShake = 0.001f;
+            lockLegBase = true;
+            armor = 12;
+            weapons.add(new Weapon("aquarion-endure-weapon"){{
+                rotate = false;
+                mirror = true;
+                reload = 90;
+                x = 15/4f;
+                shootSound = Sounds.shoot;
+                top = false;
+                recoil = 4;
+                legMoveSpace = 1.1f;
+                recoilTime = 20;
+                alternate = false;
+
+                y = 0.25f;
+                shootY = 32/4f;
+                bullet = new FlakBulletType(3,40){{
+                    lifetime = 40;
+                    explodeRange = 8*5;
+                    fragBullets = 5;
+                    collidesGround = true;
+                    fragRandomSpread = 0;
+                    fragSpread = 5;
+                    width = 6;
+                    height = 9;
+                    backColor = trailColor = lightColor = hitColor = Pal.berylShot;
+                    frontColor = Color.white;
+                    homingDelay = 10;
+                    homingPower = 0.005f;
+                    homingRange = 40;
+                    trailLength = 12;
+                    fragBullet = new BasicBulletType(4, 25){{
+                        backColor = trailColor = lightColor = hitColor = Pal.berylShot;
+                        frontColor = Color.white;
+                        width = 4;
+                        height = 7;
+                        trailLength = 6;
+                        lifetime = 20;
+                    }};
+                }};
+            }});
+        }};
     }};
