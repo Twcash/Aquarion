@@ -136,7 +136,8 @@ public class Blizzard extends ParticleWeather {
 //
 //            Tmp.c1.b = Mathf.clamp(Tmp.c1.b + blue, 0f, 1f);
 //            Tmp.c1.a = 0.6f;
-//            ambient.lerp(Tmp.c1, state.opacity);
+//            ambient.lerp(Tmp.c1, s
+//           tate.opacity);
 //        }else{
 //            ambient.lerp(originalAmbient, state.opacity);
 //        }
