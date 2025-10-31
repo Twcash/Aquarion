@@ -27,9 +27,7 @@ public class Blizzard extends ParticleWeather {
     public float effectInterval = 6f;
     private float effectTimer = 0f;
 
-    public float targetDarken = 0.45f; // how much darker it gets
-    public float targetBlueTint = 0.08f; // slight cold tint
-    public float ambientLerp = 0.08f; // how quickly it blends
+    public float targetBlueTint = 0.08f;
 
     private final Color originalAmbient = new Color();
     private boolean savedAmbient = false;
@@ -63,8 +61,6 @@ public class Blizzard extends ParticleWeather {
         noiseLayerSclM = 0.92f;
         noiseLayerColorM = 0.96f;
         noisePath = "noiseAlpha";
-
-        // snow hitting effect color
         noiseColor = Color.valueOf("d8f1ff");
     }
 
@@ -72,7 +68,6 @@ public class Blizzard extends ParticleWeather {
     public void update(WeatherState state){
         super.update(state);
 
-        // Wind impulse on units
         float push = force * state.intensity * Time.delta;
         if(push > 0.001f){
             float windx = state.windVector.x * push;
@@ -82,15 +77,11 @@ public class Blizzard extends ParticleWeather {
                 u.impulse(windx, windy);
             }
         }
-
-        // Periodic impact effects
         effectTimer += Time.delta;
         if(effectTimer >= effectInterval){
             effectTimer = 0f;
             spawnImpactEffects(state);
         }
-
-        // Lighting (fade in/out handled here)
         updateAmbient(state);
     }
 
@@ -102,13 +93,9 @@ public class Blizzard extends ParticleWeather {
         float windx = state.windVector.x;
         float windy = state.windVector.y;
 
-        // if wind vector is zero, skip
         if(windx == 0 && windy == 0) return;
 
-        // normalize wind direction so offset distance is consistent
         float invLen = 1f / Mathf.sqrt(windx * windx + windy * windy);
-        windx *= invLen;
-        windy *= invLen;
 
         for(int i = 0; i < tileCount; i++){
             Tile tile = Vars.world.tile(Mathf.random(Vars.world.width() - 1), Mathf.random(Vars.world.height() - 1));
@@ -118,55 +105,43 @@ public class Blizzard extends ParticleWeather {
             Building build = tile.build;
             if(build == null) continue;
 
-            float ex = build.x + build.block.size*8/2f;
-            float ey = build.y + build.block.size*8/2f;
+            float ex = build.x + Mathf.range(build.block.size*8/2f);
+            float ey = build.y + Mathf.range(build.block.size*8/2f);
 
-            // only spawn if on-screen
-                // use 0f rotation param; effect uses directionless visuals. color passed in case effect uses it.
-                hitEffect.at(ex, ey,  color);
+            hitEffect.at(ex, ey,  color);
         }
     }
 
     private void updateAmbient(WeatherState state){
-        // If lighting system isn't available, bail out
         if(Vars.renderer == null || Vars.renderer.lights == null) return;
 
         Color ambient = Vars.state.rules.ambientLight;
 
-        // Save original ambient the first time a storm affects lighting
         if(!savedAmbient){
             originalAmbient.set(ambient);
             savedAmbient = true;
         }
 
-        // When active, lerp toward a slightly darker/cooler color based on intensity & opacity
         if(state.intensity > 0.01f){
             if(state.life < fadeTime){
                 state.opacity = Math.min(state.life / fadeTime, state.opacity);
             }else{
                 state.opacity = Mathf.lerpDelta(state.opacity, 1f, 0.004f);
             }
-            float intensity = state.intensity * state.opacity; // combine intensity & transition opacity
-            float darken = 1f - (intensity * targetDarken);
+            float intensity = state.intensity * state.opacity;
             float blue = targetBlueTint * intensity;
 
-            // start from the original ambient to keep changes relative
             Tmp.c1.set(originalAmbient);
 
-            // darken channels
             Tmp.c1.set(Color.valueOf("b0b4c3").a((float) (state.opacity)));
 
-            // add slight blue tint (without oversaturating)
             Tmp.c1.b = Mathf.clamp(Tmp.c1.b + blue, 0f, 1f);
-
-            // lerp ambient toward target
+            Tmp.c1.a = 0.6f;
             ambient.lerp(Tmp.c1, state.opacity);
         }else{
-            // storm faded: lerp back to original ambient
             ambient.lerp(originalAmbient, state.opacity);
 
-            // when close enough, restore exactly and clear saved flag so next storm re-saves fresh original
-            if(ambient.diff(originalAmbient) < 0.005f){
+            if(ambient.diff(originalAmbient) < 0.000001f){
                 ambient.set(originalAmbient);
                 savedAmbient = false;
             }
