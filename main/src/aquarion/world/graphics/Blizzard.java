@@ -113,45 +113,40 @@ public class Blizzard extends ParticleWeather {
     }
 
     private void updateAmbient(WeatherState state){
-        if(Vars.renderer == null || Vars.renderer.lights == null) return;
-
-        Color ambient = Vars.state.rules.ambientLight;
-
-        if(!savedAmbient){
-            originalAmbient.set(ambient);
-            savedAmbient = true;
-        }
-
-        if(state.intensity > 0.01f){
-            if(state.life < fadeTime){
-                state.opacity = Math.min(state.life / fadeTime, state.opacity);
-            }else{
-                state.opacity = Mathf.lerpDelta(state.opacity, 1f, 0.004f);
-            }
-            float intensity = state.intensity * state.opacity;
-            float blue = targetBlueTint * intensity;
-
-            Tmp.c1.set(originalAmbient);
-
-            Tmp.c1.set(Color.valueOf("b0b4c3").a((float) (state.opacity)));
-
-            Tmp.c1.b = Mathf.clamp(Tmp.c1.b + blue, 0f, 1f);
-            Tmp.c1.a = 0.6f;
-            ambient.lerp(Tmp.c1, state.opacity);
-        }else{
-            ambient.lerp(originalAmbient, state.opacity);
-
-            if(ambient.diff(originalAmbient) < 0.000001f){
-                ambient.set(originalAmbient);
-                savedAmbient = false;
-            }
-        }
+//
+//        Color ambient = Vars.state.rules.ambientLight;
+//
+//        if(!savedAmbient){
+//            originalAmbient.set(ambient);
+//            savedAmbient = true;
+//        }
+//
+//        if(state.intensity > 0.01f){
+//            if(state.life < fadeTime){
+//                state.opacity = Math.min(state.life / fadeTime, state.opacity);
+//            }else{
+//                state.opacity = Mathf.lerpDelta(state.opacity, 1f, 0.004f);
+//            }
+//            float intensity = state.intensity * state.opacity;
+//            float blue = targetBlueTint * intensity;
+//
+//            Tmp.c2.set(originalAmbient);
+//
+//            Tmp.c1.set(Color.valueOf("b0b4c3").a((float) (state.opacity)));
+//
+//            Tmp.c1.b = Mathf.clamp(Tmp.c1.b + blue, 0f, 1f);
+//            Tmp.c1.a = 0.6f;
+//            ambient.lerp(Tmp.c1, state.opacity);
+//        }else{
+//            ambient.lerp(originalAmbient, state.opacity);
+//        }
     }
 
     @Override
     public void drawOver(WeatherState state){
         super.drawOver(state);
         if(state.intensity > 0.15f){
+            //TODO needs a shader or removal. Yet to decide
             float alpha = state.opacity * 0.2f * state.intensity;
             Draw.color(1f, 1f, 1f, alpha);
             Fill.rect(Core.camera.position.x, Core.camera.position.y, Core.camera.width, Core.camera.height);
