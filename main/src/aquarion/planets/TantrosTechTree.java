@@ -387,6 +387,7 @@ public class TantrosTechTree {
                 node(SilicaOxidator, () ->{
                     node(arcFurnace);
                 });
+                node(scrapCentrifuge);
                 node(AnnealingOven, () -> {
                     node(sporeProcessor);
                             node(cupronickelAlloyer, () -> {
