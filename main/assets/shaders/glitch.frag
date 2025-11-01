@@ -1,106 +1,77 @@
-#define HIGHP
-
-uniform sampler2D u_texture;
-uniform float u_time;
+uniform sampler2D u_texture; 
 uniform vec2 u_resolution;
+uniform float u_time;
 
 varying vec2 v_texCoords;
 
-float rand(vec2 co) {
-    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+// === Helpers ===
+float hash(vec2 p){
+    p = fract(p * vec2(234.34, 435.345));
+    p += dot(p, p + 34.23);
+    return fract(p.x * p.y);
 }
 
-void main() {
+float noise(vec2 p){
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+}
+
+float fbm(vec2 p){
+    float v = 0.0;
+    float a = 0.5;
+    for(int i = 0; i < 5; i++){
+        v += a * noise(p);
+        p *= 2.1;
+        a *= 0.5;
+    }
+    return v;
+}
+
+void main(){
     vec2 uv = v_texCoords;
-    vec4 color = texture2D(u_texture, uv);
-	float btime = u_time/5.0;
-    float pulseSize = mix(8.0, 40.0, abs(sin(btime*2.0 + uv.y*5.0)));
-vec2 blockUV = floor(uv * u_resolution / pulseSize) * pulseSize / u_resolution;
-color.rgb = texture2D(u_texture, blockUV).rgb;
-    float hShift = (rand(vec2(floor(btime*10.0), floor(uv.y*20.0))) - 0.5) * 0.05;
-uv.x += hShift;
-color.rgb = texture2D(u_texture, uv).rgb;
-    float driftChance = rand(floor(uv * u_resolution / 8.0) + floor(btime*5.0));
-    vec2 drift = vec2(rand(uv + btime) - 0.5, rand(uv - u_time) - 0.5) * 0.008;
-    if (driftChance > 0.7) {
-        uv += drift;
-        color.rgb = texture2D(u_texture, uv).rgb;
-    }
-    if (rand(vec2(floor(btime * 1.3), 0.0)) > 0.92) {
-        uv += (rand(vec2(btime, 1.0)) - 0.5) * 0.08; // big jump
-    } else {
-        uv += (rand(vec2(floor(btime * 4.0), 2.0)) - 0.5) * 0.01; // subtle jitter
-    }
-    float scan = sin(uv.y * u_resolution.y * 1.5 + btime * 30.0) * 0.04;
-    color.rgb -= scan * 0.15;
-    vec2 center = uv - 0.5;
-    float dist = dot(center, center) * 0.3;
-    uv = uv + center * dist;
-    float pulse = 1.0 + sin(btime * 3.0) * 0.1;
-    color.rgb *= pulse;
-    vec4 bloom = vec4(0.0);
-    bloom += texture2D(u_texture, uv + vec2(0.002,0.0));
-    bloom += texture2D(u_texture, uv + vec2(-0.002,0.0));
-    bloom += texture2D(u_texture, uv + vec2(0.0,0.002));
-    bloom += texture2D(u_texture, uv + vec2(0.0,-0.002));
-    color.rgb = mix(color.rgb, bloom.rgb*0.25, 0.5);
-    float glitchShift = (rand(vec2(floor(btime * 5.0), floor(uv.y * 30.0))) - 0.5) * 0.04;
-    vec4 colR = texture2D(u_texture, uv + vec2(glitchShift, 0.0));
-    vec4 colG = texture2D(u_texture, uv + vec2(-glitchShift, glitchShift * 0.5));
-    vec4 colB = texture2D(u_texture, uv + vec2(0.0, -glitchShift));
-    color = vec4(colR.r, colG.g, colB.b, 1.0);
-    float blockSize = 16.0;
-    vec2 blockCoord = floor(uv * u_resolution / blockSize);
-    float blockNoise = rand(blockCoord + floor(btime * 5.0));
+    vec4 base = texture2D(u_texture, uv);
 
-    if (blockNoise > 0.8) {
-        vec2 lowResUV = floor(uv * u_resolution / (blockSize * 0.5)) * (blockSize * 0.5) / u_resolution;
-        color = texture2D(u_texture, lowResUV);
+    float m = clamp(base.a, 0.0, 1.0);
+    if(m < 0.001){
+        gl_FragColor = base;
+        return;
     }
 
-    if (blockNoise > 0.9) {
-        vec2 offsetDir = vec2(rand(blockCoord), rand(blockCoord + 1.0)) - 0.5;
-        offsetDir *= 0.05;
-        vec4 smearColor = texture2D(u_texture, uv + offsetDir);
-        color = mix(color, smearColor, 0.6);
-    }
-    float noise = rand(vec2(floor(uv.x * u_resolution.x / 4.0), floor(uv.y * u_resolution.y / 4.0) + btime * 50.0));
-    if (noise > 0.96) {
-        color.rgb = vec3(rand(uv + btime), rand(uv + btime * 1.3), rand(uv - u_time * 0.7));
-    }
+    float t = u_time + u_time/4.0 * 100.0;
 
-    float tearChance = rand(vec2(floor(btime * 10.0), 1.0));
-    if (tearChance > 0.9) {
-        float tearY = fract(uv.y * 10.0) > 0.5 ? 0.02 : -0.02;
-        uv.y += tearY;
-        color.rgb = texture2D(u_texture, uv).rgb;
-    }
-    float pixelChance = rand(vec2(floor(btime * 3.0), 2.0));
-    if (pixelChance > 0.8) {
-        float randomSize = mix(8.0, 40.0, rand(vec2(floor(btime * 10.0), uv.y * 100.0)));
-        vec2 blockUV = floor(uv * u_resolution / randomSize) * randomSize / u_resolution;
-        color.rgb = texture2D(u_texture, blockUV).rgb;
-    }
-    if (rand(uv*1000.0 + btime*50.0) > 0.995) color.rgb = vec3(1.0);
-    if (rand(vec2(floor(btime*7.0), floor(uv.y*50.0))) > 0.97) color = vec4(color.g, color.b, color.r, 1.0);
-    float tear = rand(vec2(floor(btime*10.0), floor(uv.y*20.0))) - 0.5;
-    uv.x += tear*0.03;
-    if (rand(vec2(floor(btime*20.0), floor(uv.x*50.0))) > 0.98) color.rgb = 1.0 - color.rgb;
-    if (rand(vec2(floor(btime * 5.0), 3.0)) > 0.95) {
-        color.rgb = vec3(rand(uv + btime * 2.0),
-                         rand(uv - btime * 3.0),
-                         rand(uv + btime * 5.0));
-    }
-    if (rand(vec2(floor(u_time*8.0), floor(uv.y*30.0))) > 0.96) {
-    color.rgb += vec3(rand(uv*5.0), rand(uv*7.0), rand(uv*3.0)) * 0.5;
-}
-  
-   float scane = sin(uv.y * u_resolution.y * 1.5 + btime * 30.0) * (0.02 + 0.03*sin(u_time*5.0));
-color.rgb -= scane * 0.15;
-if (rand(uv*1000.0 + btime*80.0) > 0.998) color.rgb = vec3(1.0);
-if (rand(vec2(floor(u_time*5.0), floor(uv.y*50.0))) > 0.97) {
-    vec2 offset = vec2(rand(uv+btime), 0.0) * 0.05;
-    color.rgb = mix(color.rgb, texture2D(u_texture, uv+offset).rgb, 0.7);
-}
-    gl_FragColor = color;
+    float n1 = fbm(uv * 30.0 + t * 1.5);
+    float n2 = fbm(uv * 80.0 - t * 2.0);
+    float tear = (n1 - n2) * 0.15 * m;
+
+    float timeJump = step(0.9, fract(sin(t * 8.7) * 43758.5)) * 0.03 * m;
+
+    float lineY = fract(uv.y * 80.0 + t * 10.0);
+    float lineMask = smoothstep(0.45, 0.55, lineY);
+    float tearLine = (noise(vec2(t * 20.0, uv.y * 200.0)) - 0.5) * lineMask * 0.25 * m;
+
+    vec2 disp = vec2(tear + tearLine + timeJump, 0.0);
+
+    float chroma = 0.015 * m;
+    vec4 colR = texture2D(u_texture, uv + disp + vec2(chroma, 0.0));
+    vec4 colG = texture2D(u_texture, uv + disp);
+    vec4 colB = texture2D(u_texture, uv + disp - vec2(chroma, 0.0));
+    vec4 color = vec4(colR.r, colG.g, colB.b, 1.0);
+
+    float scan = sin((uv.y * u_resolution.y + t * 100.0) * 0.25) * 0.5 + 0.5;
+    float scanFlicker = mix(1.0, 0.6, scan * m);
+    color.rgb *= scanFlicker;
+
+    float flash = smoothstep(0.8, 1.0, noise(uv * 50.0 + vec2(t * 5.0, -t * 3.0)));
+    color.rgb += flash * 0.5 * m;
+
+    float staticNoise = (hash(gl_FragCoord.xy + floor(t * 60.0)) - 0.5) * 0.3 * m;
+    color.rgb += staticNoise;
+
+    gl_FragColor = mix(base, color, m);
 }

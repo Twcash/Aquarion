@@ -68,9 +68,14 @@ public class AquaFx {
                 }
                 for (int i = 0; i <= visibleSegments; i++) {
                     Vec2 p = lines.get(i);
-                    Drawf.light(e.x, e.y, p.getX(), p.getY(), 100f, e.color, Interp.pow10Out.apply(e.fout()));
+                    Drawf.light(e.x, e.y, p.getX(), p.getY(), 2000f, Color.white, Interp.pow10In.apply(e.fout()));
 
                 }
+                Draw.z(Renderer.Layer.glitch);
+                TextureRegion tex = Core.atlas.find("circle-shadow");
+                Draw.alpha(e.fout());
+                Draw.rect(tex, e.x, e.y,  2000*e.fin(), 2000*e.fin());
+                Draw.reset();
             }),
 
     snow = new Effect(15, e -> {
