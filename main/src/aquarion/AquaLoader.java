@@ -36,9 +36,7 @@ import static mindustry.Vars.*;
 @EnsureLoad
 public class AquaLoader extends Mod {
     public static boolean tools = false;
-//    public boolean debug = true;
     protected static Mods.LoadedMod mod;
-//    public static TemperatureMap tempMap = new TemperatureMap();
     public AquaLoader(){
         this(false);
     }
@@ -52,24 +50,7 @@ public class AquaLoader extends Mod {
         Events.on(EventType.DisposeEvent.class, e ->
                 AquaShaders.dispose()
         );
-        AquaLoader.tools = tools;
-//        if (debug) {
-//            Events.run(EventType.Trigger.draw, () -> {
-//                for (int i = 0; i < tempMap.tempMap.length; i++) {
-//                    if (tempMap.tempMap[i] != 0) continue;
-//
-//                    Draw.z(Layer.flyingUnit+2);
-//                    Draw.color(Pal.orangeSpark);
-//                    //256 will be the max temperature EVER
-//                    Draw.alpha(tempMap.tempMap[i] / 256f);
-//
-//                    Draw.rect("empty", world.tiles.geti(i).worldx(), world.tiles.geti(i).worldy());
-//
-//                    Draw.reset();
-//                }
-//            });
-//        }
-
+        //AquaLoader.tools = tools;
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
                 Regions.load();
