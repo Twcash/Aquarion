@@ -13,6 +13,7 @@ import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.Rand;
 import arc.math.geom.Vec2;
+import arc.struct.Seq;
 import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.content.Liquids;
@@ -43,7 +44,36 @@ public class AquaFx {
             lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(2f, 7f) + 1.5f);
         }
     }),
-            snow = new Effect(15, e -> {
+            lightning = new Effect(15f, 500f, e -> {
+                if (!(e.data instanceof Seq)) return;
+                Seq<Vec2> lines = e.data();
+
+                float totalSegments = lines.size - 1;
+                float t = Interp.pow10In.apply(e.fin());
+
+                color(e.color);
+
+                int visibleSegments = Mathf.clamp(Mathf.floor(totalSegments * t), 0, lines.size - 1);
+
+                for (int i = 0; i < visibleSegments; i++) {
+                    Vec2 cur = lines.get(i);
+                    Vec2 next = lines.get(i + 1);
+                    rand.setSeed(e.id+i+1);
+                    stroke(4f * e.fin()+i/2f+rand.random(0,.5f));
+                    float offsetCurX = cur.x;
+                    float offsetCurY = cur.y;
+                    float offsetNextX = next.x;
+                    float offsetNextY = next.y;
+                    Lines.line(offsetCurX, offsetCurY, offsetNextX, offsetNextY, false);
+                }
+                for (int i = 0; i <= visibleSegments; i++) {
+                    Vec2 p = lines.get(i);
+                    Drawf.light(e.x, e.y, p.getX(), p.getY(), 100f, e.color, Interp.pow10Out.apply(e.fout()));
+
+                }
+            }),
+
+    snow = new Effect(15, e -> {
                 randLenVectors(e.id, 4, e.fin() * 4f, (x, y) -> {
                     float size = 2f + e.fout() * 6f;
                     color(Color.white);

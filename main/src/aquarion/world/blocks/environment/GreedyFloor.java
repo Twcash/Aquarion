@@ -25,7 +25,7 @@ import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
 //TODO This can work with non-square blocks. I could also add the ability for shape variants
-//TODO Massive issue when map is resized in the editor... I can't seem to replicte it anymore so maybe it's a specific map issue?
+//TODO Massive issue when map is resized in the editor... I can't seem to replicate it anymore so maybe it's a specific map issue?
 
 public class GreedyFloor extends Floor {
     public int maxSize = 2;

@@ -30,7 +30,6 @@ public class AquarionMod  implements Loadable{
         Events.on(EventType.ClientLoadEvent.class, e -> {
             clientLoaded();
         });
-        AquaSounds.load();
         //stuff that needs to be loaded first
         AquaStatuses.load();
         AquaLiquids.loadContent();

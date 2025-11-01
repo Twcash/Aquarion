@@ -35,7 +35,7 @@ public class AquaEnv {
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
-    public static Block metalWall1, metalWalltwo, sparseSnow, packedSnow, floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
+    public static Block denseStone, stonePores, clay, metalWall1, metalWalltwo, sparseSnow, packedSnow, floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, floor1, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
@@ -98,6 +98,11 @@ public class AquaEnv {
         }};
         coral_floor = new Floor("coral-floor", 4) {{
         }};
+        denseStone = new Floor("dense-stone", 8);
+        stonePores = new Floor("stone-pores", 6);
+        clay = new Floor("clay", 4);
+
+
         ferricStone.attributes.set(iron, 0.8f);
         ferric_extrusions = new Floor("ferric-extrusions", 2) {{
             attributes.set(iron, 1.5f);

@@ -25,7 +25,8 @@ import static mindustry.Vars.tree;
 public class AquaShaders {
     public static PlanetShader planet;
 
-    public static @Nullable SurfaceShader brine, shadow, heat, beamPit, monsoon;
+    public static @Nullable SurfaceShader brine, shadow, heat, beamPit;
+    public static @Nullable MonsoonShader monsoon;
     public static @Nullable deflectorShader deflectorShield;
     public static @Nullable GlitchShader glitch;
     public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer, deflecterLayer, beamPitLayer;
@@ -40,7 +41,7 @@ public static void init() {
     brine = new SurfaceShader("brine");
     shadow = new SurfaceShader("shadow");
     heat = new SurfaceShader("heat");
-    monsoon = new SurfaceShader("monsoon");
+    monsoon = new MonsoonShader();
 
     beamPit = new SurfaceShader("beamPit");
     glitch = new GlitchShader("glitch");
@@ -403,6 +404,25 @@ public static void init() {
             setUniformf("u_camdir", camDir);
             setUniformf("u_campos", renderer.planets.cam.position);
             setUniformf("u_emissive", emissive ? 1f : 0f);
+        }
+    }
+    public static class MonsoonShader extends SurfaceShader {
+
+        private float intensity = 1f;
+
+        public MonsoonShader() {
+            super("monsoon");
+        }
+
+        public void setIntensity(float value) {
+            this.intensity = value;
+        }
+
+        @Override
+        public void apply() {
+            super.apply(); // keep base uniforms
+
+            setUniformf("u_intensity", intensity);
         }
     }
 
