@@ -26,11 +26,12 @@ import static mindustry.Vars.world;
 
 //TODO This can work with non-square blocks. I could also add the ability for shape variants
 //TODO Massive issue when map is resized in the editor... I can't seem to replicate it anymore so maybe it's a specific map issue?
+
 public class GreedyFloor extends Floor {
     public int maxSize = 2;
     public Effect effect = Fx.none;
     public Color effectColor = Color.white;
-    public float effectSpacing = 60;
+    public float effectSpacing = 60f;
 
     private boolean[][] claimed;
     private final ObjectMap<Integer, Anchor> anchorMap = new ObjectMap<>();
@@ -54,8 +55,7 @@ public class GreedyFloor extends Floor {
     }
 
     public GreedyFloor(String name, int variants){
-        super(name);
-        this.variants = Math.max(1, variants);
+        super(name, variants);
     }
 
     @Override
@@ -76,21 +76,17 @@ public class GreedyFloor extends Floor {
         super.load();
         sizeRegions.clear();
 
+        // Preload all variants and sizes
         for(int size = 1; size <= maxSize; size++){
             TextureRegion[] regs = new TextureRegion[variants];
             for(int v = 0; v < variants; v++){
                 TextureRegion found = Core.atlas.find(name + "-" + size + "-" + v);
                 if(!found.found()) found = Core.atlas.find(name + "-" + size);
-                if(found.found() && size > 1){
-                    regs[v] = found.split(32, 32)[0][0];
-                } else {
-                    regs[v] = found.found() ? found : null;
-                }
+                regs[v] = found.found() ? found : null;
             }
             sizeRegions.put(size, regs);
         }
 
-        Events.on(EventType.WorldLoadEvent.class, e -> built = false);
         built = false;
     }
 
@@ -115,8 +111,7 @@ public class GreedyFloor extends Floor {
 
     private int posKey(int x, int y){
         int w = Vars.world.width();
-        int h = Vars.world.height();
-        if(x < 0 || y < 0 || x >= w || y >= h) return -1;
+        if(x < 0 || y < 0 || x >= w || y >= Vars.world.height()) return -1;
         return x + y * w;
     }
 
@@ -207,13 +202,11 @@ public class GreedyFloor extends Floor {
                         Anchor a = new Anchor(xx, yy, size, variant);
 
                         TextureRegion baseReg = Core.atlas.find(name + "-" + size + "-" + variant);
-                        int chunkWidth = 1;
-                        int chunkHeight = 1;
-                        if(baseReg != null && baseReg.found()){
-                            TextureRegion[][] chunks = baseReg.split(32,32);
-                            chunkWidth = chunks.length;
-                            chunkHeight = chunks[0].length;
-                        }
+                        if(baseReg == null || !baseReg.found()) continue;
+
+                        // Automatically calculate chunk size from atlas
+                        int chunkSize = baseReg.width / size;
+                        TextureRegion[][] chunks = baseReg.split(chunkSize, chunkSize);
 
                         for(int y2 = 0; y2 < size; y2++){
                             for(int x2 = 0; x2 < size; x2++){
@@ -234,7 +227,7 @@ public class GreedyFloor extends Floor {
     @Override
     public void drawBase(Tile tile){
         ensureAnchorMap();
-        drawOverlay(tile);
+
         int key = posKey(tile.x, tile.y);
         Anchor a = key == -1 ? null : anchorMap.get(key);
         if(a == null) return;
@@ -244,33 +237,31 @@ public class GreedyFloor extends Floor {
 
         if(a.size == 1){
             Draw.rect(baseReg, tile.worldx(), tile.worldy());
-            return;
-        }
+        } else {
+            int chunkSize = baseReg.width / a.size;
+            TextureRegion[][] chunks = baseReg.split(chunkSize, chunkSize);
 
-        TextureRegion[][] chunks = baseReg.split(32, 32);
-        int chunkWidth = chunks.length;
-        int chunkHeight = chunks[0].length;
+            for(int yy = 0; yy < chunks[0].length; yy++){
+                for(int xx = 0; xx < chunks.length; xx++){
+                    int wx = a.tx + xx;
+                    int wy = a.ty + (chunks[0].length - 1 - yy);
 
-        for(int yy = 0; yy < chunkHeight; yy++){
-            for(int xx = 0; xx < chunkWidth; xx++){
-                int wx = a.tx + xx;
-                int wy = a.ty + (chunkHeight - 1 - yy);
+                    if(wx < 0 || wy < 0 || wx >= Vars.world.width() || wy >= Vars.world.height()) continue;
 
-                if(wx < 0 || wy < 0 || wx >= Vars.world.width() || wy >= Vars.world.height()) continue;
+                    Tile t = Vars.world.tile(wx, wy);
+                    if(t == null) continue;
 
-                Tile t = Vars.world.tile(wx, wy);
-                if(t == null) continue;
-
-                TextureRegion chunk = chunks[xx][yy];
-                Draw.rect(chunk, t.worldx(), t.worldy());
-                drawOverlay(tile);
+                    Draw.rect(chunks[xx][yy], t.worldx(), t.worldy());
+                }
             }
         }
+
+        drawOverlay(tile); // draw overlay once
     }
 
     @Override
     public void renderUpdate(UpdateRenderState state){
-        if(state.tile.nearby(-1, -1) == null || state.tile.block() != Blocks.air) return;
+        if(state.tile.nearby(-1, -1) == null || state.tile.block() != mindustry.content.Blocks.air) return;
 
         int key = posKey(state.tile.x, state.tile.y);
         Anchor a = key == -1 ? null : anchorMap.get(key);

@@ -35,6 +35,7 @@ public class rokBlock extends Block {
     public rokBlock(String name) {
         super(name);
         breakable = true;
+        solid = true;
         breakEffect = Fx.breakProp;
         update = true;
         breakSound = Sounds.rockBreak;

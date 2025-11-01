@@ -14,6 +14,7 @@ import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Team;
 import mindustry.game.Teams;
+import mindustry.gen.Sounds;
 import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
@@ -35,7 +36,7 @@ public class AquaEnv {
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
-    public static Block denseStone, stonePores, clay, metalWall1, metalWalltwo, sparseSnow, packedSnow, floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
+    public static Block okelBush, crasindtree, crasindWall, denseStone, stonePores, clay, metalWall1, metalWalltwo, sparseSnow, packedSnow, floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, floor1, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
@@ -433,6 +434,31 @@ public class AquaEnv {
         }};
         basaltOutcrop = new StaticTree("basalt-outcrop"){{
            variants = 2;
+        }};
+        okelBush = new WobbleProp("okel-bush"){{
+            variants = 2;
+            destroySound = Sounds.plantBreak;
+        }};
+        crasindWall = new StaticTree("crasind-wall"){{
+            variants = 0;
+        }};
+        crasindtree = new FloraBlock("crasind-tree"){{
+            shadowAlpha = 0.6f;
+            buildVisibility = sandboxOnly;
+            variants = 2;
+            drawTeamOverlay = false;
+            rotationRand = 30;
+            size = 2;
+            breakable = false;
+            health = 2500;
+            updateEffectChance = 0.01f;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            createRubble = false;
+            layer = Layer.power - 3;
+            shadowLayer = Layer.blockOver;
+            buildTime = 15 * 60f;
         }};
         tyrqPod = new FloraBlock("tyrq-pod") {{
             shadowAlpha = 0.7f;
@@ -841,12 +867,11 @@ public class AquaEnv {
             lightRadius = 20f;
             lightColor = Pal.reactorPurple.cpy().a(0.1f);
         }};
-        metalVent = new GreedyFloor("metal-vent", 1, 3){{
+        metalVent = new GreedyFloor("metal-vent", 0, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             effect = AquaFx.vent1;
             attributes.set(Attribute.steam, 1f);
-            clipSize = 150;
         }};
         metalWall1 = new StaticWall("metal-wall"){{
             variants = 6;
