@@ -223,14 +223,16 @@ public class AquaDefense {
             size = 2;
         }};
         smallDefunctWall = new Wall("defunct-wall-small"){{
+            requirements(Category.defense, ItemStack.with(lead, 10, silicon, 15));
             size = 1;
-            health = 200;
+            health = 250;
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.defense;
         }};
         defunctWall = new Wall("defunct-wall"){{
+            requirements(Category.defense, ItemStack.mult(smallDefunctWall.requirements, 4));
             size = 2;
-            health = 800;
+            health = 1000;
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.defense;
         }};

@@ -66,12 +66,6 @@ public class AquaEnv {
         algal_carpet = new Floor("algal-carpet", 5) {{
 
         }};
-        floor1 = new Floor("floor1"){{
-           tilingVariants = 1;
-            autotile = true;
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-        }};
         brine_liquid = new Floor("brine-liquid") {{
             speedMultiplier = 0.1f;
             variants = 0;
@@ -85,7 +79,6 @@ public class AquaEnv {
         }};
         ultrafamicFloor = new Floor("ultrafamic-floor", 3) {{
             wall = ultrafamicWall;
-
         }};
         ultrafamicPlates = new Floor("ultrafamic-plates", 6) {{
             wall = ultrafamicWall;
