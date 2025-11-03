@@ -71,6 +71,7 @@ public class TiledFloor extends Floor {
         } else {
             Draw.rect(variantRegions[variant(tile.x, tile.y)], tile.worldx(), tile.worldy());
         }
+        drawOverlay(tile);
         Draw.alpha(1f);
         drawEdges(tile);
     }

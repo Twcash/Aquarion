@@ -65,7 +65,6 @@ public class GenericGenerator extends ConsumeGenerator {
             return super.shouldConsume();
         }
         public void craft(){
-            consume();
 
             if(outputItems != null){
                 for(var output : outputItems){
