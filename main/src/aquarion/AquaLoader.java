@@ -5,52 +5,37 @@ import aquarion.ui.AquaStyles;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
 import arc.*;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.util.*;
 import mindustry.Vars;
 import mindustry.ctype.*;
 import mindustry.game.EventType;
-import mindustry.game.EventType.*;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
+import mindustry.game.MapObjectives;
+import mindustry.game.Rules;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 import aquarion.annotations.Annotations.*;
 import aquarion.gen.*;
 
-import static mindustry.Vars.*;
 import static arc.Core.app;
 import static mindustry.Vars.headless;
-import arc.*;
-import arc.util.*;
-import mindustry.ctype.*;
-import mindustry.game.EventType.*;
-import mindustry.mod.*;
-import mindustry.ui.dialogs.*;
-import aquarion.annotations.Annotations.*;
-import aquarion.gen.*;
-
-import static mindustry.Vars.*;
-@LoadRegs("error")// Need this temporarily, so the class gets generated.
+@LoadRegs("error")
 @EnsureLoad
 public class AquaLoader extends Mod {
     public static boolean tools = false;
     protected static Mods.LoadedMod mod;
+
     public AquaLoader(){
         this(false);
     }
+
     public AquaLoader(boolean tools){
         Events.run(EventType.Trigger.draw, Renderer::draw);
         ModEventHandler.init();
         Events.on(EventType.FileTreeInitEvent.class, e ->
                 app.post(AquaShaders::init)
         );
-
         Events.on(EventType.DisposeEvent.class, e ->
                 AquaShaders.dispose()
         );
-        //AquaLoader.tools = tools;
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
                 Regions.load();
@@ -67,7 +52,7 @@ public class AquaLoader extends Mod {
 
         IconLoader.loadIcons();
 
-        if (!Vars.headless && ui != null) {
+        if (!Vars.headless && Vars.ui != null) {
             AquaStyles.load();
             ModEventHandler.load();
         }

@@ -68,6 +68,7 @@ public class AquaLiquids {
             coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             effect = corroding;
             explosiveness = 0.1f;
+            allDatabaseTabs = true;
             boilPoint = 0;
             gasColor = Color.grays(0.8f);
         }};
@@ -75,6 +76,7 @@ public class AquaLiquids {
             coolant = false;
             effect = wet;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             explosiveness = 0.1f;
+            allDatabaseTabs = true;
             viscosity = 0.8f;
             flammability = 0.5f;
         }};
@@ -82,6 +84,7 @@ public class AquaLiquids {
             coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             flammability = 0.1f;
             temperature = 0.9f;
+            allDatabaseTabs = true;
             viscosity = 0.9f;
             effect = StatusEffects.melting;
             lightColor = Color.valueOf("ffb477").a(0.7f);
@@ -90,6 +93,7 @@ public class AquaLiquids {
             lightColor = Color.valueOf("d68a7e").a(0.7f);
             flammability = 1;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             explosiveness = 0.4f;
+            allDatabaseTabs = true;
             effect = corroding;
             coolant = false;
             gas = true;
@@ -99,12 +103,14 @@ public class AquaLiquids {
         chlorine = new Liquid("chlorine", Color.valueOf("e1f7bc")){{
             coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             effect = corroding;
+            allDatabaseTabs = true;
             gas = true;
         }};
         fluorine = new Liquid("fluorine", Color.valueOf("c3eff2")){{
             coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             effect = melting;
             flammability = 1.1f;
+            allDatabaseTabs = true;
             gas = true;
         }};
         petroleum = new Liquid("petroleum", Color.valueOf("6d7944")){{
@@ -112,6 +118,7 @@ public class AquaLiquids {
             effect = tarred;
             flammability = 1.5f;
             explosiveness = 0.2f;
+            allDatabaseTabs = true;
             viscosity = 0.8f;
             boilPoint = 0.7f;
             particleSpacing = 30;
@@ -125,12 +132,14 @@ public class AquaLiquids {
             gas = true;
             viscosity = 0.1f;
             flammability = 1.1f;
+            allDatabaseTabs = true;
             explosiveness = 0.1f;
             boilPoint = 0.1f;
             canStayOn.add(water);
         }};
         haze = new Liquid("haze", Color.valueOf("ffffff")){{
             coolant = false;
+            allDatabaseTabs = true;
             effect = burning;
             temperature = 1.1f;
             gas = true;
@@ -138,10 +147,12 @@ public class AquaLiquids {
         air = new Liquid("air", Color.valueOf("bcced5")){{
             gas = true;
             effect = concussed;
+            allDatabaseTabs = true;
             heatCapacity = 0.05f;
         }};
         halideWater = new Liquid("halide-water", Color.valueOf("a3a7be")){{
             heatCapacity = 0.1f;
+            allDatabaseTabs = true;
             effect = StatusEffects.wet;
             boilPoint = 0.5f;
             gasColor = Color.grays(0.9f);
@@ -150,12 +161,14 @@ public class AquaLiquids {
         }};
         muriaticAcid = new AquaLiquid("muriatic-acid", Color.valueOf("faf3a0")){{
             acidity = 1.1f;
+            allDatabaseTabs = true;
             effect = corroding;
             coolant = false;
             boilPoint = 1.1f;
         }};
         argon = new Liquid("argon", Color.valueOf("c891cc")){{
             gas = true;
+            allDatabaseTabs = true;
             heatCapacity = 0.5f;
         }};
     }

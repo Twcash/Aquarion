@@ -66,6 +66,7 @@ public class AquaPlanets {
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
             startSector = 361;
+            prebuildBase = false;
             orbitSpacing = 6f;
             defaultCore = AquaCore.corePike;
             allowLaunchLoadout = false;
@@ -78,7 +79,7 @@ public class AquaPlanets {
                 r.waveTeam = Team.crux;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
-                r.coreDestroyClear = true;
+                r.coreDestroyClear = false;
                 r.fog = false;
                 r.staticFog = false;
                 r.onlyDepositCore = true;

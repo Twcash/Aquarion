@@ -106,6 +106,24 @@ public class AquaTurrets {
                         hitEffect = Fx.hitFlameSmall;
                         despawnEffect = Fx.reactorsmoke;
                     }},
+                    minium, new LaserBoltBulletType() {{
+                        frontColor = AquaPal.redDecal1;
+                        backColor = AquaPal.redDecal1Dark;
+                        speed = 20;
+                        lifetime = 5;
+                        knockback = 0.75f;
+                        hitSize = 9;
+                        damage = 40;
+                        ammoMultiplier = 1f;
+                        reloadMultiplier = 1.6f;
+                        homingPower = 0.02f;
+                        //this thing can shred late game stuff if you do it right
+                        pierceArmor = true;
+                        shootEffect = Fx.shootPyraFlame;
+                        smokeEffect = Fx.shootSmallFlame;
+                        hitEffect = Fx.hitFlameSmall;
+                        despawnEffect = Fx.reactorsmoke;
+                    }},
                     graphite, new LaserBoltBulletType() {{
                         frontColor = graphite.color;
                         backColor = graphite.color;
@@ -113,7 +131,6 @@ public class AquaTurrets {
                         lifetime = 9;
                         hitSize = 11;
                         reloadMultiplier = 1.2f;
-                        ammoMultiplier = 3;
                         knockback = 0.5f;
                         damage = 35;
                         ammoMultiplier = 2f;

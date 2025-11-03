@@ -1654,6 +1654,7 @@ public class AquaUnitTypes {
             speed = 0.45f;
             hitSize = 8;
             range = 110;
+            allDatabaseTabs = true;
             drownTimeMultiplier = 2.5f;
             health = 550;
             armor = 2;
@@ -1711,6 +1712,7 @@ public class AquaUnitTypes {
             range = 80;
             health = 600;
             armor = 4;
+            allDatabaseTabs = true;
             targetAir = false;
             rotateMoveFirst = false;
             omniMovement = true;
@@ -1760,6 +1762,7 @@ public class AquaUnitTypes {
             shadowElevation = 0.2f;
             outlines = true;
             drawCell = false;
+            allDatabaseTabs = true;
             outlineColor = AquaPal.tantDarkestTone;
             weapons.addAll(new Weapon("aquarion-rampart-weapon") {{
                 rotate = false;
@@ -1797,6 +1800,7 @@ public class AquaUnitTypes {
             shadowElevation = 0.2f;
             outlines = true;
             drawCell = false;
+            allDatabaseTabs = true;
             outlineColor = AquaPal.tantDarkestTone;
 
             legCount = 4;
@@ -1846,6 +1850,7 @@ public class AquaUnitTypes {
             hitSize = 8;
             range = 110;
             health = 125;
+            allDatabaseTabs = true;
             armor = 0;
             engineSize = 0;
             setEnginesMirror(
@@ -1893,6 +1898,7 @@ public class AquaUnitTypes {
             health = 100;
             armor = 3;
             engineSize = 3.5f;
+            allDatabaseTabs = true;
             defaultCommand = UnitCommand.repairCommand;
             engineOffset = 3;
             isEnemy = false;
@@ -1947,6 +1953,7 @@ public class AquaUnitTypes {
             legCount = 4;
             baseLegStraightness = 0.25f;
             legStraightness = 0.1f;
+            allDatabaseTabs = true;
             legLength = 18f;
             lockLegBase = true;
             legContinuousMove = true;
@@ -2022,6 +2029,7 @@ public class AquaUnitTypes {
             omniMovement = false;
             circleTarget = true;
             hitSize = 16;
+            allDatabaseTabs = true;
             range = 40;
             health = 550;
             armor = 8;
@@ -2086,6 +2094,7 @@ public class AquaUnitTypes {
             shadowElevation = 0.2f;
             outlines = true;
             drawCell = false;
+            allDatabaseTabs = true;
             outlineColor = AquaPal.tantDarkestTone;
             legCount = 6;
             baseLegStraightness = 0.6f;
@@ -2142,6 +2151,7 @@ public class AquaUnitTypes {
             shadowElevation = 0.3f;
             outlines = true;
             drawCell = false;
+            allDatabaseTabs = true;
             outlineColor = AquaPal.tantDarkestTone;
             weapons.addAll(new Weapon("aquarion-shatter-weapon") {{
                 rotate = false;

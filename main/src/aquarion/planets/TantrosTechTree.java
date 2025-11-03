@@ -112,9 +112,11 @@ public class TantrosTechTree {
                         node(petroleumEngine);
                     });
                     node(heatExchanger);
-                    node(heatEngine, () -> {
-                        node(fumeEngine);
-                        node(hydroxideReactor);
+                    node(leadBurner, ()-> {
+                            node(heatEngine, () -> {
+                                node(fumeEngine);
+                                node(hydroxideReactor);
+                            });
                     });
                 });
             });
@@ -269,7 +271,9 @@ public class TantrosTechTree {
                         nodeProduce(magnesiumPowder, () -> {
                         });
                     });
+                    nodeProduce(salt, ()->{});
                     nodeProduce(Items.lead, () -> {
+                        nodeProduce(minium,()->{});
                         nodeProduce(zinc, ()->{});
                         nodeProduce(biotite, ()->{
                             nodeProduce(rareSludge, ()->{});
@@ -311,9 +315,11 @@ public class TantrosTechTree {
                         });
 
                         nodeProduce(water, () -> {
+                            nodeProduce(haze, ()->{});
                             nodeProduce(air, () -> nodeProduce(halideWater, () -> {
                             }));
                             nodeProduce(magma, () -> {
+                                nodeProduce(muriaticAcid, ()->{});
                                 nodeProduce(slag, () -> nodeProduce(hydroxide, () -> {
                                 }));
                                 nodeProduce(fumes, () -> {
