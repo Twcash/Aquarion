@@ -601,7 +601,7 @@ public class AquaEnv {
             forceDark = true;
         }};
         stoneRock = new rokBlock("stone-rock") {{
-            requirements(Category.effect, with( silicon, 150));
+            requirements(Category.effect, with( silicon, 150, nickel, 50));
             buildVisibility = sandboxOnly;
             size = 1;
             health = 1200;
@@ -615,7 +615,7 @@ public class AquaEnv {
             forceDark = true;
         }};
         largeStoneRock = new rokBlock("large-stone-rock") {{
-            requirements(Category.effect, with( silicon, 1200));
+            requirements(Category.effect, with( silicon, 1200, nickel, 500));
             buildVisibility = sandboxOnly;
             size = 2;
             health = 3500;
@@ -629,7 +629,7 @@ public class AquaEnv {
             forceDark = true;
         }};
         hugeStoneRock = new rokBlock("huge-stone-rock") {{
-            requirements(Category.effect, with( silicon, 3000));
+            requirements(Category.effect, with( silicon, 3000, nickel, 1100));
             buildVisibility = sandboxOnly;
             size = 3;
             health = 8000;
@@ -643,7 +643,7 @@ public class AquaEnv {
             forceDark = true;
         }};
         massiveStoneRock = new rokBlock("massive-stone-rock") {{
-            requirements(Category.effect, with( silicon, 6000));
+            requirements(Category.effect, with( silicon, 6000, nickel, 2500));
             buildVisibility = sandboxOnly;
             size = 4;
             health = 12000;
