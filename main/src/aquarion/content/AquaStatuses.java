@@ -1,4 +1,4 @@
-package aquarion;
+package aquarion.content;
 
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;

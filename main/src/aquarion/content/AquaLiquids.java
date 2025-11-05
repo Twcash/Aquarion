@@ -1,4 +1,4 @@
-package aquarion;
+package aquarion.content;
 
 import aquarion.world.content.AquaLiquid;
 import arc.graphics.Color;
@@ -7,7 +7,7 @@ import mindustry.content.Planets;
 import mindustry.content.StatusEffects;
 import mindustry.type.Liquid;
 
-import static aquarion.AquaStatuses.*;
+import static aquarion.content.AquaStatuses.*;
 import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;

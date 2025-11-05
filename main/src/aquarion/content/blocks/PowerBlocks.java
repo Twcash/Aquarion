@@ -1,6 +1,6 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
-import aquarion.AquaSounds;
+import aquarion.content.AquaSounds;
 import aquarion.world.blocks.power.GenericGenerator;
 import aquarion.world.blocks.power.HeatGenerator;
 import aquarion.world.blocks.power.PowerOutlet;
@@ -16,22 +16,20 @@ import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.power.*;
-import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
-import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.*;
+import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaLiquids.*;
 import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
-import static mindustry.graphics.Layer.power;
 import static mindustry.type.ItemStack.with;
 
-public class AquaPower {
+public class PowerBlocks {
     public static Block defunctGenerator, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent() {

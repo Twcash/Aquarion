@@ -1,13 +1,12 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
-import aquarion.AquaItems;
-import aquarion.AquaLiquids;
-import aquarion.AquaSounds;
-import aquarion.AquaStatuses;
+import aquarion.content.AquaItems;
+import aquarion.content.AquaLiquids;
+import aquarion.content.AquaSounds;
+import aquarion.content.AquaStatuses;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
-import arc.Events;
 import arc.func.Cons;
 import arc.graphics.Blending;
 import arc.graphics.Color;
@@ -23,12 +22,10 @@ import mindustry.entities.UnitSorts;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
-import mindustry.entities.effect.WrapEffect;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.EffectSpawnerPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
-import mindustry.game.EventType;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
@@ -38,19 +35,17 @@ import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.*;
-import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.draw.DrawTurret;
-import mindustry.world.meta.BlockGroup;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
-import static aquarion.AquaItems.cupronickel;
-import static aquarion.AquaItems.ferrosilicon;
-import static aquarion.AquaItems.manganese;
-import static aquarion.AquaItems.nickel;
-import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.fumes;
-import static aquarion.AquaLiquids.*;
+import static aquarion.content.AquaItems.cupronickel;
+import static aquarion.content.AquaItems.ferrosilicon;
+import static aquarion.content.AquaItems.manganese;
+import static aquarion.content.AquaItems.nickel;
+import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaLiquids.fumes;
+import static aquarion.content.AquaLiquids.*;
 import static aquarion.planets.AquaPlanets.*;
 import static aquarion.world.graphics.AquaFx.rand;
 import static aquarion.world.graphics.AquaFx.v;
@@ -67,7 +62,7 @@ import static mindustry.entities.part.DrawPart.PartProgress.warmup;
 import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
-public class AquaTurrets {
+public class TurretBlocks {
     public static Block nostalgia, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack, azimuth, condolence, grace;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {

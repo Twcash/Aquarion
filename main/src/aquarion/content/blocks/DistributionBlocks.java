@@ -1,4 +1,4 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
@@ -8,29 +8,22 @@ import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.content.Planets;
-import mindustry.ctype.ContentType;
-import mindustry.ctype.MappableContent;
 import mindustry.ctype.UnlockableContent;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
-import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.storage.Unloader;
-import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitCargoLoader;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint;
 import mindustry.world.meta.Env;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
-import static aquarion.AquaItems.*;
+import static aquarion.content.AquaItems.*;
 import static aquarion.planets.AquaPlanets.*;
-import static aquarion.units.AquaUnitTypes.rivulet;
+import static aquarion.content.AquaUnitTypes.rivulet;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
-public class AquaDistribution {
+public class DistributionBlocks {
     public static Block payloadTram, sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
             electrumConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,

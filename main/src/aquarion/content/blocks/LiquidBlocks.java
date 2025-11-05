@@ -1,25 +1,20 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
 import aquarion.world.blocks.distribution.*;
 import mindustry.content.Liquids;
 import mindustry.content.Planets;
 import mindustry.type.Category;
 import mindustry.world.Block;
-import mindustry.world.blocks.distribution.DirectionLiquidBridge;
-import mindustry.world.blocks.liquid.LiquidJunction;
-import mindustry.world.blocks.liquid.LiquidRouter;
 import mindustry.world.blocks.production.Pump;
-import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
-import static aquarion.AquaItems.*;
+import static aquarion.content.AquaItems.*;
 import static aquarion.planets.AquaPlanets.*;
-import static mindustry.content.Items.lead;
 import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 
 
-public class AquaLiquid {
+public class LiquidBlocks {
     public static Block siphonUnderflow, pipeTank, pipeJunction, liquidVessel, siphonReservoir, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
 
     public static void loadContent() {

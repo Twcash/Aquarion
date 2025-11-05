@@ -1,11 +1,10 @@
-package aquarion;
+package aquarion.content;
 
 import arc.Core;
 import arc.assets.AssetDescriptor;
 import arc.assets.loaders.SoundLoader;
 import arc.audio.Sound;
 import mindustry.Vars;
-import mindustry.gen.Sounds;
 
 public class AquaSounds {
     public static Sound

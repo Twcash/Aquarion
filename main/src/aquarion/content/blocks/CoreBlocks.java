@@ -1,6 +1,6 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
-import aquarion.units.AquaUnitTypes;
+import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.core.AquaCoreBlock;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
@@ -14,15 +14,15 @@ import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.meta.Env;
 
-import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.fumes;
-import static aquarion.AquaLiquids.haze;
+import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaLiquids.fumes;
+import static aquarion.content.AquaLiquids.haze;
 import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 
-public class AquaCore {
+public class CoreBlocks {
     public static Block coreAnnex, buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
             coreEscarpment, corePike, buildCairn, forceBarrier, crate, deflectorWell;
 

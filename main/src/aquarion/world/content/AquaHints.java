@@ -1,9 +1,9 @@
 package aquarion.world.content;
 
-import aquarion.blocks.AquaCrafters;
-import aquarion.blocks.AquaLiquid;
-import aquarion.blocks.AquaPower;
-import aquarion.blocks.AquaTurrets;
+import aquarion.content.blocks.CrafterBlocks;
+import aquarion.content.blocks.LiquidBlocks;
+import aquarion.content.blocks.PowerBlocks;
+import aquarion.content.blocks.TurretBlocks;
 import aquarion.planets.AquaSectorPresets;
 import arc.Core;
 import arc.Events;
@@ -38,15 +38,15 @@ public class AquaHints {
 
         public enum AquaHint implements HintsFragment.Hint {
             power(
-                    () -> placedBlocks.contains(AquaPower.pylon) || placedBlocks.contains(AquaPower.outlet),
+                    () -> placedBlocks.contains(PowerBlocks.pylon) || placedBlocks.contains(PowerBlocks.outlet),
                     () -> false
             ),
             boosting(
-                    () -> placedBlocks.contains(AquaCrafters.harvester),
+                    () -> placedBlocks.contains(CrafterBlocks.harvester),
                     () -> false
             ),
             solar(
-                    () -> placedBlocks.contains(AquaPower.solarGenerator),
+                    () -> placedBlocks.contains(PowerBlocks.solarGenerator),
                     () -> false
             ),
             outposts(
@@ -54,11 +54,11 @@ public class AquaHints {
                     () -> false
             ),
             ammo(
-                    () -> placedBlocks.contains(AquaTurrets.pelt),
+                    () -> placedBlocks.contains(TurretBlocks.pelt),
                     () -> false
             ),
             siphon(
-                    () -> placedBlocks.contains(AquaLiquid.siphon),
+                    () -> placedBlocks.contains(LiquidBlocks.siphon),
                     () -> false
             );
             

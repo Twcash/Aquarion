@@ -1,4 +1,4 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
 import aquarion.world.blocks.core.OverdrivePylon;
 import arc.graphics.Color;
@@ -11,13 +11,13 @@ import mindustry.world.consumers.ConsumeLiquidFlammable;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
-import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.magma;
+import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaLiquids.magma;
 import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 
-public class AquaEffect {
+public class EffectBlocks {
     public static Block overdrivePylon, overdriveTerminus, lantern;
 
     public static void loadContent() {

@@ -1,9 +1,9 @@
-package aquarion.units;
+package aquarion.content;
 
 import aquarion.type.DerelictUnitType;
 import mindustry.gen.UnitEntity;
 
-public class AquaWrecks {
+public class WreckUnits {
     public static DerelictUnitType custodianWreck, zoarcidWreck, curatorWreck, cyprinWreck, anguilliWreck, messengerWreck, ambassadorWreck, consulWreck, gossWreck, stewardWreck,
     reapWreck, InfantryGerbCorpse, maimeWreck;
     public static void loadContent() {

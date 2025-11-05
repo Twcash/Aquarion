@@ -1,8 +1,8 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
-import aquarion.AquaAttributes;
-import aquarion.AquaItems;
-import aquarion.AquaSounds;
+import aquarion.content.AquaAttributes;
+import aquarion.content.AquaItems;
+import aquarion.content.AquaSounds;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
@@ -33,7 +33,6 @@ import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
-import mindustry.world.blocks.heat.HeatConductor;
 import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.AttributeCrafter;
 import mindustry.world.blocks.production.Drill;
@@ -47,12 +46,11 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
-import mindustry.world.modules.ItemModule;
 
-import static aquarion.AquaAttributes.iron;
-import static aquarion.AquaAttributes.metamorphic;
-import static aquarion.AquaItems.*;
-import static aquarion.AquaLiquids.*;
+import static aquarion.content.AquaAttributes.iron;
+import static aquarion.content.AquaAttributes.metamorphic;
+import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaLiquids.*;
 import static aquarion.planets.AquaPlanets.*;
 import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
@@ -62,7 +60,7 @@ import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
-public class AquaCrafters {
+public class CrafterBlocks {
     public static Block defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);

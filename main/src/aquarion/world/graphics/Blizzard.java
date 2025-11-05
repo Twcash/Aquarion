@@ -1,24 +1,18 @@
 package aquarion.world.graphics;
 
-import aquarion.AquaStatuses;
+import aquarion.content.AquaStatuses;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
-import arc.math.Angles;
 import arc.math.Mathf;
 import arc.util.Time;
-import arc.util.Tmp;
 import mindustry.Vars;
 import mindustry.content.Blocks;
-import mindustry.core.Renderer;
 import mindustry.entities.Effect;
-import mindustry.entities.effect.ParticleEffect;
 import mindustry.gen.*;
 import mindustry.type.weather.ParticleWeather;
 import mindustry.world.Tile;
-
-import static mindustry.gen.WeatherState.fadeTime;
 
 public class Blizzard extends ParticleWeather {
 

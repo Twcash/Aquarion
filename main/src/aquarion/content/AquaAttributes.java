@@ -1,4 +1,4 @@
-package aquarion;
+package aquarion.content;
 import mindustry.world.meta.Attribute;
 
 public class AquaAttributes {

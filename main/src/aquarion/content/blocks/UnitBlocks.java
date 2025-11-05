@@ -1,7 +1,7 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
-import aquarion.AquaSounds;
-import aquarion.units.AquaUnitTypes;
+import aquarion.content.AquaSounds;
+import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.units.UnitBlock;
 import arc.func.Cons;
 import mindustry.content.Blocks;
@@ -15,15 +15,14 @@ import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
-import mindustry.world.modules.ItemModule;
 
-import static aquarion.AquaItems.*;
-import static aquarion.units.AquaUnitTypes.*;
+import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaUnitTypes.*;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
-public class AquaUnitFactories {
+public class UnitBlocks {
     public static Block weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {

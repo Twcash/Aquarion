@@ -1,6 +1,6 @@
 package aquarion.planets;
 
-import aquarion.blocks.AquaCore;
+import aquarion.content.blocks.CoreBlocks;
 import aquarion.content.AquaWeathers;
 import arc.graphics.Color;
 import mindustry.game.Team;
@@ -68,7 +68,7 @@ public class AquaPlanets {
             startSector = 361;
             prebuildBase = false;
             orbitSpacing = 6f;
-            defaultCore = AquaCore.corePike;
+            defaultCore = CoreBlocks.corePike;
             allowLaunchLoadout = false;
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
@@ -123,7 +123,7 @@ public class AquaPlanets {
             startSector = 10;
             atmosphereRadIn = 0.09f;
             orbitSpacing = 6f;
-            defaultCore = AquaCore.corePike;
+            defaultCore = CoreBlocks.corePike;
             allowLaunchLoadout = false;
             atmosphereRadOut = 1.5f;
             lightColor = Color.valueOf("171e53");

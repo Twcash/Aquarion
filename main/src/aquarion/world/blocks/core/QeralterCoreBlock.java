@@ -40,7 +40,7 @@ import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.Env;
 import mindustry.world.modules.ItemModule;
 
-import static aquarion.units.AquaUnitTypes.iris;
+import static aquarion.content.AquaUnitTypes.iris;
 import static mindustry.Vars.*;
 
 //This core makes mining drones and has a build tower for initial construction

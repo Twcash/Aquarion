@@ -1,6 +1,6 @@
 package aquarion.world.blocks.units;
 
-import aquarion.AquaSounds;
+import aquarion.content.AquaSounds;
 import arc.Core;
 import arc.Graphics.Cursor;
 import arc.Graphics.Cursor.SystemCursor;

@@ -1,25 +1,18 @@
 package aquarion;
 
 import aquarion.annotations.Annotations;
-import aquarion.blocks.*;
-import aquarion.content.AquaWeathers;
+import aquarion.content.*;
+import aquarion.content.blocks.*;
 import aquarion.planets.AquaLoadouts;
 import aquarion.planets.AquaPlanets;
 import aquarion.planets.AquaSectorPresets;
 import aquarion.planets.TantrosTechTree;
-import aquarion.units.AquaUnitTypes;
-import aquarion.units.AquaWrecks;
+import aquarion.content.AquaUnitTypes;
+import aquarion.content.WreckUnits;
 import aquarion.world.content.AquaHints;
-import aquarion.world.graphics.AquaMenuRenderer;
-import aquarion.world.graphics.MenuReplacer;
 import arc.Events;
 import arc.assets.Loadable;
-import arc.util.Log;
-import arc.util.Reflect;
 import mindustry.game.EventType;
-import mindustry.ui.fragments.MenuFragment;
-
-import static mindustry.Vars.ui;
 
 @Annotations.LoadRegs("error")// Need this temporarily, so the class gets generated.
 @Annotations.EnsureLoad
@@ -35,24 +28,24 @@ public class AquarionMod  implements Loadable{
         AquaSounds.load();
         AquaItems.load();
         AquaAttributes.load();
-        AquaEffect.loadContent();
+        EffectBlocks.loadContent();
         AquaWeathers.load();
         //actual content needs items liquids FX ect
-        AquaEnv.loadContent();
-        AquaPower.loadContent();
-        AquaLiquid.loadContent();
-        AquaPayload.loadContent();
-        AquaDefense.loadContent();
-        AquaTurrets.loadContent();
-        AquaCrafters.loadContent();
+        EnvironmentBlocks.loadContent();
+        PowerBlocks.loadContent();
+        LiquidBlocks.loadContent();
+        PayloadBlocks.loadContent();
+        DefenseBlocks.loadContent();
+        TurretBlocks.loadContent();
+        CrafterBlocks.loadContent();
 
         //units and cores, keep these after blocks
-        AquaWrecks.loadContent();
+        WreckUnits.loadContent();
         AquaUnitTypes.loadContent();
-        AquaUnitFactories.loadContent();
-        AquaCore.loadContent();
+        UnitBlocks.loadContent();
+        CoreBlocks.loadContent();
         //distribution blocks need to be loaded here bc of unittypes
-        AquaDistribution.loadContent();
+        DistributionBlocks.loadContent();
         //keep these at the back
         AquaLoadouts.load();
 

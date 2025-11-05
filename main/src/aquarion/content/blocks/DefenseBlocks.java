@@ -1,9 +1,8 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
 import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.graphics.AquaPal;
 import mindustry.content.Fx;
-import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.EmptyBulletType;
@@ -13,17 +12,15 @@ import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.Wall;
-import mindustry.world.blocks.production.Drill;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
-import static aquarion.AquaItems.*;
+import static aquarion.content.AquaItems.*;
 import static aquarion.planets.AquaPlanets.*;
 import static mindustry.content.Items.*;
-import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
-public class AquaDefense {
+public class DefenseBlocks {
     public static Block defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 

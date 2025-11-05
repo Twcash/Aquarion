@@ -1,19 +1,17 @@
-package aquarion.blocks;
+package aquarion.content.blocks;
 
-import aquarion.AquaAttributes;
-import aquarion.AquaItems;
-import aquarion.AquaLiquids;
-import aquarion.AquaStatuses;
+import aquarion.content.AquaAttributes;
+import aquarion.content.AquaItems;
+import aquarion.content.AquaLiquids;
+import aquarion.content.AquaStatuses;
 import aquarion.world.blocks.environment.*;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaShaders;
 import arc.func.Cons;
 import arc.graphics.Color;
-import arc.math.Mathf;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Team;
-import mindustry.game.Teams;
 import mindustry.gen.Sounds;
 import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
@@ -23,16 +21,16 @@ import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 
-import static aquarion.AquaAttributes.*;
-import static aquarion.AquaItems.salt;
-import static aquarion.AquaItems.*;
+import static aquarion.content.AquaAttributes.*;
+import static aquarion.content.AquaItems.salt;
+import static aquarion.content.AquaItems.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
 
-public class AquaEnv {
+public class EnvironmentBlocks {
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -140,7 +138,7 @@ public class AquaEnv {
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
             variants = 3;
-            parent = blendGroup = AquaEnv.feldspar;
+            parent = blendGroup = EnvironmentBlocks.feldspar;
             effectSpacing = 15f;
             effect = AquaFx.vent1;
         }};
@@ -164,7 +162,7 @@ public class AquaEnv {
         andesiteVent = new SteamVent("andesite-vent-") {{
             attributes.set(Attribute.steam, 1f);
             variants = 2;
-            parent = blendGroup = AquaEnv.andesiteRubble;
+            parent = blendGroup = EnvironmentBlocks.andesiteRubble;
             effectSpacing = 15f;
             effect = AquaFx.vent1;
         }};
@@ -202,7 +200,7 @@ public class AquaEnv {
 
         gabbro_vent = new SteamVent("gabbro-vent") {{
             attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = AquaEnv.gabbro_extrusions;
+            parent = blendGroup = EnvironmentBlocks.gabbro_extrusions;
             effectSpacing = 15f;
             variants = 3;
             effect = AquaFx.vent1;

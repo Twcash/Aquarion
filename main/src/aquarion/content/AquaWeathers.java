@@ -1,6 +1,5 @@
 package aquarion.content;
 
-import aquarion.AquaSounds;
 import aquarion.world.graphics.AquaParticleWeather;
 import aquarion.world.graphics.Blizzard;
 import aquarion.world.graphics.Monsoon;

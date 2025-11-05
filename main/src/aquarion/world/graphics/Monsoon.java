@@ -1,40 +1,22 @@
 package aquarion.world.graphics;
 
-import aquarion.AquaSounds;
+import aquarion.content.AquaSounds;
 import aquarion.world.entities.AquaLightning;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
-import arc.graphics.gl.Shader;
 import arc.math.Mathf;
-import arc.util.Time;
-import arc.util.Tmp;
 import mindustry.Vars;
-import mindustry.content.Blocks;
 import mindustry.content.Fx;
-import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.BulletType;
-import mindustry.entities.bullet.LightningBulletType;
 import mindustry.game.Team;
-import mindustry.gen.Groups;
-import mindustry.gen.Sounds;
-import mindustry.gen.Unit;
 import mindustry.gen.WeatherState;
 import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
-import mindustry.graphics.Shaders;
-import mindustry.type.weather.RainWeather;
-import mindustry.world.Tile;
 
-import static mindustry.Vars.tilesize;
 import static mindustry.gen.WeatherState.fadeTime;
 
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import arc.math.*;
 import mindustry.content.*;
-import mindustry.entities.*;
-import mindustry.gen.*;
 import mindustry.type.*;
 
 public class Monsoon extends Weather {

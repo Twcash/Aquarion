@@ -1,4 +1,4 @@
-package aquarion;
+package aquarion.content;
 
 import aquarion.world.content.AquaItem;
 import arc.graphics.Color;
