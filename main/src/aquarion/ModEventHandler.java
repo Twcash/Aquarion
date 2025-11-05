@@ -1,6 +1,7 @@
 package aquarion;
 
 import aquarion.annotations.Annotations;
+import aquarion.dialogs.AquaDatabaseDialog;
 import aquarion.dialogs.AquaResearchDialog;
 import aquarion.ui.ModSettings;
 import aquarion.world.graphics.AquaMenuRenderer;
@@ -15,8 +16,11 @@ import mindustry.ui.fragments.MenuFragment;
 @Annotations.EnsureLoad
 public class ModEventHandler {
     public static AquaResearchDialog techDialog;
+    public static AquaDatabaseDialog databaseDialog;
+
     public static void load(){
         techDialog = new AquaResearchDialog();
+        databaseDialog = new AquaDatabaseDialog();
     }
     public static void init() {
 //        Events.on(EventType.ClientLoadEvent.class, e -> {

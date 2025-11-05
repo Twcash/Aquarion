@@ -111,13 +111,12 @@ public class AquaTurrets {
                         backColor = AquaPal.redDecal1Dark;
                         speed = 20;
                         lifetime = 5;
-                        knockback = 0.75f;
+                        knockback = 0.25f;
                         hitSize = 9;
-                        damage = 40;
-                        ammoMultiplier = 1f;
-                        reloadMultiplier = 1.6f;
+                        damage = 5;
+                        ammoMultiplier = 5f;
+                        reloadMultiplier = 10f;
                         homingPower = 0.02f;
-                        //this thing can shred late game stuff if you do it right
                         pierceArmor = true;
                         shootEffect = Fx.shootPyraFlame;
                         smokeEffect = Fx.shootSmallFlame;

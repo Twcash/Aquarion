@@ -18,7 +18,12 @@ dependencies{
     implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
     implementation "com.github.Anuken.Mindustry:core:$mindustryVersion"
 }
-
+task icongen(dependsOn: classes, type: JavaExec){
+    mainClass = "aquarion.tools.proc.IconConverter"
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    workingDir = "../main/assets-raw"
+}
 task proc(dependsOn: [classes, configurations.runtimeClasspath]){
 
     doLast{

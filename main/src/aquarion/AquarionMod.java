@@ -9,7 +9,6 @@ import aquarion.planets.AquaSectorPresets;
 import aquarion.planets.TantrosTechTree;
 import aquarion.units.AquaUnitTypes;
 import aquarion.units.AquaWrecks;
-import aquarion.units.ProspectorUnitTypes;
 import aquarion.world.content.AquaHints;
 import aquarion.world.graphics.AquaMenuRenderer;
 import aquarion.world.graphics.MenuReplacer;
@@ -56,11 +55,6 @@ public class AquarionMod  implements Loadable{
         AquaDistribution.loadContent();
         //keep these at the back
         AquaLoadouts.load();
-
-
-
-        //Other faction stuff
-        ProspectorUnitTypes.loadContent();
 
         //MenuReplacer.replaceMenu(ui.menufrag);
         AquaPlanets.loadContent();

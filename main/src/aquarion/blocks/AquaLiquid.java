@@ -125,37 +125,11 @@ public class AquaLiquid {
             hasPower = true;
             size = 2;
         }};
-        pipe = new Pipe("pipe") {{
-            requirements(Category.liquid, with(ferrosilicon, 2));
-            buildVisibility = BuildVisibility.sandboxOnly;
-            liquidPressure = 10000;
-            liquidCapacity = 50;
-        }};
-        pipeJunction = new LiquidJunction("pipe-junction") {{
-            requirements(Category.liquid, with(electrum, 5, lead, 12));
-            buildVisibility = BuildVisibility.sandboxOnly;
-
-        }};
-        pipeBridge = new DirectionLiquidBridge("pipe-bridge") {{
-            requirements(Category.liquid, with(electrum, 15, lead, 20));
-            buildVisibility = BuildVisibility.sandboxOnly;
-
-            range = 5;
-        }};
-        liquidVessel = new LiquidRouter("liquid-vessel") {{
-            requirements(Category.liquid, with(electrum, 25, lead, 30));
-            buildVisibility = BuildVisibility.sandboxOnly;
-
-            size = 2;
-            liquidCapacity = 700f;
-            solid = true;
-        }};
-        liquidReservoir = new LiquidRouter("liquid-reservoir") {{
-            requirements(Category.liquid, with(electrum, 110, lead, 50, silver, 45));
-            buildVisibility = BuildVisibility.sandboxOnly;
-            liquidCapacity = 2000f;
-            size = 3;
-            solid = true;
-        }};
+//        pipe = new Pipe("pipe") {{
+//            requirements(Category.liquid, with(ferrosilicon, 2));
+//            buildVisibility = BuildVisibility.sandboxOnly;
+//            liquidPressure = 10000;
+//            liquidCapacity = 50;
+//        }};
     }
 }

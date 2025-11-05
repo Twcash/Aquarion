@@ -22,12 +22,11 @@ import static mindustry.Vars.headless;
 public class AquaLoader extends Mod {
     public static boolean tools = false;
     protected static Mods.LoadedMod mod;
-
     public AquaLoader(){
         this(false);
     }
-
     public AquaLoader(boolean tools){
+        this.tools = tools;
         Events.run(EventType.Trigger.draw, Renderer::draw);
         ModEventHandler.init();
         Events.on(EventType.FileTreeInitEvent.class, e ->
@@ -36,6 +35,10 @@ public class AquaLoader extends Mod {
         Events.on(EventType.DisposeEvent.class, e ->
                 AquaShaders.dispose()
         );
+        Events.on(EventType.ClientLoadEvent.class, e -> {
+            IconLoader.loadIcons();
+
+        });
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
                 Regions.load();
@@ -50,7 +53,6 @@ public class AquaLoader extends Mod {
     @Override
     public void init() {
 
-        IconLoader.loadIcons();
 
         if (!Vars.headless && Vars.ui != null) {
             AquaStyles.load();

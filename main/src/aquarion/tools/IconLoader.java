@@ -15,11 +15,7 @@ import java.util.Properties;
 //Stolen From omaloon :troll:
 public class IconLoader{
     public static void loadIcons(){
-        Seq<Font> availableFonts = Seq.with(Fonts.def, Fonts.outline);
-        int fontSize = (int)(Fonts.def.getData().lineHeight / Fonts.def.getData().scaleY);
-
         Properties iconProperties = new Properties();
-        //TODO generate class with char fields with icons
         try(Reader reader = Vars.tree.get("icons/aquarion-icons.properties").reader(512)){
             iconProperties.load(reader);
         }catch(Exception e){
@@ -29,21 +25,14 @@ public class IconLoader{
         for(Map.Entry<Object, Object> entry : iconProperties.entrySet()){
             String codePointStr = (String)entry.getKey();
             String[] valueParts = ((String)entry.getValue()).split("\\|");
-            if(valueParts.length < 2){
-                continue;
-            }
+            if(valueParts.length < 2) continue;
 
             try{
                 int codePoint = Integer.parseInt(codePointStr);
                 String textureName = valueParts[1];
                 TextureRegion region = Core.atlas.find(textureName);
 
-                Vec2 scaledSize = Scaling.fit.apply(region.width, region.height, fontSize, fontSize);
-                Font.Glyph glyph = constructGlyph(codePoint, region, scaledSize, fontSize);
-
-                for(Font font : availableFonts){
-                    font.getData().setGlyph(codePoint, glyph);
-                }
+                Fonts.registerIcon(valueParts[0], textureName, codePoint, region);
 
             }catch(Exception ignored){
             }
