@@ -390,7 +390,7 @@ public class AquaResearchDialog extends BaseDialog {
 
         // Recalculate bounds
         float minx = 0f, miny = 0f, maxx = 0f, maxy = 0f;
-        for(TechTreeNode n : nodes){ //SUCKS TODO REMAKE
+        for(TechTreeNode n : nodes){
             if(!n.visible) continue;
             minx = Math.min(n.x - n.width / 2f, minx);
             maxx = Math.max(n.x + n.width / 2f, maxx);
@@ -485,8 +485,8 @@ public class AquaResearchDialog extends BaseDialog {
             infoTable.touchable = Touchable.enabled;
 
             for (TechTreeNode node : nodes) {
-                ImageButton button = new ImageButton(node.node.content.uiIcon, AquaStyles.technodeFull);
-                button.resizeImage(32f);
+                ImageButton button = new ImageButton(node.node.content.uiIcon, Styles.nodei);
+                button.resizeImage(32);
                 button.getImage().setScaling(Scaling.fit);
                 button.visible(() -> node.visible);
                 if (!net.client()) {
@@ -686,14 +686,13 @@ public class AquaResearchDialog extends BaseDialog {
 
             infoTable.table(b -> {
                 b.margin(0).left().defaults().left();
-
                 if (selectable) {
-                    b.button(Icon.info, Styles.flati, () -> ui.content.show(node.content)).growY().width(50f);
+                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).growY().growX().width(50);
                 }
                 b.add().grow();
                 b.table(desc -> {
                     desc.left().defaults().left();
-                    desc.add(selectable ? node.content.localizedName : "[accent]???");
+                    desc.add(selectable ? node.content.localizedName : "[accent]???[]");
                     desc.row();
                     if (locked(node) || (debugShowRequirements && !net.client())) {
 
@@ -816,6 +815,7 @@ public class AquaResearchDialog extends BaseDialog {
             Draw.z(0f);
 
 
+
             for(int i = 1; i <= maxDepth; i++){
                 float radius = spacing * i;
                 float cx = panX + width / 2f;
@@ -840,6 +840,14 @@ public class AquaResearchDialog extends BaseDialog {
             Draw.color();
             for (TechTreeNode node : nodes) {
                 if (!node.visible) continue;
+                float radius = spacing * 4;
+                float cx = panX/3f + width / 2f;
+                float cy = panY/3f + height / 2f;
+                Draw.color(Pal.darkestGray.a(1f / (3 * 1.5f)));
+                Lines.stroke(12f);
+                Lines.dashLine(node.x+offsetX, node.y+offsetY, node.x+cx, node.y+cy, 10);
+
+
                 for (TechTreeNode child : node.children) {
                     if (!child.visible) continue;
                     boolean lock = locked(node.node) || locked(child.node);
@@ -852,7 +860,6 @@ public class AquaResearchDialog extends BaseDialog {
                     if (lock) {
                         Lines.dashLine(node.x + offsetX, node.y + offsetY, child.x + offsetX, child.y + offsetY, divisions);
                     } else {
-                        //Was this actually worth it? I could've done a straight line nothing special
                         Lines.line(node.x + offsetX, node.y + offsetY, child.x + offsetX, child.y + offsetY);
                         float progress = (Time.time % (60 * 4)) / (60 * 4);
                         float arrowX = Mathf.lerp(node.x + offsetX, child.x + offsetX, progress);
@@ -863,11 +870,14 @@ public class AquaResearchDialog extends BaseDialog {
                         Drawf.tri(arrowX, arrowY, size, base, angle);
                     }
                 }
+
             }
 
             Draw.sort(false);
             Draw.reset();
             super.drawChildren();
+            Draw.color(Pal.accent);
+
         }
     }
 }
