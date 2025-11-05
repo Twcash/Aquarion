@@ -6,7 +6,7 @@ import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.type.Item;
 
-import static aquarion.planets.AquaPlanets.*;
+import static aquarion.content.AquaPlanets.*;
 
 public class AquaItems {
     public static Item polymer;

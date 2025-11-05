@@ -1,8 +1,8 @@
 package aquarion.content;
 
-import aquarion.world.graphics.AquaParticleWeather;
-import aquarion.world.graphics.Blizzard;
-import aquarion.world.graphics.Monsoon;
+import aquarion.world.graphics.weather.AquaParticleWeather;
+import aquarion.world.graphics.weather.Blizzard;
+import aquarion.world.graphics.weather.Monsoon;
 import arc.graphics.Color;
 import arc.util.Time;
 import mindustry.content.StatusEffects;

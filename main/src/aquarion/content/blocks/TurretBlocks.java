@@ -46,7 +46,7 @@ import static aquarion.content.AquaItems.nickel;
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.fumes;
 import static aquarion.content.AquaLiquids.*;
-import static aquarion.planets.AquaPlanets.*;
+import static aquarion.content.AquaPlanets.*;
 import static aquarion.world.graphics.AquaFx.rand;
 import static aquarion.world.graphics.AquaFx.v;
 import static aquarion.world.graphics.AquaPal.*;

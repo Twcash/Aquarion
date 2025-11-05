@@ -4,7 +4,7 @@ import aquarion.content.blocks.CrafterBlocks;
 import aquarion.content.blocks.LiquidBlocks;
 import aquarion.content.blocks.PowerBlocks;
 import aquarion.content.blocks.TurretBlocks;
-import aquarion.planets.AquaSectorPresets;
+import aquarion.content.AquaSectorPresets;
 import arc.Core;
 import arc.Events;
 import arc.func.Boolp;

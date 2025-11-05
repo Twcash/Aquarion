@@ -1,7 +1,7 @@
 package aquarion.dialogs;
 
 import aquarion.ModEventHandler;
-import aquarion.planets.AquaPlanets;
+import aquarion.content.AquaPlanets;
 import aquarion.ui.AquaStyles;
 import arc.Core;
 import arc.Events;

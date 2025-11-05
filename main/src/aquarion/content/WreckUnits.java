@@ -1,6 +1,6 @@
 package aquarion.content;
 
-import aquarion.type.DerelictUnitType;
+import aquarion.units.type.DerelictUnitType;
 import mindustry.gen.UnitEntity;
 
 public class WreckUnits {

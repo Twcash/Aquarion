@@ -8,7 +8,7 @@ import mindustry.content.StatusEffects;
 import mindustry.type.Liquid;
 
 import static aquarion.content.AquaStatuses.*;
-import static aquarion.planets.AquaPlanets.*;
+import static aquarion.content.AquaPlanets.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 

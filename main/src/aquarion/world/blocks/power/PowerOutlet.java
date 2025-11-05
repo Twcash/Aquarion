@@ -1,6 +1,6 @@
 package aquarion.world.blocks.power;
 
-import aquarion.world.graphics.drawers.SwitchRegion;
+import aquarion.world.drawers.SwitchRegion;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;

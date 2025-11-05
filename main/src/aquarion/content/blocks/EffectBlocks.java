@@ -13,7 +13,7 @@ import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.magma;
-import static aquarion.planets.AquaPlanets.*;
+import static aquarion.content.AquaPlanets.*;
 import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 

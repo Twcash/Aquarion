@@ -2,7 +2,6 @@ package aquarion.dialogs;
 
 
 import aquarion.ModEventHandler;
-import aquarion.planets.AquaPlanets;
 import arc.*;
 import arc.graphics.*;
 import arc.input.*;

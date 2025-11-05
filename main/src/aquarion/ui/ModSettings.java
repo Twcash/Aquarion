@@ -1,6 +1,6 @@
 package aquarion.ui;
 
-import aquarion.planets.AquaPlanets;
+import aquarion.content.AquaPlanets;
 import arc.Core;
 import arc.struct.Seq;
 import mindustry.Vars;

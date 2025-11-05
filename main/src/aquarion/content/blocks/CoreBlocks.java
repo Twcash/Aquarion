@@ -17,7 +17,7 @@ import mindustry.world.meta.Env;
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.fumes;
 import static aquarion.content.AquaLiquids.haze;
-import static aquarion.planets.AquaPlanets.*;
+import static aquarion.content.AquaPlanets.*;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
