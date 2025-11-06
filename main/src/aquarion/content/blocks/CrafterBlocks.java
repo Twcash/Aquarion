@@ -1154,12 +1154,12 @@ public class CrafterBlocks {
             maxEfficiency = 4;
             overheatScale = 0.5f;
             hasHeat = true;
-
             liquidCapacity = 600;
             craftTime = 120;
             consumeItems(new ItemStack(lead, 10), new ItemStack(sand, 10));
             consumeItem(minium, 2).boost();
-            itemBoostIntensity = 2;
+            boostersAffectOutput = true;
+            itemBoostIntensity = 1.25f;
             outputItem = new ItemStack(metaglass, 15);
             updateEffect = Fx.coalSmeltsmoke;
             craftEffect = new SeqEffect() {{
@@ -1282,6 +1282,7 @@ public class CrafterBlocks {
             squareSprite = false;
             consumeLiquid(oil, 3);
             outputLiquids = LiquidStack.with(methane, 1, petroleum, 1.5f);
+            consumeLiquid(haze, 2).boost();
             liquidOutputDirections = new int[]{1, 3};
             outputItem = new ItemStack(graphite, 3);
             liquidCapacity = 300;

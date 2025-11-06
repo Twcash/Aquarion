@@ -113,7 +113,7 @@ public class AquaLiquids {
             allDatabaseTabs = true;
             gas = true;
         }};
-        petroleum = new Liquid("petroleum", Color.valueOf("6d7944")){{
+        petroleum = new Liquid("petroleum", Color.valueOf("bc8a5b")){{
             coolant = false;
             effect = tarred;
             flammability = 1.5f;

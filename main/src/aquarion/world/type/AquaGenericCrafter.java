@@ -61,7 +61,8 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
     /** if true, crafters with multiple liquid outputs will dump excess when there's still space for at least one liquid type */
     public boolean dumpExtraLiquid = true;
     public boolean ignoreLiquidFullness = false;
-
+    /** Does the Booster affect output?**/
+    public boolean boostersAffectOutput = false;
     public boolean hasHeat = false;
     public float craftTime = 80;
     public Effect craftEffect = Fx.none;
@@ -97,43 +98,52 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
         flags = EnumSet.of(BlockFlag.factory);
         drawArrow = false;
     }
-
     @Override
     public void setStats(){
         stats.timePeriod = craftTime;
         super.setStats();
+
         if((hasItems && itemCapacity > 0) || outputItems != null){
             stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
         }
-
         if(outputItems != null){
             stats.add(Stat.output, StatValues.items(craftTime, outputItems));
         }
-
         if(outputLiquids != null){
             stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
         }
-        if(hasHeat) {
-            if (baseEfficiency < 1) {
+        //Heat does not have the ability to affect item output.
+        if(hasHeat){
+            if(baseEfficiency < 1){
                 stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
-            } else {
-                stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, maxEfficiency + baseEfficiency, flipHeatScale));
+            }else{
+                stats.add(Stat.booster, AquaStats.heatBooster(
+                        heatRequirement, overheatScale, maxEfficiency + baseEfficiency, flipHeatScale
+                ));
             }
-            stats.add(Stat.maxEfficiency, (int) (maxEfficiency * 100f), StatUnit.percent);
-            if (itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni) {
-                stats.remove(Stat.booster);
-                stats.add(Stat.booster, AquaStats.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, craftTime));
-            }
+        }
+        stats.add(Stat.maxEfficiency, (int)(maxEfficiency * 100f), StatUnit.percent);
+        if(boostersAffectOutput) {
             stats.remove(Stat.booster);
             if (itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni) {
-                stats.remove(Stat.booster);
-                stats.add(Stat.booster, AquaStats.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, ItemBoostUseTime));
+
+                stats.add(Stat.booster, AquaStats.itemOutputBoosters(
+                        "{0}" + StatUnit.multiplier.localized(),
+                        stats.timePeriod,
+                        itemBoostIntensity,
+                        0f,
+                        coni.items,
+                        ItemBoostUseTime
+                ));
             }
             if (liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase) {
                 stats.add(Stat.booster,
-                        StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
+                        AquaStats.liquidOutputMultiplier(
+                                liquid -> (consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
+                                        ? liquidBoostIntensity : 1f,
                                 consBase.amount,
-                                liquidBoostIntensity * liquidBoostIntensity, false, liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
+                                liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid
+                        )
                 );
             }
         }
@@ -321,30 +331,39 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
 
             return enabled;
         }
-
         @Override
         public void updateTile(){
             if(hasHeat){
                 heat = calculateHeat(sideHeat);
             }
+
             float liquidEff = 0f, itemEff = 0f;
             Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
             if(liquidBooster != null) liquidEff = liquidBooster.efficiency(this);
             Consume itemBooster = findConsumer(c -> c instanceof ConsumeItems && c.booster);
             if(itemBooster != null) itemEff = itemBooster.efficiency(this);
 
-            float speed = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
-                    Mathf.lerp(1f, itemBoostIntensity, itemEff) *
-                    efficiency;
-            efficiency *= speed;
+            float totalBoost = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
+                    Mathf.lerp(1f, itemBoostIntensity, itemEff);
+
+            if(!boostersAffectOutput){
+                // Normal behavior: boosters affect speed/efficiency
+                efficiency *= totalBoost;
+            }
+
             if(efficiency > 0){
+                float speed = boostersAffectOutput ? efficiency : totalBoost * efficiency;
+
                 warmup = Mathf.approachDelta(warmup, speed > 0 ? 1f : 0f, warmupSpeed);
                 progress += getProgressIncrease(craftTime);
 
                 if(outputLiquids != null) {
                     float inc = getProgressIncrease(1f);
+                    float boost = boostersAffectOutput ? totalBoost : 1f;
+
                     for (var output : outputLiquids) {
-                        handleLiquid(this, output.liquid, Math.min(output.amount * inc, liquidCapacity - liquids.get(output.liquid)));
+                        handleLiquid(this, output.liquid,
+                                Math.min(output.amount * boost * inc, liquidCapacity - liquids.get(output.liquid)));
                     }
                 }
 
@@ -362,7 +381,6 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             }
             dumpOutputs();
         }
-
         @Override
         public float getProgressIncrease(float baseTime){
             if(ignoreLiquidFullness){
@@ -398,9 +416,18 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
         public void craft(){
             consume();
 
+            float totalBoost = Mathf.lerp(1f, liquidBoostIntensity, liquidEff()) *
+                    Mathf.lerp(1f, itemBoostIntensity, itemEff());
+
             if(outputItems != null){
                 for(var output : outputItems){
-                    for(int i = 0; i < output.amount; i++){
+                    int boostAmount = output.amount;
+
+                    if(boostersAffectOutput){
+                        boostAmount = Math.round(output.amount * totalBoost);
+                    }
+
+                    for(int i = 0; i < boostAmount; i++){
                         offload(output.item);
                     }
                 }
@@ -409,7 +436,17 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             if(wasVisible){
                 craftEffect.at(x, y);
             }
+
             progress %= 1f;
+        }
+        public float liquidEff(){
+            Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
+            return liquidBooster == null ? 0f : liquidBooster.efficiency(this);
+        }
+
+        public float itemEff(){
+            Consume itemBooster = findConsumer(c -> c instanceof ConsumeItems && c.booster);
+            return itemBooster == null ? 0f : itemBooster.efficiency(this);
         }
 
         public void dumpOutputs(){

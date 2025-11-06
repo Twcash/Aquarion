@@ -6,6 +6,7 @@ import mindustry.content.Planets;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.production.Pump;
+import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
@@ -120,11 +121,10 @@ public class LiquidBlocks {
             hasPower = true;
             size = 2;
         }};
-//        pipe = new Pipe("pipe") {{
-//            requirements(Category.liquid, with(ferrosilicon, 2));
-//            buildVisibility = BuildVisibility.sandboxOnly;
-//            liquidPressure = 10000;
-//            liquidCapacity = 50;
-//        }};
+        pipe = new Pipe("pipe") {{
+            requirements(Category.liquid, with(ferrosilicon, 2));
+            liquidPressure = 10000;
+            liquidCapacity = 50;
+        }};
     }
 }

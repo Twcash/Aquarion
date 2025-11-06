@@ -44,6 +44,7 @@ public class deflectorShield extends ForceProjector {
                     bulletNearby.set(true);
                 }
             });
+
             if(bulletNearby.get() && Mathf.chanceDelta(0.05f)){
                 AquaFx.deflectorSteam.at(x, y);
             }
