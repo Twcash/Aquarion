@@ -1104,9 +1104,9 @@ public class CrafterBlocks {
             consumeItem(scrap, 10);
             itemCapacity = 100;
             squareSprite = false;
-            size = 4;
-            craftTime = 60;
-            outputItems = ItemStack.with(sand, 8, copper, 1, nickel, 3, lead, 2);
+            size = 3;
+            craftTime = 120;
+            outputItems = ItemStack.with(sand, 8, copper, 1, nickel, 2, lead, 2);
             consumePower(3f);
         }};
         cupronickelAlloyer = new AquaGenericCrafter("cupronickel-alloying-crucible") {{

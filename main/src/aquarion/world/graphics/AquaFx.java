@@ -348,6 +348,24 @@ public class AquaFx {
                         });
                         rand.setSeed(e.id);
                     }),
+                    deflectorSteam = new Effect(150f, e -> {
+                        rand.setSeed(e.id);
+                        blend(Blending.normal);
+                        color(Color.white);
+                        z(Layer.effect-1);
+
+                        for(int i = 0; i < 5; i++){
+                            float len = Interp.pow5Out.apply(e.finpow()) * 100f;
+                            float rot = rand.range(180f);
+
+                            e.scaled(e.lifetime * rand.random(0.3f, 1f), b -> {
+                                alpha(0.9f * Interp.pow3Out.apply(b.fout()));
+                                v.trns(rot, len * b.finpow());
+                                float scale = Interp.pow5Out.apply(b.fin());
+                                Fill.circle(e.x + v.x, e.y + v.y, 14.5f * scale);
+                            });
+                        }
+                    }),
                     boilerSmoke = new Effect(220f, e -> {
                         for(int i = 0; i < 4; i++){
                             int f = i;
@@ -614,7 +632,7 @@ public class AquaFx {
                 color( Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
 
                 for (int i = 0; i < 25; i++) {
-                    float rot = e.rotation + rand.range(360f); // Similar to shootSmokeSquare
+                    float rot = e.rotation + rand.range(360f);
                     int regionId = rand.random(1, 3);
                     TextureRegion region = Core.atlas.find("aquarion-parzil-debris" + regionId);
                     v.trns(rot, rand.random(e.finpow() * 21f));
