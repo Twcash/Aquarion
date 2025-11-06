@@ -100,8 +100,7 @@ public class AquaStats {
                                 it.add(displayItem(stack.item, stack.amount, timePeriod, true)).pad(10f).padLeft(15f).left();
                             }
                             for (ItemStack i : items) {
-                                it.add(Strings.autoFixed(i.amount / (craftTime / 60f), 2) + StatUnit.perSecond.localized())
-                                        .left().color(Color.lightGray);
+                                it.add(Strings.autoFixed(i.amount / (craftTime / 60f), 20) + StatUnit.perSecond.localized()).left().color(Color.lightGray);
                             }
                         }
                     }).left();
@@ -112,7 +111,6 @@ public class AquaStats {
                             bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2)
                                     + "[lightgray] " + StatUnit.blocks.localized()).row();
 
-                        // 🔸 Display output multiplier instead of speed
                         if(outputBoost != 0)
                             bt.add("[lightgray]" + unit.replace("{0}",
                                     "[stat]" + Strings.autoFixed(outputBoost, 2) + "[lightgray]× output"));
