@@ -1,4 +1,4 @@
-package aquarion.world;
+package aquarion.world.map;
 
 import arc.Core;
 import arc.scene.style.TextureRegionDrawable;

@@ -1,4 +1,4 @@
-package aquarion.world;
+package aquarion.world.units;
 
 import arc.math.Mathf;
 import mindustry.ai.Pathfinder;
