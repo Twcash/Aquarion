@@ -581,6 +581,7 @@ stat.power-throughput = Power Throughput
 stat.maxflow = Max Flow
 stat.acidity = Acidity
 stat.magnetism = Magnetism
+stat.efficiency = [stat]{0}% Output Boost
 
 sectors.threat = Overtone:
 sectors.enemybase = [scarlet]Denizens present.
