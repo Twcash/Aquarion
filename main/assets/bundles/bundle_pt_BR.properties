@@ -427,7 +427,8 @@ liquid.aquarion-petroleum.name = Petroleum
 liquid.aquarion-petroleum.description = Refined oil. Useful for plastic synthesis, combustion, or concentrated into petroleum coke.
 liquid.aquarion-methane.name = Methane
 liquid.aquarion-methane.description = Combustible hydrocarbon gas.
-
+liquid.aquarion-ammonia.name = Ammonia
+liquid.aquarion-ammonia.description = A pungent gas with exceptional thermal conductivity.
 liquid.aquarion-fluorine.name = Fluorine
 liquid.aquarion-fluorine.description = Highly reactive gas. Can be used for plastic synthesis, defenses, and structural healing.
 liquid.aquarion-fluorine.details = spicy gas.
@@ -581,7 +582,7 @@ stat.power-throughput = Power Throughput
 stat.maxflow = Max Flow
 stat.acidity = Acidity
 stat.magnetism = Magnetism
-stat.efficiency = [stat]{0}% Output Boost
+stat.outputmultiplier = [stat]{0}% Output Boost
 
 sectors.threat = Overtone:
 sectors.enemybase = [scarlet]Denizens present.
