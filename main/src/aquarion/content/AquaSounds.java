@@ -8,6 +8,11 @@ import mindustry.Vars;
 
 public class AquaSounds {
     public static Sound
+            engage = new Sound(),
+            advance = new Sound(),
+            hold = new Sound(),
+            rally = new Sound(),
+            retreat = new Sound(),
             monsoon = new Sound(),
             thunder = new Sound(),
             //underwater1 = new Sound(),
@@ -32,6 +37,11 @@ public class AquaSounds {
             refine = new Sound();
 
     public static void load(){
+        engage = loadSound("engage");
+        advance = loadSound("advance");
+        hold = loadSound("hold");
+        rally = loadSound("rally");
+        retreat = loadSound("retreat");
         monsoon = loadSound("monsoon");
         //underwater1 = loadSound("underwater");
         vectorShot = loadSound("vectorShot");

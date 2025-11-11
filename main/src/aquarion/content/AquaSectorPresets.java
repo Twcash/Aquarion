@@ -79,7 +79,7 @@ public class AquaSectorPresets {
         Ingress = new AquaSectorPreset("Ingress", tantros2, 10){{
             allDatabaseTabs = true;
             addStartingItems = true;
-            captureWave = 5;
+            captureWave = 6;
             difficulty = 1;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;

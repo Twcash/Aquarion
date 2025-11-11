@@ -13,7 +13,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
+    public static Liquid ammonia, rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
 
     public static void loadContent() {
 
@@ -29,6 +29,15 @@ public class AquaLiquids {
             coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             gas = true;
             effect = slow;
+        }};
+        ammonia = new Liquid("ammonia", Color.grays(0.6f)) {{
+            coolant = true;
+            temperature = -0.1f;
+            heatCapacity = 0.75f;
+            boilPoint = -0.1f;
+            gasColor = Color.valueOf("e35641");
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            effect = corroded;
         }};
         hydroxide = new Liquid("hydroxide", Color.valueOf("#a97abf")) {{
             coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

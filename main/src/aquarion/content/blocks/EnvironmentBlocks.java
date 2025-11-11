@@ -540,7 +540,7 @@ public class EnvironmentBlocks {
             shadowOffset = -4;
         }};
         basaltRock = new rokBlock("basalt-rock") {{
-            requirements(Category.effect, with(biotite, 100, silicon, 150));
+            requirements(Category.effect, with(zinc, 100, silicon, 150));
             buildVisibility = sandboxOnly;
             size = 1;
             health = 1200;
@@ -555,7 +555,7 @@ public class EnvironmentBlocks {
             forceDark = true;
         }};
         largeBasaltRock = new rokBlock("large-basalt-rock") {{
-            requirements(Category.effect, with(biotite, 900, silicon, 1200));
+            requirements(Category.effect, with(zinc, 900, silicon, 1200));
             buildVisibility = sandboxOnly;
             size = 2;
             health = 3500;
@@ -570,7 +570,7 @@ public class EnvironmentBlocks {
             forceDark = true;
         }};
         hugeBasaltRock = new rokBlock("huge-basalt-rock") {{
-            requirements(Category.effect, with(biotite, 2100, silicon, 3000));
+            requirements(Category.effect, with(zinc, 2100, silicon, 3000));
             buildVisibility = sandboxOnly;
             size = 3;
             health = 8000;
@@ -585,7 +585,7 @@ public class EnvironmentBlocks {
             forceDark = true;
         }};
         massiveBasaltRock = new rokBlock("massive-basalt-rock") {{
-            requirements(Category.effect, with(biotite, 4000, silicon, 6000));
+            requirements(Category.effect, with(zinc, 4000, silicon, 6000));
             buildVisibility = sandboxOnly;
             size = 4;
             health = 12000;

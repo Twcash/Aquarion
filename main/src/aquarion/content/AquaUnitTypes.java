@@ -1,7 +1,10 @@
 package aquarion.content;
 
 //import aquarion.gen.AquaLegsUnit;
+import aquarion.units.DamageStateEffectAbility;
+import aquarion.units.abilities.DeathFxAbility;
 import aquarion.world.AI.DroneAI;
+import aquarion.world.AI.GerbInfantryAI;
 import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.entities.DroneSpawnerBulletType;
 import aquarion.world.graphics.AquaFx;
@@ -10,9 +13,11 @@ import aquarion.world.units.newTankUnitType;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Rect;
+import arc.math.geom.Vec2;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
 import mindustry.content.Fx;
@@ -20,21 +25,29 @@ import mindustry.content.Liquids;
 import mindustry.content.StatusEffects;
 import mindustry.entities.Effect;
 import mindustry.entities.abilities.MoveEffectAbility;
+import mindustry.entities.abilities.ShieldRegenFieldAbility;
+import mindustry.entities.abilities.SpawnDeathAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
+import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.ParticleEffect;
+import mindustry.entities.effect.SeqEffect;
 import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.gen.*;
+import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 import mindustry.type.unit.MissileUnitType;
+import mindustry.type.unit.TankUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
 import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.Env;
 
+import static aquarion.content.WreckUnits.*;
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
@@ -48,6 +61,7 @@ public class AquaUnitTypes {
     public static UnitType endure;
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant, architect;
+    public static UnitType infantry, concussor, lightTruck;
     //core units and transport
 
     public static UnitType
@@ -76,969 +90,968 @@ public class AquaUnitTypes {
 //    //legUnits mechanical
 //    public static  MechanicalUnitType reap;
 //    // mechs
-//    public static MechanicalUnitType messenger, steward;
-//    public static  MechanicalUnitType zoarcid, anguilli, cyprin, pycogen, batoid, goss, heed, effect, consummate, efectuate;
+       public static UnitType messenger, steward;
+        public static  UnitType zoarcid, anguilli, cyprin, pycogen, batoid, goss, heed, effect, consummate, efectuate;
     public static  UnitType rivulet;
     public static void loadContent() {
-//    messenger = new MechanicalUnitType("messenger") {{
-//            speed = 0.65f;
-//            health = 480;
-//            armor = 2;
-//            rotateSpeed = 1.25f;
-//            rotateMoveFirst = true;
-//            mech = true;
-//            envEnabled |= Env.terrestrial | Env.underwater;
-//            envDisabled = Env.none;
-//            constructor = MechUnit::create;
-//            mechLegColor = AquaPal.tantDarkestTone;
-//            abilities.add(new ShieldRegenFieldAbility(25f, 250f, 60f * 2.5f, 110f),
-//
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 8;
-//                        sizeTo = 0;
-//                        lenFrom = 0;
-//                        lenTo = 6;
-//                        line = true;
-//                        length = 15;
-//                        baseLength = 2;
-//                        layer = 90;
-//                        lifetime = 10;
-//                        colorFrom = Color.valueOf("ffea97");
-//                        colorTo = Color.valueOf("ffea9710");
-//                    }}, 90f, .6f) {{
-//                    }},
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 0;
-//                        sizeTo = 4;
-//                        lifetime = 80;
-//                        layer = 80;
-//                        colorFrom = Color.valueOf("262323");
-//                        colorTo = Color.valueOf("746f6f10");
-//                    }}, 15f, .4f) {{
-//                    }}, new SpawnDeathAbility(messengerWreck, 0, 1) {{
-//                        randAmount = 1;
-//                    }});
-//            weapons.add(new Weapon("aquarion-messenger-weapon") {{
-//                mirror = true;
-//                alternate = true;
-//                recoil = 2f;
-//                x = 0;
-//                outlineColor = AquaPal.tantDarkerTone;
-//                recoilTime = 15f;
-//                reload = 40;
-//                layerOffset = -0.001f;
-//                shootX = 4;
-//                range = 125;
-//                bullet = new BasicBulletType(2f, 5) {{
-//                    knockback = -.5f;
-//                    splashDamage = 45;
-//                    splashDamageRadius = 8 * 3.2f;
-//                    splashDamagePierce = false;
-//                    width = height = 9f;
-//                    shrinkX = 0.6f;
-//                    shake = 1;
-//                    shrinkY = 0.1f;
-//                    shootEffect = Fx.shootSmall;
-//                    shootSound = Sounds.laser;
-//                    smokeEffect = Fx.shootBigSmoke;
-//                    trailLength = 5;
-//                    trailWidth = 2;
-//                    lifetime = 45f;
-//                    maxRange = 80;
-//                    trailEffect = Fx.none;
-//                    collidesTiles = true;
-//                    collidesGround = true;
-//                    frontColor = hitColor = lightColor = Color.white;
-//                    backColor = trailColor = Pal.techBlue;
-//                }};
-//            }});
-//        }};
-//        ambassador = new MechanicalUnitType("ambassador") {{
-//            constructor = LegsUnit::create;
-//            health = 1150;
-//            armor = 10;
-//            legLength = 16;
-//            legPairOffset = 2;
-//            abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
-//
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 8;
-//                        sizeTo = 0;
-//                        lenFrom = 0;
-//                        lenTo = 6;
-//                        line = true;
-//                        length = 15;
-//                        baseLength = 2;
-//                        layer = 90;
-//                        lifetime = 10;
-//                        colorFrom = Color.valueOf("ffea97");
-//                        colorTo = Color.valueOf("ffea9710");
-//                    }}, 90f, .6f) {{
-//                    }},
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 0;
-//                        sizeTo = 4;
-//                        lifetime = 80;
-//                        layer = 80;
-//                        colorFrom = Color.valueOf("262323");
-//                        colorTo = Color.valueOf("746f6f10");
-//                    }}, 15f, .4f) {{
-//                    }}, new SpawnDeathAbility(ambassadorWreck, 0, 1) {{
-//                        randAmount = 1;
-//                    }});
-//            hitSize = 13;
-//            legCount = 4;
-//            speed = 1f;
-//            rotateSpeed = 1.7f;
-//            lockLegBase = true;
-//            legMaxLength = 1.2f;
-//            legMinLength = 0.1f;
-//            weapons.add(new Weapon("aquarion-ambassador-weapon") {{
-//                mirror = true;
-//                x = 8.75f;
-//                recoil = 0.5f;
-//                parts.addAll(new RegionPart("-blade") {{
-//                    moveRot = -10f;
-//                    moveX = 1;
-//                    progress = PartProgress.warmup;
-//                }}, new RegionPart("-panel") {{
-//                    moveX = 1.25f;
-//                    moveY = -1.25f;
-//                    progress = PartProgress.warmup;
-//                }});
-//                alternate = false;
-//                continuous = true;
-//                alwaysContinuous = true;
-//                shootStatus = StatusEffects.slow;
-//                shootStatusDuration = 10;
-//                shootSound = Sounds.torch;
-//                shootY = 4;
-//                shootCone = 25;
-//                top = false;
-//                rotate = false;
-//                bullet = new ContinuousFlameBulletType() {{
-//                    lightStroke = 35;
-//                    divisions = 40;
-//                    width = 3.8f;
-//                    drawFlare = false;
-//                    length = 110;
-//                    pierce = true;
-//                    pierceCap = 2;
-//                    pierceBuilding = true;
-//                    damage = 24;
-//                    damageInterval = 10;
-//                    colors = new Color[]{Color.valueOf("465ab850"), Color.valueOf("66a6d290"), Color.valueOf("98d5ff"), Color.valueOf("d1efff")};
-//                }};
-//            }});
-//        }};
-//        consul = new MechanicalUnitType("consul") {{
-//            constructor = LegsUnit::create;
-//            health = 3500;
-//            abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
-//
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 8;
-//                        sizeTo = 0;
-//                        lenFrom = 0;
-//                        lenTo = 6;
-//                        line = true;
-//                        length = 15;
-//                        baseLength = 2;
-//                        layer = 90;
-//                        lifetime = 10;
-//                        colorFrom = Color.valueOf("ffea97");
-//                        colorTo = Color.valueOf("ffea9710");
-//                    }}, 90f, .6f) {{
-//                    }},
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 0;
-//                        sizeTo = 4;
-//                        lifetime = 80;
-//                        layer = 80;
-//                        colorFrom = Color.valueOf("262323");
-//                        colorTo = Color.valueOf("746f6f10");
-//                    }}, 15f, .4f) {{
-//                    }}, new SpawnDeathAbility(consulWreck, 0, 1) {{
-//                        randAmount = 1;
-//                    }});
-//            armor = 20;
-//            shadowElevation = 0.3f;
-//            legLength = 16;
-//            legPairOffset = 2;
-//            legGroupSize = 2;
-//            legMoveSpace = 1.5f;
-//            drawCell = false;
-//            hitSize = 18;
-//            legCount = 4;
-//            speed = 0.65f;
-//            rotateSpeed = 1.4f;
-//            targetAir = false;
-//            lockLegBase = true;
-//            legMaxLength = 1.2f;
-//            legMinLength = 0.7f;
-//            weapons.add(new Weapon("aquarion-consul-weapon") {{
-//                mirror = true;
-//                x = 12f;
-//                recoil = 1f;
-//                top = false;
-//                layerOffset = -0.00001f;
-//                parts.addAll(
-//                        new RegionPart("-barrel") {{
-//                            layerOffset = -.00001f;
-//                            y = 11f;
-//                            x = 0f;
-//                            mixColor = Color.valueOf("909698");
-//                            mixColorTo = Color.valueOf("909698");
-//                            moveX = 3.25f;
-//                            moveY = 0;
-//                            progress = PartProgress.reload.curve(Interp.sineIn);
-//                        }},
-//                        new RegionPart("-barrel") {{
-//                            layerOffset = -.00001f;
-//                            y = 11f;
-//                            x = -3.25f;
-//                            mixColor = Color.valueOf("909698");
-//                            mixColorTo = Color.valueOf("909698").a(0);
-//                            moveX = 3.25f;
-//                            moveY = 0;
-//                            progress = PartProgress.reload.curve(Interp.sineIn);
-//                        }},
-//                        new RegionPart("-barrel") {{
-//                            layerOffset = -.00001f;
-//                            y = 11f;
-//                            x = 0f;
-//                            mixColor = Color.valueOf("909698").a(0);
-//                            mixColorTo = Color.valueOf("909698");
-//                            moveX = -3.25f;
-//                            moveY = 0;
-//                            progress = PartProgress.reload.curve(Interp.sineIn);
-//                        }});
-//                reload = 15;
-//                shootSound = Sounds.bolt;
-//                shootY = 12;
-//                shootCone = 25;
-//                top = false;
-//                rotate = true;
-//                rotationLimit = 15;
-//                flipSprite = true;
-//                bullet = new RailBulletType() {{
-//                    pierce = true;
-//                    pierceCap = 3;
-//                    pierceBuilding = true;
-//                    damage = 95;
-//                    length = 110;
-//                    pointEffectSpace = 6;
-//                    pierceDamageFactor = 0.5f;
-//                    collidesAir = false;
-//                    shootEffect = Fx.shootBigColor;
-//                    hitEffect = Fx.hitSquaresColor;
-//                    smokeEffect = new MultiEffect(new ParticleEffect() {{
-//                        line = true;
-//                        cone = 60;
-//                        particles = 6;
-//                        lenFrom = 7;
-//                        lenTo = 0;
-//                        length = 15;
-//                        sizeFrom = 10;
-//                        sizeTo = 10;
-//                        rotWithParent = true;
-//                        baseRotation = 0;
-//                        lifetime = 15;
-//                        colorFrom = Color.valueOf("ffffff");
-//                        colorTo = Color.valueOf("ff5656");
-//                    }}, new ParticleEffect() {{
-//                        cone = 65;
-//                        particles = 5;
-//                        layer = 60;
-//                        sizeFrom = 6;
-//                        length = 30;
-//                        sizeTo = 0;
-//                        sizeInterp = Interp.linear;
-//                        interp = Interp.linear;
-//                        rotWithParent = true;
-//                        baseRotation = 0;
-//                        lifetime = 25;
-//                        colorFrom = Color.valueOf("716363");
-//                        colorTo = Color.valueOf("423a3a");
-//                    }});
-//                    endEffect = new ParticleEffect() {{
-//                        line = true;
-//                        cone = 60;
-//                        particles = 4;
-//                        lenFrom = 7;
-//                        lenTo = 0;
-//                        sizeFrom = 10;
-//                        sizeTo = 12;
-//                        rotWithParent = true;
-//                        baseRotation = 0;
-//                        lifetime = 35;
-//                        colorFrom = Color.valueOf("ff5656");
-//                        colorTo = Color.valueOf("c80f0f");
-//                    }};
-//                    pointEffect = new MultiEffect(new ParticleEffect() {{
-//                        line = true;
-//                        cone = 0;
-//                        particles = 1;
-//                        lenFrom = 10;
-//                        lifetime = 10;
-//                        lenTo = 0;
-//                        sizeFrom = 7;
-//                        sizeTo = 0;
-//                        colorFrom = Color.valueOf("ffa9a9");
-//                        colorTo = Color.valueOf("ffa9a9");
-//                        rotWithParent = true;
-//                        baseRotation = 0;
-//                    }}, new ParticleEffect() {{
-//                        line = true;
-//                        cone = 0;
-//                        particles = 1;
-//                        lenFrom = 10;
-//                        lifetime = 10;
-//                        lenTo = 0;
-//                        sizeFrom = 10;
-//                        sizeTo = 0;
-//                        colorFrom = Color.valueOf("ff5656");
-//                        colorTo = Color.valueOf("ff5656");
-//                        rotWithParent = true;
-//                        baseRotation = 0;
-//                    }});
-//                }};
-//            }}, new Weapon("aquarion-consul-missiles") {{
-//                rotate = true;
-//                rotateSpeed = 1.1f;
-//                reload = 90;
-//                mirror = true;
-//                x = 10;
-//                y = -2f;
-//                shoot.shots = 2;
-//                bullet = new MissileBulletType() {{
-//                    weaveScale = 4;
-//                    weaveMag = 6;
-//                    collidesAir = false;
-//                    shootEffect = Fx.shootSmall;
-//                    smokeEffect = Fx.shootSmallSmoke;
-//                    ejectEffect = Fx.casing2;
-//                    despawnEffect = Fx.blastExplosion;
-//                    hitEffect = Fx.blastsmoke;
-//                    homingPower = 0;
-//                    shrinkX = 0.8f;
-//                    shrinkY = 0;
-//                    width = 12;
-//                    height = 12;
-//                    sprite = "missile-large";
-//                    trailLength = 12;
-//                    trailInterp = Interp.slope;
-//                    speed = 2.2f;
-//                    hitSize = 5;
-//                    splashDamageRadius = 3.1f * 8;
-//                    splashDamage = 80;
-//                    frontColor = hitColor = lightColor = Color.white;
-//                    backColor = trailColor = Pal.techBlue;
-//                }};
-//            }});
-//        }};
-//        goss = new MechanicalUnitType("goss") {{
-//            constructor = UnitEntity::create;
-//            engineSize = 0f;
-//            health = 380f;
-//            armor = 2;
-//            groundLayer = 90;
-//            outlineColor = Color.valueOf("232826");
-//            speed = 2.5f;
-//            accel = 0.9f;
-//            envEnabled |= Env.terrestrial | Env.underwater;
-//            envDisabled = Env.none;
-//            health = 270;
-//            hitSize = 7;
-//            abilities.add(
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 8;
-//                        sizeTo = 0;
-//                        lenFrom = 0;
-//                        lenTo = 6;
-//                        line = true;
-//                        length = 15;
-//                        baseLength = 2;
-//                        layer = 90;
-//                        lifetime = 10;
-//                        colorFrom = Color.valueOf("ffea97");
-//                        colorTo = Color.valueOf("ffea9710");
-//                    }}, 90f, .6f) {{
-//                    }},
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 0;
-//                        sizeTo = 4;
-//                        lifetime = 80;
-//                        layer = 80;
-//                        colorFrom = Color.valueOf("262323");
-//                        colorTo = Color.valueOf("746f6f10");
-//                    }}, 15f, .4f) {{
-//                    }}, new SpawnDeathAbility(gossWreck, 0, 1) {{
-//                        randAmount = 1;
-//                    }});
-//            flying = true;
-//            lowAltitude = true;
-//            //damn you intellij
-//            drag = 0.75f;
-//
-//            weapons.add(new Weapon("aquarion-goss-weapon") {{
-//                shoot.shots = 2;
-//                shootSound = Sounds.blaster;
-//                reload = 45;
-//                layerOffset = -0.01f;
-//                x = 0;
-//                y = 0f;
-//                shootY = 5;
-//                recoil = 1;
-//                rotate = false;
-//                mirror = false;
-//                bullet = new BasicBulletType(1.5f, 30, "missile-large") {{
-//                    weaveScale = 6;
-//                    weaveMag = 4;
-//                    shrinkX = 0.1f;
-//                    shrinkY = 0.1f;
-//                    homingPower = 0.02f;
-//                    trailLength = 7;
-//                    hitColor = trailColor = backColor = lightColor = Color.valueOf("ffa665");
-//                    frontColor = Color.white;
-//                    keepVelocity = false;
-//                    drag = -0.02f;
-//                }};
-//            }});
-//        }};
-//        zoarcid = new MechanicalUnitType("zoarcid") {{
-//            engineSize = 0f;
-//            armor = 4;
-//            groundLayer = 90;
-//            envEnabled |= Env.terrestrial | Env.underwater;
-//            envDisabled = Env.none;
-//            hitSize = 8;
-//            rotateSpeed = 3;
-//            constructor = UnitEntity::create;
-//            lowAltitude = true;
-//            health = 320f;
-//            flying = true;
-//            outlineColor = Color.valueOf("232826");
-//            speed = 2.5f;
-//            accel = 0.9f;
-//            drag = 0.75f;
-//            abilities.add(
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 8;
-//                        sizeTo = 0;
-//                        lenFrom = 0;
-//                        lenTo = 6;
-//                        line = true;
-//                        length = 15;
-//                        baseLength = 2;
-//                        layer = 90;
-//                        lifetime = 10;
-//                        colorFrom = Color.valueOf("ffea97");
-//                        colorTo = Color.valueOf("ffea9710");
-//                    }}, 90f, .6f) {{
-//                    }},
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 0;
-//                        sizeTo = 4;
-//                        lifetime = 80;
-//                        layer = 80;
-//                        colorFrom = Color.valueOf("262323");
-//                        colorTo = Color.valueOf("746f6f10");
-//                    }}, 15f, .4f) {{
-//                    }}, new SpawnDeathAbility(zoarcidWreck, 0, 1) {{
-//                        randAmount = 1;
-//                    }},
-//                    new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
-//            weapons.add(new Weapon("aquarion-zoarcid-weapon") {{
-//                            shootSound = Sounds.missileSmall;
-//                            reload = 60;
-//                            layerOffset = -0.01f;
-//                            shootY = 5;
-//                            baseRotation = -5;
-//                            x = 0.5f;
-//                            y = 1.5f;
-//                            recoil = 1;
-//                            shootCone = 25;
-//                            rotate = false;
-//                            alternate = true;
-//                            mirror = true;
-//                            bullet = new BasicBulletType(1.5f, 40) {{
-//                                range = 60;
-//                                hitSize = 5;
-//                                width = 6;
-//                                height = 8;
-//                                frontColor = Color.white;
-//                                backColor = Pal.techBlue;
-//                                weaveMag = 0;
-//                                weaveScale = 0;
-//                                lifetime = 45;
-//                            }};
-//                        }},
-//                    new Weapon("aquarion-zoarcid-weapon") {{
-//                        shootSound = Sounds.missileSmall;
-//                        reload = 60;
-//                        layerOffset = -0.01f;
-//                        shootY = 5;
-//                        baseRotation = 5;
-//                        x = -2.5f;
-//                        flipSprite = true;
-//                        y = 0f;
-//                        recoil = 1;
-//                        shootCone = 25;
-//                        rotate = false;
-//                        alternate = true;
-//                        mirror = true;
-//                        bullet = new BasicBulletType(1.5f, 40) {{
-//                            range = 60;
-//                            hitSize = 5;
-//                            width = 6;
-//                            height = 8;
-//                            frontColor = Color.white;
-//                            backColor = Pal.techBlue;
-//                            weaveMag = 0;
-//                            weaveScale = 0;
-//                            lifetime = 45;
-//                        }};
-//                        rotateSpeed = 4.5f;
-//                    }});
-//        }};
-//        anguilli = new MechanicalUnitType("anguilli") {
-//            {
-//                abilities.add(
-//                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                            particles = 3;
-//                            sizeFrom = 8;
-//                            sizeTo = 0;
-//                            lenFrom = 0;
-//                            lenTo = 6;
-//                            line = true;
-//                            length = 15;
-//                            baseLength = 2;
-//                            layer = 90;
-//                            lifetime = 10;
-//                            colorFrom = Color.valueOf("ffea97");
-//                            colorTo = Color.valueOf("ffea9710");
-//                        }}, 90f, .6f) {{
-//                        }},
-//                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                            particles = 3;
-//                            sizeFrom = 0;
-//                            sizeTo = 4;
-//                            lifetime = 80;
-//                            layer = 80;
-//                            colorFrom = Color.valueOf("262323");
-//                            colorTo = Color.valueOf("746f6f10");
-//                        }}, 15f, .4f) {{
-//                        }}, new SpawnDeathAbility(anguilliWreck, 0, 1) {{
-//                            randAmount = 1;
-//                        }},
-//                        new MoveEffectAbility(6, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
-//                abilities.add(new MoveEffectAbility(-6, -5, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1),
-//                        new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t2TrailAnguilli, 1));
-//                weapons.add(new Weapon("anguilli-weapon") {{
-//                    x = 2;
-//                    y = 0;
-//                    rotate = true;
-//                    shake = 1;
-//                    shoot.shots = 4;
-//                    reload = 110;
-//                    rotateSpeed = 180;
-//                    shootSound = Sounds.mineDeploy;
-//                    shoot.shotDelay = 6;
-//                    bullet = new BasicBulletType(2f, 45) {{
-//                        sprite = "mine-bullet";
-//                        ignoreRotation = true;
-//                        homingDelay = 10;
-//                        lifetime = 80;
-//                        keepVelocity = false;
-//                        shootEffect = smokeEffect = Fx.none;
-//                        shrinkX = 0.5f;
-//                        shrinkY = 0.5f;
-//                        weaveMag = 5f;
-//                        weaveScale = 4f;
-//                        hitSize = 8;
-//                        width = 15;
-//                        height = 15;
-//                        trailWidth = 3.5f;
-//                        trailLength = 12;
-//                        hitSoundVolume = 0.5f;
-//                        frontColor = hitColor = Color.white;
-//                        backColor = trailColor = lightColor = Color.valueOf("8ca4fc");
-//                        hitSound = Sounds.plasmaboom;
-//                        inaccuracy = 2f;
-//                        hitEffect = Fx.blastExplosion;
-//                    }};
-//                }});
-//                engineSize = 0f;
-//                groundLayer = 90;
-//                envEnabled |= Env.terrestrial | Env.underwater;
-//                envDisabled = Env.none;
-//                hitSize = 18;
-//                rotateSpeed = 2.5f;
-//                constructor = UnitEntity::create;
-//                lowAltitude = true;
-//                health = 1700f;
-//                flying = true;
-//                omniMovement = false;
-//                outlineColor = Color.valueOf("232826");
-//                speed = 1.5f;
-//                accel = 0.9f;
-//                drag = 0.8f;
-//                armor = 10;
-//            }
-//        };
-//        cyprin = new MechanicalUnitType("cyprin") {
-//            {
-//                abilities.add(
-//                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                            particles = 3;
-//                            sizeFrom = 8;
-//                            sizeTo = 0;
-//                            lenFrom = 0;
-//                            lenTo = 6;
-//                            line = true;
-//                            length = 15;
-//                            baseLength = 2;
-//                            layer = 90;
-//                            lifetime = 10;
-//                            colorFrom = Color.valueOf("ffea97");
-//                            colorTo = Color.valueOf("ffea9710");
-//                        }}, 90f, .6f) {{
-//                        }},
-//                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                            particles = 3;
-//                            sizeFrom = 0;
-//                            sizeTo = 4;
-//                            lifetime = 80;
-//                            layer = 80;
-//                            colorFrom = Color.valueOf("262323");
-//                            colorTo = Color.valueOf("746f6f10");
-//                        }}, 15f, .4f) {{
-//                        }}, new SpawnDeathAbility(cyprinWreck, 0, 1) {{
-//                            randAmount = 1;
-//                        }},
-//                        new MoveEffectAbility(6, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
-//                abilities.add(new MoveEffectAbility(-6, -5, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1),
-//                        new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t2TrailAnguilli, 1));
-//                weapons.add(new Weapon() {{
-//                    x = 6;
-//                    y = 0;
-//                    rotate = false;
-//                    shake = 2;
-//                    shoot.shots = 10;
-//                    reload = 120;
-//                    mirror = true;
-//                    shootCone = 360;
-//                    rotateSpeed = 180;
-//                    baseRotation = 180;
-//                    shootSound = Sounds.mineDeploy;
-//                    shoot.shotDelay = 3;
-//                    bullet = new BasicBulletType(2.5f, 75) {{
-//                        sprite = "mine-bullet";
-//                        ignoreRotation = true;
-//                        keepVelocity = false;
-//                        shootEffect = smokeEffect = Fx.none;
-//                        shrinkX = 0.5f;
-//                        lifetime = 180;
-//                        shrinkY = 0.5f;
-//                        homingPower = 0.07f;
-//                        sticky = true;
-//                        stickyExtraLifetime = 20;
-//                        splashDamage = 90;
-//                        splashDamageRadius = 22;
-//                        status = AquaStatuses.concussed;
-//                        statusDuration = 15*60f;
-//                        homingDelay = 15;
-//                        weaveMag = 6f;
-//                        weaveScale = 4f;
-//                        hitSize = 12;
-//                        width = 9;
-//                        height = 9;
-//                        trailLength = 7;
-//                        loopSound = Sounds.techloop;
-//                        loopSoundVolume = 0.06f;
-//                        hitSoundVolume = 0.6f;
-//                        frontColor = hitColor = Color.white;
-//                        backColor = trailColor = lightColor = Color.valueOf("8ca4fc");
-//                        hitSound = Sounds.plasmaboom;
-//                        inaccuracy = 5f;
-//                        hitEffect = Fx.blastExplosion;
-//                    }};
-//                }});
-//                engineSize = 0f;
-//                groundLayer = 90;
-//                envEnabled |= Env.terrestrial | Env.underwater;
-//                envDisabled = Env.none;
-//                hitSize = 22;
-//                range = 170;
-//                rotateSpeed = 2.5f;
-//                constructor = UnitEntity::create;
-//                lowAltitude = true;
-//                health = 3500f;
-//                flying = true;
-//                omniMovement = false;
-//                outlineColor = Color.valueOf("232826");
-//                speed = 1.1f;
-//                accel = 0.9f;
-//                drag = 0.8f;
-//                armor = 14;
-//            }
-//        };
-//
-//        // steward tree
-//        steward = new MechanicalUnitType("steward") {{
-//            rotateMoveFirst = true;
-//            armor = 0;
-//            health = 420;
-//            envEnabled |= Env.terrestrial | Env.underwater;
-//            envDisabled = Env.none;
-//            constructor = MechUnit::create;
-//            mechLegColor = AquaPal.tantDarkestTone;
-//            drawCell = false;
-//            mechFrontSway = 0.1f;
-//            mechSideSway = 0.1f;
-//            speed = 0.9f;
-//            rotateSpeed = 4;
-//            abilities.add(
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 8;
-//                        sizeTo = 0;
-//                        lenFrom = 0;
-//                        lenTo = 6;
-//                        line = true;
-//                        length = 15;
-//                        baseLength = 2;
-//                        layer = 90;
-//                        lifetime = 10;
-//                        colorFrom = Color.valueOf("ffea97");
-//                        colorTo = Color.valueOf("ffea9710");
-//                    }}, 90f, .6f) {{
-//                    }},
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 0;
-//                        sizeTo = 4;
-//                        lifetime = 80;
-//                        layer = 80;
-//                        colorFrom = Color.valueOf("262323");
-//                        colorTo = Color.valueOf("746f6f10");
-//                    }}, 15f, .4f) {{
-//                    }}, new SpawnDeathAbility(stewardWreck, 0, 1) {{
-//                        randAmount = 1;
-//                    }});
-//            weapons.add(new Weapon("aquarion-steward-weapon") {{
-//                mirror = true;
-//                alternate = true;
-//                recoil = 1f;
-//                x = 0.25f;
-//                outlineColor = AquaPal.tantDarkerTone;
-//                recoilTime = 5f;
-//                reload = 25;
-//                top = false;
-//                shootX = -4;
-//                range = 75;
-//                bullet = new LaserBoltBulletType(3f, 20) {{
-//                    width = 2f;
-//                    height = 5;
-//                    shootEffect = Fx.shootSmall;
-//                    shootSound = Sounds.blaster;
-//                    smokeEffect = Fx.shootBigSmoke;
-//                    lifetime = 45f;
-//                    maxRange = 80;
-//                    trailEffect = Fx.none;
-//                    collidesTiles = true;
-//                    hitColor = lightColor = Color.white;
-//                    frontColor = Color.white;
-//                    backColor = AquaPal.techGreen;
-//                    healPercent = 0.2f;
-//                    collidesTeam = true;
-//                }};
-//            }});
-//        }};
-//        curator = new MechanicalUnitType("curator") {{
-//            rotateMoveFirst = true;
-//            armor = 4;
-//            health = 900;
-//            envEnabled |= Env.terrestrial | Env.underwater;
-//            envDisabled = Env.none;
-//            constructor = MechUnit::create;
-//            mechLegColor = AquaPal.tantDarkestTone;
-//            drawCell = false;
-//            mechFrontSway = 0.1f;
-//            mechSideSway = 0.1f;
-//            speed = 0.43f;
-//            rotateSpeed = 1.5f;
-//            abilities.add(
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 8;
-//                        sizeTo = 0;
-//                        lenFrom = 0;
-//                        lenTo = 6;
-//                        line = true;
-//                        length = 15;
-//                        baseLength = 2;
-//                        layer = 90;
-//                        lifetime = 10;
-//                        colorFrom = Color.valueOf("ffea97");
-//                        colorTo = Color.valueOf("ffea9710");
-//                    }}, 90f, .6f) {{
-//                    }},
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 0;
-//                        sizeTo = 4;
-//                        lifetime = 80;
-//                        layer = 80;
-//                        colorFrom = Color.valueOf("262323");
-//                        colorTo = Color.valueOf("746f6f10");
-//                    }}, 15f, .4f) {{
-//                    }}, new SpawnDeathAbility(curatorWreck, 0, 1) {{
-//                        randAmount = 1;
-//                    }});
-//            weapons.add(new Weapon() {{
-//                mirror = false;
-//                alternate = true;
-//                recoil = 1f;
-//                x = 0f;
-//                outlineColor = AquaPal.tantDarkerTone;
-//                recoilTime = 5f;
-//                reload = 140;
-//                top = false;
-//                shootSound = Sounds.blaster;
-//                soundPitchMax = 0.8f;
-//                soundPitchMin = 0.2f;
-//                bullet = new LaserBoltBulletType(1.5f, 170) {{
-//                    width = 6f;
-//                    recoil = 10;
-//                    height = 7;
-//                    homingPower = 0.05f;
-//                    homingDelay = 10;
-//                    shootEffect = Fx.shootSmall;
-//                    smokeEffect = Fx.shootBigSmoke;
-//                    lifetime = 90f;
-//                    maxRange = 80;
-//                    trailLength = 14;
-//                    trailWidth = 3;
-//                    trailColor = AquaPal.techGreen;
-//                    weaveMag = 10;
-//                    weaveScale = 2;
-//                    trailEffect = Fx.none;
-//                    collidesTiles = true;
-//                    hitColor = lightColor = Color.white;
-//                    frontColor = Color.white;
-//                    backColor = AquaPal.techGreen;
-//                    healPercent = 30f;
-//                    collidesTeam = true;
-//                }};
-//            }});
-//        }};
-//        custodian = new MechanicalUnitType("custodian") {{
-//            rotateMoveFirst = true;
-//            armor = 6;
-//            health = 2700;
-//            envEnabled |= Env.terrestrial | Env.underwater;
-//            envDisabled = Env.none;
-//            constructor = MechUnit::create;
-//            mechLegColor = AquaPal.tantDarkestTone;
-//            drawCell = false;
-//            mechFrontSway = 0.1f;
-//            mechSideSway = 0.1f;
-//            speed = 0.23f;
-//            rotateSpeed = 1.2f;
-//            abilities.add(
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 8;
-//                        sizeTo = 0;
-//                        lenFrom = 0;
-//                        lenTo = 6;
-//                        line = true;
-//                        length = 15;
-//                        baseLength = 2;
-//                        layer = 90;
-//                        lifetime = 10;
-//                        colorFrom = Color.valueOf("ffea97");
-//                        colorTo = Color.valueOf("ffea9710");
-//                    }}, 90f, .6f) {{
-//                    }},
-//                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
-//                        particles = 3;
-//                        sizeFrom = 0;
-//                        sizeTo = 4;
-//                        lifetime = 80;
-//                        layer = 80;
-//                        colorFrom = Color.valueOf("262323");
-//                        colorTo = Color.valueOf("746f6f10");
-//                    }}, 15f, .4f) {{
-//                    }}, new SpawnDeathAbility(custodianWreck, 0, 1) {{
-//                        randAmount = 1;
-//                    }});
-//            weapons.add(new Weapon() {{
-//                mirror = true;
-//                recoil = 1f;
-//                x = 9f;
-//                y = 5;
-//                shootX = 5;
-//                outlineColor = AquaPal.tantDarkerTone;
-//                recoilTime = 5f;
-//                reload = 90;
-//                alternate = false;
-//                top = false;
-//                shootCone = 4;
-//                shootSound = Sounds.lasershoot;
-//                soundPitchMax = 1.2f;
-//                soundPitchMin = 0.9f;
-//                bullet = new RailBulletType() {{
-//                    length = 8*25;
-//                    hitColor = AquaPal.techGreen;
-//                    damage = 150;
-//                    smokeEffect = Fx.colorSpark;
-//                    endEffect = new Effect(14f, e -> {
-//                        color(e.color);
-//                        Drawf.tri(e.x, e.y, e.fout() * 1.5f, 5f, e.rotation);
-//                    });
-//                    lineEffect = new Effect(20f, e -> {
-//                        if(!(e.data instanceof Vec2 v)) return;
-//
-//                        color(e.color);
-//                        stroke(e.fout() * 1.1f + 1f);
-//
-//                        Fx.rand.setSeed(e.id);
-//                        for(int i = 0; i < 7; i++){
-//                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
-//                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
-//                        }
-//                        for(int i = 0; i < 7; i++){
-//                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
-//                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow()+90, e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.7f);
-//                        }
-//                        for(int i = 0; i < 7; i++){
-//                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
-//                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow()-90, e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.7f);
-//                        }
-//
-//                        e.scaled(14f, b -> {
-//                            stroke(b.fout() * 1.5f);
-//                            color(e.color);
-//                            Lines.line(e.x, e.y, v.x, v.y);
-//                        });
-//                    });
-//                }};
-//
-//            }});
-//        }};
+    messenger = new UnitType("messenger") {{
+            speed = 0.65f;
+            health = 480;
+            armor = 2;
+            rotateSpeed = 1.25f;
+            rotateMoveFirst = true;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            constructor = MechUnit::create;
+            mechLegColor = AquaPal.tantDarkestTone;
+            abilities.add(new ShieldRegenFieldAbility(25f, 250f, 60f * 2.5f, 110f),
+
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(messengerWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
+            weapons.add(new Weapon("aquarion-messenger-weapon") {{
+                mirror = true;
+                alternate = true;
+                recoil = 2f;
+                x = 0;
+                outlineColor = AquaPal.tantDarkerTone;
+                recoilTime = 15f;
+                reload = 40;
+                layerOffset = -0.001f;
+                shootX = 4;
+                range = 125;
+                bullet = new BasicBulletType(2f, 5) {{
+                    knockback = -.5f;
+                    splashDamage = 45;
+                    splashDamageRadius = 8 * 3.2f;
+                    splashDamagePierce = false;
+                    width = height = 9f;
+                    shrinkX = 0.6f;
+                    shake = 1;
+                    shrinkY = 0.1f;
+                    shootEffect = Fx.shootSmall;
+                    shootSound = Sounds.laser;
+                    smokeEffect = Fx.shootBigSmoke;
+                    trailLength = 5;
+                    trailWidth = 2;
+                    lifetime = 45f;
+                    maxRange = 80;
+                    trailEffect = Fx.none;
+                    collidesTiles = true;
+                    collidesGround = true;
+                    frontColor = hitColor = lightColor = Color.white;
+                    backColor = trailColor = Pal.techBlue;
+                }};
+            }});
+        }};
+        ambassador = new UnitType("ambassador") {{
+            constructor = LegsUnit::create;
+            health = 1150;
+            armor = 10;
+            legLength = 16;
+            legPairOffset = 2;
+            abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
+
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(ambassadorWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
+            hitSize = 13;
+            legCount = 4;
+            speed = 1f;
+            rotateSpeed = 1.7f;
+            lockLegBase = true;
+            legMaxLength = 1.2f;
+            legMinLength = 0.1f;
+            weapons.add(new Weapon("aquarion-ambassador-weapon") {{
+                mirror = true;
+                x = 8.75f;
+                recoil = 0.5f;
+                parts.addAll(new RegionPart("-blade") {{
+                    moveRot = -10f;
+                    moveX = 1;
+                    progress = PartProgress.warmup;
+                }}, new RegionPart("-panel") {{
+                    moveX = 1.25f;
+                    moveY = -1.25f;
+                    progress = PartProgress.warmup;
+                }});
+                alternate = false;
+                continuous = true;
+                alwaysContinuous = true;
+                shootStatus = StatusEffects.slow;
+                shootStatusDuration = 10;
+                shootSound = Sounds.torch;
+                shootY = 4;
+                shootCone = 25;
+                top = false;
+                rotate = false;
+                bullet = new ContinuousFlameBulletType() {{
+                    lightStroke = 35;
+                    divisions = 40;
+                    width = 3.8f;
+                    drawFlare = false;
+                    length = 110;
+                    pierce = true;
+                    pierceCap = 2;
+                    pierceBuilding = true;
+                    damage = 24;
+                    damageInterval = 10;
+                    colors = new Color[]{Color.valueOf("465ab850"), Color.valueOf("66a6d290"), Color.valueOf("98d5ff"), Color.valueOf("d1efff")};
+                }};
+            }});
+        }};
+        consul = new UnitType("consul") {{
+            constructor = LegsUnit::create;
+            health = 3500;
+            abilities.add(new ShieldRegenFieldAbility(25f, 75f, 60f * 5, 90f),
+
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(consulWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
+            armor = 20;
+            shadowElevation = 0.3f;
+            legLength = 16;
+            legPairOffset = 2;
+            legGroupSize = 2;
+            legMoveSpace = 1.5f;
+            drawCell = false;
+            hitSize = 18;
+            legCount = 4;
+            speed = 0.65f;
+            rotateSpeed = 1.4f;
+            targetAir = false;
+            lockLegBase = true;
+            legMaxLength = 1.2f;
+            legMinLength = 0.7f;
+            weapons.add(new Weapon("aquarion-consul-weapon") {{
+                mirror = true;
+                x = 12f;
+                recoil = 1f;
+                top = false;
+                layerOffset = -0.00001f;
+                parts.addAll(
+                        new RegionPart("-barrel") {{
+                            layerOffset = -.00001f;
+                            y = 11f;
+                            x = 0f;
+                            mixColor = Color.valueOf("909698");
+                            mixColorTo = Color.valueOf("909698");
+                            moveX = 3.25f;
+                            moveY = 0;
+                            progress = PartProgress.reload.curve(Interp.sineIn);
+                        }},
+                        new RegionPart("-barrel") {{
+                            layerOffset = -.00001f;
+                            y = 11f;
+                            x = -3.25f;
+                            mixColor = Color.valueOf("909698");
+                            mixColorTo = Color.valueOf("909698").a(0);
+                            moveX = 3.25f;
+                            moveY = 0;
+                            progress = PartProgress.reload.curve(Interp.sineIn);
+                        }},
+                        new RegionPart("-barrel") {{
+                            layerOffset = -.00001f;
+                            y = 11f;
+                            x = 0f;
+                            mixColor = Color.valueOf("909698").a(0);
+                            mixColorTo = Color.valueOf("909698");
+                            moveX = -3.25f;
+                            moveY = 0;
+                            progress = PartProgress.reload.curve(Interp.sineIn);
+                        }});
+                reload = 15;
+                shootSound = Sounds.bolt;
+                shootY = 12;
+                shootCone = 25;
+                top = false;
+                rotate = true;
+                rotationLimit = 15;
+                flipSprite = true;
+                bullet = new RailBulletType() {{
+                    pierce = true;
+                    pierceCap = 3;
+                    pierceBuilding = true;
+                    damage = 95;
+                    length = 110;
+                    pointEffectSpace = 6;
+                    pierceDamageFactor = 0.5f;
+                    collidesAir = false;
+                    shootEffect = Fx.shootBigColor;
+                    hitEffect = Fx.hitSquaresColor;
+                    smokeEffect = new MultiEffect(new ParticleEffect() {{
+                        line = true;
+                        cone = 60;
+                        particles = 6;
+                        lenFrom = 7;
+                        lenTo = 0;
+                        length = 15;
+                        sizeFrom = 10;
+                        sizeTo = 10;
+                        rotWithParent = true;
+                        baseRotation = 0;
+                        lifetime = 15;
+                        colorFrom = Color.valueOf("ffffff");
+                        colorTo = Color.valueOf("ff5656");
+                    }}, new ParticleEffect() {{
+                        cone = 65;
+                        particles = 5;
+                        layer = 60;
+                        sizeFrom = 6;
+                        length = 30;
+                        sizeTo = 0;
+                        sizeInterp = Interp.linear;
+                        interp = Interp.linear;
+                        rotWithParent = true;
+                        baseRotation = 0;
+                        lifetime = 25;
+                        colorFrom = Color.valueOf("716363");
+                        colorTo = Color.valueOf("423a3a");
+                    }});
+                    endEffect = new ParticleEffect() {{
+                        line = true;
+                        cone = 60;
+                        particles = 4;
+                        lenFrom = 7;
+                        lenTo = 0;
+                        sizeFrom = 10;
+                        sizeTo = 12;
+                        rotWithParent = true;
+                        baseRotation = 0;
+                        lifetime = 35;
+                        colorFrom = Color.valueOf("ff5656");
+                        colorTo = Color.valueOf("c80f0f");
+                    }};
+                    pointEffect = new MultiEffect(new ParticleEffect() {{
+                        line = true;
+                        cone = 0;
+                        particles = 1;
+                        lenFrom = 10;
+                        lifetime = 10;
+                        lenTo = 0;
+                        sizeFrom = 7;
+                        sizeTo = 0;
+                        colorFrom = Color.valueOf("ffa9a9");
+                        colorTo = Color.valueOf("ffa9a9");
+                        rotWithParent = true;
+                        baseRotation = 0;
+                    }}, new ParticleEffect() {{
+                        line = true;
+                        cone = 0;
+                        particles = 1;
+                        lenFrom = 10;
+                        lifetime = 10;
+                        lenTo = 0;
+                        sizeFrom = 10;
+                        sizeTo = 0;
+                        colorFrom = Color.valueOf("ff5656");
+                        colorTo = Color.valueOf("ff5656");
+                        rotWithParent = true;
+                        baseRotation = 0;
+                    }});
+                }};
+            }}, new Weapon("aquarion-consul-missiles") {{
+                rotate = true;
+                rotateSpeed = 1.1f;
+                reload = 90;
+                mirror = true;
+                x = 10;
+                y = -2f;
+                shoot.shots = 2;
+                bullet = new MissileBulletType() {{
+                    weaveScale = 4;
+                    weaveMag = 6;
+                    collidesAir = false;
+                    shootEffect = Fx.shootSmall;
+                    smokeEffect = Fx.shootSmallSmoke;
+                    ejectEffect = Fx.casing2;
+                    despawnEffect = Fx.blastExplosion;
+                    hitEffect = Fx.blastsmoke;
+                    homingPower = 0;
+                    shrinkX = 0.8f;
+                    shrinkY = 0;
+                    width = 12;
+                    height = 12;
+                    sprite = "missile-large";
+                    trailLength = 12;
+                    trailInterp = Interp.slope;
+                    speed = 2.2f;
+                    hitSize = 5;
+                    splashDamageRadius = 3.1f * 8;
+                    splashDamage = 80;
+                    frontColor = hitColor = lightColor = Color.white;
+                    backColor = trailColor = Pal.techBlue;
+                }};
+            }});
+        }};
+        goss = new UnitType("goss") {{
+            constructor = UnitEntity::create;
+            engineSize = 0f;
+            health = 380f;
+            armor = 2;
+            groundLayer = 90;
+            outlineColor = Color.valueOf("232826");
+            speed = 2.5f;
+            accel = 0.9f;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            health = 270;
+            hitSize = 7;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(gossWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
+            flying = true;
+            lowAltitude = true;
+            //damn you intellij
+            drag = 0.75f;
+
+            weapons.add(new Weapon("aquarion-goss-weapon") {{
+                shoot.shots = 2;
+                shootSound = Sounds.blaster;
+                reload = 45;
+                layerOffset = -0.01f;
+                x = 0;
+                y = 0f;
+                shootY = 5;
+                recoil = 1;
+                rotate = false;
+                mirror = false;
+                bullet = new BasicBulletType(1.5f, 30, "missile-large") {{
+                    weaveScale = 6;
+                    weaveMag = 4;
+                    shrinkX = 0.1f;
+                    shrinkY = 0.1f;
+                    homingPower = 0.02f;
+                    trailLength = 7;
+                    hitColor = trailColor = backColor = lightColor = Color.valueOf("ffa665");
+                    frontColor = Color.white;
+                    keepVelocity = false;
+                    drag = -0.02f;
+                }};
+            }});
+        }};
+        zoarcid = new UnitType("zoarcid") {{
+            engineSize = 0f;
+            armor = 4;
+            groundLayer = 90;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            hitSize = 8;
+            rotateSpeed = 3;
+            constructor = UnitEntity::create;
+            lowAltitude = true;
+            health = 320f;
+            flying = true;
+            outlineColor = Color.valueOf("232826");
+            speed = 2.5f;
+            accel = 0.9f;
+            drag = 0.75f;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(zoarcidWreck, 0, 1) {{
+                        randAmount = 1;
+                    }},
+                    new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
+            weapons.add(new Weapon("aquarion-zoarcid-weapon") {{
+                            shootSound = Sounds.missileSmall;
+                            reload = 60;
+                            layerOffset = -0.01f;
+                            shootY = 5;
+                            baseRotation = -5;
+                            x = 0.5f;
+                            y = 1.5f;
+                            recoil = 1;
+                            shootCone = 25;
+                            rotate = false;
+                            alternate = true;
+                            mirror = true;
+                            bullet = new BasicBulletType(1.5f, 40) {{
+                                range = 60;
+                                hitSize = 5;
+                                width = 6;
+                                height = 8;
+                                frontColor = Color.white;
+                                backColor = Pal.techBlue;
+                                weaveMag = 0;
+                                weaveScale = 0;
+                                lifetime = 45;
+                            }};
+                        }},
+                    new Weapon("aquarion-zoarcid-weapon") {{
+                        shootSound = Sounds.missileSmall;
+                        reload = 60;
+                        layerOffset = -0.01f;
+                        shootY = 5;
+                        baseRotation = 5;
+                        x = -2.5f;
+                        flipSprite = true;
+                        y = 0f;
+                        recoil = 1;
+                        shootCone = 25;
+                        rotate = false;
+                        alternate = true;
+                        mirror = true;
+                        bullet = new BasicBulletType(1.5f, 40) {{
+                            range = 60;
+                            hitSize = 5;
+                            width = 6;
+                            height = 8;
+                            frontColor = Color.white;
+                            backColor = Pal.techBlue;
+                            weaveMag = 0;
+                            weaveScale = 0;
+                            lifetime = 45;
+                        }};
+                        rotateSpeed = 4.5f;
+                    }});
+        }};
+        anguilli = new UnitType("anguilli") {
+            {
+                abilities.add(
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 8;
+                            sizeTo = 0;
+                            lenFrom = 0;
+                            lenTo = 6;
+                            line = true;
+                            length = 15;
+                            baseLength = 2;
+                            layer = 90;
+                            lifetime = 10;
+                            colorFrom = Color.valueOf("ffea97");
+                            colorTo = Color.valueOf("ffea9710");
+                        }}, 90f, .6f) {{
+                        }},
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 0;
+                            sizeTo = 4;
+                            lifetime = 80;
+                            layer = 80;
+                            colorFrom = Color.valueOf("262323");
+                            colorTo = Color.valueOf("746f6f10");
+                        }}, 15f, .4f) {{
+                        }}, new SpawnDeathAbility(anguilliWreck, 0, 1) {{
+                            randAmount = 1;
+                        }},
+                        new MoveEffectAbility(6, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
+                abilities.add(new MoveEffectAbility(-6, -5, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1),
+                        new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t2TrailAnguilli, 1));
+                weapons.add(new Weapon("anguilli-weapon") {{
+                    x = 2;
+                    y = 0;
+                    rotate = true;
+                    shake = 1;
+                    shoot.shots = 4;
+                    reload = 110;
+                    rotateSpeed = 180;
+                    shootSound = Sounds.mineDeploy;
+                    shoot.shotDelay = 6;
+                    bullet = new BasicBulletType(2f, 45) {{
+                        sprite = "mine-bullet";
+                        ignoreRotation = true;
+                        homingDelay = 10;
+                        lifetime = 80;
+                        keepVelocity = false;
+                        shootEffect = smokeEffect = Fx.none;
+                        shrinkX = 0.5f;
+                        shrinkY = 0.5f;
+                        weaveMag = 5f;
+                        weaveScale = 4f;
+                        hitSize = 8;
+                        width = 15;
+                        height = 15;
+                        trailWidth = 3.5f;
+                        trailLength = 12;
+                        hitSoundVolume = 0.5f;
+                        frontColor = hitColor = Color.white;
+                        backColor = trailColor = lightColor = Color.valueOf("8ca4fc");
+                        hitSound = Sounds.plasmaboom;
+                        inaccuracy = 2f;
+                        hitEffect = Fx.blastExplosion;
+                    }};
+                }});
+                engineSize = 0f;
+                groundLayer = 90;
+                envEnabled |= Env.terrestrial | Env.underwater;
+                envDisabled = Env.none;
+                hitSize = 18;
+                rotateSpeed = 2.5f;
+                constructor = UnitEntity::create;
+                lowAltitude = true;
+                health = 1700f;
+                flying = true;
+                omniMovement = false;
+                outlineColor = Color.valueOf("232826");
+                speed = 1.5f;
+                accel = 0.9f;
+                drag = 0.8f;
+                armor = 10;
+            }
+        };
+        cyprin = new UnitType("cyprin") {
+            {
+                abilities.add(
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 8;
+                            sizeTo = 0;
+                            lenFrom = 0;
+                            lenTo = 6;
+                            line = true;
+                            length = 15;
+                            baseLength = 2;
+                            layer = 90;
+                            lifetime = 10;
+                            colorFrom = Color.valueOf("ffea97");
+                            colorTo = Color.valueOf("ffea9710");
+                        }}, 90f, .6f) {{
+                        }},
+                        new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                            particles = 3;
+                            sizeFrom = 0;
+                            sizeTo = 4;
+                            lifetime = 80;
+                            layer = 80;
+                            colorFrom = Color.valueOf("262323");
+                            colorTo = Color.valueOf("746f6f10");
+                        }}, 15f, .4f) {{
+                        }}, new SpawnDeathAbility(cyprinWreck, 0, 1) {{
+                            randAmount = 1;
+                        }},
+                        new MoveEffectAbility(6, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
+                abilities.add(new MoveEffectAbility(-6, -5, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1),
+                        new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t2TrailAnguilli, 1));
+                weapons.add(new Weapon() {{
+                    x = 6;
+                    y = 0;
+                    rotate = false;
+                    shake = 2;
+                    shoot.shots = 10;
+                    reload = 120;
+                    mirror = true;
+                    shootCone = 360;
+                    rotateSpeed = 180;
+                    baseRotation = 180;
+                    shootSound = Sounds.mineDeploy;
+                    shoot.shotDelay = 3;
+                    bullet = new BasicBulletType(2.5f, 75) {{
+                        sprite = "mine-bullet";
+                        ignoreRotation = true;
+                        keepVelocity = false;
+                        shootEffect = smokeEffect = Fx.none;
+                        shrinkX = 0.5f;
+                        lifetime = 180;
+                        shrinkY = 0.5f;
+                        homingPower = 0.07f;
+                        sticky = true;
+                        stickyExtraLifetime = 20;
+                        splashDamage = 90;
+                        splashDamageRadius = 22;
+                        status = AquaStatuses.concussed;
+                        statusDuration = 15*60f;
+                        homingDelay = 15;
+                        weaveMag = 6f;
+                        weaveScale = 4f;
+                        hitSize = 12;
+                        width = 9;
+                        height = 9;
+                        trailLength = 7;
+                        loopSound = Sounds.techloop;
+                        loopSoundVolume = 0.06f;
+                        hitSoundVolume = 0.6f;
+                        frontColor = hitColor = Color.white;
+                        backColor = trailColor = lightColor = Color.valueOf("8ca4fc");
+                        hitSound = Sounds.plasmaboom;
+                        inaccuracy = 5f;
+                        hitEffect = Fx.blastExplosion;
+                    }};
+                }});
+                engineSize = 0f;
+                groundLayer = 90;
+                envEnabled |= Env.terrestrial | Env.underwater;
+                envDisabled = Env.none;
+                hitSize = 22;
+                range = 170;
+                rotateSpeed = 2.5f;
+                constructor = UnitEntity::create;
+                lowAltitude = true;
+                health = 3500f;
+                flying = true;
+                omniMovement = false;
+                outlineColor = Color.valueOf("232826");
+                speed = 1.1f;
+                accel = 0.9f;
+                drag = 0.8f;
+                armor = 14;
+            }
+        };
+
+        // steward tree
+        steward = new UnitType("steward") {{
+            rotateMoveFirst = true;
+            armor = 0;
+            health = 420;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            constructor = MechUnit::create;
+            mechLegColor = AquaPal.tantDarkestTone;
+            drawCell = false;
+            mechFrontSway = 0.1f;
+            mechSideSway = 0.1f;
+            speed = 0.9f;
+            rotateSpeed = 4;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(stewardWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
+            weapons.add(new Weapon("aquarion-steward-weapon") {{
+                mirror = true;
+                alternate = true;
+                recoil = 1f;
+                x = 0.25f;
+                outlineColor = AquaPal.tantDarkerTone;
+                recoilTime = 5f;
+                reload = 25;
+                top = false;
+                shootX = -4;
+                range = 75;
+                bullet = new LaserBoltBulletType(3f, 20) {{
+                    width = 2f;
+                    height = 5;
+                    shootEffect = Fx.shootSmall;
+                    shootSound = Sounds.blaster;
+                    smokeEffect = Fx.shootBigSmoke;
+                    lifetime = 45f;
+                    maxRange = 80;
+                    trailEffect = Fx.none;
+                    collidesTiles = true;
+                    hitColor = lightColor = Color.white;
+                    frontColor = Color.white;
+                    backColor = AquaPal.techGreen;
+                    healPercent = 0.2f;
+                    collidesTeam = true;
+                }};
+            }});
+        }};
+        curator = new UnitType("curator") {{
+            rotateMoveFirst = true;
+            armor = 4;
+            health = 900;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            constructor = MechUnit::create;
+            mechLegColor = AquaPal.tantDarkestTone;
+            drawCell = false;
+            mechFrontSway = 0.1f;
+            mechSideSway = 0.1f;
+            speed = 0.43f;
+            rotateSpeed = 1.5f;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(curatorWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
+            weapons.add(new Weapon() {{
+                mirror = false;
+                alternate = true;
+                recoil = 1f;
+                x = 0f;
+                outlineColor = AquaPal.tantDarkerTone;
+                recoilTime = 5f;
+                reload = 140;
+                top = false;
+                shootSound = Sounds.blaster;
+                soundPitchMax = 0.8f;
+                soundPitchMin = 0.2f;
+                bullet = new LaserBoltBulletType(1.5f, 170) {{
+                    width = 6f;
+                    recoil = 10;
+                    height = 7;
+                    homingPower = 0.05f;
+                    homingDelay = 10;
+                    shootEffect = Fx.shootSmall;
+                    smokeEffect = Fx.shootBigSmoke;
+                    lifetime = 90f;
+                    maxRange = 80;
+                    trailLength = 14;
+                    trailWidth = 3;
+                    trailColor = AquaPal.techGreen;
+                    weaveMag = 10;
+                    weaveScale = 2;
+                    trailEffect = Fx.none;
+                    collidesTiles = true;
+                    hitColor = lightColor = Color.white;
+                    frontColor = Color.white;
+                    backColor = AquaPal.techGreen;
+                    healPercent = 30f;
+                    collidesTeam = true;
+                }};
+            }});
+        }};
+        custodian = new UnitType("custodian") {{
+            rotateMoveFirst = true;
+            armor = 6;
+            health = 2700;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            constructor = MechUnit::create;
+            mechLegColor = AquaPal.tantDarkestTone;
+            drawCell = false;
+            mechFrontSway = 0.1f;
+            mechSideSway = 0.1f;
+            speed = 0.23f;
+            rotateSpeed = 1.2f;
+            abilities.add(
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 8;
+                        sizeTo = 0;
+                        lenFrom = 0;
+                        lenTo = 6;
+                        line = true;
+                        length = 15;
+                        baseLength = 2;
+                        layer = 90;
+                        lifetime = 10;
+                        colorFrom = Color.valueOf("ffea97");
+                        colorTo = Color.valueOf("ffea9710");
+                    }}, 90f, .6f) {{
+                    }},
+                    new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
+                        particles = 3;
+                        sizeFrom = 0;
+                        sizeTo = 4;
+                        lifetime = 80;
+                        layer = 80;
+                        colorFrom = Color.valueOf("262323");
+                        colorTo = Color.valueOf("746f6f10");
+                    }}, 15f, .4f) {{
+                    }}, new SpawnDeathAbility(custodianWreck, 0, 1) {{
+                        randAmount = 1;
+                    }});
+            weapons.add(new Weapon() {{
+                mirror = true;
+                recoil = 1f;
+                x = 9f;
+                y = 5;
+                shootX = 5;
+                outlineColor = AquaPal.tantDarkerTone;
+                recoilTime = 5f;
+                reload = 90;
+                alternate = false;
+                top = false;
+                shootCone = 4;
+                shootSound = Sounds.lasershoot;
+                soundPitchMax = 1.2f;
+                soundPitchMin = 0.9f;
+                bullet = new RailBulletType() {{
+                    length = 8*25;
+                    hitColor = AquaPal.techGreen;
+                    damage = 150;
+                    smokeEffect = Fx.colorSpark;
+                    endEffect = new Effect(14f, e -> {
+                        color(e.color);
+                        Drawf.tri(e.x, e.y, e.fout() * 1.5f, 5f, e.rotation);
+                    });
+                    lineEffect = new Effect(20f, e -> {
+                        if(!(e.data instanceof Vec2 v)) return;
+
+                        color(e.color);
+                        stroke(e.fout() * 1.1f + 1f);
+
+                        Fx.rand.setSeed(e.id);
+                        for(int i = 0; i < 7; i++){
+                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
+                        }
+                        for(int i = 0; i < 7; i++){
+                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow()+90, e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.7f);
+                        }
+                        for(int i = 0; i < 7; i++){
+                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow()-90, e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.7f);
+                        }
+
+                        e.scaled(14f, b -> {
+                            stroke(b.fout() * 1.5f);
+                            color(e.color);
+                            Lines.line(e.x, e.y, v.x, v.y);
+                        });
+                    });
+                }};
+
+            }});
+        }};
         cull = new UnitType("cull") {{
             payloadCapacity = (2 * 2) * tilePayload;
             outlineColor = AquaPal.tantDarkerTone;
@@ -3389,6 +3402,133 @@ public class AquaUnitTypes {
                         trailLength = 6;
                         lifetime = 20;
                     }};
+                }};
+            }});
+        }};
+        infantry = new UnitType("gerb-infantry"){{
+            constructor = LegsUnit::create;
+            legCount = 4;
+            legLength = 9;
+            speed = 1.1f;
+            rotateSpeed = 4f;
+            health = 300;
+            outlineColor = Color.valueOf("1b241e");
+            armor = 2;
+            legMinLength = 0.9f;
+            legMaxLength = 1.1f;
+            legExtension = 1;
+            legGroupSize = 2;
+            legPairOffset = 1;
+            legMoveSpace = 1.1f;
+            drawCell = false;
+            abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.infantryDeath, AquaFx.bloodPool)));
+            aiController = GerbInfantryAI::new;
+            weapons.add(new Weapon("aquarion-gerb-autogun"){{
+                rotate = false;
+                x = 4;
+                mirror = true;
+                reload = 30;
+                shootSound = Sounds.shoot;
+                bullet = new BasicBulletType(4, 18){{
+                    lifetime = 60;
+                    frontColor = Color.white;
+                    backColor = trailColor = Pal.gray;
+                    trailLength = 5;
+
+                }};
+            }});
+        }};
+        concussor = new UnitType("gerb-concussor"){{
+            constructor = LegsUnit::create;
+            legCount = 6;
+            legLength = 11;
+            speed = 0.85f;
+            rotateSpeed = 2.5f;
+            outlineColor = Color.valueOf("1b241e");
+            health = 550;
+            armor = 3;
+            legMinLength = 0.9f;
+            legMaxLength = 1.2f;
+            legExtension = 1;
+            legGroupSize = 2;
+            legPairOffset = 1;
+            baseLegStraightness = 0.1f;
+            legMoveSpace = 1.25f;
+            drawCell = false;
+            aiController = GerbInfantryAI::new;
+            abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.concDeath, AquaFx.bloodPool)));
+            weapons.add(new Weapon("aquarion-gerb-concussion-rifle"){{
+                rotate = true;
+                x = 0;
+                y = -5;
+                mirror = false;
+                reload = 90;
+                rotationLimit = 45;
+                rotateSpeed = 1.1f;
+                shootStatus = StatusEffects.slow;
+                shootStatusDuration = 45;
+                shootSound = Sounds.blaster;
+                bullet = new BasicBulletType(4, 35){{
+                    lifetime = 60;
+                    shootEffect = Fx.shootBigColor;
+                    smokeEffect = Fx.shootBigSmoke;
+                    frontColor = Color.white;
+                    backColor = trailColor = Pal.gray;
+                    homingPower = 0.01f;
+                    splashDamage = 25;
+                    splashDamageRadius = 24;
+                    trailLength = 14;
+                    trailWidth = 2;
+                    width = 8;
+                    height = 14;
+                }};
+            }});
+        }};
+        lightTruck = new TankUnitType("gerb-light-truck"){{
+            constructor = TankUnit::create;
+            speed = 0.55f;
+            rotateSpeed = 1.1f;
+            outlineColor = Color.valueOf("1b241e");
+            health = 700;
+            armor = 5f;
+            drawCell = false;
+            deathExplosionEffect = new SeqEffect(AquaFx.ltruckDeath, new ExplosionEffect(){{
+                smokeRad = 12;
+                smokeSize = 6;
+                smokeColor = Pal.techBlue;
+                sparks = 8;
+                waveRad = 24;
+                waveStroke = 1.4f;
+            }});
+            weapons.add(new Weapon("aquarion-gerb-light-autocannon"){{
+                rotate = true;
+                x = 0;
+                y = 0;
+                mirror = false;
+                reload = 35;
+                recoil = 3;
+                recoilTime = 30;
+                rotationLimit = 110;
+                rotateSpeed = 1.1f;
+                shootStatus = StatusEffects.slow;
+                shootStatusDuration = 50;
+                shootSound = Sounds.shootBig;
+                bullet = new BasicBulletType(8, 55){{
+                    lifetime = 20;
+                    shootEffect = Fx.shootBigColor;
+                    smokeEffect = Fx.shootBigSmoke;
+                    frontColor = Color.white;
+                    backColor = trailColor = Pal.gray;
+                    homingPower = 0.01f;
+                    splashDamage = 25;
+                    splashDamageRadius = 24;
+                    trailLength = 14;
+                    trailWidth = 2;
+                    width = 8;
+                    pierceCap = 2;
+                    pierceBuilding = true;
+                    hitEffect = Fx.hitBulletBig;
+                    height = 14;
                 }};
             }});
         }};

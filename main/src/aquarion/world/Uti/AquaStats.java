@@ -113,7 +113,7 @@ public class AquaStats {
 
                         if(outputBoost != 0)
                             bt.add("[lightgray]" + unit.replace("{0}",
-                                    "[stat]" + Strings.autoFixed(outputBoost, 2) + "[lightgray]× output"));
+                                    "[stat]" + Strings.autoFixed(outputBoost, 2) + "[lightgray] output"));
                     }).right().top().grow().pad(10f).padRight(15f);
                 }).growX().pad(5).padBottom(-5).row();
             }).growX().colspan(table.getColumns());
