@@ -1,5 +1,6 @@
 package aquarion;
 
+import aquarion.content.AquaSectorPresets;
 import aquarion.ui.ModSettings;
 import aquarion.ui.UIEvents;
 import arc.Events;
@@ -21,7 +22,7 @@ public class ModMusic {
     public static Seq<Music> aquaDarkMusic = new Seq<>();
     public static Seq<Music> aquaBossMusic = new Seq<>();
 
-    public static String[] aquaAmbientList = {"underwaves", "che-go-boom", "expansion", "idols"};
+    public static String[] aquaAmbientList = {"quiet-processing", "underwaves", "che-go-boom", "expansion", "idols"};
     public static String[] aquaDarkList = {"bubblerine", "value", "trance", "mold", "assault"};
     public static String[] aquaBossList = {"acceptance", "hero-brine", "not-so-distant-now", "concussive"};
 
@@ -52,6 +53,7 @@ public class ModMusic {
     public static String hyp = "HYPERIUM";
     public static String cas = "Twcash";
     public static String myt = "Mythril";
+    public static String Ace = "Ace1020spawn";
     public static ArrayMap<String, MusicInfo> musics = new ArrayMap<>();
 
     static {
@@ -80,6 +82,7 @@ public class ModMusic {
         musics.put("trance", new MusicInfo("Trance", cas));
         musics.put("mold", new MusicInfo("mold", myt));
         musics.put("assault", new MusicInfo("Assault", myt));
+        musics.put("quiet-processing", new MusicInfo("Quiet Processing\"", ace));
     }
 
     // Don't change from outside I trust you by putting it in public
