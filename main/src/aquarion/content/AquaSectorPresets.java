@@ -1,7 +1,5 @@
 package aquarion.content;
 
-import aquarion.world.map.AquaSectorPreset;
-
 import static aquarion.content.AquaPlanets.fakeSerpulo;
 import static aquarion.content.AquaPlanets.tantros2;
 
