@@ -1,6 +1,5 @@
-package aquarion;
+package aquarion.content;
 
-import aquarion.content.AquaSectorPresets;
 import aquarion.ui.ModSettings;
 import aquarion.ui.UIEvents;
 import arc.Events;
@@ -53,7 +52,7 @@ public class ModMusic {
     public static String hyp = "HYPERIUM";
     public static String cas = "Twcash";
     public static String myt = "Mythril";
-    public static String Ace = "Ace1020spawn";
+    public static String ace = "Ace1020spawn";//I will not call you the "other" name
     public static ArrayMap<String, MusicInfo> musics = new ArrayMap<>();
 
     static {

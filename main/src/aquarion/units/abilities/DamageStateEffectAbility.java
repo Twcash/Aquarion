@@ -1,4 +1,4 @@
-package aquarion.units;
+package aquarion.units.abilities;
 
 import arc.graphics.Color;
 import arc.math.Mathf;

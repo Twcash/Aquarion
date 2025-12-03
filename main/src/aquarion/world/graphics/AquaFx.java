@@ -45,6 +45,23 @@ public class AquaFx {
             lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(2f, 7f) + 1.5f);
         }
     }),
+            healWave = new Effect(35, e -> {
+                color(Color.valueOf("74aff8"));
+                stroke(Interp.pow2In.apply(e.fout()) * 2f);
+                Lines.circle(e.x, e.y, e.rotation/8+4f + e.foutpowdown() * e.rotation);
+                Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
+            }),
+            healSquares = new Effect(14, e -> {
+                color(Color.white, Color.valueOf("74aff8"), e.fin());
+
+
+                randLenVectors(e.id, 5, e.fout() * 17f, (x, y) -> {
+                    float ang = Mathf.angle(x, y);
+                    Fill.square(e.x + x, e.y + y, e.fin() * 3.2f, ang);
+                });
+
+                Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
+            }),
             lightning = new Effect(15f, 500f, e -> {
                 if (!(e.data instanceof Seq)) return;
                 Seq<Vec2> lines = e.data();

@@ -1,12 +1,14 @@
 package aquarion.content;
 
 //import aquarion.gen.AquaLegsUnit;
-import aquarion.units.DamageStateEffectAbility;
+import aquarion.units.abilities.DamageStateEffectAbility;
 import aquarion.units.abilities.DeathFxAbility;
+import aquarion.units.type.AquaUnitType;
 import aquarion.world.AI.DroneAI;
 import aquarion.world.AI.GerbInfantryAI;
 import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.entities.DroneSpawnerBulletType;
+import aquarion.world.entities.parts.EnginePart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.units.newTankUnitType;
@@ -20,13 +22,12 @@ import arc.math.geom.Rect;
 import arc.math.geom.Vec2;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
+import mindustry.ai.types.FlyingFollowAI;
 import mindustry.content.Fx;
 import mindustry.content.Liquids;
 import mindustry.content.StatusEffects;
 import mindustry.entities.Effect;
-import mindustry.entities.abilities.MoveEffectAbility;
-import mindustry.entities.abilities.ShieldRegenFieldAbility;
-import mindustry.entities.abilities.SpawnDeathAbility;
+import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
@@ -34,6 +35,7 @@ import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.effect.SeqEffect;
 import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
+import mindustry.entities.part.ShapePart;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.gen.*;
 import mindustry.graphics.Drawf;
@@ -48,6 +50,7 @@ import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.Env;
 
 import static aquarion.content.WreckUnits.*;
+import static aquarion.world.entities.parts.AquaPart.APartProg.*;
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
@@ -60,38 +63,17 @@ public class AquaUnitTypes {
     public static UnitType isop, empusa, oratoria, rhombodera, parasphendale;
     public static UnitType endure;
     public static UnitType frost, rime, verglas, glaciate, permafrost;
-    public static UnitType cog, tenon, assembly, fabricant, architect;
-    public static UnitType infantry, concussor, lightTruck;
+    public static UnitType cog, tenon, assembly, fabricant;
+    public static UnitType infantry, concussor, lightTruck, healCraft;
     //core units and transport
 
     public static UnitType
         //Sharded units
-            weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, retaliate, index, byteUnit, truple,
-            //sharded "support" units
+            weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, index, byteUnit,
 
-            //qeralter Units
-        weep,
-            //core/mining
-            mite, iris,
-        //strut tree
-        strut, truss, joist, buttress, stanchion,
-
-            //Qeralter Units End Region
-    //messenger tree
-  ambassador, consul, legate, monarch,
-
-     //steward tree
- curator, custodian, caretaker, warden, fish1;
-    public static /*@Annotations.EntityDef({Unitc.class})*/ UnitType cull;
-   // public static @Annotations.EntityDef({Unitc.class, AquaLegsc.class}) AquaLegUnitType rally;
-
-//    //gerbUnits
-//    public static GerbUnitType gerbTest;
-//    //legUnits mechanical
-//    public static  MechanicalUnitType reap;
-//    // mechs
+  ambassador, consul, curator, custodian;
        public static UnitType messenger, steward;
-        public static  UnitType zoarcid, anguilli, cyprin, pycogen, batoid, goss, heed, effect, consummate, efectuate;
+        public static  UnitType zoarcid, anguilli, cyprin, goss, effect, cull;
     public static  UnitType rivulet;
     public static void loadContent() {
     messenger = new UnitType("messenger") {{
@@ -119,8 +101,7 @@ public class AquaUnitTypes {
                         lifetime = 10;
                         colorFrom = Color.valueOf("ffea97");
                         colorTo = Color.valueOf("ffea9710");
-                    }}, 90f, .6f) {{
-                    }},
+                    }}, 90f, .6f),
                     new DamageStateEffectAbility(0f, 0f, Pal.sapBulletBack, new ParticleEffect() {{
                         particles = 3;
                         sizeFrom = 0;
@@ -129,8 +110,7 @@ public class AquaUnitTypes {
                         layer = 80;
                         colorFrom = Color.valueOf("262323");
                         colorTo = Color.valueOf("746f6f10");
-                    }}, 15f, .4f) {{
-                    }}, new SpawnDeathAbility(messengerWreck, 0, 1) {{
+                    }}, 15f, .4f), new SpawnDeathAbility(messengerWreck, 0, 1) {{
                         randAmount = 1;
                     }});
             weapons.add(new Weapon("aquarion-messenger-weapon") {{
@@ -3532,4 +3512,78 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-    }};
+        healCraft = new AquaUnitType("heal-craft"){{
+            constructor = UnitEntity::create;
+            flying = true;
+            lowAltitude = true;
+            health = 450;
+            armor = 2;
+            aiController = FlyingFollowAI::new;
+            strafePenalty = 0.8f;
+            omniMovement = true;
+            canHeal = true;
+            engineSize = 0;
+            drawCell = false;
+            outlineColor = Color.valueOf("1b241e");
+            rotateSpeed = 1.3f;
+            accel = 0.08f;
+            drag = 0.04f;
+            hitSize = 10;
+            circleTarget = true;
+            parts.addAll(new HoverPart(){{
+               color =  Color.valueOf("e84a3d");
+               circles = 2;
+               stroke = 1.1f;
+               sides = 4;
+               rotation = 0;
+               radius = 6f;
+            }},new EnginePart(){{
+                    progress = frontVelocity;
+                    color = Color.valueOf("e84a3d");
+                    radius = 0;
+                    y = -51/4f+2;
+                    moveY = -2f;
+                    mirror = true;
+                    x = 38/4f/2f;
+                    layerOffset = -1;
+            }},new EnginePart(){{
+                progress = frontVelocity;
+                color = Color.valueOf("e84a3d");
+                radius = 0;
+                y = -51/4f+1.75f;
+                moveY = -2f;
+                mirror = true;
+                x = 6/4f;
+                layerOffset = -1f;
+            }},new EnginePart(){{
+                progress = frontVelocity;
+                color = Color.white;
+                radius = 0;
+                y = -51/4f+1.75f;
+                moveY = -1.75f;
+                mirror = true;
+                x = 6/4f;
+                layerOffset = -1f;
+            }},new EnginePart(){{
+                progress = leftVelocity;
+                color = Color.valueOf("e84a3d");
+                radius = 0;
+                moveX = -2f;
+                mirror = false;
+                x = -44/4f+2;
+                layerOffset = -1f;
+            }},new EnginePart(){{
+                progress = rightVelocity;
+                color = Color.valueOf("e84a3d");
+                radius = 0;
+                moveX = 2f;
+                mirror = false;
+                x = 44/4f-2;
+                layerOffset = -1f;
+            }});
+             abilities.addAll(new RepairFieldAbility(10, 90, 120){{
+                activeEffect = AquaFx.healWave;
+            healEffect = AquaFx.healSquares;
+            }});
+        }};
+    }}

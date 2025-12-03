@@ -1,6 +1,6 @@
 package aquarion.ui;
 
-import aquarion.ModMusic;
+import aquarion.content.ModMusic;
 import arc.audio.Music;
 import arc.util.Log;
 import arc.util.Timer;

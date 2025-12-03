@@ -5,11 +5,15 @@ import aquarion.ui.AquaStyles;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
 import arc.*;
+import arc.util.Log;
+import arc.util.Time;
 import mindustry.Vars;
+import mindustry.content.Items;
 import mindustry.ctype.*;
 import mindustry.game.EventType;
 import mindustry.game.MapObjectives;
 import mindustry.game.Rules;
+import mindustry.gen.Building;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 import aquarion.annotations.Annotations.*;
@@ -29,6 +33,8 @@ public class AquaLoader extends Mod {
         this.tools = tools;
         Events.run(EventType.Trigger.draw, Renderer::draw);
         ModEventHandler.init();
+        //Inject custom methods into every vanilla block.
+        //Cheapskate ahh mixins
         Events.on(EventType.FileTreeInitEvent.class, e ->
                 app.post(AquaShaders::init)
         );
