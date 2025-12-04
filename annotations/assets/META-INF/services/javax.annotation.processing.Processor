@@ -1,0 +1,7 @@
+aquarion.annotations.processors.impl.AssetsProcessor
+aquarion.annotations.processors.impl.LoadProcessor
+aquarion.annotations.processors.impl.StructProcessor
+aquarion.annotations.processors.impl.RegionsProcessor
+aquarion.annotations.processors.entity.EntityProcessor
+aquarion.annotations.processors.entity.MergeProcessor
+aquarion.annotations.processors.entity.DupeProcessor

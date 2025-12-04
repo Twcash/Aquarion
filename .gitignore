@@ -6,7 +6,16 @@ build/
 .project
 .classpath
 
+run/
+
+# Project
+main/assets/sprites/
+
 # IDE-specific
 .idea/
 .vscode/
 .kateproject
+build.bat
+ftp.txt
+ftpcmd.log
+sshcommands.bat
