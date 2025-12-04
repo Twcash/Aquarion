@@ -3472,14 +3472,7 @@ public class AquaUnitTypes {
             health = 700;
             armor = 5f;
             drawCell = false;
-            deathExplosionEffect = new SeqEffect(AquaFx.ltruckDeath, new ExplosionEffect(){{
-                smokeRad = 12;
-                smokeSize = 6;
-                smokeColor = Pal.techBlue;
-                sparks = 8;
-                waveRad = 24;
-                waveStroke = 1.4f;
-            }});
+            deathExplosionEffect = new SeqEffect(AquaFx.ltruckDeath);
             weapons.add(new Weapon("aquarion-gerb-light-autocannon"){{
                 rotate = true;
                 x = 0;

@@ -802,6 +802,13 @@ public class AquaFx {
                 blend();
                 Draw.reset();
             }).layer(Layer.groundUnit - 0.1f),
+            ltruckExplosion = new Effect(65, e->{
+                color(Color.white, Pal.techBlue, e.fin());
+                alpha(e.fout());
+                randLenVectors(e.id, 12, 7+Interp.circleOut.apply(e.finpow()) * 20, 0 + e.rotation, 180, (x, y) -> {
+                    Fill.circle(e.x + x - 27 / 4f, e.y + y - 66 / 4f, 4.5f * e.fin());
+                });
+            }),
             azuriteSmelt = new Effect(45, e -> {
                 color(Color.valueOf("9eb8f5"), Color.lightGray, e.fin());
                 randLenVectors(e.id, 4, e.fin() * 5f, (x, y) ->
