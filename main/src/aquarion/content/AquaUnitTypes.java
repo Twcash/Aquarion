@@ -55,7 +55,6 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
 import static mindustry.Vars.tilePayload;
-import static mindustry.gen.Sounds.spray;
 
 public class AquaUnitTypes {
     //cruxahh
@@ -134,7 +133,7 @@ public class AquaUnitTypes {
                     shake = 1;
                     shrinkY = 0.1f;
                     shootEffect = Fx.shootSmall;
-                    shootSound = Sounds.laser;
+                    shootSound = Sounds.shootLaser;
                     smokeEffect = Fx.shootBigSmoke;
                     trailLength = 5;
                     trailWidth = 2;
@@ -208,7 +207,7 @@ public class AquaUnitTypes {
                 alwaysContinuous = true;
                 shootStatus = StatusEffects.slow;
                 shootStatusDuration = 10;
-                shootSound = Sounds.torch;
+                shootSound = Sounds.loopFire;
                 shootY = 4;
                 shootCone = 25;
                 top = false;
@@ -313,7 +312,7 @@ public class AquaUnitTypes {
                             progress = PartProgress.reload.curve(Interp.sineIn);
                         }});
                 reload = 15;
-                shootSound = Sounds.bolt;
+                shootSound = Sounds.shootDiffuse;
                 shootY = 12;
                 shootCone = 25;
                 top = false;
@@ -484,7 +483,7 @@ public class AquaUnitTypes {
 
             weapons.add(new Weapon("aquarion-goss-weapon") {{
                 shoot.shots = 2;
-                shootSound = Sounds.blaster;
+                shootSound = Sounds.shoot;
                 reload = 45;
                 layerOffset = -0.01f;
                 x = 0;
@@ -553,7 +552,7 @@ public class AquaUnitTypes {
                     }},
                     new MoveEffectAbility(0, -3, Pal.sapBulletBack, AquaFx.t1TrailZoarcid, 1));
             weapons.add(new Weapon("aquarion-zoarcid-weapon") {{
-                            shootSound = Sounds.missileSmall;
+                            shootSound = Sounds.shootMissile;
                             reload = 60;
                             layerOffset = -0.01f;
                             shootY = 5;
@@ -578,7 +577,7 @@ public class AquaUnitTypes {
                             }};
                         }},
                     new Weapon("aquarion-zoarcid-weapon") {{
-                        shootSound = Sounds.missileSmall;
+                        shootSound = Sounds.shootMissile;
                         reload = 60;
                         layerOffset = -0.01f;
                         shootY = 5;
@@ -646,7 +645,7 @@ public class AquaUnitTypes {
                     shoot.shots = 4;
                     reload = 110;
                     rotateSpeed = 180;
-                    shootSound = Sounds.mineDeploy;
+                    shootSound = Sounds.shootHorizon;
                     shoot.shotDelay = 6;
                     bullet = new BasicBulletType(2f, 45) {{
                         sprite = "mine-bullet";
@@ -667,7 +666,7 @@ public class AquaUnitTypes {
                         hitSoundVolume = 0.5f;
                         frontColor = hitColor = Color.white;
                         backColor = trailColor = lightColor = Color.valueOf("8ca4fc");
-                        hitSound = Sounds.plasmaboom;
+                        hitSound = Sounds.explosionMissile;
                         inaccuracy = 2f;
                         hitEffect = Fx.blastExplosion;
                     }};
@@ -734,7 +733,7 @@ public class AquaUnitTypes {
                     shootCone = 360;
                     rotateSpeed = 180;
                     baseRotation = 180;
-                    shootSound = Sounds.mineDeploy;
+                    shootSound = Sounds.shootHorizon;
                     shoot.shotDelay = 3;
                     bullet = new BasicBulletType(2.5f, 75) {{
                         sprite = "mine-bullet";
@@ -758,12 +757,12 @@ public class AquaUnitTypes {
                         width = 9;
                         height = 9;
                         trailLength = 7;
-                        loopSound = Sounds.techloop;
+                        loopSound = Sounds.loopTech;
                         loopSoundVolume = 0.06f;
                         hitSoundVolume = 0.6f;
                         frontColor = hitColor = Color.white;
                         backColor = trailColor = lightColor = Color.valueOf("8ca4fc");
-                        hitSound = Sounds.plasmaboom;
+                        hitSound = Sounds.explosionMissile;
                         inaccuracy = 5f;
                         hitEffect = Fx.blastExplosion;
                     }};
@@ -845,7 +844,7 @@ public class AquaUnitTypes {
                     width = 2f;
                     height = 5;
                     shootEffect = Fx.shootSmall;
-                    shootSound = Sounds.blaster;
+                    shootSound = Sounds.shootDuo;
                     smokeEffect = Fx.shootBigSmoke;
                     lifetime = 45f;
                     maxRange = 80;
@@ -909,7 +908,7 @@ public class AquaUnitTypes {
                 recoilTime = 5f;
                 reload = 140;
                 top = false;
-                shootSound = Sounds.blaster;
+                shootSound = Sounds.shootScatter;
                 soundPitchMax = 0.8f;
                 soundPitchMin = 0.2f;
                 bullet = new LaserBoltBulletType(1.5f, 170) {{
@@ -990,7 +989,7 @@ public class AquaUnitTypes {
                 alternate = false;
                 top = false;
                 shootCone = 4;
-                shootSound = Sounds.lasershoot;
+                shootSound = Sounds.shootLaser;
                 soundPitchMax = 1.2f;
                 soundPitchMin = 0.9f;
                 bullet = new RailBulletType() {{
@@ -1644,7 +1643,7 @@ public class AquaUnitTypes {
                 x = 0;
                 y = -1;
                 recoil = 2;
-                shootSound = Sounds.shootAltLong;
+                shootSound = Sounds.shootBreach;
                 shootY = 3;
                 reload = 90;
                 bullet = new BasicBulletType(3, 30) {{
@@ -1701,7 +1700,7 @@ public class AquaUnitTypes {
                 shootY = 5;
                 reload = 120;
                 shoot.shots = 2;
-                shootSound = Sounds.spark;
+                shootSound = Sounds.shootArc;
                 bullet = new LightningBulletType(){{
                     lightningColor = hitColor = Pal.techBlue;
                     damage = 25f;
@@ -1742,7 +1741,7 @@ public class AquaUnitTypes {
                 x = 5;
                 y = 0;
                 recoil = 2;
-                shootSound = Sounds.shootAltLong;
+                shootSound = Sounds.shootBreach;
                 shootY = 4;
                 reload = 20;
                 bullet = new BasicBulletType(4, 25, "aquarion-bolt") {{
@@ -1793,7 +1792,7 @@ public class AquaUnitTypes {
                 mirror = false;
                 x = 3;
                 recoil = 2;
-                shootSound = Sounds.cannon;
+                shootSound = Sounds.shootArtillerySmall;
                 shootY = 4;
                 reload = 160;
                 range = 90;
@@ -1841,7 +1840,7 @@ public class AquaUnitTypes {
                 x = 0;
                 y = -1;
                 recoil = 2;
-                shootSound = Sounds.pew;
+                shootSound = Sounds.shootDuo;
                 shootY = 3;
                 reload = 5;
                 inaccuracy = 5;
@@ -1945,7 +1944,7 @@ public class AquaUnitTypes {
                 x = -4;
                 y = -3;
                 recoil = 2;
-                shootSound = Sounds.shootAltLong;
+                shootSound = Sounds.shootDiffuse;
                 shootY = 4;
                 reload = 90;
                 bullet = new BasicBulletType(8f, 60, "aquarion-bolt") {{
@@ -1967,7 +1966,7 @@ public class AquaUnitTypes {
                 mirror = false;
                 x = 6f;
                 y = 6f;
-                shootSound = Sounds.shootAlt;
+                shootSound = Sounds.shootBreach;
                 shootY = 4;
                 reload = 160;
                 inaccuracy = 7;
@@ -2032,7 +2031,7 @@ public class AquaUnitTypes {
                 ignoreRotation = true;
                 shoot.shots = 5;
                 shoot.shotDelay = 10;
-                shootSound = Sounds.mineDeploy;
+                shootSound = Sounds.shootHorizon;
                 reload = 200;
                 bullet = new BombBulletType(60f, 40f) {{
                     lifetime = 60;
@@ -2089,7 +2088,7 @@ public class AquaUnitTypes {
                 y = 0;
                 recoil = 2;
                 rotate = false;
-                shootSound = Sounds.flame;
+                shootSound = Sounds.shootFlame;
                 reload = 5;
                 shootX = -7;
                 shootY = 7;
@@ -2133,7 +2132,7 @@ public class AquaUnitTypes {
                 recoil = 3;
                 shootStatus = StatusEffects.slow;
                 shootStatusDuration = 160;
-                shootSound = Sounds.shootAltLong;
+                shootSound = Sounds.shootDiffuse;
                 shootY = 4;
                 reload = 160;
                 bullet = new BasicBulletType(4, 90, "aquarion-flechette") {{
@@ -2242,7 +2241,7 @@ public class AquaUnitTypes {
                 x = -2;
                 y = -1;
                 recoil = 2;
-                shootSound = Sounds.mediumCannon;
+                shootSound = Sounds.shootLocus;
                 shootY = 5;
                 reload = 90;
                 shoot = new ShootBarrel() {{
@@ -2294,7 +2293,7 @@ public class AquaUnitTypes {
                 y = -0.5f;
                 reload = 90;
                 mirror = true;
-                shootSound = Sounds.missile;
+                shootSound = Sounds.shootMissile;
                 shoot.shots = 2;
                 inaccuracy = 5f;
                 shake = 0.5f;
@@ -2343,7 +2342,7 @@ public class AquaUnitTypes {
                 y = -3;
                 reload = 70;
                 mirror = false;
-                shootSound = Sounds.missile;
+                shootSound = Sounds.shootMissile;
                 shoot.shots = 3;
                 shoot.shotDelay = 3;
                 inaccuracy = 5f;
@@ -2394,7 +2393,7 @@ public class AquaUnitTypes {
                 x = 9;
                 y = -2;
                 reload = 45;
-                shootSound = Sounds.missile;
+                shootSound = Sounds.shootMissile;
                 shoot.shots = 2;
                 inaccuracy = 5f;
                 shake = 1;
@@ -2427,7 +2426,7 @@ public class AquaUnitTypes {
                 rotateSpeed = 1.1f;
                 reload = 100;
                 mirror = false;
-                shootSound = Sounds.shootAlt;
+                shootSound = Sounds.shootBreach;
                 shoot.shots = 6;
                 shoot.shotDelay = 1;
                 inaccuracy = 5f;
@@ -2479,7 +2478,7 @@ public class AquaUnitTypes {
                 x = 11;
                 y = -8;
                 reload = 45;
-                shootSound = Sounds.missile;
+                shootSound = Sounds.shootMissile;
                 shoot.shots = 2;
                 inaccuracy = 5f;
                 shake = 1;
@@ -2508,7 +2507,7 @@ public class AquaUnitTypes {
                 x = 11;
                 y = 9;
                 reload = 45;
-                shootSound = Sounds.missile;
+                shootSound = Sounds.shootMissile;
                 shoot.shots = 2;
                 inaccuracy = 5f;
                 shake = 1;
@@ -2541,7 +2540,7 @@ public class AquaUnitTypes {
                 rotateSpeed = 1.1f;
                 reload = 10;
                 mirror = false;
-                shootSound = Sounds.shootAlt;
+                shootSound = Sounds.shootBreach;
                 shoot.shots = 2;
                 shoot.shotDelay = 1;
                 inaccuracy = 5f;
@@ -2599,7 +2598,7 @@ public class AquaUnitTypes {
                 rotateSpeed = 0.8f;
                 reload = 120;
                 mirror = false;
-                shootSound = Sounds.missileLarge;
+                shootSound = Sounds.shootMissileLarge;
                 shake = 2f;
                 parts.add(new RegionPart("-missile") {{
                     progress = PartProgress.reload.curve(Interp.pow2In);
@@ -2690,7 +2689,7 @@ public class AquaUnitTypes {
                 y = -1;
                 rotate = true;
                 reload = 5;
-                shootSound = Sounds.flame;
+                shootSound = Sounds.shootFlame;
                 recoil = 1f;
                 ejectEffect = Fx.none;
                 bullet = new BulletType(5f, 12f) {{
@@ -2760,7 +2759,7 @@ public class AquaUnitTypes {
                 lifetime = 30;
                 rotate = true;
                 reload = 25;
-                shootSound = Sounds.laser;
+                shootSound = Sounds.shootLaser;
                 recoil = 1.5f;
                 ejectEffect = Fx.none;
                 bullet = new BasicBulletType(2f, 35) {{
@@ -2835,7 +2834,7 @@ public class AquaUnitTypes {
                 lifetime = 30;
                 rotate = true;
                 reload = 100;
-                shootSound = Sounds.blaster;
+                shootSound = Sounds.shootAvert;
                 recoil = 2f;
                 ejectEffect = Fx.none;
                 bullet = new BasicBulletType(4f, 85) {{
@@ -2874,7 +2873,7 @@ public class AquaUnitTypes {
                         fragBullet = new EmptyBulletType() {{
                             lifetime = 35f;
                             bulletInterval = 10f;
-                            loopSound = spray;
+                            loopSound = Sounds.loopSpray;
                             loopSoundVolume = 0.02f;
                             hitEffect = despawnEffect = Fx.none;
                             intervalBullet = new EmptyBulletType() {{
@@ -2946,7 +2945,7 @@ public class AquaUnitTypes {
                 rotate = true;
                 reload = 8.5f;
                 rotateSpeed = 1.5f;
-                shootSound = Sounds.flame;
+                shootSound = Sounds.shootFlame;
                 recoil = 1f;
                 ejectEffect = Fx.none;
                 bullet = new BulletType(8f, 55) {{
@@ -3026,7 +3025,7 @@ public class AquaUnitTypes {
                 alwaysContinuous = true;
 
                 rotateSpeed = 0.9f;
-                shootSound = Sounds.torch;
+                shootSound = Sounds.shootFlame;
                 recoil = 1f;
                 ejectEffect = Fx.none;
                 bullet = new ContinuousFlameBulletType() {{
@@ -3071,7 +3070,7 @@ public class AquaUnitTypes {
                                 fragBullet = new EmptyBulletType() {{
                                     lifetime = 240f;
                                     bulletInterval = 10f;
-                                    loopSound = spray;
+                                    loopSound = Sounds.loopSpray;
                                     loopSoundVolume = 0.02f;
                                     hitEffect = despawnEffect = Fx.none;
                                     intervalBullet = new EmptyBulletType() {{
@@ -3447,7 +3446,7 @@ public class AquaUnitTypes {
                 rotateSpeed = 1.1f;
                 shootStatus = StatusEffects.slow;
                 shootStatusDuration = 45;
-                shootSound = Sounds.blaster;
+                shootSound = Sounds.shootAvert;
                 bullet = new BasicBulletType(4, 35){{
                     lifetime = 60;
                     shootEffect = Fx.shootBigColor;
@@ -3485,7 +3484,7 @@ public class AquaUnitTypes {
                 rotateSpeed = 1.1f;
                 shootStatus = StatusEffects.slow;
                 shootStatusDuration = 50;
-                shootSound = Sounds.shootBig;
+                shootSound = Sounds.shootTank;
                 bullet = new BasicBulletType(8, 55){{
                     lifetime = 20;
                     shootEffect = Fx.shootBigColor;

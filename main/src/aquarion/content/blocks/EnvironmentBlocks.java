@@ -246,9 +246,6 @@ public class EnvironmentBlocks {
         sparseSnow = new OverlayFloor("sparse-snow"){{
             variants = 3;
         }};
-        kelp_floor = new Floor("kelp-floor", 2) {{
-            walkSound = mindustry.gen.Sounds.mud;
-        }};
 
 
         phylite_floor = new Floor("phylite-floor", 2) {{

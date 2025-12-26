@@ -460,7 +460,7 @@ public class PowerBlocks {
             generateEffect = AquaFx.heatEngineGenerate;
             effectChance = 0.02f;
             floating = true;
-            ambientSound = Sounds.hum;
+            ambientSound = Sounds.loopCircuit;
             ambientSoundVolume = 0.06f;
             outputLiquid = new LiquidStack(slag, 0.125f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{

@@ -75,7 +75,7 @@ public class TurretBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 250;
             squareSprite = true;
-            shootSound = Sounds.lasershoot;
+            shootSound = shootLaser;
             ammoUseEffect = Fx.colorSpark;
             ammoPerShot = 4;
             shootCone = 2;
@@ -181,7 +181,7 @@ public class TurretBlocks {
             size = 4;
             consumeLiquid(methane, 2);
             squareSprite = true;
-            shootSound = shootAlt;
+            shootSound = shootAtrax;
             soundPitchMin = 0.6f;
             soundPitchMax = 1.2f;
             ammoUseEffect = Fx.casing3;
@@ -221,7 +221,7 @@ public class TurretBlocks {
                         bulletInterval = 10;
                         trailInterval = 10;
                         despawnShake = 8;
-                        despawnSound = dullExplosion;
+                        despawnSound = explosion;
                         fragOffsetMax = 3;
                         fragOffsetMin = 0;
                         trailEffect = new Effect(400f * 1.2f, 250f, e -> {
@@ -295,8 +295,7 @@ public class TurretBlocks {
                         }}, new RegionPart("-tap") {{
                             progress = PartProgress.recoil.curve(pow2In);
                             moveY = -8f;
-                        }}, new RegionPart("-mid") {{
-                        }}, new RegionPart("-cover") {{
+                        }}, new RegionPart("-mid"), new RegionPart("-cover") {{
                             mirror = true;
                             progress = PartProgress.recoil.curve(pow5Out);
                             growProgress = PartProgress.recoil.curve(pow5Out);
@@ -541,7 +540,7 @@ public class TurretBlocks {
             maxAmmo = 20;
             shoot.shotDelay = 0.5f;
             ammoUseEffect = Fx.casing2;
-            shootSound = shootSnap;
+            shootSound = shootScatter;
             warmupMaintainTime = 90;
             shootWarmupSpeed = 0.01f;
             minWarmup = 0.01f;
@@ -640,7 +639,7 @@ public class TurretBlocks {
             shake = 4;
             shootEffect = AquaFx.shootLong;
             consumeLiquid(petroleum, 1);
-            shootSound = mediumCannon;
+            shootSound = shootArtillerySmall;
             ammo(
                     coal, new ArtilleryBulletType(18f, 220f) {{
                         smokeEffect = AquaFx.thrashShootSmoke;
@@ -660,7 +659,7 @@ public class TurretBlocks {
                         height = 18;
                         statusDuration = 600;
                         shrinkInterp = Interp.pow2Out;
-                        despawnSound = dullExplosion;
+                        despawnSound = explosion;
                     }},
                     magnesiumPowder, new ArtilleryBulletType(22f, 320f) {{
                         smokeEffect = AquaFx.thrashShootSmoke;
@@ -680,7 +679,7 @@ public class TurretBlocks {
                         height = 18;
                         statusDuration = 1200;
                         shrinkInterp = Interp.pow2Out;
-                        despawnSound = dullExplosion;
+                        despawnSound = explosion;
                     }},
                     AquaItems.brimstone, new ArtilleryBulletType(18f, 250f) {{
                         smokeEffect = AquaFx.thrashShootSmoke;
@@ -700,7 +699,7 @@ public class TurretBlocks {
                         height = 18;
                         statusDuration = 450;
                         shrinkInterp = Interp.pow2Out;
-                        despawnSound = dullExplosion;
+                        despawnSound = explosion;
                     }});
             drawer = new DrawTurret() {{
                 parts.addAll(new RegionPart("-eject") {{
@@ -733,7 +732,7 @@ public class TurretBlocks {
             ammoEjectBack = 22;
             shoot = new ShootAlternate(92 / 4f);
             shootY = 216 / 4f;
-            shootSound = largeCannon;
+            shootSound = shootArtillery;
             recoils = 2;
             range = 1025;
             maxAmmo = 240;
@@ -814,7 +813,7 @@ public class TurretBlocks {
                 rotateSpeed = 7;
                 itemCapacity = 30;
                 ammoUseEffect = Fx.casing2;
-                shootSound = shootBig;
+                shootSound = shootScepter;
                 warmupMaintainTime = 90;
                 shootWarmupSpeed = 0.01f;
                 minWarmup = 0.01f;
@@ -985,7 +984,7 @@ public class TurretBlocks {
             reload = 150;
             soundPitchMax = 1.5f;
             soundPitchMin = 1.2f;
-            shootSound = shootAltLong;
+            shootSound = shootBreach;
 
             size = 2;
             ammoPerShot = 8;
@@ -1088,7 +1087,7 @@ public class TurretBlocks {
             scaleDamageEfficiency = true;
             shootSound = Sounds.none;
             loopSoundVolume = 1f;
-            loopSound = Sounds.laserbeam;
+            loopSound = beamLustre;
             targetGround = false;
             targetAir = true;
 
@@ -1833,8 +1832,8 @@ public class TurretBlocks {
             size = 4;
             shootY = 85 / 4f;
             itemCapacity = 60;
-            chargeSound = lasercharge2;
-            shootSound = malignShoot;
+            chargeSound = chargeLancer;
+            shootSound = shootMalign;
             squareSprite = false;
             consumeLiquid(nitrogen, 2f);
             shoot.firstShotDelay = 60;
@@ -1921,323 +1920,6 @@ public class TurretBlocks {
                 );
             }};
         }};
-        gyre = new ItemTurret("gyre") {{
-            requirements(Category.turret, with(lead, 150, AquaItems.bauxite, 90f, AquaItems.ceramic, 60, AquaItems.chirenium, 30));
-            ammo(
-                    AquaItems.chirenium, new BasicBulletType(2.5f, 30, "bullet") {{
-                        width = 10f;
-                        height = 16f;
-                        trailLength = 12;
-                        trailWidth = 2;
-                        lifetime = 60f;
-                        ammoMultiplier = 1;
-                        shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.pentagonShootSmoke, AquaFx.GyreShootSmoke);
-                        trailRotation = true;
-                        trailEffect = AquaFx.pentagonShootSmoke;
-                        trailInterval = 8;
-                        frontColor = lightColor = hitColor = AquaPal.chireniumLight;
-                        hitEffect = despawnEffect = Fx.hitSquaresColor;
-                        backColor = trailColor = AquaPal.chireniumDark;
-                    }});
-            shoot = new ShootSpread(5, 3f);
-            inaccuracy = 3f;
-            velocityRnd = 0.17f;
-            shake = 1f;
-            range = 96;
-            ammoPerShot = 3;
-            maxAmmo = 30;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-            consumeAmmoOnce = true;
-            reload = 45;
-            recoil = 3;
-            recoilTime = 30;
-            warmupMaintainTime = 20;
-            minWarmup = 0.8f;
-            shootWarmupSpeed = 0.05f;
-            cooldownTime = 30;
-            heatColor = Color.red;
-            targetUnderBlocks = false;
-            shootSound = shootAltLong;
-            loopSound = Sounds.bioLoop;
-            loopSoundVolume = 0.06f;
-            shootY = 5f;
-            outlineColor = tantDarkestTone;
-            size = 3;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            drawer = new DrawTurret("reinforced-") {{
-                parts.add(new RegionPart("-side") {{
-                    progress = warmup;
-                    moveX = 2.25f;
-                    moveY = 1.5f;
-                    mirror = true;
-                    moves.add(new PartMove(PartProgress.recoil, -0.5f, -3f, 0));
-                    heatColor = Color.red;
-                }});
-            }};
-        }};
-
-        Fragment = new ItemTurret("fragment") {{
-            requirements(Category.turret, with(lead, 90, AquaItems.bauxite, 90, AquaItems.ceramic, 80));
-            size = 3;
-            outlineColor = tantDarkestTone;
-            squareSprite = false;
-            reload = 45;
-            targetGround = false;
-            range = 18 * 8;
-            limitRange();
-            shootY = 4;
-            shootSound = shootAltLong;
-            shoot = new ShootBarrel() {{
-                firstShotDelay = 35;
-                barrels = new float[]{
-                        -6, 4, 0,
-                        0, 4f, 0,
-                        6, 4f, 0
-                };
-            }};
-            ammo(
-                    lead, new MissileBulletType(2.5f, 18, "bullet") {{
-                        width = 10f;
-                        height = 16f;
-                        trailLength = 12;
-
-                        lifetime = 60f;
-                        ammoMultiplier = 1;
-                        shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.fomentShootSmoke);
-                        trailEffect = Fx.none;
-                        weaveMag = 2;
-                        homingDelay = 5;
-                        weaveScale = 1.75f;
-                        shrinkX = 0.2f;
-                        shrinkY = 0.8f;
-                        frontColor = lightColor = hitColor = AquaPal.bauxiteShoot;
-                        backColor = trailColor = AquaPal.bauxiteLightTone;
-                        buildingDamageMultiplier = 0.3f;
-                    }});
-            recoils = 3;
-            drawer = new DrawTurret("reinforced-") {{
-                parts.add(new RegionPart("-barrel-1") {{
-                    moveY = -1f;
-                    progress = PartProgress.recoil;
-                    recoilIndex = 1;
-                }});
-                parts.add(new RegionPart("-barrel-2") {{
-                    moveY = -1f;
-                    progress = PartProgress.recoil;
-                    recoilIndex = 2;
-                }});
-                parts.add(new RegionPart("-barrel-3") {{
-                    moveY = -1f;
-                    progress = PartProgress.recoil;
-                    recoilIndex = 0;
-                }});
-                parts.add(new RegionPart("-back-1") {{
-                    moveY = -0.5f;
-                    progress = PartProgress.recoil;
-                    recoilIndex = 2;
-                }});
-                parts.add(new RegionPart("-back-2") {{
-                    moveY = -0.5f;
-                    progress = PartProgress.recoil;
-                    recoilIndex = 1;
-                }});
-            }};
-        }};
-        deviate = new ItemTurret("deviate") {{
-            requirements(Category.turret, with(lead, 140, AquaItems.gallium, 200, AquaItems.ceramic, 140, lead, 240));
-            size = 4;
-            ammo(
-                    lead, new MissileBulletType(2.5f, 18, "bullet") {{
-                        width = 10f;
-                        height = 16f;
-                        trailLength = 12;
-
-                        lifetime = 60f;
-                        ammoMultiplier = 1;
-                        shootEffect = AquaFx.shootLong;
-                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.fomentShootSmoke);
-                        trailEffect = Fx.none;
-                        weaveMag = 2;
-                        homingDelay = 5;
-                        weaveScale = 1.75f;
-                        frontColor = lightColor = hitColor = AquaPal.bauxiteShoot;
-                        backColor = trailColor = AquaPal.bauxiteLightTone;
-                        buildingDamageMultiplier = 0.3f;
-                    }});
-            outlineColor = tantDarkestTone;
-            recoil = 3;
-            recoilTime = 45;
-            reload = 25;
-            targetAir = false;
-            shootSound = shootAltLong;
-            shootWarmupSpeed = 0.08f;
-            minWarmup = 0.8f;
-            drawer = new DrawTurret() {
-                {
-                    parts.addAll(
-                            new RegionPart("-mid") {{
-                                mirror = true;
-                                progress = warmup;
-                                under = true;
-                                moveX = 0.25f;
-                                moveY = -0.5f;
-                                moveRot = -4f;
-                                layerOffset = -0.00001f;
-                                moves.add(new PartMove(PartProgress.recoil, 0.25f, -0.5f, -3f));
-                            }},
-                            new RegionPart("-barrel") {{
-                                progress = warmup;
-                                moveRot = -1f;
-                                moveX = 0.25f;
-                                mirror = true;
-                                moves.add(new PartMove(PartProgress.recoil, 0f, -1.5f, -1.5f));
-                                moveY = -3.5f;
-                            }},
-                            new RegionPart("-side") {{
-                                progress = warmup;
-                                moveRot = -1.5f;
-                                moveX = 0.5f;
-                                mirror = true;
-                                moves.add(new PartMove(PartProgress.recoil, 0f, -1f, -1f));
-                                moveY = -2;
-                            }},
-                            new RegionPart("-back") {{
-                                mirror = true;
-                                progress = warmup;
-                                moveY = 0.5f;
-                                moveRot = 5f;
-                            }});
-                }
-            };
-        }};
-        Coaxis = new ItemTurret("coaxis") {
-            {
-                requirements(Category.turret, with(lead, 140, AquaItems.chirenium, 100, AquaItems.ceramic, 160));
-                ammo(
-                        AquaItems.bauxite, new FlakBulletType(2.5f, 30) {{
-                            width = 12f;
-                            height = 18f;
-                            sprite = "missile-large";
-                            explodeRange = 40f;
-                            lightRadius = 60f;
-                            lightOpacity = 0.7f;
-                            lightColor = AquaPal.bauxiteLightTone;
-                            lifetime = 60f;
-                            splashDamageRadius = 30f;
-                            splashDamage = 25f;
-                            ammoMultiplier = 1;
-                            shootEffect = AquaFx.shootLong;
-                            smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.fomentShootSmoke);
-                            trailEffect = Fx.none;
-                            weaveMag = 1;
-                            weaveScale = 8;
-                            homingDelay = 5;
-                            velocityRnd = 0.1f;
-                            frontColor = Color.white;
-                            trailWidth = 4.5f;
-                            trailLength = 15;
-                            hitEffect = despawnEffect = AquaFx.fomentHitColor;
-                            backColor = trailColor = AquaPal.bauxiteLightTone;
-                            buildingDamageMultiplier = 0.3f;
-                        }});
-                size = 4;
-                outlineColor = tantDarkestTone;
-                squareSprite = false;
-                recoil = 3;
-                recoilTime = 45;
-                elevation = 5;
-                rotateSpeed = 0.8f;
-                targetAir = false;
-                shootSound = shootAlt;
-                shoot = new ShootBarrel() {{
-                    firstShotDelay = 10;
-                    barrels = new float[]{
-                            -8, -4, 0,
-                            -3, -4f, 0,
-                            3, -4f, 0,
-                            8, -4, 0
-                    };
-                }};
-                reload = 25;
-                inaccuracy = 1;
-                minWarmup = 0.9f;
-                warmupMaintainTime = 45;
-                shootWarmupSpeed = 0.07f;
-                recoils = 4;
-                drawer = new DrawTurret() {{
-                    parts.addAll(
-                            new RegionPart("-front") {{
-                                layerOffset = -0.3f;
-                                progress = warmup;
-                                under = true;
-                                moveY = -3;
-                            }},
-                            new RegionPart("-barrel-2") {{
-                                progress = warmup;
-                                moveY = -2.5f;
-                                moveX = -0.5f;
-                                recoilIndex = 0;
-                                moves.add(new PartMove(PartProgress.recoil, 0f, -3.5f, 0f));
-                                children.add(new RegionPart("-heat2") {{
-                                    progress = DrawPart.PartProgress.recoil;
-                                    blending = Blending.additive;
-                                    outline = false;
-                                    color = Color.valueOf("000000");
-                                    colorTo = Pal.turretHeat;
-                                }});
-                            }},
-                            new RegionPart("-barrel-1") {{
-                                progress = warmup;
-                                moveY = -2.5f;
-                                moveX = -0.5f;
-                                moveRot = -3;
-                                recoilIndex = 1;
-                                moves.add(new PartMove(PartProgress.recoil, 0f, -3.5f, -5f));
-                                children.add(new RegionPart("-heat1") {{
-                                    progress = DrawPart.PartProgress.recoil;
-                                    blending = Blending.additive;
-                                    outline = false;
-                                    color = Color.valueOf("000000");
-                                    colorTo = Pal.turretHeat;
-                                }});
-                            }},
-                            new RegionPart("-barrel-3") {{
-                                progress = warmup;
-                                moveY = -2.5f;
-                                moveX = 0.5f;
-                                recoilIndex = 2;
-                                moves.add(new PartMove(PartProgress.recoil, 2f, -2f, 0f));
-                                children.add(new RegionPart("-heat3") {{
-                                    progress = DrawPart.PartProgress.recoil;
-                                    blending = Blending.additive;
-                                    outline = false;
-                                    color = Color.valueOf("000000");
-                                    colorTo = Pal.turretHeat;
-                                }});
-                            }},
-                            new RegionPart("-barrel-4") {{
-                                progress = warmup;
-                                moveY = -2.5f;
-                                moveX = 0.5f;
-                                moveRot = -3;
-                                recoilIndex = 3;
-                                moves.add(new PartMove(PartProgress.recoil, -2f, -2f, 5f));
-                                children.add(new RegionPart("-heat4") {{
-                                    progress = DrawPart.PartProgress.recoil;
-                                    blending = Blending.additive;
-                                    outline = false;
-                                    color = Color.valueOf("000000");
-                                    colorTo = Pal.turretHeat;
-                                }});
-                            }}
-                    );
-                }};
-
-            }
-        };
         ensign = new ItemTurret("ensign") {{
             requirements(Category.turret, with(lead, 45, AquaItems.electrum, 60, titanium, 20));
             size = 2;
@@ -2246,7 +1928,7 @@ public class TurretBlocks {
             consumeCoolant(24 / 60f);
             recoilTime = 40;
             shootCone = 2;
-            shootSound = Sounds.bolt;
+            shootSound = shootMerui;
             rotateSpeed = 1.4f;
             range = 150;
             cooldownTime = 80;
@@ -2468,7 +2150,7 @@ public class TurretBlocks {
             size = 2;
             consumeCoolant(24 / 60f);
             consumeCoolant(24 / 60f);
-            shootSound = Sounds.bolt;
+            shootSound = shootAlpha;
             reload = 90;
             range = 120;
             recoil = 0.75f;
@@ -2508,7 +2190,7 @@ public class TurretBlocks {
             ammoPerShot = 2;
             reload = 45;
             maxAmmo = 16;
-            shootSound = shootBig;
+            shootSound = shootScepter;
             inaccuracy = 2;
             range = 8*22;
             shake = 0.5f;
@@ -2524,8 +2206,8 @@ public class TurretBlocks {
                         trailLength = 8;
                         hitSize = 8;
                         despawnShake = 0.25f;
-                        despawnSound = dullExplosion;
-                        hitSound = dullExplosion;
+                        despawnSound = explosion;
+                        hitSound = explosion;
                         despawnEffect = hitEffect = Fx.hitBulletBig;
                         smokeEffect = Fx.shootBigSmoke;
                         ammoMultiplier = 1;
@@ -2541,8 +2223,8 @@ public class TurretBlocks {
                         despawnShake = 0.25f;
                         ammoMultiplier = 1;
                         reloadMultiplier = 0.8f;
-                        despawnSound = dullExplosion;
-                        hitSound = dullExplosion;
+                        despawnSound = explosion;
+                        hitSound = explosion;
                         despawnEffect = hitEffect = Fx.hitBulletBig;
                         smokeEffect = Fx.shootBigSmoke;
                         shootEffect = Fx.shootSmokeSquareSparse;
@@ -2563,7 +2245,7 @@ public class TurretBlocks {
         }};
         mayhem = new LiquidTurret("mayhem"){{
             requirements(Category.turret, with(copper, 90, metaglass, 60, silicon, 45));
-            loopSound = fire;
+            loopSound = Sounds.loopFire;
             size = 2;
             recoilTime = 90;
             shootY = 2;
@@ -2630,8 +2312,7 @@ public class TurretBlocks {
         illustrate = new ItemTurret("illustrate"){{
             requirements(Category.turret, with(silicon, 120, chalkalloy, 110, graphite, 80, lead, 100));
             reload = 15;
-            shoot = new ShootAlternate(6){{
-            }};
+            shoot = new ShootAlternate(6);
             recoils = 2;
             recoil = 2;
             recoilTime = 12;
@@ -2643,7 +2324,7 @@ public class TurretBlocks {
             scaledHealth = 250;
             consumeCoolant(0.3f);
             inaccuracy = 12;
-            shootSound = shotgun;
+            shootSound = shootFuse;
             soundPitchMax = 0.6f;
             soundPitchMin = 0.4f;
             ammo(
@@ -2699,7 +2380,7 @@ public class TurretBlocks {
             liquidCapacity = 200;
             reload = 2;
             outlineColor = tantDarkestTone;
-            loopSound = Sounds.bioLoop;
+            loopSound = Sounds.loopBio;
             loopSoundVolume = 0.09f;
             shoot.firstShotDelay = 20;
             warmupMaintainTime = 50;
@@ -2709,7 +2390,7 @@ public class TurretBlocks {
             range = 260;
             size = 3;
             squareSprite = false;
-            shootSound = Sounds.blaster;
+            shootSound = shootSap;
             targetGround = false;
             requirements(Category.turret, with(AquaItems.aluminum, 250, copper, 100));
             ammo(
@@ -2744,7 +2425,7 @@ public class TurretBlocks {
                         fragBullet = new EmptyBulletType() {{
                             lifetime = 60f;
                             bulletInterval = 10f;
-                            loopSound = spray;
+                            loopSound = loopSpray;
                             loopSoundVolume = 0.02f;
                             hitEffect = Fx.none;
                             despawnEffect = Fx.none;
@@ -2881,7 +2562,7 @@ public class TurretBlocks {
             shake = 3f;
             shootDuration = 12 * 60f;
             consumePower(2000 / 60f);
-            loopSound = Sounds.beam;
+            loopSound = beamMeltdown;
             shootY = 138 / 4f;
             loopSoundVolume = 2f;
             consumeLiquids(LiquidStack.with(water, 5000 / 60f, haze, 1000 / 60f));
@@ -2909,7 +2590,7 @@ public class TurretBlocks {
 
             liquidCapacity = 2000;
             health = 7000;
-            shootSound = Sounds.laserbig;
+            shootSound = shootLaser;
             baseExplosiveness = 5;
             drawer = new DrawTurret() {{
                 for (int i = 0; i < 5; i++) {
@@ -3150,7 +2831,7 @@ public class TurretBlocks {
             ammoUseEffect = Fx.casing1;
             inaccuracy = 7;
             outlineColor = Color.valueOf("2d2e37");
-            shootSound = shootAlt;
+            shootSound = shootDuo;
             shootType = new BasicBulletType(5, 25, "missile"){{
                 trailLength = 14;
                 width = 6;

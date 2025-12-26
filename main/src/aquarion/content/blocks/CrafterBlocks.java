@@ -150,7 +150,7 @@ public class CrafterBlocks {
             updateEffectChance = 0.02f;
             boostScale = 1f / 8f;
             craftTime = 5 * 60f;
-            ambientSound = Sounds.smelter;
+            ambientSound = Sounds.loopFire;
             ambientSoundVolume = 0.05f;
             squareSprite = false;
 
@@ -211,7 +211,7 @@ public class CrafterBlocks {
             liquidCapacity = 500;
             consumePower(2);
             boostScale = 1f / 25f;
-            ambientSound = Sounds.smelter;
+            ambientSound = Sounds.loopCombustion;
             floating = true;
             ambientSoundVolume = 0.06f;
             baseEfficiency = 0;
@@ -1594,7 +1594,7 @@ public class CrafterBlocks {
             requirements(Category.crafting, with(copper, 120, aluminum, 420));
             size = 6;
             squareSprite = false;
-            ambientSound = Sounds.electricHum;
+            ambientSound = Sounds.loopCircuit;
             consumePower(3);
             consumeLiquid(halideWater, 6.5f);
             craftTime = 10;
@@ -1701,7 +1701,7 @@ public class CrafterBlocks {
             consumePower(.25f);
             envDisabled = Env.underwater | Env.space;
             outputLiquid = new LiquidStack(air, 1);
-            ambientSound = Sounds.windhowl;
+            ambientSound = Sounds.windHowl;
             ambientSoundVolume = 0.02f;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -2255,7 +2255,7 @@ public class CrafterBlocks {
             size = 2;
             consumePower(1);
             ambientSoundVolume = 0.06f;
-            ambientSound = Sounds.smelter;
+            ambientSound = Sounds.loopSmelter;
             craftEffect = Fx.mineBig;
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame());
         }};

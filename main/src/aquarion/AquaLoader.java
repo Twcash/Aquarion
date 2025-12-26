@@ -33,8 +33,6 @@ public class AquaLoader extends Mod {
         this.tools = tools;
         Events.run(EventType.Trigger.draw, Renderer::draw);
         ModEventHandler.init();
-        //Inject custom methods into every vanilla block.
-        //Cheapskate ahh mixins
         Events.on(EventType.FileTreeInitEvent.class, e ->
                 app.post(AquaShaders::init)
         );
