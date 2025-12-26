@@ -78,8 +78,8 @@ allprojects{
     }
 
     tasks.withType(JavaCompile){
-        sourceCompatibility = rootProject.ext.javaVersion
-        targetCompatibility = rootProject.ext.javaVersion
+        sourceCompatibility = 8
+        targetCompatibility = 8
         options.incremental = true
         options.encoding = 'UTF-8'
         options.compilerArgs += '-Xlint:deprecation'
