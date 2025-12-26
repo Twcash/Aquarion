@@ -79,7 +79,7 @@ public class GroundDrill extends AquaBlock {
         hasLiquids = true;
         liquidCapacity = 5f;
         hasItems = true;
-        ambientSound = Sounds.drill;
+        ambientSound = Sounds.loopDrill;
         ambientSoundVolume = 0.018f;
         envEnabled |= Env.space;
         flags = EnumSet.of(BlockFlag.drill);

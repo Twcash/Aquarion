@@ -78,7 +78,7 @@ public class deflectorShield extends ForceProjector {
                     b.vel.y = Mathf.lerp(b.vel.y, targetVy, lerpFactor);
 
                     paramEntity = this;
-                    paramEffect = absorbEffect;
+                    //paramEffect = absorbEffect;
                 }
             });
         }

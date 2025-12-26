@@ -40,7 +40,7 @@ public class ChainsawTurret extends Block {
         breakable = true;
         solid = true;
 
-        ambientSound = Sounds.cutter;
+        ambientSound = Sounds.loopCutter;
         ambientSoundVolume = 0.1f;
     }
 

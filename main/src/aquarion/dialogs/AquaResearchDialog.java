@@ -644,7 +644,7 @@ public class AquaResearchDialog extends BaseDialog {
             treeLayout();
             rebuild();
             Core.scene.act();
-            Sounds.unlock.play();
+            Sounds.uiUnlock.play();
             Events.fire(new ResearchEvent(node.content));
         }
 
