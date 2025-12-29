@@ -2170,12 +2170,12 @@ public class CrafterBlocks {
         }};
         convectionHeater = new HeatProducer("convection-heater") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 150, copper, 350, metaglass, 200, graphite, 120));
+            requirements(Category.crafting, with(silicon, 150, copper, 150, graphite, 25));
             size = 3;
             squareSprite = false;
             consumePower(6);
             regionRotated1 = 1;
-            consumeLiquid(water, 1);
+            consumeLiquid(water, 0.25f);
             rotateDraw = false;
             heatOutput = 10;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{

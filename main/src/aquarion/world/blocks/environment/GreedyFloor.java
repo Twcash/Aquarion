@@ -11,6 +11,7 @@ import arc.math.geom.Point2;
 import arc.struct.IntSet;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
+import arc.util.Log;
 import arc.util.Time;
 import mindustry.Vars;
 import mindustry.content.Blocks;
@@ -33,7 +34,7 @@ public class GreedyFloor extends Floor {
     public Color effectColor = Color.white;
     public float effectSpacing = 60f;
     private TextureRegion[][][][] sizeRegions2D;
-
+    public float effectChance = 0.01f;
     private boolean[][] claimed;
     private final ObjectMap<Integer, Anchor> anchorMap = new ObjectMap<>();
     public boolean built = false;
@@ -169,7 +170,31 @@ public class GreedyFloor extends Floor {
         }
         return null;
     }
+    private int posKey(int x, int y){
+        int w = Vars.world.width();
+        if(x < 0 || y < 0 || x >= w || y >= Vars.world.height()) return -1;
+        return x + y * w;
+        }
+    @Override
+    public boolean updateRender(Tile tile){
+        if (!built) buildAnchorMap();
+        return true;
+    }
+    @Override
+    public void renderUpdate(UpdateRenderState state){
+        if(!built) buildAnchorMap();
+        if(state.tile.nearby(-1, -1) == null || state.tile.block() != mindustry.content.Blocks.air) return;
+        Anchor a = findAnchorFor(state.tile);
+        if(a == null) return;
 
+        state.data += Time.delta;
+        if(state.data >= effectSpacing){
+            float wx = (a.x + a.size / 2f) * tilesize;
+            float wy = (a.y + a.size / 2f) * tilesize;
+            effect.at(wx, wy, effectColor);
+            state.data = 0f;
+        }
+    }
     @Override
     public void drawBase(Tile tile) {
         if (!built) buildAnchorMap();

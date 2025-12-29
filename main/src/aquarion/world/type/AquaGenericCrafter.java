@@ -114,11 +114,12 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
         }
         //Heat does not have the ability to affect item output.
         if(hasHeat){
-            if(baseEfficiency < 1){
+            //Why would it be negative? Idk...
+            if(baseEfficiency <= 0){
                 stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
             }else{
                 stats.add(Stat.booster, AquaStats.heatBooster(
-                        heatRequirement, overheatScale, maxEfficiency + baseEfficiency, flipHeatScale
+                        heatRequirement, overheatScale, baseEfficiency, maxEfficiency, flipHeatScale
                 ));
             }
         }

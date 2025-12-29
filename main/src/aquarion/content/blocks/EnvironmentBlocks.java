@@ -25,6 +25,7 @@ import static aquarion.content.AquaAttributes.*;
 import static aquarion.content.AquaItems.salt;
 import static aquarion.content.AquaItems.*;
 import static mindustry.content.Blocks.*;
+import static mindustry.content.Items.copper;
 import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 import static mindustry.world.meta.BuildVisibility.sandboxOnly;
@@ -34,7 +35,7 @@ public class EnvironmentBlocks {
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
-    public static Block okelBush, crasindtree, crasindWall, denseStone, stonePores, clay, metalWall1, metalWalltwo, sparseSnow, packedSnow, floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
+    public static Block scrap1,scrap2,scrap3, okelBush, crasindtree, crasindWall, denseStone, stonePores, clay, metalWall1, metalWalltwo, sparseSnow, packedSnow, floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
             arsenicBoulder, floor1, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
@@ -47,12 +48,12 @@ public class EnvironmentBlocks {
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
             kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
-            shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates;
-    public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum,
+            shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7;
+    public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum, scorche,
             oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium,
             oreManganese, oreAluminum, oreSilicon, exposedGallium, cryoliteOre, acuminiteOre, ferricOre, serpentineOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
-            arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall,
+            arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall, metalWall3, metalWall4,
             chertOutcrop, pillarCoral, loteasCoral, songCoral,
             bauxiticWall, algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
@@ -536,6 +537,48 @@ public class EnvironmentBlocks {
             shadowAlpha = 0.8f;
             shadowOffset = -4;
         }};
+        scrap1 = new rokBlock("small-scrap") {{
+            requirements(Category.effect, with(copper, 100, nickel, 50));
+            buildVisibility = sandboxOnly;
+            size = 1;
+            health = 1200;
+            clipSize = 120;
+            underBullets = true;
+            variants = 3;
+            targetable = false;
+            layer = Layer.groundUnit + 1;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 10 * 60f;
+        }};
+        scrap2 = new rokBlock("medium-scrap") {{
+            requirements(Category.effect, with(copper, 400, nickel, 200));
+            buildVisibility = sandboxOnly;
+            size = 2;
+            health = 5000;
+            clipSize = 120;
+            underBullets = true;
+            variants = 3;
+            targetable = false;
+            layer = Layer.groundUnit + 1;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 22 * 60f;
+        }};
+        scrap3 = new rokBlock("large-scrap") {{
+            requirements(Category.effect, with(copper, 1200, nickel, 800));
+            buildVisibility = sandboxOnly;
+            size = 3;
+            health = 10000;
+            clipSize = 120;
+            underBullets = true;
+            variants = 3;
+            targetable = false;
+            layer = Layer.groundUnit + 1;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 35 * 60f;
+        }};
         basaltRock = new rokBlock("basalt-rock") {{
             requirements(Category.effect, with(zinc, 100, silicon, 150));
             buildVisibility = sandboxOnly;
@@ -827,7 +870,6 @@ public class EnvironmentBlocks {
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 600;
-
         }};
         metalPlates1 = new GreedyFloor("metal-plates1", 2, 8){{
             drawEdgeOut = false;
@@ -835,11 +877,63 @@ public class EnvironmentBlocks {
             clipSize = 3000;
 
         }};
+        metal2 = new GreedyFloor("metal-plates5", 2, 3){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+        }};
+        metal3 = new GreedyFloor("metal-heat-sink", 1, 2){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+            lightRadius = 110;
+            emitLight = true;
+            lightColor = Pal.turretHeat.cpy().a(0.9f);
+            attributes.set(Attribute.heat, 1.25f);
+            status = StatusEffects.melting;
+            statusDuration = 10;
+            effect = AquaFx.heatEngineGenerate;
+            effectSpacing = 120;
+            effectChance = 0.02f;
+        }};
+        metal3 = new GreedyFloor("metal-heat-sink-off", 1, 2){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+        }};
+        metal4 = new GreedyFloor("metal-light-large", 1, 2){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+            lightRadius = 150;
+            emitLight = true;
+            lightColor = Pal.techBlue.cpy().a(0.9f);
+        }};
+        metal5 = new GreedyFloor("metal-light-large-broken", 4, 2){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+            lightRadius = 10;
+            emitLight = true;
+            lightColor = Color.gray.cpy().a(0.05f);
+        }};
+        metal3 = new GreedyFloor("metal-padding", 5, 5){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+        }};
+        metal6 = new GreedyFloor("metal-bump", 1, 3){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+        }};
         floorLight = new Floor("floor-light", 0){{
             lightRadius = 70;
             emitLight = true;
             drawEdgeIn = drawEdgeOut = false;
             lightColor = Pal.techBlue.cpy().a(0.7f);
+        }};
+        metal1 = new Floor("metal-pole", 0){{
         }};
         brokenFloorLight = new Floor("broken-floor-light", 4){{
             lightRadius = 5;
@@ -847,7 +941,6 @@ public class EnvironmentBlocks {
             drawEdgeIn = drawEdgeOut = false;
             lightColor = Color.gray.cpy().a(0.05f);
         }};
-
         metalBankFloor = new Floor("metal-bank-floor"){{
             autotile = true;
             drawEdgeIn = drawEdgeOut = false;
@@ -855,16 +948,23 @@ public class EnvironmentBlocks {
             lightRadius = 20f;
             lightColor = Pal.reactorPurple.cpy().a(0.1f);
         }};
-        metalVent = new GreedyFloor("metal-vent", 0, 3){{
+        metalVent = new GreedyFloor("metal-vent", 1, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             effect = AquaFx.vent1;
+            effectSpacing = 10;
             attributes.set(Attribute.steam, 1f);
         }};
         metalWall1 = new StaticWall("metal-wall"){{
             variants = 6;
         }};
         metalWalltwo = new StaticWall("metal-wall1"){{
+            variants = 4;
+        }};
+        metalWall3 = new StaticWall("metal-wall3"){{
+            variants = 3;
+        }};
+        scorche = new OverlayFloor("scorche"){{
             variants = 4;
         }};
     }

@@ -80,7 +80,7 @@ public class Renderer {
             });
 
         }
-        Draw.drawRange(Layer.shadow, 0f,
+        Draw.drawRange(Layer.shadow, 0.0001f,
                 () -> buffer.begin(Color.clear),
                 () -> {
                     buffer.end();

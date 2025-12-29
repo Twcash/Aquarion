@@ -16,6 +16,7 @@ import mindustry.ui.Styles;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValue;
+import mindustry.world.meta.StatValues;
 
 import static mindustry.Vars.tilesize;
 import static mindustry.world.meta.StatValues.*;
@@ -24,13 +25,16 @@ public class AquaStats {
     public static final Stat
             prodTime = new Stat("production-time"),
             MaxFlow = new Stat("maxflow");
-    public static StatValue heatBooster(float heatRequirement, float overheatScale, float maxEfficiency, boolean flipHeat){
+    public static StatValue heatBooster(float heatRequirement, float overheatScale, float baseEfficiency, float maxEfficiency, boolean flipHeat){
         return table -> {
-            float overheatHeat = (maxEfficiency - 1f) * heatRequirement / overheatScale;
-            float totalHeat = heatRequirement + overheatHeat;
+            float totalHeat = (maxEfficiency - 1f) * heatRequirement / overheatScale;
             table.row();
+
             table.table(Styles.grayPanel, b -> {
                 b.defaults().pad(5).left();
+                if(baseEfficiency < 1){
+                    b.add("[accent]Base Efficiency[white] "+ Strings.autoFixed(baseEfficiency*100, 1) + "%").row();
+                }
                 b.add("[accent]Max Heat:[white] " + Strings.autoFixed(totalHeat, 1) + " " +
                         (flipHeat ? "[royal]" : "[red]") + Iconc.waves + "[]").row();
                 b.add("[accent]Max Efficiency:[white] " +

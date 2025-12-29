@@ -63,7 +63,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class TurretBlocks {
-    public static Block nostalgia, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
+    public static Block nostalgia, memorial, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack, azimuth, condolence, grace;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -2845,6 +2845,39 @@ public class TurretBlocks {
                 homingRange = 20;
                 trailInterval = 5;
                 trailEffect = Fx.artilleryTrail;
+            }};
+        }};
+        memorial = new PowerTurret("memorial"){{
+            requirements(Category.turret, with(silicon, 2000, cupronickel, 500));
+            size = 3;
+            category = Category.turret;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            range = 300;
+            consumePower(12);
+            consumeCoolant(0.4f);
+
+            reload = 90;
+            ammoUseEffect = Fx.casing1;
+            inaccuracy = 11;
+            outlineColor = Color.valueOf("2d2e37");
+            shootSound = shootDuo;
+            shoot.shots = 3;
+            shoot.shotDelay = 10;
+
+            shootType = new BasicBulletType(3, 55, "missile"){{
+                trailLength = 10;
+                width = 8;
+                height = 14;
+                frontColor = Color.white;
+                backColor = trailColor = hitColor = lightColor = Pal.berylShot;
+                shootEffect = Fx.shootSmallColor;
+                smokeEffect = Fx.shootSmallSmoke;
+                homingDelay = 40;
+                homingPower = 0.01f;
+                homingRange = 45;
+                trailInterval = 5;
+                lifetime = 190;
+                trailEffect = Fx.artilleryTrailSmoke;
             }};
         }};
     }

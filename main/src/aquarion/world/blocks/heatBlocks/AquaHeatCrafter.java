@@ -68,7 +68,7 @@ public class AquaHeatCrafter extends GenericCrafter {
         if(baseEfficiency < 1) {
             stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
         } else {
-            stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, maxEfficiency, flipHeatScale));
+            stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, baseEfficiency, maxEfficiency, flipHeatScale));
         }
         stats.add(Stat.maxEfficiency, (int) (maxEfficiency * 100f), StatUnit.percent);
     }

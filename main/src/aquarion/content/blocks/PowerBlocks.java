@@ -34,7 +34,7 @@ public class PowerBlocks {
 
     public static void loadContent() {
         solarGenerator = new SolarGenerator("solar-generator") {{
-            requirements(Category.power, with(lead, 250, nickel, 200, silicon, 250));
+            requirements(Category.power, with(lead, 150, nickel, 150, silicon, 200));
             size = 4;
             insulated = true;
             explosionDamage = 640;
@@ -78,7 +78,7 @@ public class PowerBlocks {
             consumeItem(lead, 1);
             itemDuration = 60;
             liquidCapacity = 20;
-            powerProduction = 0.5f;
+            powerProduction = 0.75f;
             conductivePower = false;
             insulated = true;
             size = 2;
