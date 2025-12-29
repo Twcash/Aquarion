@@ -169,8 +169,7 @@ public class PowerPylon extends PowerNode {
         float angle1 = Angles.angle(x1, y1, x2, y2),
                 vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
                 len1 = size1 * tilesize / 2f - 1.5f, len2 = size2 * tilesize / 2f - 1.5f;
-
-        aquarion.world.graphics.Renderer.links1.addUnique(new link(x1 + vx*len1,x2 - vx*len2,y1 + vy*len1,y2 - vy*len2, cable));
+        Lines.line(cable, x1*len1,y1+vy*len1, x2-vx*len2, y2-vy*len2, false);
     }
 
 
