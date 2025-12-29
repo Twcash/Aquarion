@@ -21,7 +21,7 @@ public class AquaWeathers {
             color = Color.valueOf("48fff0");
             noisePath = "fog";
             noiseLayers = 3;
-            noiseLayerAlphaM = 0.3f;
+            noiseLayerAlphaM = 0.1f;
             noiseLayerSpeedM = 0.9f;
             noiseLayerSclM = 0.6f;
             noiseScale = 3000;
@@ -35,7 +35,7 @@ public class AquaWeathers {
             sizeMax = 700;
             sizeMin = 10;
             minAlpha = 0.1f;
-            maxAlpha = 0.9f;
+            maxAlpha = 0.4f;
             density = 90000;
             baseSpeed = 0.5f;
             duration = 1.2f * Time.toMinutes;
@@ -47,11 +47,11 @@ public class AquaWeathers {
             noiseLayerColorM = 0.9f;
             noiseLayerSclM = 1.1f;
             particleRegion = "circle";
-            maxAlpha = 0.6f;
-            minAlpha = 0.2f;
+            maxAlpha = 0.2f;
+            minAlpha = 0.1f;
             sizeMax = 15;
             sizeMin = 4;
-            noiseLayerAlphaM = 1.2f;
+            noiseLayerAlphaM = 0.1f;
             noiseLayerSpeedM = 3.5f;
             noiseScale = 1700;
             density = 45000;

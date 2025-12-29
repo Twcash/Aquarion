@@ -37,8 +37,8 @@ public class Blizzard extends ParticleWeather {
         sizeMin = 3f;
         sizeMax = 22f;
         density = 3500f;
-        minAlpha = 0.4f;
-        maxAlpha = 0.8f;
+        minAlpha = 0.2f;
+        maxAlpha = 0.4f;
         sound = Sounds.wind2;
         baseSpeed = 35f;
         force = 1f;
@@ -50,7 +50,7 @@ public class Blizzard extends ParticleWeather {
         noiseScale = 1200f;
         noiseLayers = 3;
         noiseLayerSpeedM = 1.3f;
-        noiseLayerAlphaM = 0.85f;
+        noiseLayerAlphaM = 0.55f;
         status = AquaStatuses.cold;
         statusDuration = 120;
         noiseLayerSclM = 0.92f;
