@@ -5,7 +5,7 @@ def modJson = new File(rootDir, 'mod.json')
 def modInfo = new JsonSlurper().parseText(modJson.text)
 
 ext {
-    javaVersion = 17
+    javaVersion =
     modName = modInfo.name
     modDisplayName = modInfo.displayName.toString().replaceAll(/\s+/, '')
     modVersion = modInfo.version

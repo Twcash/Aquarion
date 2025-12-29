@@ -32,7 +32,7 @@ public class IconLoader{
                 String textureName = valueParts[1];
                 TextureRegion region = Core.atlas.find(textureName);
 
-                //Fonts.registerIcon(valueParts[0], textureName, codePoint, region);
+                Fonts.registerIcon(valueParts[0], textureName, codePoint, region);
 
             }catch(Exception ignored){
             }

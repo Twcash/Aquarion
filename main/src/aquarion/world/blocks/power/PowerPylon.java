@@ -1,5 +1,6 @@
 package aquarion.world.blocks.power;
 
+import aquarion.world.graphics.link;
 import arc.Core;
 import arc.func.Boolf;
 import arc.func.Cons;
@@ -142,6 +143,7 @@ public class PowerPylon extends PowerNode {
     public static boolean isAllowedLinkTarget(Building build){
         return build instanceof PowerPylonBuild || build instanceof PowerGenerator.GeneratorBuild || build instanceof PowerOutlet.OutletBuild || (build instanceof Battery.BatteryBuild && build.block.insulated);
     }
+    //Gotta keep this here OR ELSE
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         Tile tile = world.tile(x, y);
@@ -167,21 +169,8 @@ public class PowerPylon extends PowerNode {
         float angle1 = Angles.angle(x1, y1, x2, y2),
                 vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
                 len1 = size1 * tilesize / 2f - 1.5f, len2 = size2 * tilesize / 2f - 1.5f;
-        Lines.stroke(2);
-        float thickness = 8;
-        float angle = Angles.angle(x1, y1, x2, y2);
-        Vec2 pos1 = new Vec2(x1, y1), pos2 = new Vec2(x2, y2);
 
-        boolean reverse = pos1.x > pos2.x;
-        if(reverse)Draw.xscl = -1;
-        Draw.color(Color.white, Renderer.unitLaserOpacity);
-        Lines.stroke(thickness);
-        Lines.line(cable, x1 + vx*len1, y1 + vy*len1, x2 - vx*len2, y2 - vy*len2, false);
-        Draw.rect(cableEnd, x1 + vx*len1, y1 + vy*len1, angle);
-        Draw.xscl = -1f;
-        Draw.rect(cableEnd, x2 + vx*len1, y2 + vy*len1, angle);
-        Draw.xscl = Draw.yscl = 1f;
-        Draw.color();
+        aquarion.world.graphics.Renderer.links1.addUnique(new link(x1 + vx*len1,x2 - vx*len2,y1 + vy*len1,y2 - vy*len2, cable));
     }
 
 

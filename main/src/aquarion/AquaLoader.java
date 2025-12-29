@@ -40,7 +40,7 @@ public class AquaLoader extends Mod {
                 AquaShaders.dispose()
         );
         Events.on(EventType.ClientLoadEvent.class, e -> {
-            //IconLoader.loadIcons();
+            IconLoader.loadIcons();
 
         });
         Events.on(EventType.ContentInitEvent.class, e -> {
