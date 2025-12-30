@@ -36,6 +36,7 @@ public class Blizzard extends ParticleWeather {
         xspeed = 4f;
         sizeMin = 3f;
         sizeMax = 22f;
+        attrs.set(Attribute.light, -0.9f);
         density = 3500f;
         minAlpha = 0.2f;
         maxAlpha = 0.4f;
