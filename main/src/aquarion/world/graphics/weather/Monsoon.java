@@ -37,6 +37,7 @@ public class Monsoon extends Weather {
         super(name);
         sound = AquaSounds.monsoon;
         status = StatusEffects.wet;
+        attrs.set(Attribute.light, -0.7f);
         statusDuration = 240;
         soundVol = 1;
         soundVolMin = 0.8f;
