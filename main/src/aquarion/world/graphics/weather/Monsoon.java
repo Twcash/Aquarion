@@ -11,7 +11,7 @@ import mindustry.content.Fx;
 import mindustry.game.Team;
 import mindustry.gen.WeatherState;
 import mindustry.graphics.Layer;
-
+import mindustry.world.meta.Attribute;
 import static mindustry.gen.WeatherState.fadeTime;
 
 import arc.*;
