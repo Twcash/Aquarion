@@ -1,5 +1,5 @@
 package aquarion.world.graphics.weather;
-
+import mindustry.world.meta.Attribute;
 import aquarion.content.AquaStatuses;
 import aquarion.world.graphics.AquaFx;
 import arc.Core;
