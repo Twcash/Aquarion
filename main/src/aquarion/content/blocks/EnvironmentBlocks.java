@@ -892,9 +892,8 @@ public class EnvironmentBlocks {
             attributes.set(Attribute.heat, 1.25f);
             status = StatusEffects.melting;
             statusDuration = 10;
-            effect = AquaFx.heatEngineGenerate;
-            effectSpacing = 120;
-            effectChance = 0.02f;
+            //effect = AquaFx.heatEngineGenerate;
+            //effectSpacing = 120;
         }};
         metal3 = new GreedyFloor("metal-heat-sink-off", 1, 2){{
             drawEdgeOut = false;
@@ -951,8 +950,8 @@ public class EnvironmentBlocks {
         metalVent = new GreedyFloor("metal-vent", 1, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
-            effect = AquaFx.vent1;
-            effectSpacing = 10;
+            //effect = AquaFx.vent1;
+            //effectSpacing = 10;
             attributes.set(Attribute.steam, 1f);
         }};
         metalWall1 = new StaticWall("metal-wall"){{
@@ -964,6 +963,8 @@ public class EnvironmentBlocks {
         metalWall3 = new StaticWall("metal-wall3"){{
             variants = 3;
         }};
+//        metalWall4 = new GreedyWall("metal-wall4", 2, 3){{
+//        }};
         scorche = new OverlayFloor("scorche"){{
             variants = 4;
         }};
