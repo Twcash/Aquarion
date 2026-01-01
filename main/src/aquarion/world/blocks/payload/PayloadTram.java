@@ -1,17 +1,23 @@
 package aquarion.world.blocks.payload;
 
+import arc.Core;
 import arc.func.Cons;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
+import arc.math.geom.Point2;
 import arc.math.geom.Position;
+import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Time;
 import arc.util.Tmp;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.game.Team;
 import mindustry.gen.Building;
 import mindustry.graphics.Drawf;
@@ -29,14 +35,13 @@ import mindustry.world.meta.BlockGroup;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
-public class PayloadTram extends PayloadBlock {
+public class PayloadTram extends PayloadBlock{
     public float range = 160f;
-    public float transportSpeed = 10f;
-
+    public float transportSpeed = 0.8f;
+    public TextureRegion bridgeRegion, topRegion, midRegion;
     public PayloadTram(String name){
         super(name);
         update = true;
-        hasPower = true;
         solid = true;
         rotate = true;
         outputsPayload = true;
@@ -45,191 +50,164 @@ public class PayloadTram extends PayloadBlock {
         drawArrow = true;
         noUpdateDisabled = true;
     }
-
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
-        super.drawPlace(x, y, rotation, valid);
-        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);
-    }
+    public void load() {
+        super.load();
+        bridgeRegion = Core.atlas.find(name + "-bridge");
+        topRegion = Core.atlas.find(name + "-top");
+        midRegion = Core.atlas.find(name + "-mid");
 
-    public class PayloadTramBuild extends PayloadBlockBuild<Payload> {
+    }
+    public class PayloadTramBuild extends PayloadBlockBuild<Payload>{
         public Seq<PayloadTramBuild> links = new Seq<>();
         public Seq<MovingPayload> moving = new Seq<>();
-        public Seq<Payload> queue = new Seq<>(); // queue for payloads to send
-        private int lastSentIndex = 0;
-        private PayloadTramBuild lastSource;
-        private float linkUpdateTimer = 0f;
+        private float linkTimer = 0f;
 
         @Override
-        public void updateTile() {
-            linkUpdateTimer += Time.delta;
-            if(linkUpdateTimer >= 30f){
+        public void updateTile(){
+            linkTimer += Time.delta;
+            if(linkTimer >= 30f){
                 rebuildLinks();
-                linkUpdateTimer = 0f;
+                linkTimer = 0f;
             }
-
-            // Move payloads along links
             for(int i = moving.size - 1; i >= 0; i--){
-                var mp = moving.get(i);
-                mp.progress += Time.delta * mp.speed;
+                MovingPayload mp = moving.get(i);
+                mp.update();
+
                 if(mp.progress >= 1f){
                     if(mp.to != null && mp.to.acceptPayload(this, mp.payload)){
-                        mp.to.queue.add(mp.payload);  // add to queue of destination
-                        mp.to.lastSource = this;
-                    }
-                    moving.remove(i);
-                }
-            }
-
-            // Send queued payloads
-            if(!queue.isEmpty()){
-                sendPayload(queue.first());
-                if(queue.first() == null) queue.remove(0);
-            }
-        }
-
-        /** Automatically rebuild links in 8 directions, only exact 45° */
-        void rebuildLinks(){
-            links.clear();
-            for(var dir : Geometry.d8){
-                for(int j = 1; j <= ((PayloadTram)block).range / tilesize; j++){
-                    var otherTile = world.tile(tile.x + dir.x * j, tile.y + dir.y * j);
-                    if(otherTile == null) break;
-                    if(otherTile.build instanceof PayloadTramBuild pb && pb.team == team && pb != this){
-                        // check angle matches exact 45° increment
-                        float dx = pb.x - x;
-                        float dy = pb.y - y;
-                        float angleDeg = Mathf.atan2(dy, dx) * Mathf.radDeg;
-                        float snapped = Mathf.round(angleDeg / 45f) * 45f;
-                        if(Mathf.equal(angleDeg, snapped, 0.1f)){
-                            links.add(pb);
-                            break;
-                        }
+                        mp.to.handlePayload(this, mp.payload);
+                        moving.remove(i);
+                    }else{
+                        mp.progress = 1f; // stop, blocked
                     }
                 }
             }
-        }
 
-        /** Send payload using round-robin, avoiding backflow or occupied trams */
-        boolean sendPayload(Payload p){
-            int n = links.size;
-            for(int i = 0; i < n; i++){
-                int idx = (lastSentIndex + i) % n;
-                var target = links.get(idx);
-                if(target == null || target == this) continue;
-                // Check backflow
-                boolean blocked = false;
-                for(var mp : target.moving){
-                    if(mp.to == this && mp.from == target){
-                        blocked = true; break;
-                    }
-                }
-                if(blocked) continue;
+            if(payload == null) return;
 
-                // Compute distance
-                float dx = target.x - x, dy = target.y - y;
-                float baseDistance = Mathf.sqrt(dx*dx + dy*dy);
-                float speed = ((PayloadTram)block).transportSpeed / baseDistance;
-
-                // Calculate spacing along link
-                for(var mp : moving){
-                    if(mp.to == this) return false;
-                }
-                moving.add(new MovingPayload(this, target, p, baseDistance, speed, 0));
-                lastSentIndex = (idx + 1) % n;
-                return true; // successfully sent
+            Building front = front();
+            if(front != null && front.acceptPayload(this, payload)){
+                front.handlePayload(this, payload);
+                payload = null;
+                return;
             }
-            return false; // couldn't send
+            for(PayloadTramBuild link : links){
+                if(link == this) continue;
+                if(isBlocked(link)) continue;
+
+                float dist = Mathf.dst(x, y, link.x, link.y);
+                if(dist < 1f) continue;
+
+                moving.add(new MovingPayload(this, link, payload, transportSpeed / dist));
+                payload = null;
+                return;
+            }
         }
 
+        boolean isBlocked(PayloadTramBuild target){
+            if(target.payload != null) return true;
 
+            for(MovingPayload mp : moving)
+                if(mp.to == target && mp.progress < 0.9f) return true;
+
+            for(MovingPayload mp : target.moving)
+                if(mp.to == this && mp.progress < 0.9f) return true;
+
+            return false;
+        }
 
         @Override
         public boolean acceptPayload(Building source, Payload p){
-            float minSpacing = 0.1f; // % of link
-            for(var mp : moving){
-                if(mp.to == this && mp.progress > 1f - minSpacing){
-                    return false;
+            return payload == null && p.fits(this.block.size);
+        }
+
+        @Override
+        public void handlePayload(Building source, Payload p){
+            payload = p;
+        }
+
+        void rebuildLinks(){
+            links.clear();
+            int max = Mathf.floor(range / tilesize);
+
+            for(Point2 d : Geometry.d8){
+                for(int i = 1; i <= max; i++){
+                    Tile t = world.tile(tile.x + d.x * i, tile.y + d.y * i);
+                    if(t == null) break;
+
+                    if(t.build instanceof PayloadTramBuild b && b.team == team && b != this){
+                        links.add(b);
+                        break;
+                    }
                 }
             }
-            return true;
-        }
-
-
-        @Override
-        public void handlePayload(Building source, Payload payload){
-            this.payload = payload;
-        }
-
-        @Override
-        public void remove(){
-            super.remove();
-            moving.clear();
-            links.clear();
         }
 
         @Override
         public void draw(){
-            super.draw();
-
-            // debug links
-            Draw.z(Layer.blockOver - 0.1f);
-            Draw.color(Color.valueOf("6ecdec"));
-            Lines.stroke(1f);
-            for(var link : links){
-                Lines.line(x, y, link.x, link.y);
+            Draw.z(Layer.blockOver+0.01f);
+            Draw.rect(region, x, y);
+            Draw.rect(outRegion, x, y, rotdeg());
+            for(int i = 0; i < 4; i++){
+                if(blends(i) && i != rotation){
+                    Draw.rect(inRegion, x, y, (i * 90) - 180);
+                }
             }
+            if(payload != null) payload.draw();
+            Draw.rect(midRegion, x, y);
+            Draw.z(Layer.blockOver + 0.1f);
+
             Draw.reset();
 
-            // moving payloads
-            for(var mp : moving){
-                if(mp.payload == null) continue;
-                float px = Mathf.lerp(mp.from.x, mp.to.x, mp.progress);
-                float py = Mathf.lerp(mp.from.y, mp.to.y, mp.progress);
-                float ox = mp.payload.x(), oy = mp.payload.y(), orot = mp.payload.rotation();
-                mp.payload.set(px, py, orot);
-                Draw.z(Layer.blockOver + 0.01f);
-                mp.payload.draw();
-                mp.payload.set(ox, oy, orot);
+            for(MovingPayload mp : moving){
+                mp.draw();
             }
-
-            // held payload
-            if(payload != null){
-                float ox = payload.x(), oy = payload.y(), orot = payload.rotation();
-                payload.set(x, y, orot);
-                Draw.z(Layer.blockOver + 0.02f);
-                payload.draw();
-                payload.set(ox, oy, orot);
+            Draw.z(Layer.blockOver+0.2f);
+            Lines.stroke(8);
+            for(PayloadTramBuild b : links){
+                Lines.line(bridgeRegion, x, y, b.x, b.y, false);
             }
+            Draw.z(Layer.blockOver+0.3f);
+            Draw.rect(topRegion, x, y);
+            Draw.reset();
         }
     }
 
-    /** Moving payload data */
-    public static class MovingPayload implements Position {
-        public PayloadTramBuild from, to; // source and target trams
-        public Payload payload;           // actual payload being transported
-        public float progress;            // progress along the link (0 = at source, 1 = at destination)
-        public float distance;            // total distance of the link
-        public float speed;               // travel speed along the link
-        public float progressOffset;      // initial offset for spacing multiple payloads
+    public static class MovingPayload{
+        public Payload payload;
+        public PayloadTramBuild from, to;
+        public float progress = 0f;
+        public float speed;
+        public float fx, fy, tx, ty;
 
-        public MovingPayload(PayloadTramBuild from, PayloadTramBuild to, Payload payload, float distance, float speed, float progressOffset) {
+        public MovingPayload(PayloadTramBuild from, PayloadTramBuild to, Payload payload, float speed){
             this.from = from;
             this.to = to;
             this.payload = payload;
-            this.distance = distance;
             this.speed = speed;
-            this.progressOffset = progressOffset;
-            this.progress = progressOffset; // start with offset along the link
-        }
-        @Override
-        public float getX(){
-            return Mathf.lerp(from.x, to.x, progress);
+
+            fx = from.x;
+            fy = from.y;
+            tx = to.x;
+            ty = to.y;
         }
 
-        @Override
-        public float getY(){
-            return Mathf.lerp(from.y, to.y, progress);
+        public void update(){
+            progress = Mathf.clamp(progress + Time.delta * speed, 0f, 1f);
+        }
+
+        public void draw(){
+            float px = Mathf.lerp(fx, tx, progress);
+            float py = Mathf.lerp(fy, ty, progress);
+
+            float ox = payload.x();
+            float oy = payload.y();
+            float or = payload.rotation();
+
+            payload.set(px, py, or);
+            payload.draw();
+            payload.set(ox, oy, or);
         }
     }
 }
