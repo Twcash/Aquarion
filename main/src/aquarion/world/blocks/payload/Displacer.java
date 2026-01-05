@@ -134,10 +134,10 @@ public class Displacer extends PayloadBlock{
                 payload.set(x + ox, y + oy, payRotation);
                 payload.draw();
             }
-            if(rotation == 1 || rotation == 4){
-                Draw.scl(-1f, 1f);
+            if(rotation == 1 || rotation == 3){
+                Draw.scl(-1f, -1f);
             }else{
-                Draw.scl(1f, -1f);
+                Draw.scl(1f, 1f);
             }
             Draw.rect(topRegion, x, y, rotdeg());
             Draw.reset();

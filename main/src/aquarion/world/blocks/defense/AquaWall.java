@@ -7,6 +7,7 @@ import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.util.Time;
+import mindustry.world.Tile;
 import mindustry.world.blocks.defense.Wall;
 
 import static aquarion.world.graphics.Renderer.Layer.shadow;
@@ -15,24 +16,30 @@ import static mindustry.Vars.tilesize;
 import static mindustry.graphics.Layer.blockOver;
 
 public class AquaWall extends Wall {
-    public TextureRegion customShadow;
+    public TextureRegion custShad;
     public AquaWall(String name) {
         super(name);
+        hasShadow = true;
+        customShadow = true;
     }
     @Override
     public void load(){
         super.load();
-        customShadow = Core.atlas.find(name + "-shadow");
+        custShad = Core.atlas.find(name + "-shadow");
     }
+    @Override
+    public void drawShadow(Tile tile){
+        Draw.z(shadow);
+        Draw.rect(custShad, tile.drawx(), tile.drawy());
+        Draw.z();
+    }
+
     public class AquaWallBuild extends WallBuild{
         @Override
         public void draw(){
             super.draw();
-            Draw.z(shadow);
-            Draw.rect(customShadow, x, y);
             Draw.z(blockOver);
 
-            //draw flashing white overlay if enabled
             if(flashHit){
                 if(hit < 0.0001f) return;
 
