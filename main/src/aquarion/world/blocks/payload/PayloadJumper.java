@@ -7,11 +7,13 @@ import arc.math.Angles;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
+import arc.util.Eachable;
 import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
 import mindustry.content.Fx;
+import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
@@ -49,6 +51,17 @@ public class PayloadJumper extends PayloadBlock{
         pad = Core.atlas.find(name + "-pad");
         under = Core.atlas.find(name + "-under");
 
+    }
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        Draw.rect(region, plan.drawx(), plan.drawy());
+        Draw.rect(under, plan.drawx(), plan.drawy(), plan.rotation*90);
+        Draw.rect(pad, plan.drawx(), plan.drawy(), plan.rotation*90);
+        Draw.reset();
+    }
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{region,under, outRegion, pad};
     }
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){

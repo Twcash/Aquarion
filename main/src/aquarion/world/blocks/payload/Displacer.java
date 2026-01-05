@@ -6,6 +6,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Angles;
 import arc.math.Mathf;
+import arc.util.Eachable;
 import mindustry.content.Fx;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.Teams;
@@ -36,6 +37,22 @@ public class Displacer extends PayloadBlock{
         gantry = Core.atlas.find(name + "-gantry");
     }
 
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation*90);
+        Draw.rect(gantry, plan.drawx(), plan.drawy(), plan.rotation*90);
+        if(plan.rotation == 1  || plan.rotation  == 2){
+            Draw.scl(1f, -1f);
+        }else{
+            Draw.scl(-1f, 1f);
+        }
+        Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation*90);
+        Draw.reset();
+    }
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{region, inRegion, outRegion, gantry, topRegion};
+    }
     public class DisplacerBuild extends PayloadBlockBuild{
         float extract;
         float extractTime = 40f;
@@ -109,18 +126,9 @@ public class Displacer extends PayloadBlock{
         public void draw(){
             Draw.rect(region, x, y, rotdeg());
 
-            for(int i = 0; i < 4; i++){
-                if(blends(i) && i != rotation){
-                    Draw.rect(inRegion, x, y, (i * 90f) - 180f);
-                }
-            }
+            Draw.rect(outRegion, x, y, rotdeg());
+            Draw.rect(inRegion, x, y, rotdeg());
 
-            if(payload != null && exporting){
-                Building f = front();
-                if(f != null && f.acceptPayload(this, payload)){
-                    Draw.rect(outRegion, x, y, rotdeg());
-                }
-            }
 
             Draw.z(Renderer.Layer.blockOver + 0.01f);
 
