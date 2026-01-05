@@ -99,10 +99,12 @@ public class PayloadJumper extends PayloadBlock{
         @Override
         public void updateTile(){
             moveInPayload();
+
             if(lastChange != world.tileChanges){
                 lastChange = world.tileChanges;
                 updateLink();
             }
+
             if(sending){
                 sendProg += Time.delta / 20f;
                 if(sendProg >= 1f){
@@ -110,11 +112,15 @@ public class PayloadJumper extends PayloadBlock{
                     sending = false;
                 }
             }
+
             if(payload == null){
                 flying = false;
                 flightTime = 0f;
                 sending = false;
+                charge = 0f;
+                return;
             }
+
             if(flying){
                 flightTime += Time.delta;
 
@@ -128,25 +134,43 @@ public class PayloadJumper extends PayloadBlock{
                 payload.set(xe, ye, payRotation);
 
                 if(progress >= 1f){
+                    flying = false;
+
                     if(link != null && link.acceptPayload(this, payload)){
                         link.handlePayload(this, payload);
                         Sounds.blockPlace1.at(link.x, link.y, Mathf.random(0.8f, 1.1f));
                         Fx.smokePuff.at(link.x, link.y);
-                        charge = 0;
+
                         payload = null;
-                        flying = false;
-                        sending = false;
+                    }else{
+                        payload.set(x, y, payRotation);
+                        payVector.set(x, y);
                     }
+
+                    sending = false;
+                    charge = 0f;
+                    link = null;
+                    dest = null;
                 }
+                return;
             }
-            if(link != null && payload != null && !flying && Mathf.within(payload.x(), payload.y(), x, y, 0.01f) && link.acceptPayload(this, payload)){
+
+            if(
+                    link != null &&
+                            !sending &&
+                            Mathf.within(payload.x(), payload.y(), x, y, 0.01f) &&
+                            link.acceptPayload(this, payload)
+            ){
                 charge += edelta();
                 if(charge >= chargeTime){
                     charge = 0f;
-                    jump();
                     sending = true;
+                    jump();
                 }
+            }else{
+                charge = 0f;
             }
+
             moveOutPayload();
         }
         void jump(){

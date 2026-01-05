@@ -52,7 +52,7 @@ public class InitializationBay extends PayloadBlock {
                         unitBuild.block instanceof UnitBlock blok) {
                     timeNeed = blok.time/5f;
                     progress += edelta();
-                    if (progress >= blok.time) {
+                    if (progress >= timeNeed) {
                         Unit unit = blok.unit.create(team);
 
                         if (unit.isCommandable()) {
