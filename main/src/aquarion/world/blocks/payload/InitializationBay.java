@@ -50,7 +50,7 @@ public class InitializationBay extends PayloadBlock {
             if (payload instanceof BuildPayload pay) {
                 if (pay.build instanceof UnitBlock.UnitBlockBuild unitBuild &&
                         unitBuild.block instanceof UnitBlock blok) {
-                    timeNeed = blok.time;
+                    timeNeed = blok.time/5f;
                     progress += edelta();
                     if (progress >= blok.time) {
                         Unit unit = blok.unit.create(team);
@@ -69,12 +69,8 @@ public class InitializationBay extends PayloadBlock {
                     payload = null;
                     progress = 0f;
                 }
-            } else if (payload instanceof UnitPayload unitPay) {
-                dumpPayload();
-                payload = null;
-                Sounds.blockExplodeElectric.at(unitPay.x(), unitPay.y(), Mathf.random(0.8f, 1f));
-                Events.fire(new EventType.UnitCreateEvent(unitPay.unit, this));
-                payVector.setZero();
+            } else if (payload instanceof UnitPayload) {
+                moveOutPayload();
             }
         }
 

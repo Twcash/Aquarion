@@ -125,8 +125,8 @@ public class Displacer extends PayloadBlock{
             Draw.z(Renderer.Layer.blockOver + 0.01f);
 
             float len = tilesize * 1.2f;
-            float ox = Angles.trnsx(rotdeg(), extractProg * len);
-            float oy = Angles.trnsy(rotdeg(), extractProg * len);
+            float ox = Angles.trnsx(rotdeg(), extractProg * -len);
+            float oy = Angles.trnsy(rotdeg(), extractProg * -len);
 
             Draw.rect(gantry, x + ox, y + oy, rotdeg());
 

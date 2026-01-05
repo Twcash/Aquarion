@@ -92,6 +92,7 @@ public class PayloadJumper extends PayloadBlock{
         public int lastChange = -1;
         public float charge;
         public boolean sending = false;
+        public boolean shouldExport = true;
         boolean flying = false;
         float flightTime = 0f;
         float flightDuration = 20f;
@@ -99,12 +100,14 @@ public class PayloadJumper extends PayloadBlock{
         @Override
         public void updateTile(){
             updatePayload();
-
             if(lastChange != world.tileChanges){
                 lastChange = world.tileChanges;
                 updateLink();
             }
+            if(link == null && payload != null) payload.dump();
+
             if(sending){
+                shouldExport = false;
                 sendProg += Time.delta / 20f;
                 if(sendProg >= 1f){
                     sendProg = 0f;
@@ -114,9 +117,11 @@ public class PayloadJumper extends PayloadBlock{
 
             if(payload == null){
                 flying = false;
+                shouldExport = false;
                 flightTime = 0f;
                 return;
             }
+            if(shouldExport) dumpPayload();
             if(flying){
                 flightTime += Time.delta;
 
@@ -142,16 +147,6 @@ public class PayloadJumper extends PayloadBlock{
                 }
                 return;
             }
-
-            // direct front transfer (NO deletion)
-            Building f = front();
-            if(f != null && f == link){
-                if(f.acceptPayload(this, payload)){
-                    f.handlePayload(this, payload);
-                    payload = null;
-                }
-                return;
-            }
             if(link != null && payload != null && !flying && Mathf.within(payload.x(), payload.y(), x, y, 0.01f) && link.acceptPayload(this, payload)){
                 charge += edelta();
                 if(charge >= chargeTime){
@@ -160,10 +155,9 @@ public class PayloadJumper extends PayloadBlock{
                     sending = true;
                 }
             }
+            moveOutPayload();
         }
         void jump(){
-            if(payload == null || link == null) return;
-
             payload.set(x, y, payRotation);
             payVector.set(x, y);
 
@@ -212,10 +206,6 @@ public class PayloadJumper extends PayloadBlock{
                 }
             }
             Draw.z(Layer.blockOver);
-            if(flying) {
-                float shad = -1*(Mathf.pow(Interp.pow2Out.apply(flightTime/flightDuration)-.5f,2))+1.25f;
-                Drawf.shadow(payload.x()-shad, payload.y() -shad, payload.size()*shad);
-            }
             float push = -4f * Mathf.pow(sendProg - 0.5f, 2f) + 1f;
             push = Mathf.clamp(push);
 
