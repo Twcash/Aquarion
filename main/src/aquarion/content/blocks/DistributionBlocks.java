@@ -2,7 +2,8 @@ package aquarion.content.blocks;
 
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
-import aquarion.world.blocks.payload.PayloadTram;
+import aquarion.world.blocks.payload.Displacer;
+import aquarion.world.blocks.payload.PayloadJumper;
 import arc.func.Cons;
 import mindustry.Vars;
 import mindustry.content.Blocks;
@@ -24,10 +25,10 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
-    public static Block payloadTram, sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
+    public static Block payloadPad, sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
             electrumConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
-            sealedUnderflow, sealedJunction, exporter;
+            sealedUnderflow, sealedJunction, exporter, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -195,11 +196,6 @@ public class DistributionBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        payloadTram = new PayloadTram("payload-tram"){{
-            requirements(Category.distribution, with(silicon, 3));
-            range = 8*15;
-            size = 3;
-        }};
         overwrite(Blocks.titaniumConveyor, (Conveyor r) -> {
             r.requirements = null;
             r.requirements(Category.distribution, with(Items.copper, 1, Items.lead, 1, chalkalloy, 1));
@@ -209,6 +205,11 @@ public class DistributionBlocks {
                 Vars.content.blocks().find(f -> f == Blocks.titaniumConveyor).name.replace("titanium-conveyor","chalkalloy-conveyor");
             }
         });
-
+        payloadPad = new PayloadJumper("payload-pad"){{
+            requirements(Category.units, with(silicon, 3));
+        }};
+        payloadDisplacer = new Displacer("payload-displacer"){{
+            requirements(Category.units, with(silicon, 3));
+        }};
     }
 }

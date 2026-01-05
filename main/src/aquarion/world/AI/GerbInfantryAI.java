@@ -50,7 +50,6 @@ public class GerbInfantryAI extends AIController {
         Building core = unit.closestEnemyCore();
         float stuckThreshold = Math.max(1f, stuckRange * 2f / unit.type.speed);
 
-        // === update situational awareness ===
         updateRecentDamage();
         decisionTimer += Time.delta;
         tacticTime += Time.delta;
@@ -67,10 +66,11 @@ public class GerbInfantryAI extends AIController {
             lastTactic = tactic;
         }
 
-        // === occasional group-aware chatter ===
+        // Speaking
         maybeGroupChatter();
 
-        // === execute current tactic ===
+        // --Tactics
+        //TODO Possibly more variety/variance on existing ones...
         switch (tactic) {
             case ADVANCE -> doAdvance(core);
             case RETREAT -> doRetreat();
@@ -86,7 +86,7 @@ public class GerbInfantryAI extends AIController {
         faceMovement();
     }
 
-    // --- Main tactical behaviors ---
+    // -- Main tactical behaviors ---
 
     void doAdvance(Building core) {
         if (core == null || !core.isValid()) {
@@ -179,8 +179,6 @@ public class GerbInfantryAI extends AIController {
         // Peek and fire from cover
         engageNearbyEnemies();
     }
-
-    // --- Tactical decision logic ---
 
     void decideTactic(Building core) {
         float hp = unit.healthf();

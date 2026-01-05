@@ -2,6 +2,7 @@ package aquarion.content.blocks;
 
 import aquarion.content.AquaSounds;
 import aquarion.content.AquaUnitTypes;
+import aquarion.world.blocks.payload.InitializationBay;
 import aquarion.world.blocks.units.UnitBlock;
 import arc.func.Cons;
 import mindustry.content.Blocks;
@@ -23,13 +24,18 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
+    public static Block initializationBay, weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
 
     public static void loadContent() {
+        initializationBay = new InitializationBay("initialization-bay"){{
+            requirements(Category.units, with(silicon, 80));
+            consumePower(36);
+            size = 6;
+        }};
         bulwark = new UnitBlock("bulwark") {{
             requirements(Category.units, with(silicon, 80, metaglass, 60, lead, 50, graphite, 40));
             unit = AquaUnitTypes.bulwark;

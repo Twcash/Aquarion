@@ -9,6 +9,7 @@ import arc.util.Log;
 import arc.util.Time;
 import mindustry.Vars;
 import mindustry.content.Items;
+import mindustry.content.Planets;
 import mindustry.ctype.*;
 import mindustry.game.EventType;
 import mindustry.game.MapObjectives;
@@ -41,7 +42,8 @@ public class AquaLoader extends Mod {
         );
         Events.on(EventType.ClientLoadEvent.class, e -> {
             IconLoader.loadIcons();
-
+            Planets.erekir.accessible = false;
+            Planets.serpulo.accessible = false;
         });
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
