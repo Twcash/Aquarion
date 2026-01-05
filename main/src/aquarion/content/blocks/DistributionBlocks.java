@@ -3,6 +3,7 @@ package aquarion.content.blocks;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
 import aquarion.world.blocks.payload.Displacer;
+import aquarion.world.blocks.payload.PayloadDistributor;
 import aquarion.world.blocks.payload.PayloadJumper;
 import arc.func.Cons;
 import mindustry.Vars;
@@ -13,6 +14,7 @@ import mindustry.ctype.UnlockableContent;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.payloads.PayloadRouter;
 import mindustry.world.blocks.storage.Unloader;
 import mindustry.world.blocks.units.UnitCargoLoader;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint;
@@ -25,7 +27,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
-    public static Block payloadPad, sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
+    public static Block payloadDistributor, payloadPad, sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
             electrumConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, exporter, payloadDisplacer;
@@ -206,10 +208,13 @@ public class DistributionBlocks {
             }
         });
         payloadPad = new PayloadJumper("payload-pad"){{
-            requirements(Category.units, with(silicon, 3));
+            requirements(Category.units, with(polymer, 45, silicon, 50, copper, 120));
         }};
         payloadDisplacer = new Displacer("payload-displacer"){{
-            requirements(Category.units, with(silicon, 3));
+            requirements(Category.units, with(polymer, 80, silicon, 90, ferricMatter, 25));
+        }};
+        payloadDistributor = new PayloadDistributor("payload-distributor"){{
+            requirements(Category.units, with(polymer, 30));
         }};
     }
 }

@@ -92,36 +92,29 @@ public class PayloadJumper extends PayloadBlock{
         public int lastChange = -1;
         public float charge;
         public boolean sending = false;
-        public boolean shouldExport = true;
         boolean flying = false;
         float flightTime = 0f;
         float flightDuration = 20f;
         float sendProg = 0;
         @Override
         public void updateTile(){
-            updatePayload();
+            moveInPayload();
             if(lastChange != world.tileChanges){
                 lastChange = world.tileChanges;
                 updateLink();
             }
-            if(link == null && payload != null) payload.dump();
-
             if(sending){
-                shouldExport = false;
                 sendProg += Time.delta / 20f;
                 if(sendProg >= 1f){
                     sendProg = 0f;
                     sending = false;
                 }
             }
-
             if(payload == null){
                 flying = false;
-                shouldExport = false;
                 flightTime = 0f;
-                return;
+                sending = false;
             }
-            if(shouldExport) dumpPayload();
             if(flying){
                 flightTime += Time.delta;
 
@@ -135,17 +128,16 @@ public class PayloadJumper extends PayloadBlock{
                 payload.set(xe, ye, payRotation);
 
                 if(progress >= 1f){
-                    flying = false;
-
                     if(link != null && link.acceptPayload(this, payload)){
                         link.handlePayload(this, payload);
                         Sounds.blockPlace1.at(link.x, link.y, Mathf.random(0.8f, 1.1f));
                         Fx.smokePuff.at(link.x, link.y);
-
+                        charge = 0;
                         payload = null;
+                        flying = false;
+                        sending = false;
                     }
                 }
-                return;
             }
             if(link != null && payload != null && !flying && Mathf.within(payload.x(), payload.y(), x, y, 0.01f) && link.acceptPayload(this, payload)){
                 charge += edelta();
@@ -193,7 +185,7 @@ public class PayloadJumper extends PayloadBlock{
         }
         @Override
         public void draw(){
-
+            if(flying){Draw.z(Layer.blockOver+0.1f);}else{Draw.z(Layer.block);}
             Draw.rect(region, x, y);
             for(int i = 0; i < 4; i++){
                 if(blends(i) && i != rotation){
@@ -205,7 +197,6 @@ public class PayloadJumper extends PayloadBlock{
                     Draw.rect(outRegion, x, y, rotdeg());
                 }
             }
-            Draw.z(Layer.blockOver);
             float push = -4f * Mathf.pow(sendProg - 0.5f, 2f) + 1f;
             push = Mathf.clamp(push);
 
@@ -222,7 +213,6 @@ public class PayloadJumper extends PayloadBlock{
             Draw.rect(pad, x + ox, y + oy, rotdeg());
             Draw.scl();
             if(payload == null) return;
-            Draw.z(Layer.flyingUnit);
             float scl = -1*(Mathf.pow(Interp.pow2Out.apply(flightTime/flightDuration)-.5f,2))+1.25f;
 
             Draw.scl(scl);
