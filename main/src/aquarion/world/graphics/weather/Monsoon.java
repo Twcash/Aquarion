@@ -12,7 +12,7 @@ import mindustry.entities.Fires;
 import mindustry.game.Team;
 import mindustry.gen.WeatherState;
 import mindustry.graphics.Layer;
-
+import mindustry.world.meta.Attribute;
 import static mindustry.gen.WeatherState.fadeTime;
 
 import arc.*;
@@ -39,6 +39,7 @@ public class Monsoon extends Weather {
         super(name);
         sound = AquaSounds.monsoon;
         status = StatusEffects.wet;
+        attrs.set(Attribute.light, -0.7f);
         statusDuration = 240;
         soundVol = 1;
         

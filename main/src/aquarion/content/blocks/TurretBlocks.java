@@ -109,8 +109,8 @@ public class TurretBlocks {
                         knockback = 0.25f;
                         hitSize = 9;
                         damage = 5;
-                        ammoMultiplier = 5f;
-                        reloadMultiplier = 10f;
+                        ammoMultiplier = 3f;
+                        reloadMultiplier = 7f;
                         homingPower = 0.02f;
                         pierceArmor = true;
                         shootEffect = Fx.shootPyraFlame;
@@ -1032,7 +1032,7 @@ public class TurretBlocks {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    cupronickel, new BasicBulletType(5, 120) {{
+                    cupronickel, new BasicBulletType(5, 95) {{
                         pierce = true;
                         pierceBuilding = false;
                         pierceCap = 2;
@@ -1047,7 +1047,7 @@ public class TurretBlocks {
                         reloadMultiplier = 2f;
                         shieldDamageMultiplier = 4;
                         hitSize = 6;
-                        ammoMultiplier = 5;
+                        ammoMultiplier = 3f;
                         frontColor = hitColor = Color.white;
                         backColor = lightColor = trailColor = copper.color;
                         despawnEffect = hitEffect = Fx.hitSquaresColor;

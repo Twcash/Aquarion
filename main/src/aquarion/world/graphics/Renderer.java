@@ -49,37 +49,6 @@ public class Renderer {
 
         buffer.resize(w, h);
         glitchBuffer.resize(w, h);
-        if(!links1.isEmpty()){
-
-            Draw.draw(Layer.power + 0.00012f, () -> {
-                linkBuffer.begin(Color.clear);
-
-                Gl.clear(Gl.stencilBufferBit);
-
-                Gl.enable(Gl.stencilTest);
-                Gl.stencilMask(0xFF);
-                Gl.colorMask(false, false, false, false);
-                Gl.stencilFunc(Gl.always, 1, 0xFF);
-                Gl.stencilOp(Gl.replace, Gl.replace, Gl.replace);
-                Draw.blend(new Blending(Gl.zero, Gl.oneMinusSrcAlpha));
-                for(var link : links1){
-                    if(link.tex == null) continue;
-                    Lines.stroke(1);
-
-                    Lines.line(link.tex, link.x1, link.y1, link.x2, link.y2, false);
-
-                    //Draw.rect(cableEnd, link.x1, link.y1, angle);
-                    //Draw.rect(cableEnd, link.x2, link.y2, angle + 180f);
-                }
-                Draw.blend();
-                Draw.flush();
-                linkBuffer.end();
-                Draw.color(Color.white, mindustry.core.Renderer.unitLaserOpacity);
-                Draw.rect(Draw.wrap(linkBuffer.getTexture()), Core.camera.position.x, Core.camera.position.y, Core.camera.width, -Core.camera.height);
-                Draw.reset();
-            });
-
-        }
         Draw.drawRange(Layer.shadow, 0.0001f,
                 () -> buffer.begin(Color.clear),
                 () -> {

@@ -155,7 +155,6 @@ public class PowerPylon extends PowerNode {
         Drawf.circles(x * tilesize + offset, y * tilesize + offset, maxRange * tilesize);
 
         getPotentialLinks(tile, player.team(), other -> {
-            Draw.color(laserColor1, Renderer.laserOpacity * 0.5f);
             drawLaser(x * tilesize + offset, y * tilesize + offset, other.x, other.y, size, other.block.size);
 
             Drawf.square(other.x, other.y, other.block.size * tilesize / 2f + 2f, Pal.place);
@@ -166,11 +165,10 @@ public class PowerPylon extends PowerNode {
 
     @Override
     public void drawLaser(float x1, float y1, float x2, float y2, int size1, int size2){
-        float angle1 = Angles.angle(x1, y1, x2, y2),
-                vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
-                len1 = size1 * tilesize / 2f - 1.5f, len2 = size2 * tilesize / 2f - 1.5f;
-
-        aquarion.world.graphics.Renderer.links1.addUnique(new link(x1 + vx*len1,x2 - vx*len2,y1 + vy*len1,y2 - vy*len2, cable));
+      float angle1 = Angles.angle(x1, y1, x2, y2),
+            vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
+            len1 = size1 * tilesize / 2f - 1.5f, len2 = size2 * tilesize / 2f - 1.5f;
+        Lines.line(cable, x1*len1,y1+vy*len1, x2-vx*len2, y2-vy*len2, false);
     }
 
 
