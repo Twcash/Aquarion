@@ -1,4 +1,5 @@
 package aquarion.world.graphics.weather;
+import aquarion.content.AquaAttributes;
 import mindustry.world.meta.Attribute;
 import aquarion.content.AquaStatuses;
 import aquarion.world.graphics.AquaFx;
@@ -37,6 +38,7 @@ public class Blizzard extends ParticleWeather {
         sizeMin = 3f;
         sizeMax = 22f;
         attrs.set(Attribute.light, -0.9f);
+        attrs.set(AquaAttributes.wind, 0.8f);
         density = 3500f;
         minAlpha = 0.2f;
         maxAlpha = 0.4f;

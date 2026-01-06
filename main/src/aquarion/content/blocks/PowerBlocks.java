@@ -1,10 +1,7 @@
 package aquarion.content.blocks;
 
 import aquarion.content.AquaSounds;
-import aquarion.world.blocks.power.GenericGenerator;
-import aquarion.world.blocks.power.HeatGenerator;
-import aquarion.world.blocks.power.PowerOutlet;
-import aquarion.world.blocks.power.PowerPylon;
+import aquarion.world.blocks.power.*;
 import aquarion.world.drawers.*;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
@@ -30,7 +27,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
-    public static Block defunctGenerator, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
+    public static Block defunctGenerator, advSolarGen, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent() {
         solarGenerator = new SolarGenerator("solar-generator") {{
@@ -51,6 +48,17 @@ public class PowerBlocks {
                 alpha = 0.4f;
                 color = Color.valueOf("f5c5aa");
             }});
+        }};
+        advSolarGen = new StormGenerator("advanced-solar-generator") {{
+            requirements(Category.power, with(cupronickel, 250, lead, 400, silicon, 200, metaglass, 200, graphite, 125));
+            size = 6;
+            insulated = true;
+            explosionDamage = 640;
+            explosionRadius = 5;
+            powerProduction = 5f;
+            baseExplosiveness = 2;//funnier
+            alwaysUnlocked = true;
+            envDisabled |= Env.underwater;
         }};
         defunctNode = new PowerNode("defunct-node"){{
             consumesPower = outputsPower = true;

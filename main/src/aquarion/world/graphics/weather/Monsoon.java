@@ -1,5 +1,6 @@
 package aquarion.world.graphics.weather;
 
+import aquarion.content.AquaAttributes;
 import aquarion.content.AquaSounds;
 import aquarion.world.entities.AquaLightning;
 import aquarion.world.graphics.AquaShaders;
@@ -40,6 +41,7 @@ public class Monsoon extends Weather {
         sound = AquaSounds.monsoon;
         status = StatusEffects.wet;
         attrs.set(Attribute.light, -0.7f);
+        attrs.set(AquaAttributes.wind, 1f);
         statusDuration = 240;
         soundVol = 1;
         
