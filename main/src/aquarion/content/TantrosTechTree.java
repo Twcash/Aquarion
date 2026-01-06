@@ -70,6 +70,11 @@ public class TantrosTechTree {
                     new Objectives.OnSector(twinPass),
                     new Objectives.Produce(metaglass)
             ), () -> {
+                node(payloadPad, ()-> {
+                    node(payloadDistributor);
+                    node(payloadDisplacer);
+                    node(initializationBay);
+                });
                 node(weld);
                 node(unitByte);
                 node(crest, () -> {
