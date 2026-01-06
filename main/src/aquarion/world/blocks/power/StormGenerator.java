@@ -116,7 +116,7 @@ public class StormGenerator extends SolarGenerator {
 
             Draw.reset();
             Draw.z(shadow);
-
+            Draw.rect(custshad, this.x, y);
             float shadowOffset = 5f * liftSmooth / maxLift;
             Draw.rect(drone, cx - shadowOffset, cy - shadowOffset);
 

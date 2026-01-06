@@ -102,6 +102,7 @@ public class TantrosTechTree {
                     });
                 });
                 node(solarGenerator, () -> {
+                    node(advSolarGen);
                     node(convectionHeater, () -> {
                         node(heatChannel);
                         node(coalHeater, ()->{
@@ -251,6 +252,7 @@ public class TantrosTechTree {
             nodeProduce(silicon, () -> {
                 nodeProduce(oil, () -> {
                     nodeProduce(petroleum, () -> {
+                        nodeProduce(polymer, ()->{});
                         nodeProduce(hydrogen, () -> {
 
                         });
@@ -356,6 +358,7 @@ public class TantrosTechTree {
                 }));
             });
             node(harvester, () -> {
+                node(scrapCentrifuge);
                 node(pinDrill, Seq.with(
                         new Objectives.SectorComplete(Grove)
                 ), () -> {
