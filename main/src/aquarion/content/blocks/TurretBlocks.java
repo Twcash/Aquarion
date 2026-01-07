@@ -375,6 +375,7 @@ public class TurretBlocks {
             minWarmup = 0.9f;
             rotateSpeed = 0.95f;
             shoot.shots = 45;
+            ammoUseEffect = AquaFx.casing1;
             shoot.shotDelay = 0;
             recoilTime = 80;
             velocityRnd = 0.7f;
@@ -384,10 +385,13 @@ public class TurretBlocks {
                         width = 7;
                         spin = 2;
                         randomAngleOffset = 1;
+                        frontColor = Color.white;
+                        backColor = trailColor = minium.color;
                         angleOffset = 5;
                         height = 14;
                         trailWidth = 3;
                         trailLength = 12;
+                        ammoMultiplier = 1;
                         shrinkX = 0.5f;
                         shrinkY = 0.8f;
                     }},
@@ -400,16 +404,37 @@ public class TurretBlocks {
                         trailWidth = 3;
                         trailLength = 12;
                         shrinkX = 0.5f;
+                        ammoMultiplier = 1;
+                        reloadMultiplier = 0.9f;
                         shrinkY = 0.8f;
                         frontColor = Color.white;
                         backColor = trailColor = Pal.lightishGray;
+                    }},
+                    scrap, new BasicBulletType(6, 30){{
+                        width = 7;
+                        spin = 2;
+                        randomAngleOffset = 1;
+                        angleOffset = 5;
+                        despawnHit = true;
+                        height = 14;
+                        trailWidth = 3;
+                        trailLength = 12;
+                        ammoMultiplier = 1;
+                        shrinkX = 0.5f;
+                        shrinkY = 0.8f;
+                        puddleLiquid = slag;
+                        puddleAmount = 20;
+                        puddles = 2;
+                        rangeChange = -20;
+                        drag = 0.01f;
+                        puddleRange = 6;
+                        shootEffect = smokeEffect = Fx.shootLiquid;
+                        hitEffect = Fx.hitLiquid;
                     }}
             );
             limitRange(1.1f);
             drawer = new DrawTurret(){{
                 parts.addAll(new NewRegPart("-tur"){{
-                    alpha = 1;
-                    alphaTo = 0;
                     progress = PartProgress.recoil;
                     moveRot = 180;
                 }},new NewRegPart("-tur"){{
@@ -2332,6 +2357,7 @@ public class TurretBlocks {
                 sprite = "circle";
                 puddleLiquid = oil;
                 velocityRnd = 0.03f;
+                despawnHit = true;
                 makeFire = true;
                 puddles = 3;
                 puddleRange = 12;
@@ -2349,6 +2375,8 @@ public class TurretBlocks {
             ammo(
                     oil, new BasicBulletType(1.5f, 15){{
                         sprite = "circle";
+                        despawnHit = true;
+                        scaleLife = true;
                         puddleLiquid = oil;
                         makeFire = true;
                         width = height = 5;

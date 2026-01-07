@@ -75,7 +75,7 @@ public class AquaItems {
             cost = 1.1f;
             magnetism = 1;
         }};
-        minium = new AquaItem("minium", Color.valueOf("#5f4b60")) {{
+        minium = new AquaItem("minium", Color.valueOf("#ec5e33")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         chirenium = new Item("chirenium", Color.valueOf("b2acb5")){{
