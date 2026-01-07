@@ -21,9 +21,9 @@ public class ModMusic {
     public static Seq<Music> aquaDarkMusic = new Seq<>();
     public static Seq<Music> aquaBossMusic = new Seq<>();
 
-    public static String[] aquaAmbientList = {"quiet-processing", "underwaves", "che-go-boom", "expansion", "idols"};
-    public static String[] aquaDarkList = {"bubblerine", "value", "trance", "mold", "assault"};
-    public static String[] aquaBossList = {"acceptance", "hero-brine", "not-so-distant-now", "concussive"};
+    public static String[] aquaAmbientList = {"quiet-processing", "underwaves", "che-go-boom", "fih", "expansion", "idols","decaying-giants", "scarred-skies"};
+    public static String[] aquaDarkList = {"bubblerine", "value", "exhasperation", "trance", "mold", "assault"};
+    public static String[] aquaBossList = {"acceptance","oh-the-horror", "hero-brine", "not-so-distant-now", "concussive"};
 
     public static Seq<Music> origAmbientMusic;
     public static Seq<Music> origDarkMusic;
@@ -81,7 +81,16 @@ public class ModMusic {
         musics.put("trance", new MusicInfo("Trance", cas));
         musics.put("mold", new MusicInfo("mold", myt));
         musics.put("assault", new MusicInfo("Assault", myt));
-        musics.put("quiet-processing", new MusicInfo("Quiet Processing\"", ace));
+        musics.put("quiet-processing", new MusicInfo("Quiet Processing", ace));
+        musics.put("scarred-skies", new MusicInfo("Scarred Skies", ace));
+        musics.put("exhasperation", new MusicInfo("Exasperation", ace));
+        musics.put("decaying-monuments", new MusicInfo("Decaying Monuments", ace));
+        musics.put("fih", new MusicInfo("Our intuition", ace));
+        musics.put("oh-the-horror", new MusicInfo("OH THE HORROR", ace));
+
+
+
+
     }
 
     // Don't change from outside I trust you by putting it in public
