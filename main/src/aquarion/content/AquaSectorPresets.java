@@ -24,12 +24,12 @@ public class AquaSectorPresets {
         twinPass = new AquaSectorPreset("twinPass", fakeSerpulo, 16){{
             allDatabaseTabs = true;
             addStartingItems = true;
-            captureWave = 11;
+            captureWave = 25;
             alwaysUnlocked = false;
             difficulty = 2;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
-            startWaveTimeMultiplier = 2f;
+            startWaveTimeMultiplier = 3f;
         }};
         floodPlains = new AquaSectorPreset("floodPlains", fakeSerpulo, 358){{
             allDatabaseTabs = true;
