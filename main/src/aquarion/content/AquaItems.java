@@ -21,13 +21,10 @@ public class AquaItems {
     public static Item hexogen;
     public static Item galena;
     public static Item biotite;
-    public static Item caustrolite;
-    public static Item mangalumin;
     public static Item towanite;
     public static Item brimstone;
     public static Item cobalt;
     public static Item azurite;
-    public static Item borax;
     public static Item ferrosilicon;
     public static Item aluminum;
     public static Item ferricMatter;
@@ -105,9 +102,6 @@ public class AquaItems {
             cost = 0.5f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             magnetism = 0.5f;
         }};
-        borax = new Item("borax", Color.valueOf("#d4ceb1")) {{
-            buildable = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-        }};
         azurite = new Item("azurite", Color.valueOf("#636acf")) {{
             buildable = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
 
@@ -124,15 +118,7 @@ public class AquaItems {
             explosiveness = 0.5f;
             flammability = 0.7f;
         }};
-        mangalumin = new Item("mangalumin", Color.valueOf("# 93d588")) {{
-            cost = 1.2f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-        }};
-        caustrolite = new Item("caustrolite", Color.valueOf("# 93d588")) {{
-            cost = 2f;
-            flammability = 1.5f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            explosiveness = 1.1f;
 
-        }};
         galena = new Item("galena", Color.valueOf("d9cff2")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
