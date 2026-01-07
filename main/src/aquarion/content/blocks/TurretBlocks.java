@@ -360,7 +360,7 @@ public class TurretBlocks {
             consumeCoolant(10 / 60f);
         }};
         aftershock = new ItemTurret("aftershock") {{
-                requirements(Category.turret, with(AquaItems.ferricMatter, 500, polymer, 350, graphite, 200));
+                requirements(Category.turret, with(AquaItems.ferricMatter, 300, polymer, 400, cupronickel, 200));
                 size = 5;
                 squareSprite = false;
             reload = 90;
@@ -408,6 +408,11 @@ public class TurretBlocks {
             limitRange(1.1f);
             drawer = new DrawTurret(){{
                 parts.addAll(new NewRegPart("-tur"){{
+                    alpha = 1;
+                    alphaTo = 0;
+                    progress = PartProgress.recoil;
+                    moveRot = 180;
+                }},new NewRegPart("-tur"){{
                     alpha = 1;
                     alphaTo = 0;
                     progress = PartProgress.recoil;
@@ -880,15 +885,15 @@ public class TurretBlocks {
                 shootWarmupSpeed = 0.01f;
                 minWarmup = 0.01f;
                 ammo(
-                        ferrosilicon, new FlakBulletType(35, 15f) {{
+                        ferrosilicon, new FlakBulletType(35, 115f) {{
                             trailLength = 7;
                             hitSize = 8;
                             scaleLife = true;
                             ammoMultiplier = 10;
-                            explodeRange = 80;
+                            explodeRange = 10;
                             fragBullets = 4;
                             collidesGround = true;
-                            fragBullet = new BasicBulletType(4, 15f, "aquarion-flechette") {{
+                            fragBullet = new BasicBulletType(4, 45f, "aquarion-flechette") {{
                                 width = 4;
                                 height = 6;
                                 lifetime = 12;
@@ -902,16 +907,16 @@ public class TurretBlocks {
                             velocityRnd = 0.2f;
                             trailInterp = v -> Math.max(Mathf.slope(v), 0.9f);
                         }},
-                        AquaItems.steel, new FlakBulletType(45, 45) {{
+                        AquaItems.steel, new FlakBulletType(45, 200) {{
                             trailLength = 9;
                             hitSize = 12;
                             ammoMultiplier = 20;
-                            explodeRange = 90;
+                            explodeRange = 15;
                             splashDamage = 60;
                             scaleLife = true;
-                            fragBullets = 4;
+                            fragBullets = 10;
                             collidesGround = true;
-                            fragBullet = new BasicBulletType(4, 10f, "aquarion-flechette") {{
+                            fragBullet = new BasicBulletType(4, 20f, "aquarion-flechette") {{
                                 width = 4;
                                 height = 6;
                                 lifetime = 12;
@@ -1425,6 +1430,7 @@ public class TurretBlocks {
                         height = 10;
                         status = shocked;
                         statusDuration = 10 * 60;
+                        buildingDamageMultiplier = 0.1f;
                         trailLength = 12;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
@@ -1450,6 +1456,7 @@ public class TurretBlocks {
                         width = 8;
                         height = 10;
                         status = blasted;
+                        buildingDamageMultiplier = 0.1f;
                         statusDuration = 10 * 60;
                         trailLength = 12;
                         trailEffect = Fx.mineSmall;
@@ -1478,6 +1485,7 @@ public class TurretBlocks {
                         trailLength = 12;
                         status = electrified;
                         statusDuration = 10 * 60;
+                        buildingDamageMultiplier = 0.1f;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
                         frontColor = Color.white;

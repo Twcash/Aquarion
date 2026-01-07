@@ -146,8 +146,10 @@ public class TantrosTechTree {
                         node(confront);
                     });
                     node(vector, ()->{
+                        node(aftershock, ()->{
+                            node(dislocate);
+                        });
                         node(truncate);
-                        node(dislocate);
                         node(thrash, ()->{
                             node(flagellate);
                         });
