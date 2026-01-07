@@ -109,9 +109,9 @@ public class TurretBlocks {
                         lifetime = 5;
                         knockback = 0.25f;
                         hitSize = 9;
-                        damage = 5;
+                        damage = 3;
                         ammoMultiplier = 3f;
-                        reloadMultiplier = 7f;
+                        reloadMultiplier = 6f;
                         homingPower = 0.02f;
                         pierceArmor = true;
                         shootEffect = Fx.shootPyraFlame;
@@ -125,9 +125,9 @@ public class TurretBlocks {
                         speed = 25;
                         lifetime = 9;
                         hitSize = 11;
-                        reloadMultiplier = 1.2f;
+                        reloadMultiplier = 1.3f;
                         knockback = 0.5f;
-                        damage = 35;
+                        damage = 20;
                         ammoMultiplier = 2f;
                         rangeChange = 16;
                         //this thing can shred late game stuff if you do it right
@@ -1083,7 +1083,7 @@ public class TurretBlocks {
             maxAmmo = 32;
             consumeCoolant(20 / 60f);
             ammo(
-                    lead, new BasicBulletType(9, 55) {{
+                    lead, new BasicBulletType(9, 60) {{
                         pierce = true;
                         pierceBuilding = true;
                         pierceCap = 2;
@@ -1104,10 +1104,10 @@ public class TurretBlocks {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    nickel, new BasicBulletType(5, 75) {{
+                    nickel, new BasicBulletType(5, 85) {{
                         pierce = true;
                         pierceBuilding = false;
-                        pierceCap = 2;
+                        pierceCap = 3;
                         sprite = "aquarion-bolt";
                         width = 10;
                         height = 18f;

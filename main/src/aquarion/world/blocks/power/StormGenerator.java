@@ -9,10 +9,12 @@ import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
+import arc.util.Eachable;
 import arc.util.Nullable;
 import arc.util.Time;
 import mindustry.Vars;
 import mindustry.content.Weathers;
+import mindustry.entities.units.BuildPlan;
 import mindustry.gen.WeatherState;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
@@ -42,7 +44,17 @@ public class StormGenerator extends SolarGenerator {
         rotator = Core.atlas.find(name + "-fan");
         custshad = Core.atlas.find(name + "-shadow");
     }
-
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        Draw.rect(region, plan.drawx(), plan.drawy());
+        Draw.rect(rotator, plan.drawx(), plan.drawy());
+        Draw.rect(drone, plan.drawx(), plan.drawy());
+        Draw.reset();
+    }
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{region,rotator, drone};
+    }
     public class StormGenBuild extends SolarGeneratorBuild {
         @Nullable public Vec2 curWind;
 
