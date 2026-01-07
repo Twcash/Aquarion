@@ -112,15 +112,6 @@ public class LiquidBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        electrumPump = new Pump("electrum-pump") {{
-            requirements(Category.liquid, with(electrum, 35));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            pumpAmount = 0.1f;
-            squareSprite = false;
-            liquidCapacity = 60f;
-            hasPower = true;
-            size = 2;
-        }};
         pipe = new Pipe("pipe") {{
             requirements(Category.liquid, with(ferrosilicon, 2));
             liquidPressure = 10000;

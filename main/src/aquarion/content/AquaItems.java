@@ -20,38 +20,25 @@ public class AquaItems {
     public static Item strontium;
     public static Item hexogen;
     public static Item galena;
-    public static Item boron;
     public static Item biotite;
-    public static Item cryolite;
     public static Item caustrolite;
     public static Item mangalumin;
-    public static Item vacodur;
     public static Item towanite;
     public static Item brimstone;
     public static Item cobalt;
     public static Item azurite;
-    public static Item invar;
     public static Item borax;
     public static Item ferrosilicon;
     public static Item aluminum;
     public static Item ferricMatter;
     public static Item cupronickel;
-    public static Item inconel;
-    public static Item electrum;
     public static Item arsenic;
-    public static Item chromium;
+    public static Item chromium, manganese;
     public static Item silver;
     public static Item salt;
-    public static Item chirenium;
     public static Item nickel;
     public static Item bauxite;
-    public static Item duralumin;
     public static Item zinc;
-    public static Item gallium;
-    public static Item lithium;
-    public static Item manganese;
-    public static Item sodium;
-    public static Item ceramic;
     public static void load() {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
@@ -63,11 +50,6 @@ public class AquaItems {
         salt = new Item("salt", Color.valueOf("#ffffff")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
-
-        duralumin = new Item("duralumin", Color.valueOf("#549af7")) {{
-            hardness = 3;
-            cost = 2;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-        }};
         nickel = new AquaItem("nickel", Color.valueOf("#c3b994")) {{
             hardness = 2;
             alwaysUnlocked = true;
@@ -78,38 +60,8 @@ public class AquaItems {
         minium = new AquaItem("minium", Color.valueOf("#ec5e33")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
-        chirenium = new Item("chirenium", Color.valueOf("b2acb5")){{
-            cost = 3;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-        }};
-        gallium = new Item("gallium", Color.valueOf("#b2d3cf")) {{
-            hardness = 4;
-            cost = 2;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-
-        }};
-
-        lithium = new Item("lithium", Color.valueOf("#b2d3cf")) {{
-            hardness = 4;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            explosiveness = 0.2F;
-        }};
-
         manganese = new Item("manganese", Color.valueOf("#75d978")) {{
             cost = 1.2F;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-        }};
-        sodium = new Item("sodium", Color.valueOf("#ded6ca")) {{
-            explosiveness = 2F;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            cost = 1.5F;
-        }};
-        ceramic = new Item("ceramic", Color.valueOf("#ffffff")) {{
-            cost = 1.5f;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-        }};
-        electrum = new Item("electrum", Color.valueOf("#eedeaf")) {{
-            cost = 0.8f;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         zinc = new Item("zinc", Color.valueOf("#a0b9af")) {{
@@ -139,10 +91,6 @@ public class AquaItems {
         chromium = new Item("chromium", Color.valueOf("#d2c8d9")) {{
             cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
-        inconel = new AquaItem("inconel", Color.valueOf("#e9ecd2")) {{
-            cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            magnetism =0.75f;
-        }};
         ferricMatter = new AquaItem("ferric-matter", Color.valueOf("#675b53")) {{
             cost = 0.5f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             radioactivity = 0.05f;
@@ -160,10 +108,6 @@ public class AquaItems {
         borax = new Item("borax", Color.valueOf("#d4ceb1")) {{
             buildable = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
-        invar = new AquaItem("invar", Color.valueOf("#cbaa6d")) {{
-            cost = 0.6f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-
-        }};
         azurite = new Item("azurite", Color.valueOf("#636acf")) {{
             buildable = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
 
@@ -180,9 +124,6 @@ public class AquaItems {
             explosiveness = 0.5f;
             flammability = 0.7f;
         }};
-        vacodur = new Item("vacodur", Color.valueOf("#99899d")) {{
-            cost = 1.1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-        }};
         mangalumin = new Item("mangalumin", Color.valueOf("# 93d588")) {{
             cost = 1.2f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
@@ -193,9 +134,6 @@ public class AquaItems {
 
         }};
         galena = new Item("galena", Color.valueOf("d9cff2")) {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-        }};
-        boron = new Item("boron", Color.valueOf("d9cff2")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         hexogen = new Item("hexogen", Color.valueOf("fff47a")) {{

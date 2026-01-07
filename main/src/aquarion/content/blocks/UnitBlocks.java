@@ -117,14 +117,14 @@ public class UnitBlocks {
             time = 30 * 60;
             destroySound = AquaSounds.start;
         }};
-        castellan = new UnitBlock("castellan") {{
-            requirements(Category.units, with(cupronickel, 400, ferrosilicon, 100, aluminum, 60));
-            unit = AquaUnitTypes.castellan;
-            size = 3;
-            time = 25 * 60;
-            destroySound = AquaSounds.start4;
-            buildVisibility = BuildVisibility.hidden;
-        }};
+//        castellan = new UnitBlock("castellan") {{
+//            requirements(Category.units, with(cupronickel, 400, ferrosilicon, 100, aluminum, 60));
+//            unit = AquaUnitTypes.castellan;
+//            size = 3;
+//            time = 25 * 60;
+//            destroySound = AquaSounds.start4;
+//            buildVisibility = BuildVisibility.hidden;
+//        }};
 
         overwrite(Blocks.groundFactory, (UnitFactory r) -> r.plans.addAll(
                 new UnitFactory.UnitPlan(isop, 60f * 20, with(Items.silicon, 25, nickel, 10))

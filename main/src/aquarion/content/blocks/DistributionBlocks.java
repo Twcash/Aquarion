@@ -27,10 +27,9 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
-    public static Block payloadDistributor, payloadPad, sealedInvertedSorter, manganeseRail, electrumSorterInverted, electrumSorter, electrumRouter, electrumDistributor,
-            electrumConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
+    public static Block payloadDistributor, payloadPad, sealedInvertedSorter, manganeseRail, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
-            sealedUnderflow, sealedJunction, exporter, payloadDisplacer;
+            sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -98,11 +97,6 @@ public class DistributionBlocks {
             speed = 2f;
             allowCoreUnload = true;
         }};
-        exporter = new Unloader("exporter") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.distribution, with(polymer, 35, cupronickel, 90));
-            speed = 0.9f;
-        }};
         sealedSorter = new Sorter("sealed-sorter") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
@@ -128,59 +122,14 @@ public class DistributionBlocks {
             hasItems = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-
         }};
-        sealedUnderflow = new OverflowGate("sealed-underflow") {{
+        sealedUnderflow = new OverflowGate("sealed-undeflow") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 5));
             invert = true;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
             hasItems = true;
-
-        }};
-        cargoDock = new UnitCargoLoader("cargo-dock") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.distribution, with(aluminum, 50, silicon, 120, copper, 120));
-            size = 2;
-            polySides = 0;
-            buildTime = 240;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            unitType = rivulet;
-            itemCapacity = 200;
-        }};
-
-        cargoDepot = new UnitCargoUnloadPoint("cargo-depot") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.distribution, with(aluminum, 15));
-            itemCapacity = 120;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-            size = 2;
-        }};
-
-        electrumRouter = new Router("electrum-router") {{
-            requirements(Category.distribution, with(electrum, 6));
-        }};
-        electrumDistributor = new Router("electrum-distributor") {{
-            requirements(Category.distribution, with(electrum, 24, lead, 24));
-            size = 2;
-        }};
-        electrumConveyor = new ArmoredConveyor("electrum-conveyor") {{
-            requirements(Category.distribution, with(electrum, 1));
-            health = 60;
-            speed = 0.042f;
-            displayedSpeed = 6.5f;
-            buildCostMultiplier = 2f;
-            researchCost = with(electrum, 5);
-        }};
-        electrumSorter = new Sorter("electrum-sorter") {{
-            requirements(Category.distribution, with(electrum, 4, lead, 4));
-        }};
-        electrumSorterInverted = new Sorter("inverted-electrum-sorter") {{
-            requirements(Category.distribution, with(electrum, 4, lead, 4));
-            invert = true;
         }};
         manganeseRail = new StackConveyor("manganese-rail") {{
             requirements(Category.distribution, with(manganese, 3));

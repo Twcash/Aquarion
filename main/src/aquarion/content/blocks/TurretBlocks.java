@@ -1851,7 +1851,7 @@ public class TurretBlocks {
                         });
                         backColor = trailColor = Color.valueOf("a3bbc8");
                     }},
-                    AquaItems.invar, new BasicBulletType(4f, 350f, "missile-large") {{
+                    AquaItems.steel, new BasicBulletType(4f, 350f, "missile-large") {{
                         width = 15f;
                         pierce = false;
                         height = 19f;
@@ -2034,7 +2034,7 @@ public class TurretBlocks {
             }};
         }};
         ensign = new ItemTurret("ensign") {{
-            requirements(Category.turret, with(lead, 45, AquaItems.electrum, 60, titanium, 20));
+            requirements(Category.turret, with(lead, 45, silicon, 60, chalkalloy, 20));
             size = 2;
             reload = 45;
             recoil = 0.5f;
@@ -2132,7 +2132,7 @@ public class TurretBlocks {
                             });
                         });
                     }},
-                    AquaItems.inconel, new RailBulletType() {{
+                    chalkalloy, new RailBulletType() {{
                         length = 165f;
                         damage = 65f;
                         smokeEffect = Fx.colorSpark;
@@ -2242,7 +2242,7 @@ public class TurretBlocks {
                         shootEffect = Fx.shootSmokeSquareSparse;
                         hitEffect = despawnEffect = Fx.hitSquaresColor;
                     }});
-            requirements(Category.turret, with(AquaItems.electrum, 90, AquaItems.silver, 40, AquaItems.arsenic, 65));
+            requirements(Category.turret, with(silicon, 90, metaglass, 40, chalkalloy, 65));
             size = 2;
             ammoPerShot = 3;
             consumeCoolant(24 / 60f);
@@ -2258,7 +2258,7 @@ public class TurretBlocks {
             }});
         }};
         blaze = new PowerTurret("blaze") {{
-            requirements(Category.turret, with(AquaItems.electrum, 35, lead, 40));
+            requirements(Category.turret, with(graphite, 35, lead, 40));
             consumePower(128 / 60f);
             size = 2;
             consumeCoolant(24 / 60f);

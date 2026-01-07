@@ -300,9 +300,7 @@ public class EnvironmentBlocks {
         leafLitterDense = new Floor("leaf-litter-dense", 3) {{
         }};
         oreBauxite = new OreBlock("ore-bauxite", AquaItems.bauxite);
-        oreGallium = new OreBlock("ore-gallium", AquaItems.gallium);
         oreNickel = new OreBlock("ore-nickel", nickel);
-        oreLithium = new OreBlock("ore-lithium", AquaItems.lithium);
         oreManganese = new OreBlock("ore-manganese", AquaItems.manganese);
         acuminiteOre = new OreBlock("acuminite-ore", acuminite) {{
             variants = 5;
@@ -323,9 +321,6 @@ public class EnvironmentBlocks {
         }};
         oreTitaniumWall = new OreBlock("ore-titanium-wall", Items.titanium) {{
             wallOre = true;
-            variants = 3;
-        }};
-        oreElectrum = new OreBlock("electrum-ore", electrum) {{
             variants = 3;
         }};
         oreAluminum = new OreBlock("ore-aluminum", aluminum) {{

@@ -32,6 +32,7 @@ public class TantrosTechTree {
             context().researchCostMultipliers = costMultipliers;
             node(nickelWall, () -> {
                 node(mendPyre, () -> {
+                    node(forceGenerator);
                     node(deflectorWell);
                     node(lantern);
                     node(mendPylon, Seq.with(
@@ -83,8 +84,6 @@ public class TantrosTechTree {
                 });
                 node(rampart, () -> {
                     node(reave, () -> {
-                        node(castellan, () -> {
-                        });
                     });
                     node(pugnate, () -> {
                         node(shatter, () -> {

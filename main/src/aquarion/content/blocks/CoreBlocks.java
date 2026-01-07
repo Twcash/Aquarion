@@ -68,34 +68,6 @@ public class CoreBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        coreCuesta = new CoreBlock("core-cuesta") {{
-            requirements(Category.effect, with(duralumin, 2500, metaglass, 1200, lead, 5000));
-            squareSprite = false;
-            itemCapacity = 12000;
-            size = 6;
-            absorbLasers = true;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            unitCapModifier = 50;
-            unitType = AquaUnitTypes.cull;
-            hasItems = true;
-            hasColor = true;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-        }};
-        coreEscarpment = new CoreBlock("core-escarpment") {{
-            requirements(Category.effect, with(duralumin, 2500, metaglass, 1200, lead, 5000));
-            squareSprite = false;
-            itemCapacity = 12000;
-            size = 6;
-            unitCapModifier = 50;
-            unitType = AquaUnitTypes.cull;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            category = Category.effect;
-            hasItems = true;
-            hasColor = true;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-        }};
         buildCairn = new BuildTurret("build-cairn") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.effect, with(silicon, 120, copper, 50));
