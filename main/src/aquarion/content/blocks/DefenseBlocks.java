@@ -3,6 +3,7 @@ package aquarion.content.blocks;
 import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.graphics.AquaPal;
 import mindustry.content.Fx;
+import mindustry.content.Liquids;
 import mindustry.content.Planets;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.EmptyBulletType;
@@ -11,6 +12,7 @@ import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
+import mindustry.world.blocks.defense.ForceProjector;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
@@ -21,7 +23,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DefenseBlocks {
-    public static Block defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+    public static Block forceGenerator, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
@@ -232,6 +234,18 @@ public class DefenseBlocks {
             health = 1000;
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.defense;
+        }};
+        forceGenerator = new ForceProjector("force-generator"){{
+            requirements(Category.defense, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
+            size = 3;
+            squareSprite = false;
+            consumeLiquid(Liquids.water, 2);
+            consumePower(9);
+            shieldHealth = 1500;
+            cooldownBrokenBase = 2f;
+            cooldownNormal = 0.5f;
+            radius = 200;
+            sides = 4;
         }};
 
     }

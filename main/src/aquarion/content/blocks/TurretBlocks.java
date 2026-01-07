@@ -377,7 +377,7 @@ public class TurretBlocks {
             shoot.shots = 45;
             ammoUseEffect = AquaFx.casing1;
             shoot.shotDelay = 0;
-            
+
             recoilTime = 80;
             velocityRnd = 0.7f;
             inaccuracy = 25;
