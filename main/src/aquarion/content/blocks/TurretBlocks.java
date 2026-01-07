@@ -5,6 +5,7 @@ import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
 import aquarion.content.AquaStatuses;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
+import aquarion.world.entities.parts.NewRegPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.func.Cons;
@@ -63,7 +64,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class TurretBlocks {
-    public static Block nostalgia, memorial, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
+    public static Block aftershock, nostalgia, memorial, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, Fragment, gyre, Coaxis, deviate, torrefy,
             blaze, ensign, hack, azimuth, condolence, grace;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -357,6 +358,67 @@ public class TurretBlocks {
             }};
             limitRange(1.6f);
             consumeCoolant(10 / 60f);
+        }};
+        aftershock = new ItemTurret("aftershock") {{
+                requirements(Category.turret, with(AquaItems.ferricMatter, 500, polymer, 350, graphite, 200));
+                size = 5;
+                squareSprite = false;
+            reload = 90;
+            ammoPerShot = 15;
+            itemCapacity = 80;
+            range = 300;
+            shootSound = AquaSounds.vectorShot;
+            outlineColor = tantDarkestTone;
+            maxAmmo = 60;
+            warmupMaintainTime = 120;
+            shootWarmupSpeed = 0.05f;
+            minWarmup = 0.9f;
+            rotateSpeed = 0.95f;
+            shoot.shots = 45;
+            shoot.shotDelay = 0;
+            recoilTime = 80;
+            velocityRnd = 0.7f;
+            inaccuracy = 25;
+            ammo(
+                    minium, new BasicBulletType(6, 30){{
+                        width = 7;
+                        spin = 2;
+                        randomAngleOffset = 1;
+                        angleOffset = 5;
+                        height = 14;
+                        trailWidth = 3;
+                        trailLength = 12;
+                        shrinkX = 0.5f;
+                        shrinkY = 0.8f;
+                    }},
+                    metaglass, new BasicBulletType(9, 45){{
+                        width = 9;
+                        spin = 2;
+                        randomAngleOffset = 1;
+                        angleOffset = 5;
+                        height = 14;
+                        trailWidth = 3;
+                        trailLength = 12;
+                        shrinkX = 0.5f;
+                        shrinkY = 0.8f;
+                        frontColor = Color.white;
+                        backColor = trailColor = Pal.lightishGray;
+                    }}
+            );
+            limitRange(1.1f);
+            drawer = new DrawTurret(){{
+                parts.addAll(new NewRegPart("-tur"){{
+                    alpha = 1;
+                    alphaTo = 0;
+                    progress = PartProgress.recoil;
+                    moveRot = 180;
+                }},new NewRegPart("-tur2"){{
+                    alpha = 0;
+                    alphaTo = 1;
+                    progress = PartProgress.recoil;
+                    moveRot = 180;
+                }});
+            }};
         }};
         vector = new ItemTurret("vector") {{
             requirements(Category.turret, with(cupronickel, 85, silicon, 110, metaglass, 80, graphite, 70));
