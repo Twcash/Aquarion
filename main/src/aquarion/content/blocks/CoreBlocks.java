@@ -56,7 +56,9 @@ public class CoreBlocks {
             squareSprite = false;
             health = 2500;
             itemCapacity = 8000;
-            size = 4;
+            incinerateNonBuildable = true;
+
+                    size = 4;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             unitCapModifier = 25;
             unitType = AquaUnitTypes.cull;

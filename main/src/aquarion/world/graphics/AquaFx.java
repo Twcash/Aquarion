@@ -62,6 +62,12 @@ public class AquaFx {
 
                 Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
             }),
+            shootMassive = new Effect(15, e -> {
+                color(Pal.lighterOrange, Pal.lightOrange, e.fin());
+                float w = 1f + 10 * e.fout();
+                Drawf.tri(e.x, e.y, w, 45f * e.fout(), e.rotation);
+                Drawf.tri(e.x, e.y, w, 12f * e.fout(), e.rotation + 180f);
+            }),
             lightning = new Effect(15f, 500f, e -> {
                 if (!(e.data instanceof Seq)) return;
                 Seq<Vec2> lines = e.data();
@@ -593,7 +599,16 @@ public class AquaFx {
                 );
 
             }),
+            shootSmokeTriLarge = new Effect(70f, e -> {
+                color(e.color, e.color, e.fin());
 
+                rand.setSeed(e.id);
+                for (int i = 0; i < 12; i++) {
+                    float rot = e.rotation + rand.range(60f);
+                    v.trns(rot, rand.random(e.finpow() * 30f));
+                    Fill.poly(e.x + v.x, e.y + v.y, 3, e.fout() * 5f + 0.6f, rand.random(360f));
+                }
+            }),
     shootSmokeTri = new Effect(45f, e -> {
         color(e.color, e.color, e.fin());
 

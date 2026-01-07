@@ -219,7 +219,7 @@ public class AquaItems {
         }};
         serpentine = new Item("serpentine", Color.valueOf("e7e58f")){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            hardness = 1;
+            hardness = 3;
         }};
         pentlandite = new Item("pentlandite", Color.valueOf("9a948b")){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

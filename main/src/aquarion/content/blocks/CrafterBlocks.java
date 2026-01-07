@@ -640,7 +640,7 @@ public class CrafterBlocks {
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(silicon, 200, zinc, 350));
-                tier = 1;
+                tier = 4;
                 itemCapacity = 50;
                 squareSprite = false;
                 consumePower(0.25f);
@@ -658,7 +658,7 @@ public class CrafterBlocks {
             beamBore = new ModifiedbeamDrill("beam-bore") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(aluminum, 250, copper, 75));
-                tier = 1;
+                tier = 5;
                 consumePower(.25f);
                 itemCapacity = 50;
                 squareSprite = false;
@@ -810,7 +810,7 @@ public class CrafterBlocks {
         harvester = new GroundDrill("harvester") {{
             alwaysUnlocked = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with(nickel, 70, lead, 50, silicon, 90));
+            requirements(Category.production, with(nickel, 65, lead, 50, silicon, 90));
             size = 3;
             drillTime = 150;
             liquidBoostIntensity = 1.25f;
@@ -1825,7 +1825,7 @@ public class CrafterBlocks {
         atmosphericCentrifuge = new AquaGenericCrafter("atmospheric-centrifuge") {{
             liquidOutputDirections = new int[]{1, 2, 3};
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(ferricMatter, 150, copper, 100));
+            requirements(Category.crafting, with(metaglass, 150, copper, 255, ferricMatter, 150));
             size = 4;
             rotateDraw = false;
             consumePower(2.5f);
@@ -2120,7 +2120,7 @@ public class CrafterBlocks {
         }};
         ultrafamicRefinery = new AquaGenericCrafter("ultramafic-refinery") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(cupronickel, 700, metaglass, 500, silicon, 2000, polymer, 400));
+            requirements(Category.crafting, with(cupronickel, 700, metaglass, 500, silicon, 200, lead, 1500));
             size = 7;
             squareSprite = false;
             itemCapacity = 200;

@@ -377,59 +377,77 @@ public class TurretBlocks {
             shoot.shots = 45;
             ammoUseEffect = AquaFx.casing1;
             shoot.shotDelay = 0;
+            
             recoilTime = 80;
             velocityRnd = 0.7f;
             inaccuracy = 25;
             ammo(
                     minium, new BasicBulletType(6, 30){{
-                        width = 7;
+                        width = 16;
                         spin = 2;
                         randomAngleOffset = 1;
                         frontColor = Color.white;
                         backColor = trailColor = minium.color;
                         angleOffset = 5;
-                        height = 14;
+                        height = 19;
+                        status = burning;
+                        statusDuration = 10 * 60;
+                        shootEffect = AquaFx.shootMassive;
+                        smokeEffect = Fx.shootBigSmoke;
+                        hitEffect = despawnEffect = Fx.hitScepterSecondary;
                         trailWidth = 3;
+                        trailInterp  = pow2Out;
+
                         trailLength = 12;
                         ammoMultiplier = 1;
                         shrinkX = 0.5f;
                         shrinkY = 0.8f;
                     }},
                     metaglass, new BasicBulletType(9, 45){{
-                        width = 9;
+                        width = 15;
                         spin = 2;
                         randomAngleOffset = 1;
                         angleOffset = 5;
-                        height = 14;
+                        height = 20;
                         trailWidth = 3;
                         trailLength = 12;
                         shrinkX = 0.5f;
+                        status = StatusEffects.blasted;
+                        statusDuration = 120 * 60;
+                        smokeEffect = Fx.shootBigSmoke;
+                        shootEffect = AquaFx.shootMassive;
                         ammoMultiplier = 1;
                         reloadMultiplier = 0.9f;
+                        trailInterp  = pow2Out;
+
                         shrinkY = 0.8f;
+                        hitEffect = despawnEffect = Fx.hitScepterSecondary;
                         frontColor = Color.white;
                         backColor = trailColor = Pal.lightishGray;
                     }},
                     scrap, new BasicBulletType(6, 30){{
-                        width = 7;
+                        width = 12;
                         spin = 2;
                         randomAngleOffset = 1;
                         angleOffset = 5;
                         despawnHit = true;
-                        height = 14;
+                        height = 19;
+                        status = StatusEffects.melting;
+                        statusDuration = 15 * 60;
+                        trailInterp  = pow2Out;
                         trailWidth = 3;
                         trailLength = 12;
                         ammoMultiplier = 1;
+                        hitEffect = despawnEffect = Fx.hitScepterSecondary;
+                        smokeEffect = Fx.shootBigSmoke;
                         shrinkX = 0.5f;
                         shrinkY = 0.8f;
                         puddleLiquid = slag;
                         puddleAmount = 20;
                         puddles = 2;
-                        rangeChange = -20;
-                        drag = 0.01f;
+                        rangeChange = -48;
                         puddleRange = 6;
-                        shootEffect = smokeEffect = Fx.shootLiquid;
-                        hitEffect = Fx.hitLiquid;
+                        shootEffect = Fx.shootLiquid;
                     }}
             );
             limitRange(1.1f);
