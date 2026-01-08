@@ -9,7 +9,7 @@ public class AquaSectorPresets {
     public static AquaSectorPreset  //tantros
     Ingress, diseasedCleft, Torrent, CrystalCaverns, Grove, Ecotone,
     //serpulo (fake)
-    resurgence, twinPass, floodPlains, bay, lowlandStrait, mountainsideComplex, erodedCanyon, searedWastes, fungalTropics;
+    resurgence, twinPass, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics;
     public static void load(){
         resurgence = new AquaSectorPreset("resurgence", fakeSerpulo, 361){{
             allDatabaseTabs = true;
@@ -112,6 +112,15 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
         }};
+        ripHold = new AquaSectorPreset("riparian-hold", tantros2, 1444){{
+            allDatabaseTabs = true;
+            addStartingItems = true;
+            captureWave = 18;
+            difficulty = 6;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 3;
+        }};
         Ecotone = new AquaSectorPreset("Ecotone", tantros2, 146){{
             allDatabaseTabs = true;
             addStartingItems = true;
@@ -132,6 +141,7 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 8;
+            captureWave = 23;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};
@@ -139,6 +149,7 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 10;
+            captureWave = 10;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};

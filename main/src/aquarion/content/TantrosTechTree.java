@@ -197,7 +197,9 @@ public class TantrosTechTree {
                             node(Ecotone, Seq.with(
                                     new Objectives.SectorComplete(CrystalCaverns),
                                     new Objectives.SectorComplete(Torrent)
-                            ), ()->{});
+                            ), ()->{
+                                node(ripHold, Seq.with(new Objectives.SectorComplete(Ecotone)), ()->{});
+                            });
                             node(Grove, Seq.with(
                                     new Objectives.Research(beamBore),
                             new Objectives.SectorComplete(Torrent),
