@@ -135,7 +135,7 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};
-        fungalTropics = new AquaSectorPreset("seared-wastes", fakeSerpulo, 359){{
+        fungalTropics = new AquaSectorPreset("fungal-tropics", fakeSerpulo, 359){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 10;
