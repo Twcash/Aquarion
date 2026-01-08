@@ -24,9 +24,9 @@ import static mindustry.content.Liquids.*;
 import static mindustry.content.TechTree.*;
 public class TantrosTechTree {
     public static void load() {
-        var costMultipliers = new ObjectFloatMap<Item>();
+        ObjectFloatMap<Item> costMultipliers = new ObjectFloatMap<Item>();
 
-        for(var item : Vars.content.items()) costMultipliers.put(item, 0.08f);
+        for(Item item : Vars.content.items()) costMultipliers.put(item, 0.08f);
 
         AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             context().researchCostMultipliers = costMultipliers;
@@ -240,7 +240,13 @@ public class TantrosTechTree {
                                         new Objectives.Research(thermalCrackingUnit),
                                         new Objectives.Research(combustionHeater),
                                         new Objectives.Research(arcFurnace)
-                                        ), ()->{});
+                                        ), ()->{
+                                    node(searedWastes, Seq.with(
+                                            new Objectives.SectorComplete(erodedCanyon),
+                                            new Objectives.Research(thrash)),()->{
+
+                                    });
+                                });
                                 node(diseasedCleft, Seq.with(new Objectives.SectorComplete(bay)), ()->{});
                                 node(mountainsideComplex, Seq.with(
                                         new Objectives.SectorComplete(bay)
