@@ -247,7 +247,9 @@ public class TantrosTechTree {
 
                                     });
                                 });
-                                node(diseasedCleft, Seq.with(new Objectives.SectorComplete(bay)), ()->{});
+                                node(diseasedCleft, Seq.with(new Objectives.SectorComplete(bay)), ()->{
+                                    node(fungalTropics, Seq.with(new Objectives.SectorComplete(diseasedCleft)), ()->{});
+                                });
                                 node(mountainsideComplex, Seq.with(
                                         new Objectives.SectorComplete(bay)
                                 ), () -> {

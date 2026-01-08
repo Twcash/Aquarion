@@ -40,7 +40,7 @@ public class EnvironmentBlocks {
             arsenicBoulder, floor1, boricBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
             CrasseCoral,stoneRock,largeStoneRock,hugeStoneRock,massiveStoneRock, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
-    public static Block leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
+    public static Block varcaudStalk, qusGrass, kolFern, adreSprig, trilLumps, leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, algal_carpet, brine_liquid,
@@ -62,6 +62,9 @@ public class EnvironmentBlocks {
 
     public static void loadContent() {
         //TODO fix the blend group
+        qusGrass = new Floor("qus-grass", 6){{
+            attributes.set(fertility, 1);
+        }};
         algal_carpet = new Floor("algal-carpet", 5) {{
 
         }};
@@ -493,6 +496,23 @@ public class EnvironmentBlocks {
             layer = Layer.power - 3;
             shadowLayer = Layer.power - 4;
         }};
+
+        varcaudStalk = new FloraBlock("varcaud-stalk") {{
+            shadowAlpha = 0.6f;
+            buildVisibility = sandboxOnly;
+            variants = 1;
+            rotationRand = 45;
+            size = 3;
+            breakable = false;
+            health = 3000;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            createRubble = false;
+            layer = Layer.power - 3;
+            shadowLayer = Layer.blockOver;
+            buildTime = 20 * 60f;
+        }};
         parzilPine = new FloraBlock("parzil-pine") {{
             shadowAlpha = 0.6f;
             buildVisibility = sandboxOnly;
@@ -735,9 +755,17 @@ public class EnvironmentBlocks {
             brecciaFloor.asFloor().decoration = this;
             smoothBrecciaFloor.asFloor().decoration = this;
         }};
+        adreSprig = new Prop("adre-sprig") {{
+            variants = 2;
+            breakSound = Sounds.plantBreak;
+        }};
+        kolFern = new Prop("kol-fern") {{
+            variants = 2;
+            breakSound = Sounds.plantBreak;
+        }};
         parzilSprig = new Prop("parzil-sprig") {{
             variants = 3;
-
+            breakSound = Sounds.plantBreak;
         }};
         arsenideBoulder = new Prop("arsenide-boulder") {{
             variants = 3;
