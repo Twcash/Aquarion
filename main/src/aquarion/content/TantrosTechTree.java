@@ -243,6 +243,7 @@ public class TantrosTechTree {
                                         new Objectives.Research(combustionHeater),
                                         new Objectives.Research(arcFurnace)
                                         ), ()->{
+                                    node(dryRiver, Seq.with(new Objectives.SectorComplete(erodedCanyon)), ()->{});
                                     node(searedWastes, Seq.with(
                                             new Objectives.SectorComplete(erodedCanyon),
                                             new Objectives.Research(thrash)),()->{
