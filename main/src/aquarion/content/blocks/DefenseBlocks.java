@@ -236,7 +236,7 @@ public class DefenseBlocks {
             category = Category.defense;
         }};
         forceGenerator = new ForceProjector("force-generator"){{
-            requirements(Category.defense, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
+            requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
             size = 3;
             squareSprite = false;
             consumeLiquid(Liquids.water, 2);

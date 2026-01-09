@@ -123,7 +123,7 @@ public class DistributionBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        sealedUnderflow = new OverflowGate("sealed-undeflow") {{
+        sealedUnderflow = new OverflowGate("sealed-underflow") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 5));
             invert = true;
