@@ -24,6 +24,7 @@ public class AquaSounds {
             start4 = new Sound(),
             start5 = new Sound(),
             waterRumble = new Sound(),
+                    shootAftershock = new Sound(),
             waterAir = new Sound(),
             //engine = new Sound(),
             //electrolysis = new Sound(),
@@ -48,6 +49,7 @@ public class AquaSounds {
         graceShot = loadSound("graceShot");
         start = loadSound("start");
         start2 = loadSound("start2");
+        shootAftershock = loadSound("shootAftershock");
         //start3 = loadSound("start3");
         start4 = loadSound("start4");
         start5 = loadSound("start5");

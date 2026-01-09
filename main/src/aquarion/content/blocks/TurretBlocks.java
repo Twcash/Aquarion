@@ -367,7 +367,7 @@ public class TurretBlocks {
             ammoPerShot = 15;
             itemCapacity = 80;
             range = 300;
-            shootSound = AquaSounds.vectorShot;
+            shootSound = AquaSounds.shootAftershock;
             outlineColor = tantDarkestTone;
             maxAmmo = 60;
             warmupMaintainTime = 120;
