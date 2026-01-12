@@ -287,7 +287,7 @@ public class CrafterBlocks {
             craftTime = 10 * 60f;
             consumePower(4);
             consumeItems(with(ferricMatter, 15, silicon, 35));
-            outputItem = new ItemStack(ferrosilicon, 40);
+            outputItem = new ItemStack(ferrosilicon, 50);
             consumeLiquid(water, 2);
             liquidCapacity = 600;
             updateEffect = new MultiEffect(Fx.coalSmeltsmoke, new ParticleEffect() {{
