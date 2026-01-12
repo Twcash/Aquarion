@@ -37,10 +37,10 @@ public class EnvironmentBlocks {
     }
     public static Block scrap1,scrap2,scrap3, okelBush, crasindtree, crasindWall, denseStone, stonePores, clay, metalWall1, metalWalltwo, sparseSnow, packedSnow, floorLight, brokenFloorLight, metalPlates1,metalVent, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating, azurite, blueSandBoulder, brecciaBoulder, chertBoulder,
             arsenideBoulder, algalBoulder, feldsparBoulder, gabbroBoulder,
-            arsenicBoulder, floor1, boricBoulder, ultrafamicBoulder;
+            arsenicBoulder, ultrafamicBoulder;
     public static Block parzilSprig, kelp, rockweed, urchin,
             CrasseCoral,stoneRock,largeStoneRock,hugeStoneRock,massiveStoneRock, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
-    public static Block varcaudStalk, qusGrass, kolFern, adreSprig, trilLumps, leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
+    public static Block varcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, algal_carpet, brine_liquid,
@@ -49,16 +49,16 @@ public class EnvironmentBlocks {
             kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7;
-    public static Block oreNickelWall, oreTitaniumWall, oreArsenic, oreElectrum, scorche,
-            oreNickel, leadNodules, oreBauxite, oreGallium, oreLithium,
-            oreManganese, oreAluminum, oreSilicon, exposedGallium, cryoliteOre, acuminiteOre, ferricOre, serpentineOre;
+    public static Block oreNickelWall, oreTitaniumWall, oreArsenic, scorche,
+            oreNickel, oreBauxite,
+            oreManganese, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
-            arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall, metalWall3, metalWall4,
+            arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall, metalWall3,
             chertOutcrop, pillarCoral, loteasCoral, songCoral,
-            bauxiticWall, algalBloom, parzilPine, algalWall,
+             algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
             feldsparWall, gabbroWall, andesiteExtrusions, CrystalGalena,
-            elderParzil, boraxCluster, ksaRoot, yulrCoral, bewCoral, herylBush, tranticaBush, regoubloom, tyrqPod, bigTyrqPod, basaltBluff, basaltOutcrop;
+            elderParzil, ksaRoot, yulrCoral, bewCoral, herylBush, tranticaBush, regoubloom, tyrqPod, bigTyrqPod, basaltBluff, basaltOutcrop;
 
     public static void loadContent() {
         //TODO fix the blend group
@@ -92,8 +92,7 @@ public class EnvironmentBlocks {
         boricFloorDense = new Floor("boric-floor-dense", 4) {{
             wall = boricWall;
         }};
-        coral_floor = new Floor("coral-floor", 4) {{
-        }};
+
         denseStone = new Floor("dense-stone", 8);
         stonePores = new Floor("stone-pores", 6);
         clay = new Floor("clay", 4);
@@ -123,12 +122,6 @@ public class EnvironmentBlocks {
         smoothFeldspar = new Floor("smooth-feldspar", 6) {{
             wall = feldsparWall;
             attributes.set(iron, 1.3f);
-
-        }};
-        Blocks.salt.itemDrop = salt;
-
-        andesiteLayers = new Floor("andesite-layers", 4) {{
-            wall = daciteWall;
         }};
         overwrite(arkyicVent, (SteamVent s) -> s.effect = AquaFx.vent1);
         overwrite(basaltVent, (SteamVent s) -> s.effect = AquaFx.vent1);
@@ -141,19 +134,34 @@ public class EnvironmentBlocks {
 
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
-            variants = 3;
+            variants = 2;
             parent = blendGroup = EnvironmentBlocks.feldspar;
             effectSpacing = 15f;
             effect = AquaFx.vent1;
         }};
+
+        Blocks.salt.itemDrop = salt;
+
+        andesiteLayers = new Floor("andesite-layers", 4) {{
+            wall = daciteWall;
+        }};
+
         andesiteRubble = new Floor("andesite-rubble-", 4) {{
             wall = daciteWall;
         }};
+        //You are genuinely stupid for this lol
         andesite = new Floor("andesite-", 4) {{
             wall = daciteWall;
         }};
-
-
+        andesiteVent = new SteamVent("andesite-vent-") {{
+            attributes.set(Attribute.steam, 1f);
+            variants = 2;
+            parent = blendGroup = EnvironmentBlocks.andesiteRubble;
+            effectSpacing = 15f;
+            effect = AquaFx.vent1;
+        }};
+        coral_floor = new Floor("coral-floor", 4) {{
+        }};
         redCoralFloor = new Floor("redCoral-floor") {{
             variants = 6;
         }};
@@ -163,44 +171,11 @@ public class EnvironmentBlocks {
         greenCoralFloor = new Floor("green-coral-floor") {{
             variants = 6;
         }};
-        andesiteVent = new SteamVent("andesite-vent-") {{
-            attributes.set(Attribute.steam, 1f);
-            variants = 2;
-            parent = blendGroup = EnvironmentBlocks.andesiteRubble;
-            effectSpacing = 15f;
-            effect = AquaFx.vent1;
-        }};
-
-        gabbro = new Floor("gabbro", 3) {{
-
-        }};
-
-        gabbro_extrusions = new Floor("gabbro-extrusions", 10) {{
-        }};
-        brimstoneFloor = new Floor("brimstone-floor", 3) {{
-            itemDrop = brimstone;
-        }};
 
 
-        shaleVent = new SteamVent("shale-vent") {{
-            attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = Blocks.shale;
-            effectSpacing = 15f;
-            variants = 3;
-            effect = AquaFx.vent1;
-        }};
-        brimstoneVent = new SteamVent("brimstone-vent") {{
-            attributes.set(Attribute.steam, 1f);
-            parent = blendGroup = brimstoneFloor;
-            effectSpacing = 15f;
-            variants = 2;
-            effect = AquaFx.vent1;
-        }};
-        exposedSerpentine = new StaticWall("exposed-serpentine") {{
-            itemDrop = serpentine;
-            variants = 3;
-            playerUnmineable = true;
-        }};
+        gabbro = new Floor("gabbro", 3);
+
+        gabbro_extrusions = new Floor("gabbro-extrusions", 10);
 
         gabbro_vent = new SteamVent("gabbro-vent") {{
             attributes.set(Attribute.steam, 1f);
@@ -209,6 +184,42 @@ public class EnvironmentBlocks {
             variants = 3;
             effect = AquaFx.vent1;
         }};
+        brimstoneFloor = new Floor("brimstone-floor", 3) {{
+            itemDrop = brimstone;
+        }};
+        brimstoneVent = new SteamVent("brimstone-vent") {{
+            attributes.set(Attribute.steam, 1f);
+            parent = blendGroup = brimstoneFloor;
+            effectSpacing = 15f;
+            variants = 2;
+            effect = AquaFx.vent1;
+        }};
+
+        shaleVent = new SteamVent("shale-vent") {{
+            attributes.set(Attribute.steam, 1f);
+            parent = blendGroup = Blocks.shale;
+            effectSpacing = 15f;
+            variants = 3;
+            effect = AquaFx.vent1;
+        }};
+
+        phylite_floor = new Floor("phylite-floor", 2) {{
+            wall = shaleWall;
+            attributes.set(metamorphic, 1f);
+
+        }};
+        slate = new Floor("slate", 3) {{
+            wall = shaleWall;
+            attributes.set(metamorphic, 1f);
+        }};
+
+        exposedSerpentine = new StaticWall("exposed-serpentine") {{
+            itemDrop = serpentine;
+            variants = 3;
+            playerUnmineable = true;
+        }};
+
+
         sporeMoss.itemDrop = Items.sporePod;
         sporeWall.itemDrop = Items.sporePod;
         sporePine.itemDrop = Items.sporePod;
@@ -223,6 +234,15 @@ public class EnvironmentBlocks {
                 variants = 2;
                 effect = AquaFx.vent1;
             }};
+        basaltSpikes = new Floor("basalt-spikes", 4) {{
+            wall = duneWall;
+            attributes.set(metamorphic, 0.7f);
+        }};
+        basaltPlates = new TiledFloor("basalt-plates") {{
+            tilingVariants = 2;
+            tilingSize = 4;
+            attributes.set(metamorphic, 0.7f);
+        }};
         blueSandFLoor = new Floor("blue-sand-floor", 3) {{
             itemDrop = Items.sand;
             playerUnmineable = true;
@@ -251,25 +271,6 @@ public class EnvironmentBlocks {
             variants = 3;
         }};
 
-
-        phylite_floor = new Floor("phylite-floor", 2) {{
-            wall = shaleWall;
-            attributes.set(metamorphic, 1f);
-
-        }};
-        slate = new Floor("slate", 3) {{
-            wall = shaleWall;
-            attributes.set(metamorphic, 1f);
-        }};
-        basaltSpikes = new Floor("basalt-spikes", 4) {{
-            wall = duneWall;
-            attributes.set(metamorphic, 0.7f);
-        }};
-        basaltPlates = new TiledFloor("basalt-plates") {{
-            tilingVariants = 2;
-            tilingSize = 4;
-            attributes.set(metamorphic, 0.7f);
-        }};
         andesiteExtrusions = new TallBlock("andesite-extrusions") {{
             variants = 2;
             clipSize = 128f;
@@ -290,6 +291,141 @@ public class EnvironmentBlocks {
         brecciaFloor = new Floor("breccia-floor", 4) {{
             attributes.set(iron, 0.25f);
             attributes.set(metamorphic, 0.1f);
+        }};
+
+        soil = new Floor("soil", 3) {{
+            attributes.set(AquaAttributes.fertility, 1f);
+        }};
+        fertileSoil = new Floor("fertile-soil", 3) {{
+            attributes.set(AquaAttributes.fertility, 1.5f);
+        }};
+        plates1 = new Floor("plates"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+            emitLight = true;
+            lightRadius = 30f;
+            lightColor = Team.crux.color.cpy().a(0.1f);
+        }};
+        plates2 = new Floor("metal-plates2"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        plates3 = new Floor("metal-plates3"){{
+            autotile = true;
+            variants = 0;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        plates4 = new Floor("plates4"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        damagedPlates1 = new Floor("damaged-metal1"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+            autotileVariants = 3;
+            autotileMidVariants = 6;
+        }};
+        metalPlates = new GreedyFloor("metal-plates", 3, 4){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 600;
+        }};
+        metalPlates1 = new GreedyFloor("metal-plates1", 2, 8){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+
+        }};
+        metal2 = new GreedyFloor("metal-plates5", 2, 3){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+        }};
+        metal3 = new GreedyFloor("metal-heat-sink", 1, 2){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+            lightRadius = 110;
+            emitLight = true;
+            lightColor = Pal.turretHeat.cpy().a(0.9f);
+            attributes.set(Attribute.heat, 1.25f);
+            status = StatusEffects.melting;
+            statusDuration = 10;
+            effect = AquaFx.heatEngineGenerate;
+            effectSpacing = 120;
+        }};
+        metal3 = new GreedyFloor("metal-heat-sink-off", 1, 2){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+        }};
+        metal4 = new GreedyFloor("metal-light-large", 1, 2){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+            lightRadius = 150;
+            emitLight = true;
+            lightColor = Pal.techBlue.cpy().a(0.9f);
+        }};
+        metal5 = new GreedyFloor("metal-light-large-broken", 4, 2){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+            lightRadius = 10;
+            emitLight = true;
+            lightColor = Color.gray.cpy().a(0.05f);
+        }};
+        metal3 = new GreedyFloor("metal-padding", 5, 5){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+        }};
+        metal6 = new GreedyFloor("metal-bump", 1, 3){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            clipSize = 3000;
+        }};
+        floorLight = new Floor("floor-light", 0){{
+            lightRadius = 70;
+            emitLight = true;
+            drawEdgeIn = drawEdgeOut = false;
+            lightColor = Pal.techBlue.cpy().a(0.7f);
+        }};
+        metal1 = new Floor("metal-pole", 0){{
+        }};
+        brokenFloorLight = new Floor("broken-floor-light", 4){{
+            lightRadius = 5;
+            emitLight = true;
+            drawEdgeIn = drawEdgeOut = false;
+            lightColor = Color.gray.cpy().a(0.05f);
+        }};
+        metalBankFloor = new Floor("metal-bank-floor"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+            emitLight = true;
+            lightRadius = 20f;
+            lightColor = Pal.reactorPurple.cpy().a(0.1f);
+        }};
+        metalVent = new GreedyFloor("metal-vent", 1, 3){{
+            drawEdgeOut = false;
+            drawEdgeIn = false;
+            //effect = AquaFx.vent1;
+            //effectSpacing = 10;
+            attributes.set(Attribute.steam, 1f);
+        }};
+        metalWall1 = new StaticWall("metal-wall"){{
+            variants = 6;
+        }};
+        metalWalltwo = new StaticWall("metal-wall1"){{
+            variants = 4;
+        }};
+        metalWall3 = new StaticWall("metal-wall3"){{
+            variants = 3;
+        }};
+//        metalWall4 = new GreedyWall("metal-wall4", 2, 3){{
+//        }};
+        scorche = new OverlayFloor("scorche"){{
+            variants = 4;
         }};
         sporeMoss.attributes.set(fertility, 0.75f);
         basalt.attributes.set(metamorphic, 0.5f);
@@ -321,10 +457,6 @@ public class EnvironmentBlocks {
         oreNickelWall = new OreBlock("ore-nickel-wall", nickel) {{
             wallOre = true;
             variants = 2;
-        }};
-        oreTitaniumWall = new OreBlock("ore-titanium-wall", Items.titanium) {{
-            wallOre = true;
-            variants = 3;
         }};
         oreAluminum = new OreBlock("ore-aluminum", aluminum) {{
             variants = 3;
@@ -728,10 +860,6 @@ public class EnvironmentBlocks {
         azurite = new Prop("azurite") {{
             variants = 3;
         }};
-        //boulders
-        algalBoulder = new Prop("algal-boulder") {{
-            variants = 2;
-        }};
         ultrafamicBoulder = new Prop("ultrafamic-boulder") {{
             variants = 2;
             ultrafamicFloor.asFloor().decoration = this;
@@ -745,10 +873,14 @@ public class EnvironmentBlocks {
         feldsparBoulder = new Prop("feldspar-boulder") {{
             variants = 3;
             feldspar.asFloor().decoration = this;
+            roughFeldspar.asFloor().decoration = this;
+            smoothFeldspar.asFloor().decoration = this;
+            feldsparRubble.asFloor().decoration = this;
         }};
         chertBoulder = new Prop("chert-boulder") {{
             variants = 3;
             chertFloor.asFloor().decoration = this;
+            chertPlates.asFloor().decoration = this;
         }};
         brecciaBoulder = new Prop("breccia-boulder") {{
             variants = 2;
@@ -758,21 +890,29 @@ public class EnvironmentBlocks {
         adreSprig = new Prop("adre-sprig") {{
             variants = 2;
             breakSound = Sounds.plantBreak;
+            sporeMoss.asFloor().decoration = this;
+            qusGrass.asFloor().decoration = this;
         }};
-        kolFern = new Prop("kol-fern") {{
+        kolFern = new WobbleProp("kol-fern") {{
             variants = 2;
             breakSound = Sounds.plantBreak;
+            sporeMoss.asFloor().decoration = this;
+            qusGrass.asFloor().decoration = this;
         }};
         parzilSprig = new Prop("parzil-sprig") {{
             variants = 3;
             breakSound = Sounds.plantBreak;
+            leafLitter.asFloor().decoration = this;
+            leafLitterDense.asFloor().decoration = this;
         }};
         arsenideBoulder = new Prop("arsenide-boulder") {{
             variants = 3;
             arsenideFloor.asFloor().decoration = this;
+            arsenideLayers.asFloor().decoration = this;
         }};
         blueSandBoulder = new Prop("blue-sand-boulder") {{
             variants = 2;
+            blueSandFLoor.asFloor().decoration = this;
         }};
         arsenicBoulder = new Prop("arsenic-boulder") {{
             variants = 3;
@@ -821,175 +961,5 @@ public class EnvironmentBlocks {
             placeableLiquid = true;
         }};
 
-        //plants and stuff
-        kelp = new SeaBush("kelp") {{
-        }};
-
-        rockweed = new SeaBush("rockweed") {{
-            lobesMin = 3;
-            lobesMax = 5;
-            timeRange = 160;
-        }};
-
-        urchin = new SeaBush("urchin") {{
-            lobesMin = 3;
-            lobesMax = 7;
-            timeRange = 70;
-            magMax = 30;
-            sclMax = 55;
-            sclMin = 10;
-            magMin = 10;
-
-        }};
-        tile = new Floor("tile", 1) {{
-        }};
-        engravedTile = new Floor("engraved-tile", 1) {{
-            blendGroup = tile;
-        }};
-        gildedTile = new Floor("gilded-tile", 1) {{
-
-        }};
-        pottedGrass = new Floor("potted-grass", 2) {{
-
-        }};
-        soil = new Floor("soil", 3) {{
-            attributes.set(AquaAttributes.fertility, 1f);
-        }};
-        fertileSoil = new Floor("fertile-soil", 3) {{
-            attributes.set(AquaAttributes.fertility, 1.5f);
-        }};
-        plates1 = new Floor("plates"){{
-            autotile = true;
-            drawEdgeIn = drawEdgeOut = false;
-            emitLight = true;
-            lightRadius = 30f;
-            lightColor = Team.crux.color.cpy().a(0.1f);
-        }};
-        plates2 = new Floor("metal-plates2"){{
-            autotile = true;
-            drawEdgeIn = drawEdgeOut = false;
-        }};
-        plates3 = new Floor("metal-plates3"){{
-            autotile = true;
-            variants = 0;
-            drawEdgeIn = drawEdgeOut = false;
-        }};
-        plates4 = new Floor("plates4"){{
-            autotile = true;
-            drawEdgeIn = drawEdgeOut = false;
-        }};
-        damagedPlates1 = new Floor("damaged-metal1"){{
-            autotile = true;
-            drawEdgeIn = drawEdgeOut = false;
-            autotileVariants = 3;
-            autotileMidVariants = 6;
-        }};
-//        metalGrating = new Floor("metal-pit") {{
-//            autotile = true;
-//            drawEdgeIn = drawEdgeOut = false;
-//            cacheLayer = AquaShaders.beamPitLayer;
-//        }};
-        metalPlates = new GreedyFloor("metal-plates", 3, 4){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            clipSize = 600;
-        }};
-        metalPlates1 = new GreedyFloor("metal-plates1", 2, 8){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            clipSize = 3000;
-
-        }};
-        metal2 = new GreedyFloor("metal-plates5", 2, 3){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            clipSize = 3000;
-        }};
-        metal3 = new GreedyFloor("metal-heat-sink", 1, 2){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            clipSize = 3000;
-            lightRadius = 110;
-            emitLight = true;
-            lightColor = Pal.turretHeat.cpy().a(0.9f);
-            attributes.set(Attribute.heat, 1.25f);
-            status = StatusEffects.melting;
-            statusDuration = 10;
-            //effect = AquaFx.heatEngineGenerate;
-            //effectSpacing = 120;
-        }};
-        metal3 = new GreedyFloor("metal-heat-sink-off", 1, 2){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            clipSize = 3000;
-        }};
-        metal4 = new GreedyFloor("metal-light-large", 1, 2){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            clipSize = 3000;
-            lightRadius = 150;
-            emitLight = true;
-            lightColor = Pal.techBlue.cpy().a(0.9f);
-        }};
-        metal5 = new GreedyFloor("metal-light-large-broken", 4, 2){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            clipSize = 3000;
-            lightRadius = 10;
-            emitLight = true;
-            lightColor = Color.gray.cpy().a(0.05f);
-        }};
-        metal3 = new GreedyFloor("metal-padding", 5, 5){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            clipSize = 3000;
-        }};
-        metal6 = new GreedyFloor("metal-bump", 1, 3){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            clipSize = 3000;
-        }};
-        floorLight = new Floor("floor-light", 0){{
-            lightRadius = 70;
-            emitLight = true;
-            drawEdgeIn = drawEdgeOut = false;
-            lightColor = Pal.techBlue.cpy().a(0.7f);
-        }};
-        metal1 = new Floor("metal-pole", 0){{
-        }};
-        brokenFloorLight = new Floor("broken-floor-light", 4){{
-            lightRadius = 5;
-            emitLight = true;
-            drawEdgeIn = drawEdgeOut = false;
-            lightColor = Color.gray.cpy().a(0.05f);
-        }};
-        metalBankFloor = new Floor("metal-bank-floor"){{
-            autotile = true;
-            drawEdgeIn = drawEdgeOut = false;
-            emitLight = true;
-            lightRadius = 20f;
-            lightColor = Pal.reactorPurple.cpy().a(0.1f);
-        }};
-        metalVent = new GreedyFloor("metal-vent", 1, 3){{
-            drawEdgeOut = false;
-            drawEdgeIn = false;
-            //effect = AquaFx.vent1;
-            //effectSpacing = 10;
-            attributes.set(Attribute.steam, 1f);
-        }};
-        metalWall1 = new StaticWall("metal-wall"){{
-            variants = 6;
-        }};
-        metalWalltwo = new StaticWall("metal-wall1"){{
-            variants = 4;
-        }};
-        metalWall3 = new StaticWall("metal-wall3"){{
-            variants = 3;
-        }};
-//        metalWall4 = new GreedyWall("metal-wall4", 2, 3){{
-//        }};
-        scorche = new OverlayFloor("scorche"){{
-            variants = 4;
-        }};
     }
 }
