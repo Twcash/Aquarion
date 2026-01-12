@@ -415,6 +415,7 @@ public class TantrosTechTree {
                 });
                 node(scrapCentrifuge);
                 node(AnnealingOven, () -> {
+                    node(slagRefinementAssemblage);
                     node(sporeProcessor);
                             node(cupronickelAlloyer, () -> {
                                 node(ferricGrinder, () -> {

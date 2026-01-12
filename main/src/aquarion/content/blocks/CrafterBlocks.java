@@ -451,7 +451,7 @@ public class CrafterBlocks {
         }};
         slagRefinementAssemblage = new AquaGenericCrafter("slag-refinement-array") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(graphite, 900, zinc, 1200, metaglass, 1000));
+            requirements(Category.crafting, with(graphite, 900, silicon, 1200, metaglass, 1000, ferricMatter, 250));
             size = 7;
             consumePower(6f);
             itemCapacity = 300;
@@ -470,13 +470,80 @@ public class CrafterBlocks {
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 1), new DrawLiquidTile(slag) {{
-                padBottom = 13;
-                padTop = 13;
-                padRight = 9;
-                padLeft = 9;
-
-            }}, new DrawDefault(), new DrawGlowRegion());
+            }}, new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 1){{alpha = 0.6f;}}, new DrawRegion("-mid"), new DrawLiquidTile(slag) {{
+                padBottom = 166/4f;
+                padTop = 166/4f;
+                padRight = 10;
+                padLeft = 10;
+            }},new DrawWheel() {{
+                width = 120 / 4f;
+                height = 2;
+                rotation = 0;
+                sideCount = 12;
+                rotationSpeed = 0.1f;
+                suffix = "-tick";
+                x = 0;
+                y = 36/4f;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }},new DrawWheel() {{
+                width = 120 / 4f;
+                height = 2;
+                rotation = 0;
+                sideCount = 12;
+                rotationSpeed = 0.1f;
+                suffix = "-tick";
+                x = 0;
+                y = -25/4f;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                };
+            }}, new DrawPistons() {{
+                sides = 2;
+                sinMag = 11;
+                sinScl = 12;
+                lenOffset = -6f;
+            }}, new DrawPistons() {{
+                suffix = "-piston1";
+                sides = 2;
+                sinMag = 11;
+                sinScl = 12;
+                lenOffset = -6f;
+            }}, new DrawLiquidTile(slag) {{
+                padBottom = 12;
+                padTop = 12;
+                padRight = 12;
+                padLeft = 12;
+                alpha = 0.7f;
+            }}, new DrawRegion("-midder"), new DrawBlurSpin("-fan", 8f){{
+                x = 5/4f;
+                y = -4f;
+            }}, new DrawBlurSpin("-fan", 8f){{
+                x = 5/4f;
+                y = 30/4f;
+            }}, new DrawDefault(), new DrawGlowRegion() {{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.5f;
+                color = Color.valueOf("f5c5aa");
+            }}, new DrawGlowRegion("-glow1") {{
+                glowIntensity = 0.9f;
+                glowScale = 8;
+                alpha = 0.6f;
+                color = Color.valueOf("f5c5aa");
+            }}, new DrawGlowRegion("-glow2") {{
+                glowIntensity = 0.75f;
+                glowScale = 6;
+                alpha = 0.7f;
+                color = Color.valueOf("f5c5aa");
+            }});
         }};
         azuriteKiln = new AquaGenericCrafter("azurite-kiln") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -1374,7 +1441,7 @@ public class CrafterBlocks {
             }}, new DrawDefault());
         }};
         arcFurnace = new AquaGenericCrafter("arc-furnace") {{
-            requirements(Category.crafting, with(graphite, 150, copper, 120, metaglass, 150));
+            requirements(Category.crafting, with(graphite, 150, copper, 250, metaglass, 150));
             size = 4;
             squareSprite = false;
             craftTime = 300;
@@ -1402,61 +1469,26 @@ public class CrafterBlocks {
                 particleSize = 7f;
                 particleLife = 120f;
                 particles = 8;
-            }}, new DrawSoftParticles() {{
-                alpha = 0.35f;
-                particleRad = 5f;
-                y = 34 / 4f;
-                particleSize = 9f;
-                particleLife = 120f;
-                particles = 15;
-            }}, new DrawSoftParticles() {{
-                color = Color.valueOf("88d9eb");
-                color2 = Color.white;
-                alpha = 0.25f;
-                y = 34 / 4f;
-                particleRad = 3f;
-                particleSize = 7f;
-                particleLife = 120f;
-                particles = 8;
-            }}, new DrawSoftParticles() {{
-                alpha = 0.35f;
-                particleRad = 5f;
-                y = 27 / 4f;
-                x = -37 / 4f;
-                particleSize = 9f;
-                particleLife = 120f;
-                particles = 15;
-            }}, new DrawSoftParticles() {{
-                color = Color.valueOf("88d9eb");
-                color2 = Color.white;
-                alpha = 0.25f;
-                y = 27 / 4f;
-                x = -37 / 4f;
-                particleRad = 3f;
-                particleSize = 7f;
-                particleLife = 120f;
-                particles = 8;
-            }}, new DrawSoftParticles() {{
-                alpha = 0.35f;
-                particleRad = 5f;
-                x = 32 / 4f;
-                particleSize = 9f;
-                particleLife = 120f;
-                particles = 15;
-            }}, new DrawSoftParticles() {{
-                color = Color.valueOf("88d9eb");
-                color2 = Color.white;
-                alpha = 0.25f;
-                x = 32 / 4f;
-                particleRad = 3f;
-                particleSize = 7f;
-                particleLife = 120f;
-                particles = 8;
             }}, new DrawDefault(), new DrawGlowRegion() {{
                 glowIntensity = 0.7f;
                 glowScale = 9;
                 alpha = 0.5f;
                 color = Color.valueOf("f5c5aa");
+            }}, new DrawGlowRegion("-glow1") {{
+                glowIntensity = 0.9f;
+                glowScale = 8;
+                alpha = 0.6f;
+                color = Color.valueOf("f5c5aa");
+            }}, new DrawGlowRegion("-glow2") {{
+                glowIntensity = 0.75f;
+                glowScale = 6;
+                alpha = 0.7f;
+                color = Color.valueOf("f5c5aa");
+            }}, new DrawGlowRegion("-glow3") {{
+                glowIntensity = 0.8f;
+                glowScale =5;
+                alpha = 0.8f;
+                color = Color.valueOf("ffa693");
             }});
         }};
 //        steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
