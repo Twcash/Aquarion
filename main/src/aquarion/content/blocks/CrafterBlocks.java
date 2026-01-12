@@ -1374,7 +1374,7 @@ public class CrafterBlocks {
             }}, new DrawDefault());
         }};
         arcFurnace = new AquaGenericCrafter("arc-furnace") {{
-            requirements(Category.crafting, with(graphite, 250, copper, 120, metaglass, 150));
+            requirements(Category.crafting, with(graphite, 150, copper, 120, metaglass, 150));
             size = 4;
             squareSprite = false;
             craftTime = 300;
@@ -1383,7 +1383,7 @@ public class CrafterBlocks {
             consumePower(4);
             consumeItem(sand, 40);
             consumeItem(graphite, 2).boost();
-            outputLiquid = new LiquidStack(oxygen, 0.75f);
+            outputLiquid = new LiquidStack(oxygen, 1.2f);
             outputItem = new ItemStack(silicon, 40);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;

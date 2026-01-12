@@ -25,7 +25,7 @@ import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
     public static Block initializationBay, weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
-
+    
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
