@@ -250,13 +250,14 @@ public class PowerBlocks {
         }};
         petroleumEngine = new ConsumeGenerator("petroleum-engine") {
             {
-                requirements(Category.power, with(polymer, 2000, aluminum, 3500, ferrosilicon, 1200, metaglass, 6000));
+                requirements(Category.power, with(polymer, 2000, aluminum, 1500, ferrosilicon, 1200, metaglass, 6000));
                 size = 8;
                 squareSprite = false;
                 insulated = true;
                 liquidCapacity = 3000;
                 warmupSpeed = 0.002f;
                 consumeLiquids(LiquidStack.with(petroleum, 24, oxygen, 12));
+                outputLiquid = new LiquidStack(water, 12);
                 powerProduction = 360;
                 baseExplosiveness = 20;
                 explosionShake = 100;

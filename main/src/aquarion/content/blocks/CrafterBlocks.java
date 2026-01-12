@@ -276,7 +276,7 @@ public class CrafterBlocks {
         }};
         ferroSiliconFoundry = new AquaGenericCrafter("ferrosilicon-foundry") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 900, metaglass, 500, copper, 500, ferricMatter, 700, graphite, 450, aluminum, 600));
+            requirements(Category.crafting, with(silicon, 900, metaglass, 500, copper, 500, ferricMatter, 700, graphite, 450));
             size = 6;
             squareSprite = false;
             itemCapacity = 120;
@@ -1492,7 +1492,7 @@ public class CrafterBlocks {
             }});
         }};
 //        steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
-//            requirements(Category.crafting, with( steel, 500, ferrosilicon, 250, metaglass, 1000));
+//            requirements(Category.crafting, with( steel, 500, G, 250, metaglass, 1000));
 //            shownPlanets.addAll(tantros2);
 //            craftTime = 1.5f*60f;
 //            size = 5;
