@@ -282,7 +282,6 @@ public class PowerBlocks {
                         sinOffset = (f*10f);
                         angleOffset=90;
                         sinMag = 4.5f;
-                        this.
                         sinScl = 1f;
                         sideOffset = 1;
                     }};
