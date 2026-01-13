@@ -565,13 +565,28 @@ public class CrafterBlocks {
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(magma, 1.5f) {{
+            }}, new DrawRegion("-bottom"), new DrawLiquidTile(muriaticAcid, 1.5f) {{
                 alpha = 0.6f;
             }}, new DrawDefault(), new DrawGlowRegion() {{
                 alpha = 0.65f;
                 color = Color.valueOf("e68569");
                 glowIntensity = 0.3f;
                 glowScale = 6f;
+            }}, new DrawGlowRegion("-glow1") {{
+                alpha = 0.65f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.3f;
+                glowScale = 6f;
+            }}, new DrawGlowRegion("-glow2") {{
+                alpha = 0.7f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 5f;
+            }}, new DrawGlowRegion("-glow3") {{
+                alpha = 0.55f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.5f;
+                glowScale = 9f;
             }});
             graphiteConcentrator = new AttributeCrafter("graphite-concentrator") {{
                 requirements(Category.production, with(copper, 40, silicon, 80));

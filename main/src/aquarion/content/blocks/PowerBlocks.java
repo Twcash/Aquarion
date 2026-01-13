@@ -57,7 +57,6 @@ public class PowerBlocks {
             explosionRadius = 5;
             powerProduction = 5f;
             baseExplosiveness = 2;//funnier
-            alwaysUnlocked = true;
             envDisabled |= Env.underwater;
         }};
         defunctNode = new PowerNode("defunct-node"){{
