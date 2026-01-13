@@ -3,6 +3,7 @@ package aquarion;
 import aquarion.tools.IconLoader;
 import aquarion.ui.AquaStyles;
 import aquarion.world.graphics.AquaShaders;
+import aquarion.world.graphics.AquaSoundControl;
 import aquarion.world.graphics.Renderer;
 import arc.*;
 import arc.util.Log;
@@ -44,6 +45,8 @@ public class AquaLoader extends Mod {
             IconLoader.loadIcons();
             Planets.erekir.accessible = false;
             Planets.serpulo.accessible = false;
+            //:trol:
+            Vars.control.sound = new AquaSoundControl();
         });
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
