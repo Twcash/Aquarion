@@ -1459,7 +1459,7 @@ public class TurretBlocks {
             coolantMultiplier = 0.3f;
             reload = 25;
             liquidCapacity = 1200;
-            //consumePower(5);
+            consumePower(5);
             range = 300;
             inaccuracy = 3;
             targetAir = false;

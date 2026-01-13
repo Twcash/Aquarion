@@ -8,7 +8,7 @@ import static mindustry.Vars.player;
 import static mindustry.Vars.state;
 
 public class AquaSoundControl extends SoundControl {
-    
+
     @Override
     public void playRandom(){
         if(state.boss() != null){

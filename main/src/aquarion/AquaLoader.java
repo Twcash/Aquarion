@@ -46,7 +46,8 @@ public class AquaLoader extends Mod {
             Planets.erekir.accessible = false;
             Planets.serpulo.accessible = false;
             //:trol:
-            Vars.control.sound = new AquaSoundControl();
+//            Vars.control.sound = null;//Ew
+//            Vars.control.sound = new AquaSoundControl();
         });
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
