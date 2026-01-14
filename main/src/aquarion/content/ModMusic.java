@@ -22,7 +22,7 @@ public class ModMusic {
     public static Seq<Music> aquaBossMusic = new Seq<>();
 
     public static String[] aquaAmbientList = {"quiet-processing", "underwaves", "che-go-boom", "fih", "expansion","decaying-giants", "scarred-skies"};
-    public static String[] aquaDarkList = {"bubblerine", "value", "exhasperation", "trance", "mold", "assault"};
+    public static String[] aquaDarkList = {"bubblerine", "exhasperation", "mold", "assault"};
     public static String[] aquaBossList = {"acceptance","oh-the-horror", "hero-brine", "not-so-distant-now", "concussive"};
 
     public static Seq<Music> origAmbientMusic;
@@ -72,12 +72,10 @@ public class ModMusic {
         musics.put("bubblerine", new MusicInfo("Bubblerine", leo));
         musics.put("che-go-boom", new MusicInfo("Che Go Boom", leo));
         musics.put("acceptance", new MusicInfo("Acceptance", hyp));
-        musics.put("value", new MusicInfo("Che Go Boom", leo));
         musics.put("hero-brine", new MusicInfo("Hero brine", leo));
         musics.put("pipe-thoughts", new MusicInfo("Pipe Thoughts", cas));
         musics.put("not-so-distant-now", new MusicInfo("NOT SO DISTANT NOW", cas));
         musics.put("concussive", new MusicInfo("Concussive", cas));
-        musics.put("trance", new MusicInfo("Trance", cas));
         musics.put("mold", new MusicInfo("mold", myt));
         musics.put("assault", new MusicInfo("Assault", myt));
         musics.put("quiet-processing", new MusicInfo("Quiet Processing", ace));
