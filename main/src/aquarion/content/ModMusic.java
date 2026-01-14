@@ -22,7 +22,7 @@ public class ModMusic {
     public static Seq<Music> aquaBossMusic = new Seq<>();
 
     public static String[] aquaAmbientList = {"quiet-processing", "underwaves", "che-go-boom", "fih", "expansion","decaying-giants", "scarred-skies"};
-    public static String[] aquaDarkList = {"bubblerine", "exhasperation", "mold", "assault"};
+    public static String[] aquaDarkList = {"sinking", "bubblerine", "exhasperation", "mold", "assault"};
     public static String[] aquaBossList = {"acceptance","oh-the-horror", "hero-brine", "not-so-distant-now", "concussive"};
 
     public static Seq<Music> origAmbientMusic;
@@ -83,7 +83,8 @@ public class ModMusic {
         musics.put("exhasperation", new MusicInfo("Exasperation", ace));
         musics.put("decaying-monuments", new MusicInfo("Decaying Monuments", ace));
         musics.put("fih", new MusicInfo("Our intuition", ace));
-        musics.put("oh-the-horror", new MusicInfo("OH THE HORROR", ace));
+        musics.put("oh-the-horror", new MusicInfo("Oh the horror", ace));
+        musics.put("sinking", new MusicInfo("Sinking", ace));
 
 
 
