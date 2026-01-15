@@ -24,12 +24,6 @@ public class AquaLiquids {
             effect = slow;
             canStayOn.addAll(water, petroleum, halideWater);
         }};
-
-        helium = new Liquid("helium", Color.valueOf("#ff8080")) {{
-            coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            gas = true;
-            effect = slow;
-        }};
         ammonia = new Liquid("ammonia", Color.grays(0.6f)) {{
             coolant = true;
             temperature = -0.1f;
@@ -46,25 +40,11 @@ public class AquaLiquids {
             boilPoint = 0.8f;
             gasColor = Color.valueOf("b7a8b3");
         }};
-
-        tritium = new Liquid("tritium", Color.valueOf("#b6f498")) {{
-            explosiveness = 0.6f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            coolant = false;
-            effect = ionized;
-            gas = true;
-        }};
         rareSludge = new Liquid("rare-earth-sludge", Color.valueOf("#696b4c")) {{
             coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             viscosity = 0.94f;
-            effect = slow;
+            effect = muddy;
             canStayOn.addAll(water, petroleum, halideWater);
-        }};
-        dioxide = new Liquid("dioxide", Color.valueOf("#6b6565")) {{
-            explosiveness = 0f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            flammability = 0f;
-            coolant = false;
-            gas = true;
-            effect = slow;
         }};
         oxygen = new Liquid("oxygen", Color.valueOf("#fdbda6")) {{
             explosiveness = 0.25f;
@@ -72,14 +52,6 @@ public class AquaLiquids {
             coolant = false;
             effect = corroding;
             gas = true;
-        }};
-        carbonicAcid = new Liquid("carbonic-acid", Color.valueOf("#ac6656")){{
-            coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            effect = corroding;
-            explosiveness = 0.1f;
-            allDatabaseTabs = true;
-            boilPoint = 0;
-            gasColor = Color.grays(0.8f);
         }};
         bioPulp = new Liquid("bio-pulp", Color.valueOf("#c7904f")){{
             coolant = false;

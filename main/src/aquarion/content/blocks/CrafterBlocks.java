@@ -1943,9 +1943,12 @@ public class CrafterBlocks {
             liquidCapacity = 2000;
             itemCapacity = 200;
             craftTime = 5 * 60f;
+            boostersAffectOutput = true;
+            liquidBoostIntensity = 1.4f;
             consumeItems(ItemStack.with(ferricMatter, 50, coal, 80));
             outputItems = ItemStack.with(steel, 50, graphite, 40);
             consumeLiquid(oxygen, 2);
+            consumeLiquid(argon, 1).boost();
             outputLiquid = new LiquidStack(slag, 4);
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
