@@ -28,7 +28,7 @@ import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
     public static Block payloadDistributor, payloadPad, sealedInvertedSorter, manganeseRail, armoredSealedConveyor, sealedOverflow, sealedDistributor,
-            sealedUnloader, sealedConveyor, sealedRouter, sealedSorter,
+            sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -73,11 +73,21 @@ public class DistributionBlocks {
         }};
         sealedDistributor = new SealedRouter("sealed-distributor") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.distribution, with(silicon, 30, ferricMatter, 5));
+            requirements(Category.distribution, with(silicon, 50));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             speed = 2.1f;
             size = 2;
+            hasItems = true;
+            solid = true;
+        }};
+        massDistributor = new SealedRouter("mass-distributor") {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.distribution, with(silicon, 120));
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            speed = 2.5f;
+            size = 4;
             hasItems = true;
             solid = true;
         }};

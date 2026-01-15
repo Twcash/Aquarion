@@ -167,6 +167,7 @@ public class TantrosTechTree {
 
                 node(sealedRouter, () -> {
                     node(sealedDistributor, () -> {
+                        node(massDistributor);
                     });
                     node(sealedUnloader, () -> {
                     });

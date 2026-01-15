@@ -1453,7 +1453,7 @@ public class TurretBlocks {
         grace = new ItemTurret("grace") {{
             requirements(Category.turret, with(cupronickel, 150, metaglass, 100, lead, 260, graphite, 200f));
             size = 3;
-            shootSound = AquaSounds.graceShot;
+            shootSound = AquaSounds.shootGrace;
             squareSprite = false;
             consumeLiquid(water, 12);
             coolantMultiplier = 0.3f;
