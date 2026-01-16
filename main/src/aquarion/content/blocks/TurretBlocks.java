@@ -1459,6 +1459,7 @@ public class TurretBlocks {
             consumeLiquid(water, 12);
             coolantMultiplier = 0.3f;
             reload = 25;
+            ammoUseEffect = Fx.casing2;
             liquidCapacity = 1200;
             consumePower(5);
             range = 300;
