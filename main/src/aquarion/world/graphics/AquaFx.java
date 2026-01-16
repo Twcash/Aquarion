@@ -590,6 +590,29 @@ public class AquaFx {
                     });
                 });
             }),
+            shootGrace = new Effect(14f, e -> {
+                Draw.z(Layer.effect);
+                color(Pal.lightOrange, Color.gray, e.fin());
+                float w = 3f + 8f * e.fout();
+                Drawf.tri(e.x, e.y, w * 0.9f, 40f * e.fout(), e.rotation);
+                Drawf.tri(e.x, e.y, w * 0.9f, 5.5f * e.fout(), e.rotation + 180f);
+                color(Color.white, Color.gray, e.fin());
+                Drawf.tri(e.x, e.y, w, 24f * e.fout(), e.rotation);
+                Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
+                w = 1f + 6f * e.fout();
+                color(Pal.lightOrange, Color.gray, e.fin());
+                Drawf.tri(e.x, e.y, w, 29f * e.fout(), e.rotation + 45);
+                Drawf.tri(e.x, e.y, w, 2.5f * e.fout(), e.rotation - 225);
+                Drawf.tri(e.x, e.y, w, 29f * e.fout(), e.rotation - 45);
+                Drawf.tri(e.x, e.y, w, 2.5f * e.fout(), e.rotation + 225);
+                color(Color.white, Color.gray, e.fin());
+                Drawf.tri(e.x, e.y, w * 0.9f, 25f * e.fout(), e.rotation + 45);
+                Drawf.tri(e.x, e.y, w * 0.9f, 2.5f * e.fout(), e.rotation -225);
+                Drawf.tri(e.x, e.y, w * 0.9f, 25f * e.fout(), e.rotation - 45);
+                Drawf.tri(e.x, e.y, w * 0.9f, 2.5f * e.fout(), e.rotation + 225);
+                Draw.reset();
+            }),
+
             graceExplosion = new Effect(30, 500f, b -> {
                 float intensity = 0.8f;
                 float baseLifetime = 25f + intensity * 11f;

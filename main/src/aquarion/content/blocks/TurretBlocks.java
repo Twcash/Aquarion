@@ -1480,7 +1480,7 @@ public class TurretBlocks {
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
                         frontColor = Color.white;
-
+                        shootEffect = AquaFx.shootGrace;
                         hitColor = backColor = lightColor = trailColor = silicon.color;
                         splashDamage = 45f;
                         splashDamageRadius = 3f * 8f;
@@ -1504,6 +1504,7 @@ public class TurretBlocks {
                         trailLength = 12;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
+                        shootEffect = AquaFx.shootGrace;
                         frontColor = Color.white;
                         hitColor = backColor = lightColor = trailColor = Color.gray;
                         splashDamage = 75f;
@@ -1518,6 +1519,7 @@ public class TurretBlocks {
                         status = electrified;
                         statusDuration = 10 * 60;
                         buildingDamageMultiplier = 0.1f;
+                        shootEffect = AquaFx.shootGrace;
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
                         frontColor = Color.white;
