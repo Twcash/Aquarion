@@ -25,6 +25,7 @@ import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.EffectSpawnerPart;
+import mindustry.entities.part.FlarePart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
 import mindustry.gen.Sounds;
@@ -1478,22 +1479,20 @@ public class TurretBlocks {
                         trailEffect = Fx.mineSmall;
                         trailInterval = 5;
                         frontColor = Color.white;
+
                         hitColor = backColor = lightColor = trailColor = silicon.color;
                         splashDamage = 45f;
                         splashDamageRadius = 3f * 8f;
-                        despawnEffect = hitEffect = new ExplosionEffect() {{
-                            sparks = 12;
-                            sparkLen = 20;
-                            sparkStroke = 2;
-                            smokes = 8;
-                            smokeSize = 5;
-                            waveLife = 40;
-                            waveStroke = 2;
-                            waveRad = 25;
-                            waveColor = Items.silicon.color;
-                            smoke = Color.gray;
-                            sparkColor = Pal.sap;
-                        }};
+                        despawnSound = AquaSounds.electricExplosion;
+                        despawnEffect = hitEffect = AquaFx.graceExplosion;
+                        parts.addAll(new FlarePart(){{
+                            sides = 4;
+                            color1 = frontColor;
+                            color2 = frontColor;
+                            radius = 0;
+                            radiusTo = 10f;
+                            progress = PartProgress.life.curve(bounce).inv();
+                        }});
                     }},
                     magnesiumPowder, new ArtilleryBulletType(2.5f, 80) {{
                         width = 8;
@@ -1508,19 +1507,8 @@ public class TurretBlocks {
                         hitColor = backColor = lightColor = trailColor = Color.gray;
                         splashDamage = 75f;
                         splashDamageRadius = 5 * 8f;
-                        despawnEffect = hitEffect = new ExplosionEffect() {{
-                            sparks = 12;
-                            sparkLen = 20;
-                            sparkStroke = 2;
-                            smokes = 8;
-                            smokeSize = 5;
-                            waveLife = 40;
-                            waveStroke = 2;
-                            waveRad = 25;
-                            waveColor = Color.white;
-                            smoke = Color.gray;
-                            sparkColor = Color.red;
-                        }};
+                        despawnSound = AquaSounds.electricExplosion;
+                        despawnEffect = hitEffect = AquaFx.graceExplosion;
                     }},
                     copper, new ArtilleryBulletType(6f, 45) {{
                         width = 8;
@@ -1536,19 +1524,8 @@ public class TurretBlocks {
                         hitColor = backColor = lightColor = trailColor = copper.color;
                         splashDamage = 35f;
                         splashDamageRadius = 3.5f * 8f;
-                        despawnEffect = hitEffect = new ExplosionEffect() {{
-                            sparks = 12;
-                            sparkLen = 20;
-                            sparkStroke = 2;
-                            smokes = 8;
-                            smokeSize = 5;
-                            waveLife = 40;
-                            waveStroke = 2;
-                            waveRad = 25;
-                            waveColor = Items.copper.color;
-                            smoke = Items.coal.color;
-                            sparkColor = Pal.accent;
-                        }};
+                        despawnSound = AquaSounds.electricExplosion;
+                        despawnEffect = hitEffect = AquaFx.graceExplosion;
                     }}
             );
             limitRange(1.1f);

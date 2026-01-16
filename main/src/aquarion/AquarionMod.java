@@ -34,7 +34,6 @@ public class AquarionMod  implements Loadable{
         EnvironmentBlocks.loadContent();
         PowerBlocks.loadContent();
         LiquidBlocks.loadContent();
-        PayloadBlocks.loadContent();
         DefenseBlocks.loadContent();
         TurretBlocks.loadContent();
         CrafterBlocks.loadContent();

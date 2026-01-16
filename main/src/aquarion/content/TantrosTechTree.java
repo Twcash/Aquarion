@@ -95,7 +95,6 @@ public class TantrosTechTree {
             });
             node(pylon, () -> {
                 node(outlet, () ->{
-                    //node(voltageSupplyUnit);
                 });
                 node(energyBank, ()->{
                     node(capacitorBank, () -> {
@@ -345,8 +344,6 @@ public class TantrosTechTree {
                                 nodeProduce(fumes, () -> {
                                     nodeProduce(brimstone, () -> {
                                     });
-                                });
-                                nodeProduce(dioxide, () -> {
                                 });
                             });
                         });

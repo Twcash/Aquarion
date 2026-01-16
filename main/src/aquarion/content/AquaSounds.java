@@ -35,9 +35,12 @@ public class AquaSounds {
             derrick = new Sound(),
             //compressDrill = new Sound(),
             //compressDrillImpact = new Sound(),
-            refine = new Sound();
+            refine = new Sound(),
+            electricExplosion = new Sound();
 
     public static void load(){
+        electricExplosion = loadSound("electricExplosion");
+
         shootGrace = loadSound("shootGrace");
         engage = loadSound("engage");
         advance = loadSound("advance");
