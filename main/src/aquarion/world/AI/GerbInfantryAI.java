@@ -11,6 +11,7 @@ import arc.util.Tmp;
 import mindustry.Vars;
 import mindustry.ai.ControlPathfinder;
 import mindustry.ai.Pathfinder;
+import mindustry.ai.types.CommandAI;
 import mindustry.ai.types.GroundAI;
 import mindustry.core.World;
 import mindustry.entities.Units;
@@ -20,8 +21,7 @@ import mindustry.gen.Building;
 import mindustry.gen.Groups;
 import mindustry.gen.Unit;
 
-import static mindustry.Vars.pathfinder;
-import static mindustry.Vars.tilesize;
+import static mindustry.Vars.*;
 
 public class GerbInfantryAI extends AIController {
     float stuckTime = 0f;
@@ -42,6 +42,7 @@ public class GerbInfantryAI extends AIController {
 
     float soundTimer = 0f;
     static final float soundCooldown = 120f; // ~2 seconds at 60fps
+    private static final boolean[] pathNotFound = {false};
 
     @Override
     public void updateMovement() {
@@ -100,7 +101,6 @@ public class GerbInfantryAI extends AIController {
             if (stuckTime > 60f) {
                 Building alt = Vars.indexer.findEnemyTile(unit.team, unit.x, unit.y, 200f, b -> b.team != unit.team);
                 if (alt != null) moveTo(alt, 10f);
-                else randomUnstickMove();
             } else {
                 pathfind(Pathfinder.fieldCore, true, stuckTime > 20f);
             }
@@ -112,7 +112,7 @@ public class GerbInfantryAI extends AIController {
         Unit nearest = Units.closestEnemy(unit.team, unit.x, unit.y, 120f, u -> true);
         if (nearest != null) {
             Tmp.v1.set(unit).sub(nearest).nor().scl(unit.type.speed);
-            safeMoveTo(Tmp.v1, unit.type.hitSize*2f);
+            pathMoveTo(Tmp.v1, unit.type.hitSize*2f, false);
 
             faceMovement();
         } else {
@@ -124,7 +124,7 @@ public class GerbInfantryAI extends AIController {
         Unit ally = Units.closest(unit.team, unit.x, unit.y, u -> u != unit);
         if (ally != null) {
             Tmp.v1.set(ally).sub(unit).nor().scl(unit.type.speed * 0.8f);
-            safeMoveTo(Tmp.v1, unit.type.hitSize*2f);
+            pathMoveTo(Tmp.v1, unit.type.hitSize*2f, false);
             faceMovement();
         } else {
             tactic = Tactic.ADVANCE;
@@ -143,7 +143,7 @@ public class GerbInfantryAI extends AIController {
         if (tacticTime < 1f) flankAngle = Mathf.random(-60f, 60f);
         Vec2 flankPos = Tmp.v1.trns(unit.angleTo(target) + flankAngle, 60f).add(target);
 
-        safeMoveTo(flankPos, 10f);
+        pathMoveTo(flankPos, 10f, false);
         faceMovement();
         if (unit.within(target, unit.range())) {
             engage(target);
@@ -174,7 +174,7 @@ public class GerbInfantryAI extends AIController {
             Tmp.v1.set(protector).add(Tmp.v2.rnd(5f));
         }
 
-        safeMoveTo(Tmp.v1, 6f);
+        pathMoveTo(Tmp.v1, 2, false);
         faceMovement();
         // Peek and fire from cover
         engageNearbyEnemies();
@@ -216,11 +216,6 @@ public class GerbInfantryAI extends AIController {
         if (unit.within(stuckX, stuckY, stuckRange)) {
             stuckTime += Time.delta;
 
-            // === If stuck for a while, try to unstick ===
-            if (stuckTime > stuckThreshold * 0.5f && stuckTime < stuckThreshold * 1.5f) {
-                randomUnstickMove();
-            }
-
             if (stuckTime > stuckThreshold * 2f) {
                 tactic = Tactic.REGROUP;
                 stuckTime = 0f;
@@ -230,17 +225,6 @@ public class GerbInfantryAI extends AIController {
             stuckX = unit.x;
             stuckY = unit.y;
             stuckTime = 0f;
-        }
-    }
-
-    void randomUnstickMove() {
-        // Move slightly in a random direction away from the current block
-        float angle = Mathf.random(360f);
-        float dist = Mathf.random(6f, 12f);
-        Tmp.v2.trns(angle, dist).add(unit.x, unit.y);
-
-        if (!Vars.world.solid((int) (Tmp.v2.x), (int) Tmp.v2.y)) {
-            safeMoveTo(Tmp.v2, 2f);
         }
     }
 
@@ -320,29 +304,43 @@ public class GerbInfantryAI extends AIController {
             playTacticSound(tactic);
         }
     }
-    void safeMoveTo(Vec2 target, float close) {
-        // Check for nulls or invalid world
-        if (target == null || Vars.world == null) return;
+    void pathMoveTo(Vec2 target, float arriveDist, boolean allowUnstick){
+        if(target == null || unit == null || !unit.isValid()) return;
+        if(unit.isFlying()) return;
 
-        int tx = World.toTile(target.x);
-        int ty = World.toTile(target.y);
+        if(unit.within(target, arriveDist)) return;
 
-        // If the target is solid or blocked, offset the target
-        if (Vars.world.solid(tx, ty)) {
-            // Pick a nearby random open tile
-            for (int i = 0; i < 6; i++) {
-                float angle = Mathf.random(360f);
-                Tmp.v2.trns(angle, 8f).add(target);
-                if (!Vars.world.solid(World.toTile(Tmp.v2.x), World.toTile(Tmp.v2.y))) {
-                    target.set(Tmp.v2);
-                    break;
-                }
-            }
+        Tmp.v4.set(target);
+        Tmp.v5.set(target);
+        pathNotFound[0] = false;
+
+        boolean found = controlPath.getPathPosition(
+                unit,
+                Tmp.v4,
+                target,
+                Tmp.v5,
+                pathNotFound
+        );
+
+        if(pathNotFound[0]){
+            Tmp.v1.set(target)
+                    .sub(unit)
+                    .nor()
+                    .scl(10f)
+                    .add(unit);
+
+            moveTo(Tmp.v1, 0f);
         }
+        moveTo(
+                Tmp.v5,
+                0f,
+                4f,
+                false,
+                null,
+                false
+        );
 
-        Tmp.v3.set(target).add(Mathf.range(4f), Mathf.range(4f));
-
-        // Finally move
-        moveTo(Tmp.v3, close);
+        unit.lookAt(Tmp.v5);
     }
+
 }
