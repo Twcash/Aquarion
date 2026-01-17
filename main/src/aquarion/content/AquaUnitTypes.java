@@ -63,7 +63,7 @@ public class AquaUnitTypes {
     public static UnitType endure;
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant;
-    public static UnitType infantry, concussor, lightTruck, healCraft;
+    public static UnitType infantry, concussor, breaker, lightTruck, healCraft;
     //core units and transport
 
     public static UnitType
@@ -3463,6 +3463,49 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
+        breaker = new UnitType("gerb-breaker"){{
+            constructor = LegsUnit::create;
+            legCount = 6;
+            legLength = 12;
+            speed = 0.75f;
+            rotateSpeed = 2.2f;
+            outlineColor = Color.valueOf("1b241e");
+            health = 550;
+            armor = 6;
+            legMinLength = 0.9f;
+            legMaxLength = 1.2f;
+            legExtension = 1;
+            legGroupSize = 3;
+            legPairOffset = 1;
+            baseLegStraightness = 0.1f;
+            legMoveSpace = 1.25f;
+            drawCell = false;
+            aiController = GerbInfantryAI::new;
+            abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.breakDeath, AquaFx.bloodPool)));
+            weapons.add(new Weapon("aquarion-gerb-medium-autogun"){{
+                rotate = true;
+                x = 2;
+                y = -3;
+                mirror = true;
+                reload = 15;
+                rotationLimit = 60;
+                rotateSpeed = 1.4f;
+                shootStatus = StatusEffects.slow;
+                shootStatusDuration = 45;
+                shootSound = Sounds.shootAvert;
+                bullet = new BasicBulletType(4, 30){{
+                    lifetime = 60;
+                    shootEffect = Fx.shootBigColor;
+                    smokeEffect = Fx.shootBigSmoke;
+                    frontColor = Color.white;
+                    backColor = trailColor = Pal.gray;
+                    trailLength = 14;
+                    trailWidth = 1;
+                    width = 8;
+                    height = 14;
+                }};
+            }});
+        }};
         lightTruck = new TankUnitType("gerb-light-truck"){{
             constructor = TankUnit::create;
             speed = 0.55f;
@@ -3522,56 +3565,41 @@ public class AquaUnitTypes {
             drag = 0.04f;
             hitSize = 10;
             circleTarget = true;
-            parts.addAll(new HoverPart(){{
-               color =  Color.valueOf("e84a3d");
-               circles = 2;
-               stroke = 1.1f;
-               sides = 4;
-               rotation = 0;
-               radius = 6f;
-            }},new EnginePart(){{
+            parts.addAll(
+                    new EnginePart(){{
                     progress = frontVelocity;
                     color = Color.valueOf("e84a3d");
-                    radius = 0;
+                    radius = 4.5f;
                     y = -51/4f+2;
                     moveY = -2f;
                     mirror = true;
+                    rotation = 180;
                     x = 38/4f/2f;
-                    layerOffset = -1;
             }},new EnginePart(){{
                 progress = frontVelocity;
                 color = Color.valueOf("e84a3d");
-                radius = 0;
+                radius = 4;
                 y = -51/4f+1.75f;
                 moveY = -2f;
                 mirror = true;
+                rotation = 180;
                 x = 6/4f;
-                layerOffset = -1f;
-            }},new EnginePart(){{
-                progress = frontVelocity;
-                color = Color.white;
-                radius = 0;
-                y = -51/4f+1.75f;
-                moveY = -1.75f;
-                mirror = true;
-                x = 6/4f;
-                layerOffset = -1f;
             }},new EnginePart(){{
                 progress = leftVelocity;
                 color = Color.valueOf("e84a3d");
-                radius = 0;
+                radius = 4;
                 moveX = -2f;
+                rotation = 90;
                 mirror = false;
                 x = -44/4f+2;
-                layerOffset = -1f;
             }},new EnginePart(){{
                 progress = rightVelocity;
                 color = Color.valueOf("e84a3d");
-                radius = 0;
+                radius = 4;
+                rotation = -90;
                 moveX = 2f;
                 mirror = false;
                 x = 44/4f-2;
-                layerOffset = -1f;
             }});
              abilities.addAll(new RepairFieldAbility(10, 90, 120){{
                 activeEffect = AquaFx.healWave;

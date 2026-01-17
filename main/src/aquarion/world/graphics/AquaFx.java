@@ -24,6 +24,7 @@ import mindustry.gen.Tex;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
+import mindustry.world.Block;
 
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.lineAngle;
@@ -654,6 +655,69 @@ public class AquaFx {
                     });
                 });
             }),
+                    blockExplosion = new Effect(45, 500f, b -> {
+                        float intensity = 0.5f + (0.3f*b.rotation);
+                        float baseLifetime = 25f + intensity * 11f;
+                        b.lifetime = 30f + intensity * 35f;
+                        int add = (int) (b.rotation % 3);
+                        alpha(Interp.pow5In.apply(b.fin()));
+                        for (int i = 0; i < 5+add; i++) {
+                            rand.setSeed(b.id * 3 + i);
+                            float lenScl = rand.random(0.4f, 1f);
+                            int fi = i;
+                            b.scaled(b.lifetime * lenScl, e -> {
+                                rand.setSeed(e.id * 3 * fi);
+                                color(Pal.darkishGray.lerp(Pal.darkerGray, rand.random(1)), Pal.stoneGray, Interp.pow2In.apply(b.fin()));
+                                randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int) (3.1f * intensity), 24f * intensity, (x, y, in, out) -> {
+                                    float fout = e.fout(Interp.pow5Out) * rand.random(0.5f, 1f);
+                                    float rad = fout * ((3f + intensity) * 2.35f);
+
+                                    Fill.circle(e.x + x, e.y + y, rad*1.1f);
+                                });
+                            });
+                        }
+                        rand.setSeed(b.id);
+
+                        alpha(0.7f);
+                        for (int i = 0; i < 4+add; i++) {
+                            rand.setSeed(b.id * 2 + i);
+                            float lenScl = rand.random(0.4f, 1f);
+                            int fi = i;
+
+                            b.scaled(b.lifetime * lenScl, e -> {
+                                rand.setSeed(e.id * 2 * fi);
+                                color(Pal.lightOrange.lerp(Pal.accent, rand.random(1)), Pal.stoneGray, Interp.pow2In.apply(b.fin()));
+
+                                randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int) (2.9f * intensity), 24f * intensity, (x, y, in, out) -> {
+                                    float fout = e.fout(Interp.pow5Out) * rand.random(0.5f, 1f);
+                                    float rad = fout * ((3f + intensity) * 2.35f);
+
+                                    Fill.circle(e.x + x, e.y + y, rad);
+                                    Drawf.light(e.x + x, e.y + y, rad * 3.5f, b.color, 1f);
+                                });
+                            });
+
+                        }
+
+                        b.scaled(baseLifetime, e -> {
+                            Draw.color();
+                            e.scaled(10 * intensity/2f, i -> {
+                                stroke((4.1f * intensity / 5f) * i.fout());
+                                Lines.circle(e.x, e.y, (3f + i.fin() * 20f) * intensity);
+                                Drawf.light(e.x, e.y, i.fin() * 14f * 2f * intensity, Color.white, 0.9f * e.fout());
+                            });
+
+                            color(Pal.lighterOrange, Pal.turretHeat, e.fin());
+                            stroke((2f * e.fout()));
+
+                            Draw.z(Layer.effect + 0.001f);
+                            randLenVectors(e.id + 1, e.finpow() + 0.001f, (int) (8 * intensity), 32f * intensity, (x, y, in, out) -> {
+                                lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1f + out * 6 * (4f + intensity));
+                                Drawf.light(e.x + x, e.y + y, (out * 5 * (3f + intensity)) * 3.5f, Draw.getColor(), 0.8f);
+                            });
+                        });
+                    }),
+
             thrashTrailSmoke = new Effect(90f, e -> {
                 color(Pal.lightOrange, Color.black, e.color, e.fin());
 
@@ -858,6 +922,25 @@ public class AquaFx {
         Draw.alpha(1f);
         Draw.reset();
     }).layer(Layer.groundUnit - 1f),
+            breakDeath = new Effect(20 * 60f, e -> {
+                TextureRegion reg = Core.atlas.find("aquarion-breaker-corpse");
+                float fadeStart = 0.8f;
+                float alpha;
+
+                if (e.fin() < fadeStart) {
+                    alpha = 1f;
+                } else {
+                    alpha = 1f - (e.fin() - fadeStart) / (1f - fadeStart);
+                }
+
+                color(e.color, Interp.pow10Out.apply(e.fin()));
+                Draw.alpha(alpha);
+                rand.setSeed(e.id);
+                Draw.xscl = (Mathf.randomSeed(e.id, (int)(0), (int)(0)) == 1) ? 1 : -1;
+                Draw.rect(reg, e.x, e.y, e.rotation+180+Interp.pow5In.apply(e.fin())*rand.random(-180, 180));
+                Draw.alpha(1f);
+                Draw.reset();
+            }).layer(Layer.groundUnit - 1f),
             ltruckDeath = new Effect(  120f, e -> {
                 TextureRegion reg = Core.atlas.find("aquarion-gerb-ltruck-corpse");
                 float fadeStart = 0.8f;

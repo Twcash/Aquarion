@@ -39,11 +39,11 @@ public class PayloadJumper extends PayloadBlock{
         solid = true;
         size = 3;
         rotate = true;
+        noUpdateDisabled = true;
         acceptsPayload = true;
         outputsPayload = true;
         regionRotated1 = 1;
         group = BlockGroup.units;
-        sync = true;
     }
     @Override
     public void load(){

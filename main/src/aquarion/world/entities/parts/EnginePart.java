@@ -1,5 +1,6 @@
 package aquarion.world.entities.parts;
 
+import aquarion.world.graphics.Renderer;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
@@ -9,42 +10,51 @@ import arc.util.Log;
 import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.entities.part.RegionPart;
-
 public class EnginePart extends RegionPart {
     public float radius = 4f;
+    public float baseRot;
+    public boolean under = true, turretShading = true;
     public Color color = Color.valueOf("8beded");
+
     @Override
-    public void draw(PartParams params){
-        float z = Draw.z();
-        if(layer > 0) Draw.z(layer);
-        if(under && turretShading) Draw.z(z - 0.0001f);
-
-        Draw.z(Draw.z() + layerOffset);
-
-        int i = params.sideOverride;
+    public void draw(PartParams params) {
         float prog = progress.getClamp(params, clampProgress);
 
-        float sign = (i == 0 ? 1 : -1) * params.sideMultiplier;
+        Draw.z(Renderer.Layer.flyingUnitLow+layerOffset-1.2f);
 
-        Tmp.v1.set(params.x * sign, params.y).rotate(params.rotation - 90);
-        float rx = params.x+ Tmp.v1.x;
-        float ry = params.y + Tmp.v1.y;
+        int len = mirror && params.sideOverride == -1 ? 2 : 1;
 
-        float rad = radius + Mathf.absin(Time.time, 2f, radius / 4f);
+        for(int s = 0; s < len; s++){
+            int i = params.sideOverride == -1 ? s : params.sideOverride;
+            float sign = (i == 0 ? 1f : -1f) * params.sideMultiplier;
 
-        Draw.color(color);
-        Draw.alpha(prog);
-        Fill.circle(rx, ry, rad * prog);
+            Tmp.v1
+                    .set((x + moveX * prog) * sign, y + moveY * prog)
+                    .rotate(params.rotation-90);
 
-        float angle = params.rotation - 90 + rotation;
-        float ox = Angles.trnsx(angle, rad / 4f);
-        float oy = Angles.trnsy(angle, rad / 4f);
+            float rx = params.x + Tmp.v1.x;
+            float ry = params.y + Tmp.v1.y;
 
-        ox *= sign;
+            float rad = (radius + Mathf.absin(Time.time, 2f, radius / 4f)) * prog;
 
-        Draw.color(Color.white);
-        Fill.circle(rx + ox, ry + oy, rad/2f * prog);
+            Draw.color(color);
+            Fill.circle(rx, ry, rad);
 
-        Draw.reset();
+            float ang =
+                    params.rotation  +
+                            (rotation + baseRot + moveRot * prog) * sign;
+            Draw.z(Renderer.Layer.flyingUnitLow+layerOffset-1);
+
+            Draw.color(Color.white);
+            Fill.circle(
+                    rx - Angles.trnsx(ang, rad / 4f),
+                    ry - Angles.trnsy(ang, rad / 4f),
+                    rad / 2f
+            );
+
+            Draw.reset();
+        }
+
+        Draw.z();
     }
 }

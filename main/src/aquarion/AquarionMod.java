@@ -10,9 +10,15 @@ import aquarion.content.TantrosTechTree;
 import aquarion.content.AquaUnitTypes;
 import aquarion.content.WreckUnits;
 import aquarion.world.content.AquaHints;
+import aquarion.world.graphics.AquaFx;
 import arc.Events;
 import arc.assets.Loadable;
+import mindustry.Vars;
+import mindustry.entities.Effect;
 import mindustry.game.EventType;
+import mindustry.world.Block;
+
+import java.util.Objects;
 
 @Annotations.LoadRegs("error")// Need this temporarily, so the class gets generated.
 @Annotations.EnsureLoad
@@ -52,7 +58,9 @@ public class AquarionMod  implements Loadable{
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
-
+        for(var b : Vars.content.blocks()){
+            b.destroyEffect = AquaFx.blockExplosion;
+        }
 
     }
     public static void clientLoaded(){
