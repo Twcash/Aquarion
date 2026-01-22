@@ -3808,16 +3808,15 @@ public class AquaUnitTypes {
                 y = 0;
                 shootY = 12;
                 reload = 250;
-                range = 700;
                 recoil = 0;
                 cooldownTime = 150;
-                bullet = new BasicBulletType(2, 800){{
+                bullet = new BasicBulletType(3, 800){{
                     drag = -0.02f;
-                    lifetime = 600;
+                    lifetime = 120;
                     trailLength = 12;
-                    trailWidth = 4;
-                    width = 8;
-                    height = 12;
+                    trailWidth = 3.5f;
+                    width = 16;
+                    height = 24;
                     frontColor = Color.white;
                     backColor = trailColor = lightColor = Pal.techBlue;
                 }};
