@@ -10,7 +10,6 @@ import aquarion.world.AI.DroneAI;
 import aquarion.world.AI.GerbInfantryAI;
 import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.entities.DroneSpawnerBulletType;
-import aquarion.world.entities.MeltingLaserBulletType;
 import aquarion.world.entities.parts.EnginePart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
@@ -3725,35 +3724,19 @@ public class AquaUnitTypes {
             circleTarget = true;
             targetFlags = new BlockFlag[]{BlockFlag.turret, null};
             outlineColor = Color.valueOf("1b241e");
-            abilities.add(new MoveEffectAbility(-10, 0,AquaPal.smoke,Fx.missileTrailSmoke, 5));
+            abilities.add(new MoveEffectAbility(0, -10,AquaPal.smoke,Fx.missileTrailSmokeSmall, 5));
             parts.addAll(new EnginePart(){{
-                y = -10f;
-                radius = 8;
+                y = -15f;
+                radius = 6;
                 mirror = false;
+                rotation = 180;
                 progress = frontVelocity;
             }},new EnginePart(){{
-                y = -9.5f;
-                radius = 5;
-                x = 3;
+                y = -14f;
+                radius = 4;
+                x = 5;
+                rotation = 180;
                 mirror = true;
-                progress = frontVelocity;
-            }}, new FlarePart(){{
-                y = -9.5f;
-                x = 3;
-                sides = 2;
-                radius = 5;
-                progress = frontVelocity;
-            }}, new FlarePart(){{
-                y = -9.5f;
-                x = -3;
-                sides = 2;
-                radius = 5;
-                progress = frontVelocity;
-            }}, new FlarePart(){{
-                y = -10.5f;
-                x = 3;
-                radius = 8;
-                sides = 2;
                 progress = frontVelocity;
             }});
             weapons.add(new Weapon(){{
