@@ -31,6 +31,7 @@ import mindustry.world.meta.StatCat;
 public class PowerOutlet extends PowerGenerator {
     public DrawBlock drawer = new DrawMulti( new DrawDefault(), new DrawSideRegion(), new SwitchRegion());
     public TextureRegion sideRegion2, sideRegion1, onRegion;
+
     public PowerOutlet(String name) {
         super(name);
         outputsPower = true;
@@ -51,21 +52,22 @@ public class PowerOutlet extends PowerGenerator {
         Draw.rect(region, plan.drawx(), plan.drawy());
         Draw.rect(plan.rotation >= 2 ? sideRegion2 : sideRegion1, plan.drawx(), plan.drawy(), plan.rotation * 90);
     }
+
     @Override
     public void init() {
         super.init();
-
-
         consume(new ConsumePowerDynamic(powerProduction, build -> {
-            if (!(build instanceof OutletBuild o))return 0f;
-                    if(!o.enabled) return 0;
-                    return Math.min(o.need, powerProduction);
+            if (!(build instanceof OutletBuild o)) return 0f;
+            if (!o.enabled) return 0;
+            return Math.min(o.need, powerProduction);
         }));
     }
+
     @Override
     public TextureRegion[] icons(){
         return drawer.finalIcons(this);
     }
+
     @Override
     public void load(){
         super.load();
@@ -74,6 +76,7 @@ public class PowerOutlet extends PowerGenerator {
         onRegion = Core.atlas.find(name + "-switch");
         drawer.load(this);
     }
+
     @Override
     public void setStats(){
         super.setStats();
@@ -81,36 +84,21 @@ public class PowerOutlet extends PowerGenerator {
         stats.remove(Stat.powerUse);
         stats.add(new Stat("power-throughput", StatCat.power), powerProduction*60f);
     }
+
     @Override
     public void setBars(){
         super.setBars();
         removeBar("power");
     }
+
     public class OutletBuild extends GeneratorBuild {
         public float need = 0;
         public float lastRotation = 0;
-        public Seq<Building> fronts = new Seq<>();
         public @Nullable Building lastFront;
+
         @Override
         public void updateTile() {
             lastRotation = this.rotation;
-            Tile tile = this.tile;
-            Tile[] neighbors = new Tile[4];
-
-            neighbors[0] = tile.nearby(0, 1);
-            neighbors[1] = tile.nearby(1, 0);
-            neighbors[2] = tile.nearby(0, -1);
-            neighbors[3] = tile.nearby(-1, 0);
-            fronts = getFrontBuildings();
-            for(Tile neighbor : neighbors){
-                if(neighbor.build != null && neighbor.build.power != null) {
-                    if (neighbor.build.power.graph.producers.contains(this) && !(fronts.contains(neighbor.build))) {
-                        neighbor.build.power.graph.producers.remove(this);
-                    } else if((fronts.contains(neighbor.build))){
-                        fronts.addUnique(neighbor.build);
-                    }
-                }
-            }
             //Remove production from current graph.
             if (this.power.graph.producers.contains(this)) {
                 this.power.graph.producers.remove(this);
@@ -119,43 +107,47 @@ public class PowerOutlet extends PowerGenerator {
             if (!this.power.graph.consumers.contains(this)) {
                 this.power.graph.consumers.add(this);
             }
-            for (Building frontBuild : fronts) {
-            //Stop if front doesn't exist or has no power
-                if (frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild) continue;
+            Building frontBuild = front();
+            if (!(frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild)) {
                 if (frontBuild == null || !(frontBuild.block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)) {
                     need = 0;
                     productionEfficiency = 0;
                     return;
                 }
-            ConsumePower frontConsume = frontBuild.block.findConsumer(f -> f instanceof ConsumePower);
-            //Remove consumption from target graph.
-                if(lastFront != null && lastFront == frontBuild) {
+                ConsumePower frontConsume = frontBuild.block.findConsumer(f -> f instanceof ConsumePower);
+                //Remove consumption from target graph.
+                if (lastFront != null && lastFront == frontBuild) {
                     PowerGraph front = frontBuild.power.graph;
                     if (front.consumers.contains(this)) {
                         front.consumers.remove(this);
                     }
                     //Add production to current graph
                     if (front.producers.contains(this)) {
-                            BlockStatus status = front().status();
-                            //TBH I could have just used an if/else but this was more fun
-                            switch (status) {
-                                case active, noInput:
-                                    need = Math.min(frontConsume.usage, powerProduction);
-                                    break;
-                                case logicDisable:
-                                    need = 0;
-                                    break;
-                                case noOutput:
-                                    need = 0;
-                                    break;
-
-                            }
-                            if(( frontBuild.shouldConsumePower || frontBuild.shouldConsume())){ need = Math.min(frontConsume.usage, powerProduction);} else need = 0f;
+                        BlockStatus status = front().status();
+                        //TBH I could have just used an if/else but this was more fun
+                        switch (status) {
+                            case active, noInput:
+                                need = Math.min(frontConsume.usage, powerProduction);
+                                break;
+                            case logicDisable:
+                                need = 0;
+                                break;
+                            case noOutput:
+                                need = 0;
+                                break;
+                        }
+                        if (frontBuild.shouldConsume()) {
+                            need = Math.min(frontConsume.usage, powerProduction);
+                        } else {
+                            need = 0.1f;
+                        }
+                        if (!frontBuild.shouldConsumePower && !(frontBuild instanceof Turret.TurretBuild)) {
+                            need = 0;
+                        }
                     } else {
                         front.producers.add(this);
                     }
-                } else if(lastFront != null) {
-                    //Hope this works (It doesn't)
+                } else if (lastFront != null) {
                     PowerGraph last = lastFront.power.graph;
                     if (last.consumers.contains(this)) {
                         last.consumers.remove(this);
@@ -164,21 +156,17 @@ public class PowerOutlet extends PowerGenerator {
                         last.producers.remove(this);
                     }
                 }
-            lastFront = frontBuild;
+                lastFront = frontBuild;
             }
         }
+
         @Override
-        public float getPowerProduction(){
-            if(!enabled || need <= 0) return 0f;
+        public float getPowerProduction() {
+            if (!enabled || need <= 0) return 0f;
 
             return Math.min(need, powerProduction) * power.status;
         }
-        @Override
-        public void onProximityAdded() {
-            super.onProximityAdded();
-            fronts.clear();
-            fronts.set(getFrontBuildings());
-        }
+
         @Override
         public void onProximityRemoved() {
             super.onProximityRemoved();
@@ -192,90 +180,24 @@ public class PowerOutlet extends PowerGenerator {
                 front.producers.remove(this);
             }
         }
+
         @Override
-        public boolean configTapped(){
+        public boolean configTapped() {
             configure(!enabled);
             Sounds.click.at(this);
             return false;
         }
+
         @Override
         public void draw() {
             drawer.draw(this);
-            if(enabled)             Draw.rect(onRegion, x, y);
+            if (enabled) Draw.rect(onRegion, x, y);
 
         }
-        public Seq<Building> frontEdges() {
-            Seq<Building> buildings = new Seq<>();
-            int size = block.size;
 
-            // Get direction vector (front direction)
-            int dirX = Geometry.d4(rotation).x;
-            int dirY = Geometry.d4(rotation).y;
-
-            // Calculate perpendicular vector to front direction
-            int perpX = -dirY;
-            int perpY = dirX;
-
-            int centerOffset = size / 2;
-
-            for (int i = 0; i < size; i++) {
-                int offsetAlongPerp = i - centerOffset + (size % 2 == 0 ? 1 : 0);
-
-                int offsetX = dirX * (size / 2 + 1) + perpX * offsetAlongPerp;
-                int offsetY = dirY * (size / 2 + 1) + perpY * offsetAlongPerp;
-
-                Building b = nearby(offsetX, offsetY);
-                if (b != null && !buildings.contains(b)) {
-                    buildings.add(b);
-                }
-            }
-
-            return buildings;
-        }
         @Override
-        public @Nullable Building front() {
-            int size = block.size;
-            int dirX = Geometry.d4(rotation).x;
-            int dirY = Geometry.d4(rotation).y;
-
-            int frontOffset = size / 2 + 1;
-
-            return nearby(dirX * frontOffset, dirY * frontOffset);
-        }
-        @Override
-        public Boolean config(){
+        public Boolean config() {
             return enabled;
         }
-        public Seq<Building> getFrontBuildings() {
-            Seq<Building> buildings = new Seq<>();
-            int size = block.size;
-
-            // front direction vector
-            int dirX = Geometry.d4(rotation).x;
-            int dirY = Geometry.d4(rotation).y;
-
-            // perpendicular vector to front
-            int perpX = -dirY;
-            int perpY = dirX;
-
-            int frontOffset = size / 2 + 1; // distance to front edge tiles
-
-            int centerOffset = size / 2;
-
-            for (int i = 0; i < size; i++) {
-                int offsetAlongPerp = i - centerOffset + (size % 2 == 0 ? 1 : 0);
-
-                int offsetX = dirX * frontOffset + perpX * offsetAlongPerp;
-                int offsetY = dirY * frontOffset + perpY * offsetAlongPerp;
-
-                Building b = nearby(offsetX, offsetY);
-                if (b != null && !buildings.contains(b)) {
-                    buildings.add(b);
-                }
-            }
-
-            return buildings;
-        }
     }
-
 }
