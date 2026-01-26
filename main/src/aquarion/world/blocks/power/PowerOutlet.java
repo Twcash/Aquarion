@@ -154,9 +154,7 @@ public class PowerOutlet extends PowerGenerator {
 
                                     
                             }
-                            if(front() instanceof Turret.TurretBuild || front() instanceof BuildTurret.BuildTurretBuild){
-                                if(( front().shouldConsume())){ need = Math.min(frontConsume.usage, powerProduction);} else need = 0.01f;
-                            }
+                            if(( front().shouldConsume())){ need = Math.min(frontConsume.usage, powerProduction);} else need = 0.01f;
                     } else {
                         front.producers.add(this);
                     }
