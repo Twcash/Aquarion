@@ -11,6 +11,8 @@ import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
+import mindustry.entities.Lightning;
+import mindustry.entities.Units;
 import mindustry.entities.effect.WrapEffect;
 import mindustry.gen.Building;
 import mindustry.graphics.Drawf;
@@ -33,29 +35,35 @@ public class RegenPylon extends MendProjector {
     public float healPercent;
     public float phaseBoost;
     public float phaseRangeBoost;
+
+    public float lightningDamage = 12f;
+    public float lightningReload = 60f;
+    public int lightnings = 2;
+    public float lightningIncaccuracy = 5;
+
     public float useTime;
     public Effect effect = new WrapEffect(Fx.regenParticle, Pal.heal);
     public RegenPylon(String name) {
         super(name);
-        this.timerUse = this.timers++;
-        this.baseColor = Pal.heal;
-        this.phaseColor = Pal.heal;
-        this.reload = 250.0F;
-        this.range = 60.0F;
-        this.healPercent = 12.0F;
-        this.phaseBoost = 12.0F;
-        this.phaseRangeBoost = 50.0F;
-        this.useTime = 400.0F;
-        this.solid = true;
-        this.update = true;
-        this.group = BlockGroup.projectors;
-        this.hasPower = true;
-        this.hasItems = true;
-        this.emitLight = true;
-        this.lightRadius = 50.0F;
-        this.suppressable = true;
-        this.envEnabled |= 2;
-        this.flags = EnumSet.of(new BlockFlag[]{BlockFlag.blockRepair});
+        timerUse = timers++;
+        baseColor = Pal.heal;
+        phaseColor = Pal.heal;
+        reload = 250.0F;
+        range = 60.0F;
+        healPercent = 12.0F;
+        phaseBoost = 12.0F;
+        phaseRangeBoost = 50.0F;
+        useTime = 400.0F;
+        solid = true;
+        update = true;
+        group = BlockGroup.projectors;
+        hasPower = true;
+        hasItems = true;
+        emitLight = true;
+        lightRadius = 50.0F;
+        suppressable = true;
+        envEnabled |= 2;
+        flags = EnumSet.of(new BlockFlag[]{BlockFlag.blockRepair});
     }
 
     public boolean outputsItems() {
@@ -63,19 +71,19 @@ public class RegenPylon extends MendProjector {
     }
     @Override
     public void setStats() {
-        this.stats.timePeriod = useTime;
+        stats.timePeriod = useTime;
         super.setStats();
 
         stats.remove(Stat.repairTime);
         stats.remove(Stat.range);
-        this.stats.add(Stat.repairTime, (float)((int)(100.0F / this.healPercent * this.reload / 60.0F)), StatUnit.seconds);
-        this.stats.add(Stat.range, this.range / 8.0F, StatUnit.blocks);
+        stats.add(Stat.repairTime, (float)((int)(100.0F / healPercent * reload / 60.0F)), StatUnit.seconds);
+        stats.add(Stat.range, range / 8.0F, StatUnit.blocks);
 
         Consume var2 = this.findConsumer((c) -> c instanceof ConsumeItems);
         if (var2 instanceof ConsumeItems) {
             ConsumeItems cons = (ConsumeItems)var2;
             this.stats.remove(Stat.booster);
-            this.stats.add(Stat.booster, StatValues.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), this.stats.timePeriod, (this.phaseBoost + this.healPercent) / this.healPercent, this.phaseRangeBoost, cons.items));
+            this.stats.add(Stat.booster, StatValues.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, (this.phaseBoost + this.healPercent) / this.healPercent, this.phaseRangeBoost, cons.items));
         }
 
     }
@@ -97,39 +105,95 @@ public class RegenPylon extends MendProjector {
         public float charge;
         public float phaseHeat;
         public float smoothEfficiency;
+        int zapTimer = timers++;
 
         public RegenPylonBuild() {
             this.charge = Mathf.random(RegenPylon.this.reload);
         }
         @Override
         public float range() {
-            return RegenPylon.this.range/2f;
+            return range/2f;
         }
+
         @Override
-        public void updateTile() {
-            boolean canHeal = !this.checkSuppression();
-            this.smoothEfficiency = Mathf.lerpDelta(this.smoothEfficiency, this.efficiency, 0.08F);
-            this.heat = Mathf.lerpDelta(this.heat, this.efficiency > 0.0F && canHeal ? 1.0F : 0.0F, 0.08F);
-            this.charge += this.heat * this.delta();
-            this.phaseHeat = Mathf.lerpDelta(this.phaseHeat, this.optionalEfficiency, 0.1F);
-            if (this.optionalEfficiency > 0.0F && this.timer(RegenPylon.this.timerUse, RegenPylon.this.useTime) && canHeal) {
+        public void updateTile(){
+            boolean suppressed = checkSuppression();
+            boolean enemyClose = enemiesNearby(range*1.1f*2f);
+
+            boolean canHeal = !suppressed && !enemyClose;
+
+            this.smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, this.efficiency, 0.08f);
+            this.heat = Mathf.lerpDelta(
+                    this.heat,
+                    this.efficiency > 0f && canHeal ? 1f : 0f,
+                    0.08f
+            );
+
+            if(canHeal){
+                this.charge += this.heat * this.delta();
+            }
+
+            this.phaseHeat = Mathf.lerpDelta(this.phaseHeat, this.optionalEfficiency, 0.1f);
+
+            if(canHeal && this.optionalEfficiency > 0f &&
+                    this.timer(RegenPylon.this.timerUse, RegenPylon.this.useTime)){
                 this.consume();
             }
 
-            if (this.charge >= RegenPylon.this.reload && canHeal) {
-                float realRange = RegenPylon.this.range/2f + this.phaseHeat * RegenPylon.this.phaseRangeBoost;
-                this.charge = 0.0F;
-
-                    indexer.eachBlock(this.team, Tmp.r1.setCentered(x, y, realRange * tilesize), (b) -> {
-                    return b.damaged() && !b.isHealSuppressed();
-                }, (other) -> {
-                    other.heal(other.maxHealth() * (RegenPylon.this.healPercent + this.phaseHeat * RegenPylon.this.phaseBoost) / 100.0F * this.efficiency);
-                    other.recentlyHealed();
-                    Fx.healBlockFull.at(other.x, other.y, (float)other.block.size, RegenPylon.this.baseColor, other.block);
+            if(enemyClose && this.timer(zapTimer, lightningReload)){
+                Units.nearbyEnemies(team, x, y, range * 2, u -> {
+                    if(u.dead || !u.isValid()) return;
+                    for(int i = 1; i <= lightnings; i++) {
+                        Lightning.create(
+                                team,
+                                Pal.health,
+                                lightningDamage,
+                                x, y,
+                                angleTo(u) + Mathf.range(lightningIncaccuracy),
+                                (int) range
+                        );
+                    }
                 });
             }
 
+            if(this.charge >= RegenPylon.this.reload && canHeal && !enemyClose){
+                float realRange = RegenPylon.this.range / 2f
+                        + this.phaseHeat * RegenPylon.this.phaseRangeBoost;
+
+                this.charge = 0f;
+
+                indexer.eachBlock(
+                        this.team,
+                        Tmp.r1.setCentered(x, y, realRange * tilesize),
+                        b -> b.damaged() && !b.isHealSuppressed(),
+                        other -> {
+                            other.heal(
+                                    other.maxHealth() *
+                                            (RegenPylon.this.healPercent + this.phaseHeat * RegenPylon.this.phaseBoost)
+                                            / 100f * this.efficiency
+                            );
+                            other.recentlyHealed();
+                            Fx.healBlockFull.at(
+                                    other.x, other.y,
+                                    other.block.size,
+                                    RegenPylon.this.baseColor,
+                                    other.block
+                            );
+                        }
+                );
+            }
         }
+
+        boolean enemiesNearby(float radius){
+            final boolean[] found = {false};
+            Units.nearbyEnemies(team, x, y, radius, u -> {
+                if(!u.dead){
+                    found[0] = true;
+                }
+            });
+            return found[0];
+        }
+
         @Override
         public double sense(LAccess sensor) {
             return sensor == LAccess.progress ? (double)Mathf.clamp(this.charge / RegenPylon.this.reload) : super.sense(sensor);
@@ -151,7 +215,7 @@ public class RegenPylon extends MendProjector {
         public void draw() {
             super.draw();
             float f = 1.0F - Time.time / 100.0F % 1.0F;
-            Draw.color(RegenPylon.this.baseColor, RegenPylon.this.phaseColor, this.phaseHeat);
+            Draw.color(enemiesNearby(range * 1.15f*2f) ? Pal.health : RegenPylon.this.baseColor);
             Draw.alpha(this.heat * Mathf.absin(Time.time, 7.957747F, 1.0F) * 0.5F);
             Draw.rect(RegenPylon.this.topRegion, this.x, this.y);
             Draw.alpha(1.0F);
