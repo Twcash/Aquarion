@@ -150,7 +150,7 @@ public class PowerOutlet extends PowerGenerator {
                                     break;
 
                             }
-                            if(( front().shouldConsumePower || front().shouldConsume())){ need = Math.min(frontConsume.usage, powerProduction);} else need = 0f;
+                            if(( frontBuild.shouldConsumePower || frontBuild.shouldConsume())){ need = Math.min(frontConsume.usage, powerProduction);} else need = 0f;
                     } else {
                         front.producers.add(this);
                     }
