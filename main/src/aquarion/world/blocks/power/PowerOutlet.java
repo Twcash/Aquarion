@@ -139,7 +139,7 @@ public class PowerOutlet extends PowerGenerator {
                             BlockStatus status = front().status();
                             //TBH I could have just used an if/else but this was more fun
                             switch (status) {
-                                case active:
+                                case active, noInput:
                                     need = Math.min(frontConsume.usage, powerProduction);
                                     break;
                                 case logicDisable:
@@ -148,11 +148,7 @@ public class PowerOutlet extends PowerGenerator {
                                 case noOutput:
                                     need = 0;
                                     break;
-                                case noInput:
-                                    need = Math.min(frontConsume.usage, powerProduction);
-                                    break;
 
-                                    
                             }
                             if(( front().shouldConsumePower || front().shouldConsume())){ need = Math.min(frontConsume.usage, powerProduction);} else need = 0f;
                     } else {
