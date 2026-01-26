@@ -407,14 +407,6 @@ public class PowerBlocks {
             schematicPriority = 9;
             drawer = new DrawMulti(new DrawDefault(), new DrawSideRegion());
         }};
-        voltageSupplyUnit = new PowerOutlet("power-supply-unit") {{
-            requirements(Category.power, with(copper, 90, silicon, 200, ferrosilicon, 50, graphite, 140));
-            rotate = true;
-            size = 2;
-            powerProduction = 4;
-            rotateDraw = false;
-            drawer = new DrawMulti(new DrawDefault(), new DrawSideRegion());
-        }};
         energyBank = new Battery("energy-bank") {{
             requirements(Category.power, with(copper, 30));
             size = 1;
