@@ -36,7 +36,7 @@ public class RegenPylon extends MendProjector {
     public float phaseBoost;
     public float phaseRangeBoost;
 
-    public float lightningDamage = 12f;
+    public float lightningDamage = 8f;
     public float lightningReload = 60f;
     public int lightnings = 2;
     public float lightningIncaccuracy = 5;
@@ -118,7 +118,7 @@ public class RegenPylon extends MendProjector {
         @Override
         public void updateTile(){
             boolean suppressed = checkSuppression();
-            boolean enemyClose = enemiesNearby(range*1.1f*2f);
+            boolean enemyClose = enemiesNearby(range*1.8f*2f);
 
             boolean canHeal = !suppressed && !enemyClose;
 
@@ -150,7 +150,7 @@ public class RegenPylon extends MendProjector {
                                 lightningDamage,
                                 x, y,
                                 angleTo(u) + Mathf.range(lightningIncaccuracy),
-                                (int) range
+                                12
                         );
                     }
                 });

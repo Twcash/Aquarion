@@ -53,7 +53,7 @@ public class EnvironmentBlocks {
             oreNickel, oreBauxite,
             oreManganese, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
-            arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall, metalWall3,
+            arsenicCrystals, arsenicalOutcrop, boricWall, arsenideWall, chertWall, metalWall3, metalWall4, metalWall5, metalWall6, metalWall7,
             chertOutcrop, pillarCoral, loteasCoral, songCoral,
              algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
@@ -422,8 +422,18 @@ public class EnvironmentBlocks {
         metalWall3 = new StaticWall("metal-wall3"){{
             variants = 3;
         }};
-//        metalWall4 = new GreedyWall("metal-wall4", 2, 3){{
-//        }};
+        metalWall4 = new StaticWall("metal-wall4"){{
+            variants = 2;
+        }};
+        metalWall5 = new StaticWall("metal-walle5"){{
+            variants = 0;
+        }};
+        metalWall6 = new StaticWall("metal-wall6"){{
+            variants = 4;
+        }};
+        metalWall7 = new StaticTree("metal-wall7"){{
+            variants = 0;
+        }};
         scorche = new OverlayFloor("scorche"){{
             variants = 4;
         }};
