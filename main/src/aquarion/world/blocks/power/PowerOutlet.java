@@ -139,6 +139,7 @@ public class PowerOutlet extends PowerGenerator {
                         if (frontBuild.shouldConsume()) {
                             need = Math.min(frontConsume.usage, powerProduction);
                         } else {
+                            //0.1f because if the turret had 0 power it would never try and target anything
                             need = 0.1f;
                         }
                         if (!frontBuild.shouldConsumePower && !(frontBuild instanceof Turret.TurretBuild)) {
