@@ -289,7 +289,7 @@ public class PowerBlocks {
             }};
         fumeEngine = new ConsumeGenerator("fume-engine") {{
 
-            requirements(Category.power, with(ferricMatter, 500, aluminum, 2000, silicon, 800, copper, 1200));
+            requirements(Category.power, with(ferricMatter, 500, aluminum, 800, silicon, 800, copper, 900));
             size = 9;
             researchCostMultiplier = 0.05f;
             insulated = true;

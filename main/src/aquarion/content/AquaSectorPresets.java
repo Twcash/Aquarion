@@ -111,6 +111,7 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
+
         }};
         ripHold = new AquaSectorPreset("riparian-hold", tantros2, 1444){{
             allDatabaseTabs = true;
