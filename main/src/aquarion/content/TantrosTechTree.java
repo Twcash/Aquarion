@@ -201,10 +201,8 @@ public class TantrosTechTree {
                                 node(ripHold, Seq.with(new Objectives.SectorComplete(Ecotone)), ()->{});
                             });
                             node(Grove, Seq.with(
-                                    new Objectives.Research(beamBore),
                             new Objectives.SectorComplete(Torrent),
                             new Objectives.Research(pugnate),
-                            new Objectives.Research(grace),
                             new Objectives.Research(vacuumFreezer),
                             new Objectives.Research(aluminum)
                                     ), ()->{});

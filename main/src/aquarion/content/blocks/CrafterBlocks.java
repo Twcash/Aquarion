@@ -1640,7 +1640,7 @@ public class CrafterBlocks {
         }};
         vacuumFreezer = new AquaGenericCrafter("vacuum-freezer") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(copper, 120, aluminum, 420));
+            requirements(Category.crafting, with(copper, 120, aluminum, 300));
             size = 6;
             squareSprite = false;
             ambientSound = Sounds.loopCircuit;
