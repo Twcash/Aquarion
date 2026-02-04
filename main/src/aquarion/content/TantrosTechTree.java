@@ -56,15 +56,16 @@ public class TantrosTechTree {
                 node(zincWall, ()->{
                     node(hugeZincWall);
                 });
+                node(aluminumWall, () ->
+                        node(hugeAluminumWall, () ->
+                                node(ferrosilconWall, () ->
+                                        node(hugeFerrosiliconWall, () -> {
+                                        }))));
+            });
                 node(bauxiteWall, () -> {
                     node(hugeBauxiteWall, () -> {
                         node(bauxiteBarricade);
-                        node(aluminumWall, () ->
-                                node(hugeAluminumWall, () ->
-                                        node(ferrosilconWall, () ->
-                                                node(hugeFerrosiliconWall, () -> {
-                                                }))));
-                    });
+
                 });
             });
             node(bulwark, Seq.with(
@@ -371,7 +372,6 @@ public class TantrosTechTree {
                 }));
             });
             node(harvester, () -> {
-                node(scrapCentrifuge);
                 node(pinDrill, Seq.with(
                         new Objectives.SectorComplete(Grove)
                 ), () -> {
@@ -388,7 +388,6 @@ public class TantrosTechTree {
                     ), () -> {
                     });
                     node(DrillDerrick, Seq.with(
-                            new Objectives.OnSector(CrystalCaverns)
                     ), () -> node(pinDrill));
                     node(fumeFilter, Seq.with(
                             new Objectives.OnSector(CrystalCaverns)
