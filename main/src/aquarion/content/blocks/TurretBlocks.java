@@ -73,13 +73,13 @@ public class TurretBlocks {
     public static void loadContent() {
         //1 by 1 turret that can be boosted hellishly beyond what it should be
         point = new ItemTurret("point") {{
-            requirements(Category.turret, with(silicon, 35f, lead, 50));
+            requirements(Category.turret, with(silicon, 35f, lead, 40));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 250;
             squareSprite = true;
             shootSound = shootLaser;
             ammoUseEffect = Fx.colorSpark;
-            ammoPerShot = 4;
+            ammoPerShot = 5;
             shootCone = 2;
             outlineColor = tantDarkestTone;
             shoot.shots = 5;
@@ -239,12 +239,12 @@ public class TurretBlocks {
                             collides = false;
                             fragBullets = 1;
                             hitEffect = Fx.ballfire;
-                            fragBullet = new BasicBulletType(0, 200) {{
+                            fragBullet = new BasicBulletType(0, 20) {{
                                 collidesAir = false;
                                 width = height = 0;
                                 instantDisappear = true;
                                 lifetime = 0;
-                                splashDamage = 45;
+                                splashDamage = 20;
                                 splashDamageRadius = 34;
                                 hitEffect = despawnEffect = new ExplosionEffect() {{
                                     waveRad = 30;
@@ -470,7 +470,7 @@ public class TurretBlocks {
             }};
         }};
         vector = new ItemTurret("vector") {{
-            requirements(Category.turret, with(cupronickel, 85, silicon, 110, metaglass, 80, graphite, 70));
+            requirements(Category.turret, with(cupronickel, 120, silicon, 110, metaglass, 80, graphite, 70));
             health = 700;
             size = 3;
             squareSprite = false;
@@ -489,8 +489,8 @@ public class TurretBlocks {
             recoils = 4;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             ammo(
-                    copper, new BasicBulletType(15, 75) {{
-                        ammoMultiplier = 1;
+                    copper, new BasicBulletType(15, 60) {{
+                        ammoMultiplier = 2;
                         lightning = 4;
                         lightningLength = 12;
                         lightningDamage = 10;
@@ -506,7 +506,7 @@ public class TurretBlocks {
                         backColor = AquaPal.redDecal1Dark;
                     }},
                     cupronickel, new BasicBulletType(20, 95) {{
-                        ammoMultiplier = 3;
+                        ammoMultiplier = 2;
                         height = 15;
                         width = 24;
                         trailWidth = 12;
@@ -521,7 +521,7 @@ public class TurretBlocks {
                     }},
                     metaglass, new BasicBulletType() {{
                         damage = 80;
-                        ammoMultiplier = 4;
+                        ammoMultiplier = 3;
                         height = 15;
                         speed = 16f;
                         width = 24;
@@ -1083,12 +1083,12 @@ public class TurretBlocks {
             }
         };
         pelt = new ItemTurret("pelt") {{
-            requirements(Category.turret, with(lead, 85, nickel, 50f, silicon, 90, graphite, 35));
+            requirements(Category.turret, with(lead, 85, nickel, 50f, silicon, 90, graphite, 50));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 800;
             outlineColor = tantDarkestTone;
             range = 190;
-            rotateSpeed = 1.8f;
+            rotateSpeed = 1.6f;
             recoil = 3;
             recoilTime = 85;
             shootCone = 3f;
@@ -1098,11 +1098,11 @@ public class TurretBlocks {
             shootSound = shootBreach;
 
             size = 2;
-            ammoPerShot = 8;
-            maxAmmo = 32;
+            ammoPerShot = 10;
+            maxAmmo = 40;
             consumeCoolant(20 / 60f);
             ammo(
-                    lead, new BasicBulletType(9, 60) {{
+                    lead, new BasicBulletType(9, 50) {{
                         pierce = true;
                         pierceBuilding = true;
                         pierceCap = 2;
@@ -1123,7 +1123,7 @@ public class TurretBlocks {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    nickel, new BasicBulletType(5, 85) {{
+                    nickel, new BasicBulletType(5, 75) {{
                         pierce = true;
                         pierceBuilding = false;
                         pierceCap = 3;
@@ -1143,7 +1143,7 @@ public class TurretBlocks {
                         shootEffect = Fx.shootBig2;
                         smokeEffect = Fx.shootSmokeDisperse;
                     }},
-                    cupronickel, new BasicBulletType(5, 95) {{
+                    cupronickel, new BasicBulletType(5, 85) {{
                         pierce = true;
                         pierceBuilding = false;
                         pierceCap = 2;
@@ -1512,7 +1512,7 @@ public class TurretBlocks {
                         despawnSound = AquaSounds.electricExplosion;
                         despawnEffect = hitEffect = AquaFx.graceExplosion;
                     }},
-                    copper, new ArtilleryBulletType(6f, 45) {{
+                    copper, new ArtilleryBulletType(6f, 35) {{
                         width = 8;
                         height = 10;
                         trailLength = 12;
@@ -1928,6 +1928,7 @@ public class TurretBlocks {
             chargeSound = chargeLancer;
             shootSound = shootMalign;
             squareSprite = false;
+            consumePower(8);
             consumeLiquid(nitrogen, 2f);
             shoot.firstShotDelay = 60;
             range = 400;
@@ -1941,7 +1942,7 @@ public class TurretBlocks {
             ammo(
                     AquaItems.towanite, new LaserBulletType() {{
                         length = 400;
-                        damage = 450;
+                        damage = 250;
                         sideAngle = 45;
 
                         shootEffect = Fx.shootTitan;
@@ -1956,7 +1957,7 @@ public class TurretBlocks {
                     }},
                     acuminite, new LaserBulletType() {{
                         length = 250;
-                        damage = 350;
+                        damage = 300;
                         sideAngle = 45;
                         rangeChange = -150;
                         shootEffect = Fx.shootTitan;
@@ -1971,8 +1972,8 @@ public class TurretBlocks {
                     }},
                     AquaItems.azurite, new LaserBulletType() {{
                         length = 510;
-                        damage = 300;
-                        reloadMultiplier = 1.5f;
+                        damage = 550;
+                        reloadMultiplier = 2.5f;
                         sideAngle = 45;
                         rangeChange = 90;
                         shootEffect = Fx.shootTitan;
