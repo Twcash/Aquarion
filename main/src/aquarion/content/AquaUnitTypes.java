@@ -4008,11 +4008,15 @@ public class AquaUnitTypes {
                     new Weapon("aquarion-chimera-weapon"){{
                 x = -6;
                 y = 3;
-                reload = 18;
-                rotate = true;
-                mirror = true;
-                alternate = false;
-                rotateSpeed = 1.3f;
+                        reload = 18;
+                        rotate = true;
+                        mirror = true;
+                        shoot.shots = 10;
+                        shoot.shotDelay = 3;
+                        reload = 120;
+                        alternate = true;
+                        rotateSpeed = 1.3f;
+                        shadow = 0.2f;
                         bullet = new BasicBulletType(4, 25){{
                             weaveScale = 5;
                             weaveMag = 4.5f;
