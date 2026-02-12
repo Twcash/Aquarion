@@ -3962,14 +3962,14 @@ public class AquaUnitTypes {
             abilities.add(new LiquidExplodeAbility(){{
                 liquid = AquaLiquids.bioPulp;
             }});
-            weapons.add(new Weapon(){{
-                reload = 70;
+            weapons.add(new Weapon("aquarion-bee"){{
+                reload = 350;
                 rotate = false;
                 mirror = false;
                 y = -1f;
                 x = 0;
-                bullet = new BasicBulletType(4, 90){{
-
+                bullet = new BasicBulletType(4, 400){{
+                    recoil = 5;
                 }};
             }}, new Weapon("aquarion-wraith-weapon"){{
                 x = -6;
@@ -3984,8 +3984,8 @@ public class AquaUnitTypes {
         }};
         chimera = new UnitType("chimera"){{
             constructor = LegsUnit::create;
-            hitSize = 18;
-            speed = 0.35f;
+            hitSize = 20;
+            speed = 0.45f;
             rotateMoveFirst = true;
             outlineColor = Color.valueOf("0f1711");
             legCount = 8;
@@ -3995,11 +3995,11 @@ public class AquaUnitTypes {
             armor = 18;
             baseLegStraightness = 0.4f;
             drawCell = false;
-            legGroupSize = 2;
+            legGroupSize = 4;
             legMinLength  = 0.9f;
             legMaxLength = 1.2f;
             legExtension = 0.2f;
-            legMoveSpace = 0.74f;
+            legMoveSpace = 0.64f;
             abilities.add(new DeathFxAbility(AquaFx.bonyDeathMedium));
             abilities.add(new LiquidExplodeAbility(){{
                 liquid = AquaLiquids.bioPulp;
@@ -4011,29 +4011,77 @@ public class AquaUnitTypes {
                 reload = 18;
                 rotate = true;
                 mirror = true;
+                alternate = false;
                 rotateSpeed = 1.3f;
-                bullet = new BasicBulletType(){{
-
-                }};
-            }}, new Weapon("aquarion-chimera-weapon"){{
+                        bullet = new BasicBulletType(4, 25){{
+                            weaveScale = 5;
+                            weaveMag = 4.5f;
+                            homingPower = 0.01f;
+                            lifetime = 110;
+                            sprite = "missile-large";
+                            width = 5;
+                            height = 7;
+                            shootEffect = AquaFx.shootHori;
+                            smokeEffect = AquaFx.shootSmoke1;
+                            despawnEffect = hitEffect = Fx.hitBulletColor;
+                            frontColor = Color.white;
+                            backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
+                            trailLength = 4;
+                            despawnSound = Sounds.explosionDull;
+                        }};
+                    }}, new Weapon("aquarion-chimera-weapon"){{
                         x = -14;
                         y = -8;
                         reload = 18;
                         rotate = true;
                         mirror = true;
+                        shoot.shots = 10;
+                        shoot.shotDelay = 3;
+                        reload = 120;
+                        alternate = false;
                         rotateSpeed = 1.3f;
-                        bullet = new BasicBulletType(){{
-
+                        shadow = 0.2f;
+                        bullet = new BasicBulletType(4, 25){{
+                            weaveScale = 5;
+                            weaveMag = 4.5f;
+                            homingPower = 0.01f;
+                            lifetime = 110;
+                            sprite = "missile-large";
+                            width = 5;
+                            height = 7;
+                            shootEffect = AquaFx.shootHori;
+                            smokeEffect = AquaFx.shootSmoke1;
+                            despawnEffect = hitEffect = Fx.hitBulletColor;
+                            frontColor = Color.white;
+                            backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
+                            trailLength = 4;
+                            despawnSound = Sounds.explosionDull;
                         }};
                     }},new Weapon("aquarion-chimera-mount"){{
                         x = -9;
+                        shoot.shots = 10;
+                        shoot.shotDelay = 3;
                         y = -8;
                         reload = 18;
                         rotate = true;
                         mirror = true;
+                        reload = 200;
                         rotateSpeed = 1.3f;
-                        bullet = new BasicBulletType(){{
-
+                        bullet = new BasicBulletType(5, 90, "aquarion-flechette"){{
+                            pierceCap = 5;
+                            pierceBuilding = true;
+                            splashDamage = 50;
+                            splashDamageRadius = 15;
+                            width = 8;
+                            height = 14;
+                            trailLength = 15;
+                            shootEffect = Fx.shootBig;
+                            smokeEffect = AquaFx.shootSmoke1;
+                            despawnEffect = hitEffect = Fx.hitBulletColor;
+                            frontColor = Color.white;
+                            backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
+                            trailLength = 4;
+                            despawnSound = Sounds.explosion;
                         }};
                     }},new Weapon("aquarion-chimera-mount"){{
                         x = -4;
@@ -4041,9 +4089,23 @@ public class AquaUnitTypes {
                         reload = 18;
                         rotate = true;
                         mirror = true;
+                        reload = 200;
                         rotateSpeed = 1.3f;
-                        bullet = new BasicBulletType(){{
-
+                        bullet = new BasicBulletType(5, 90, "aquarion-flechette"){{
+                            pierceCap = 5;
+                            pierceBuilding = true;
+                            splashDamage = 50;
+                            splashDamageRadius = 15;
+                            width = 8;
+                            height = 14;
+                            trailLength = 15;
+                            shootEffect = Fx.shootBig;
+                            smokeEffect = AquaFx.shootSmoke1;
+                            despawnEffect = hitEffect = Fx.hitBulletColor;
+                            frontColor = Color.white;
+                            backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
+                            trailLength = 4;
+                            despawnSound = Sounds.explosion;
                         }};
                     }});
         }};
