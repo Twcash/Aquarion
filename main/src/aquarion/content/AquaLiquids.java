@@ -132,7 +132,7 @@ public class AquaLiquids {
             heatCapacity = 0.05f;
         }};
         halideWater = new Liquid("halide-water", Color.valueOf("a3a7be")){{
-            heatCapacity = 0.1f;
+            heatCapacity = 0.15f;
             allDatabaseTabs = true;
             effect = StatusEffects.wet;
             boilPoint = 0.5f;

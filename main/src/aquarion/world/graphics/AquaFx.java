@@ -788,6 +788,20 @@ public class AquaFx {
                     Fill.circle(e.x + x, e.y + y, 1.23f + e.fout() * 1.5f);
                 });
             }),
+            fleshyDeathSmall = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < 9; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-gib-" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(180) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
             bonyDeathSmall = new Effect(100, e -> {
                 rand.setSeed(e.id);
                 color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
@@ -907,8 +921,22 @@ public class AquaFx {
             }),
             bloodPool = new Effect(12 * 60, e -> {
                 color(Color.valueOf("a3e765"), Interp.pow10Out.apply(e.fin()));
-                alpha(e.fout(0.9f));
+                alpha(e.fout(0.2f));
                 randLenVectors(e.id, 5, 4f + Interp.pow5Out.apply(e.finpow()) * 3f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, 7 * e.fout());
+                });
+            }).layer(Layer.groundUnit - 2f),
+            bloodPoolLarge = new Effect(14 * 60, e -> {
+                color(Color.valueOf("a3e765"), Interp.pow10Out.apply(e.fin()));
+                alpha(e.fout(0.9f));
+                randLenVectors(e.id, 8, 6f + Interp.pow5Out.apply(e.finpow()) * 3f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, 9 * e.fout());
+                });
+            }).layer(Layer.groundUnit - 2f),
+            bloodtrail = new Effect(12 * 60, e -> {
+                color(Color.valueOf("a3e765"), Interp.pow10Out.apply(e.fin()));
+                alpha(e.fout(0.9f));
+                randLenVectors(e.id, 5, 4f + Interp.pow5Out.apply(e.fin()) * 3f, (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, 7 * e.fin());
                 });
             }).layer(Layer.groundUnit - 2f),

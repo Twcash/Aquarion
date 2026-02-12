@@ -66,7 +66,7 @@ public class AquaUnitTypes {
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant;
     public static @Annotations.EntityDef(value = {Unitc.class, JetUnitc.class}) UnitType martyr;
-    public static UnitType infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam;
+    public static UnitType infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam, corpse;
     //core units and transport
 
     public static UnitType
@@ -4230,5 +4230,35 @@ public class AquaUnitTypes {
                             hitEffect = AquaFx.hitBulletColor1;
                         }};
                     }});
+        }};
+        corpse = new UnitType("corpse"){{
+            hitSize = 9;
+            speed = 1.1f;
+            omniMovement = false;
+            rotateSpeed = 1.5f;
+            health = 600;
+            constructor = CrawlUnit::create;
+            armor = -5;
+            outlineColor = Color.valueOf("0d2214");
+            segmentMag = 1.1f;
+            segments = 3;
+            segmentMaxRot = 30;
+            segmentScl = 5;
+            drawBody = false;
+            drawCell = false;
+            deathExplosionEffect = new MultiEffect(AquaFx.fleshyDeathSmall, AquaFx.bloodPoolLarge);
+            abilities.add(new MoveEffectAbility(0,0,Color.white,AquaFx.bloodtrail,4f));
+            weapons.add(new Weapon(){{
+                shootOnDeath = true;
+                mirror = false;
+                shootCone = 180;
+                targetAir = false;
+                targetUnderBlocks = false;
+                bullet = new ExplosionBulletType(){{
+                    splashDamageRadius = 90;
+                    killShooter = true;
+                    splashDamage = 250;
+                }};
+            }});
         }};
     }}

@@ -1339,7 +1339,7 @@ public class TurretBlocks {
         Foment = new ItemTurret("foment") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 925;
-            coolantMultiplier = 0.75f;
+
             {
                 outlineColor = tantDarkestTone;
                 ammo(
@@ -1433,6 +1433,7 @@ public class TurretBlocks {
                 warmupMaintainTime = 360;
                 heatColor = Pal.redLight;
                 consumeCoolant(40 / 60f);
+                coolantMultiplier = 1f;
                 shoot = new ShootAlternate(4);
                 drawer = new DrawTurret() {{
                     for (int i = 0; i < 2; i++) {
@@ -1942,7 +1943,7 @@ public class TurretBlocks {
             ammo(
                     AquaItems.towanite, new LaserBulletType() {{
                         length = 400;
-                        damage = 250;
+                        damage = 350;
                         sideAngle = 45;
 
                         shootEffect = Fx.shootTitan;
@@ -1973,7 +1974,7 @@ public class TurretBlocks {
                     AquaItems.azurite, new LaserBulletType() {{
                         length = 510;
                         damage = 550;
-                        reloadMultiplier = 2.5f;
+                        reloadMultiplier = 0.25f;
                         sideAngle = 45;
                         rangeChange = 90;
                         shootEffect = Fx.shootTitan;
