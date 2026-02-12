@@ -3949,7 +3949,7 @@ public class AquaUnitTypes {
             legCount = 6;
             legLength = 14;
             legBaseOffset = 5f;
-            health = 770;
+            health = 980;
             armor = 1;
             baseLegStraightness = 0.1f;
             drawCell = false;
@@ -3962,23 +3962,52 @@ public class AquaUnitTypes {
             abilities.add(new LiquidExplodeAbility(){{
                 liquid = AquaLiquids.bioPulp;
             }});
-            weapons.add(new Weapon("aquarion-bee"){{
-                reload = 350;
+            weapons.add(new Weapon(){{
+                reload = 200;
                 rotate = false;
                 mirror = false;
                 y = -1f;
                 x = 0;
-                bullet = new BasicBulletType(4, 400){{
+                bullet = new BasicBulletType(8, 120){{
                     recoil = 5;
+                    shootEffect = AquaFx.shootLudicrous;
+                    knockback = 10;
+                    lifetime = 25;
+                    width = 12;
+                    height = 18;
+                    trailLength = 16;
+                    despawnEffect = hitEffect = Fx.explosion;
+                    frontColor = Color.white;
+                    backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
                 }};
             }}, new Weapon("aquarion-wraith-weapon"){{
                 x = -6;
                 y = -4;
                 reload = 18;
+                shadow = 0.1f;
                 rotate = true;
+                inaccuracy = 5;
                 mirror = true;
-                bullet = new BasicBulletType(){{
-
+                bullet = new BasicBulletType(6, 15){{
+                    width = 5;
+                    height = 8;
+                    lifetime = 60;
+                    knockback = 1.1f;
+                    status = StatusEffects.shocked;
+                    lightning = 3;
+                    homingPower = 0.2f;
+                    lightningDamage = 10;
+                    lightningLength = 5;
+                    lightningCone = 180;
+                    pierce = true;
+                    pierceBuilding = true;
+                    pierceCap = 3;
+                    shootEffect = AquaFx.shootGrace;
+                    smokeEffect = AquaFx.shootSmoke1;
+                    despawnEffect = hitEffect = Fx.hitBulletColor;
+                    frontColor = Color.white;
+                    backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
+                    trailLength = 4;
                 }};
             }});
         }};
@@ -4063,8 +4092,6 @@ public class AquaUnitTypes {
                         }};
                     }},new Weapon("aquarion-chimera-mount"){{
                         x = -9;
-                        shoot.shots = 10;
-                        shoot.shotDelay = 3;
                         y = -8;
                         reload = 18;
                         rotate = true;
