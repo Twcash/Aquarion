@@ -788,6 +788,34 @@ public class AquaFx {
                     Fill.circle(e.x + x, e.y + y, 1.23f + e.fout() * 1.5f);
                 });
             }),
+            bonyDeathSmall = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < 9; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-small-bone-" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(180) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            bonyDeathMedium = new Effect(80, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < 20; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = rand.random(1, 6);
+                    TextureRegion region = Core.atlas.find("aquarion-medium-bone-" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 45f));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 32f;
+                    rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(360) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
             parzilDebrisSmall = new Effect(85, e -> {
                 rand.setSeed(e.id);
                 color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
@@ -971,12 +999,51 @@ public class AquaFx {
                     Fill.circle(e.x + x - 27 / 4f, e.y + y - 66 / 4f, 4.5f * e.fin());
                 });
             }),
+            shootSmoke1 = new Effect(30f, e -> {
+                color(Pal.lighterOrange, Color.valueOf("1f1c19"), Color.valueOf("0f0d0b"), e.fin());
+
+                randLenVectors(e.id, 7, e.finpow() * 11f, e.rotation, 24f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 3f);
+                });
+            }),
+            hitBulletColor1 = new Effect(14, e -> {
+                color(Color.white, e.color, e.fin());
+
+                e.scaled(12f, s -> {
+                    stroke(0.5f + s.fout());
+                    Lines.circle(e.x, e.y, s.fin() * 5f);
+                });
+
+                stroke(0.5f + e.fout());
+
+                randLenVectors(e.id, 5, Interp.pow2Out.apply(e.fin()) * 15f, (x, y) -> {
+                    float ang = Mathf.angle(x, y);
+                    lineAngle(e.x + x, e.y + y, ang, Interp.pow2Out.apply(e.fout()) * 3 + 1.5f);
+                });
+
+                Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
+            }),
+            trailSmoke1 = new Effect(50, e -> {
+                color(e.color);
+                rand.setSeed(e.id);
+                for(int i = 0; i < 9; i++){
+                    float fin = e.fin() / rand.random(0.5f, 1f), fout = 1f - fin, angle = rand.random(360f), len = rand.random(0.5f, 1f);
+
+                    if(fin <= 1f){
+                        Tmp.v1.trns(angle, fin * 15f * len);
+
+                        alpha((0.5f - Math.abs(fin - 0.5f)) * 2f);
+                        Fill.circle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, 0.5f + fout * 2f);
+                    }
+                }
+            }),
             azuriteSmelt = new Effect(45, e -> {
                 color(Color.valueOf("9eb8f5"), Color.lightGray, e.fin());
                 randLenVectors(e.id, 4, e.fin() * 5f, (x, y) ->
                         Fill.square(e.x + x, e.y + y, e.fout() + 0.5f, 0)
                 );
             });
+
     private static final Vec2 rv = new Vec2();
 
     public static void randMinLenVectors(long seed, int amount, float minLength, float maxLength, float angle, float range, float spread, Floatc2 cons) {

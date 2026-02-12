@@ -3854,6 +3854,10 @@ public class AquaUnitTypes {
             legExtension = 0.5f;
             health = 250;
             legMoveSpace = 1.1f;
+            abilities.add(new DeathFxAbility(AquaFx.bonyDeathSmall));
+            abilities.add(new LiquidExplodeAbility(){{
+                liquid = AquaLiquids.bioPulp;
+            }});
             weapons.add(new Weapon(){{
                 shootOnDeath = true;
                 mirror = false;
@@ -3884,6 +3888,10 @@ public class AquaUnitTypes {
             legMaxLength = 1.1f;
             legExtension = 0.5f;
             legMoveSpace = 1.1f;
+            abilities.add(new DeathFxAbility(AquaFx.bonyDeathSmall));
+            abilities.add(new LiquidExplodeAbility(){{
+                liquid = AquaLiquids.bioPulp;
+            }});
             weapons.add(new Weapon("aquarion-haint-weapon"){{
                 reload = 15;
                 rotate = true;
@@ -3917,6 +3925,10 @@ public class AquaUnitTypes {
             legMaxLength = 1.2f;
             legExtension = 0.2f;
             legMoveSpace = 1.5f;
+            abilities.add(new DeathFxAbility(AquaFx.bonyDeathSmall));
+            abilities.add(new LiquidExplodeAbility(){{
+                liquid = AquaLiquids.bioPulp;
+            }});
             weapons.add(new Weapon(){{
                 reload = 90;
                 rotate = false;
@@ -3946,6 +3958,10 @@ public class AquaUnitTypes {
             legMaxLength = 1.2f;
             legExtension = 0.2f;
             legMoveSpace = 1.8f;
+            abilities.add(new DeathFxAbility(AquaFx.bonyDeathMedium));
+            abilities.add(new LiquidExplodeAbility(){{
+                liquid = AquaLiquids.bioPulp;
+            }});
             weapons.add(new Weapon(){{
                 reload = 70;
                 rotate = false;
@@ -3984,6 +4000,10 @@ public class AquaUnitTypes {
             legMaxLength = 1.2f;
             legExtension = 0.2f;
             legMoveSpace = 0.74f;
+            abilities.add(new DeathFxAbility(AquaFx.bonyDeathMedium));
+            abilities.add(new LiquidExplodeAbility(){{
+                liquid = AquaLiquids.bioPulp;
+            }});
             weapons.add(
                     new Weapon("aquarion-chimera-weapon"){{
                 x = -6;
@@ -4038,19 +4058,72 @@ public class AquaUnitTypes {
             armor = 12;
             rotateSpeed = 0.8f;
             drawCell = false;
+            abilities.add(new DeathFxAbility(AquaFx.bonyDeathMedium));
+            abilities.add(new LiquidExplodeAbility(){{
+                liquid = AquaLiquids.bioPulp;
+            }});
             weapons.add(
                     new Weapon("aquarion-amalgam-weapon"){{
-                        x = 9;
+                        x = -12;
                         y = -7f;
                         rotate = true;
+                        reload = 90;
+                        alternate = false;
                         rotateSpeed = 0.9f;
-                        bullet = new BasicBulletType(){{}};
+                        recoil = 1.2f;
+                        recoilTime = 25;
+                        shadow = 0.2f;
+                        cooldownTime = 70;
+                        bullet = new BasicBulletType(3, 60, "aquarion-bolt"){{
+                            lifetime = 45;
+                            shootEffect = Fx.shootBig;
+                            smokeEffect = AquaFx.shootSmoke1;
+                            frontColor = Color.white;
+                            backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
+                            hitEffect = despawnEffect = AquaFx.hitBulletColor1;
+                            width = 7f;
+                            height = 12;
+                            trailEffect = AquaFx.trailSmoke1;
+                            trailInterval = 5;
+                            intervalBullets = 1;
+                            bulletInterval = 15;
+                            intervalBullet = new LightningBulletType(){{
+                                damage = 10;
+                                lightning = 2;
+                                lightningCone = 180;
+                                lightningDamage = 10;
+                                lightningLength = 6;
+                                lightningColor = Color.white;
+                            }};
+                        }};
                     }},new Weapon("aquarion-amalgam-mount"){{
-                        x = 7;
-                        y = 4f;
+                        x = -7;
+                        y = 5f;
                         rotate = true;
+                        reload = 20;
+                        targetSwitchInterval = 25;
+                        recoil = 0.8f;
+                        recoilTime = 15;
+                        cooldownTime = 15;
                         rotateSpeed = 1.2f;
-                        bullet = new BasicBulletType(){{}};
+                        shadow = 0.15f;
+                        parts.add(new RegionPart("-back"){{
+                            moveY = -3f;
+                            progress = PartProgress.recoil;
+                            under = true;
+                        }});
+                        bullet = new BasicBulletType(5, 45){{
+                            shootEffect = Fx.shootBig;
+                            smokeEffect = AquaFx.shootSmoke1;
+                            frontColor = Color.white;
+                            backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
+                            width = 6;
+                            height = 13;
+                            trailWidth = 2.5f;
+                            trailLength = 12;
+                            lifetime = 50;
+                            hitEffect = AquaFx.hitBulletColor1;
+                        }};
                     }});
         }};
     }}

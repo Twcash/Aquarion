@@ -58,10 +58,6 @@ public class AquarionMod  implements Loadable{
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
-        for(var b : Vars.content.blocks()){
-            b.destroyEffect = AquaFx.blockExplosion;
-        }
-
     }
     public static void clientLoaded(){
         hints.load();
