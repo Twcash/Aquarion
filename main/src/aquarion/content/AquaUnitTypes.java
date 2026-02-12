@@ -3903,8 +3903,13 @@ public class AquaUnitTypes {
                 recoilTime = 10;
                 shoot.shots = 2;
                 inaccuracy = 6;
-                bullet = new BasicBulletType(){{
-                    recoil = 3;
+                bullet = new BasicBulletType(5, 20){{
+                    homingPower = 0.02f;
+                    trailLength = 8;
+                    width = 6;
+                    height = 9;
+                    frontColor = Color.white;
+                    backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
                 }};
             }});
         }};
@@ -3936,7 +3941,14 @@ public class AquaUnitTypes {
                 y = -1f;
                 x = 0;
                 bullet = new BasicBulletType(4, 80){{
-
+                    lifetime = 40;
+                    shootEffect = Fx.shootBig;
+                    pierceCap = 5;
+                    width = 8;
+                    height = 11;
+                    despawnEffect = hitEffect = Fx.hitBulletBig;
+                    frontColor = Color.white;
+                    backColor = trailColor = hitColor = lightColor = Color.valueOf("9eaaa6");
                 }};
             }});
         }};
