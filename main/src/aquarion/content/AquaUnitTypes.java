@@ -4179,7 +4179,7 @@ public class AquaUnitTypes {
                         recoilTime = 25;
                         shadow = 0.2f;
                         cooldownTime = 70;
-                        bullet = new BasicBulletType(3, 60, "aquarion-bolt"){{
+                        bullet = new BasicBulletType(3, 110, "aquarion-bolt"){{
                             lifetime = 45;
                             shootEffect = Fx.shootBig;
                             smokeEffect = AquaFx.shootSmoke1;
@@ -4193,10 +4193,10 @@ public class AquaUnitTypes {
                             intervalBullets = 1;
                             bulletInterval = 15;
                             intervalBullet = new LightningBulletType(){{
-                                damage = 10;
+                                damage = 25;
                                 lightning = 2;
                                 lightningCone = 180;
-                                lightningDamage = 10;
+                                lightningDamage = 25;
                                 lightningLength = 6;
                                 lightningColor = Color.white;
                             }};
@@ -4217,7 +4217,7 @@ public class AquaUnitTypes {
                             progress = PartProgress.recoil;
                             under = true;
                         }});
-                        bullet = new BasicBulletType(5, 45){{
+                        bullet = new BasicBulletType(5, 90){{
                             shootEffect = Fx.shootBig;
                             smokeEffect = AquaFx.shootSmoke1;
                             frontColor = Color.white;
