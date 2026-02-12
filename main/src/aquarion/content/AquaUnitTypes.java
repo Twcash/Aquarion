@@ -66,7 +66,7 @@ public class AquaUnitTypes {
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant;
     public static @Annotations.EntityDef(value = {Unitc.class, JetUnitc.class}) UnitType martyr;
-    public static UnitType infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant;
+    public static UnitType infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam;
     //core units and transport
 
     public static UnitType
@@ -3835,5 +3835,222 @@ public class AquaUnitTypes {
                         height = 14;
                     }};
                 }});
+        }};
+        wretch = new UnitType("wretch"){{
+            constructor = LegsUnit::create;
+            hitSize = 9;
+            speed = 1.3f;
+            accel = 0.06f;
+            drag = 0.05f;
+            rotateMoveFirst = true;
+            outlineColor = Color.valueOf("0f1711");
+            legCount = 4;
+            legLength = 9;
+            baseLegStraightness = 0.15f;
+            drawCell = false;
+            legGroupSize = 3;
+            legMinLength  = 0.9f;
+            legMaxLength = 1.1f;
+            legExtension = 0.5f;
+            health = 250;
+            legMoveSpace = 1.1f;
+            weapons.add(new Weapon(){{
+                shootOnDeath = true;
+                mirror = false;
+                shootCone = 180;
+                targetAir = false;
+                targetUnderBlocks = false;
+                bullet = new ExplosionBulletType(){{
+                    splashDamageRadius = 90;
+                    killShooter = true;
+                    splashDamage = 250;
+                }};
+            }});
+        }};
+        haint = new UnitType("haint"){{
+            constructor = LegsUnit::create;
+            hitSize = 8;
+            speed = 0.8f;
+            rotateMoveFirst = true;
+            outlineColor = Color.valueOf("0f1711");
+            legCount = 4;
+            legLength = 8;
+            health = 400;
+            armor = -3;
+            baseLegStraightness = 0.2f;
+            drawCell = false;
+            legGroupSize = 2;
+            legMinLength  = 0.9f;
+            legMaxLength = 1.1f;
+            legExtension = 0.5f;
+            legMoveSpace = 1.1f;
+            weapons.add(new Weapon("aquarion-haint-weapon"){{
+                reload = 15;
+                rotate = true;
+                mirror = false;
+                y = -1f;
+                x = 0;
+                rotateSpeed = 1.1f;
+                recoil = 1;
+                recoilTime = 10;
+                shoot.shots = 2;
+                inaccuracy = 6;
+                bullet = new BasicBulletType(){{
+                    recoil = 3;
+                }};
+            }});
+        }};
+        ghoul = new UnitType("ghoul"){{
+            constructor = LegsUnit::create;
+            hitSize = 8;
+            speed = 0.8f;
+            rotateMoveFirst = true;
+            outlineColor = Color.valueOf("0f1711");
+            legCount = 4;
+            legLength = 10;
+            health = 300;
+            armor = -2;
+            baseLegStraightness = 0.1f;
+            drawCell = false;
+            legGroupSize = 2;
+            legMinLength  = 0.8f;
+            legMaxLength = 1.2f;
+            legExtension = 0.2f;
+            legMoveSpace = 1.5f;
+            weapons.add(new Weapon(){{
+                reload = 90;
+                rotate = false;
+                mirror = false;
+                y = -1f;
+                x = 0;
+                bullet = new BasicBulletType(4, 80){{
+
+                }};
+            }});
+        }};
+        wraith = new UnitType("wraith"){{
+            constructor = LegsUnit::create;
+            hitSize = 12;
+            speed = 0.55f;
+            rotateMoveFirst = true;
+            outlineColor = Color.valueOf("0f1711");
+            legCount = 6;
+            legLength = 14;
+            legBaseOffset = 5f;
+            health = 770;
+            armor = 1;
+            baseLegStraightness = 0.1f;
+            drawCell = false;
+            legGroupSize = 3;
+            legMinLength  = 0.9f;
+            legMaxLength = 1.2f;
+            legExtension = 0.2f;
+            legMoveSpace = 1.8f;
+            weapons.add(new Weapon(){{
+                reload = 70;
+                rotate = false;
+                mirror = false;
+                y = -1f;
+                x = 0;
+                bullet = new BasicBulletType(4, 90){{
+
+                }};
+            }}, new Weapon("aquarion-wraith-weapon"){{
+                x = -6;
+                y = -4;
+                reload = 18;
+                rotate = true;
+                mirror = true;
+                bullet = new BasicBulletType(){{
+
+                }};
+            }});
+        }};
+        chimera = new UnitType("chimera"){{
+            constructor = LegsUnit::create;
+            hitSize = 18;
+            speed = 0.35f;
+            rotateMoveFirst = true;
+            outlineColor = Color.valueOf("0f1711");
+            legCount = 8;
+            legLength = 28;
+            legBaseOffset = 8f;
+            health = 11000;
+            armor = 18;
+            baseLegStraightness = 0.4f;
+            drawCell = false;
+            legGroupSize = 2;
+            legMinLength  = 0.9f;
+            legMaxLength = 1.2f;
+            legExtension = 0.2f;
+            legMoveSpace = 0.74f;
+            weapons.add(
+                    new Weapon("aquarion-chimera-weapon"){{
+                x = -6;
+                y = 3;
+                reload = 18;
+                rotate = true;
+                mirror = true;
+                rotateSpeed = 1.3f;
+                bullet = new BasicBulletType(){{
+
+                }};
+            }}, new Weapon("aquarion-chimera-weapon"){{
+                        x = -14;
+                        y = -8;
+                        reload = 18;
+                        rotate = true;
+                        mirror = true;
+                        rotateSpeed = 1.3f;
+                        bullet = new BasicBulletType(){{
+
+                        }};
+                    }},new Weapon("aquarion-chimera-mount"){{
+                        x = -9;
+                        y = -8;
+                        reload = 18;
+                        rotate = true;
+                        mirror = true;
+                        rotateSpeed = 1.3f;
+                        bullet = new BasicBulletType(){{
+
+                        }};
+                    }},new Weapon("aquarion-chimera-mount"){{
+                        x = -4;
+                        y = -5;
+                        reload = 18;
+                        rotate = true;
+                        mirror = true;
+                        rotateSpeed = 1.3f;
+                        bullet = new BasicBulletType(){{
+
+                        }};
+                    }});
+        }};
+        amalgam = new UnitType("amalgam"){{
+            constructor = MechUnit::create;
+            hitSize = 18;
+            speed = 0.75f;
+            mechLegColor = Color.valueOf("0f1711");
+            rotateMoveFirst = true;
+            outlineColor = Color.valueOf("0f1711");
+            health = 9000;
+            armor = 12;
+            rotateSpeed = 0.8f;
+            drawCell = false;
+            weapons.add(
+                    new Weapon("aquarion-amalgam-weapon"){{
+                        x = 9;
+                        y = -7f;
+                        rotate = true;
+                        rotateSpeed = 0.9f;
+                        bullet = new BasicBulletType(){{}};
+                    }},new Weapon("aquarion-amalgam-mount"){{
+                        x = 7;
+                        y = 4f;
+                        rotate = true;
+                        rotateSpeed = 1.2f;
+                        bullet = new BasicBulletType(){{}};
+                    }});
         }};
     }}
