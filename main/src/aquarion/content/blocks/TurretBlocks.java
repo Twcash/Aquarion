@@ -1925,6 +1925,7 @@ public class TurretBlocks {
             size = 4;
             shootY = 85 / 4f;
             itemCapacity = 60;
+            liquidCapacity = 240;
             chargeSound = chargeLancer;
             shootSound = shootMalign;
             squareSprite = false;
