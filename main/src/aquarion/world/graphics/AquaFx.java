@@ -69,6 +69,12 @@ public class AquaFx {
                 Drawf.tri(e.x, e.y, w, 45f * e.fout(), e.rotation);
                 Drawf.tri(e.x, e.y, w, 12f * e.fout(), e.rotation + 180f);
             }),
+            shootBigger = new Effect(10, e -> {
+                color(Pal.lightOrange, Color.gray, e.fin());
+                float w = 1.8f + 8 * e.fout();
+                Drawf.tri(e.x, e.y, w, 34f * e.fout(), e.rotation);
+                Drawf.tri(e.x, e.y, w, 5f * e.fout(), e.rotation + 180f);
+            }),
             lightning = new Effect(15f, 500f, e -> {
                 if (!(e.data instanceof Seq)) return;
                 Seq<Vec2> lines = e.data();
@@ -1039,6 +1045,13 @@ public class AquaFx {
 
                 randLenVectors(e.id, 9, e.finpow() * 30f, e.rotation, 24f, (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 3f);
+                });
+            }),
+            shootSmoke3 = new Effect(50f, e -> {
+                color(Pal.lighterOrange, Pal.lightishGray, Color.lightGray, Interp.pow2Out.apply(e.fin()));
+                rand.setSeed(e.id+1);
+                randLenVectors(e.id, rand.random(5,9), Interp.pow2In.apply(e.finpow()) * 50f, e.rotation, 28f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow5Out.apply(e.fout()) * 4.5f);
                 });
             }),
             hitBulletColor1 = new Effect(14, e -> {
