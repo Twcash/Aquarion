@@ -1925,6 +1925,8 @@ public class TurretBlocks {
             size = 4;
             shootY = 85 / 4f;
             itemCapacity = 60;
+            liquidCapacity = 300;
+            health = 700;
             chargeSound = chargeLancer;
             shootSound = shootMalign;
             squareSprite = false;
@@ -1990,7 +1992,7 @@ public class TurretBlocks {
             );
             outlineColor = tantDarkestTone;
             heatColor = Color.valueOf("d3f5ff");
-            coolantMultiplier = 0.35f;
+            coolantMultiplier = 0.45f;
             consumeCoolant(80 / 60f);
             drawer = new DrawTurret() {{
                 turretLayer = Layer.turret;

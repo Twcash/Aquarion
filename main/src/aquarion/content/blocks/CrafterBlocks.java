@@ -451,7 +451,7 @@ public class CrafterBlocks {
         }};
         slagRefinementAssemblage = new AquaGenericCrafter("slag-refinement-array") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(graphite, 900, silicon, 1200, metaglass, 1000, ferricMatter, 250));
+            requirements(Category.crafting, with(graphite, 900, silicon, 1200, metaglass, 1000));
             size = 7;
             consumePower(6f);
             itemCapacity = 300;
@@ -459,7 +459,6 @@ public class CrafterBlocks {
             updateEffect = Fx.ventSteam;
             updateEffectChance = 0.01f;
             squareSprite = false;
-
             craftTime = 600;
             consumeLiquids(LiquidStack.with(slag,6, fumes, 2));
             outputItems = new ItemStack[]{
@@ -615,7 +614,7 @@ public class CrafterBlocks {
                 }}, new DrawDefault());
             }};
             ferricGrinder = new AttributeCrafter("ferric-macerator") {{
-                requirements(Category.production, with(cupronickel, 250, silicon, 500, metaglass, 200, graphite, 700, polymer, 800));
+                requirements(Category.production, with(cupronickel, 250, silicon, 500, metaglass, 200, graphite, 700, polymer, 450));
                 size = 6;
                 itemCapacity = 100;
                 liquidCapacity = 200;
@@ -754,14 +753,14 @@ public class CrafterBlocks {
             }};
             fumeMixer = new AquaGenericCrafter("fume-mixer") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.crafting, with(ferrosilicon, 800, metaglass, 1200, cupronickel, 2000, graphite, 1500));
+                requirements(Category.crafting, with(metaglass, 1200, lead, 2000, graphite, 900));
                 size = 6;
                 craftTime = 5 * 60f;
                 squareSprite = false;
                 baseExplosiveness = 10;
-                consumeLiquids(LiquidStack.with(haze, 3, oxygen, 2));
+                consumeLiquids(LiquidStack.with(haze, 3, oxygen, 2, oil, 2));
                 outputLiquid = new LiquidStack(fumes, 4);
-                consumeItems(ItemStack.with(coal, 35, brimstone, 16));
+                consumeItems(ItemStack.with( brimstone, 16));
                 itemCapacity = 350;
                 liquidCapacity = 900;
                 drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -1398,13 +1397,14 @@ public class CrafterBlocks {
             liquidCapacity = 400;
             squareSprite = false;
             itemCapacity = 60;
-            outputItem = new ItemStack(polymer, 30);
+            outputItem = new ItemStack(polymer, 35);
             craftTime = 30 / 4f * 60f;
             heatRequirement = 20;
             overheatScale = 1f;
             baseEfficiency = 0;
             hasHeat = true;
-            maxEfficiency = 3;
+            maxEfficiency = 4;
+            boostersAffectOutput = true;
             consumePower(4);
             consumeLiquids(LiquidStack.with(petroleum, 4, oxygen, 11));
             consumeLiquid(haze, 8.5f).boost();

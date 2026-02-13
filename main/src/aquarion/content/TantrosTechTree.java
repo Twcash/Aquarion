@@ -70,7 +70,7 @@ public class TantrosTechTree {
             });
             node(bulwark, Seq.with(
                     new Objectives.OnSector(twinPass),
-                    new Objectives.Produce(metaglass)
+                    new Objectives.Research(pelt)
             ), () -> {
                 node(payloadPad, ()-> {
                     node(payloadDistributor);
@@ -321,6 +321,7 @@ public class TantrosTechTree {
                         });
                     });
                     nodeProduce(Items.copper, () -> {
+                        nodeProduce(scrap, ()->{});
                         nodeProduce(coal, ()->{
                             nodeProduce(sporePod, () -> {});
                         });
@@ -391,8 +392,8 @@ public class TantrosTechTree {
                     });
                     node(DrillDerrick, Seq.with(
                     ), () -> node(pinDrill));
+                    node(fumeMixer);
                     node(fumeFilter, Seq.with(
-                            new Objectives.OnSector(CrystalCaverns)
                     ), () -> {
 
                     });
@@ -412,13 +413,16 @@ public class TantrosTechTree {
                 });
                 node(scrapCentrifuge);
                 node(AnnealingOven, () -> {
-                    node(slagRefinementAssemblage);
-                    node(sporeProcessor);
+                    node(slagRefinementAssemblage, Seq.with(
+                            new Objectives.Produce(slag)
+                    ), ()->{});
+                    node(sporeProcessor, Seq.with(
+                            new Objectives.OnSector(diseasedCleft)
+                    ), ()->{});
                             node(cupronickelAlloyer, () -> {
                                 node(ferricGrinder, () -> {
                                     node(ultrafamicRefinery);
                                     node(ferroSiliconFoundry, Seq.with(
-                                            new Objectives.SectorComplete(Torrent)
                                     ), () -> {
                                         node(steelFoundry);
                                     });
@@ -451,7 +455,6 @@ public class TantrosTechTree {
                                 new Objectives.SectorComplete(Grove)
                         ), () -> {
                         });
-                        node(fumeMixer);
                     });
                     node(bauxiteCentrifuge);
                     node(leachingVessel);
