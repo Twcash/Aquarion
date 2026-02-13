@@ -1522,7 +1522,7 @@ public class CrafterBlocks {
 //            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());
 //        }};
         desulferizationAssembly = new AquaGenericCrafter("desulferization-assembly") {{
-            requirements(Category.crafting, with(metaglass, 250, copper, 500, lead, 1200, graphite, 450));
+            requirements(Category.crafting, with(metaglass, 250, copper, 500, lead, 900, graphite, 450));
             shownPlanets.addAll(tantros2);
             craftTime = 4 * 60f;
             heatRequirement = 45;
@@ -1532,8 +1532,8 @@ public class CrafterBlocks {
             craftEffect = Fx.reactorsmoke;
             updateEffectChance = 0.08f;
             updateEffect = Fx.reactorsmoke;
-            consumeLiquid(petroleum, 7.5f);
-            outputItem = new ItemStack(brimstone, 15);
+            consumeLiquid(petroleum, 1.5f);
+            outputItem = new ItemStack(brimstone, 30);
             outputLiquid = new LiquidStack(methane, 2.5f);
             liquidCapacity = 900;
             itemCapacity = 120;
