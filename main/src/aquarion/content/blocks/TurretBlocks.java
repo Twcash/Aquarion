@@ -73,7 +73,7 @@ public class TurretBlocks {
     public static void loadContent() {
         //1 by 1 turret that can be boosted hellishly beyond what it should be
         point = new ItemTurret("point") {{
-            requirements(Category.turret, with(silicon, 35f, lead, 40));
+            requirements(Category.turret, with(silicon, 35f, lead, 30));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 250;
             squareSprite = true;
@@ -175,6 +175,109 @@ public class TurretBlocks {
                     }});
             limitRange(1.2f);
             consumeCoolant(10 / 60f);
+        }};
+        pelt = new ItemTurret("pelt") {{
+            requirements(Category.turret, with(lead, 85, nickel, 90f, silicon, 90, graphite, 60));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            health = 650;
+            armor = -2;
+            outlineColor = tantDarkestTone;
+            range = 190;
+            rotateSpeed = 1.6f;
+            recoil = 3;
+            recoilTime = 85;
+            shootCone = 3f;
+            reload = 190;
+            soundPitchMax = 1.5f;
+            soundPitchMin = 1.2f;
+            shootSound = shootBreach;
+            size = 2;
+            ammoPerShot = 10;
+            maxAmmo = 40;
+            liquidCapacity = 80;
+            consumeCoolant(20 / 60f);
+            ammo(
+                    lead, new BasicBulletType(9, 55) {{
+                        pierce = true;
+                        pierceBuilding = true;
+                        pierceCap = 2;
+                        sprite = "aquarion-bolt";
+                        width = 8;
+                        height = 14f;
+                        ammoMultiplier = 4;
+                        reloadMultiplier = 1.8f;
+                        rangeChange = -24;
+                        shrinkY = 0;
+                        shrinkX = 0.1f;
+                        hitSize = 8;
+                        trailWidth = 2f;
+                        trailLength = 12;
+                        frontColor = hitColor = Color.white;
+                        backColor = lightColor = trailColor = Color.valueOf("8d70ab");
+                        despawnEffect = hitEffect = AquaFx.hitBulletColor2;
+                        shootEffect = AquaFx.shootHori;
+                        smokeEffect = AquaFx.shootSmoke2;
+                    }},
+                    nickel, new BasicBulletType(5, 65) {{
+                        pierce = true;
+                        pierceBuilding = false;
+                        pierceCap = 3;
+                        sprite = "aquarion-bolt";
+                        width = 10;
+                        height = 18f;
+                        shrinkY = 0;
+                        shrinkX = 0.2f;
+                        trailWidth = 3f;
+                        trailLength = 16;
+                        reloadMultiplier = 0.8f;
+                        hitSize = 8;
+                        ammoMultiplier = 2;
+                        frontColor = hitColor = Color.white;
+                        backColor = lightColor = trailColor = Color.valueOf("e1d9bc");
+                        despawnEffect = hitEffect = AquaFx.hitBulletColor2;
+                        status = AquaStatuses.concussed;
+                        statusDuration = 5 * 60f;
+                        knockback = 4;
+                        shootEffect = AquaFx.shootHori;
+                        smokeEffect = AquaFx.shootSmoke2;
+                    }},
+                    cupronickel, new BasicBulletType(5, 75) {{
+                        pierce = true;
+                        pierceBuilding = false;
+                        pierceCap = 2;
+                        sprite = "aquarion-bolt";
+                        width = 8;
+                        height = 12f;
+                        shrinkY = 0;
+                        rangeChange = 54;
+                        shrinkX = 0.2f;
+                        trailWidth = 3f;
+                        trailLength = 16;
+                        reloadMultiplier = 1.75f;
+                        shieldDamageMultiplier = 2.5f;
+                        hitSize = 6;
+                        ammoMultiplier = 3f;
+                        frontColor = hitColor = Color.white;
+                        backColor = lightColor = trailColor = copper.color;
+                        despawnEffect = hitEffect = AquaFx.hitBulletColor2;
+                        shootEffect = AquaFx.shootHori;
+                        smokeEffect = AquaFx.shootSmoke2;
+                    }}
+            );
+            limitRange(1.15f);
+            squareSprite = false;
+            drawer = new DrawTurret() {{
+                parts.add(new RegionPart("-bolt") {{
+                    moveY = -5;
+                    progress = PartProgress.reload.curve(Interp.pow2In);
+                    mixColorTo = Pal.accent;
+                    mixColor = new Color(1f, 1f, 1f, 0f);
+                    colorTo = new Color(1f, 1f, 1f, 0f);
+                    color = Color.white;
+                    under = true;
+                    layer = Layer.turret - 1;
+                }});
+            }};
         }};
         truncate = new ItemTurret("truncate") {{
             requirements(Category.turret, with(AquaItems.ferricMatter, 500, polymer, 350, graphite, 200));
@@ -1082,105 +1185,7 @@ public class TurretBlocks {
                 }};
             }
         };
-        pelt = new ItemTurret("pelt") {{
-            requirements(Category.turret, with(lead, 85, nickel, 50f, silicon, 90, graphite, 50));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            health = 800;
-            outlineColor = tantDarkestTone;
-            range = 190;
-            rotateSpeed = 1.6f;
-            recoil = 3;
-            recoilTime = 85;
-            shootCone = 3f;
-            reload = 150;
-            soundPitchMax = 1.5f;
-            soundPitchMin = 1.2f;
-            shootSound = shootBreach;
 
-            size = 2;
-            ammoPerShot = 10;
-            maxAmmo = 40;
-            consumeCoolant(20 / 60f);
-            ammo(
-                    lead, new BasicBulletType(9, 50) {{
-                        pierce = true;
-                        pierceBuilding = true;
-                        pierceCap = 2;
-                        sprite = "aquarion-bolt";
-                        width = 8;
-                        height = 14f;
-                        ammoMultiplier = 4;
-                        reloadMultiplier = 1.8f;
-                        rangeChange = -24;
-                        shrinkY = 0;
-                        shrinkX = 0.1f;
-                        hitSize = 8;
-                        trailWidth = 2f;
-                        trailLength = 12;
-                        frontColor = hitColor = Color.white;
-                        backColor = lightColor = trailColor = Color.valueOf("8d70ab");
-                        despawnEffect = hitEffect = Fx.hitSquaresColor;
-                        shootEffect = Fx.shootBig2;
-                        smokeEffect = Fx.shootSmokeDisperse;
-                    }},
-                    nickel, new BasicBulletType(5, 75) {{
-                        pierce = true;
-                        pierceBuilding = false;
-                        pierceCap = 3;
-                        sprite = "aquarion-bolt";
-                        width = 10;
-                        height = 18f;
-                        shrinkY = 0;
-                        shrinkX = 0.2f;
-                        trailWidth = 3f;
-                        trailLength = 16;
-                        reloadMultiplier = 0.8f;
-                        hitSize = 8;
-                        ammoMultiplier = 2;
-                        frontColor = hitColor = Color.white;
-                        backColor = lightColor = trailColor = Color.valueOf("e1d9bc");
-                        despawnEffect = hitEffect = Fx.hitSquaresColor;
-                        shootEffect = Fx.shootBig2;
-                        smokeEffect = Fx.shootSmokeDisperse;
-                    }},
-                    cupronickel, new BasicBulletType(5, 85) {{
-                        pierce = true;
-                        pierceBuilding = false;
-                        pierceCap = 2;
-                        sprite = "aquarion-bolt";
-                        width = 8;
-                        height = 12f;
-                        shrinkY = 0;
-                        rangeChange = 54;
-                        shrinkX = 0.2f;
-                        trailWidth = 3f;
-                        trailLength = 16;
-                        reloadMultiplier = 2f;
-                        shieldDamageMultiplier = 4;
-                        hitSize = 6;
-                        ammoMultiplier = 3f;
-                        frontColor = hitColor = Color.white;
-                        backColor = lightColor = trailColor = copper.color;
-                        despawnEffect = hitEffect = Fx.hitSquaresColor;
-                        shootEffect = Fx.shootBig2;
-                        smokeEffect = Fx.shootSmokeDisperse;
-                    }}
-            );
-            limitRange(1.1f);
-            squareSprite = false;
-            drawer = new DrawTurret() {{
-                parts.add(new RegionPart("-bolt") {{
-                    moveY = -5;
-                    progress = PartProgress.reload.curve(Interp.pow2In);
-                    mixColorTo = Pal.accent;
-                    mixColor = new Color(1f, 1f, 1f, 0f);
-                    colorTo = new Color(1f, 1f, 1f, 0f);
-                    color = Color.white;
-                    under = true;
-                    layer = Layer.turret - 1;
-                }});
-            }};
-        }};
         refraction = new ContinuousTurret("refraction") {{
             requirements(Category.turret, with(metaglass, 90, cupronickel, 120, lead, 100, graphite, 120));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

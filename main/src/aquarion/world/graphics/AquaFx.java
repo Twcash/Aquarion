@@ -1034,6 +1034,13 @@ public class AquaFx {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 3f);
                 });
             }),
+            shootSmoke2 = new Effect(45f, e -> {
+                color(Pal.lighterOrange, Pal.lightishGray, Color.lightGray, e.fin());
+
+                randLenVectors(e.id, 9, e.finpow() * 30f, e.rotation, 24f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 3f);
+                });
+            }),
             hitBulletColor1 = new Effect(14, e -> {
                 color(Color.white, e.color, e.fin());
 
@@ -1045,6 +1052,23 @@ public class AquaFx {
                 stroke(0.5f + e.fout());
 
                 randLenVectors(e.id, 5, Interp.pow2Out.apply(e.fin()) * 15f, (x, y) -> {
+                    float ang = Mathf.angle(x, y);
+                    lineAngle(e.x + x, e.y + y, ang, Interp.pow2Out.apply(e.fout()) * 3 + 1.5f);
+                });
+
+                Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
+            }),
+            hitBulletColor2 = new Effect(16, e -> {
+                color(Color.white, e.color, e.fin());
+
+                e.scaled(12f, s -> {
+                    stroke(0.5f + s.fout());
+                    Lines.circle(e.x, e.y, s.fin() * 5f);
+                });
+
+                stroke(0.6f + e.fout());
+
+                randLenVectors(e.id, 5, Interp.pow2Out.apply(e.fin()) * 18f, (x, y) -> {
                     float ang = Mathf.angle(x, y);
                     lineAngle(e.x + x, e.y + y, ang, Interp.pow2Out.apply(e.fout()) * 3 + 1.5f);
                 });
