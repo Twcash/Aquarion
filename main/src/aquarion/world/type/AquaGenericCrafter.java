@@ -15,8 +15,10 @@ import arc.util.Time;
 import arc.util.Tmp;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
+import mindustry.entities.Puddles;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
@@ -86,7 +88,8 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
     public float liquidBoostIntensity = 1.6f, itemBoostIntensity = 1.5f;
     public float ItemBoostUseTime = 60;
     public DrawBlock drawer = new DrawDefault();
-
+    public boolean shareOutputLiquids = false;
+    public boolean shareInputLiquids = false;
     public AquaGenericCrafter(String name){
         super(name);
         update = true;
@@ -225,6 +228,15 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
         if(outputLiquids != null) hasLiquids = true;
 
         super.init();
+        if(shareOutputLiquids){
+            if(outputLiquid != null){
+                liquidFilter[outputLiquid.liquid.id] = true;
+            } else if (outputLiquids != null){
+                for (LiquidStack liquid : outputLiquids) {
+                    liquidFilter[liquid.liquid.id] = true;
+                }
+            }
+        }
     }
 
     @Override
@@ -456,12 +468,24 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                     dump(output.item);
                 }
             }
-
+            if(shareInputLiquids) {
+                liquids.each(this::dumpInputs);
+            }
             if(outputLiquids != null){
                 for(int i = 0; i < outputLiquids.length; i++){
                     int dir = liquidOutputDirections.length > i ? liquidOutputDirections[i] : -1;
 
                     dumpLiquid(outputLiquids[i].liquid, 2f, dir);
+                }
+            }
+        }
+        public void dumpInputs(Liquid liquid, float amount) {
+            if(liquid != outputLiquid.liquid){
+                for(LiquidStack liq:outputLiquids){
+                    if(liquid == liq.liquid) return;
+                }
+                for(int i = 0; i < proximity.size; i++){
+                    if(proximity.get(i).block == this.block) moveLiquid(proximity.get(i), liquid);
                 }
             }
         }
