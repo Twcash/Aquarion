@@ -210,7 +210,7 @@ public class CrafterBlocks {
             updateEffectChance = 0.02f;
             liquidCapacity = 500;
             consumePower(2);
-            boostScale = 1f / 25f;
+            boostScale = 1f / 20f;
             ambientSound = Sounds.loopCombustion;
             floating = true;
             ambientSoundVolume = 0.06f;
