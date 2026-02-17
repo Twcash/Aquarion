@@ -1440,7 +1440,7 @@ public class CrafterBlocks {
             liquidCapacity = 200;
             craftTime = 150;
             consumeItem(silicon, 20);
-            consumeLiquid(oxygen, 0.5f);
+            consumeLiquid(oxygen, 40/60f);
             outputItem = new ItemStack(sand, 20);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -1467,7 +1467,7 @@ public class CrafterBlocks {
             consumePower(4);
             consumeItem(sand, 40);
             consumeItem(graphite, 2).boost();
-            outputLiquid = new LiquidStack(oxygen, 1.2f);
+            outputLiquid = new LiquidStack(oxygen, 80/60f);
             outputItem = new ItemStack(silicon, 40);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -1878,13 +1878,13 @@ public class CrafterBlocks {
             requirements(Category.crafting, with(metaglass, 150, copper, 255, ferricMatter, 150));
             size = 4;
             rotateDraw = false;
-            consumePower(2.5f);
+            consumePower(3f);
 
             rotate = true;
             regionRotated1 = 1;
             liquidCapacity = 400;
-            consumeLiquid(air, 3.25f);
-            outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 2f, nitrogen, 1.25f);
+            consumeLiquid(air, 4f);
+            outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 2f, nitrogen, 1.5f);
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
