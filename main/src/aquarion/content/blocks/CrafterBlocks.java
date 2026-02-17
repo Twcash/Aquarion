@@ -1884,7 +1884,7 @@ public class CrafterBlocks {
             regionRotated1 = 1;
             liquidCapacity = 400;
             consumeLiquid(air, 4f);
-            outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 2f, nitrogen, 1.5f);
+            outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 2f, nitrogen, 1.75f);
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
