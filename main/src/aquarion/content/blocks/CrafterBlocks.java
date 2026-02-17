@@ -1602,6 +1602,7 @@ public class CrafterBlocks {
             envDisabled = Env.groundOil | Env.scorching | Env.spores;
             liquidCapacity = 700;
             squareSprite = false;
+            shareOutputLiquids = true;
             ambientSound = AquaSounds.waterAir;
             ambientSoundVolume = 0.01f;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -1951,7 +1952,7 @@ public class CrafterBlocks {
             consumeItems(ItemStack.with(ferricMatter, 50, coal, 80));
             outputItems = ItemStack.with(steel, 50, graphite, 40);
             consumeLiquid(oxygen, 2);
-            consumeLiquid(argon, 1).boost();
+            consumeLiquid(argon, 0.5f).boost();
             outputLiquid = new LiquidStack(slag, 4);
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
