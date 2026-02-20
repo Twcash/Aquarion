@@ -1500,21 +1500,21 @@ public class CrafterBlocks {
                 color = Color.valueOf("ffa693");
             }});
         }};
-//        steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
-//            requirements(Category.crafting, with( steel, 500, G, 250, metaglass, 1000));
-//            shownPlanets.addAll(tantros2);
-//            craftTime = 1.5f*60f;
-//            size = 5;
-//            updateEffectChance = 0.08f;
-//            updateEffect = Fx.steamCoolSmoke;
-//            squareSprite = false;
-//            consumeLiquids(LiquidStack.with(petroleum, 4, haze, 2));
-//            outputLiquid = new LiquidStack(methane, 2);
-//            outputItems = ItemStack.with(brimstone, 3);
-//            liquidCapacity = 300;
-//            itemCapacity = 60;
-//            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());
-//        }};
+        steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
+            requirements(Category.crafting, with( ferricMatter, 1500, copper, 2000, aluminum, 900));
+            shownPlanets.addAll(tantros2);
+            craftTime = 1.5f*60f;
+            size = 5;
+            updateEffectChance = 0.08f;
+            updateEffect = Fx.steamCoolSmoke;
+            squareSprite = false;
+            consumeLiquids(LiquidStack.with(petroleum, 4, haze, 2));
+            outputLiquid = new LiquidStack(petroleum, 2);
+            outputItems = ItemStack.with(polymer, 3);
+            liquidCapacity = 300;
+            itemCapacity = 60;
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());
+        }};
         desulferizationAssembly = new AquaGenericCrafter("desulferization-assembly") {{
             requirements(Category.crafting, with(metaglass, 250, copper, 500, lead, 900, graphite, 450));
             shownPlanets.addAll(tantros2);
