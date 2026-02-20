@@ -276,7 +276,7 @@ public class CrafterBlocks {
         }};
         ferroSiliconFoundry = new AquaGenericCrafter("ferrosilicon-foundry") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 900, metaglass, 500, copper, 500, ferricMatter, 700, graphite, 450));
+            requirements(Category.crafting, with(silicon, 900, copper, 500, ferricMatter, 700, graphite, 450));
             size = 6;
             squareSprite = false;
             itemCapacity = 120;
