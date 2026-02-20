@@ -1565,7 +1565,6 @@ public class CrafterBlocks {
             shownPlanets.addAll(tantros2);
             craftTime = 10;
             shareOutputLiquids = true;
-            researchCost = ItemStack.with(copper, 90);
             outputLiquid = new LiquidStack(halideWater, 0.25f);
             envDisabled = Env.groundOil | Env.scorching | Env.spores;
             liquidCapacity = 90;
@@ -1582,7 +1581,7 @@ public class CrafterBlocks {
                 particles = 20;
                 particleRad = 2.5f;
                 particleLife = 90f;
-            }}, new AquaHeatRegion("-heats"));
+            }});
         }};
         inletArray = new AquaGenericCrafter("inlet-array") {{
             requirements(Category.production, with(copper, 150, ferricMatter, 100, metaglass, 75));
