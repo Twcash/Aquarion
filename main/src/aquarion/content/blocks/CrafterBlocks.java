@@ -689,7 +689,7 @@ public class CrafterBlocks {
             }};
             towaniteReductionVat = new AquaGenericCrafter("towanite-reduction-vat") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.crafting, with(copper, 150, silicon, 500));
+                requirements(Category.crafting, with(copper, 150, silicon, 500, aluminum, 1000));
                 size = 7;
                 itemCapacity = 150;
                 craftTime = 3 * 60f;
