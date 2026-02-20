@@ -356,7 +356,7 @@ public class CrafterBlocks {
         }};
         fumeFilter = new AttributeCrafter("fume-filter") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with(copper, 250, silicon, 500));
+            requirements(Category.production, with(copper, 250, silicon, 500, ferricMatter, 150));
             size = 6;
             squareSprite = false;
             outputLiquid = new LiquidStack(fumes, 3);
