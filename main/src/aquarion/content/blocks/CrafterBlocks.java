@@ -753,7 +753,7 @@ public class CrafterBlocks {
             }};
             fumeMixer = new AquaGenericCrafter("fume-mixer") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.crafting, with(metaglass, 1200, lead, 2000, graphite, 900));
+                requirements(Category.crafting, with(metaglass, 1200, copper, 2000, graphite, 900));
                 size = 6;
                 craftTime = 5 * 60f;
                 squareSprite = false;
