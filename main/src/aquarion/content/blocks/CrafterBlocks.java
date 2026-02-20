@@ -2170,7 +2170,7 @@ public class CrafterBlocks {
             squareSprite = false;
             itemCapacity = 200;
             liquidCapacity = 500;
-            craftTime = 5 * 60f;
+            craftTime = 2.5f * 60f;
             hasHeat = false;
             consumePower(10);
             consumeLiquid(air, 12);
@@ -2178,7 +2178,7 @@ public class CrafterBlocks {
             outputLiquids = LiquidStack.with(hydroxide, 4.25);
             outputItems = new ItemStack[]{
                     new ItemStack(sand, 4),
-                    new ItemStack(aluminum, 5),
+                    new ItemStack(aluminum, 7),
                     new ItemStack(ferricMatter, 7),
                     new ItemStack(nickel, 6),
                     new ItemStack(magnesiumPowder, 10)
