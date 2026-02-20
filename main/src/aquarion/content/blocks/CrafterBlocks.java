@@ -800,7 +800,7 @@ public class CrafterBlocks {
             }};
             DrillDerrick = new GroundDrill("drill-derrick") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.production, with(ferricMatter, 300, copper, 200, silicon, 700));
+                requirements(Category.production, with(ferricMatter, 300, copper, 200, silicon, 650));
                 size = 5;
                 drillTime = 125;
                 consumePower(2);
@@ -961,28 +961,6 @@ public class CrafterBlocks {
                 x = -24 / 4f;
                 layer = Layer.block + 4;
             }});
-        }};
-        fluxExcavator = new GroundDrill("flux-excavator") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with(nickel, 70, lead, 50, silicon, 90));
-            size = 9;
-            drillTime = 5500;
-            heatRequirement = 50;
-            hasHeat = true;
-
-            overheatScale = 0.75f;
-            maxEfficiency = 10;
-            consumeLiquid(oil, 34).boost();
-
-            consumeItem(steel, 10).boost();
-            consumePower(25);
-            itemBoostIntensity = 1.54f;
-            liquidBoostIntensity = 1.54f;
-            itemCapacity = 2500;
-            liquidCapacity = 8000;
-            ItemBoostUseTime = 240;
-            tier = 5;
-            drawer = new DrawDefault();
         }};
         CentrifugalPump = new Pump("centrifugal-pump") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -1209,7 +1187,7 @@ public class CrafterBlocks {
         }};
         scrapCentrifuge = new AquaGenericCrafter("scrap-centrifuge"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 250, nickel, 400, copper, 100));
+            requirements(Category.crafting, with(silicon, 250, nickel, 200, copper, 100));
             consumeItem(scrap, 10);
             itemCapacity = 100;
             squareSprite = false;
