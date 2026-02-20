@@ -1954,7 +1954,7 @@ public class CrafterBlocks {
         }};
         steelFoundry = new AquaGenericCrafter("blast-furnace") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(polymer, 900, ferrosilicon, 1200, cupronickel, 600, metaglass, 450, graphite, 650, ferricMatter, 900, aluminum, 1200));
+            requirements(Category.crafting, with(polymer, 900, ferrosilicon, 1200, graphite, 650, ferricMatter, 900, aluminum, 1200));
             size = 7;
             rotateDraw = false;
             rotate = true;
