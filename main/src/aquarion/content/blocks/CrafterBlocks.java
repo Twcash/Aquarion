@@ -614,7 +614,7 @@ public class CrafterBlocks {
                 }}, new DrawDefault());
             }};
             ferricGrinder = new AttributeCrafter("ferric-macerator") {{
-                requirements(Category.production, with(cupronickel, 250, silicon, 500, metaglass, 200, graphite, 700, polymer, 450));
+                requirements(Category.production, with( silicon, 500, metaglass, 200, graphite, 700, polymer, 450));
                 size = 6;
                 itemCapacity = 100;
                 liquidCapacity = 200;
