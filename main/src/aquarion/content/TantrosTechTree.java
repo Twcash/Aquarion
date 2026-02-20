@@ -392,11 +392,7 @@ public class TantrosTechTree {
                     });
                     node(DrillDerrick, Seq.with(
                     ), () -> node(pinDrill));
-                    node(fumeMixer);
-                    node(fumeFilter, Seq.with(
-                    ), () -> {
 
-                    });
                 }));
             });
             node(atmosphericIntake, () -> {
@@ -438,9 +434,16 @@ public class TantrosTechTree {
                     node(desulferizationAssembly);
                     node(polymerPress);
                 });
+                node(fumeMixer);
+                node(fumeSeparator);
+                node(fumeFilter, Seq.with(
+                ), () -> {
+
+                });
+                node(gasifier);
                 node(algalTerrace, Seq.with(
                 ), () -> {
-                    node(gasifier);
+
                 });
                 node(magmaDiffser, Seq.with(
                         new Objectives.Research(magmaTap),

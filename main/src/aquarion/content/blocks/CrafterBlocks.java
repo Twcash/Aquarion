@@ -800,15 +800,16 @@ public class CrafterBlocks {
             }};
             DrillDerrick = new GroundDrill("drill-derrick") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.production, with(aluminum, 150, copper, 200, silicon, 700));
+                requirements(Category.production, with(ferricMatter, 300, copper, 200, silicon, 700));
                 size = 5;
                 drillTime = 125;
                 consumePower(2);
-                consumeLiquid(fumes, 0.125f).booster = false;
+                consumeLiquid(haze, 0.125f).booster = false;
                 consumeLiquid(muriaticAcid, 0.05f).boost();
                 liquidBoostIntensity = 1.5f;
                 squareSprite = false;
                 itemCapacity = 200;
+                hasHeat = false;
                 liquidCapacity = 120;
                 tier = 4;
                 drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -866,24 +867,37 @@ public class CrafterBlocks {
             }};
             fumeSeparator = new AquaGenericCrafter("fume-separator") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.crafting, with(silicon, 500, zinc, 450, metaglass, 200));
+                requirements(Category.crafting, with(silicon, 500, copper, 500, ferricMatter, 250));
                 size = 6;
                 rotate = true;
                 rotateDraw = false;
                 itemCapacity = 36;
                 consumePower(5);
-                liquidCapacity = 120;
+                liquidCapacity = 500;
                 consumeLiquid(fumes, 2);
                 outputLiquids = LiquidStack.with(oil, 0.5f, haze, 2f, muriaticAcid, 1f);
                 outputItem = new ItemStack(brimstone, 4);
                 liquidOutputDirections = new int[]{3, 1, 2};
+                drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
+                    layer = shadow;
+                    drawIcon = false;
+                }}, new DrawDefault(), new DrawRegion("-middle"), new DrawRegion("-top"), new AquaDrawLiquidOutputs(), new DrawGlowRegion("-glow") {{
+                    alpha = 0.4f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.3f;
+                    glowScale = 5f;
+                    layer = Layer.block + 3;
+                    blending = Blending.additive;
+                }});
             }};
         }};
         coolingTower = new AquaGenericCrafter("cooling-tower"){{
-            size = 10;
-            consumePower(10);
+            requirements(Category.crafting, with(silicon, 1500, copper, 2000, metaglass, 800, ferricMatter, 800));
+            size = 8;
+            consumePower(12);
+            squareSprite = false;
             consumeLiquid(haze, 20);
-            outputLiquid = new LiquidStack(water, 16);
+            outputLiquid = new LiquidStack(water, 20);
             squareSprite = false;
             liquidOutputDirections = new int[]{1};
             liquidCapacity = 10000;
@@ -1399,8 +1413,8 @@ public class CrafterBlocks {
             liquidCapacity = 400;
             squareSprite = false;
             itemCapacity = 60;
-            outputItem = new ItemStack(polymer, 35);
-            craftTime = 30 / 4f * 60f;
+            outputItem = new ItemStack(polymer, 40);
+            craftTime = 5 * 60f;
             heatRequirement = 20;
             overheatScale = 1f;
             baseEfficiency = 0;
