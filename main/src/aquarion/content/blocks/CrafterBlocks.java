@@ -825,8 +825,8 @@ public class CrafterBlocks {
                 size = 8;
                 drillTime = 60;
                 consumePower(8);
-                consumeLiquid(haze, 1f).booster = false;
-                consumeLiquid(argon, 2).booster = true;
+                consumeLiquid(haze, 2f).booster = false;
+                consumeLiquid(argon, 1).boost();
                 liquidBoostIntensity = 1.8f;
                 squareSprite = false;
                 itemCapacity = 400;
@@ -837,7 +837,7 @@ public class CrafterBlocks {
                     layer = shadow;
                     //I totally did not forget the variables and use "this." to have the IDE show the variables so I don't have to open up another file.
                 }}, new DrawArcSmelt(){{
-                    this.flameRad = 15;
+                    this.flameRad = 8;
                     this.flameRadiusMag = 1.2f;
                     this.flameRadiusScl = 12;
                     this.circleStroke = 3;
