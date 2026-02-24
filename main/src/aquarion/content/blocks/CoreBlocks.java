@@ -5,6 +5,7 @@ import aquarion.world.blocks.core.AquaCoreBlock;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
 import aquarion.world.blocks.defense.deflectorShield;
+import aquarion.world.blocks.neoplasia.NeoplasiaSource;
 import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.type.Category;
@@ -24,7 +25,7 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block coreAnnex, buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
-            coreEscarpment, corePike, buildCairn, forceBarrier, crate, deflectorWell;
+            coreEscarpment, corePike, buildCairn, forceBarrier, crate, deflectorWell, neoplasiaSource;
 
     public static void loadContent() {
         cache = new StorageBlock("cache") {{
@@ -130,6 +131,9 @@ public class CoreBlocks {
             researchCostMultiplier = 0.02f;
             damage = 15;
             range = 180;
+        }};
+        neoplasiaSource = new NeoplasiaSource("neoplasia-source"){{
+            requirements(Category.effect, with(silicon, 1));
         }};
     }
 }
