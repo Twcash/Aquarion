@@ -102,7 +102,7 @@ public class EnvironmentBlocks {
         ferric_extrusions = new Floor("ferric-extrusions", 2) {{
             attributes.set(iron, 1.5f);
         }};
-        feldsparRubble = new TiledFloor("feldspar-rubble") {{
+        feldsparRubble = new AquaTiledFloor("feldspar-rubble") {{
             tilingVariants = 2;
             tilingSize = 4;
             attributes.set(iron, 2f);
@@ -238,7 +238,7 @@ public class EnvironmentBlocks {
             wall = duneWall;
             attributes.set(metamorphic, 0.7f);
         }};
-        basaltPlates = new TiledFloor("basalt-plates") {{
+        basaltPlates = new AquaTiledFloor("basalt-plates") {{
             tilingVariants = 2;
             tilingSize = 4;
             attributes.set(metamorphic, 0.7f);

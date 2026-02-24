@@ -61,7 +61,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class CrafterBlocks {
-    public static Block ammoniaCompressor,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, fluxExcavator, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block ammoniaCompressor,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, chireniumElectroplater, saltDegradationMatrix, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -818,6 +818,46 @@ public class CrafterBlocks {
                     rotateSpeed = 1.5f;
                     spinSprite = true;
                 }}, new DrawRegion("-top"));
+            }};
+            drillRig = new GroundDrill("drilling-rig") {{
+                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+                requirements(Category.production, with(steel, 550, polymer, 800, silicon, 700, metaglass, 500));
+                size = 8;
+                drillTime = 60;
+                consumePower(8);
+                consumeLiquid(haze, 1f).booster = false;
+                consumeLiquid(argon, 2).booster = true;
+                liquidBoostIntensity = 1.8f;
+                squareSprite = false;
+                itemCapacity = 400;
+                hasHeat = false;
+                liquidCapacity = 1500;
+                tier = 6;
+                drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
+                    layer = shadow;
+                    //I totally did not forget the variables and use "this." to have the IDE show the variables so I don't have to open up another file.
+                }}, new DrawArcSmelt(){{
+                    this.flameRad = 15;
+                    this.flameRadiusMag = 1.2f;
+                    this.flameRadiusScl = 12;
+                    this.circleStroke = 3;
+                    this.particles = 20;
+                    this.particleRad = 20;
+                    this.particleLen = 8;
+                    this.particleLife = 90;
+                    this.circleStroke = 3;
+                    this.circleSpace = 12;
+                }}, new DrawRegion("-rotator") {{
+                    rotateSpeed = 1.5f;
+                    spinSprite = true;
+                }}, new DrawDefault(), new DrawGlowRegion("-glow") {{
+                    alpha = 0.4f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.3f;
+                    glowScale = 5f;
+                    layer = Layer.block + 3;
+                    blending = Blending.additive;
+                }});
             }};
             galenaCrucible = new AquaGenericCrafter("galena-crucible") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

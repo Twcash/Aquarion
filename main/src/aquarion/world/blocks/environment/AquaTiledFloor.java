@@ -12,11 +12,11 @@ import mindustry.world.blocks.environment.Floor;
 import static mindustry.Vars.headless;
 import static mindustry.Vars.tilesize;
 
-public class TiledFloor extends Floor {
-    public TiledFloor(String name, int variants) {
+public class AquaTiledFloor extends Floor {
+    public AquaTiledFloor(String name, int variants) {
         super(name, variants);
     }
-    public TiledFloor(String name) {
+    public AquaTiledFloor(String name) {
         super(name);
     }
 
