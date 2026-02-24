@@ -9,6 +9,6 @@ public class NeoplasiaUpdaterComp {
     public transient NeoplasmManager manager;
     @Override
     public void update(){
-        manager.update;
+        manager.update();
     }
 }
