@@ -325,23 +325,23 @@ public class EnvironmentBlocks {
             autotileVariants = 3;
             autotileMidVariants = 6;
         }};
-        metalPlates = new GreedyFloor("metal-plates", 3, 4){{
+        metalPlates = new TiledFloor("metal-plates", 3, 4){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 600;
         }};
-        metalPlates1 = new GreedyFloor("metal-plates1", 2, 8){{
+        metalPlates1 = new TiledFloor("metal-plates1", 2, 8){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
 
         }};
-        metal2 = new GreedyFloor("metal-plates5", 2, 3){{
+        metal2 = new TiledFloor("metal-plates5", 2, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
         }};
-        metal3 = new GreedyFloor("metal-heat-sink", 1, 2){{
+        metal3 = new TiledFloor("metal-heat-sink", 1, 2){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
@@ -351,15 +351,15 @@ public class EnvironmentBlocks {
             attributes.set(Attribute.heat, 1.25f);
             status = StatusEffects.melting;
             statusDuration = 10;
-            effect = AquaFx.heatEngineGenerate;
-            effectSpacing = 120;
+//            effect = AquaFx.heatEngineGenerate;
+//            effectSpacing = 120;
         }};
-        metal3 = new GreedyFloor("metal-heat-sink-off", 1, 2){{
+        metal3 = new TiledFloor("metal-heat-sink-off", 1, 2){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
         }};
-        metal4 = new GreedyFloor("metal-light-large", 1, 2){{
+        metal4 = new TiledFloor("metal-light-large", 1, 2){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
@@ -367,7 +367,7 @@ public class EnvironmentBlocks {
             emitLight = true;
             lightColor = Pal.techBlue.cpy().a(0.9f);
         }};
-        metal5 = new GreedyFloor("metal-light-large-broken", 4, 2){{
+        metal5 = new TiledFloor("metal-light-large-broken", 4, 2){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
@@ -375,12 +375,12 @@ public class EnvironmentBlocks {
             emitLight = true;
             lightColor = Color.gray.cpy().a(0.05f);
         }};
-        metal3 = new GreedyFloor("metal-padding", 5, 5){{
+        metal3 = new TiledFloor("metal-padding", 5, 5){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
         }};
-        metal6 = new GreedyFloor("metal-bump", 1, 3){{
+        metal6 = new TiledFloor("metal-bump", 1, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
@@ -406,7 +406,7 @@ public class EnvironmentBlocks {
             lightRadius = 20f;
             lightColor = Pal.reactorPurple.cpy().a(0.1f);
         }};
-        metalVent = new GreedyFloor("metal-vent", 1, 3){{
+        metalVent = new TiledFloor("metal-vent", 1, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             //effect = AquaFx.vent1;

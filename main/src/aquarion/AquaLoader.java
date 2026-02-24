@@ -26,13 +26,13 @@ import static mindustry.Vars.headless;
 @LoadRegs("error")
 @EnsureLoad
 public class AquaLoader extends Mod {
-    public static boolean tools = false;
+    public static boolean tools = true;
     protected static Mods.LoadedMod mod;
     public AquaLoader(){
         this(false);
     }
     public AquaLoader(boolean tools){
-        this.tools = tools;
+        AquaLoader.tools = tools;
         Events.run(EventType.Trigger.draw, Renderer::draw);
         ModEventHandler.init();
         Events.on(EventType.FileTreeInitEvent.class, e ->

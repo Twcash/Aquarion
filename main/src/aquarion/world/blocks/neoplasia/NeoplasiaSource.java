@@ -1,15 +1,15 @@
 package aquarion.world.blocks.neoplasia;
 
-import aquarion.gen.NeoplasiaUpdater;
-import aquarion.gen.NeoplasiaUpdaterc;
-import aquarion.world.entities.NeoplasiaManager;
+import aquarion.gen.NeoplasiaCell;
 import arc.util.Nullable;
 import arc.util.Time;
 import mindustry.gen.Building;
+import mindustry.gen.Groups;
 import mindustry.world.Block;
+import mindustry.world.Tile;
 
 
-    public class NeoplasiaSource extends Block {
+public class NeoplasiaSource extends Block {
 
         public float initialAmount = 20f;
         public float productionPerSecond = 5f;
@@ -25,12 +25,19 @@ import mindustry.world.Block;
             @Override
             public void created() {
                 super.created();
-                NeoplasiaManager.instance.add(tile, initialAmount);
+                infect(tile, initialAmount);
             }
 
             @Override
             public void updateTile() {
-                NeoplasiaManager.instance.add(tile, productionPerSecond * Time.delta);
+                infect(tile, productionPerSecond * Time.delta);
+            }
+            private void infect(Tile tile, float amt){
+                NeoplasiaCell cell = NeoplasiaCell.cells.get(tile);
+                if(cell == null){
+                    cell = NeoplasiaCell.createCell(tile, 0f);
+                }
+                cell.amount += amt;
             }
         }
     }
