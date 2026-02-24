@@ -8,11 +8,12 @@ import mindustry.gen.Entityc;
 @Annotations.EntityDef(value = NeoplasiaUpdaterc.class, serialize = false, genio = false)
 @Annotations.EntityComponent
 abstract class NeoplasiaUpdaterComp implements Entityc {
-    public transient NeoplasiaManager manager;
+    public static NeoplasiaManager manager;
     @Override
     public void update(){
         //Stupid
-        if(manager == null) manager = new NeoplasiaManager();
-        manager.update();
+        if(manager !=null) manager.update();
+        if(manager !=null) manager.draw();
+
     }
 }
