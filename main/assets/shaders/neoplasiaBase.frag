@@ -1,33 +1,83 @@
 uniform sampler2D u_texture;
+
 #define step 2.0
+
 uniform vec2 u_campos;
 uniform vec2 u_resolution;
 uniform float u_time;
 
 varying vec2 v_texCoords;
 
-const float mscl = 40.0;
-const float mth = 7.0;
+
+float hash(vec2 p){
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+float voronoi(vec2 uv){
+    vec2 i = floor(uv);
+    vec2 f = fract(uv);
+
+    float minDist = 1.0;
+
+    for(int y=-1; y<=1; y++){
+        for(int x=-1; x<=1; x++){
+            vec2 neighbor = vec2(float(x), float(y));
+            vec2 point = vec2(hash(i + neighbor), hash(i + neighbor + 1.0));
+            vec2 diff = neighbor + point - f;
+            float dist = length(diff);
+            minDist = min(minDist, dist);
+        }
+    }
+
+    return minDist;
+}
 
 void main(){
 
-	vec2 c = v_texCoords;
-    vec2 T = v_texCoords.xy;
+    vec2 c = v_texCoords;
+    vec2 texel = 1.0 / u_resolution;
 
-	vec2 v = vec2(1.0/u_resolution.x, 1.0/u_resolution.y);
-        vec4 maxed = max(max(max(texture2D(u_texture, T + vec2(0, step) * v), texture2D(u_texture, T + vec2(0, -step) * v)), texture2D(u_texture, T + vec2(step, 0) * v)), texture2D(u_texture, T + vec2(-step, 0) * v));
+    vec2 coords = vec2(
+        c.x / texel.x + u_campos.x,
+        c.y / texel.y + u_campos.y
+    );
 
-	vec2 coords = vec2(c.x / v.x + u_campos.x, c.y / v.y + u_campos.y);
-	float stime = u_time / 5.0;
+    float stime = u_time / 5.0;
 
-    vec4 sampled = texture2D(u_texture, c + vec2(sin(stime/3.0 + coords.y/2.0) * v.x,sin(stime/3.0 + coords.x/2.0) * v.y));
-    vec3 color = sampled.rgb * vec3(0.9, 0.9, 1);
-  	if(sampled.a > 0.0){
-        sampled.a = 1.0;
+    vec2 disp = vec2(
+        sin(stime / 3.0 + coords.y / 2.0) * texel.x,
+        sin(stime / 3.0 + coords.x / 2.0) * texel.y
+    );
+
+    vec2 movingCoords = c + disp;
+
+    vec4 center = texture2D(u_texture, movingCoords);
+
+    float vscale = 0.12;
+    float vnoise = voronoi(coords * 0.05 * vscale + stime * 0.02);
+
+    float vmask = smoothstep(0.6, 0.3, vnoise);
+
+    float baseAlpha = center.a * vmask;
+
+    vec4 maxed = center;
+
+    for(int y = -1; y <= 1; y++){
+        for(int x = -1; x <= 1; x++){
+            vec2 offset = vec2(float(x), float(y)) * step * texel;
+            vec4 s = texture2D(u_texture, movingCoords + offset);
+            maxed = max(maxed, s);
+        }
     }
- 	if(texture2D(u_texture, T).a < 0.9 && maxed.a > 0.9){
-
-        gl_FragColor = vec4(maxed.rgb, maxed.a * 100.0);
+	
+    float dilatedAlpha = maxed.a;
+    float mergedAlpha = max(baseAlpha, dilatedAlpha);
+    if(center.a == 0.0 && mergedAlpha > 0.0){
+        center.a = 1.0;
     }
-	gl_FragColor = vec4(color.rgb, min(sampled.a * 100.0, 1.0));
+
+    vec3 finalColor = maxed.rgb;
+	if(center.a == 0.0 && mergedAlpha > 0.0){
+        finalColor *= 0.1;
+    }
+    gl_FragColor = vec4(finalColor, center.a);
 }

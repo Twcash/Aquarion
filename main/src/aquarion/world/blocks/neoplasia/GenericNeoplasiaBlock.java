@@ -191,7 +191,7 @@ public class GenericNeoplasiaBlock extends Block {
         @Override
         public void draw() {
             float fullness = amount / (maxAmount * 0.75f);
-            Draw.alpha(fullness);
+            Draw.alpha(fullness*0.75f);
             Draw.z(Renderer.Layer.neoplasiaBase);
             float radius = (tilesize * 1.5f) / 2f;
             Draw.color(Pal.neoplasm2, Pal.neoplasm1, fullness);
