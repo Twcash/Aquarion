@@ -2,6 +2,7 @@ package aquarion.world.blocks.neoplasia;
 
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
+import arc.math.Mathf;
 import mindustry.gen.Building;
 import mindustry.world.Block;
 import mindustry.world.Tile;
@@ -11,14 +12,16 @@ import static mindustry.Vars.tilesize;
 public class GenericNeoplasiaBlock extends Block {
 
     public float maxAmount = 1000f;
-    public float spreadRate = 0.15f;
-    public float minSpread = 1f;
 
-    public float selfGrowRate = 0.02f;
-    public float oreGrowBonus = 0.15f;
-    public float oreAttractMultiplier = 3f;
+    public float selfGrowRate = 0.08f;
+    public float oreGrowBonus = 0.5f;
 
     public float damage = 2f;
+
+    public float burstThresholdFraction = 0.3f;
+    public float burstFraction = 0.1f;
+    public float burstDelay = 40f;
+    public float oreAttractBias = 3f;
 
     public GenericNeoplasiaBlock(String name){
         super(name);
@@ -32,90 +35,122 @@ public class GenericNeoplasiaBlock extends Block {
 
         public float amount = 0f;
 
+        float burstCooldown = 0f;
+
+        @Override
+        public void created(){
+            amount = 0.0001f;
+            super.created();
+        }
+
         @Override
         public void updateTile(){
-
+            health = amount;
+            maxHealth = amount;
             if(amount <= 0f){
                 kill();
                 return;
             }
 
             grow();
-            spread();
+            burstSpread();
             damageNearby();
         }
-
+        @Override
+        public float handleDamage(float amount){
+            this.amount -= amount;
+            return amount;
+        }
         void grow(){
             float growth = selfGrowRate;
 
-            if(tile.overlay() != null && tile.overlay().itemDrop != null){
+            if(isOre(tile)){
                 growth += oreGrowBonus;
             }
 
-            amount = Math.min(maxAmount, amount + growth * edelta());
+            amount = Math.min(maxAmount, amount + growth * delta());
         }
+        void burstSpread(){
+            float threshold = maxAmount * burstThresholdFraction;
+            if(amount < threshold) return;
 
-        void spread(){
+            if(burstCooldown > 0f){
+                burstCooldown -= delta();
+                return;
+            }
 
-            for(int i = 0; i < 4; i++){
-                Tile otherTile = nearby(i).tile;
-                Building other = nearby(i);
+            int bursts = Mathf.random(1, 4);
 
-                if(other instanceof NeoplasiaBuild n){
+            for(int b = 0; b < bursts; b++){
+                Tile target = pickTarget();
+                if(target == null) continue;
 
-                    float diff = amount - n.amount;
+                float burstAmount = amount * burstFraction;
+                amount -= burstAmount;
 
-                    if(diff > minSpread){
-                        float flow = diff * spreadRate;
+                if(target.build instanceof NeoplasiaBuild n){
+                    n.amount = Math.min(maxAmount, n.amount + burstAmount);
+                } else if(target.build == null && canSpreadTo(target)){
+                    target.setBlock(GenericNeoplasiaBlock.this, team);
 
-                        if(isOre(otherTile)){
-                            flow *= oreAttractMultiplier;
-                        }
-
-                        flow *= edelta();
-                        flow = Math.min(flow, amount);
-
-                        amount -= flow;
-                        n.amount = Math.min(maxAmount, n.amount + flow);
-                    }
-
-                }else if(other == null && otherTile != null && canSpreadTo(otherTile)){
-
-                    if(amount > minSpread){
-
-                        float spreadAmount = amount * 0.25f;
-
-                        if(isOre(otherTile)){
-                            spreadAmount *= oreAttractMultiplier;
-                        }
-
-                        spreadAmount = Math.min(spreadAmount, amount);
-
-                        amount -= spreadAmount;
-
-                        otherTile.setBlock(GenericNeoplasiaBlock.this, team);
-
-                        if(otherTile.build instanceof NeoplasiaBuild nb){
-                            nb.amount = spreadAmount;
-                        }
+                    if(target.build instanceof NeoplasiaBuild nb){
+                        nb.amount = burstAmount;
                     }
                 }
             }
+
+            burstCooldown = burstDelay;
         }
 
-        boolean isOre(Tile tile){
-            return tile != null &&
-                    tile.overlay() != null &&
-                    tile.overlay().itemDrop != null;
+        Tile pickTarget(){
+
+            Tile best = null;
+            float bestScore = -1f;
+
+            for(int i = 0; i < 4; i++){
+
+                Tile t = tile.nearby(i);
+                if(t == null) continue;
+
+                if(!canSpreadTo(t) && !(t.build instanceof NeoplasiaBuild))
+                    continue;
+
+                float score = Mathf.random();
+
+                if(isOre(t)) score += oreAttractBias;
+
+                if(t.build instanceof NeoplasiaBuild n){
+                    score += (maxAmount - n.amount) / maxAmount;
+                }
+
+                if(score > bestScore){
+                    bestScore = score;
+                    best = t;
+                }
+            }
+
+            return best;
         }
 
-        boolean canSpreadTo(Tile tile){
-            return tile.block().isAir();
+        boolean isOre(Tile t){
+            return t != null &&
+                    t.overlay() != null &&
+                    t.overlay().itemDrop != null;
+        }
+
+        boolean canSpreadTo(Tile t){
+            return t.build == null && !t.solid();
         }
 
         void damageNearby(){
+
             for(int i = 0; i < 4; i++){
-                Building other = nearby(i);
+
+                Tile t = tile.nearby(i);
+                if(t == null) continue;
+
+                Building other = t.build;
+
                 if(other != null && !(other instanceof NeoplasiaBuild)){
                     other.damage(damage * delta());
                 }
@@ -124,8 +159,17 @@ public class GenericNeoplasiaBlock extends Block {
 
         @Override
         public void draw(){
-            Draw.alpha(amount / maxAmount);
-            Fill.circle(x, y, (amount/maxAmount * tilesize) / 2);
+
+            float fullness = amount / (maxAmount*.75f);
+
+            Draw.alpha(fullness);
+
+            Fill.circle(
+                    x,
+                    y,
+                    (tilesize * fullness) / 2f
+            );
+
             Draw.alpha(1f);
         }
     }
