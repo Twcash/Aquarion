@@ -25,10 +25,10 @@ import static mindustry.Vars.tree;
 public class AquaShaders {
     public static PlanetShader planet;
 
-    public static @Nullable SurfaceShader brine, shadow, heat, beamPit, glitch;
+    public static @Nullable SurfaceShader brine, shadow, heat, beamPit, glitch, neoplasiaBaseShader;
     public static @Nullable MonsoonShader monsoon;
     public static @Nullable deflectorShader deflectorShield;
-    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer, deflecterLayer, beamPitLayer;
+    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer, deflecterLayer, beamPitLayer, neoplasiaBaseLayer;
     public static Fi file(String name){
         return Core.files.internal("shaders/" + name);
     }
@@ -38,6 +38,8 @@ public static void init() {
 
     planet = new PlanetShader();
     brine = new SurfaceShader("brine");
+    neoplasiaBaseShader = new SurfaceShader("neoplasiaBase");
+
     shadow = new SurfaceShader("shadow");
     heat = new SurfaceShader("heat");
     monsoon = new MonsoonShader();
@@ -47,6 +49,7 @@ public static void init() {
 
     deflectorShield = new deflectorShader();
     shadowLayer = new CacheLayer.ShaderLayer(shadow);
+    neoplasiaBaseLayer = new CacheLayer.ShaderLayer(neoplasiaBaseShader);
     beamPitLayer = new CacheLayer.ShaderLayer(beamPit);
     brineLayer = new CacheLayer.ShaderLayer(brine);
     heatLayer = new CacheLayer.ShaderLayer(heat);

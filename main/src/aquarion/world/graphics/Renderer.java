@@ -32,6 +32,7 @@ public class Renderer {
         public static final float shadow = 29.8936f;
         public static final float heat = 39.7656f;
         public static final float deflector = 126.05f;
+        public static final float neoplasiaBase = Layer.blockOver + 0.011221232134f;
         public static final float glitch = Layer.deflector+3;
     }
 
@@ -82,6 +83,13 @@ public class Renderer {
                         shader.bind();
                         glitchBuffer.blit(shader);
                     }
+                }
+        );
+        Draw.drawRange(Layer.neoplasiaBase, 0.01f,
+                () -> buffer.begin(Color.clear),
+                () -> {
+                    buffer.end();
+                    buffer.blit(AquaShaders.neoplasiaBaseShader);
                 }
         );
     }
