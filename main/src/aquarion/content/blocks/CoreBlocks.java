@@ -5,13 +5,16 @@ import aquarion.world.blocks.core.AquaCoreBlock;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
 import aquarion.world.blocks.defense.deflectorShield;
+import aquarion.world.blocks.neoplasia.DefensiveNeoplasiaBlock;
 import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
+import aquarion.world.blocks.neoplasia.NeoplasiaproductionBlock;
+import arc.func.Cons;
 import mindustry.content.Items;
 import mindustry.content.Planets;
+import mindustry.ctype.UnlockableContent;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
-import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.meta.Env;
 
@@ -25,8 +28,10 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
-            coreEscarpment, corePike, buildCairn, crate, deflectorWell, neoplasiaMass;
-
+            coreEscarpment, corePike, buildCairn, crate, deflectorWell, neoplasiaMass, OreSlurper, callus;
+    public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
+        setter.get((T) target);
+    }
     public static void loadContent() {
         cache = new StorageBlock("cache") {{
             requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));
@@ -134,6 +139,28 @@ public class CoreBlocks {
         }};
         neoplasiaMass = new GenericNeoplasiaBlock("neoplasia-mass"){{
             requirements(Category.effect, with(silicon, 1));
+            base = this;
+            oreUpgrade = OreSlurper = new NeoplasiaproductionBlock("ore-slurper"){{
+                requirements(Category.effect, with(silicon, 1));
+                maxAmount = 1500;
+                oreUpgrade = null;
+                burstDelay = 300;
+                burstLength = 10;
+            }};
+            damageUpgrade = callus = new DefensiveNeoplasiaBlock("callus"){{
+                requirements(Category.effect, with(silicon, 1));
+            }};
         }};
+        //Holy Jank...
+        overwrite(OreSlurper, (NeoplasiaproductionBlock r) ->{
+            r.oreUpgrade = null;
+            r.base = neoplasiaMass;
+
+        });
+        overwrite(callus, (DefensiveNeoplasiaBlock r) ->{
+            r.oreUpgrade = null;
+            //DamageUpgrade works in reverse here.
+            r.damageUpgrade = neoplasiaMass;
+        });
     }
 }

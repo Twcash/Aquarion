@@ -1,11 +1,14 @@
 package aquarion.world.blocks.neoplasia;
 
+import aquarion.content.blocks.CoreBlocks;
+import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.Renderer;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
+import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.entities.Units;
 import mindustry.gen.Building;
@@ -18,19 +21,26 @@ import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
 public class GenericNeoplasiaBlock extends Block {
-
+    public float wscl = 25f, wmag = 0.4f, wtscl = 1f, wmag2 = 1f;
     public float maxAmount = 1000f;
-
+    public float startMass = 0.001f;
     public float selfGrowRate = 0.04f;
     public float oreGrowBonus = 0.25f;
+    public Block base = CoreBlocks.neoplasiaMass;
 
     public float damage = 2f;
 
     public float burstThresholdFraction = 0.3f;
     public float burstDelay = 600f;
-    public float oreAttractBias = 1.5f;
     public int burstLength = 5;
     public float burstTransfer = 35f;
+    public float recentDamageDecay = 0.0008f;
+    public Block oreUpgrade = Blocks.router;
+    public Block damageUpgrade = Blocks.router;
+
+    public float oreUpgradeCost = 300;
+    public float damageUpgradeCost = 10;
+
     public GenericNeoplasiaBlock(String name){
         super(name);
         update = true;
@@ -49,10 +59,13 @@ public class GenericNeoplasiaBlock extends Block {
         public float amount = 0f;
         float burstCooldown = 0f;
         int currentBurstLength = 0;
+        public float recentDamage = 0f;
+        public float upgradeDamageScale = 0.9f;
+        Tile burstTile;
 
         @Override
         public void created(){
-            amount = 0.0001f;
+            amount = startMass;
             super.created();
         }
 
@@ -60,6 +73,7 @@ public class GenericNeoplasiaBlock extends Block {
         public void updateTile(){
             health = amount;
             maxHealth = amount;
+            recentDamage *= Mathf.pow(recentDamageDecay, delta());
             if(amount <= 0f){
                 kill();
                 return;
@@ -68,12 +82,26 @@ public class GenericNeoplasiaBlock extends Block {
             grow();
             burstSpread();
             damageNearby();
+            if(amount >= oreUpgradeCost && Mathf.chanceDelta(0.05f) && isOre(this.tile)){
+                if(oreUpgrade != null) {
+                    AquaFx.neoplasiaPlace.at(x, y);
+                    this.tile.setBlock(oreUpgrade, this.team);
+                }
+            }
+            float upgradeChance = recentDamage * upgradeDamageScale;
+            if(Mathf.chanceDelta(upgradeChance) && amount >= damageUpgradeCost){
+                AquaFx.neoplasiaPlace.at(x, y);
+                this.tile.setBlock(damageUpgrade, this.team);
+            }
         }
+
         @Override
         public float handleDamage(float amount){
             this.amount -= amount;
+            recentDamage += amount * 3;
             return amount;
         }
+
         void grow(){
             float growth = selfGrowRate;
 
@@ -87,6 +115,7 @@ public class GenericNeoplasiaBlock extends Block {
 
             float threshold = maxAmount * burstThresholdFraction;
 
+            // Start burst
             if(burstDir == -1){
 
                 if(amount < threshold) return;
@@ -96,37 +125,74 @@ public class GenericNeoplasiaBlock extends Block {
                     return;
                 }
 
-                burstDir = Mathf.random(3);
                 burstStep = 0;
-
                 currentBurstLength = 1 + (int)(Mathf.pow(Mathf.random(), 0.6f) * burstLength);
-
                 burstTimer = 0f;
+
+                burstTile = tile; // start from self
+                burstDir = 0;     // dummy active flag
             }
 
-            // === Step timing ===
             burstTimer += delta();
             if(burstTimer < burstStepDelay) return;
             burstTimer = 0f;
 
             burstStep++;
 
-            if(burstStep > currentBurstLength){
+            if(burstStep > currentBurstLength || burstTile == null){
                 burstDir = -1;
                 burstCooldown = burstDelay;
                 return;
             }
 
-            int dx = Geometry.d4[burstDir].x;
-            int dy = Geometry.d4[burstDir].y;
+            // --- Evaluate neighbors of CURRENT burstTile ---
+            int bestDir = -1;
+            float bestScore = -999f;
 
-            Tile t = world.tile(tile.x + dx * burstStep, tile.y + dy * burstStep);
+            for(int i = 0; i < 4; i++){
 
-            if(t == null || t.solid() || t.floor().isDeep()){
+                int dx = Geometry.d4[i].x;
+                int dy = Geometry.d4[i].y;
+
+                Tile check = world.tile(burstTile.x + dx, burstTile.y + dy);
+
+                if(check == null || check.solid() || check.floor().isDeep()) continue;
+
+                float score = 0f;
+
+                // Prefer empty
+                if(check.build == null){
+                    score += 5f;
+
+                    // Strong ore priority
+                    if(check.overlay() != null){
+                        score += 15f;
+                    }
+                }
+
+                // Prefer connecting to same type
+                if(check.build instanceof NeoplasiaBuild){
+                    score += 3f;
+                }
+
+                score += Mathf.random(0.5f);
+
+                if(score > bestScore){
+                    bestScore = score;
+                    bestDir = i;
+                }
+            }
+
+            if(bestDir == -1){
                 burstDir = -1;
                 burstCooldown = burstDelay;
                 return;
             }
+
+            int dx = Geometry.d4[bestDir].x;
+            int dy = Geometry.d4[bestDir].y;
+
+            Tile t = world.tile(burstTile.x + dx, burstTile.y + dy);
 
             float transfer = Math.min(burstTransfer, amount * 0.15f);
 
@@ -144,8 +210,8 @@ public class GenericNeoplasiaBlock extends Block {
 
             }else if(t.build == null){
 
-                t.setBlock(GenericNeoplasiaBlock.this, team);
-                Fx.neoplasmHeal.at(t.worldx(), t.worldy());
+                t.setBlock(base, team);
+                AquaFx.neoplasiaPlace.at(t.worldx(), t.worldy());
 
                 if(t.build instanceof NeoplasiaBuild nb){
                     float flow = Math.min(transfer, amount);
@@ -153,16 +219,21 @@ public class GenericNeoplasiaBlock extends Block {
                     nb.amount = flow;
                 }
             }
+
+            burstTile = t;
+
             if(amount <= 1f){
                 burstDir = -1;
                 burstCooldown = burstDelay;
             }
         }
+
         boolean isOre(Tile t){
             return t != null &&
                     t.overlay() != null &&
                     t.overlay().itemDrop != null;
         }
+
         void damageNearby(){
 
             float radius = tilesize * 1.25f;
