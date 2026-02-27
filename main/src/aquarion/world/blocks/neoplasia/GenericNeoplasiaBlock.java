@@ -38,6 +38,7 @@ public class GenericNeoplasiaBlock extends Block {
         destroyEffect = Fx.neoplasmHeal;
         destructible = true;
         rebuildable = false;
+        drawTeamOverlay = false;
     }
 
     public class NeoplasiaBuild extends Building {
@@ -86,7 +87,6 @@ public class GenericNeoplasiaBlock extends Block {
 
             float threshold = maxAmount * burstThresholdFraction;
 
-            // === Start a new burst ===
             if(burstDir == -1){
 
                 if(amount < threshold) return;
@@ -122,7 +122,7 @@ public class GenericNeoplasiaBlock extends Block {
 
             Tile t = world.tile(tile.x + dx * burstStep, tile.y + dy * burstStep);
 
-            if(t == null || t.solid()){
+            if(t == null || t.solid() || t.floor().isDeep()){
                 burstDir = -1;
                 burstCooldown = burstDelay;
                 return;
@@ -191,10 +191,11 @@ public class GenericNeoplasiaBlock extends Block {
         @Override
         public void draw() {
             float fullness = amount / (maxAmount * 0.75f);
-            Draw.alpha(fullness*0.75f);
             Draw.z(Renderer.Layer.neoplasiaBase);
             float radius = (tilesize * 1.5f) / 2f;
-            Draw.color(Pal.neoplasm2, Pal.neoplasm1, fullness);
+            Draw.color(Color.valueOf("701e1e"), Color.valueOf("cf5a3b"), fullness);
+            Fill.circle(x, y, radius);
+            Draw.z(Renderer.Layer.neoplasiaUnder);
             Fill.circle(x, y, radius);
         }
     }
