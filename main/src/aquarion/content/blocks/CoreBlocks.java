@@ -9,6 +9,7 @@ import aquarion.world.blocks.neoplasia.DefensiveNeoplasiaBlock;
 import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
 import aquarion.world.blocks.neoplasia.NeoplasiaproductionBlock;
 import arc.func.Cons;
+import arc.graphics.Color;
 import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.ctype.UnlockableContent;
@@ -28,7 +29,7 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
-            coreEscarpment, corePike, buildCairn, crate, deflectorWell, neoplasiaMass, OreSlurper, callus;
+            coreEscarpment, corePike, buildCairn, crate, deflectorWell, neoplasiaMass, OreSlurper, callus, thicBlob;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -140,17 +141,37 @@ public class CoreBlocks {
         neoplasiaMass = new GenericNeoplasiaBlock("neoplasia-mass"){{
             requirements(Category.effect, with(silicon, 1));
             base = this;
+            emptyUpgrade = thicBlob;
+            hasPods = false;
+            emptyUpgradeCost = 800;
             oreUpgrade = OreSlurper = new NeoplasiaproductionBlock("ore-slurper"){{
                 requirements(Category.effect, with(silicon, 1));
                 maxAmount = 1500;
                 oreUpgrade = null;
                 burstDelay = 300;
                 burstLength = 10;
+                hasPods = true;
             }};
             damageUpgrade = callus = new DefensiveNeoplasiaBlock("callus"){{
                 requirements(Category.effect, with(silicon, 1));
+                hasPods = false;
+            }};
+            shouldEmptyUpgrade = true;
+            emptyUpgrade = thicBlob = new GenericNeoplasiaBlock("thic-neoplasia-blob"){{
+                base = neoplasiaMass;
+                maxAmount = 2500;
+                burstLength = 15;
+                oreGrowBonus = 0.12f;
+                selfGrowRate = 0.12f;
+                burstDelay = 150;
+                shouldEmptyUpgrade = false;
+                oreUpgrade = OreSlurper;
+                damageUpgrade = callus;
+                colFrom = Color.valueOf("cf683b");
+                colTo = Color.valueOf("e2c451");
             }};
         }};
+
         //Holy Jank...
         overwrite(OreSlurper, (NeoplasiaproductionBlock r) ->{
             r.oreUpgrade = null;
@@ -161,6 +182,10 @@ public class CoreBlocks {
             r.oreUpgrade = null;
             //DamageUpgrade works in reverse here.
             r.damageUpgrade = neoplasiaMass;
+        });
+        overwrite(neoplasiaMass, (GenericNeoplasiaBlock r) ->{
+            r.base = neoplasiaMass;
+            r.hasPods = true;
         });
     }
 }

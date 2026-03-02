@@ -5,6 +5,7 @@ import aquarion.world.graphics.Renderer;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
+import arc.math.Interp;
 import arc.math.Mathf;
 import arc.util.Time;
 
@@ -19,6 +20,7 @@ public class DefensiveNeoplasiaBlock extends GenericNeoplasiaBlock{
         burstTransfer = 0;
         oreGrowBonus = 0;
         selfGrowRate = 0.9f;
+        shouldEmptyUpgrade = false;
     }
     public float reverseUpgradeThreshold = 10f;
     public float reverseUpgradeChance = 0.0003f;
@@ -56,16 +58,16 @@ public class DefensiveNeoplasiaBlock extends GenericNeoplasiaBlock{
 
         @Override
         public void draw() {
-            float fullness = amount / (maxAmount * 0.75f);
-            Draw.z(Renderer.Layer.neoplasiaBase);
-            float radius = (tilesize * 2f) / 2f;
-            Draw.color(Color.valueOf("701e1e"), Color.valueOf("cf5a3b"), fullness);
-            Fill.circle(x, y, radius);
-            Draw.z(Renderer.Layer.neoplasiaUnder);
-            Fill.circle(x, y, radius);
-            Draw.z(Renderer.Layer.neoplasiaBase + .1f);
+            super.draw();
+            float scale = 1f;
+            if(spawnTime < spawnDuration){
+                float progress = spawnTime / spawnDuration;
+                scale = Interp.smooth.apply(progress);
+            }
+            Draw.scl(scale);
             Draw.color();
-            Draw.rectv(region, tile.worldx(), tile.worldy(), region.width * region.scl(), region.height * region.scl(), 0, vec -> vec.add(
+            Draw.z(Renderer.Layer.blockOver + 2);
+            Draw.rectv(region, tile.worldx(), tile.worldy(), region.width * region.scl() * scale, region.height * region.scl() * scale, 0, vec -> vec.add(
                     Mathf.sin(vec.y*3 + Time.time, wscl, wmag) + Mathf.sin(vec.x*3 - Time.time, 70 * wtscl, 0.8f * wmag2),
                     Mathf.cos(vec.x*3 + Time.time + 8, wscl + 6f, wmag * 1.1f) + Mathf.sin(vec.y*3 - Time.time, 50 * wtscl, 0.2f * wmag2)));
         }

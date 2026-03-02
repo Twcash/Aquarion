@@ -25,10 +25,11 @@ import static mindustry.Vars.tree;
 public class AquaShaders {
     public static PlanetShader planet;
 
-    public static @Nullable SurfaceShader brine, shadow, heat, beamPit, glitch, neoplasiaBaseShader;
+    public static @Nullable SurfaceShader brine, shadow, heat, glitch, neoplasiaBaseShader;
     public static @Nullable MonsoonShader monsoon;
+    public static @Nullable PodShader neoplasiaPodShader;
     public static @Nullable deflectorShader deflectorShield;
-    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, glitchLayer, deflecterLayer, beamPitLayer, neoplasiaBaseLayer;
+    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer;
     public static Fi file(String name){
         return Core.files.internal("shaders/" + name);
     }
@@ -39,30 +40,31 @@ public static void init() {
     planet = new PlanetShader();
     brine = new SurfaceShader("brine");
     neoplasiaBaseShader = new SurfaceShader("neoplasiaBase");
+    neoplasiaPodShader = new PodShader("neoplasiaPods");
 
     shadow = new SurfaceShader("shadow");
     heat = new SurfaceShader("heat");
     monsoon = new MonsoonShader();
 
-    beamPit = new SurfaceShader("beamPit");
     glitch = new SurfaceShader("glitch");
 
     deflectorShield = new deflectorShader();
     shadowLayer = new CacheLayer.ShaderLayer(shadow);
     neoplasiaBaseLayer = new CacheLayer.ShaderLayer(neoplasiaBaseShader);
-    beamPitLayer = new CacheLayer.ShaderLayer(beamPit);
     brineLayer = new CacheLayer.ShaderLayer(brine);
     heatLayer = new CacheLayer.ShaderLayer(heat);
     glitchLayer = new CacheLayer.ShaderLayer(glitch);
     deflecterLayer = new CacheLayer.ShaderLayer(deflectorShield);
     CacheLayer.addLast(brineLayer);
-    CacheLayer.addLast(beamPitLayer);
+    CacheLayer.addLast(neoplasiaBaseLayer);
+
 }
 
     public static void dispose(){
         if (!Vars.headless) {
             brine.dispose();
-            beamPit.dispose();
+            neoplasiaBaseShader.dispose();
+            neoplasiaPodShader.dispose();
         }
     }
 
@@ -124,10 +126,48 @@ public static void init() {
                     noiseTex = assets.get("sprites/" + textureName() + ".png", Texture.class);
                 }
 
-                noiseTex.bind(1);
+                noiseTex.bind(2);
                 renderer.effectBuffer.getTexture().bind(0);
 
-                setUniformi("u_noise", 1);
+                setUniformi("u_noise", 2);
+            }
+        }
+    }
+    public static class PodShader extends Shader {
+        Texture noiseTex;
+
+        public PodShader(String frag) {
+            super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/" + frag + ".frag"));
+            loadNoise();
+        }
+
+        public PodShader(String vertRaw, String fragRaw) {
+            super(vertRaw, fragRaw);
+            loadNoise();
+        }
+        public void loadNoise(){
+            Core.assets.load("sprites/" + textureName() + ".png", Texture.class).loaded = t -> {
+               
+            };
+        }
+        public String textureName() {
+            return "noise";
+        }
+        @Override
+        public void apply(){
+            setUniformf("u_campos", Core.camera.position.x - Core.camera.width / 2, Core.camera.position.y - Core.camera.height / 2);
+            setUniformf("u_resolution", Core.camera.width, Core.camera.height);
+            setUniformf("u_time", Time.time);
+
+            if(hasUniform("u_noises")){
+                if(noiseTex == null){
+                    noiseTex = Core.assets.get("sprites/" + textureName() + ".png", Texture.class);
+                }
+
+                noiseTex.bind(2);
+                renderer.effectBuffer.getTexture().bind(0);
+
+                setUniformi("u_noises", 2);
             }
         }
     }

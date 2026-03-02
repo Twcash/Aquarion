@@ -24,17 +24,16 @@ public class Renderer {
     public static FrameBuffer prevBuffer;
     public static FrameBuffer glitchBuffer;
     public static @Nullable Bloom bloom;
-
-    public static Seq<link> links1 = new Seq<>();
-    public static FrameBuffer linkBuffer;
+    public static FrameBuffer neoplasiaBaseBuffer;
+    public static FrameBuffer neoplasiaPodBuffer;
 
     public static class Layer extends mindustry.graphics.Layer {
         public static final float shadow = 29.8936f;
         public static final float heat = 39.7656f;
         public static final float deflector = 126.05f;
-        public static final float neoplasiaUnder = Layer.blockUnder - 0.011221232134f;
-
-        public static final float neoplasiaBase = Layer.blockOver + 0.011221232134f;
+        public static final float neoplasiaUnder = Layer.blockUnder + 0.011221232134f;
+        public static final float neoplasiaPods = Layer.blockOver + 0.111221232134f;
+        public static final float neoplasiaBase = Layer.blockOver + 0.133262332134f;
         public static final float glitch = Layer.deflector+3;
     }
 
@@ -43,12 +42,11 @@ public class Renderer {
 
         int w = Core.graphics.getWidth();
         int h = Core.graphics.getHeight();
-
+        if(neoplasiaPodBuffer == null) neoplasiaPodBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
+        if(neoplasiaBaseBuffer == null) neoplasiaBaseBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
         if(buffer == null) buffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
         if(prevBuffer == null) prevBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
         if(glitchBuffer == null) glitchBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
-        if(linkBuffer == null) linkBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
-
 
         buffer.resize(w, h);
         glitchBuffer.resize(w, h);
@@ -99,6 +97,13 @@ public class Renderer {
                 () -> {
                     buffer.end();
                     buffer.blit(AquaShaders.neoplasiaBaseShader);
+                }
+        );
+        Draw.drawRange(Layer.neoplasiaPods, 0.01f,
+                () -> buffer.begin(Color.clear),
+                () -> {
+                    buffer.end();
+                    buffer.blit(AquaShaders.neoplasiaPodShader);
                 }
         );
     }
