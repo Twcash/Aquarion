@@ -1628,8 +1628,8 @@ public class CrafterBlocks {
             shownPlanets.addAll(tantros2);
             craftTime = 10;
             size = 3;
-            consumePower(1.25f);
-            outputLiquid = new LiquidStack(halideWater, 4);
+            consumePower(2f);
+            outputLiquid = new LiquidStack(halideWater, 8);
             envDisabled = Env.groundOil | Env.scorching | Env.spores;
             liquidCapacity = 700;
             squareSprite = false;
@@ -1979,7 +1979,7 @@ public class CrafterBlocks {
             itemCapacity = 200;
             craftTime = 5 * 60f;
             boostersAffectOutput = true;
-            liquidBoostIntensity = 1.4f;
+            liquidBoostIntensity = 1.5f;
             consumeItems(ItemStack.with(ferricMatter, 50, coal, 80));
             outputItems = ItemStack.with(steel, 50, graphite, 40);
             consumeLiquid(oxygen, 2);
