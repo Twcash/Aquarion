@@ -24,7 +24,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block initializationBay,pillage, weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
+    public static Block initializationBay,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -52,6 +52,16 @@ public class UnitBlocks {
             placeableLiquid = true;
             envDisabled = Env.underwater | Env.space;
             consumePower(2);
+        }};
+        solder = new UnitBlock("solder") {{
+            requirements(Category.units, with(metaglass, 80, silicon, 280, ferricMatter, 150));
+            unit = AquaUnitTypes.solder;
+            size = 3;
+            time = 33 * 60;
+            floating = true;
+            placeableLiquid = true;
+            envDisabled = Env.underwater | Env.space;
+            consumePower(5);
         }};
         pugnate = new UnitBlock("pugnate") {{
             requirements(Category.units, with(silicon, 90, aluminum, 25, copper, 70, graphite, 45));

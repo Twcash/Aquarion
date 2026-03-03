@@ -78,7 +78,9 @@ public class TantrosTechTree {
                     node(payloadDisplacer);
                     node(initializationBay);
                 });
-                node(weld);
+                node(weld, ()->{
+                    node(solder);
+                });
                 node(unitByte);
                 node(crest, () -> {
                     node(soar, () -> {

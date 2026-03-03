@@ -38,6 +38,7 @@ import mindustry.entities.effect.SeqEffect;
 import mindustry.entities.part.FlarePart;
 import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
+import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.gen.*;
 import mindustry.graphics.Drawf;
@@ -71,7 +72,7 @@ public class AquaUnitTypes {
 
     public static UnitType
         //Sharded units
-            weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, castellan, index, byteUnit,
+            weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit,
 
   ambassador, consul, curator, custodian;
        public static UnitType messenger, steward;
@@ -1785,6 +1786,49 @@ public class AquaUnitTypes {
                         hittable = false;
                         collidesTeam = true;
                     }};
+                }};
+            }});
+        }};
+        solder = new UnitType("solder") {{
+            constructor = UnitWaterMove::create;
+            speed = 0.25f;
+            hitSize = 8*1.5f;
+            range = 120;
+            health = 600;
+            armor = 4;
+            allDatabaseTabs = true;
+            targetAir = false;
+            rotateMoveFirst = false;
+            omniMovement = true;
+            rotateSpeed = 1.1f;
+            outlines = true;
+            drawCell = false;
+            waveTrailX = 9;
+            trailScl = 5;
+            outlineColor = AquaPal.tantDarkestTone;
+            weapons.addAll(new Weapon("aquarion-solder-weapon") {{
+                rotate = true;
+                rotateSpeed = 1.3f;
+                mirror = false;
+                x = 0;
+                y = 0;
+                recoil = 3;
+                shootY = 5;
+                shoot = new ShootAlternate(17*2/4f);
+                reload = 60;
+                shoot.shots = 2;
+                shootSound = Sounds.shootLaser;
+                bullet = new LaserBoltBulletType(){{
+                    speed = 8;
+                    lifetime = 55f;
+                    damage = 20;
+                    smokeEffect = AquaFx.shootSmoke2;
+                    shootEffect = AquaFx.shootHori;
+                    hitEffect = despawnEffect = AquaFx.hitBulletColor2;
+                    frontColor = Pal.techBlue;
+                    backColor = Pal.techBlue;
+                    width = 2;
+                    height = 12;
                 }};
             }});
         }};
