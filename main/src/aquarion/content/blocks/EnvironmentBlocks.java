@@ -48,7 +48,7 @@ public class EnvironmentBlocks {
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
             kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
-            shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11;
+            shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, scorche,
             oreNickel, oreBauxite,
             oreManganese, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
@@ -419,6 +419,10 @@ public class EnvironmentBlocks {
             drawEdgeIn = drawEdgeOut = false;
         }};
         metal11 = new Floor("metal-floor11"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        metal12 = new Floor("metal-floor12"){{
             autotile = true;
             drawEdgeIn = drawEdgeOut = false;
         }};
