@@ -48,7 +48,7 @@ public class EnvironmentBlocks {
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
             kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
-            shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7;
+            shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, scorche,
             oreNickel, oreBauxite,
             oreManganese, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
@@ -405,6 +405,22 @@ public class EnvironmentBlocks {
             emitLight = true;
             lightRadius = 20f;
             lightColor = Pal.reactorPurple.cpy().a(0.1f);
+        }};
+        metal8 = new Floor("metal-floor8"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        metal9 = new Floor("metal-floor9"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        metal10 = new Floor("metal-floor10"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
+        }};
+        metal11 = new Floor("metal-floor11"){{
+            autotile = true;
+            drawEdgeIn = drawEdgeOut = false;
         }};
         metalVent = new TiledFloor("metal-vent", 1, 3){{
             drawEdgeOut = false;
