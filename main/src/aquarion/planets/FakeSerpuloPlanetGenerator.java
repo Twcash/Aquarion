@@ -195,12 +195,13 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
             rules.weather.add(new Weather.WeatherEntry(Weathers.snow));
         }
 
-        if(hasRain){
-            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.monsoon));
+        if(hasRain && hasSnow){
             rules.weather.add(new Weather.WeatherEntry(Weathers.rain));
             rules.weather.add(new Weather.WeatherEntry(Weathers.fog));
         }
-
+        if(hasRain && !hasSnow){
+            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.monsoon));
+        }
         if(hasDesert){
             rules.weather.add(new Weather.WeatherEntry(Weathers.sandstorm));
         }
