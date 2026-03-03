@@ -1626,10 +1626,10 @@ public class AquaUnitTypes {
             constructor = MechUnit::create;
             speed = 0.45f;
             hitSize = 8;
-            range = 110;
+            range = 150;
             allDatabaseTabs = true;
             drownTimeMultiplier = 2.5f;
-            health = 550;
+            health = 650;
             armor = 2;
             targetAir = false;
             rotateMoveFirst = true;
@@ -1641,40 +1641,55 @@ public class AquaUnitTypes {
             outlineColor = AquaPal.tantDarkestTone;
             weapons.addAll(new Weapon("aquarion-bulwark-weapon") {{
                 rotate = true;
-                rotateSpeed = 1.1f;
+                rotateSpeed = 1.3f;
                 mirror = false;
                 x = 0;
                 y = -1;
                 recoil = 2;
                 shootSound = Sounds.shootBreach;
                 shootY = 3;
-                reload = 900;
-                bullet = new BasicBulletType(3, 30) {{
+                reload = 180;
+                parts.addAll(new RegionPart("-barrel"){{
+                    moveY = -3f;
+                    progress = PartProgress.recoil.curve(Interp.pow2In);
+                    heatColor = new Color(1f, 0.1f, 0.1f);
+                    mirror = false;
+                    under = true;
+                }}, new RegionPart("-sink"){{
+                    progress = PartProgress.recoil.curve(Interp.pow5In);
+                    under = true;
+                    heatColor = new Color(1f, 0.1f, 0.1f);
+                    moveY = -4f;
+                }});
+                bullet = new BasicBulletType(3.5f, 30) {{
                     collidesAir = false;
                     shrinkY = 0;
+                    shootEffect = AquaFx.shootBigger;
+                    smokeEffect = AquaFx.shootSmoke1;
                     shrinkX = 0.2f;
                     hitSize = 4;
                     recoil = 1;
                     fragBullets = 3;
-                    fragBullet = new BasicBulletType(4, 15) {{
+                    hitEffect = despawnEffect = AquaFx.hitBulletColor2;
+                    frontColor = AquaPal.fireLight1;
+                    status = StatusEffects.burning;
+                    statusDuration = 4 * 60f;
+                    backColor  = lightColor = trailColor = AquaPal.fireLight2;
+                    width = height = 12;
+                    knockback = 2;
+                    trailLength = 12;
+                    trailInterp = v -> Math.max(Interp.pow2Out.apply(v), 0.95f);
+                    fragBullet = new BasicBulletType(4, 9) {{
                         frontColor = AquaPal.fireLight1;
-                        backColor = trailColor = lightColor = trailColor = AquaPal.fireLight2;
+                        backColor = lightColor = trailColor = AquaPal.fireLight2;
                         lifetime = 20;
                         status = StatusEffects.burning;
                         statusDuration = 1.5f * 60f;
                         trailLength = 4;
                         width = 8;
                         height = 4;
+                        hitEffect = despawnEffect = AquaFx.hitBulletColor2;
                     }};
-                    shootEffect = Fx.shootBig;
-                    smokeEffect = Fx.shootSmallColor;
-                    frontColor = AquaPal.fireLight1;
-                    status = StatusEffects.burning;
-                    statusDuration = 4 * 60f;
-                    backColor = trailColor = lightColor = trailColor = AquaPal.fireLight2;
-                    width = height = 12;
-                    knockback = 2;
-                    trailLength = 12;
                 }};
             }});
         }};
@@ -1728,7 +1743,7 @@ public class AquaUnitTypes {
             speed = 0.7f;
             hitSize = 8;
             range = 110;
-            health = 260;
+            health = 380;
             armor = 6;
             targetAir = true;
             rotateSpeed = 1.2f;
@@ -1747,14 +1762,21 @@ public class AquaUnitTypes {
                 shootSound = Sounds.shootBreach;
                 shootY = 4;
                 reload = 20;
-                bullet = new BasicBulletType(4, 25, "aquarion-bolt") {{
+                parts.addAll(new RegionPart("-side"){{
+                    x = -7f;
+                    moveX = 3;
+                    progress = PartProgress.warmup.curve(Interp.pow2Out);
+                    moves.addAll(new PartMove(PartProgress.recoil.curve(Interp.pow2In), 0, -3, 0));
+                }});
+                bullet = new BasicBulletType(4, 30, "aquarion-bolt") {{
                     shrinkY = 0;
                     shrinkX = 0.2f;
                     hitSize = 2;
                     shootEffect = Fx.shootBig;
                     smokeEffect = Fx.shootSmallColor;
+                    despawnEffect = hitEffect = AquaFx.hitBulletColor1;
                     frontColor = AquaPal.fireLight1;
-                    backColor = trailColor = lightColor = trailColor = AquaPal.fireLight2;
+                    backColor = lightColor = trailColor = AquaPal.fireLight2;
                     width = height = 10;
                     trailLength = 8;
                 }};

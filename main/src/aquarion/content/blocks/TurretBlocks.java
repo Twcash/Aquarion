@@ -2019,7 +2019,7 @@ public class TurretBlocks {
         ensign = new ItemTurret("ensign") {{
             requirements(Category.turret, with(lead, 45, silicon, 60, chalkalloy, 20));
             size = 2;
-            reload = 45;
+            reload = 70;
             recoil = 0.5f;
             consumeCoolant(24 / 60f);
             recoilTime = 40;
@@ -2033,7 +2033,7 @@ public class TurretBlocks {
             ammo(
                     lead, new RailBulletType() {{
                         length = 155f;
-                        damage = 55f;
+                        damage = 45f;
                         smokeEffect = Fx.colorSpark;
                         hitColor = Color.valueOf("b397f0");
                         hitEffect = endEffect = Fx.hitBulletColor;
@@ -2074,7 +2074,7 @@ public class TurretBlocks {
                     }},
                     nickel, new RailBulletType() {{
                         length = 160f;
-                        damage = 70f;
+                        damage = 60f;
                         knockback = 0.5f;
                         smokeEffect = Fx.colorSpark;
                         hitColor = Color.valueOf("f7e7be");
@@ -2264,7 +2264,7 @@ public class TurretBlocks {
                 status = AquaStatuses.ionized;
                 lightning = 3;
                 statusDuration = 160;
-                lightningLength = 8;
+                lightningLength = 4;
                 lightningDamage = 1;
                 lightningColor = Color.valueOf("f25353");
                 frontColor = lightColor = hitColor = Color.valueOf("ffbcbc");
