@@ -36,7 +36,7 @@ public class GenericNeoplasiaBlock extends Block {
     public Block emptyUpgrade;
 
     public boolean hasPods = true;
-    public float damage = 2f;
+    public float damage = 1.25f;
 
     public float burstThresholdFraction = 0.3f;
     public float burstDelay = 600f;
@@ -293,7 +293,7 @@ public class GenericNeoplasiaBlock extends Block {
                     y - tilesize,
                     tilesize * 2f,
                     unit -> {
-                        if(!unit.dead()){
+                        if(!unit.dead() && unit.targetable(team)){
                             unit.damage(damage * delta());
                         }
                         return true;
