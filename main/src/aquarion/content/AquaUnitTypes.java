@@ -1804,6 +1804,7 @@ public class AquaUnitTypes {
             outlines = true;
             drawCell = false;
             waveTrailX = 9;
+            trailLength = 12;
             trailScl = 5;
             outlineColor = AquaPal.tantDarkestTone;
             weapons.addAll(new Weapon("aquarion-solder-weapon") {{
@@ -1820,7 +1821,7 @@ public class AquaUnitTypes {
                 shootSound = Sounds.shootLaser;
                 bullet = new LaserBoltBulletType(){{
                     speed = 8;
-                    lifetime = 55f;
+                    lifetime = 20f;
                     damage = 20;
                     smokeEffect = AquaFx.shootSmoke2;
                     shootEffect = AquaFx.shootHori;
