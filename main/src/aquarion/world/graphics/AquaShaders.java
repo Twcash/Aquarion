@@ -124,7 +124,7 @@ public static void init() {
             if(hasUniform("u_noise")){
                 if(noiseTex == null){
                     noiseTex = assets.get("sprites/" + textureName() + ".png", Texture.class);
-                }
+                };
 
                 noiseTex.bind(2);
                 renderer.effectBuffer.getTexture().bind(0);
@@ -147,7 +147,8 @@ public static void init() {
         }
         public void loadNoise(){
             Core.assets.load("sprites/" + textureName() + ".png", Texture.class).loaded = t -> {
-               
+                t.setWrap(Texture.TextureWrap.repeat);
+                t.setFilter(Texture.TextureFilter.linear);
             };
         }
         public String textureName() {
@@ -162,112 +163,14 @@ public static void init() {
             if(hasUniform("u_noises")){
                 if(noiseTex == null){
                     noiseTex = Core.assets.get("sprites/" + textureName() + ".png", Texture.class);
+                    noiseTex.setWrap(Texture.TextureWrap.repeat);
+                    noiseTex.setFilter(Texture.TextureFilter.linear);
                 }
 
-                noiseTex.bind(2);
+                noiseTex.bind(3);
                 renderer.effectBuffer.getTexture().bind(0);
 
-                setUniformi("u_noises", 2);
-            }
-        }
-    }
-    //replacing surface Shaders
-    public static class ExtendedSurfaceShader extends Shaders.SurfaceShader {
-        public final Shader shad;
-
-        public ExtendedSurfaceShader(String shaderName, ShaderExtension ext) {
-            super(shaderName);
-            this.shad = new Shader("shaders/screenspace.vert", "shaders/" + shaderName + ".frag");
-
-            if (ext != null) {
-                ext.extend(this, shad);
-            }
-        }
-
-        @Override
-        public void disableVertexAttribute(String name) {
-            shad.disableVertexAttribute(name);
-        }
-
-        @Override
-        public int fetchUniformLocation(String name, boolean pedantic) {
-            return shad.fetchUniformLocation(name, pedantic);
-        }
-
-        @Override
-        public int getAttributeLocation(String name) {
-            return shad.getAttributeLocation(name);
-        }
-
-        @Override
-        public String[] getAttributes() {
-            return shad.getAttributes();
-        }
-
-        @Override
-        public String[] getUniforms() {
-            return shad.getUniforms();
-        }
-
-        @Override
-        public int getAttributeSize(String name) {
-            return shad.getAttributeSize(name);
-        }
-
-        @Override
-        public void bind() {
-            shad.bind();
-        }
-
-        @Override
-        public boolean hasUniform(String name) {
-            return shad.hasUniform(name);
-        }
-
-        @Override
-        public int getUniformType(String name) {
-            return shad.getUniformType(name);
-        }
-
-        @Override
-        public int getUniformLocation(String name) {
-            return shad.getUniformLocation(name);
-        }
-
-        @Override
-        public int getUniformSize(String name) {
-            return shad.getUniformSize(name);
-        }
-
-        @Override
-        public void dispose() {
-            shad.dispose();
-            super.dispose();
-        }
-
-        @Override
-        public boolean isDisposed() {
-            return shad.isDisposed();
-        }
-
-        // Optional extension hook
-        @FunctionalInterface
-        public interface ShaderExtension {
-            void extend(ExtendedSurfaceShader self, Shader internal);
-        }
-        //replace
-        public static void replaceShader(Shader shader, String name) {
-            Reflect.set(Shaders.class, name, shader);
-            Object original = Reflect.get(CacheLayer.class, name);
-            CacheLayer[] allLayers = CacheLayer.all;
-
-            for (int i = 0; i < allLayers.length; i++) {
-                if (allLayers[i] == original) {
-                    CacheLayer.ShaderLayer newLayer = new CacheLayer.ShaderLayer(shader);
-                    Reflect.set(CacheLayer.class, name, newLayer);
-                    allLayers[i] = newLayer;
-                    newLayer.id = i;
-                }
+                setUniformi("u_noises", 3);
             }
         }
     }

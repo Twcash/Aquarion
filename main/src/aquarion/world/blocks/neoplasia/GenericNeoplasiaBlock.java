@@ -1,5 +1,6 @@
 package aquarion.world.blocks.neoplasia;
 
+import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -303,10 +304,9 @@ public class GenericNeoplasiaBlock extends Block {
             float scale = 1f; if(spawnTime < spawnDuration){
                 float progress = spawnTime / spawnDuration; scale = Interp.smooth.apply(progress);
             }
-
             Draw.z(Renderer.Layer.neoplasiaBase);
             Draw.scl(scale);
-            float radius = (float) (tilesize * 1.5f) / 2 * scale;
+            float radius = tilesize * 1.5f / 2 * scale;
 
             Draw.color(colFrom,colTo, amount/maxAmount);
             Fill.circle(x, y, radius);
@@ -314,10 +314,6 @@ public class GenericNeoplasiaBlock extends Block {
             Fill.circle(x, y, radius);
             Draw.scl(1f);
             Draw.color();
-            if(hasPods){
-                Draw.z(Renderer.Layer.neoplasiaPods);
-                Fill.circle(x, y, radius);;
-            };
         }
         @Override
         public void write(Writes write){

@@ -16,6 +16,7 @@ import arc.math.Mathf;
 import arc.struct.Seq;
 import arc.util.Nullable;
 import arc.util.Time;
+import mindustry.graphics.Shaders;
 
 import static mindustry.Vars.tilesize;
 
@@ -85,25 +86,18 @@ public class Renderer {
                     }
                 }
         );
-        Draw.drawRange(Layer.neoplasiaUnder, 0.01f,
+        Draw.drawRange(Layer.neoplasiaBase, 0.0001f,
                 () -> buffer.begin(Color.clear),
                 () -> {
                     buffer.end();
                     buffer.blit(AquaShaders.neoplasiaBaseShader);
                 }
         );
-        Draw.drawRange(Layer.neoplasiaBase, 0.01f,
+        Draw.drawRange(Layer.neoplasiaUnder, 0.0001f,
                 () -> buffer.begin(Color.clear),
                 () -> {
                     buffer.end();
                     buffer.blit(AquaShaders.neoplasiaBaseShader);
-                }
-        );
-        Draw.drawRange(Layer.neoplasiaPods, 0.01f,
-                () -> buffer.begin(Color.clear),
-                () -> {
-                    buffer.end();
-                    buffer.blit(AquaShaders.neoplasiaPodShader);
                 }
         );
     }
