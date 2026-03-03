@@ -129,11 +129,11 @@ public class TantrosTechTree {
                 });
             });
             node(point, () -> {
+                node(buzzSaw);
                 node(buildCairn);
                 node(Foment, Seq.with(
                         new Objectives.OnSector(Ingress)
                 ), () -> {
-                    node(buzzSaw);
                     node(redact, () ->
                             node(maelstrom));
                 });
