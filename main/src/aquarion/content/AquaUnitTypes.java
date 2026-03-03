@@ -71,7 +71,7 @@ public class AquaUnitTypes {
 
     public static UnitType
         //Sharded units
-            weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, index, byteUnit,
+            weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, castellan, index, byteUnit,
 
   ambassador, consul, curator, custodian;
        public static UnitType messenger, steward;
@@ -1692,6 +1692,56 @@ public class AquaUnitTypes {
                     }};
                 }};
             }});
+        }};
+        pillage = new UnitType("pillage"){{
+            constructor = LegsUnit::create;
+            speed  =0.34f;
+            outlineColor = AquaPal.tantDarkestTone;
+            hitSize = 8;
+            range = 190;
+            health = 350;
+            legCount = 8;
+            legGroupSize = 4;
+            legMoveSpace = 0.7f;
+            drawCell = false;
+            legLength = 11;
+            legBaseOffset = 6;
+            legExtension = -1;
+            legMaxLength = 1.1f;
+            legMinLength = 0.8f;
+            legStraightLength = 0.9f;
+            legStraightness = 0.4f;
+            weapons.add(new Weapon("aquarion-pillage-weapon"){{
+            mirror = false;
+            x= 0;
+            y = 0;
+            shootY = 6f;
+            reload = 240;
+            rotate = false;
+            shootCone = 15;
+            shoot.shots = 3;
+            inaccuracy = 12;
+            shootSound = Sounds.shootTank;
+            cooldownTime = 90;
+            bullet = new BasicBulletType(2, 45){{
+                scaleLife = true;
+                splashDamage = 30;
+                splashDamageRadius = 10;
+                splashDamagePierce = false;
+                trailEffect = AquaFx.trailSmoke1;
+                hitEffect = AquaFx.hitBulletColor2;
+                despawnEffect = AquaFx.hitBulletColor2;
+                trailInterval = 5;
+                width = 8;
+                height = 10;
+                lifetime = 160;
+                shootEffect = AquaFx.shootGrace;
+                hitSound = Sounds.explosionDull;
+                frontColor = AquaPal.fireLight1;
+                backColor = lightColor = trailColor = AquaPal.fireLight2;
+            }};
+            }});
+
         }};
         weld = new UnitType("weld") {{
             constructor = UnitWaterMove::create;

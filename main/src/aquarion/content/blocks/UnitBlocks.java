@@ -24,7 +24,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block initializationBay, weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
+    public static Block initializationBay,pillage, weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -37,14 +37,14 @@ public class UnitBlocks {
             size = 6;
         }};
         bulwark = new UnitBlock("bulwark") {{
-            requirements(Category.units, with(silicon, 80, metaglass, 60, lead, 50, graphite, 40));
+            requirements(Category.units, with(silicon, 80, metaglass, 30, lead, 50, graphite, 40));
             unit = AquaUnitTypes.bulwark;
             size = 2;
             time = 15 * 60;
             consumePower(0.75f);
         }};
         weld = new UnitBlock("weld") {{
-            requirements(Category.units, with(metaglass, 120, lead, 80));
+            requirements(Category.units, with(metaglass, 80, lead, 80));
             unit = AquaUnitTypes.weld;
             size = 2;
             time = 25 * 60;
@@ -54,14 +54,14 @@ public class UnitBlocks {
             consumePower(2);
         }};
         pugnate = new UnitBlock("pugnate") {{
-            requirements(Category.units, with(silicon, 90, aluminum, 50, copper, 70, graphite, 45));
+            requirements(Category.units, with(silicon, 90, aluminum, 25, copper, 70, graphite, 45));
             unit = AquaUnitTypes.pugnate;
             size = 2;
             time = 20 * 60;
             consumePower(0.5f);
         }};
         rampart = new UnitBlock("rampart") {{
-            requirements(Category.units, with(cupronickel, 150, silicon, 120, metaglass, 70));
+            requirements(Category.units, with(cupronickel, 40, silicon, 120, metaglass, 80));
             unit = AquaUnitTypes.rampart;
             size = 2;
             time = 10 * 60;
@@ -93,8 +93,16 @@ public class UnitBlocks {
             time = 20 * 60;
             destroySound = AquaSounds.start4;
         }};
+        pillage = new UnitBlock("pillage") {{
+            requirements(Category.units, with(graphite, 110, metaglass, 90, silicon, 200, copper, 180));
+            unit = AquaUnitTypes.pillage;
+            size = 2;
+            consumePower(4);
+            time = 33 * 60f;
+            destroySound = AquaSounds.start2;
+        }};
         soar = new UnitBlock("soar") {{
-            requirements(Category.units, with(cupronickel, 140, polymer, 120, metaglass, 90));
+            requirements(Category.units, with(cupronickel, 90, polymer, 50, metaglass, 90));
             unit = AquaUnitTypes.soar;
             size = 3;
             time = 15 * 60;
