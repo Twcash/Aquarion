@@ -2070,6 +2070,28 @@ public class CrafterBlocks {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
+        
+        electrolysisCell = new AquaGenericCrafter("electrolysis-vat"){{
+            requirements(Category.crafting, with(metaglass, 250, copper, 300, silicon, 150));
+            consumePower(3);
+            size = 2;
+            squareSprite = false;
+            liquidCapacity = 400;
+            consumeLiquid(Liquids.water, 3);
+            outputLiquids = new LiquidStack[]{
+                    new LiquidStack(oxygen, 1),
+                    new LiquidStack(hydrogen, 2)
+            };
+            craftTime = 10;
+            shareOutputLiquids = true;
+            shareInputLiquids = true;
+            liquidOutputDirections = new int[]{0, 2};
+            rotate = true;
+            rotateDraw = false;
+            craftEffect = Fx.steamCoolSmoke;
+            drawer = new DrawMulti(new DrawDefault(), new DrawLiquidTile(water, 1), new DrawRegion("-top"), new AquaDrawLiquidOutputs());
+        }};
+        
         brineElectrolyzer = new AquaGenericCrafter("brine-electrolysis-manifold") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(aluminum, 1500, silicon, 3000, metaglass, 500, ferrosilicon, 500));

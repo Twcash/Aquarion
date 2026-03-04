@@ -411,6 +411,7 @@ public class TantrosTechTree {
                     node(arcFurnace);
                 });
                 node(scrapCentrifuge);
+                node(electrolysisCell);
                 node(AnnealingOven, () -> {
                     node(slagRefinementAssemblage, Seq.with(
                             new Objectives.Produce(slag)
