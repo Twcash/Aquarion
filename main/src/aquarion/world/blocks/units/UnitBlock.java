@@ -119,21 +119,21 @@ public class UnitBlock extends Block {
     public void load(){
         super.load();
         region = unit.fullIcon;
+        description = unit.description;
     }
     @Override
     public void setStats(){
         stats.timePeriod = time;
         super.setStats();
         stats.remove(Stat.health);
-        stats.add(Stat.health, health);
-        stats.add(Stat.armor, armor);
+        stats.add(Stat.health, unit.health);
+        stats.add(Stat.armor, unit.armor);
         stats.add(Stat.speed, unit.speed * 60f / tilesize, StatUnit.tilesSecond);
         stats.add(Stat.size, StatValues.squared(unit.hitSize / tilesize, StatUnit.blocks));
         stats.add(Stat.itemCapacity, itemCapacity);
         stats.add(Stat.range, Strings.autoFixed(unit.maxRange / tilesize, 1), StatUnit.blocks);
         stats.add(Stat.targetsAir, unit.targetAir);
         stats.add(Stat.targetsGround, unit.targetGround);
-
         if(unit.abilities.any()){
             stats.add(Stat.abilities, StatValues.abilities(unit.abilities));
         }
