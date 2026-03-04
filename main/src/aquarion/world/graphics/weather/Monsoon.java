@@ -115,7 +115,7 @@ public class Monsoon extends Weather {
             Fill.rect(Core.camera.position.x, Core.camera.position.y, Core.camera.width, Core.camera.height);
             Draw.reset();
             Blending.additive.apply();
-            AquaShaders.monsoon.setIntensity(Mathf.clamp(intensity - 0.2f));
+            AquaShaders.monsoon.setIntensity(Mathf.clamp(intensity - 0.4f));
             Draw.blit(AquaShaders.monsoon);
             Blending.normal.apply();
         });
