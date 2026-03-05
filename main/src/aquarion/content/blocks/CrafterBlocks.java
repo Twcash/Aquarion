@@ -1411,7 +1411,7 @@ public class CrafterBlocks {
             outputLiquids = LiquidStack.with(methane, 1, petroleum, 1.5f);
             consumeLiquid(haze, 2).boost();
             liquidOutputDirections = new int[]{1, 3};
-            outputItem = new ItemStack(graphite, 3);
+            outputItem = new ItemStack(graphite, 5);
             liquidCapacity = 300;
             itemCapacity = 60;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -2199,7 +2199,7 @@ public class CrafterBlocks {
             itemCapacity = 100;
             craftTime = 120;
             consumePower(1.25f);
-            heatOutput = 65;
+            heatOutput = 60;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(ferricMatter, 250, silicon, 700, metaglass, 500));
             consumeLiquid(bioPulp, 1.25f);
