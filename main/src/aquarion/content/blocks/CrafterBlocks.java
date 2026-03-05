@@ -1394,7 +1394,7 @@ public class CrafterBlocks {
             }}, new DrawHeatInputBitmask());
         }};
         thermalCrackingUnit = new AquaGenericCrafter("thermal-cracking-unit") {{
-            requirements(Category.crafting, with(copper, 250, silicon, 600, metaglass, 900));
+            requirements(Category.crafting, with(copper, 250, silicon, 600, metaglass, 700));
             shownPlanets.addAll(tantros2);
             heatRequirement = 30;
             maxEfficiency = 5;
