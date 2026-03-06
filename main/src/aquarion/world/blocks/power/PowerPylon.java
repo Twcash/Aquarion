@@ -149,8 +149,7 @@ public class PowerPylon extends PowerNode {
         Tile tile = world.tile(x, y);
 
         if(tile == null || !autolink) return;
-
-        Lines.stroke(1f);
+        Lines.stroke(4);
         Draw.color(Pal.placing);
         Drawf.circles(x * tilesize + offset, y * tilesize + offset, maxRange * tilesize);
 
@@ -165,6 +164,7 @@ public class PowerPylon extends PowerNode {
 
     @Override
     public void drawLaser(float x1, float y1, float x2, float y2, int size1, int size2){
+        Lines.stroke(4);
       float angle1 = Angles.angle(x1, y1, x2, y2),
             vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
             len1 = size1 * tilesize / 2f - 1.5f, len2 = size2 * tilesize / 2f - 1.5f;
