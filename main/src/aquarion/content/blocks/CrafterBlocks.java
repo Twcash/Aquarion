@@ -192,7 +192,7 @@ public class CrafterBlocks {
             };
             outputLiquids = new LiquidStack[]{
                     new LiquidStack(hydroxide, 8.5f),
-                    new LiquidStack(oxygen, 2),
+                    new LiquidStack(oxygen, 5.5f),
                     new LiquidStack(rareSludge, 0.1f)
             };
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
