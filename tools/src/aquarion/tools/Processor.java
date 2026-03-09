@@ -4,6 +4,7 @@ import arc.util.Log;
 import arc.util.Strings;
 import arc.util.UnsafeRunnable;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -17,7 +18,7 @@ public interface Processor{
      * exception.
      * @param exec The executor service for submitting threads.
      */
-    void process(ExecutorService exec);
+    void process(ExecutorService exec) throws IOException;
 
     /** Called after all processing threads are finished. */
     default void finish(){}

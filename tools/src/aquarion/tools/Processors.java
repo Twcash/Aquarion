@@ -1,5 +1,6 @@
 package aquarion.tools;
 
+import aquarion.tools.proc.IconProcessor;
 import aquarion.tools.proc.OutlineRegionProcessor;
 import aquarion.tools.proc.StatusEffectProcessor;
 import aquarion.tools.proc.UnitProcessor;
@@ -18,7 +19,8 @@ public final class Processors{
     private static final Processor[] processes = {
             new OutlineRegionProcessor(),
             new UnitProcessor(),
-            new StatusEffectProcessor()
+            new StatusEffectProcessor(),
+            new IconProcessor()
     };
 
     private Processors(){}

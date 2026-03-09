@@ -56,7 +56,7 @@ public final class Tools{
         assetsDir = new Fi(Paths.get("").toFile());
         spritesDir = assetsDir.child("sprites");
 
-        for(var type : ContentType.all){
+        for(ContentType type : ContentType.all){
             int i = type.ordinal();
             synchronized(initialized){ initialized[i] = new IntSet(); }
             synchronized(loaded){ loaded[i] = new IntSet(); }
