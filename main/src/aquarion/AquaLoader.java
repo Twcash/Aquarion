@@ -45,9 +45,9 @@ public class AquaLoader extends Mod {
             IconLoader.loadIcons();
             Planets.erekir.accessible = false;
             Planets.serpulo.accessible = false;
-            //:trol:
-//            Vars.control.sound = null;//Ew
-//            Vars.control.sound = new AquaSoundControl();
+            Planets.erekir.visible = false;
+            Planets.serpulo.visible = false;
+            Planets.sun.visible = false;
         });
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
