@@ -296,7 +296,6 @@ public class UnitProcessor implements Processor{
                     fullRegion = new GenRegion(fullIconName, compositeIcon);
                     fullRegion.relativePath = unitBaseRegion.relativePath;
                     fullRegion.save(true);
-
                     if(fullRegion.found()) fullIconPixmap = fullRegion.pixmap();
                 }
 

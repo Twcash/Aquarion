@@ -20,7 +20,6 @@ public final class Processors{
             new OutlineRegionProcessor(),
             new UnitProcessor(),
             new StatusEffectProcessor(),
-            new IconProcessor()
     };
 
     private Processors(){}

@@ -125,4 +125,34 @@ task updateBundles{
         })
     }
 }
+task updateIcons{
+    doLast{
+       def iconsFile = Fi.get("main/assets/icons/icons.properties")
 
+       int nextId = 70000
+       OrderedMap<Integer, String> generated = new OrderedMap<>()
+
+       Fi.get("main/assets/sprites").walk(file -> {
+           if(!file.extEquals("png")) return
+
+           String name = file.nameWithoutExtension()
+
+           // only care about mod icons
+           if(!name.startsWith("aquarion-")) return
+
+           String shortName = name.replace("aquarion-", "")
+           String iconName = name + "-icon"
+
+           generated.put(nextId++, shortName + "|" + iconName)
+           generated.put(nextId++, name + "|" + iconName)
+       })
+
+       StringBuilder out = new StringBuilder()
+
+       generated.each{ id, value ->
+           out.append(id).append(" = ").append(value).append("\n")
+       }
+
+       iconsFile.writeString(out.toString(), true)
+    }
+}
