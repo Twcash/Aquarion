@@ -191,8 +191,8 @@ public class CrafterBlocks {
                     new ItemStack(aluminum, 5)
             };
             outputLiquids = new LiquidStack[]{
-                    new LiquidStack(hydroxide, 0.5f),
-                    new LiquidStack(oxygen, 2),
+                    new LiquidStack(hydroxide, 8.5f),
+                    new LiquidStack(oxygen, 5.5f),
                     new LiquidStack(rareSludge, 0.1f)
             };
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
