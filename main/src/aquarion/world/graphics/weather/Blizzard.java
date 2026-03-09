@@ -1,6 +1,12 @@
 package aquarion.world.graphics.weather;
 import aquarion.content.AquaAttributes;
+import aquarion.world.entities.AquaLightning;
+import mindustry.content.Bullets;
 import mindustry.entities.Damage;
+import mindustry.entities.Lightning;
+import mindustry.entities.bullet.BasicBulletType;
+import mindustry.game.Team;
+import mindustry.game.Teams;
 import mindustry.world.meta.Attribute;
 import aquarion.content.AquaStatuses;
 import aquarion.world.graphics.AquaFx;
@@ -28,7 +34,12 @@ public class Blizzard extends ParticleWeather {
 
     private final Color originalAmbient = new Color();
     private boolean savedAmbient = false;
-
+    public BasicBulletType bul = new BasicBulletType(10, 6){{
+        frontColor = backColor = Color.white;
+        height = 12;
+        width = 5;
+        lifetime = 600;
+    }};
     public Blizzard(String name){
         super(name);
 
@@ -62,6 +73,10 @@ public class Blizzard extends ParticleWeather {
         noisePath = "noiseAlpha";
         noiseColor = Color.valueOf("d8f1ff");
     }
+    @Override
+    public void init(){
+        bul.load();
+    }
 
     @Override
     public void update(WeatherState state){
@@ -89,28 +104,44 @@ public class Blizzard extends ParticleWeather {
         if(intensity <= 0.05f) return;
 
         int tileCount = Mathf.ceil(Vars.world.width() * Vars.world.height() * 0.0015f);
+
         float windx = state.windVector.x;
         float windy = state.windVector.y;
 
         if(windx == 0 && windy == 0) return;
 
-        float invLen = 1f / Mathf.sqrt(windx * windx + windy * windy);
+        float len = Mathf.sqrt(windx * windx + windy * windy);
+        float dirx = windx / len;
+        float diry = windy / len;
+
+        float travel = 40f; // distance snow travels
 
         for(int i = 0; i < tileCount; i++){
-            Tile tile = Vars.world.tile(Mathf.random(Vars.world.width() - 1), Mathf.random(Vars.world.height() - 1));
+            Tile tile = Vars.world.tile(
+                    Mathf.random(Vars.world.width() - 1),
+                    Mathf.random(Vars.world.height() - 1)
+            );
+
             if(tile == null || tile.block() == Blocks.air) continue;
             if(!Mathf.chance(hitChance * intensity)) continue;
 
             Building build = tile.build;
             if(build == null) continue;
 
-            float ex = build.x + Mathf.range(build.block.size*8/2f);
-            float ey = build.y + Mathf.range(build.block.size*8/2f);
-            Damage.damage(build.x, build.y, 1, 1f);
-            hitEffect.at(ex, ey,  color);
+            float ex = build.x + Mathf.range(build.block.size * 8f / 2f);
+            float ey = build.y + Mathf.range(build.block.size * 8f / 2f);
+
+            // spawn upwind (upper-left if wind points bottom-right)
+            float sx = ex - dirx * travel;
+            float sy = ey - diry * travel;
+
+            Bullets.fireball.absorbable = true;
+            Call.createBullet(bul, Team.derelict, sx, sy, Mathf.angle(dirx, diry), bul.damage, 1, bul.lifetime);
+            Bullets.fireball.absorbable = false;
+
+            hitEffect.at(ex, ey, color);
         }
     }
-
     private void updateAmbient(WeatherState state){
 //
 //        Color ambient = Vars.state.rules.ambientLight;
