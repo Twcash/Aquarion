@@ -48,7 +48,7 @@ jobs:
 
       - name: Update bundles
         run: |
-          ./gradlew updateBundles
+          ./gradlew tools:icongen
           
           if [ -n "$(git status --porcelain)" ]; then
             git config --global user.name "Github Actions"

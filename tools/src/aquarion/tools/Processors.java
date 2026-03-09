@@ -1,6 +1,5 @@
 package aquarion.tools;
 
-import aquarion.tools.proc.IconProcessor;
 import aquarion.tools.proc.OutlineRegionProcessor;
 import aquarion.tools.proc.StatusEffectProcessor;
 import aquarion.tools.proc.UnitProcessor;
