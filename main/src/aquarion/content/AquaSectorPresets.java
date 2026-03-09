@@ -9,7 +9,7 @@ public class AquaSectorPresets {
     public static AquaSectorPreset  //tantros
     Ingress, diseasedCleft, Torrent, CrystalCaverns, Grove, Ecotone,
     //serpulo (fake)
-    resurgence, twinPass, dryRiver, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics;
+    resurgence, twinPass, dryRiver, blastedDockyards, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics;
     public static void load(){
         resurgence = new AquaSectorPreset("resurgence", fakeSerpulo, 361){{
             allDatabaseTabs = true;
@@ -21,12 +21,32 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
+        frigidShores = new AquaSectorPreset("frigidShores", fakeSerpulo, 356){{
+            allDatabaseTabs = true;
+            alwaysUnlocked = true;
+            addStartingItems = true;
+            captureWave = 38;
+            difficulty = 6;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 2f;
+        }};
+        blastedDockyards = new AquaSectorPreset("blastedDockyard", fakeSerpulo, 786){{
+            allDatabaseTabs = true;
+            alwaysUnlocked = true;
+            addStartingItems = true;
+            captureWave = 33;
+            difficulty = 12;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 2f;
+        }};
         twinPass = new AquaSectorPreset("twinPass", fakeSerpulo, 16){{
             allDatabaseTabs = true;
             addStartingItems = true;
-            captureWave = 25;
+            captureWave = 33;
             alwaysUnlocked = false;
-            difficulty = 2;
+            difficulty = 4;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3f;

@@ -33,7 +33,8 @@ public class IconLoader{
                 TextureRegion region = Core.atlas.find(textureName);
 
                 Fonts.registerIcon(valueParts[0], textureName, codePoint, region);
-
+                //Register so vanilla can read names too. A Tad scuffed
+                Fonts.registerIcon(valueParts[0], "aquarion-" + textureName, codePoint, region);
             }catch(Exception ignored){
             }
         }

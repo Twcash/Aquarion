@@ -235,6 +235,9 @@ public class TantrosTechTree {
                                     new Objectives.SectorComplete(twinPass),
                                     new Objectives.SectorComplete(floodPlains)
                             ), () -> {
+                                node(frigidShores, ()->{
+                                    node(blastedDockyards);
+                                });
                                 node(erodedCanyon, Seq.with(
                                         new Objectives.Research(polymer),
                                         new Objectives.Research(ferricGrinder),
