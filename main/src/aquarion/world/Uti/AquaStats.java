@@ -83,7 +83,7 @@ public class AquaStats {
             table.table(c -> {
                 for(Liquid liquid : Vars.content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){
                     c.table(Styles.grayPanel, b -> {
-                        b.add(displayLiquid(liquid, amount, true)).pad(10f).left().grow();
+                        b.add(displayLiquid(liquid, amount * 60, true)).pad(10f).left().grow();
                         b.add(Core.bundle.format("stat.efficiency", fixValue(efficiency.get(liquid) * 100f)))
                                 .right().pad(10f).padRight(15f);
                     }).growX().pad(5f).row();
@@ -134,7 +134,7 @@ public class AquaStats {
             table.table(c -> {
                 for(Liquid liquid : Vars.content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){
                     c.table(Styles.grayPanel, b -> {
-                        b.add(displayLiquid(liquid, amount, true)).pad(10f).left().grow();
+                        b.add(displayLiquid(liquid, amount * 60, true)).pad(10f).left().grow();
                         b.add(Core.bundle.format("stat.outputmultiplier",
                                         Strings.autoFixed(outputMult.get(liquid) * 100f, 1)))
                                 .right().pad(10f).padRight(15f)

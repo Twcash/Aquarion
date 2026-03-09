@@ -12,7 +12,7 @@ import mindustry.ui.Fonts;
 import java.io.Reader;
 import java.util.Map;
 import java.util.Properties;
-//Stolen From omaloon :troll:
+//Stolen From omaloon :troll: sorta /:
 public class IconLoader{
     public static void loadIcons(){
         Properties iconProperties = new Properties();

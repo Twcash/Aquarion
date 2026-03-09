@@ -49,13 +49,14 @@ public class PowerPylon extends PowerNode {
     public TextureRegion glowBase;
     public int maxNodes = 3;
     public boolean autolink = true, drawRange = true, sameBlockConnection = false;
-
+    //Power line thickness.
+    public float thickness = 5.5f;
     @Override
     public void load(){
         super.load();
         cableEnd = Core.atlas.find(this.name + "-cable-end");
         cable = Core.atlas.find(this.name + "-cable");
-        glow = Core.atlas.find(this.name + "-cable-glow");
+        glow = Core.atlas.find(this.name + "-cable-glow");//2
         glowBase = Core.atlas.find(this.name + "-glow");
     }
     @Override
@@ -149,7 +150,7 @@ public class PowerPylon extends PowerNode {
         Tile tile = world.tile(x, y);
 
         if(tile == null || !autolink) return;
-        Lines.stroke(4);
+        Lines.stroke(thickness);
         Draw.color(Pal.placing);
         Drawf.circles(x * tilesize + offset, y * tilesize + offset, maxRange * tilesize);
 
@@ -164,7 +165,7 @@ public class PowerPylon extends PowerNode {
 
     @Override
     public void drawLaser(float x1, float y1, float x2, float y2, int size1, int size2){
-        Lines.stroke(4);
+        Lines.stroke(thickness);
       float angle1 = Angles.angle(x1, y1, x2, y2),
             vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
             len1 = size1 * tilesize / 2f - 1.5f, len2 = size2 * tilesize / 2f - 1.5f;
@@ -216,24 +217,24 @@ public class PowerPylon extends PowerNode {
     }
     @Override
     public void drawPlanConfigTop(BuildPlan plan, Eachable<BuildPlan> list){
-//        if(plan.config instanceof Point2[] ps){
-//            for(Point2 point : ps){
-//                int px = plan.x + point.x, py = plan.y + point.y;
-//                otherReq = null;
-//                list.each(other -> {
-//                    if(other.block != null
-//                            && (px >= other.x - ((other.block.size-1)/2) && py >= other.y - ((other.block.size-1)/2) && px <= other.x + other.block.size/2 && py <= other.y + other.block.size/2)
-//                            && other != plan && other.block.hasPower && (other.build() instanceof PowerPylonBuild || other.build() instanceof PowerGenerator.GeneratorBuild || other.build() instanceof PowerOutlet.OutletBuild)){
-//                        otherReq = other;
-//                    }
-//                });
-//
-//                if(otherReq == null || otherReq.block == null) continue;
-//
-//                drawLaser(plan.drawx(), plan.drawy(), otherReq.drawx(), otherReq.drawy(), size, otherReq.block.size);
-//            }
-//            Draw.color();
-//        }
+        if(plan.config instanceof Point2[] ps){
+            setupColor(1f);
+            for(Point2 point : ps){
+                int px = plan.x + point.x, py = plan.y + point.y;
+                otherReq = null;
+                list.each(other -> {
+                    if(other.block != null
+                            && (px >= other.x - ((other.block.size-1)/2) && py >= other.y - ((other.block.size-1)/2) && px <= other.x + other.block.size/2 && py <= other.y + other.block.size/2)
+                            && other != plan && other.block.hasPower){
+                        otherReq = other;
+                    }
+                });
+                if(otherReq == null || otherReq.block == null) continue;
+
+                drawLaser(plan.drawx(), plan.drawy(), otherReq.drawx(), otherReq.drawy(), size, otherReq.block.size);
+            }
+            Draw.color();
+        }
     }
     @Override
     public boolean linkValid(Building tile, Building link){
@@ -304,15 +305,6 @@ public class PowerPylon extends PowerNode {
 
         @Override
         public void drawSelect(){
-//            super.drawSelect();
-//
-//            if(!drawRange) return;
-//
-//            Lines.stroke(1f);
-//
-//            Draw.color(Pal.accent);
-//            Drawf.circles(x, y, maxRange * tilesize);
-//            Draw.reset();
         }
 
         @Override
@@ -372,8 +364,7 @@ public class PowerPylon extends PowerNode {
                 float angle1 = Angles.angle(x, y, link.x, link.y),
                         vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
                         len1 = this.block.size * tilesize / 2f - 1.5f, len2 = link.block.size * tilesize / 2f - 1.5f;
-                Lines.stroke(2);
-                float thickness = 8;
+                Lines.stroke(thickness);
                 float angle = Angles.angle(x, y, link.x, link.y);
                 Vec2 pos1 = new Vec2(x, y), pos2 = new Vec2(link.x, link.y);
                 boolean reverse = pos1.x > pos2.x;

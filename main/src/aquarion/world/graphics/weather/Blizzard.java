@@ -1,5 +1,6 @@
 package aquarion.world.graphics.weather;
 import aquarion.content.AquaAttributes;
+import mindustry.entities.Damage;
 import mindustry.world.meta.Attribute;
 import aquarion.content.AquaStatuses;
 import aquarion.world.graphics.AquaFx;
@@ -105,7 +106,7 @@ public class Blizzard extends ParticleWeather {
 
             float ex = build.x + Mathf.range(build.block.size*8/2f);
             float ey = build.y + Mathf.range(build.block.size*8/2f);
-
+            Damage.damage(build.x, build.y, 1, 1f);
             hitEffect.at(ex, ey,  color);
         }
     }

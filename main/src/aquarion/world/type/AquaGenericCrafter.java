@@ -33,10 +33,7 @@ import mindustry.ui.Bar;
 import mindustry.world.Tile;
 import mindustry.world.blocks.heat.HeatConsumer;
 import mindustry.world.blocks.liquid.Conduit.ConduitBuild;
-import mindustry.world.consumers.Consume;
-import mindustry.world.consumers.ConsumeItems;
-import mindustry.world.consumers.ConsumeLiquid;
-import mindustry.world.consumers.ConsumeLiquidBase;
+import mindustry.world.consumers.*;
 import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.meta.BlockFlag;
@@ -152,7 +149,13 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             }
         }
     }
-
+    public void addLiquidBoostBar(Liquid liq){
+        addBar("liquid-" + liq.name + Core.bundle.get("bar.boost"), entity -> !liq.unlockedNow() ? null : new Bar(
+                () -> liq.localizedName + " " + Core.bundle.get("bar.boost"),
+                liq::barColor,
+                () -> entity.liquids.get(liq) / liquidCapacity
+        ));
+    }
     @Override
     public void setBars(){
         super.setBars();
@@ -163,7 +166,33 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                 addLiquidBar(stack.liquid);
             }
         }
-
+        boolean added = false;
+        for(var consl : consumers){
+            if(consl instanceof ConsumeLiquid liq){
+                added = true;
+                removeBar("liquid-" + liq.liquid.name);
+                if(consl.booster){
+                    addLiquidBoostBar(liq.liquid);
+                } else {
+                    addLiquidBar(liq.liquid);
+                }
+                //addLiquidBar(liq.liquid);
+            }else if(consl instanceof ConsumeLiquids multi){
+                added = true;
+                for(var stack : multi.liquids){
+                    removeBar("liquid-" + stack.liquid.name);
+                    if(consl.booster){
+                        addLiquidBoostBar(stack.liquid);
+                    }else {
+                        addLiquidBar(stack.liquid);
+                    }
+                }
+            }
+        }
+        //Dynamic bar
+        if(!added){
+            addLiquidBar(build -> build.liquids.current());
+        }
         if(hasHeat && (heatRequirement > 0 || heatRequirement < 0)){
             addBar("efficiency", (AquaGenericCrafter.AquaGenericCrafterBuild entity) ->
                     new Bar(() ->
