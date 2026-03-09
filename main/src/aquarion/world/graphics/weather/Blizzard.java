@@ -177,8 +177,7 @@ public class Blizzard extends ParticleWeather {
     public void drawOver(WeatherState state){
         super.drawOver(state);
         if(state.intensity > 0.15f){
-            //TODO needs a shader or removal. Yet to decide
-            float alpha = state.opacity * 0.2f * state.intensity;
+            float alpha = state.opacity * 0.1f * state.intensity;
             Draw.color(1f, 1f, 1f, alpha);
             Fill.rect(Core.camera.position.x, Core.camera.position.y, Core.camera.width, Core.camera.height);
             Draw.color();
