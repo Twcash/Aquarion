@@ -3157,8 +3157,6 @@ public class AquaUnitTypes {
                     pierce = true;
                     pierceBuilding = true;
                     pierceCap = 3;
-                    pierceBuilding = true;
-                    damage = 75;
                     damageInterval = 5;
                     colors = new Color[]{Color.valueOf("465ab850"), Color.valueOf("66a6d290"), Color.valueOf("98d5ff"), Color.valueOf("d1efff")};
                 }};
@@ -3834,10 +3832,8 @@ public class AquaUnitTypes {
             accel = 0.04f;
             drag = 0.065f;
             lowAltitude = false;
-            flying = true;
             drawCell = false;
             speed = 2.5f;
-            hitSize = 12;
             circleTarget = true;
             targetFlags = new BlockFlag[]{BlockFlag.turret, null};
             outlineColor = Color.valueOf("1b241e");

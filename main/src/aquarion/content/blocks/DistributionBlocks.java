@@ -161,10 +161,6 @@ public class DistributionBlocks {
             r.requirements = null;
             r.requirements(Category.distribution, with(Items.copper, 1, Items.lead, 1, chalkalloy, 1));
             Block conveyor = Vars.content.blocks().find(f -> f == Blocks.titaniumConveyor);
-
-            if (conveyor != null) {
-                Vars.content.blocks().find(f -> f == Blocks.titaniumConveyor).name.replace("titanium-conveyor","chalkalloy-conveyor");
-            }
         });
         payloadPad = new PayloadJumper("payload-pad"){{
             requirements(Category.units, with(polymer, 45, silicon, 50, copper, 120));

@@ -54,7 +54,5 @@ public class EnginePart extends RegionPart {
 
             Draw.reset();
         }
-
-        Draw.z();
     }
 }

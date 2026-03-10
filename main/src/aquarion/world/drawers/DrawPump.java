@@ -17,7 +17,7 @@ public class DrawPump extends DrawBlock {
     public float timeOffset = 0;
     public float x, y = 0;
     public TextureRegion region;
-    public String suffix = "";
+    public String suffix;
 
     public DrawPump(String suffix){
         this.suffix = suffix;

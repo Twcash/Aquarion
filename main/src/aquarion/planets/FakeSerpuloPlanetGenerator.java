@@ -127,9 +127,6 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         if(craterDist > 0.3f)  return Blocks.stone;
 
         float crack = Ridged.noise3d(seed + 1, position.x, position.y, position.z, 2, 1f / 8f);
-        if(crack >= 0.4f && craterDist >= 0.5f && craterDist <= 0.8f){
-            return Blocks.basalt;
-        }
 
         position = Tmp.v33.set(position).scl(scl);
         float rad = scl;
@@ -184,7 +181,6 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
             floors[i] = entries.get(i).key;
         }
 
-        boolean hasBlizzard = floors.length > 0 && (floors[0].name.contains("ice") || floors[0].name.contains("snow"));
         boolean hasSnow = floors.length > 0 && (floors[0].name.contains("ice") || floors[0].name.contains("snow"));
         boolean hasRain = floors.length > 0 && !hasSnow && content.contains(Liquids.water) && !floors[0].name.contains("sand");
         boolean hasDesert = floors.length > 0 && !hasSnow && !hasRain && floors[0] == Blocks.sand;
@@ -193,14 +189,6 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         if(hasSnow){
             rules.weather.add(new Weather.WeatherEntry(AquaWeathers.blizzard));
             rules.weather.add(new Weather.WeatherEntry(Weathers.snow));
-        }
-
-        if(hasRain && hasSnow){
-            rules.weather.add(new Weather.WeatherEntry(Weathers.rain));
-            rules.weather.add(new Weather.WeatherEntry(Weathers.fog));
-        }
-        if(hasRain && !hasSnow){
-            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.monsoon));
         }
         if(hasDesert){
             rules.weather.add(new Weather.WeatherEntry(Weathers.sandstorm));
@@ -220,8 +208,8 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     protected void generate(){
 
         class Room{
-            int x, y, radius;
-            ObjectSet<Room> connected = new ObjectSet<>();
+            final int x, y, radius;
+            final ObjectSet<Room> connected = new ObjectSet<>();
 
             Room(int x, int y, int radius){
                 this.x = x;
@@ -329,8 +317,8 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         int waterCheckRad = 5;
         for(int i = 0; i < 360; i+= angleStep){
             int angle = offset + i;
-            int cx = (int)(width/2 + Angles.trnsx(angle, length));
-            int cy = (int)(height/2 + Angles.trnsy(angle, length));
+            int cx = (int)(width/2f + Angles.trnsx(angle, length));
+            int cy = (int)(height/2f + Angles.trnsy(angle, length));
 
             int waterTiles = 0;
 
@@ -349,7 +337,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
 
                 for(int j = 0; j < enemySpawns; j++){
                     float enemyOffset = rand.range(60f);
-                    Tmp.v1.set(cx - width/2, cy - height/2).rotate(180f + enemyOffset).add(width/2, height/2);
+                    Tmp.v1.set(cx - width/2f, cy - height/2f).rotate(180f + enemyOffset).add(width/2f, height/2f);
                     Room espawn = new Room((int)Tmp.v1.x, (int)Tmp.v1.y, rand.random(8, 16));
                     roomseq.add(espawn);
                     enemies.add(espawn);
@@ -371,6 +359,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         }
 
         for(Room room : roomseq){
+            assert spawn != null;
             spawn.connect(room);
         }
 

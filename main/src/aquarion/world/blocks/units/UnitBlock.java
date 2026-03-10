@@ -266,15 +266,6 @@ public class UnitBlock extends Block {
 
             return out.length() == 0 ? null : out.toString();
         }
-        public class UnitBuildConfig {
-            public final UnitCommand command;
-            public final Vec2 position;
-
-            public UnitBuildConfig(UnitCommand command, Vec2 position){
-                this.command = command;
-                this.position = position == null ? null : new Vec2(position);
-            }
-        }
 
         @Override
         public void buildConfiguration(Table table){

@@ -39,8 +39,8 @@ public class BarricadeAbsorb extends AquaWall {
 
         x *= tilesize;
         y *= tilesize;
-        x += offset;
-        y += offset;
+        x += (int) offset;
+        y += (int) offset;
 
         Drawf.dashSquare(baseColor, x, y, range * tilesize);
         indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range * tilesize), b -> true, t -> {

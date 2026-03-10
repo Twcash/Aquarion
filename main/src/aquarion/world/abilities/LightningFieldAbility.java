@@ -112,8 +112,7 @@ public class LightningFieldAbility extends Ability {
                     other = absorber;
                 }
 
-                if(((Teamc)other).team() == unit.team){
-                }else{
+                if(((Teamc)other).team() != unit.team){
                     anyNearby = true;
                     if(other instanceof Building b){
                         b.damage(unit.team, damage * state.rules.unitDamage(unit.team));

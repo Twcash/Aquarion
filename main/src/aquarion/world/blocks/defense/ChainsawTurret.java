@@ -179,8 +179,6 @@ public class ChainsawTurret extends Block {
                 return false;
             }
             boolean invalid = invalidateTarget(target, team, x, y, range);
-            if(invalid) {
-            }
             return !invalid;
         }
 

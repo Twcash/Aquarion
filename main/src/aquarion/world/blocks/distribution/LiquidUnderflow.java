@@ -108,7 +108,7 @@ public class LiquidUnderflow extends LiquidBlock {
 
                 if(ac && !bc){
                     to = resolvedA;
-                }else if(bc && !ac){
+                }else if(!ac){
                     to = resolvedB;
                 }else{
                     to = (rotation & (1 << from)) == 0 ? resolvedA : resolvedB;

@@ -845,8 +845,6 @@ public class CrafterBlocks {
                     this.particleRad = 20;
                     this.particleLen = 8;
                     this.particleLife = 90;
-                    this.circleStroke = 3;
-                    this.circleSpace = 12;
                 }}, new DrawRegion("-rotator") {{
                     rotateSpeed = 1.5f;
                     spinSprite = true;

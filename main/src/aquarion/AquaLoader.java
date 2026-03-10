@@ -6,6 +6,8 @@ import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.AquaSoundControl;
 import aquarion.world.graphics.Renderer;
 import arc.*;
+import arc.graphics.g2d.TextureRegion;
+import arc.struct.Seq;
 import arc.util.Log;
 import arc.util.Time;
 import mindustry.Vars;
@@ -17,6 +19,7 @@ import mindustry.game.MapObjectives;
 import mindustry.game.Rules;
 import mindustry.gen.Building;
 import mindustry.mod.*;
+import mindustry.ui.Fonts;
 import mindustry.ui.dialogs.*;
 import aquarion.annotations.Annotations.*;
 import aquarion.gen.*;
@@ -42,7 +45,7 @@ public class AquaLoader extends Mod {
                 AquaShaders.dispose()
         );
         Events.on(EventType.ClientLoadEvent.class, e -> {
-            IconLoader.loadIcons();
+            //IconLoader.loadIcons();
             Planets.erekir.accessible = false;
             Planets.serpulo.accessible = false;
             Planets.erekir.visible = false;
@@ -77,8 +80,34 @@ public class AquaLoader extends Mod {
         AquarionMod.loadContent();
 
         aquarionEntityMapping.init();
+        registerAllIcons();
     }
     public static Mods.LoadedMod mod(){
         return mod;
+    }
+    public static void registerAllIcons(){
+        int ch = 0xEB00;
+
+        Seq<UnlockableContent> cont = Seq.withArrays(
+                Vars.content.blocks(),
+                Vars.content.items(),
+                Vars.content.liquids(),
+                Vars.content.units(),
+                Vars.content.statusEffects()
+        );
+
+        for(UnlockableContent c : cont){
+            if(c.minfo.mod != Vars.mods.getMod("aquarion")) continue;
+
+            TextureRegion region = Core.atlas.find(c.name + "-ui");
+            if(region == Core.atlas.find("error")) continue;
+
+            Fonts.registerIcon(c.name, c.name + "-ui", ch, region);
+
+            String shortName = c.name.replace("aquarion-", "");
+            Fonts.registerIcon(shortName, c.name + "-ui", ch, region);
+
+            ch--;
+        }
     }
 }

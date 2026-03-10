@@ -165,7 +165,6 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                 //back legs have reversed directions
                 boolean backLeg = unit.legSequence.get(i).baseY > 0;
                 if (backLeg && type.flipBackLegs) side = !side;
-                if (type.flipLegSide) side = !side;
 
                 l.moving = move;
                 l.stage = moving ? stageF % 1f : Mathf.lerpDelta(l.stage, 0f, 0.1f);

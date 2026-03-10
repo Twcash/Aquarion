@@ -1610,7 +1610,6 @@ public class TurretBlocks {
                         smokeEffect = Fx.smoke;
                         trailEffect = Fx.none;
                         despawnEffect = hitEffect = AquaFx.fomentHitColor;
-                        trailEffect = Fx.none;
                         shrinkX = 0.2f;
                         shrinkY = 0.8f;
                         frontColor = lightColor = hitColor = Color.white;

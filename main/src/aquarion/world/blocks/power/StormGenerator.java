@@ -77,7 +77,7 @@ public class StormGenerator extends SolarGenerator {
                                     ? 1f - Vars.state.rules.ambientLight.a
                                     : 1f)
             );
-            float weatherBonus = 0f;
+            float weatherBonus;
             float intensity = AquaAttributes.wind.env();
             stormIntensity = Mathf.clamp(intensity, 0f, 1f);
             stormIntensitySmooth = Mathf.approachDelta(

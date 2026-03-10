@@ -71,24 +71,27 @@ public class NewRegPart extends RegionPart {
                 Draw.z(prevZ);
             }
 
-            if(drawRegion && region.found()){
-                if(color != null && colorTo != null){
-                    Draw.color(color, colorTo, prog);
-                }else if(color != null){
-                    Draw.color(color);
-                }
+            if(drawRegion) {
+                assert region != null;
+                if (region.found()) {
+                    if (color != null && colorTo != null) {
+                        Draw.color(color, colorTo, prog);
+                    } else if (color != null) {
+                        Draw.color(color);
+                    }
 
-                if(mixColor != null && mixColorTo != null){
-                    Draw.mixcol(mixColor, mixColorTo, prog);
-                }else if(mixColor != null){
-                    Draw.mixcol(mixColor, mixColor.a);
-                }
+                    if (mixColor != null && mixColorTo != null) {
+                        Draw.mixcol(mixColor, mixColorTo, prog);
+                    } else if (mixColor != null) {
+                        Draw.mixcol(mixColor, mixColor.a);
+                    }
 
-                Draw.blend(blending);
-                Draw.alpha(Mathf.lerp(alpha, alphaTo, prog));
-                rect(region, rx, ry, rot);
-                Draw.blend();
-                if(color != null) Draw.color();
+                    Draw.blend(blending);
+                    Draw.alpha(Mathf.lerp(alpha, alphaTo, prog));
+                    rect(region, rx, ry, rot);
+                    Draw.blend();
+                    if (color != null) Draw.color();
+                }
             }
 
             if(heat.found()){

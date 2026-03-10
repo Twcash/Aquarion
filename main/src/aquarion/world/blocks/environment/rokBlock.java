@@ -53,6 +53,4 @@ public class rokBlock extends Block {
     public TextureRegion[] icons() {
         return variants == 0 ? super.icons() : new TextureRegion[]{Core.atlas.find(name + "1")};
     }
-    public class HpDeconstructBuild extends Building {
-    }
 }

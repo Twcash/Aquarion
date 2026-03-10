@@ -7,7 +7,7 @@ import mindustry.entities.abilities.Ability;
 import mindustry.gen.Unit;
 //This is only really useful for legged units.
 public class DeathFxAbility extends Ability {
-    public Effect effect = Fx.none;
+    public Effect effect;
     public DeathFxAbility(Effect effect){{
         this.effect = effect;
     }}

@@ -7,7 +7,7 @@ import arc.math.geom.Vec2;
 import mindustry.world.blocks.environment.Floor;
 
 public class AquaLegConfig {
-    public float baseX, baseY, baseRot, legLength = 10, minLen, maxLen, legExtension;
+    public float baseX, baseY, baseRot, legLength, minLen, maxLen, legExtension;
     public String suffix;
     public AquaLegConfig(float baseX,float baseY,float baseRot, float legLength){
         this.baseX = baseX;

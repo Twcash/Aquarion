@@ -565,7 +565,7 @@ public class AquaFx {
                 color(Pal.lighterOrange, Pal.stoneGray, Interp.pow2In.apply(b.fin()));
                 alpha(0.7f);
                 for (int i = 0; i < 4; i++) {
-                    rand.setSeed(b.id * 2 + i);
+                    rand.setSeed(b.id * 2L + i);
                     float lenScl = rand.random(0.4f, 1f);
                     int fi = i;
                     b.scaled(b.lifetime * lenScl, e -> {
@@ -629,7 +629,7 @@ public class AquaFx {
                 color(b.color, Pal.stoneGray, Interp.pow2In.apply(b.fin()));
                 alpha(0.7f);
                 for (int i = 0; i < 4; i++) {
-                    rand.setSeed(b.id * 2 + i);
+                    rand.setSeed(b.id * 2L + i);
                     float lenScl = rand.random(0.4f, 1f);
                     int fi = i;
                     b.scaled(b.lifetime * lenScl, e -> {
@@ -668,11 +668,11 @@ public class AquaFx {
                         int add = (int) (b.rotation % 3);
                         alpha(Interp.pow5In.apply(b.fin()));
                         for (int i = 0; i < 5+add; i++) {
-                            rand.setSeed(b.id * 3 + i);
+                            rand.setSeed(b.id * 3L + i);
                             float lenScl = rand.random(0.4f, 1f);
                             int fi = i;
                             b.scaled(b.lifetime * lenScl, e -> {
-                                rand.setSeed(e.id * 3 * fi);
+                                rand.setSeed(e.id * 3L * fi);
                                 color(Pal.darkishGray.lerp(Pal.darkerGray, rand.random(1)), Pal.stoneGray, Interp.pow2In.apply(b.fin()));
                                 randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int) (3.1f * intensity), 24f * intensity, (x, y, in, out) -> {
                                     float fout = e.fout(Interp.pow5Out) * rand.random(0.5f, 1f);
@@ -686,12 +686,12 @@ public class AquaFx {
 
                         alpha(0.7f);
                         for (int i = 0; i < 4+add; i++) {
-                            rand.setSeed(b.id * 2 + i);
+                            rand.setSeed(b.id * 2L + i);
                             float lenScl = rand.random(0.4f, 1f);
                             int fi = i;
 
                             b.scaled(b.lifetime * lenScl, e -> {
-                                rand.setSeed(e.id * 2 * fi);
+                                rand.setSeed(e.id * 2L * fi);
                                 color(Pal.lightOrange.lerp(Pal.accent, rand.random(1)), Pal.stoneGray, Interp.pow2In.apply(b.fin()));
 
                                 randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int) (2.9f * intensity), 24f * intensity, (x, y, in, out) -> {
@@ -872,7 +872,7 @@ public class AquaFx {
                 color(Pal.techBlue);
                 alpha(0.8f);
                 for (int i = 0; i < 5; i++) {
-                    rand.setSeed(b.id * 4 + i);
+                    rand.setSeed(b.id * 4L + i);
                     float lenScl = rand.random(0.35f, 1.5f);
                     int fi = i;
                     b.scaled(b.lifetime * lenScl, e -> {
@@ -1059,7 +1059,7 @@ public class AquaFx {
 
                 color(Pal.neoplasm2);
                 for(int i = 0; i < 4; i++){
-                    rand.setSeed(b.id*2 + i);
+                    rand.setSeed(b.id*2L + i);
                     float lenScl = rand.random(0.5f, 1f);
                     int fi = i;
                     b.scaled(b.lifetime * lenScl, e -> {

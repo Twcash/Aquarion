@@ -142,7 +142,7 @@ public class PowerPylon extends PowerNode {
         });
     }
     public static boolean isAllowedLinkTarget(Building build){
-        return build instanceof PowerPylonBuild || build instanceof PowerGenerator.GeneratorBuild || build instanceof PowerOutlet.OutletBuild || (build instanceof Battery.BatteryBuild && build.block.insulated);
+        return build instanceof PowerPylonBuild || build instanceof PowerGenerator.GeneratorBuild || build instanceof Battery.BatteryBuild && build.block.insulated;
     }
     //Gotta keep this here OR ELSE
     @Override

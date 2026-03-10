@@ -31,7 +31,6 @@ public class AquaWall extends Wall {
     public void drawShadow(Tile tile){
         Draw.z(shadow);
         Draw.rect(custShad, tile.drawx(), tile.drawy());
-        Draw.z();
     }
 
     public class AquaWallBuild extends WallBuild{

@@ -15,6 +15,7 @@ import mindustry.ctype.ContentType;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.VariableElement;
+import java.util.Objects;
 
 public class EntityIO{
     final String name;
@@ -121,7 +122,7 @@ public class EntityIO{
             String name = BaseProcessor.simpleName(field);
             String targetName = name + "_TARGET_";
             String lastName = name + "_LAST_";
-            st("$L = $L($T.$L($L, $L, alpha))", name, BaseProcessor.annotation(field, SyncField.class).clamped() ? "arc.math.Mathf.clamp" : "", BaseProcessor.cName(Mathf.class), BaseProcessor.annotation(field, SyncField.class).value() ? "lerp" : "slerp", lastName, targetName);
+            st("$L = $L($T.$L($L, $L, alpha))", name, Objects.requireNonNull(BaseProcessor.annotation(field, SyncField.class)).clamped() ? "arc.math.Mathf.clamp" : "", BaseProcessor.cName(Mathf.class), Objects.requireNonNull(BaseProcessor.annotation(field, SyncField.class)).value() ? "lerp" : "slerp", lastName, targetName);
         }
 
         ncont("else if(lastUpdated != 0)");

@@ -97,7 +97,7 @@ public class AquaHeatCrafter extends GenericCrafter {
 
         @Override
         public float efficiencyScale() {
-            float eff = 0;
+            float eff;
             if (flipHeatScale) {
                 float over = Math.max(heat - heatRequirement, 0f);
                 eff = -Math.min((heat / -heatRequirement) + over / -heatRequirement * overheatScale, maxEfficiency);

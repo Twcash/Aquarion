@@ -73,6 +73,7 @@ public class LoadProcessor extends BaseProcessor{
             for(Element e : roundEnv.getElementsAnnotatedWith(LoadRegs.class)){
                 LoadRegs ann = annotation(e, LoadRegs.class);
 
+                assert ann != null;
                 for(String reg : ann.value()){
                     if(!processed.add(reg)) continue;
 

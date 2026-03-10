@@ -91,8 +91,8 @@ public class RegenPylon extends MendProjector {
     public void drawPlace(int x, int y, int rotation, boolean valid) {
         x *= tilesize;
         y *= tilesize;
-        x += offset;
-        y += offset;
+        x += (int) offset;
+        y += (int) offset;
         Drawf.dashSquare(baseColor, x, y, range/2f * tilesize);
         indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range/2f * tilesize), b -> true, t -> {
             Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
@@ -156,7 +156,7 @@ public class RegenPylon extends MendProjector {
                 });
             }
 
-            if(this.charge >= RegenPylon.this.reload && canHeal && !enemyClose){
+            if(this.charge >= RegenPylon.this.reload && canHeal){
                 float realRange = RegenPylon.this.range / 2f
                         + this.phaseHeat * RegenPylon.this.phaseRangeBoost;
 

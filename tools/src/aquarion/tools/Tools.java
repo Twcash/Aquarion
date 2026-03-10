@@ -1,6 +1,7 @@
 package aquarion.tools;
 
 import aquarion.AquaLoader;
+import aquarion.AquarionMod;
 import aquarion.tools.GenAtlas.GenRegion;
 import arc.Core;
 import arc.Settings;
@@ -8,26 +9,35 @@ import arc.assets.AssetManager;
 import aquarion.gen.*;
 
 import arc.files.Fi;
+import arc.graphics.Pixmap;
 import arc.graphics.g2d.TextureRegion;
 import arc.mock.MockApplication;
 import arc.mock.MockFiles;
 import arc.struct.IntSet;
 import arc.struct.ObjectMap;
+import arc.struct.OrderedMap;
 import arc.struct.Seq;
 import arc.util.*;
 import arc.util.Log.DefaultLogHandler;
 import arc.util.Log.NoopLogHandler;
+import arc.util.io.PropertiesUtils;
 import mindustry.async.AsyncCore;
+import mindustry.content.Blocks;
 import mindustry.core.ContentLoader;
 import mindustry.core.FileTree;
 import mindustry.core.GameState;
 import mindustry.ctype.Content;
 import mindustry.ctype.ContentType;
 import mindustry.ctype.MappableContent;
+import mindustry.ctype.UnlockableContent;
 import mindustry.mod.Mods;
 import mindustry.mod.Mods.LoadedMod;
 import mindustry.mod.Mods.ModMeta;
+import mindustry.type.UnitType;
+import mindustry.ui.Fonts;
+import mindustry.world.blocks.ConstructBlock;
 
+import java.io.Writer;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -87,13 +97,15 @@ public final class Tools{
         content = new ContentLoader();
         content.createBaseContent();
 
-        thisMod = new AquaLoader(true);
+        thisMod = new AquaLoader();
 
-        meta = new ModMeta(){{ name = System.getProperty("currentModName"); }};
+        meta = new ModMeta(){{
+            name = System.getProperty("currentModName");
+        }};
         mod = new LoadedMod(null, null, thisMod, Tools.class.getClassLoader(), meta);
 
         Reflect.<Seq<LoadedMod>>get(Mods.class, mods, "mods").add(mod);
-        Reflect.<ObjectMap<Class<?>, ModMeta>>get(Mods.class, mods, "metas").put(AquaLoader.class, meta);
+        Reflect.<ObjectMap<Class<?>, ModMeta>>get(Mods.class, mods, "metas").put(AquarionMod.class, meta);
 
         addRegions();
         atlas.clear = atlas.find("clear");
@@ -108,6 +120,106 @@ public final class Tools{
         runs.run();
         Processors.process();
         runs.run();
+
+        //generate icons
+        try{
+            Fi iconfile = assetsDir.child("icons").child("icons.properties");
+            iconfile.parent().mkdirs();
+
+            OrderedMap<String, String> map = new OrderedMap<>();
+            if(iconfile.exists()){
+                PropertiesUtils.load(map, iconfile.reader(256));
+            }
+
+            ObjectMap<String, String> nameToKey = new ObjectMap<>();
+            map.each((key, val) -> {
+                String[] parts = val.split("\\|");
+                if(parts.length > 0) nameToKey.put(parts[0], key);
+            });
+
+            Seq<UnlockableContent> cont = Seq.withArrays(content.blocks(), content.items(), content.liquids(), content.units(), content.statusEffects());
+            cont.removeAll(c -> c.minfo.mod != mod || c instanceof ConstructBlock || c == Blocks.air || (c instanceof UnitType t && t.internal));
+
+            //scan for manual icons in assets-raw/icons
+            //these are copied to sprites/icons and registered
+            Fi iconsDir = new Fi("../assets-raw/icons");
+            Seq<String> extraIcons = new Seq<>();
+            if(iconsDir.exists()){
+                iconsDir.walk(fi -> {
+                    if(fi.extEquals("png")){
+                        //Append -ui to the region name to match standard convention
+                        String name = meta.name + "-" + fi.nameWithoutExtension() + "-ui";
+                        GenRegion region = new GenRegion(name, new Pixmap(fi));
+                        region.relativePath = "ui";
+                        region.save(true);
+
+                        extraIcons.add(fi.nameWithoutExtension());
+                    }
+                });
+                extraIcons.sort();
+            }
+
+            int minid = 0xEB00;
+            for(String key : map.keys()){
+                try{
+                    minid = Math.min(Integer.parseInt(key) - 1, minid);
+                }catch(NumberFormatException ignored){
+                }
+            }
+
+            boolean changed = false;
+            for(UnlockableContent c : cont){
+                String shortName = c.name.substring(meta.name.length() + 1);
+
+                String fullValue = c.name + "|" + c.name + "-ui";
+                String shortValue = shortName + "|" + c.name + "-ui";
+                String key = nameToKey.get(c.name);
+
+                if(key != null){
+                    if(!map.get(key).equals(fullValue)){
+                        map.put(key, fullValue);
+                        changed = true;
+                    }
+                }else{
+                    map.put(minid + "", fullValue);
+                    minid--;
+                    changed = true;
+                }
+                map.put(minid + "", shortValue);
+                minid--;
+                changed = true;
+            }
+
+            for(String icon : extraIcons){
+                String name = meta.name + "-" + icon;
+                String newValue = name + "|" + name + "-ui";
+                String key = nameToKey.get(name);
+
+                if(key != null){
+                    if(!map.get(key).equals(newValue)){
+                        map.put(key, newValue);
+                        changed = true;
+                    }
+                }else{
+                    map.put(minid + "", newValue);
+                    minid--;
+                    changed = true;
+                }
+
+            }
+
+            if(changed){
+                Writer writer = iconfile.writer(false);
+                for(String k : map.keys()){
+                    int code = Integer.parseInt(k);
+                    writer.write(String.format("#\\u%04X\n", code));
+                    writer.write(k + "=" + map.get(k) + "\n");
+                }
+                writer.close();
+            }
+        }catch(java.io.IOException e){
+            throw new RuntimeException(e);
+        }
 
         atlas.dispose();
     }
