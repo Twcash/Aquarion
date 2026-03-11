@@ -43,7 +43,7 @@ public class EnvironmentBlocks {
     public static Block varcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
-            andesiteLayers, basaltSpikes, algal_carpet, brine_liquid,
+            andesiteLayers, basaltSpikes, algal_carpet, brine_liquid, lava, shallowSlag, shallowLava,
             coral_floor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
             kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
@@ -75,9 +75,34 @@ public class EnvironmentBlocks {
             liquidMultiplier = 1.1f;
             isLiquid = true;
             drownTime = 6000;
-            cacheLayer = AquaShaders.brineLayer;
+            cacheLayer = AquaShaders.brineLayer;;
             albedo = 1f;
             supportsOverlay = true;
+        }};
+        shallowSlag = new Floor("shallow-slag") {{
+            speedMultiplier = 0.1f;
+            variants = 0;
+            liquidDrop = Liquids.slag;
+            liquidMultiplier = 0.5f;
+            isLiquid = true;
+            shallow = true;
+            cacheLayer = AquaShaders.sslagLayer;
+        }};
+        shallowLava = new Floor("shallow-lava") {{
+            speedMultiplier = 0.1f;
+            variants = 0;
+            liquidDrop = AquaLiquids.magma;
+            liquidMultiplier = 0.5f;
+            isLiquid = true;
+            shallow = true;
+            cacheLayer = AquaShaders.slavaLayer;
+        }};
+        lava = new Floor("lava") {{
+            speedMultiplier = 0.1f;
+            variants = 0;
+            liquidDrop = AquaLiquids.magma;
+            isLiquid = true;
+            cacheLayer = AquaShaders.lavalLayer;
         }};
         ultrafamicFloor = new Floor("ultrafamic-floor", 3) {{
             wall = ultrafamicWall;

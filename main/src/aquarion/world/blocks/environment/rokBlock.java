@@ -28,7 +28,7 @@ public class rokBlock extends Block {
     public void drawBase(Tile tile) {
         Draw.z(layer);
         float rot = Mathf.randomSeed(tile.pos(), -rotationRand, rotationRand);
-        Draw.rect(variants > 0 ? variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))] : region, tile.x, tile.y, rot);
+        Draw.rect(variants > 0 ? variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))] : region,tile.worldx(), tile.worldy(), rot);
     }
 
     @Override

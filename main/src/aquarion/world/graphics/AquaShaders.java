@@ -25,11 +25,11 @@ import static mindustry.Vars.tree;
 public class AquaShaders {
     public static PlanetShader planet;
 
-    public static @Nullable SurfaceShader brine, shadow, heat, glitch, neoplasiaBaseShader;
+    public static @Nullable SurfaceShader brine, lava, shallowLava, shallowSlag, shadow, heat, glitch, neoplasiaBaseShader;
     public static @Nullable MonsoonShader monsoon;
     public static @Nullable PodShader neoplasiaPodShader;
     public static @Nullable deflectorShader deflectorShield;
-    public static CacheLayer.ShaderLayer brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer;
+    public static CacheLayer.ShaderLayer lavalLayer, slavaLayer, sslagLayer, brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer;
     public static Fi file(String name){
         return Core.files.internal("shaders/" + name);
     }
@@ -39,6 +39,10 @@ public static void init() {
 
     planet = new PlanetShader();
     brine = new SurfaceShader("brine");
+    lava = new SurfaceShader("lava");
+    shallowSlag = new SurfaceShader("shallowSlag");
+    shallowLava = new SurfaceShader("shallowLava");
+
     neoplasiaBaseShader = new SurfaceShader("neoplasiaBase");
     neoplasiaPodShader = new PodShader("neoplasiaPods");
 
@@ -52,10 +56,16 @@ public static void init() {
     shadowLayer = new CacheLayer.ShaderLayer(shadow);
     neoplasiaBaseLayer = new CacheLayer.ShaderLayer(neoplasiaBaseShader);
     brineLayer = new CacheLayer.ShaderLayer(brine);
+    sslagLayer = new CacheLayer.ShaderLayer(shallowSlag);
+    slavaLayer = new CacheLayer.ShaderLayer(shallowLava);
+    lavalLayer = new CacheLayer.ShaderLayer(lava);
     heatLayer = new CacheLayer.ShaderLayer(heat);
     glitchLayer = new CacheLayer.ShaderLayer(glitch);
     deflecterLayer = new CacheLayer.ShaderLayer(deflectorShield);
     CacheLayer.addLast(brineLayer);
+    CacheLayer.addLast(slavaLayer);
+    CacheLayer.addLast(sslagLayer);
+    CacheLayer.addLast(lavalLayer);
     CacheLayer.addLast(neoplasiaBaseLayer);
 
 }
@@ -63,6 +73,9 @@ public static void init() {
     public static void dispose(){
         if (!Vars.headless) {
             brine.dispose();
+            lava.dispose();
+            shallowLava.dispose();
+            shallowSlag.dispose();
             neoplasiaBaseShader.dispose();
             neoplasiaPodShader.dispose();
         }

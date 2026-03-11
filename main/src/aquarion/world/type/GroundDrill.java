@@ -194,11 +194,14 @@ public class GroundDrill extends AquaBlock {
         int i = 0;
         for (Item item : fake.returnItems) {
             if (item.hardness <= tier) {
+                Draw.color(Color.valueOf("002c80"));
+                Draw.color(Color.white);
                 float width = drawPlaceText(
                         Core.bundle.formatFloat("bar.drillspeed",
                                 60f / getDrillTime(item) * fake.returnCounts.get(item, 0), 2),
                         x, y + (int)(i * spacing), valid
                 );
+                Draw.color();
                 float dx = baseX - width / 2f - 6f;
                 float dy = baseY + size * tilesize / 2f + 8f + (i * spacing * 6f);
                 float s = iconSmall / 4f;
@@ -208,11 +211,14 @@ public class GroundDrill extends AquaBlock {
                 Draw.reset();
                 Draw.rect(item.fullIcon, dx, dy, s, s);
             } else {
+                Draw.color(Color.white);
                 drawPlaceText(Core.bundle.get("bar.drilltierreq"),
                         x, y + (int)(i * spacing), valid);
+                Draw.color();
             }
             i++;
         }
+
         if (drawMineItem && !fake.returnItems.isEmpty()) {
             Draw.color(averageItemColor(fake.returnItems));
             Draw.rect(itemRegion, baseX, baseY);
@@ -246,9 +252,9 @@ public class GroundDrill extends AquaBlock {
 
         stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);
         if (baseEfficiency < 1 && heatRequirement != 0) {
-            stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
+            if(hasHeat)  stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
         } else {
-            stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, baseEfficiency, maxEfficiency, flipHeatScale));
+            if(hasHeat) stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, baseEfficiency, maxEfficiency, flipHeatScale));
         }
         if (itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni) {
             stats.remove(Stat.booster);
@@ -275,10 +281,22 @@ public class GroundDrill extends AquaBlock {
 
         ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
         Seq<Item> itemArray = new Seq<>();
-
-        for (Tile other : tile.getLinkedTilesAs(this, tempTiles)) {
-            if (canMine(other)) {
-                oreCount.increment(getDrop(other), 0, 1);
+        //Accounting for both overlays and floors is sorta a pain but it works.
+        for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){
+            if(other.block().isStatic()) continue;
+            Floor floor = other.floor();
+            Floor overlay = other.overlay();
+            if(overlay != null && overlay.itemDrop != null){
+                Item drop = overlay.itemDrop;
+                if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){
+                    oreCount.increment(drop, 0, 1);
+                }
+            }
+            if(floor != null && floor.itemDrop != null){
+                Item drop = floor.itemDrop;
+                if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){
+                    oreCount.increment(drop, 0, 1);
+                }
             }
         }
 
@@ -300,16 +318,27 @@ public class GroundDrill extends AquaBlock {
         }
     }
 
-    public boolean canMine(Tile tile) {
-        if (tile == null || tile.block().isStatic()) return false;
-        Item drops = tile.drop();
-        return drops != null && drops.hardness <= tier && (blockedItems == null || !blockedItems.contains(drops));
+    public boolean canMine(Tile tile){
+        if(tile == null || tile.block().isStatic()) return false;
+        Floor floor = tile.floor();
+        Floor overlay = tile.overlay();
+        if(overlay != null && overlay.itemDrop != null){
+            Item drop = overlay.itemDrop;
+            if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){
+                return true;
+            }
+        }
+        if(floor != null && floor.itemDrop != null){
+            Item drop = floor.itemDrop;
+            return drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop));
+        }
+        return false;
     }
 
     public class DrillBuild extends Building implements HeatConsumer {
         public Seq<Item> returnItems = new Seq<>();
         public ObjectIntMap<Item> returnCounts = new ObjectIntMap<>();
-
+        public ObjectFloatMap<Item> progresses = new ObjectFloatMap<>();
         public float progress;
         public float totalProgress;
         public float warmup;
@@ -355,9 +384,10 @@ public class GroundDrill extends AquaBlock {
         }
 
         @Override
-        public void onProximityUpdate() {
+        public void onProximityUpdate(){
             super.onProximityUpdate();
             countOre(tile, this);
+            progresses.clear();
         }
 
         @Override
@@ -365,52 +395,62 @@ public class GroundDrill extends AquaBlock {
             if (sensor == LAccess.firstItem && !returnItems.isEmpty()) return returnItems.first();
             return super.senseObject(sensor);
         }
-
         @Override
         public void updateTile() {
             heat = calculateHeat(sideHeat);
 
-            for (Item dominantItem : returnItems) {
-                if (timer(timerDump, dumpTime / timeScale)) {
-                    dump(dominantItem);
+            Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
+            Consume itemBooster = findConsumer(c -> c instanceof ConsumeItems && c.booster);
+
+            float liquidEff = liquidBooster != null ? liquidBooster.efficiency(this) : 0f;
+            float itemEff = itemBooster != null ? itemBooster.efficiency(this) : 0f;
+
+            float speed = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
+                    Mathf.lerp(1f, itemBoostIntensity, itemEff) *
+                    efficiency;
+
+            warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);
+            totalProgress += warmup * Time.delta;
+            if(timer(timerDump, dumpTime / timeScale)){
+                for(Item item : returnItems){
+                    dump(item);
                 }
-                int curItems = items.get(dominantItem);
-                if (curItems >= itemCapacity) continue;
+            }
+            for(Item item : returnItems){
+                float delay = getDrillTime(item);
+                float prog = progresses.get(item, 0f);
 
-                float delay = getDrillTime(dominantItem);
+                prog += delta() * returnCounts.get(item, 1) * speed * warmup;
 
-                float liquidEff = 0f;
-                float itemEff = 0f;
+                if(prog >= delay){
 
-                Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
-                if (liquidBooster != null) liquidEff = liquidBooster.efficiency(this);
+                    int amount = (int)(prog / delay);
 
-                Consume itemBooster = findConsumer(c -> c instanceof ConsumeItems && c.booster);
-                if (itemBooster != null) itemEff = itemBooster.efficiency(this);
+                    for(int i = 0; i < amount; i++){
+                        if(items.get(item) < itemCapacity){
+                            offload(item);
+                        }
+                    }
 
-                float speed = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
-                        Mathf.lerp(1f, itemBoostIntensity, itemEff) *
-                        efficiency;
+                    prog %= delay;
 
-                lastDrillSpeed = (speed * returnCounts.get(dominantItem, 1)) / delay;
-                warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);
-                progress += delta() * returnCounts.get(dominantItem, 1) * speed * warmup;
-                totalProgress += warmup * Time.delta;
-
-                if (progress >= delay) {
-                    int amount = (int) (progress / delay);
-                    for (int i = 0; i < amount; i++) offload(dominantItem);
-                    progress %= delay;
-
-                    if (wasVisible && Mathf.chanceDelta(drillEffectChance * warmup))
-                        drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
+                    if(wasVisible && Mathf.chanceDelta(drillEffectChance * warmup)){
+                        drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), item.color);
+                    }
                 }
 
-                if (Mathf.chanceDelta(updateEffectChance * warmup))
+                progresses.put(item, prog);
+
+                lastDrillSpeed = (speed * returnCounts.get(item, 1)) / delay;
+
+                if(Mathf.chanceDelta(updateEffectChance * warmup)){
                     updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));
+                }
             }
 
-            if (returnItems.isEmpty()) warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
+            if(returnItems.isEmpty()){
+                warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
+            }
         }
 
         @Override
