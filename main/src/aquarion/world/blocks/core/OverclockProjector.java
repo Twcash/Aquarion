@@ -12,7 +12,7 @@ import static mindustry.Vars.indexer;
 
 public class OverclockProjector extends OverdriveProjector{
 
-    public float damagePercent = 0.01f;
+    public float damagePercent = 0.008f;
 
     public OverclockProjector(String name){
         super(name);
@@ -38,6 +38,7 @@ public class OverclockProjector extends OverdriveProjector{
 
         return g != BlockGroup.projectors &&
                 g != BlockGroup.liquids &&
+                g != BlockGroup.walls && other.block.canOverdrive &&
                 g != BlockGroup.transportation;
     }
 

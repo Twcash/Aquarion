@@ -197,6 +197,7 @@ public class CoreBlocks {
             range = 150;
             hasBoost = false;
             speedBoost = 2.0f;
+            squareSprite = false;
         }};
     }
 }
