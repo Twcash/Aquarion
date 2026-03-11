@@ -64,6 +64,7 @@ public class OverclockProjector extends OverdriveProjector{
                             float slow = Mathf.clamp(healthFrac, 0.1f, 1f);
                             float damage = other.block.health * (damagePercent + phaseHeat * 0.02f) * slow * Time.delta;
                             other.damage(damage);
+                            other.applyBoost(speedBoost, reload);
                         }
                 );
 
