@@ -1,46 +1,29 @@
 package aquarion.tools;
 
 import aquarion.AquaLoader;
-import aquarion.AquarionMod;
-import aquarion.tools.GenAtlas.GenRegion;
-import arc.Core;
-import arc.Settings;
-import arc.assets.AssetManager;
-import aquarion.gen.*;
-
-import arc.files.Fi;
-import arc.graphics.Pixmap;
-import arc.graphics.g2d.TextureRegion;
-import arc.mock.MockApplication;
-import arc.mock.MockFiles;
-import arc.struct.IntSet;
-import arc.struct.ObjectMap;
-import arc.struct.OrderedMap;
-import arc.struct.Seq;
+import aquarion.gen.aquarionContentRegionRegistry;
+import arc.*;
+import arc.assets.*;
+import arc.files.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.mock.*;
+import arc.struct.*;
 import arc.util.*;
-import arc.util.Log.DefaultLogHandler;
-import arc.util.Log.NoopLogHandler;
-import arc.util.io.PropertiesUtils;
-import mindustry.async.AsyncCore;
-import mindustry.content.Blocks;
-import mindustry.core.ContentLoader;
-import mindustry.core.FileTree;
-import mindustry.core.GameState;
-import mindustry.ctype.Content;
-import mindustry.ctype.ContentType;
-import mindustry.ctype.MappableContent;
-import mindustry.ctype.UnlockableContent;
-import mindustry.mod.Mods;
-import mindustry.mod.Mods.LoadedMod;
-import mindustry.mod.Mods.ModMeta;
-import mindustry.type.UnitType;
-import mindustry.ui.Fonts;
-import mindustry.world.blocks.ConstructBlock;
+import arc.util.Log.*;
+import arc.util.io.*;
+import mindustry.async.*;
+import mindustry.content.*;
+import mindustry.core.*;
+import mindustry.ctype.*;
+import mindustry.mod.*;
+import mindustry.mod.Mods.*;
+import mindustry.type.*;
+import mindustry.world.blocks.*;
 
-import java.io.Writer;
-import java.nio.file.Paths;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.io.*;
+import java.nio.file.*;
+import java.util.concurrent.*;
 
 import static mindustry.Vars.*;
 
@@ -49,31 +32,33 @@ import static mindustry.Vars.*;
  * @author GlennFolker
  */
 public final class Tools{
-    public static AquaLoader thisMod;
-    public static LoadedMod mod;
-    public static ModMeta meta;
-
     public static final Fi
-        assetsDir, spritesDir;
-
-    public static GenAtlas atlas;
-
+            assetsDir, spritesDir;
     private static final TaskQueue runs = new TaskQueue();
     private static final IntSet[] initialized = new IntSet[ContentType.all.length];
     private static final IntSet[] loaded = new IntSet[ContentType.all.length];
+    public static AquaLoader thisMod;
+    public static LoadedMod mod;
+    public static ModMeta meta;
+    public static GenAtlas atlas;
 
     static{
         assetsDir = new Fi(Paths.get("").toFile());
         spritesDir = assetsDir.child("sprites");
 
-        for(ContentType type : ContentType.all){
+        for(var type : ContentType.all){
             int i = type.ordinal();
-            synchronized(initialized){ initialized[i] = new IntSet(); }
-            synchronized(loaded){ loaded[i] = new IntSet(); }
+            synchronized(initialized){
+                initialized[i] = new IntSet();
+            }
+            synchronized(loaded){
+                loaded[i] = new IntSet();
+            }
         }
     }
 
-    private Tools(){}
+    private Tools(){
+    }
 
     public static void main(String[] args){
         Log.logger = new NoopLogHandler();
@@ -97,7 +82,7 @@ public final class Tools{
         content = new ContentLoader();
         content.createBaseContent();
 
-        thisMod = new AquaLoader();
+        thisMod = new AquaLoader(true);
 
         meta = new ModMeta(){{
             name = System.getProperty("currentModName");
@@ -105,7 +90,7 @@ public final class Tools{
         mod = new LoadedMod(null, null, thisMod, Tools.class.getClassLoader(), meta);
 
         Reflect.<Seq<LoadedMod>>get(Mods.class, mods, "mods").add(mod);
-        Reflect.<ObjectMap<Class<?>, ModMeta>>get(Mods.class, mods, "metas").put(AquarionMod.class, meta);
+        Reflect.<ObjectMap<Class<?>, ModMeta>>get(Mods.class, mods, "metas").put(AquaLoader.class, meta);
 
         addRegions();
         atlas.clear = atlas.find("clear");
@@ -138,7 +123,7 @@ public final class Tools{
             });
 
             Seq<UnlockableContent> cont = Seq.withArrays(content.blocks(), content.items(), content.liquids(), content.units(), content.statusEffects());
-            cont.removeAll(c -> c.minfo.mod != mod || c instanceof ConstructBlock || c == Blocks.air || (c instanceof UnitType t && t.internal));
+            cont.removeAll(c -> c.minfo.mod != mod || c instanceof ConstructBlock || c == Blocks.air);
 
             //scan for manual icons in assets-raw/icons
             //these are copied to sprites/icons and registered
@@ -149,7 +134,7 @@ public final class Tools{
                     if(fi.extEquals("png")){
                         //Append -ui to the region name to match standard convention
                         String name = meta.name + "-" + fi.nameWithoutExtension() + "-ui";
-                        GenRegion region = new GenRegion(name, new Pixmap(fi));
+                        GenAtlas.GenRegion region = new GenAtlas.GenRegion(name, new Pixmap(fi));
                         region.relativePath = "ui";
                         region.save(true);
 
@@ -169,25 +154,19 @@ public final class Tools{
 
             boolean changed = false;
             for(UnlockableContent c : cont){
-                String shortName = c.name.substring(meta.name.length() + 1);
-
-                String fullValue = c.name + "|" + c.name + "-ui";
-                String shortValue = shortName + "|" + c.name + "-ui";
+                String newValue = c.name + "|" + texname(c);
                 String key = nameToKey.get(c.name);
 
                 if(key != null){
-                    if(!map.get(key).equals(fullValue)){
-                        map.put(key, fullValue);
+                    if(!map.get(key).equals(newValue)){
+                        map.put(key, newValue);
                         changed = true;
                     }
                 }else{
-                    map.put(minid + "", fullValue);
+                    map.put(minid + "", newValue);
                     minid--;
                     changed = true;
                 }
-                map.put(minid + "", shortValue);
-                minid--;
-                changed = true;
             }
 
             for(String icon : extraIcons){
@@ -205,7 +184,6 @@ public final class Tools{
                     minid--;
                     changed = true;
                 }
-
             }
 
             if(changed){
@@ -222,6 +200,10 @@ public final class Tools{
         }
 
         atlas.dispose();
+    }
+
+    private static String texname(UnlockableContent c){
+        return c.name + "-ui";
     }
 
     private static void addRegions(){
@@ -255,15 +237,14 @@ public final class Tools{
             boolean should = loaded[content.getContentType().ordinal()].add(content.id);
             if(should){
                 content.load();
-                //TODO Fix
-                if (content instanceof MappableContent c) aquarionContentRegionRegistry.load(c);
+                if(content instanceof MappableContent c) aquarionContentRegionRegistry.load(c);
             }
 
             return should;
         }
     }
 
-    public static GenRegion conv(TextureRegion region){
-        return (GenRegion)region;
+    public static GenAtlas.GenRegion conv(TextureRegion region){
+        return (GenAtlas.GenRegion)region;
     }
 }

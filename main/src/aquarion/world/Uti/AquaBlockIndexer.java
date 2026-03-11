@@ -256,6 +256,7 @@ public class AquaBlockIndexer{
         int size = breturnArray.size;
         var items = breturnArray.items;
         for(int i = 0; i < size; i++){
+            assert items != null;
             cons.get(items[i]);
             items[i] = null;
         }

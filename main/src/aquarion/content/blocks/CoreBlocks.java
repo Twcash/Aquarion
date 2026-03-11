@@ -2,6 +2,7 @@ package aquarion.content.blocks;
 
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.core.AquaCoreBlock;
+import aquarion.world.blocks.core.OverclockProjector;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
 import aquarion.world.blocks.defense.deflectorShield;
@@ -11,6 +12,7 @@ import aquarion.world.blocks.neoplasia.NeoplasiaproductionBlock;
 import arc.func.Cons;
 import arc.graphics.Color;
 import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.content.Planets;
 import mindustry.ctype.UnlockableContent;
 import mindustry.type.Category;
@@ -28,7 +30,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class CoreBlocks {
-    public static Block buzzSaw, mendPyre, mendPylon, cache, coreCuesta,
+    public static Block buzzSaw, mendPyre, mendPylon, cache, coreCuesta, overClockProjector,
             coreEscarpment, corePike, buildCairn, crate, deflectorWell, neoplasiaMass, OreSlurper, callus, thicBlob;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -187,5 +189,14 @@ public class CoreBlocks {
             r.base = neoplasiaMass;
             r.hasPods = true;
         });
+        overClockProjector = new OverclockProjector("overclock-projector"){{
+            requirements(Category.effect, with(silicon, 150, copper, 900, polymer, 100, metaglass, 200, ferricMatter, 250));
+            size = 2;
+            consumePower(6);
+            consumeLiquid(Liquids.water, 4);
+            range = 150;
+            hasBoost = false;
+            speedBoost = 2.0f;
+        }};
     }
 }

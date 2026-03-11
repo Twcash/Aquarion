@@ -16,7 +16,7 @@ import java.util.Properties;
 public class IconLoader{
     public static void loadIcons(){
         Properties iconProperties = new Properties();
-        try(Reader reader = Vars.tree.get("icons/aquarion-icons.properties").reader(512)){
+        try(Reader reader = Vars.tree.get("icons/icons.properties").reader(512)){
             iconProperties.load(reader);
         }catch(Exception e){
             return;

@@ -49,7 +49,6 @@ import mindustry.world.meta.StatValues;
 
 import static mindustry.Vars.*;
 
-//When placed and after a certain amount of time this block will be destroyed and produce a unit
 public class UnitBlock extends Block {
     public UnitBlock(String name) {
         super(name);
@@ -161,10 +160,6 @@ public class UnitBlock extends Block {
 
         var reqs = unit.getFirstRequirements();
 
-        if(reqs != null){
-            stats.add(Stat.buildCost, StatValues.items(reqs));
-        }
-
         if(unit.weapons.any()){
             stats.add(Stat.weapons, StatValues.weapons(unit, unit.weapons));
         }
@@ -250,7 +245,7 @@ public class UnitBlock extends Block {
                     }
             }
         }
-        //This is horrific, god awful, inneficient
+        
         @Override
         public Object config(){
             StringBuilder out = new StringBuilder();

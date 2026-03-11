@@ -835,7 +835,6 @@ public class CrafterBlocks {
                 tier = 6;
                 drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                     layer = shadow;
-                    //I totally did not forget the variables and use "this." to have the IDE show the variables so I don't have to open up another file.
                 }}, new DrawArcSmelt(){{
                     this.flameRad = 8;
                     this.flameRadiusMag = 1.2f;

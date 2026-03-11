@@ -9,13 +9,20 @@ import aquarion.content.AquaSectorPresets;
 import aquarion.content.TantrosTechTree;
 import aquarion.content.AquaUnitTypes;
 import aquarion.content.WreckUnits;
+import aquarion.tools.IconLoader;
 import aquarion.world.content.AquaHints;
 import aquarion.world.graphics.AquaFx;
+import arc.Core;
 import arc.Events;
 import arc.assets.Loadable;
+import arc.graphics.g2d.TextureRegion;
+import arc.struct.Seq;
 import mindustry.Vars;
+import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
 import mindustry.game.EventType;
+import mindustry.mod.Mods;
+import mindustry.ui.Fonts;
 import mindustry.world.Block;
 
 import java.util.Objects;
@@ -24,6 +31,8 @@ import java.util.Objects;
 @Annotations.EnsureLoad
 public class AquarionMod  implements Loadable{
     public static AquaHints hints = new AquaHints();
+
+
     public static void loadContent() {
         Events.on(EventType.ClientLoadEvent.class, e -> {
             clientLoaded();
@@ -58,9 +67,11 @@ public class AquarionMod  implements Loadable{
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
+
     }
     public static void clientLoaded(){
         hints.load();
+        IconLoader.loadIcons();
     }
 //    public static AquaMenuRenderer getMenuRenderer() {
 //        try {

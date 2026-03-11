@@ -80,34 +80,9 @@ public class AquaLoader extends Mod {
         AquarionMod.loadContent();
 
         aquarionEntityMapping.init();
-        registerAllIcons();
     }
     public static Mods.LoadedMod mod(){
         return mod;
     }
-    public static void registerAllIcons(){
-        int ch = 0xEB00;
 
-        Seq<UnlockableContent> cont = Seq.withArrays(
-                Vars.content.blocks(),
-                Vars.content.items(),
-                Vars.content.liquids(),
-                Vars.content.units(),
-                Vars.content.statusEffects()
-        );
-
-        for(UnlockableContent c : cont){
-            if(c.minfo.mod != Vars.mods.getMod("aquarion")) continue;
-
-            TextureRegion region = Core.atlas.find(c.name + "-ui");
-            if(region == Core.atlas.find("error")) continue;
-
-            Fonts.registerIcon(c.name, c.name + "-ui", ch, region);
-
-            String shortName = c.name.replace("aquarion-", "");
-            Fonts.registerIcon(shortName, c.name + "-ui", ch, region);
-
-            ch--;
-        }
-    }
 }
