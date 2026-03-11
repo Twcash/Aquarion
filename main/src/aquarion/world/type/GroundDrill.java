@@ -190,26 +190,26 @@ public class GroundDrill extends AquaBlock {
 
         float baseX = x * tilesize + offset;
         float baseY = y * tilesize + offset;
-        float spacing = 12f;
+        float spacing = 1.1f;
         int i = 0;
         for (Item item : fake.returnItems) {
             if (item.hardness <= tier) {
                 float width = drawPlaceText(
                         Core.bundle.formatFloat("bar.drillspeed",
                                 60f / getDrillTime(item) * fake.returnCounts.get(item, 0), 2),
-                        x, y + (int)(i * spacing / 4f), valid
+                        x, y + (int)(i * spacing), valid
                 );
                 float dx = baseX - width / 2f - 6f;
-                float dy = baseY + size * tilesize / 2f + 8f + i * spacing;
+                float dy = baseY + size * tilesize / 2f + 8f + (i * spacing * 6f);
                 float s = iconSmall / 4f;
 
                 Draw.mixcol(Color.darkGray, 1f);
-                Draw.rect(item.fullIcon, dx, dy - 1f, s, s);
+                Draw.rect(item.fullIcon, dx, dy -1f, s, s);
                 Draw.reset();
                 Draw.rect(item.fullIcon, dx, dy, s, s);
             } else {
                 drawPlaceText(Core.bundle.get("bar.drilltierreq"),
-                        x, y + (int)(i * spacing / 4f), valid);
+                        x, y + (int)(i * spacing), valid);
             }
             i++;
         }

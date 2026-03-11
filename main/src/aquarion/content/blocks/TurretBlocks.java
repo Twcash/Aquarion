@@ -641,7 +641,8 @@ public class TurretBlocks {
             shoot.shots = 45;
             ammoUseEffect = AquaFx.casing1;
             shoot.shotDelay = 0;
-
+            consumeCoolant(4);
+            coolantMultiplier = 0.3f;
             recoilTime = 80;
             velocityRnd = 0.7f;
             inaccuracy = 25;
@@ -717,17 +718,17 @@ public class TurretBlocks {
             limitRange(1.1f);
             drawer = new DrawTurret(){{
                 parts.addAll(new NewRegPart("-tur"){{
-                    progress = PartProgress.recoil;
+                    progress = PartProgress.reload.curve(Interp.pow2In);
                     moveRot = 180;
                 }},new NewRegPart("-tur"){{
                     alpha = 1;
                     alphaTo = 0;
-                    progress = PartProgress.recoil;
+                    progress = PartProgress.reload.curve(Interp.pow2In);
                     moveRot = 180;
                 }},new NewRegPart("-tur2"){{
                     alpha = 0;
                     alphaTo = 1;
-                    progress = PartProgress.recoil;
+                    progress = PartProgress.reload.curve(Interp.pow2In);
                     moveRot = 180;
                 }});
             }};
@@ -1655,6 +1656,7 @@ public class TurretBlocks {
         redact = new ItemTurret("redact") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 825;
+            coolantMultiplier = 0.5f;
             requirements(Category.turret, with(AquaItems.ferricMatter, 90, silicon, 120, AquaItems.aluminum, 150));
             ammo(
                     AquaItems.arsenic, new BasicBulletType(6f, 50, "missile-large") {{
@@ -1663,7 +1665,6 @@ public class TurretBlocks {
                         height = 14f;
                         splashDamage = 20;
                         homingPower = 0.001f;
-                        coolantMultiplier = 0.2f;
                         splashDamageRadius = 8;
                         trailLength = 25;
                         trailWidth = 2.5f;
