@@ -892,14 +892,14 @@ public class CrafterBlocks {
                 size = 4;
                 craftTime = 240;
                 itemCapacity = 40;
-                consumePower(5);
-                consumeItem(metaglass, 15);
+                consumePower(3);
+                consumeItem(metaglass, 20);
                 outputItems = new ItemStack[]{
-                     new ItemStack(lead, 5),
-                        new ItemStack(sand, 7),
-                        new ItemStack(silicon, 1)
+                     new ItemStack(lead, 20),
+                        new ItemStack(sand, 10),
+                        new ItemStack(silicon, 5)
                 };
-                outputLiquid = new LiquidStack(oxygen, 0.0125f);
+                outputLiquid = new LiquidStack(oxygen, 1/3f);
                 liquidCapacity = 20;
             }};
             fumeSeparator = new AquaGenericCrafter("fume-separator") {{
@@ -2224,7 +2224,7 @@ public class CrafterBlocks {
         }};
         ultrafamicRefinery = new AquaGenericCrafter("ultramafic-refinery") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(cupronickel, 700, metaglass, 500, silicon, 200, lead, 1500));
+            requirements(Category.crafting, with(metaglass, 500, silicon, 200, lead, 1500));
             size = 7;
             squareSprite = false;
             itemCapacity = 200;
@@ -2236,7 +2236,7 @@ public class CrafterBlocks {
             consumeItem(serpentine, 20);
             outputLiquids = LiquidStack.with(hydroxide, 4.25);
             outputItems = new ItemStack[]{
-                    new ItemStack(sand, 4),
+                    new ItemStack(sand, 10),
                     new ItemStack(aluminum, 7),
                     new ItemStack(ferricMatter, 7),
                     new ItemStack(nickel, 6),

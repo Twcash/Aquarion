@@ -244,6 +244,7 @@ tasks.register('runClient', DefaultTask) {
                 commandLine clientFile.path()
             }
         else
+
             exec {
                 environment "MINDUSTRY_DATA_DIR", mindustrySaves.absolutePath()
                 environment "DEVELOPMENT", "true"

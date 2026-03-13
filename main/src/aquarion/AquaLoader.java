@@ -2,6 +2,7 @@ package aquarion;
 
 import aquarion.tools.IconLoader;
 import aquarion.ui.AquaStyles;
+import aquarion.world.blocks.neoplasia.NeoplasiaGraph;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.AquaSoundControl;
 import aquarion.world.graphics.Renderer;
@@ -29,10 +30,11 @@ import static mindustry.Vars.headless;
 @LoadRegs("error")
 @EnsureLoad
 public class AquaLoader extends Mod {
-    public static boolean tools = true;
+    public static boolean tools = false;
     protected static Mods.LoadedMod mod;
     public AquaLoader(){
         this(false);
+
     }
     public AquaLoader(boolean tools){
         AquaLoader.tools = tools;
@@ -80,6 +82,8 @@ public class AquaLoader extends Mod {
         AquarionMod.loadContent();
 
         aquarionEntityMapping.init();
+        Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
+        Events.run(EventType.Trigger.draw, NeoplasiaGraph::draw);
     }
     public static Mods.LoadedMod mod(){
         return mod;

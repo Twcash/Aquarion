@@ -37,6 +37,9 @@ public class DefensiveNeoplasiaBlock extends GenericNeoplasiaBlock{
         public void updateTile(){
             health = amount;
             maxHealth = amount;
+            if(spawnTime < spawnDuration){
+                spawnTime += delta();
+            }
             recentDamage *= Mathf.pow(recentDamageDecay, delta());
             if(amount <= 0f){
                 kill();

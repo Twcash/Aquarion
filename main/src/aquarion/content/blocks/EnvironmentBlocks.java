@@ -85,16 +85,15 @@ public class EnvironmentBlocks {
             liquidDrop = Liquids.slag;
             liquidMultiplier = 0.5f;
             isLiquid = true;
-            shallow = true;
+            attributes.set(Attribute.heat, 1.1f);
             cacheLayer = AquaShaders.sslagLayer;
         }};
-        shallowLava = new Floor("shallow-lava") {{
-            speedMultiplier = 0.1f;
+        shallowLava = new Floor("shallow-lava") {{speedMultiplier = 0.1f;
             variants = 0;
             liquidDrop = AquaLiquids.magma;
             liquidMultiplier = 0.5f;
             isLiquid = true;
-            shallow = true;
+            attributes.set(Attribute.heat, 1.1f);
             cacheLayer = AquaShaders.slavaLayer;
         }};
         lava = new Floor("lava") {{

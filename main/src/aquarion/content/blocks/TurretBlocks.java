@@ -857,6 +857,7 @@ public class TurretBlocks {
                         trailInterval = 2;
                         despawnEffect = hitEffect = AquaFx.thrashExplosion;
                         velocityRnd = 0.1f;
+                        accurateDelay = true;
                         splashDamage = 340;
                         splashDamageRadius = 64f;
                         drag = 0.018f;
@@ -880,6 +881,7 @@ public class TurretBlocks {
                         splashDamage = 125;
                         splashDamageRadius = 80f;
                         drag = 0.016f;
+                        accurateDelay = true;
                         makeFire = true;
                         status = burning;
                         shrinkX = 0.35F;
@@ -894,6 +896,7 @@ public class TurretBlocks {
                         smokeEffect = AquaFx.thrashShootSmoke;
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 7;
+                        scaleLifetimeOffset = 10;
                         trailInterval = 1;
                         despawnEffect = hitEffect = AquaFx.thrashExplosion;
                         velocityRnd = 0.12f;
@@ -902,6 +905,7 @@ public class TurretBlocks {
                         drag = 0.013f;
                         makeFire = true;
                         status = burning;
+                        accurateDelay = true;
                         shrinkX = 0.35F;
                         shrinkY = 0.63F;
                         width = 12;
