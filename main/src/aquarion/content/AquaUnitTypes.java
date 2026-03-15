@@ -2929,8 +2929,8 @@ public class AquaUnitTypes {
                     }}
             );
             engineSize = 0f;
-            health = 1600;
-            armor = 7;
+            health = 1400;
+            armor = 5;
             rotateSpeed = 0.9f;
             engineOffset = 8;
             for (float f : new float[]{-9f, 9f}) {
@@ -2957,7 +2957,7 @@ public class AquaUnitTypes {
                 shootSound = Sounds.shootAvert;
                 recoil = 2f;
                 ejectEffect = Fx.none;
-                bullet = new BasicBulletType(4f, 85) {{
+                bullet = new BasicBulletType(4f, 45) {{
                     ammoMultiplier = 3f;
                     hitSize = 7f;
                     lifetime = 70;
@@ -2997,7 +2997,7 @@ public class AquaUnitTypes {
                             loopSoundVolume = 0.02f;
                             hitEffect = despawnEffect = Fx.none;
                             intervalBullet = new EmptyBulletType() {{
-                                splashDamage = 20f;
+                                splashDamage = 5f;
                                 collidesGround = true;
                                 collidesAir = true;
                                 collides = false;
