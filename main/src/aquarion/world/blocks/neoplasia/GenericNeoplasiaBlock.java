@@ -25,7 +25,7 @@ import mindustry.world.Tile;
 import mindustry.world.blocks.ConstructBlock;
 import mindustry.world.blocks.environment.Prop;
 
-import static aquarion.world.blocks.neoplasia.NeoplasiaGraph.producers;
+import static aquarion.world.blocks.neoplasia.NeoplasiaGraph.*;
 import static mindustry.Vars.*;
 import static mindustry.content.Blocks.*;
 
@@ -99,16 +99,21 @@ public class GenericNeoplasiaBlock extends Block {
         float spawnDuration = 90f;
         float burstStepDelay = 4f;
         Seq<ItemStack> requestedQueue = new Seq<>();
+        float clogTimer = 0f;
+        float clogThreshold = 120f;
 
-        void requestItem(Item item) {
+        void requestItem(Item item, int amount){
             Seq<NeoplasiaBuild> reqs = NeoplasiaGraph.itemRequesters.get(item);
-            if (reqs == null) {
+            if(reqs == null){
                 reqs = new Seq<>();
                 NeoplasiaGraph.itemRequesters.put(item, reqs);
             }
             reqs.addUnique(this);
-            if (!requestedQueue.contains(i -> i.item == item)) {
-                requestedQueue.add(new ItemStack(item, 1));
+            ItemStack existing = requestedQueue.find(s -> s.item == item);
+            if(existing == null){
+                requestedQueue.add(new ItemStack(item, amount));
+            }else{
+                existing.amount += amount;
             }
             requesting = true;
             requestTimer = 0f;
@@ -118,53 +123,41 @@ public class GenericNeoplasiaBlock extends Block {
         /*TODO registry should be saved as items would be "ghost" items if the map loads as
         none of the sequences are saved.*/
         @Override
-        public void handleItem(Building source, Item item) {
+        public void handleItem(Building source, Item item){
             super.handleItem(source, item);
+
             NeoplasiaGraph.registerHolder(item, this);
-            requestedQueue.remove(s -> s.item == item);
-            if (requestedQueue.isEmpty()) {
+
+            ItemStack stack = requestedQueue.find(s -> s.item == item);
+            if(stack != null){
+                stack.amount --;
+                if(stack.amount <= 0){
+                    requestedQueue.remove(stack);
+                }
+            }
+
+            if(requestedQueue.isEmpty()){
                 requesting = false;
+
                 Seq<NeoplasiaBuild> reqs = NeoplasiaGraph.itemRequesters.get(item);
-                if (reqs != null) {
+                if(reqs != null){
                     reqs.remove(this);
                 }
             }
         }
-
-        /*
-        Quite simple. Request a block to be made if it's deliverer does not exist
-        or if the delivery takes too long.
-         */
-        void requestProducer(Item item) {
-            Seq<GenericNeoplasiaBlock> producers = NeoplasiaGraph.itemProducers.get(item);
-            if (producers == null || producers.isEmpty()) return;
-            for (GenericNeoplasiaBlock b : producers) {
-                int demand = NeoplasiaGraph.itemRequesters.get(item).size;
-                int supply = NeoplasiaGraph.countProducers(b);
-                if (supply >= demand) continue;
-                NeoplasiaBuild builder = NeoplasiaGraph.findBlockBuilder(this);
-                if (builder == null) return;
-                if (builder.tile.floor().itemDrop != null) continue;
-                if (builder.amount >= b.cost && builder.hasItemCost(b.itemCost)) {
-                    builder.consumeItemCost(b.itemCost);
-                    builder.amount -= b.cost;
-                    builder.tile.setBlock(b, team);
-                    if (b.itemCost != null && b.itemCost.length > 0) {
-                        producers.get(b.itemCost[0].amount);
-                    }
-                    return;
-                }
-                if (!hasItems && b.itemCost != null) {
-                    for (ItemStack stack : b.itemCost) {
-                        int missing = stack.amount - builder.items.get(stack.item);
-                        if (missing > 0) {
-                            builder.requestItem(stack.item);
-                        }
+        void expelItems() {
+            items.each((stack, amt) -> {
+                Tile t = pickBestNeighbor(tile);
+                if (t != null && t.block() == air) {
+                    t.setBlock(base, team);
+                    if (t.build instanceof NeoplasiaBuild nb) {
+                        nb.amount += amt;
+                        nb.current = stack;
                     }
                 }
-            }
+            });
+            items.clear();
         }
-
         /*
         God awful.
         Basically try and move items every tick closer to the target, with large blobs
@@ -173,60 +166,29 @@ public class GenericNeoplasiaBlock extends Block {
         This does not have pathfinding and WILL get stuck. hence why itemcapacity is above 1.
          */
         void moveItems() {
-            items.each((item, amount) -> {
-                if (amount <= 0) return;
-
-                Seq<NeoplasiaBuild> requesters = NeoplasiaGraph.itemRequesters.get(item);
-                if (requesters == null || requesters.isEmpty()) return;
-                Seq<NeoplasiaBuild> validTargets = requesters.select(r -> r.requestedQueue.contains(s -> s.item == item));
-                if (validTargets.isEmpty()) return;
-                NeoplasiaBuild closest = null;
+            if (items.total() == 0) return;
+            items.each((item, amt) -> {
+                Seq<NeoplasiaBuild> reqs = NeoplasiaGraph.itemRequesters.get(item);
+                if (reqs == null || reqs.isEmpty()) return;
+                NeoplasiaBuild target = null;
                 float bestDst = Float.MAX_VALUE;
-                for (NeoplasiaBuild req : validTargets) {
-                    if (req == this) continue;
-                    float d = dst2(req);
-                    if (d < bestDst) {
-                        bestDst = d;
-                        closest = req;
+                for (NeoplasiaBuild r : reqs) {
+                    if (r.tile == null) continue;
+                    float dst = dst2(r);
+                    if (dst < bestDst) {
+                        bestDst = dst;
+                        target = r;
                     }
                 }
-
-                if (closest != null) {
-                    Building next = NeoplasiaGraph.stepToward(this, closest);
-                    if (next == null) return;
-                    if (!(next instanceof NeoplasiaBuild nextBuild)) return;
-                    if (nextBuild.items.total() < nextBuild.block.itemCapacity) {
-                        items.remove(item, 1);
-                        nextBuild.items.add(item, 1);
-                    }
-                }
+                if (target == null) return;
+                Building next = NeoplasiaGraph.stepToward(this, target);
+                if (next == null) return;
+                if (next.items.total() >= next.block.itemCapacity) return;
+                items.remove(item, 1);
+                next.handleItem(this, item);
+                return;
             });
         }
-
-        //Hehe haha I overrid damage. This most likely breaks a a lot regarding armor and ect
-        //But at this point I don't care.
-        @Override
-        public float handleDamage(float amt) {
-            recentDamage += amt;
-            return amt;
-        }
-
-        //Super ultra useful 1 usage method.
-        //TODO merge??
-        void request(Item item, float amt) {
-            if (requesting) return;
-            requestItem(item);//This *should* be moved somewhere else.
-            requesting = true;
-            NeoplasiaBuild producer = NeoplasiaGraph.findProducer(item, this);
-            if (producer == null || dst2(producer) > 900f) {
-                requestProducer(item);
-                return;
-            }
-            if (NeoplasiaGraph.totalAvailable(item) < amt) {
-                requestProducer(item);
-            }
-        }
-
 
         @Override
         public boolean acceptItem(Building source, Item item) {
@@ -254,19 +216,22 @@ public class GenericNeoplasiaBlock extends Block {
         public void created() {
             super.created();
             amount = startMass;
-            activeNeoplasia.addUnique(this);
+            NeoplasiaGraph.register(this);
         }
 
-        @Override
-        public void remove() {
-            super.remove();
-            activeNeoplasia.remove(this);
+        public void remove(NeoplasiaBuild build){
+            int cx = chunkX(build.tile.x);
+            int cy = chunkY(build.tile.y);
+            NeoplasiaGraph.NeoplasiaChunk chunk = chunks.get(chunkKey(cx,cy));
+            if(chunk != null){
+                chunk.builds.remove(build);
+            }
         }
 
         @Override
         public void updateTile() {
             if (tile == null) return;
-            producerRequestCooldown -= delta();//Preventing lag :tm:
+            producerRequestCooldown -= delta();
             health = amount;
             maxHealth = amount;
             recentDamage = Math.max(0f, recentDamage - recentDamageDecay);
@@ -289,6 +254,40 @@ public class GenericNeoplasiaBlock extends Block {
             if (progress >= 1) {
                 progress = 0f;
                 moveItems();
+            }
+            if (items.total() > 0) {
+                clogTimer += delta();
+                if (clogTimer >= clogThreshold) {
+                    expelItems();
+                    clogTimer = 0f;
+                }
+            } else {
+                clogTimer = 0f;
+            }
+        }
+
+        void request(Item item, int amt){
+            ItemStack existing = requestedQueue.find(s -> s.item == item);
+
+            if(existing == null){
+                requestedQueue.add(new ItemStack(item, amt));
+            }else{
+                existing.amount += amt;
+            }
+
+            requesting = true;
+
+            Seq<NeoplasiaBuild> reqs = NeoplasiaGraph.itemRequesters.get(item);
+            if(reqs == null){
+                reqs = new Seq<>();
+                NeoplasiaGraph.itemRequesters.put(item, reqs);
+            }
+
+            reqs.addUnique(this);
+
+            if(producerRequestCooldown <= 0f){
+                producerRequestCooldown = 60f;
+                NeoplasiaGraph.trySpawnProducer(this, item);
             }
         }
 

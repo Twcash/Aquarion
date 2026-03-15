@@ -6,6 +6,7 @@ import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
+import arc.struct.IntMap;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import arc.util.Time;
@@ -15,6 +16,7 @@ import mindustry.core.World;
 import mindustry.game.EventType;
 import mindustry.gen.Building;
 import mindustry.type.Item;
+import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 
@@ -28,6 +30,8 @@ public class NeoplasiaGraph {
     public static final Seq<ItemPacket> packets = new Seq<>();
     public static ObjectMap<Item, Seq<GenericNeoplasiaBlock.NeoplasiaBuild>> itemHolders = new ObjectMap<>();
     public static ObjectMap<Item, Seq<GenericNeoplasiaBlock>> itemProducers = new ObjectMap<>();
+    public static IntMap<NeoplasiaChunk> chunks = new IntMap<>();
+    static int chunkSize = 8;
 
     public static void registerProducer(Item item, GenericNeoplasiaBlock block) {
         Seq<GenericNeoplasiaBlock> list = itemProducers.get(item);
@@ -65,101 +69,122 @@ public class NeoplasiaGraph {
         }
     }
 
-    public static int totalAvailable(Item item) {
-        int total = 0;
-
-        for (GenericNeoplasiaBlock.NeoplasiaBuild b : activeNeoplasia) {
-            total += b.items.get(item);
-        }
-
-        return total;
-    }
-
-    public static GenericNeoplasiaBlock.NeoplasiaBuild findProducer(Item item, Building requester) {
-        Seq<GenericNeoplasiaBlock.NeoplasiaBuild> seq = producers.get(item);
-        if (seq == null || seq.isEmpty()) return null;
-
-        GenericNeoplasiaBlock.NeoplasiaBuild best = null;
-        float bestDst = Float.MAX_VALUE;
-
-        for (GenericNeoplasiaBlock.NeoplasiaBuild b : seq) {
-            if (b.items.get(item) <= 0) continue;
-
-            float d = requester.dst2(b);
-            if (d < bestDst) {
-                bestDst = d;
-                best = b;
-            }
-        }
-
-        return best;
-    }
-
     public static void registerHolder(Item item, GenericNeoplasiaBlock.NeoplasiaBuild build) {
         Seq<GenericNeoplasiaBlock.NeoplasiaBuild> list = itemHolders.get(item);
         if (list == null) {
             list = new Seq<>();
             itemHolders.put(item, list);
         }
-
         list.addUnique(build);
+        register(build);
     }
 
-    public static int countProducers(GenericNeoplasiaBlock block) {
-        // Return number of active producers of this block
-        int count = 0;
-        for (GenericNeoplasiaBlock.NeoplasiaBuild n : activeNeoplasia) {
-            if (n.tile.block() == block) count++;
+    public static void register(GenericNeoplasiaBlock.NeoplasiaBuild build) {
+        int cx = chunkX(build.tile.x);
+        int cy = chunkY(build.tile.y);
+
+        int key = chunkKey(cx, cy);
+
+        NeoplasiaChunk chunk = chunks.get(key);
+
+        if (chunk == null) {
+            chunk = new NeoplasiaChunk();
+            chunks.put(key, chunk);
         }
-        return count;
+
+        chunk.builds.add(build);
     }
 
-    public static GenericNeoplasiaBlock.NeoplasiaBuild findBlockBuilder(Building requester) {
+    public static GenericNeoplasiaBlock.NeoplasiaBuild findBlockBuilder(Building requester){
         GenericNeoplasiaBlock.NeoplasiaBuild best = null;
         float bestScore = -Float.MAX_VALUE;
 
-        for (GenericNeoplasiaBlock.NeoplasiaBuild other : activeNeoplasia) {
-            if (other.tile == null) continue;
+        for (var entry : chunks) {
 
-            float score = other.amount;
-            score -= requester.dst2(other) * 0.01f;
+            NeoplasiaChunk chunk = entry.value;
+            for (var other : chunk.builds) {
+                if (Mathf.dst2(requester.x, requester.y, other.x, other.y) > 500) continue;
+                if (other.tile == null) continue;
 
-            if (score > bestScore) {
-                bestScore = score;
-                best = other;
+                float score = other.amount;
+                score -= requester.dst2(other) * 0.01f;
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    best = other;
+                }
             }
         }
 
         return best;
     }
 
-    public static void send(Item item, GenericNeoplasiaBlock.NeoplasiaBuild from, GenericNeoplasiaBlock.NeoplasiaBuild to) {
-        if (from == null || to == null) return;
-        ItemPacket packet = new ItemPacket(item, from, to);
-        packets.add(packet);
-    }
-
-    public static Building stepToward(Building from, Building target){
+    public static Building stepToward(Building from, Building target) {
         Building best = null;
         float bestScore = Float.MAX_VALUE;
         float currentDst = Mathf.dst2(from.x, from.y, target.x, target.y);
-        for(Point2 p : Geometry.d4){
+        for (Point2 p : Geometry.d4) {
             Tile otherTile = Vars.world.tile(from.tile.x + p.x, from.tile.y + p.y);
-            if(otherTile == null) continue;
-            if(otherTile.solid() || otherTile.floor().isDeep()) continue;
-            if(!(otherTile.build instanceof GenericNeoplasiaBlock.NeoplasiaBuild build)) continue;
-            if(build.items.total() >= build.block.itemCapacity) continue;
+            if (otherTile == null) continue;
+            if (otherTile.solid() || otherTile.floor().isDeep()) continue;
+            if (!(otherTile.build instanceof GenericNeoplasiaBlock.NeoplasiaBuild build)) continue;
+            if (build.items.total() >= build.block.itemCapacity) continue;
             float penalty = 0f;
-            if(target instanceof GenericNeoplasiaBlock.NeoplasiaBuild tBuild){
-                if(!tBuild.requestedQueue.contains(s -> s.item == from.items.first())) penalty += 50f;
+            if (target instanceof GenericNeoplasiaBlock.NeoplasiaBuild tBuild) {
+                if (!tBuild.requestedQueue.contains(s -> s.item == from.items.first())) penalty += 50f;
             }
             float dst = Mathf.dst2(otherTile.worldx(), otherTile.worldy(), target.x, target.y) + penalty;
-            if((dst < bestScore && dst < currentDst) || best == null){
+            if ((dst < bestScore && dst < currentDst) || best == null) {
                 bestScore = dst;
                 best = build;
             }
         }
-
         return best;
+    }
+
+    public static void trySpawnProducer(GenericNeoplasiaBlock.NeoplasiaBuild requester, Item item) {
+        if (requester == null || requester.tile == null) return;
+        Seq<GenericNeoplasiaBlock> possible = itemProducers.get(item);
+        GenericNeoplasiaBlock.NeoplasiaBuild builder = findBlockBuilder(requester);
+        if(builder == null || builder.tile == null) return;
+        if(builder.tile.floor().itemDrop != null) return;
+        if (  builder.block instanceof NeoplasiaproductionBlock || !(builder.block instanceof GenericNeoplasiaBlock))
+            return;
+        for (GenericNeoplasiaBlock block : possible) {
+            if (builder.amount < block.cost) continue;
+            if (!builder.hasItemCost(block.itemCost)) {
+                if (block.itemCost != null) {
+                    for (ItemStack stack : block.itemCost) {
+                        int missing = stack.amount - builder.items.get(stack.item);
+                        if (missing > 0) {
+                            requester.requestItem(stack.item, missing);
+                        }
+                    }
+                }
+                return;
+            }
+            builder.consumeItemCost(block.itemCost);
+            builder.amount -= block.cost;
+            if (builder.tile.floor().itemDrop != null) return;
+            builder.tile.setBlock(block, builder.team);
+            builder.producerRequestCooldown = 60f;
+            return;
+        }
+    }
+
+    static class NeoplasiaChunk {
+        Seq<GenericNeoplasiaBlock.NeoplasiaBuild> builds = new Seq<>();
+    }
+
+    static int chunkX(int tileX) {
+        return tileX / chunkSize;
+    }
+
+    static int chunkY(int tileY) {
+        return tileY / chunkSize;
+    }
+
+    static int chunkKey(int cx, int cy) {
+        return (cx << 16) | (cy & 0xFFFF);
     }
 }
