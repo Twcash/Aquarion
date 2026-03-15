@@ -15,7 +15,7 @@ public class AquaItems {
     public static Item magnesiumPowder;
     public static Item steel;
     public static Item minium;
-    public static Item chalkalloy, crystal;
+    public static Item chalkalloy, crystal, pearl;
     public static Item acuminite;
     public static Item strontium;
     public static Item hexogen;
@@ -74,6 +74,8 @@ public class AquaItems {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         crystal = new Item("crystal", Color.valueOf("#d7e0e4")) {{
+        }};
+        pearl = new Item("pearl", Color.valueOf("#d7e0e4")) {{
         }};
         arsenic = new Item("arsenic", Color.valueOf("#ff8f8f")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

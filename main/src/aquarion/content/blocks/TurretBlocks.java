@@ -896,7 +896,7 @@ public class TurretBlocks {
                         smokeEffect = AquaFx.thrashShootSmoke;
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 7;
-                        scaleLifetimeOffset = 10;
+                        scaleLifetimeOffset = 2;
                         trailInterval = 1;
                         despawnEffect = hitEffect = AquaFx.thrashExplosion;
                         velocityRnd = 0.12f;

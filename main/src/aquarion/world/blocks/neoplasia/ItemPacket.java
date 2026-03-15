@@ -6,111 +6,66 @@ import arc.struct.ObjectSet;
 import arc.struct.Queue;
 import arc.struct.Seq;
 import arc.util.Time;
+import mindustry.gen.Building;
 import mindustry.type.Item;
 import mindustry.world.Tile;
-
-public class ItemPacket{
+public class ItemPacket {
 
     public Item item;
 
-    public Seq<Tile> path = new Seq<>();
-
-    public Tile fromTile;
-    public Tile toTile;
-
-    public int index = 0;
-
-    public float progress = 0f;
-    public float speed = 3f;
-
+    public GenericNeoplasiaBlock.NeoplasiaBuild current;
+    public GenericNeoplasiaBlock.NeoplasiaBuild next;
     public GenericNeoplasiaBlock.NeoplasiaBuild target;
 
-    public ItemPacket(Item item, Tile start, Tile targetTile, GenericNeoplasiaBlock.NeoplasiaBuild target){
+    public float progress = 0f;
+    public float speed = 0.08f;
+
+    boolean finished = false;
+
+    public ItemPacket(Item item, GenericNeoplasiaBlock.NeoplasiaBuild from, GenericNeoplasiaBlock.NeoplasiaBuild to){
         this.item = item;
-        this.target = target;
-
-        path = findPath(start, targetTile);
-
-        fromTile = start;
-
-        if(path.isEmpty()){
-            toTile = targetTile;
-        }else{
-            toTile = path.first();
-        }
-    }
-
-    Seq<Tile> findPath(Tile start, Tile target){
-        ObjectSet<Tile> visited = new ObjectSet<>();
-        Queue<Tile> queue = new Queue<>();
-        ObjectMap<Tile, Tile> parent = new ObjectMap<>();
-
-        queue.addLast(start);
-        visited.add(start);
-
-        while(queue.size > 0){
-            Tile current = queue.removeFirst();
-
-            if(current == target) break;
-
-            for(int i = 0; i < 4; i++){
-                Tile next = current.nearby(i);
-
-                if(next == null) continue;
-                if(!(next.build instanceof GenericNeoplasiaBlock.NeoplasiaBuild)) continue;
-                if(visited.contains(next)) continue;
-
-                visited.add(next);
-                parent.put(next, current);
-                queue.addLast(next);
-            }
-        }
-
-        Seq<Tile> path = new Seq<>();
-
-        Tile cur = target;
-
-        while(cur != null && cur != start){
-            path.add(cur);
-            cur = parent.get(cur);
-        }
-
-        path.reverse();
-
-        return path;
+        this.current = from;
+        this.target = to;
     }
 
     public void update(){
-        if(toTile == null) return;
+        if(current == null || target == null) return;
 
-        progress += speed * Time.delta / 60f;
+        if(next == null){
+            Building step = NeoplasiaGraph.stepToward(current, target);
+
+            if(!(step instanceof GenericNeoplasiaBlock.NeoplasiaBuild build)){
+                next = target;
+            }else{
+                next = build;
+            }
+        }
+
+        progress += Time.delta * speed;
 
         if(progress >= 1f){
+            current = next;
+            next = null;
             progress = 0f;
 
-            fromTile = toTile;
-
-            index++;
-
-            if(index < path.size){
-                toTile = path.get(index);
-            }else{
-                toTile = null;
+            if(current == target){
+                target.handleItem(null, item);
+                finished = true;
             }
         }
     }
 
     public boolean arrived(){
-        return toTile == null;
+        return finished;
     }
 
     public float drawX(){
-        if(toTile == null) return fromTile.worldx();
-        return Mathf.lerp(fromTile.worldx(), toTile.worldx(), progress);
+        if(next == null) return current.x;
+        return Mathf.lerp(current.x, next.x, progress);
     }
 
     public float drawY(){
-        if(toTile == null) return fromTile.worldy();
-        return Mathf.lerp(fromTile.worldy(), toTile.worldy(), progress);
+        if(next == null) return current.y;
+        return Mathf.lerp(current.y, next.y, progress);
     }
 }
