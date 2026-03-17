@@ -85,6 +85,8 @@ public class EnvironmentBlocks {
             liquidDrop = Liquids.slag;
             liquidMultiplier = 0.5f;
             isLiquid = true;
+            status = StatusEffects.burning;
+
             attributes.set(Attribute.heat, 1.1f);
             cacheLayer = AquaShaders.sslagLayer;
         }};

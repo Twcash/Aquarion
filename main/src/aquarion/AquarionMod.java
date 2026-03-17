@@ -18,6 +18,7 @@ import arc.assets.Loadable;
 import arc.graphics.g2d.TextureRegion;
 import arc.struct.Seq;
 import mindustry.Vars;
+import mindustry.content.Blocks;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
 import mindustry.game.EventType;
@@ -47,6 +48,8 @@ public class AquarionMod  implements Loadable{
         AquaWeathers.load();
         //actual content needs items liquids FX ect
         EnvironmentBlocks.loadContent();
+        SwapBlockId(EnvironmentBlocks.shallowSlag, Blocks.dirt);
+
         PowerBlocks.loadContent();
         LiquidBlocks.loadContent();
         DefenseBlocks.loadContent();
@@ -72,6 +75,12 @@ public class AquarionMod  implements Loadable{
     public static void clientLoaded(){
         hints.load();
         IconLoader.loadIcons();
+    }
+    //Reminds me of that stupid swap code from that online java class.
+    public static void SwapBlockId(Block b1, Block b2){
+        Block b3 = Vars.content.getByID(b1.getContentType(), b2.id);
+        b1.id = b2.id;
+        b2.id = b3.id;
     }
 //    public static AquaMenuRenderer getMenuRenderer() {
 //        try {

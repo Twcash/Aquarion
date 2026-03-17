@@ -187,11 +187,10 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                         addLiquidBar(stack.liquid);
                     }
                 }
+            }else if(consl instanceof ConsumeLiquidFilter filt){
+                added = true;
+                addLiquidBar(build -> build.liquids.current());
             }
-        }
-        //Dynamic bar
-        if(!added){
-            addLiquidBar(build -> build.liquids.current());
         }
         if(hasHeat && (heatRequirement > 0 || heatRequirement < 0)){
             addBar("efficiency", (AquaGenericCrafter.AquaGenericCrafterBuild entity) ->
