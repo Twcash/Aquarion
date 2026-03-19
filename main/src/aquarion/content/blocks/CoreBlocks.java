@@ -97,13 +97,13 @@ public class CoreBlocks {
         }};
         constructionTower = new BuildTurret("construction-tower") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.effect, with(silicon, 700, ferrosilicon, 250, copper, 2000));
+            requirements(Category.effect, with(silicon, 700, polymer, 250, copper, 2000));
             size = 3;
             outlineRadius = 0;
             squareSprite = false;
-            consumeLiquid(nitrogen, 1);
-            buildSpeed = 0.5f;
-            range = 900;
+            consumeLiquid(nitrogen, 2);
+            buildSpeed = 0.8f;
+            range = 300;
             rotateSpeed = 0.85f;
             schematicPriority = 8;
             consumePower(4);

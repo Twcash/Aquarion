@@ -451,10 +451,7 @@ public class TantrosTechTree {
 
                 });
                 node(gasifier);
-                node(algalTerrace, Seq.with(
-                ), () -> {
-
-                });
+                node(algalTerrace);
                 node(magmaDiffser, Seq.with(
                         new Objectives.Research(magmaTap),
                         new Objectives.OnSector(Ingress)
