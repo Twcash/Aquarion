@@ -28,16 +28,16 @@ public class TantrosTechTree {
 
         for(Item item : Vars.content.items()) costMultipliers.put(item, 0.08f);
 
-        AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = nodeRoot("RECOMPILE", corePike, () -> {
+        AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = AquaPlanets.fakeErekir.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             context().researchCostMultipliers = costMultipliers;
             node(nickelWall, () -> {
                 node(mendPyre, () -> {
+                    node(overClockProjector);
                     node(forceGenerator);
                     node(deflectorWell);
                     node(lantern);
-                    node(mendPylon, Seq.with(
-                            new Objectives.OnSector(CrystalCaverns)
-                    ), () -> {
+                    node(mendPylon, () -> {
+                        node(mendSubstation);
                     });
                 });
                 node(hugeNickelWall, () -> {

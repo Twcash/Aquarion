@@ -4,7 +4,10 @@ import aquarion.content.AquaItems;
 import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
 import aquarion.content.AquaStatuses;
+import aquarion.world.blocks.turrets.AquaItemTurret;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
+import aquarion.world.entities.bullet.AquaLaserBulletType;
+import aquarion.world.entities.bullet.GambleBulletType;
 import aquarion.world.entities.parts.NewRegPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
@@ -1010,8 +1013,7 @@ public class TurretBlocks {
                 }});
             }};
         }};
-        dislocate = new ItemTurret("dislocate") {
-            {
+        dislocate = new AquaItemTurret("dislocate") {{
                 requirements(Category.turret, with(ferrosilicon, 700, metaglass, 900, graphite, 250));
                 shootCone = 45;
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -1031,19 +1033,49 @@ public class TurretBlocks {
                 shootWarmupSpeed = 0.01f;
                 minWarmup = 0.01f;
                 ammo(
-                        ferrosilicon, new FlakBulletType(35, 115f) {{
+                        ferrosilicon, new GambleBulletType( new float[]{0.5f, 0.5f}, new FlakBulletType(35, 100f) {{
                             trailLength = 7;
                             hitSize = 8;
                             scaleLife = true;
+                            explodeDelay = 2;
                             ammoMultiplier = 10;
                             explodeRange = 10;
                             fragBullets = 4;
                             collidesGround = true;
+                            collidesAir = false;
                             fragBullet = new BasicBulletType(4, 45f, "aquarion-flechette") {{
                                 width = 4;
                                 height = 6;
                                 lifetime = 12;
                                 frontColor = lightColor = Pal.siliconAmmoFront;
+                                backColor = trailColor = Pal.siliconAmmoBack;
+                                collidesGround = true;
+                                collidesAir = false;
+                            }};
+                            width = 8;
+                            height = 12;
+                            frontColor = lightColor = Pal.siliconAmmoFront;
+                            backColor = trailColor = Pal.siliconAmmoBack;
+                            velocityRnd = 0.2f;
+                            lifetime = 10;
+                            trailInterp = v -> Math.max(Mathf.slope(v), 0.9f);
+                        }}, new FlakBulletType(35, 100f) {{
+                            trailLength = 7;
+                            hitSize = 8;
+                            scaleLife = true;
+                            explodeDelay = 2;
+                            ammoMultiplier = 10;
+                            explodeRange = 10;
+                            lifetime = 10;
+                            fragBullets = 4;
+                            collidesGround = false;
+                            fragBullet = new BasicBulletType(4, 45f, "aquarion-flechette") {{
+                                width = 4;
+                                height = 6;
+                                lifetime = 12;
+                                frontColor = lightColor = Pal.siliconAmmoFront;
+                                collidesGround = false;
+                                collidesAir = true;
                                 backColor = trailColor = Pal.siliconAmmoBack;
                             }};
                             width = 8;
@@ -1052,12 +1084,13 @@ public class TurretBlocks {
                             backColor = trailColor = Pal.siliconAmmoBack;
                             velocityRnd = 0.2f;
                             trailInterp = v -> Math.max(Mathf.slope(v), 0.9f);
+                        }}){{
+                            ammoMultiplier = 3;
                         }},
-                        AquaItems.steel, new FlakBulletType(45, 200) {{
+                        AquaItems.steel, new BasicBulletType(45, 90) {{
                             trailLength = 9;
                             hitSize = 12;
                             ammoMultiplier = 20;
-                            explodeRange = 15;
                             splashDamage = 60;
                             scaleLife = true;
                             fragBullets = 10;
@@ -1949,8 +1982,7 @@ public class TurretBlocks {
                     AquaItems.towanite, new LaserBulletType() {{
                         length = 400;
                         damage = 350;
-                        sideAngle = 45;
-
+                        lifetime = 120;
                         shootEffect = Fx.shootTitan;
                         smokeEffect = AquaFx.GyreShootSmoke;
                         hitEffect = Fx.blastExplosion;

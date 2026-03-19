@@ -34,7 +34,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class CoreBlocks {
-    public static Block buzzSaw, mendPyre, mendPylon, cache, coreCuesta, overClockProjector,
+    public static Block buzzSaw, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
             coreEscarpment,petal,  corePike, buildCairn, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -125,6 +125,24 @@ public class CoreBlocks {
             phaseRangeBoost = 0;
             liquidCapacity = 60;
             researchCostMultiplier = 0;
+        }};
+        mendSubstation = new RegenPylon("mend-substation") {{
+            requirements(Category.effect, with(silicon, 900, ferricMatter,240, polymer, 500));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            size = 3;
+            schematicPriority = 7;
+            lightningDamage = 10;
+            lightningReload = 90;
+            consumePower(6);
+            consumeLiquid(haze, 3f);
+            range = 70;
+            healPercent = 10;
+            squareSprite = false;
+            reload = 120;
+            phaseBoost = 0;
+            phaseRangeBoost = 0;
+            lightningRange = 50;
+            liquidCapacity = 700;
         }};
         deflectorWell = new deflectorShield("deflector-well") {{
             requirements(Category.effect, with(polymer, 800, metaglass, 900, silicon, 1200));

@@ -40,7 +40,7 @@ public class RegenPylon extends MendProjector {
     public float lightningReload = 60f;
     public int lightnings = 2;
     public float lightningIncaccuracy = 5;
-
+    public int lightningRange = 12;
     public float useTime;
     public Effect effect = new WrapEffect(Fx.regenParticle, Pal.heal);
     public RegenPylon(String name) {
@@ -150,7 +150,7 @@ public class RegenPylon extends MendProjector {
                                 lightningDamage,
                                 x, y,
                                 angleTo(u) + Mathf.range(lightningIncaccuracy),
-                                12
+                                lightningRange
                         );
                     }
                 });

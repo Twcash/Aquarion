@@ -10,6 +10,7 @@ import aquarion.world.AI.DroneAI;
 import aquarion.world.AI.GerbInfantryAI;
 import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.entities.DroneSpawnerBulletType;
+import aquarion.world.entities.bullet.AquaBulletType;
 import aquarion.world.entities.parts.EnginePart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
@@ -1658,12 +1659,15 @@ public class AquaUnitTypes {
                     under = true;
                 }}, new RegionPart("-sink"){{
                     progress = PartProgress.recoil.curve(Interp.pow5In);
-                    under = true;
                     heatColor = new Color(1f, 0.1f, 0.1f);
                     moveY = -4f;
+                    under = true;
                 }});
-                bullet = new BasicBulletType(3.5f, 30) {{
+                bullet = new AquaBulletType() {{
                     collidesAir = false;
+                    speed = 3.5f;
+                    shouldRecoilRotation = true;
+                    damage = 30;
                     shrinkY = 0;
                     shootEffect = AquaFx.shootBigger;
                     smokeEffect = AquaFx.shootSmoke1;

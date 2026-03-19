@@ -12,8 +12,10 @@ import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
 import mindustry.graphics.g3d.MultiMesh;
 import mindustry.graphics.g3d.SunMesh;
+import mindustry.maps.planet.ErekirPlanetGenerator;
 import mindustry.type.Planet;
 import mindustry.type.Weather;
+import mindustry.world.meta.Attribute;
 import mindustry.world.meta.Env;
 
 public class AquaPlanets {
@@ -22,6 +24,7 @@ public class AquaPlanets {
     qeraltar,
     citun,
     fakeSerpulo,
+    fakeErekir,
     coradum;
 
     public static void loadContent() {
@@ -51,6 +54,48 @@ public class AquaPlanets {
                     Color.valueOf("d2e5ea")
             );
         }};
+        fakeErekir = new Planet("fakeErekir", citun, 0.9f, 4){{
+            generator = new ErekirPlanetGenerator();
+            meshLoader = () -> new HexMesh(this, 6);
+            alwaysUnlocked = false;
+            orbitOffset = 85;
+            orbitRadius = 60;
+            atmosphereRadIn = 0.02f;
+            atmosphereRadOut = 0.3f;
+            defaultEnv = Env.scorching | Env.terrestrial;
+            lightSrcTo = 0.5f;
+            lightDstFrom = 0.2f;
+            updateLighting = false;
+            defaultAttributes.set(Attribute.heat, 0.5f);//Heat engine unbalance.
+            atmosphereColor = Color.valueOf("01ff00");
+            visible = true;
+            allowLaunchLoadout = false;
+            clearSectorOnLose = true;
+            allowLaunchToNumbered = false;
+            cloudMeshLoader = () -> new MultiMesh(
+                    new HexSkyMesh(this, 2, 0.15f, 0.14f, 5, Color.valueOf("eba768").a(0.75f), 2, 0.42f, 1f, 0.43f),
+                    new HexSkyMesh(this, 3, 0.6f, 0.15f, 5, Color.valueOf("eea293").a(0.75f), 2, 0.42f, 1.2f, 0.45f)
+            );
+            ruleSetter = r -> {
+                r.fire = false;
+                r.waveTeam = Team.malis;
+                r.placeRangeCheck = false;
+                r.showSpawns = true;
+                r.coreDestroyClear = true;
+                r.fog = false;
+                r.staticFog = false;
+                r.onlyDepositCore = true;
+                r.deconstructRefundMultiplier = 1.01f;
+            };
+            campaignRuleDefaults.fog = false;
+            campaignRuleDefaults.showSpawns = true;
+            campaignRuleDefaults.rtsAI = false;
+            allowCampaignRules = true;
+            orbitSpacing = 6f;
+            defaultCore = CoreBlocks.corePike;
+            atmosphereRadIn = 0.02f;
+            atmosphereRadOut = 0.2f;
+        }};
         fakeSerpulo = new Planet("fakeSerp", citun, 1f, 4){{
             generator = new FakeSerpuloPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
@@ -72,7 +117,7 @@ public class AquaPlanets {
             prebuildBase = false;
             orbitSpacing = 6f;
             defaultCore = CoreBlocks.corePike;
-            allowLaunchLoadout = false;
+            allowLaunchLoadout = true;
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
             //for future me

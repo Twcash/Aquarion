@@ -3,6 +3,7 @@ package aquarion.content.blocks;
 import aquarion.content.AquaAttributes;
 import aquarion.content.AquaItems;
 import aquarion.content.AquaSounds;
+import aquarion.world.blocks.heatBlocks.AquaHeatCrafter;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
@@ -892,14 +893,13 @@ public class CrafterBlocks {
                 size = 4;
                 craftTime = 240;
                 itemCapacity = 40;
-                consumePower(3);
+                consumePower(2);
                 consumeItem(metaglass, 20);
                 outputItems = new ItemStack[]{
                      new ItemStack(lead, 20),
-                        new ItemStack(sand, 10),
-                        new ItemStack(silicon, 5)
+                        new ItemStack(silicon, 20)
                 };
-                outputLiquid = new LiquidStack(oxygen, 1/3f);
+                outputLiquid = new LiquidStack(oxygen, 2/3f);
                 liquidCapacity = 20;
             }};
             fumeSeparator = new AquaGenericCrafter("fume-separator") {{
@@ -928,16 +928,58 @@ public class CrafterBlocks {
                 }});
             }};
         }};
-        coolingTower = new AquaGenericCrafter("cooling-tower"){{
+        coolingTower = new HeatProducer("cooling-tower"){{
             requirements(Category.crafting, with(silicon, 1500, copper, 2000, metaglass, 800, ferricMatter, 800));
             size = 8;
             consumePower(12);
             squareSprite = false;
-            consumeLiquid(haze, 20);
-            outputLiquid = new LiquidStack(water, 20);
+            consumeLiquid(haze, 17);
+            outputLiquid = new LiquidStack(water, 17);
             squareSprite = false;
-            liquidOutputDirections = new int[]{1};
+            consumePower(6);
+            rotate = true;
+            rotateDraw = false;
+            heatOutput = 150;
+            liquidOutputDirections = new int[]{2};
             liquidCapacity = 10000;
+            drawer = new DrawMulti(new DrawDefault(), new DrawBlurSpin() {{
+                suffix = "-fan";
+                x = -2 / 4f;
+                y = -96 / 4f;
+                rotateSpeed = 4f;
+            }}, new DrawBlurSpin() {{
+                suffix = "-fan";
+                x = -38 / 4f;
+                y = -96 / 4f;
+                rotateSpeed = 4f;
+            }}, new DrawBlurSpin() {{
+                suffix = "-fan";
+                x = -88/ 4f;
+                y = -96 / 4f;
+                rotateSpeed = 4f;;
+            }}, new DrawRegion("-top"), new DrawHeatOutput(),
+                    new DrawGlowRegion("-glow") {{
+                        alpha = 0.55f;
+                        color = Color.valueOf("e68569");
+                        glowIntensity = 0.4f;
+                        glowScale = 5f;
+                        layer = Layer.block + 3;
+                        blending = Blending.additive;
+                    }}, new DrawGlowRegion("-glow1") {{
+                alpha = 0.45f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.35f;
+                glowScale = 6f;
+                layer = Layer.block + 3;
+                blending = Blending.additive;
+            }}, new DrawGlowRegion("-glow2") {{
+                alpha = 0.3f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 7f;
+                layer = Layer.block + 3;
+                blending = Blending.additive;
+            }});
         }};
         harvester = new GroundDrill("harvester") {{
             alwaysUnlocked = true;
