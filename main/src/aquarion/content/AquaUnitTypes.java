@@ -1624,7 +1624,7 @@ public class AquaUnitTypes {
 //                    }}, 10f, .4f) {{
 //                    }});
 //        }};
-        bulwark = new UnitType("bulwark") {{
+        bulwark = new AquaUnitType("bulwark") {{
             constructor = MechUnit::create;
             speed = 0.45f;
             hitSize = 8;
@@ -1698,7 +1698,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        pillage = new UnitType("pillage"){{
+        pillage = new AquaUnitType("pillage"){{
             constructor = LegsUnit::create;
             speed  =0.34f;
             outlineColor = AquaPal.tantDarkestTone;
@@ -1748,7 +1748,7 @@ public class AquaUnitTypes {
             }});
 
         }};
-        weld = new UnitType("weld") {{
+        weld = new AquaUnitType("weld") {{
             constructor = UnitWaterMove::create;
             speed = 0.45f;
             hitSize = 8;
@@ -1793,7 +1793,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        solder = new UnitType("solder") {{
+        solder = new AquaUnitType("solder") {{
             constructor = UnitWaterMove::create;
             speed = 0.25f;
             hitSize = 8*1.5f;
@@ -1837,7 +1837,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        rampart = new UnitType("rampart") {{
+        rampart = new AquaUnitType("rampart") {{
             constructor = MechUnit::create;
             speed = 0.7f;
             hitSize = 8;
@@ -1881,7 +1881,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        pugnate = new UnitType("pugnate") {{
+        pugnate = new AquaUnitType("pugnate") {{
             constructor = LegsUnit::create;
             speed = 0.55f;
             hitSize = 8;
@@ -1936,7 +1936,7 @@ public class AquaUnitTypes {
             }});
 
         }};
-        crest = new UnitType("crest") {{
+        crest = new AquaUnitType("crest") {{
             flying = true;
             lowAltitude = true;
             constructor = UnitEntity::create;
@@ -1982,7 +1982,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        byteUnit = new UnitType("byte") {{
+        byteUnit = new AquaUnitType("byte") {{
             flying = true;
             lowAltitude = true;
             constructor = UnitEntity::create;
@@ -2029,7 +2029,7 @@ public class AquaUnitTypes {
             }});
             range = 60;
         }};
-        reave = new UnitType("reave") {{
+        reave = new AquaUnitType("reave") {{
             constructor = LegsUnit::create;
             speed = 0.45f;
             hitSize = 16;
@@ -2109,7 +2109,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        soar = new UnitType("soar") {{
+        soar = new AquaUnitType("soar") {{
             parts.add(new RegionPart("-glow") {{
                 color = Color.red;
                 blending = Blending.additive;
@@ -2175,7 +2175,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        raze = new UnitType("raze") {{
+        raze = new AquaUnitType("raze") {{
             constructor = LegsUnit::create;
             speed = 0.35f;
             hitSize = 16;
@@ -2233,7 +2233,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        shatter = new UnitType("shatter") {{
+        shatter = new AquaUnitType("shatter") {{
             constructor = MechUnit::create;
             speed = 0.25f;
             hitSize = 16;
@@ -2282,6 +2282,7 @@ public class AquaUnitTypes {
 //            stepShake = 0.1f;
 //            legMoveSpace = 1.4f;
 //            legContinuousMove = true;
+        //    envDisabled = Env.space;
 //            lockLegBase = true;
 //            legMinLength = 0.25f;
 //            groundLayer = Layer.legUnit+1;
@@ -2346,6 +2347,7 @@ public class AquaUnitTypes {
             armor = 12;
             health = 250;
             omniMovement = false;
+            envDisabled = Env.space;
             targetAir = false;
             shadowElevation = 0.05f;
             hitSize = 16;

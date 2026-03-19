@@ -229,7 +229,7 @@ public class CrafterBlocks {
             heatOutput = 20;
             consume(new ConsumeLiquidAcidic(1f));
             consumeLiquid(hydroxide, 1f);
-            outputLiquid = new LiquidStack(halideWater, 2);
+            outputLiquid = new LiquidStack(water, 2);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;

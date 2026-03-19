@@ -6,6 +6,7 @@ import aquarion.world.drawers.*;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import mindustry.content.Fx;
+import mindustry.content.Planets;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
@@ -20,6 +21,7 @@ import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.*;
+import static aquarion.content.AquaPlanets.*;
 import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
@@ -33,6 +35,7 @@ public class PowerBlocks {
         solarGenerator = new SolarGenerator("solar-generator") {{
             requirements(Category.power, with(lead, 150, nickel, 150, silicon, 200));
             size = 4;
+
             insulated = true;
             explosionDamage = 640;
             explosionRadius = 5;
@@ -391,6 +394,7 @@ public class PowerBlocks {
         }};
         pylon = new PowerPylon("pylon") {{
             requirements(Category.power, with(silicon, 15));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeErekir, fakeSerpulo, tantros2, qeraltar);
             maxRange = 12;
             laserRange = 12;
             maxNodes = 9;
@@ -399,6 +403,7 @@ public class PowerBlocks {
         }};
         outlet = new PowerOutlet("outlet") {{
             requirements(Category.power, with(silicon, 10));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeErekir, fakeSerpulo, tantros2, qeraltar);
             rotate = true;
             rotateDraw = false;
             powerProduction = 1;
