@@ -1582,14 +1582,14 @@ public class CrafterBlocks {
         steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
             requirements(Category.crafting, with( ferricMatter, 1500, copper, 2000, aluminum, 900));
             shownPlanets.addAll(tantros2);
-            craftTime = 1.5f*60f;
+            craftTime = 2f*60f;
             size = 5;
             updateEffectChance = 0.08f;
             updateEffect = Fx.steamCoolSmoke;
             squareSprite = false;
             consumeLiquids(LiquidStack.with(petroleum, 4, haze, 2));
-            outputLiquid = new LiquidStack(petroleum, 2);
-            outputItems = ItemStack.with(polymer, 3);
+            outputLiquid = new LiquidStack(ammonia, 2);
+            outputItems = ItemStack.with(polymer, 4);
             liquidCapacity = 300;
             itemCapacity = 60;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());

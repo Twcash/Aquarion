@@ -30,12 +30,13 @@ import static aquarion.content.AquaLiquids.fumes;
 import static aquarion.content.AquaLiquids.haze;
 import static aquarion.content.AquaPlanets.*;
 import static mindustry.content.Items.*;
+import static mindustry.content.Liquids.nitrogen;
 import static mindustry.type.ItemStack.with;
 
 
 public class CoreBlocks {
     public static Block buzzSaw, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
-            coreEscarpment,petal,  corePike, buildCairn, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme;
+            coreEscarpment,petal,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -93,6 +94,19 @@ public class CoreBlocks {
             rotateSpeed = 0.85f;
             schematicPriority = 8;
             consumePower(1.5f);
+        }};
+        constructionTower = new BuildTurret("construction-tower") {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.effect, with(silicon, 700, ferrosilicon, 250, copper, 2000));
+            size = 3;
+            outlineRadius = 0;
+            squareSprite = false;
+            consumeLiquid(nitrogen, 1);
+            buildSpeed = 0.5f;
+            range = 900;
+            rotateSpeed = 0.85f;
+            schematicPriority = 8;
+            consumePower(4);
         }};
         mendPyre = new RegenPylon("mend-pyre") {{
             requirements(Category.effect, with(lead, 55, silicon, 80));

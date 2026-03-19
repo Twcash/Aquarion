@@ -130,7 +130,9 @@ public class TantrosTechTree {
             });
             node(point, () -> {
                 node(buzzSaw);
-                node(buildCairn);
+                node(buildCairn, ()->{
+                    node(constructionTower);
+                });
                 node(Foment, Seq.with(
                         new Objectives.OnSector(Ingress)
                 ), () -> {
@@ -437,6 +439,7 @@ public class TantrosTechTree {
                             });
                         });
                 node(thermalCrackingUnit, () -> {
+                    node(steamCrackingUnit);
                     node(coalLiquefactor);
                     node(desulferizationAssembly);
                     node(polymerPress);
