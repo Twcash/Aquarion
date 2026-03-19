@@ -456,6 +456,7 @@ public class TantrosTechTree {
                         new Objectives.Research(magmaTap),
                         new Objectives.OnSector(Ingress)
                 ), () -> node(azuriteKiln, () -> {
+                    node(galenaCrucible);
                     node(towaniteReductionVat, Seq.with(
                             new Objectives.OnSector(CrystalCaverns)
                     ), () -> {
