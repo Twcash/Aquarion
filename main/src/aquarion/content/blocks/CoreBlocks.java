@@ -36,7 +36,7 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block buzzSaw, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
-            coreEscarpment,petal,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme;
+            coreEscarpment,petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -107,6 +107,18 @@ public class CoreBlocks {
             rotateSpeed = 0.85f;
             schematicPriority = 8;
             consumePower(4);
+        }};
+        reconstruct = new BuildTurret("reconstruct") {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.effect, with(silicon, 700));
+            size = 2;
+            outlineRadius = 3;
+            consumeLiquid(Liquids.water, 2);
+            buildSpeed = 0.8f;
+            range = 100;
+            rotateSpeed = 5f;
+            schematicPriority = 8;
+            consumePower(2);
         }};
         mendPyre = new RegenPylon("mend-pyre") {{
             requirements(Category.effect, with(lead, 55, silicon, 80));

@@ -158,7 +158,7 @@ public class UnitBlocks {
             r.plans.remove(1);
             r.plans.addAll(
                     new UnitFactory.UnitPlan(UnitTypes.retusa, 60f * 25, with(Items.silicon, 25, chalkalloy, 10)),
-                    new UnitFactory.UnitPlan(frost, 60f * 10, with(Items.silicon, 10, titanium, 20))
+                    new UnitFactory.UnitPlan(frost, 60f * 10, with(Items.silicon, 10, chalkalloy, 20))
             );
         });
         overwrite(Blocks.airFactory, (UnitFactory r) -> r.plans.addAll(

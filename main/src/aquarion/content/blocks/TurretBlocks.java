@@ -68,7 +68,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class TurretBlocks {
-    public static Block aftershock, nostalgia, memorial, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, torrefy,
+    public static Block aftershock, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, bend, maelstrom, Foment, redact, torrefy,
             blaze, ensign, hack, azimuth, grace;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -3014,6 +3014,19 @@ public class TurretBlocks {
                 lifetime = 190;
                 trailEffect = Fx.artilleryTrailSmoke;
             }};
+        }};
+        finite = new PointDefenseTurret("finite"){{
+            requirements(Category.turret, with(Items.silicon, 130, Items.thorium, 80, Items.phaseFabric, 40, Items.titanium, 40));
+
+            scaledHealth = 125;
+            range = 90f;
+            hasPower = true;
+            consumePower(5f);
+            size = 1;
+            shootLength = 7f;
+            bulletDamage = 10f;
+            reload = 12f;
+            envEnabled |= Env.space;
         }};
     }
 }
