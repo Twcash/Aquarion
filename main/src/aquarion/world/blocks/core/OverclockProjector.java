@@ -1,9 +1,15 @@
 package aquarion.world.blocks.core;
 
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
 import arc.util.Time;
 import mindustry.game.Team;
 import mindustry.gen.Building;
+import mindustry.graphics.Layer;
+import mindustry.graphics.Pal;
 import mindustry.world.Tile;
 import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.meta.BlockGroup;
@@ -76,5 +82,16 @@ public class OverclockProjector extends OverdriveProjector{
                 useProgress %= useTime;
             }
         }
+        @Override
+        public void draw(){
+            super.draw();
+            Draw.z(Layer.debris + 0.1f);
+            Draw.color(Pal.slagOrange.cpy().a(0.1f * efficiency));
+            Draw.alpha(0.1f * efficiency);
+            Fill.circle(x, y, range*efficiency);
+            Draw.reset();
+            Draw.color(Pal.slagOrange);
+            Lines.dashCircle(x, y, range * efficiency);
+        };
     }
 }

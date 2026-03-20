@@ -725,17 +725,16 @@ public class CrafterBlocks {
                 tier = 4;
                 itemCapacity = 50;
                 squareSprite = false;
-                consumePower(0.25f);
+                consumePower(0.5f);
 
                 drillTime = 240;
                 size = 4;
                 range = 8;
                 consumeLiquid(muriaticAcid, 0.125f);
-                consumeLiquid(oxygen, 1).boost();
+                consumeLiquid(oxygen, 0.2f).boost();
                 optionalBoostIntensity = 1.5f;
                 heatColor = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
-
             }};
             beamBore = new ModifiedbeamDrill("beam-bore") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
