@@ -163,6 +163,8 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 8;
+            startWaveTimeMultiplier = 3.0f;
+            captureWave = 11;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};

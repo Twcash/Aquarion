@@ -1,5 +1,6 @@
 package aquarion.world.blocks.power;
 
+import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.drawers.SwitchRegion;
 import arc.Core;
 import arc.graphics.g2d.Draw;
@@ -107,7 +108,7 @@ public class PowerOutlet extends PowerGenerator {
             if (!this.power.graph.consumers.contains(this)) {
                 this.power.graph.consumers.add(this);
             }
-            Building frontBuild = front();
+            Building frontBuild = fronte(front());
             if (!(frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild)) {
                 if (frontBuild == null || !(frontBuild.block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)) {
                     need = 0;
@@ -123,7 +124,7 @@ public class PowerOutlet extends PowerGenerator {
                     }
                     //Add production to current graph
                     if (front.producers.contains(this)) {
-                        BlockStatus status = front().status();
+                        BlockStatus status = fronte(front()) .status();
                         //TBH I could have just used an if/else but this was more fun
                         switch (status) {
                             case active, noInput:
@@ -167,16 +168,23 @@ public class PowerOutlet extends PowerGenerator {
 
             return Math.min(need, powerProduction) * power.status;
         }
-
+        Building fronte(Building b){
+            if(front() != null && front() instanceof LinkBlock.LinkBuild lb){
+                return lb.linkBuild;
+            } else if(front()!= null){
+                return front();
+            }
+            return null;
+        }
         @Override
         public void onProximityRemoved() {
             super.onProximityRemoved();
             if (power != null) {
                 powerGraphRemoved();
             }
-            if (front() == null || front().power == null || this.team != front().team) return;
+            if (fronte(front()) == null ||fronte(front()) .power == null || this.team != fronte(front()) .team) return;
 
-            PowerGraph front = this.front().power.graph;
+            PowerGraph front = this.fronte(front()) .power.graph;
             if (front.producers.contains(this)) {
                 front.producers.remove(this);
             }

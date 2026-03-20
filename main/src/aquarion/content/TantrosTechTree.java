@@ -72,6 +72,9 @@ public class TantrosTechTree {
                     new Objectives.OnSector(twinPass),
                     new Objectives.Research(pelt)
             ), () -> {
+                node(meteor, ()-> {
+                    node(vesta);
+                });
                 node(pillage);
                 node(payloadPad, ()-> {
                     node(payloadDistributor);

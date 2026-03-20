@@ -64,6 +64,7 @@ public class UnitBlock extends Block {
         update = true;
         ambientSound = AquaSounds.derrick;
         canPickup = false;
+        rotate = true;
         hasShadow = false;
         createRubble = false;
         //Horrifically bad code.
@@ -114,7 +115,8 @@ public class UnitBlock extends Block {
         }
         return true;
     }
-    @Override
+
+        @Override
     public void load(){
         super.load();
         region = unit.fullIcon;
@@ -192,7 +194,7 @@ public class UnitBlock extends Block {
     }
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
-        if( unit.fullIcon != null) Draw.rect(unit.fullIcon, plan.drawx(), plan.drawy());
+        if( unit.fullIcon != null) Draw.rect(unit.fullIcon, plan.drawx(), plan.drawy(), plan.rotation*90-90);
     }
     @Override
     public TextureRegion[] icons(){
@@ -213,7 +215,7 @@ public class UnitBlock extends Block {
         public void draw() {
             //This is most likely unnecessary...
             Draw.z(Layer.groundUnit);
-            if (unit.fullIcon != null) Draw.rect(unit.fullIcon, x, y);
+            if (unit.fullIcon != null) Draw.rect(unit.fullIcon, x, y, rotdeg()-90);
             if (unit.flying) {
                 float e =  Mathf.clamp(totProgress, unit.shadowElevation, 1f);
 
@@ -308,7 +310,7 @@ public class UnitBlock extends Block {
                     b.command().command(command == null && b.type.defaultCommand != null ? b.type.defaultCommand : command);
                 }
                 b.set(x + Mathf.range(0.001f), y + Mathf.range(0.001f));
-                b.rotation = 90;
+                b.rotation = rotdeg()+90;
                 Effect.shake(2f, 3f, this);
                 Fx.producesmoke.at(this);
                 b.add();

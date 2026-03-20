@@ -1,16 +1,32 @@
 package aquarion.content.blocks;
 
+import aquarion.world.AI.NewMissileAI;
+import aquarion.world.MultiBlockLib.drawrr.DrawRegionCenterSymmetry;
+import aquarion.world.MultiBlockLib.drawrr.DrawRegionRotated;
 import aquarion.world.blocks.defense.AquaWall;
+import aquarion.world.blocks.defense.MissileBlock;
 import aquarion.world.graphics.AquaPal;
+import arc.graphics.Color;
+import mindustry.ai.types.CommandAI;
+import mindustry.ai.types.FlyingAI;
+import mindustry.ai.types.MissileAI;
 import mindustry.content.Fx;
 import mindustry.content.Liquids;
 import mindustry.content.Planets;
+import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.EmptyBulletType;
+import mindustry.entities.bullet.ExplosionBulletType;
 import mindustry.entities.effect.ExplosionEffect;
+import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.WaveEffect;
+import mindustry.gen.Sounds;
+import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
+import mindustry.type.Weapon;
+import mindustry.type.unit.MissileUnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.ForceProjector;
 import mindustry.world.blocks.defense.Wall;
@@ -23,11 +39,140 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DefenseBlocks {
-    public static Block forceGenerator, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
-            cupronickelWall, hugeCupronickelWall, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
+    public static Block forceGenerator, meteor, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+            cupronickelWall, hugeCupronickelWall, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
     public static void loadContent() {
+        meteor = new MissileBlock("meteor"){{
+            requirements(Category.turret, with(copper, 90, lead, 60, graphite, 90));
+            size = 1;
+            canMirror = false;
+            drawer = new DrawRegionRotated(){{
+                suffix = "-rot";
+                x = 4;
+            }};
+            consumePower(2);
+            addLink(1,0,1);
+            spawn = new MissileUnitType("meteor-unit"){{
+                speed = 4.6f;
+                maxRange = 6f;
+                lifetime = 60f * 3f;
+                omniMovement = false;
+                hitSize = 10f;
+                outlineColor = AquaPal.tantDarkestTone;
+                engineColor = trailColor = Pal.redLight;
+                engineLayer = Layer.effect;
+                engineSize = 3.1f;
+                engineOffset = 10f;
+                controller = u -> new NewMissileAI();
+                rotateSpeed = 0.25f;
+                drawCell = false;
+                circleTarget = true;
+                trailLength = 18;
+                missileAccelTime = 50f;
+                lowAltitude = true;
+                loopSound = Sounds.loopMissileTrail;
+                loopSoundVolume = 0.6f;
+                deathSound = Sounds.explosionMissile;
+                range = 250;
+                targetAir = true;
+                targetUnderBlocks = false;
+                fogRadius = 6f;
+                health = 240;
+                weapons.add(new Weapon(){{
+                    shootCone = 360f;
+                    mirror = false;
+                    reload = 1f;
+                    deathExplosionEffect = Fx.massiveExplosion;
+                    shootOnDeath = true;
+                    shake = 10f;
+                    bullet = new ExplosionBulletType(300f, 25f){{
+                        hitColor = Pal.redLight;
+                        shootEffect = new MultiEffect(Fx.massiveExplosion, new WaveEffect(){{
+                            lifetime = 20f;
+                            strokeFrom = 2f;
+                            sizeTo = 90f;;
+                        }});
+                        collidesAir = true;
+                    }};
+                }});
+
+                abilities.add(new MoveEffectAbility(){{
+                    effect = Fx.missileTrailSmoke;
+                    rotation = 180f;
+                    y = -9f;
+                    color = Color.grays(0.6f).lerp(Pal.redLight, 0.5f).a(0.4f);
+                    interval = 7f;
+                }});
+            }};
+        }};
+        vesta = new MissileBlock("vesta"){{
+            requirements(Category.turret, with(metaglass, 250, silicon, 500, copper, 500, polymer, 150));
+            size = 1;
+            canMirror = false;
+            drawer = new DrawRegionRotated(){{
+                suffix = "-rot";
+                x = 4;
+            }};
+            range = 400;
+            time = 600;
+            consumePower(6);
+            addLink(1,0,1, -1,0,1,2,0,1);
+            spawn = new MissileUnitType("vesta-unit"){{
+                speed = 2.6f;
+                maxRange = 6f;
+                lifetime = 60f * 3f;
+                range = 450;
+                omniMovement = false;
+                hitSize = 10f;
+                outlineColor = AquaPal.tantDarkestTone;
+                engineColor = trailColor = Pal.redLight;
+                engineLayer = Layer.effect;
+                engineSize = 3.1f;
+                engineOffset = 10f;
+                controller = u -> new NewMissileAI();
+                rotateSpeed = 0.25f;
+                drawCell = false;
+                circleTarget = true;
+                trailLength = 18;
+                missileAccelTime = 50f;
+                lowAltitude = true;
+                loopSound = Sounds.loopMissileTrail;
+                loopSoundVolume = 0.6f;
+                deathSound = Sounds.explosionMissile;
+
+                targetAir = true;
+                targetUnderBlocks = false;
+                fogRadius = 6f;
+                health = 400;
+                weapons.add(new Weapon(){{
+                    shootCone = 360f;
+                    mirror = false;
+                    reload = 1f;
+                    deathExplosionEffect = Fx.massiveExplosion;
+                    shootOnDeath = true;
+                    shake = 10f;
+                    bullet = new ExplosionBulletType(500f, 45f){{
+                        hitColor = Pal.redLight;
+                        shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosionSmall, new WaveEffect(){{
+                            lifetime = 20f;
+                            strokeFrom = 2f;
+                            sizeTo = 90f;;
+                        }});
+                        collidesAir = true;
+                    }};
+                }});
+
+                abilities.add(new MoveEffectAbility(){{
+                    effect = Fx.missileTrailSmoke;
+                    rotation = 180f;
+                    y = -9f;
+                    color = Color.grays(0.6f).lerp(Pal.redLight, 0.5f).a(0.4f);
+                    interval = 7f;
+                }});
+            }};
+        }};
         bauxiteWall = new AquaWall("bauxite-wall") {{
             requirements(Category.defense, with(bauxite, 24));
             health = 1000;
