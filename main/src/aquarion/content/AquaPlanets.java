@@ -5,16 +5,25 @@ import aquarion.planets.AquaPlanetGenerator;
 import aquarion.planets.CoradumPlanetGenerator;
 import aquarion.planets.FakeSerpuloPlanetGenerator;
 import aquarion.planets.QeralterPlanetGen;
+import arc.func.Cons;
 import arc.graphics.Color;
+import arc.math.Mathf;
+import arc.math.Rand;
+import arc.math.geom.Mat3D;
+import arc.math.geom.Vec3;
+import arc.struct.Seq;
+import arc.util.Tmp;
+import mindustry.content.Blocks;
+import mindustry.content.Planets;
 import mindustry.game.Team;
 import mindustry.graphics.Pal;
-import mindustry.graphics.g3d.HexMesh;
-import mindustry.graphics.g3d.HexSkyMesh;
-import mindustry.graphics.g3d.MultiMesh;
-import mindustry.graphics.g3d.SunMesh;
+import mindustry.graphics.g3d.*;
+import mindustry.maps.planet.AsteroidGenerator;
 import mindustry.maps.planet.ErekirPlanetGenerator;
 import mindustry.type.Planet;
+import mindustry.type.Sector;
 import mindustry.type.Weather;
+import mindustry.world.Block;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.Env;
 
@@ -25,6 +34,7 @@ public class AquaPlanets {
     citun,
     fakeSerpulo,
     fakeErekir,
+    ring1,
     coradum;
 
     public static void loadContent() {
@@ -54,6 +64,14 @@ public class AquaPlanets {
                     Color.valueOf("d2e5ea")
             );
         }};
+//        ring1 = makeAsteroid("ring", fakeSerpulo, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 9, 1f, gen -> {
+//            gen.min = 25;
+//            gen.max = 35;
+//            gen.carbonChance = 0.6f;
+//            gen.iceChance = 0f;
+//            gen.berylChance = 0.1f;
+//        });
+
         fakeErekir = new Planet("fakeErekir", citun, 0.9f, 4){{
             generator = new ErekirPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
@@ -66,8 +84,8 @@ public class AquaPlanets {
             lightSrcTo = 0.5f;
             lightDstFrom = 0.2f;
             updateLighting = false;
-            defaultAttributes.set(Attribute.heat, 0.5f);//Heat engine unbalance.
-            atmosphereColor = Color.valueOf("01ff00");
+            defaultAttributes.set(Attribute.heat, 0.8f);//Heat engine unbalance.
+            atmosphereColor = Color.valueOf("a7787d");
             visible = true;
             allowLaunchLoadout = false;
             clearSectorOnLose = true;
@@ -209,6 +227,87 @@ public class AquaPlanets {
                     new HexSkyMesh(this, 3, 1.5f, 0.18f, 5,Pal.stoneGray, 2, 0.42f, 1.2f, 0.45f)
 
             );
+        }};
+
+    }
+    private static Planet makeAsteroidRing(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, int amount, Cons<AsteroidGenerator> cgen){
+        return new Planet(name, parent, 0.12f){{
+            hasAtmosphere = false;
+            updateLighting = false;
+            camRadius = 0.68f * scale;
+            minZoom = 0.6f;
+            drawOrbit = false;
+            accessible = false;
+            clipRadius = 2f;
+            defaultEnv = Env.space;
+            icon = "commandRally";
+            generator = new AsteroidGenerator();
+            cgen.get((AsteroidGenerator)generator);
+
+            meshLoader = () -> {
+                iconColor = tint.mapColor;
+                Color tinted = tint.mapColor.cpy().a(1f - tint.mapColor.a);
+                Seq<GenericMesh> meshes = new Seq<>();
+                Color color = base.mapColor;
+                Rand rand = new Rand(id + 2);
+                for(int i = 0; i < amount; i++) {
+                    meshes.add(new NoiseMesh(
+                            this, seed, 2, radius, 2, 0.55f, 0.45f, 14f,
+                            color, tinted, 3, 0.6f, 0.38f, tintThresh
+                    ));
+
+                    for (int j = 0; j < pieces; j++) {
+                        sectors.add(new Sector(this, new PlanetGrid.Ptile(i * j * seed, 0)));
+                        rand.setSeed((long) pieces * i * amount * j + seed);
+                        meshes.add(new MatMesh(
+                                new NoiseMesh(this, seed + j + 1, 1, 0.022f + rand.random(0.039f) * scale, 2, 0.6f, 0.38f, 20f,
+                                        color, tinted, 3, 0.6f, 0.38f, tintThresh),
+                                new Mat3D().setToTranslation(Tmp.v31.setToRandomDirection(rand).setLength(rand.random(0.44f, 1.4f) * scale)))
+                        );
+                    }
+                }
+                return new MultiMesh(meshes.toArray(GenericMesh.class));
+            };
+        }};
+    }
+    private static Planet makeAsteroid(String name, Planet parent, Block base, Block tint, int seed, float tintThresh, int pieces, float scale, Cons<AsteroidGenerator> cgen){
+        return new Planet(name, parent, 0.12f){{
+            hasAtmosphere = false;
+            updateLighting = false;
+            sectors.add(new Sector(this, PlanetGrid.Ptile.empty));
+            camRadius = 0.68f * scale;
+            minZoom = 0.6f;
+            orbitRadius = 40;
+            drawOrbit = false;
+            accessible = false;
+            clipRadius = 2f;
+            defaultEnv = Env.space;
+            icon = "commandRally";
+            generator = new AsteroidGenerator();
+            cgen.get((AsteroidGenerator)generator);
+
+            meshLoader = () -> {
+                iconColor = tint.mapColor;
+                Color tinted = tint.mapColor.cpy().a(1f - tint.mapColor.a);
+                Seq<GenericMesh> meshes = new Seq<>();
+                Color color = base.mapColor;
+                Rand rand = new Rand(id + 2);
+
+                meshes.add(new NoiseMesh(
+                        this, seed, 2, radius, 2, 0.55f, 0.45f, 14f,
+                        color, tinted, 3, 0.6f, 0.38f, tintThresh
+                ));
+
+                for(int j = 0; j < pieces; j++){
+                    meshes.add(new MatMesh(
+                            new NoiseMesh(this, seed + j + 1, 1, 0.022f + rand.random(0.039f) * scale, 2, 0.6f, 0.38f, 20f,
+                                    color, tinted, 3, 0.6f, 0.38f, tintThresh),
+                            new Mat3D().setToTranslation(Tmp.v31.setToRandomDirection(rand).setLength(rand.random(0.44f, 1.4f) * scale)))
+                    );
+                }
+
+                return new MultiMesh(meshes.toArray(GenericMesh.class));
+            };
         }};
     }
 }

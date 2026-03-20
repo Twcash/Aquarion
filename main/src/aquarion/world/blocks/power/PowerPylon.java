@@ -31,6 +31,7 @@ import mindustry.world.blocks.power.Battery;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerGraph;
 import mindustry.world.blocks.power.PowerNode;
+import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.meta.Env;
 import mindustry.world.modules.PowerModule;
 
@@ -142,7 +143,7 @@ public class PowerPylon extends PowerNode {
         });
     }
     public static boolean isAllowedLinkTarget(Building build){
-        return build instanceof PowerPylonBuild || build instanceof PowerGenerator.GeneratorBuild || build instanceof Battery.BatteryBuild && build.block.insulated;
+        return build instanceof PowerPylonBuild || build instanceof PowerGenerator.GeneratorBuild || build instanceof Battery.BatteryBuild && build.block.insulated || build instanceof PowerSource.PowerSourceBuild || build instanceof PowerNodeBuild;
     }
     //Gotta keep this here OR ELSE
     @Override

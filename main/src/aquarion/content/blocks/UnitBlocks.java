@@ -7,6 +7,7 @@ import aquarion.world.blocks.units.UnitBlock;
 import arc.func.Cons;
 import mindustry.content.Blocks;
 import mindustry.content.Items;
+import mindustry.content.UnitTypes;
 import mindustry.ctype.UnlockableContent;
 import mindustry.type.Category;
 import mindustry.type.UnitType;
@@ -145,18 +146,25 @@ public class UnitBlocks {
 //            buildVisibility = BuildVisibility.hidden;
 //        }};
 
-        overwrite(Blocks.groundFactory, (UnitFactory r) -> r.plans.addAll(
-                new UnitFactory.UnitPlan(isop, 60f * 20, with(Items.silicon, 25, nickel, 10))
+        overwrite(Blocks.groundFactory, (UnitFactory r) -> {
+            r.plans.remove(2);
+            r.plans.addAll(
+                    new UnitFactory.UnitPlan(UnitTypes.nova, 60f * 40, with(Items.silicon, 30, Items.lead, 20, chalkalloy, 20)),
+            new UnitFactory.UnitPlan(isop, 60f * 20, with(Items.silicon, 25, nickel, 10))
 
-        ));
-
+        );
+        });
+        overwrite(Blocks.navalFactory, (UnitFactory r) -> {
+            r.plans.remove(1);
+            r.plans.addAll(
+                    new UnitFactory.UnitPlan(UnitTypes.retusa, 60f * 25, with(Items.silicon, 25, chalkalloy, 10)),
+                    new UnitFactory.UnitPlan(frost, 60f * 10, with(Items.silicon, 10, titanium, 20))
+            );
+        });
         overwrite(Blocks.airFactory, (UnitFactory r) -> r.plans.addAll(
                 new UnitFactory.UnitPlan(cog, 60f * 35, with(Items.silicon, 20, brimstone, 30))
         ));
 
-        overwrite(Blocks.navalFactory, (UnitFactory r) -> r.plans.addAll(
-                new UnitFactory.UnitPlan(frost, 60f * 10, with(Items.silicon, 10, titanium, 20))
-        ));
         overwrite(Blocks.additiveReconstructor, (Reconstructor r) -> r.upgrades.addAll(
                 new UnitType[]{isop, empusa},
                 new UnitType[]{frost, rime},
