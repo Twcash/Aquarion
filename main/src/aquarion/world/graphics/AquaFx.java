@@ -1,5 +1,6 @@
 package aquarion.world.graphics;
 
+import aquarion.world.blocks.units.UnitBlock;
 import arc.Core;
 import arc.func.Floatc2;
 import arc.graphics.Blending;
@@ -850,6 +851,18 @@ public class AquaFx {
                     Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(45) + Interp.pow2In.apply(rand.random(10f, 20f) * e.fout()));
                 }
             }).layer(Layer.debris),
+            boing = new Effect(85, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                float rot = e.rotation + rand.range(360f);
+                if(e.data instanceof UnitBlock b){
+                    TextureRegion region = b.inactiveRegion;
+                    v.trns(rot, rand.random(e.finpow() * 21f));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * (b.size *8);
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(45) + Interp.pow2In.apply(rand.random(10f, 20f) * e.fout()));
+                }}).layer(Layer.flyingUnitLow),
             parzilDebrisLarge = new Effect(120, e -> {
                 rand.setSeed(e.id);
                 color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());

@@ -1,6 +1,7 @@
 package aquarion.world.blocks.units;
 
 import aquarion.content.AquaSounds;
+import aquarion.world.graphics.AquaFx;
 import arc.Core;
 import arc.Graphics.Cursor;
 import arc.Graphics.Cursor.SystemCursor;
@@ -9,6 +10,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Angles;
+import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.scene.ui.ButtonGroup;
@@ -36,6 +38,7 @@ import mindustry.graphics.Pal;
 import mindustry.io.TypeIO;
 import mindustry.type.Category;
 import mindustry.type.Item;
+import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
 import mindustry.ui.Bar;
 import mindustry.ui.Fonts;
@@ -50,6 +53,7 @@ import mindustry.world.meta.StatValues;
 import static mindustry.Vars.*;
 
 public class UnitBlock extends Block {
+    public TextureRegion inactiveRegion;
     public UnitBlock(String name) {
         super(name);
         category = Category.units;
@@ -121,6 +125,7 @@ public class UnitBlock extends Block {
         super.load();
         region = unit.fullIcon;
         description = unit.description;
+        inactiveRegion = Core.atlas.find(name + "-inactive");
     }
     @Override
     public void setStats(){
@@ -195,10 +200,11 @@ public class UnitBlock extends Block {
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
         if( unit.fullIcon != null) Draw.rect(unit.fullIcon, plan.drawx(), plan.drawy(), plan.rotation*90-90);
+        Draw.rect(inactiveRegion, plan.drawx(), plan.drawy(), 0);
     }
     @Override
     public TextureRegion[] icons(){
-        return new TextureRegion[]{unit.fullIcon};
+        return new TextureRegion[]{inactiveRegion, unit.fullIcon};
     }
     @Override
     public boolean outputsItems(){
@@ -210,12 +216,24 @@ public class UnitBlock extends Block {
         public float totProgress = 0;
         public @Nullable Vec2 commandPos;
         public @Nullable UnitCommand command;
-
+        public StatusEffect[] effects;
         @Override
         public void draw() {
-            //This is most likely unnecessary...
             Draw.z(Layer.groundUnit);
             if (unit.fullIcon != null) Draw.rect(unit.fullIcon, x, y, rotdeg()-90);
+            Draw.rect(inactiveRegion, x,y, 0);
+            Draw.color(Pal.heal);
+            float fract = Interp.pow2Out.apply(progress / time);
+            for(int i = 0; i < block.size*2f; i++){
+                float bFract = (block.size*2f- i);
+                Draw.alpha(fract * block.size*2f - bFract);
+                Fill.square(x - (block.size*4) + (i*4), y - block.size *2f, block.size/2f);
+                Draw.alpha(1);
+                Draw.color();
+            }
+            for(int i = 0; i < effects.length; i++) {
+                if(effects[i].fullIcon !=null) Draw.rect(effects[i].fullIcon, x - (block.size*4) + (i*4), y + block.size *2f);
+            }
             if (unit.flying) {
                 float e =  Mathf.clamp(totProgress, unit.shadowElevation, 1f);
 
@@ -313,6 +331,10 @@ public class UnitBlock extends Block {
                 b.rotation = rotdeg()+90;
                 Effect.shake(2f, 3f, this);
                 Fx.producesmoke.at(this);
+                AquaFx.boing.at(this.x, this.y, 0, block);
+                for(StatusEffect effect : effects) {
+                    b.apply(effect);
+                }
                 b.add();
                 kill();
             }

@@ -318,7 +318,10 @@ public class EnvironmentBlocks {
             attributes.set(iron, 0.25f);
             attributes.set(metamorphic, 0.1f);
         }};
-
+        smoothBrecciaFloor = new Floor("smooth-breccia-floor", 4) {{
+            attributes.set(iron, 0.5f);
+            attributes.set(metamorphic, 0.2f);
+        }};
         soil = new Floor("soil", 3) {{
             attributes.set(AquaAttributes.fertility, 1f);
         }};
@@ -486,10 +489,7 @@ public class EnvironmentBlocks {
         sporeMoss.attributes.set(fertility, 0.75f);
         basalt.attributes.set(metamorphic, 0.5f);
         darksand.attributes.set(metamorphic, 0.5f);
-        smoothBrecciaFloor = new Floor("smooth-breccia-floor", 4) {{
-            attributes.set(iron, 0.5f);
-            attributes.set(metamorphic, 0.2f);
-        }};
+
         leafLitter = new Floor("leaf-litter", 3) {{
         }};
         leafLitterDense = new Floor("leaf-litter-dense", 3) {{

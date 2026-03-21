@@ -29,7 +29,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
-    public static Block defunctGenerator, advSolarGen, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
+    public static Block defunctGenerator, singularityReactor, advSolarGen, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent() {
         solarGenerator = new SolarGenerator("solar-generator") {{
@@ -513,6 +513,14 @@ public class PowerBlocks {
                     sinMag = 2.5f;
                     sides = 1;
             }}, new DrawDefault(), new DrawHeatInputBitmask("-heats"));
+        }};
+        singularityReactor = new VoidGenerator("singularity-reactor"){{
+            requirements(Category.power, with(silicon, 1200, lead, 500));
+            size = 9;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            category = Category.power;
+            powerProduction = 4;
+            baseExplosiveness = 2;
         }};
     }
 }
