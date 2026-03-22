@@ -1,16 +1,18 @@
 package aquarion.content.blocks;
 
+import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.payload.InitializationBay;
 import aquarion.world.blocks.units.UnitBlock;
+import aquarion.world.blocks.units.UnitBlockStatusApplierThingWhat;
 import arc.func.Cons;
 import mindustry.content.Blocks;
 import mindustry.content.Items;
+import mindustry.content.StatusEffects;
 import mindustry.content.UnitTypes;
 import mindustry.ctype.UnlockableContent;
-import mindustry.type.Category;
-import mindustry.type.UnitType;
+import mindustry.type.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitFactory;
@@ -25,7 +27,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block initializationBay,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
+    public static Block initializationBay, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -37,6 +39,18 @@ public class UnitBlocks {
             buildVisibility = BuildVisibility.sandboxOnly;
             consumePower(36);
             size = 6;
+        }};
+        statusApplier = new UnitBlockStatusApplierThingWhat("manipulation-bay"){{
+            requirements(Category.units, with(silicon, 80));
+            plans.addAll(new StatusPlan(StatusEffects.overdrive, 300){{
+                liquidReq = new LiquidStack[]{new LiquidStack(oil, 1)};
+                requirements = PayloadStack.list(DefenseBlocks.nickelWall, 1);
+            }},new StatusPlan(StatusEffects.fast, 240){{
+                liquidReq = new LiquidStack[]{new LiquidStack(AquaLiquids.argon, 1)};
+                itemReq = new ItemStack[]{new ItemStack(Items.silicon, 80)};
+            }});
+            consumePower(10);
+            size =5;
         }};
         bulwark = new UnitBlock("bulwark") {{
             requirements(Category.units, with(silicon, 80, metaglass, 30, lead, 50, graphite, 40));

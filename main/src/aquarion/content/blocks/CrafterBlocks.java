@@ -1582,11 +1582,11 @@ public class CrafterBlocks {
             requirements(Category.crafting, with( ferricMatter, 1500, copper, 2000, aluminum, 900));
             shownPlanets.addAll(tantros2);
             craftTime = 2f*60f;
-            size = 5;
+            size = 6;
             updateEffectChance = 0.08f;
             updateEffect = Fx.steamCoolSmoke;
             squareSprite = false;
-            consumeLiquids(LiquidStack.with(petroleum, 4, haze, 2));
+            consumeLiquids(LiquidStack.with(oil, 4, haze, 2));
             outputLiquid = new LiquidStack(ammonia, 2);
             outputItems = ItemStack.with(polymer, 4);
             liquidCapacity = 300;

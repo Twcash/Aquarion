@@ -16,6 +16,7 @@ import arc.math.geom.Vec2;
 import arc.scene.ui.ButtonGroup;
 import arc.scene.ui.ImageButton;
 import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
@@ -204,7 +205,7 @@ public class UnitBlock extends Block {
     }
     @Override
     public TextureRegion[] icons(){
-        return new TextureRegion[]{inactiveRegion, unit.fullIcon};
+        return new TextureRegion[]{ unit.fullIcon};
     }
     @Override
     public boolean outputsItems(){
@@ -216,23 +217,23 @@ public class UnitBlock extends Block {
         public float totProgress = 0;
         public @Nullable Vec2 commandPos;
         public @Nullable UnitCommand command;
-        public StatusEffect[] effects;
+        public Seq<StatusEffect> effects = new Seq<>();
         @Override
         public void draw() {
             Draw.z(Layer.groundUnit);
             if (unit.fullIcon != null) Draw.rect(unit.fullIcon, x, y, rotdeg()-90);
             Draw.rect(inactiveRegion, x,y, 0);
-            Draw.color(Pal.heal);
             float fract = Interp.pow2Out.apply(progress / time);
             for(int i = 0; i < block.size*2f; i++){
+                Draw.color(Pal.heal);
                 float bFract = (block.size*2f- i);
                 Draw.alpha(fract * block.size*2f - bFract);
                 Fill.square(x - (block.size*4) + (i*4), y - block.size *2f, block.size/2f);
                 Draw.alpha(1);
                 Draw.color();
             }
-            for(int i = 0; i < effects.length; i++) {
-                if(effects[i].fullIcon !=null) Draw.rect(effects[i].fullIcon, x - (block.size*4) + (i*4), y + block.size *2f);
+            for(int i = 0; i < effects.size; i++) {
+                if(effects.get(i).uiIcon!=null) Draw.rect(effects.get(i).uiIcon, x+1 - (block.size*4) + (i*6), y + block.size *2f, block.size*4f/2f, block.size*4f/2f);
             }
             if (unit.flying) {
                 float e =  Mathf.clamp(totProgress, unit.shadowElevation, 1f);
@@ -265,7 +266,7 @@ public class UnitBlock extends Block {
                     }
             }
         }
-        
+
         @Override
         public Object config(){
             StringBuilder out = new StringBuilder();
@@ -313,7 +314,6 @@ public class UnitBlock extends Block {
 
         @Override
         public void updateTile(){
-
             if(efficiency > 0 && !(this.team.data().countType(unit) >= Units.getCap(this.team))) {
                 progress += edelta() * Vars.state.rules.unitBuildSpeed(team) * efficiency;
                 totProgress = progress/time;
