@@ -200,7 +200,7 @@ public class PayloadJumper extends PayloadBlock {
             float sendScl = Mathf.lerp(1f, 0.75f, sendProgress);
 
             Draw.rect(under, x + sendX / 2f, y + sendY / 2f, rotdeg());
-            Draw.scl(1f, sendScl);
+            Draw.scl(sendScl, 1f);
             Draw.rect(pad, x + sendX, y + sendY, rotdeg());
             Draw.scl();
 
