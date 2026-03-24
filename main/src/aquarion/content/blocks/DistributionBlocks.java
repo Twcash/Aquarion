@@ -2,9 +2,7 @@ package aquarion.content.blocks;
 
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
-import aquarion.world.blocks.payload.Displacer;
-import aquarion.world.blocks.payload.PayloadDistributor;
-import aquarion.world.blocks.payload.PayloadJumper;
+import aquarion.world.blocks.payload.*;
 import arc.func.Cons;
 import mindustry.Vars;
 import mindustry.content.Blocks;
@@ -14,15 +12,10 @@ import mindustry.ctype.UnlockableContent;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
-import mindustry.world.blocks.payloads.PayloadRouter;
-import mindustry.world.blocks.storage.Unloader;
-import mindustry.world.blocks.units.UnitCargoLoader;
-import mindustry.world.blocks.units.UnitCargoUnloadPoint;
 import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaPlanets.*;
-import static aquarion.content.AquaUnitTypes.rivulet;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
@@ -164,6 +157,7 @@ public class DistributionBlocks {
         });
         payloadPad = new PayloadJumper("payload-pad"){{
             requirements(Category.units, with(polymer, 45, silicon, 50, copper, 120));
+            size = 3;
         }};
         payloadDisplacer = new Displacer("payload-displacer"){{
             requirements(Category.units, with(polymer, 80, silicon, 90, ferricMatter, 25));

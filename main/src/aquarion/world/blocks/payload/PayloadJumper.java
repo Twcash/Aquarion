@@ -1,73 +1,69 @@
 package aquarion.world.blocks.payload;
 
-import arc.Core;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Angles;
-import arc.math.Interp;
-import arc.math.Mathf;
-import arc.math.geom.Geometry;
-import arc.util.Eachable;
-import arc.util.Time;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
-import mindustry.Vars;
-import mindustry.content.Fx;
-import mindustry.entities.Damage;
-import mindustry.entities.units.BuildPlan;
-import mindustry.gen.Building;
-import mindustry.gen.Sounds;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
-import mindustry.world.Tile;
-import mindustry.world.blocks.defense.Wall;
-import mindustry.world.blocks.payloads.BuildPayload;
-import mindustry.world.blocks.payloads.Payload;
-import mindustry.world.blocks.payloads.PayloadBlock;
-import mindustry.world.blocks.payloads.UnitPayload;
-import mindustry.world.meta.BlockGroup;
+import aquarion.world.graphics.Renderer.*;
+import aquarion.world.graphics.Renderer.Layer;
+import arc.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
+import arc.util.io.*;
+import arc.util.pooling.*;
+import arc.util.pooling.Pool.*;
+import mindustry.*;
+import mindustry.content.*;
+import mindustry.entities.units.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.ui.*;
+import mindustry.world.blocks.defense.*;
+import mindustry.world.blocks.payloads.*;
+import mindustry.world.meta.*;
 
+import static mindustry.Vars.*;
 import static mindustry.Vars.tilesize;
-import static mindustry.Vars.world;
 
-public class PayloadJumper extends PayloadBlock{
+public class PayloadJumper extends PayloadBlock {
     public int range = 10;
-    public float chargeTime = 100f;
+    public float cooldownTime = 20f;
+    // visual
+    public float sendTime = 5f, sendLength = 20f;
+
     public TextureRegion pad, under;
 
-    public PayloadJumper(String name){
+    public PayloadJumper(String name) {
         super(name);
-        update = true;
-        solid = true;
-        size = 3;
         rotate = true;
-        noUpdateDisabled = true;
         acceptsPayload = true;
         outputsPayload = true;
-        regionRotated1 = 1;
         group = BlockGroup.units;
+        regionRotated1 = 2;
+        regionRotated2 = 3;
     }
-    @Override
-    public void load(){
-        super.load();
-        pad = Core.atlas.find(name + "-pad");
-        under = Core.atlas.find(name + "-under");
 
-    }
     @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void setBars() {
+        super.setBars();
+        addBar("cooldown", (PayloadJumperBuild build) -> new Bar("bar.cooldown", Pal.ammo, () -> 1f - (build.cooldown / cooldownTime)));
+    }
+
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.add(Stat.range, range, StatUnit.blocks);
+        stats.add(Stat.cooldownTime, cooldownTime / 60f, StatUnit.seconds);
+    }
+
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         Draw.rect(region, plan.drawx(), plan.drawy());
-        Draw.rect(under, plan.drawx(), plan.drawy(), plan.rotation*90);
-        Draw.rect(pad, plan.drawx(), plan.drawy(), plan.rotation*90);
-        Draw.reset();
+        Draw.rect(under, plan.drawx(), plan.drawy(), plan.rotation * 90f);
+        Draw.rect(pad, plan.drawx(), plan.drawy(), plan.rotation * 90f);
     }
+
     @Override
-    public TextureRegion[] icons(){
-        return new TextureRegion[]{region,under, outRegion, pad};
-    }
-    @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         int maxLen = range + size / 2;
         Building dest = null;
 
@@ -75,14 +71,14 @@ public class PayloadJumper extends PayloadBlock{
         int dx = dir.x, dy = dir.y;
         int offset = size / 2;
 
-        for(int j = 1 + offset; j <= range + offset; j++){
+        for (int j = 1 + offset; j <= range + offset; j++) {
             var other = world.build(x + j * dx, y + j * dy);
 
-            if(other instanceof Wall.WallBuild || (other != null && other.isInsulated())){
+            if (other instanceof Wall.WallBuild || (other != null && other.isInsulated())) {
                 break;
             }
 
-            if(other != null && (other.block.acceptsPayload || other.block.outputsPayload) && other.team == Vars.player.team()){
+            if (other != null && (other.block.acceptsPayload || other.block.outputsPayload) && other.team == Vars.player.team()) {
                 maxLen = j;
                 dest = other;
                 break;
@@ -93,233 +89,252 @@ public class PayloadJumper extends PayloadBlock{
                 Pal.placing,
                 x * tilesize + dx * (tilesize * size / 2f + 2),
                 y * tilesize + dy * (tilesize * size / 2f + 2),
-                x * tilesize + dx * maxLen * tilesize,
-                y * tilesize + dy * maxLen * tilesize
+                dest != null ? dest.x - dx * (tilesize * dest.block.size / 2f + 2f) : x * tilesize + dx * maxLen * tilesize,
+                dest != null ? dest.y - dy * (tilesize * dest.block.size / 2f + 2f) : y * tilesize + dy * maxLen * tilesize
         );
 
-        if(dest != null){
+        if (dest != null) {
             Drawf.square(dest.x, dest.y, dest.block.size * tilesize / 2f + 2.5f, 0f);
         }
     }
 
-    public class PayloadJumperBuild extends PayloadBlockBuild<Payload>{
+    @Override
+    public void load() {
+        super.load();
+        pad = Core.atlas.find(name + "-pad");
+        under = Core.atlas.find(name + "-under");
+    }
+
+    @Override
+    protected TextureRegion[] icons() {
+        return new TextureRegion[]{region, outRegion, under, pad};
+    }
+
+    public class PayloadJumperBuild extends PayloadBlockBuild<Payload> {
+        public Seq<JumpedPayloadData> jumpedPayloads = new Seq<>();
         public Building link;
-        public Tile dest;
-        public float xe, ye;
-        public int lastChange = -1;
-        public float charge;
-        public boolean sending = false;
-        boolean flying = false;
-        float flightTime = 0f;
-        float flightDuration = 20f;
-        float sendProg = 0;
+        public int lastChange = -2;
+        public float cooldown;
+
         @Override
-        public void updateTile(){
-            if(lastChange != world.tileChanges){
-                lastChange = world.tileChanges;
+        public void updateTile() {
+            if (lastChange != Vars.world.tileChanges) {
+                lastChange = Vars.world.tileChanges;
                 updateLink();
             }
-            if(payload != null){
-                dumpPayload();
-            }
-            moveOutPayload();
-            if(payload == null || link == null || !sending || !flying){
-                xe = ye = 0;
-            }
-            if(payload == null){
-                sending = false;
-            }
-            if(!sending && payload == null) moveInPayload();
-            if(front() != null && payload != null && front().acceptPayload(this, payload)){
+
+            if (link != null && link == front()) {
                 moveOutPayload();
+                return;
             }
-            if(link != null && link instanceof PayloadBlockBuild<?> lin){
-                if(payload != null){
-                    charge += edelta();
-                    if(lin.payload == null && lin.acceptPayload(this, payload)){
-                        if(charge >= chargeTime){
-                            charge = 0;
-                            sending = true;
-                            jump();
-                        }
-                    }
-                }
-            } else {
-                charge = 0;
-                sending = false;
-            }
-            if(flying){
-                flightTime += edelta();
-                float progress = Interp.pow2Out.apply(Mathf.clamp(flightTime / flightDuration, 0f, 1f));
-                if(payload == null){
-                    flightTime = 0;
-                    flying = false;
-                    sending = false;
-                    return;
-                }
 
-                if(link == null){
-                    Damage.damage(xe, ye, 5, payload instanceof BuildPayload b ? b.build.health : payload instanceof UnitPayload p ? p.unit.health : 0);
-                    Fx.dynamicExplosion.at(xe, ye, payload.size()/payload.size()/2f);
-                    payload  = null;
-                    sending = false;
-                    flying = false;
-                    flightTime = 0;
-                    charge = 0;
-                    return;
+            for (int i = 0; i < jumpedPayloads.size; i++) {
+                if (jumpedPayloads.get(i).update()) {
+                    Pools.free(jumpedPayloads.get(i));
+                    jumpedPayloads.remove(i);
+                    i--;
                 }
-                xe = Mathf.lerp(x, link.x, progress);
-                ye = Mathf.lerp(y, link.y, progress);
-                payload.set(xe, ye, payRotation);
-                sendProg = Mathf.clamp(flightTime / flightDuration);
-                if(flightTime >= flightDuration){
-                    if(!link.acceptPayload(this, payload)){
-                        Damage.damage(link.x, link.y, 5, payload instanceof BuildPayload b ? b.build.health : payload instanceof UnitPayload p ? p.unit.health : 0);
-                        Fx.dynamicExplosion.at(link.x, link.y, payload.size()/payload.size()/2f);
-                        payload  = null;
-                        sending = false;
-                        flying = false;
-                        flightTime = 0;
-                        charge = 0;
-                    } else {
-                        flying = false;
-                        link.handlePayload(this, payload);
-                        if(link instanceof PayloadBlockBuild<?> lin){
-                            lin.payload.set(link.x, link.y, payload.rotation());
-                        }
-                        payload  = null;
-                        sending = false;
-                        flying = false;
-                        flightTime = 0;
-                        charge = 0;
+            }
+
+            if (cooldown > 0f) {
+                cooldown = Mathf.maxZero(cooldown - edelta());
+            }
+
+            if (moveInPayload()) {
+                if (cooldown <= 0f) {
+                    if (link != null && link.acceptPayload(link, payload)) {
+                        jumpedPayloads.add(Pools.obtain(JumpedPayloadData.class, JumpedPayloadData::new).set(
+                                payload,
+                                x, y,
+                                link.x, link.y,
+                                0f
+                        ));
+                        payload = null;
+                        cooldown = cooldownTime;
                     }
                 }
             }
-
-        }
-        void jump(){
-            Sounds.blockBreak1.at(x, y, Mathf.random(0.8f, 1.1f));
-            Fx.disperseTrail.at(x, y, rotdeg());
-
-            flying = true;
-            flightTime = 0f;
         }
 
-        public void updateLink(){
+        @Override
+        public boolean acceptPayload(Building source, Payload payload) {
+            return super.acceptPayload(source, payload) && cooldown <= 0f;
+        }
+
+        public void updateLink() {
             link = null;
-            dest = null;
 
             var dir = Geometry.d4[rotation];
             int offset = size / 2;
 
-            for(int j = 1 + offset; j <= range + offset; j++){
-                var other = world.build(tile.x + j * dir.x, tile.y + j * dir.y);
+            for (int j = 1 + offset; j <= range + offset; j++) {
+                var other = Vars.world.build(tile.x + j * dir.x, tile.y + j * dir.y);
 
-                if(other == null) continue;
+                if (other == null) continue;
 
-                if(other instanceof Wall.WallBuild || other.isInsulated()){
+                if (other instanceof Wall.WallBuild || other.isInsulated()) {
                     break;
                 }
-                if((other.block.acceptsPayload || other.block.outputsPayload) && other.team == team && other != this){
+
+                if ((other.block.acceptsPayload || other.block.outputsPayload) && other.team == team && other != this) {
                     link = other;
-                    dest = other.tile;
                     break;
                 }
-
             }
         }
+
         @Override
-        public void draw(){
-            if(flying){Draw.z(Layer.blockOver+0.1f);}else{Draw.z(Layer.block);}
+        public void draw() {
             Draw.rect(region, x, y);
-            for(int i = 0; i < 4; i++){
-                if(blends(i) && i != rotation){
-                    Draw.rect(inRegion, x, y, (i * 90) - 180);
+            for (int i = 0; i < 4; i++) {
+                if (blends(i) && i != rotation) {
+                    Draw.rect(inRegion, x, y, (i * 90f) - 180f);
                 }
             }
-            if(front()!= null) {
-                if (link == front()) {
-                    Draw.rect(outRegion, x, y, rotdeg());
-                }
-            }
-            float push = -4f * Mathf.pow(sendProg - 0.5f, 2f) + 1f;
-            push = Mathf.clamp(push);
-
-            float len = tilesize * 2.5f;
-            float ox = Angles.trnsx(rotdeg(), push * len);
-            float oy = Angles.trnsy(rotdeg(), push * len);
-            float squash = Mathf.lerp( 1f, 0.75f, sendProg);
-            Draw.rect(under, x + ox/2f, y + oy/2f, rotdeg());
-            if(!sending) squash = 1;
-            if(rotation == 1 || rotation == 2){
-                Draw.scl(1f, squash);
-            }else{
-                Draw.scl(squash, 1f);
-            }
-            Draw.rect(pad, x + ox, y + oy, rotdeg());
-            Draw.scl();
-            if(payload == null) return;
-            float scl = -1*(Mathf.pow(Interp.pow2Out.apply(flightTime/flightDuration)-.5f,2))+1.25f;
-
-            Draw.scl(scl);
-            payload.draw();
-            Draw.scl();
-            Draw.scl();
-        }
-        @Override
-        public boolean acceptPayload(Building source, Payload payload){
-            return !flying && this.payload == null && charge <= 0f;
-        }
-        @Override
-        public void updatePayload(){
-            if(payload == null) return;
-
-            if(flying){
-                return;
+            if (link != null && link == front()) {
+                Draw.rect(outRegion, x, y, rotdeg());
             }
 
-            payVector.set(x, y);
-            payload.set(x, y, payRotation);
+            float sendProgress = Interp.pow2Out.apply(cooldown > cooldownTime - sendTime ? (cooldownTime - cooldown) / sendTime : cooldown / cooldownTime);
+            float sendX = sendLength * sendProgress * Geometry.d4x[rotation], sendY = sendLength * sendProgress * Geometry.d4y[rotation];
+            float sendScl = Mathf.lerp(1f, 0.75f, sendProgress);
+
+            Draw.rect(under, x + sendX / 2f, y + sendY / 2f, rotdeg());
+            Draw.scl(sendScl, 1f);
+            Draw.rect(pad, x + sendX, y + sendY, rotdeg());
+            Draw.scl();
+
+            drawPayload();
+            Draw.z(Layer.flyingUnit + 1f);
+            jumpedPayloads.each(JumpedPayloadData::draw);
         }
 
         @Override
-        public byte version(){
-            return 4;
+        public void drawSelect() {
+            int maxLen = range + size / 2;
+            int dx = Geometry.d4x[rotation], dy = Geometry.d4y[rotation];
+
+            Drawf.dashLine(
+                    Pal.place,
+                    x + dx * (tilesize * size / 2f + 2),
+                    y + dy * (tilesize * size / 2f + 2),
+                    link != null ? link.x - dx * (tilesize * link.block.size / 2f + 2f) : x + dx * maxLen * tilesize,
+                    link != null ? link.y - dy * (tilesize * link.block.size / 2f + 2f) : y + dy * maxLen * tilesize
+            );
+
+            if (link != null) {
+                Drawf.square(link.x, link.y, link.block.size * tilesize / 2f + 2.5f, 0f, Pal.place);
+            }
         }
+
         @Override
-        public void write(Writes write){
+        public byte version() {
+            return 5;
+        }
+
+        @Override
+        public void write(Writes write) {
             super.write(write);
 
-            write.f(flightTime);
-            write.f(charge);
-            write.bool(sending);
-            write.bool(flying);
+            write.f(cooldown);
+            write.i(jumpedPayloads.size);
+            for (int i = 0; i < jumpedPayloads.size; i++) {
+                JumpedPayloadData jumpedPayload = jumpedPayloads.get(i);
 
-            if(link != null){
-                write.bool(true);
-                write.i(link.tile.x);
-                write.i(link.tile.y);
-            }else{
-                write.bool(false);
+                Payload.write(jumpedPayload.payload, write);
+                write.f(jumpedPayload.startX);
+                write.f(jumpedPayload.startY);
+                write.f(jumpedPayload.endX);
+                write.f(jumpedPayload.endY);
+                write.f(jumpedPayload.progress);
             }
         }
+
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
 
-            flightTime = read.f();
-            charge = read.f();
-            sending = read.bool();
-            flying = read.bool();
-
-            if(read.bool()){
-                int lx = read.i();
-                int ly = read.i();
-                link = world.build(lx, ly);
-            }else{
-                link = null;
+            if (revision >= 5) {
+                cooldown = read.f();
+                int size = read.i();
+                for (int i = 0; i < size; i++) {
+                    Payload payload = Payload.read(read);
+                    float startX = read.f(), startY = read.f(), endX = read.f(), endY = read.f(), progress = read.f();
+                    jumpedPayloads.add(Pools.obtain(JumpedPayloadData.class, JumpedPayloadData::new).set(payload, startX, startY, endX, endY, progress));
+                }
+            } else {
+                read.f();
+                read.f();
+                read.bool();
+                read.bool();
+                if (read.bool()) {
+                    read.i();
+                    read.i();
+                }
             }
         }
+    }
 
+    public static class JumpedPayloadData implements Poolable {
+        public static float jumpSpeed = 4f;
+        public static float jumpScl = 0.3f;
+        public static float maxSclDistance = 7f * 8f;
+
+        public Payload payload;
+        public float startX, startY, endX, endY;
+        public float progress; // not 0-1 !!!!! maxes out with distance instead
+
+        public JumpedPayloadData set(Payload payload, float startX, float startY, float endX, float endY, float progress) {
+            this.payload = payload;
+            this.startX = startX;
+            this.startY = startY;
+            this.endX = endX;
+            this.endY = endY;
+            this.progress = progress;
+            return this;
+        }
+
+        public boolean update() {
+            if (progress < Mathf.dst(startX, startY, endX, endY)) {
+                progress += jumpSpeed * Time.delta;
+            } else {
+                payload.set(endX, endY, Angles.angle(startX, startY, endX, endY));
+                Building receiver = Vars.world.buildWorld(endX, endY);
+                if (receiver != null && receiver.block.acceptsPayload) {
+                    if (receiver.acceptPayload(receiver, payload)) {
+                        Fx.unitDrop.at(receiver);
+                        receiver.handlePayload(receiver, payload);
+                        return true;
+                    }
+                } else {
+                    // got launched onto nothing
+                    return true;
+                }
+            }
+
+            Tmp.v1.set(startX, startY).lerp(endX, endY, progress / Mathf.dst(startX, startY, endX, endY));
+            payload.set(Tmp.v1.x, Tmp.v1.y, Angles.angle(startX, startY, endX, endY));
+
+            return false;
+        }
+
+        public void draw() {
+            float fin = progress / Mathf.dst(startX, startY, endX, endY);
+            float sfin = Interp.pow2Out.apply(Mathf.clamp(Mathf.slope(fin)));
+
+            Draw.scl(1f + (sfin * jumpScl * (Math.min(Mathf.dst(startX, startY, endX, endY), maxSclDistance) / maxSclDistance)));
+            payload.draw();
+            Draw.scl();
+        }
+
+        @Override
+        public void reset() {
+            payload = null;
+            startX = 0f;
+            startY = 0f;
+            endX = 0f;
+            endY = 0f;
+            progress = 0f;
+        }
     }
 }
