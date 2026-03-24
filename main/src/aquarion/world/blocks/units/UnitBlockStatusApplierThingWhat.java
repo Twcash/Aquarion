@@ -1,5 +1,6 @@
 package aquarion.world.blocks.units;
 
+import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
@@ -8,11 +9,14 @@ import arc.util.Structs;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
+import mindustry.entities.Effect;
 import mindustry.gen.Building;
+import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.ui.Bar;
 import mindustry.ui.Styles;
+import mindustry.world.blocks.ItemSelection;
 import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.PayloadBlock;
@@ -28,12 +32,19 @@ public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
         acceptsPayload = true;
         hasLiquids = true;
         configurable = true;
-        config(Integer.class, (StatusApplierBuild build, Integer val) -> {
+        config(StatusEffect.class, (StatusApplierBuild build, StatusEffect val) -> {
+            if(!configurable) return;
+            int next = plans.indexOf(p -> p.effect == val);
+            if(build.planIndex == next) return;
+            build.planIndex = next;
+            build.progress = 0;
+        });
+        config(Integer.class, (StatusApplierBuild build, Integer i) -> {
             if(!configurable) return;
 
-            if(build.planIndex == val) return;
-            build.planIndex = Mathf.clamp(val, 0, plans.size - 1);
-            build.progress = 0f;
+            if(build.planIndex == i) return;
+            build.planIndex = i < 0 || i >= plans.size ? -1 : i;
+            build.progress = 0;
         });
         hasItems = true;
         drawArrow = true;
@@ -98,6 +109,7 @@ public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
     public static class StatusPlan{
         public StatusEffect effect;
         public float time;
+        public Effect fx;
 
         @Nullable public ItemStack[] itemReq;
         @Nullable public LiquidStack[] liquidReq;
@@ -121,7 +133,11 @@ public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
                 if(!enabled) return;
                 if(efficiency > 0f){
                     progress += edelta() * efficiency;
+                    if(Mathf.chance(0.2f * progress/plan().time) && plan().fx != null){
+                        plan().fx.at(this);
+                    }
                 }
+
                 if(progress >= plan().time){
                     bb.effects.addUnique(plan().effect);
                     progress = 0f;
@@ -153,28 +169,28 @@ public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
         @Override
         public void buildConfiguration(Table table){
             table.clear();
+            Seq<StatusEffect> effects = plans.map(p -> p.effect);
+            if(effects.any()){
+                ItemSelection.buildTable(
+                        UnitBlockStatusApplierThingWhat.this,
+                        table, effects,
+                        () -> plans.get(planIndex).effect,
+                        unit -> configure(plans.indexOf(u -> u.effect == unit)),
+                        selectionRows, selectionColumns);
 
-            table.table(t -> {
-                int i = 0;
-
-                for(StatusPlan plan : plans){
-                    int index = i;
-
-                    t.button(b -> {
-                        b.image(plan.effect.uiIcon).size(40);
-                    }, Styles.clearTogglei, () -> {
-                        configure(index);
-                    });
-
-                    if(++i % 4 == 0) t.row();
-                }
-            });
+            }
+            table.row();
         }
-
+        @Override
+        public void drawSelect(){
+            super.drawSelect();
+            if(plans.size > 1 && planIndex != -1 && planIndex < plans.size){
+                drawItemSelection(plans.get(planIndex).effect);
+            }
+        }
         @Override
         public void display(Table table){
             super.display(table);
-
             table.row();
             table.label(() -> "[accent]Status:[] " + plan().effect.localizedName);
         }
@@ -229,16 +245,23 @@ public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
         }
         @Override
         public void draw(){
-            super.draw();
+            Draw.rect(region, x, y, 0);
             if(payload!=null){
                 payload.drawShadow(0.5f);
                 payload.draw();
             }
+            Draw.z(Layer.blockOver + 0.1f);
+            Draw.rect(topRegion, x, y, 0);
+            Draw.rect(outRegion, x, y, rotdeg());
+        }
+        @Override
+        public Object config(){
+            return planIndex;
         }
         @Override
         public void write(Writes write){
             super.write(write);
-
+            blocks.write(write);
             write.f(progress);
             write.i(planIndex);
         }
@@ -246,7 +269,7 @@ public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
-
+            blocks.read(read);
             progress = read.f();
             planIndex = read.i();
         }

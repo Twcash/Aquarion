@@ -64,8 +64,6 @@ public class Displacer extends PayloadBlock{
         @Override
         public void updateTile(){
             updatePayload();
-
-            // EXPORT: only allowed after full retract
             if(payload != null && exporting){
                 Building f = front();
                 if(f != null && f.acceptPayload(this, payload)){
@@ -73,8 +71,6 @@ public class Displacer extends PayloadBlock{
                     return;
                 }
             }
-
-            // RETRACT after pickup
             if(retracting){
                 extractProg = Mathf.lerpDelta(extractProg, 0f, 0.15f);
                 if(extractProg <= 0.01f){
@@ -84,12 +80,9 @@ public class Displacer extends PayloadBlock{
                 }
                 return;
             }
-
-            // Hold payload until export phase
             if(payload != null){
                 return;
             }
-
             Building b = back();
             if(b == null || b.team != team || b.block.size >= size || b instanceof ConstructBlock.ConstructBuild){
                 extract = 0f;

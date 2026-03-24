@@ -13,6 +13,7 @@ import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
 import mindustry.content.Fx;
+import mindustry.entities.Damage;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
@@ -21,8 +22,10 @@ import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.world.Tile;
 import mindustry.world.blocks.defense.Wall;
+import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.PayloadBlock;
+import mindustry.world.blocks.payloads.UnitPayload;
 import mindustry.world.meta.BlockGroup;
 
 import static mindustry.Vars.tilesize;
@@ -99,9 +102,10 @@ public class PayloadJumper extends PayloadBlock{
         }
     }
 
-    public class PayloadJumperBuild extends PayloadBlockBuild{
+    public class PayloadJumperBuild extends PayloadBlockBuild<Payload>{
         public Building link;
         public Tile dest;
+        public float xe, ye;
         public int lastChange = -1;
         public float charge;
         public boolean sending = false;
@@ -111,85 +115,84 @@ public class PayloadJumper extends PayloadBlock{
         float sendProg = 0;
         @Override
         public void updateTile(){
-            moveInPayload();
-
             if(lastChange != world.tileChanges){
                 lastChange = world.tileChanges;
                 updateLink();
             }
-
-            if(sending){
-                sendProg += Time.delta / 20f;
-                if(sendProg >= 1f){
-                    sendProg = 0f;
-                    sending = false;
-                }
+            if(payload != null){
+                dumpPayload();
             }
-
-            if(payload == null){
-                flying = false;
-                flightTime = 0f;
-                sending = false;
-                charge = 0f;
-                return;
-            }
-
-            if(flying){
-                flightTime += Time.delta;
-
-                float progress = Interp.pow2Out.apply(
-                        Mathf.clamp(flightTime / flightDuration, 0f, 1f)
-                );
-
-                float xe = Mathf.lerp(x, link.x, progress);
-                float ye = Mathf.lerp(y, link.y, progress);
-
-                payload.set(xe, ye, payRotation);
-
-                if(progress >= 1f){
-                    flying = false;
-
-                    if(link != null && link.acceptPayload(this, payload)){
-                        link.handlePayload(this, payload);
-                        Sounds.blockPlace1.at(link.x, link.y, Mathf.random(0.8f, 1.1f));
-                        Fx.smokePuff.at(link.x, link.y);
-
-                        payload = null;
-                    }else{
-                        payload.set(x, y, payRotation);
-                        payVector.set(x, y);
-                    }
-
-                    sending = false;
-                    charge = 0f;
-                    link = null;
-                    dest = null;
-                }
-                return;
-            }
-
-            if(
-                    link != null &&
-                            !sending &&
-                            Mathf.within(payload.x(), payload.y(), x, y, 0.01f) &&
-                            link.acceptPayload(this, payload)
-            ){
-                charge += edelta();
-                if(charge >= chargeTime){
-                    charge = 0f;
-                    sending = true;
-                    jump();
-                }
-            }else{
-                charge = 0f;
-            }
-
             moveOutPayload();
+            if(payload == null || link == null || !sending || !flying){
+                xe = ye = 0;
+            }
+            if(payload == null){
+                sending = false;
+            }
+            if(!sending && payload == null) moveInPayload();
+            if(front() != null && payload != null && front().acceptPayload(this, payload)){
+                moveOutPayload();
+            }
+            if(link != null && link instanceof PayloadBlockBuild<?> lin){
+                if(payload != null){
+                    charge += edelta();
+                    if(lin.payload == null && lin.acceptPayload(this, payload)){
+                        if(charge >= chargeTime){
+                            charge = 0;
+                            sending = true;
+                            jump();
+                        }
+                    }
+                }
+            } else {
+                charge = 0;
+                sending = false;
+            }
+            if(flying){
+                flightTime += edelta();
+                float progress = Interp.pow2Out.apply(Mathf.clamp(flightTime / flightDuration, 0f, 1f));
+
+
+                if(link == null){
+                    Damage.damage(xe, ye, 5, payload instanceof BuildPayload b ? b.build.health : payload instanceof UnitPayload p ? p.unit.health : 0);
+                    Fx.dynamicExplosion.at(xe, ye, payload.size()/payload.size()/2f);
+                    payload  = null;
+                    sending = false;
+                    flying = false;
+                    flightTime = 0;
+                    charge = 0;
+                    return;
+                }
+                xe = Mathf.lerp(x, link.x, progress);
+                ye = Mathf.lerp(y, link.y, progress);
+                payload.set(xe, ye, payRotation);
+                sendProg = Mathf.clamp(flightTime / flightDuration);
+                if(flightTime >= flightDuration){
+                    if(!link.acceptPayload(this, payload)){
+                        Damage.damage(link.x, link.y, 5, payload instanceof BuildPayload b ? b.build.health : payload instanceof UnitPayload p ? p.unit.health : 0);
+                        Fx.dynamicExplosion.at(link.x, link.y, payload.size()/payload.size()/2f);
+                        payload  = null;
+                        sending = false;
+                        flying = false;
+                        flightTime = 0;
+                        charge = 0;
+                    } else {
+                        flying = false;
+                        link.handlePayload(this, payload);
+                        if(link instanceof PayloadBlockBuild<?> lin){
+                            lin.payload.set(link.x, link.y, payload.rotation());
+                        }
+                        payload  = null;
+                        sending = false;
+                        flying = false;
+                        flightTime = 0;
+                        charge = 0;
+                    }
+                }
+            }
+
         }
         void jump(){
-            payload.set(x, y, payRotation);
-            payVector.set(x, y);
-
             Sounds.blockBreak1.at(x, y, Mathf.random(0.8f, 1.1f));
             Fx.disperseTrail.at(x, y, rotdeg());
 
@@ -242,7 +245,8 @@ public class PayloadJumper extends PayloadBlock{
             float oy = Angles.trnsy(rotdeg(), push * len);
             float squash = Mathf.lerp( 1f, 0.75f, sendProg);
             Draw.rect(under, x + ox/2f, y + oy/2f, rotdeg());
-            if(rotation == 1 || rotation == 4){
+            if(!sending) squash = 1;
+            if(rotation == 1 || rotation == 2){
                 Draw.scl(1f, squash);
             }else{
                 Draw.scl(squash, 1f);
