@@ -1663,10 +1663,9 @@ public class AquaUnitTypes {
                     moveY = -4f;
                     under = true;
                 }});
-                bullet = new AquaBulletType() {{
+                bullet = new BasicBulletType() {{
                     collidesAir = false;
                     speed = 3.5f;
-                    shouldRecoilRotation = true;
                     damage = 30;
                     shrinkY = 0;
                     shootEffect = AquaFx.shootBigger;
