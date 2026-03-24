@@ -151,7 +151,12 @@ public class PayloadJumper extends PayloadBlock{
             if(flying){
                 flightTime += edelta();
                 float progress = Interp.pow2Out.apply(Mathf.clamp(flightTime / flightDuration, 0f, 1f));
-
+                if(payload == null){
+                    flightTime = 0;
+                    flying = false;
+                    sending = false;
+                    return;
+                }
 
                 if(link == null){
                     Damage.damage(xe, ye, 5, payload instanceof BuildPayload b ? b.build.health : payload instanceof UnitPayload p ? p.unit.health : 0);

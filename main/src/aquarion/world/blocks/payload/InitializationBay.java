@@ -30,7 +30,7 @@ public class InitializationBay extends PayloadBlock {
         addBar("progress", (initializeBuild e) -> new Bar("bar.progress", Pal.ammo, e::totProg));
     }
 
-    public class initializeBuild extends PayloadBlockBuild {
+    public class initializeBuild extends PayloadBlockBuild<Payload>{
         public float progress = 0;
         public float timeNeed = 1;
 
@@ -41,12 +41,9 @@ public class InitializationBay extends PayloadBlock {
         }
         @Override
         public void updateTile() {
-            super.updateTile();
+            moveInPayload();
             if (payload == null) return;
 
-            if (payload instanceof BuildPayload) {
-                moveInPayload();
-            }
             if (payload instanceof BuildPayload pay) {
                 if (pay.build instanceof UnitBlock.UnitBlockBuild unitBuild &&
                         unitBuild.block instanceof UnitBlock blok) {
@@ -69,7 +66,7 @@ public class InitializationBay extends PayloadBlock {
                     payload = null;
                     progress = 0f;
                 }
-            } else if (payload instanceof UnitPayload) {
+            } else if (!(payload instanceof UnitBlock.UnitBlockBuild)) {
                 moveOutPayload();
             }
         }
