@@ -80,10 +80,7 @@ public class InitializationBay extends PayloadBlock {
                     payload = null;
                     progress = 0f;
                 }
-            } else if (!(payload instanceof UnitBlock.UnitBlockBuild)) {
-                moveOutPayload();
             }
-            moveOutPayload();
         }
 
         @Override
@@ -99,18 +96,10 @@ public class InitializationBay extends PayloadBlock {
                 }
             }
         }
-//        @Override
-//        public boolean acceptPayload(Building source, Payload payload){
-//            if(this.payload != null) return false;
-//
-//            if(payload instanceof BuildPayload pay){
-//                if(pay.build instanceof UnitBlock.UnitBlockBuild unit){
-//                    return payload.size() <= block.size;
-//                }
-//            }
-//
-//            return false;
-//        }
-
+        @Override
+        public boolean acceptPayload(Building source, Payload payload){
+            if(this.payload != null) return false;
+            return payload.fits(size) && payload instanceof BuildPayload b && b.build instanceof UnitBlock.UnitBlockBuild t;
+        }
     }
 }

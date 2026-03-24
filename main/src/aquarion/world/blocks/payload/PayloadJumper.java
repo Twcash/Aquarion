@@ -164,8 +164,10 @@ public class PayloadJumper extends PayloadBlock {
         }
 
         @Override
-        public boolean acceptPayload(Building source, Payload payload) {
-            return super.acceptPayload(source, payload) && cooldown <= 0f;
+        public boolean acceptPayload(Building source, Payload payload){
+            if(this.payload != null) return false;
+            if(super.acceptPayload(source, payload) && payload.fits(size) && cooldown <= 0) return true;
+            return false;
         }
 
         public void updateLink() {

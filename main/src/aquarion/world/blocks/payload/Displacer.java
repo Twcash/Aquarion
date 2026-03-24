@@ -149,5 +149,11 @@ public class Displacer extends PayloadBlock{
             Draw.rect(topRegion, x, y, rotdeg());
             Draw.reset();
         }
+        @Override
+        public boolean acceptPayload(Building source, Payload payload){
+            if(this.payload != null) return false;
+            if(payload.fits(size)) return true;
+            return false;
+        }
     }
 }
