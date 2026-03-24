@@ -11,6 +11,7 @@ import mindustry.ai.UnitCommand;
 import mindustry.content.Fx;
 import mindustry.game.EventType;
 import mindustry.gen.*;
+import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.StatusEffect;
 import mindustry.ui.Bar;
@@ -89,6 +90,7 @@ public class InitializationBay extends PayloadBlock {
         public void draw(){
             Draw.rect(region,x,y);
             if(payload!= null) payload.draw();
+            Draw.z(Layer.legUnit + 1);
             Draw.rect(topRegion, x, y);
             Draw.rect(outRegion,x,y, rotdeg());
             for(int i = 0; i < 4; i++){

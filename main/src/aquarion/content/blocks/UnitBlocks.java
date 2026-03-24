@@ -36,7 +36,7 @@ public class UnitBlocks {
 
     public static void loadContent() {
         initializationBay = new InitializationBay("initialization-bay"){{
-            requirements(Category.units, with(silicon, 80));
+            requirements(Category.units, with(polymer, 500, ferricMatter, 300, silicon, 1500));
             buildVisibility = BuildVisibility.sandboxOnly;
             consumePower(36);
             size = 6;
