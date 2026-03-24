@@ -4,13 +4,16 @@ import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
+import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.Structs;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
+import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
 import mindustry.gen.Building;
+import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
@@ -129,6 +132,7 @@ public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
         }
         @Override
         public void updateTile() {
+
             if((payload instanceof BuildPayload b && b.build instanceof UnitBlock.UnitBlockBuild bb)){
                 if(!enabled) return;
                 if(efficiency > 0f){
@@ -168,18 +172,18 @@ public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
 
         @Override
         public void buildConfiguration(Table table){
-            table.clear();
             Seq<StatusEffect> effects = plans.map(p -> p.effect);
-            if(effects.any()){
-                ItemSelection.buildTable(
-                        UnitBlockStatusApplierThingWhat.this,
-                        table, effects,
-                        () -> plans.get(planIndex).effect,
-                        unit -> configure(plans.indexOf(u -> u.effect == unit)),
-                        selectionRows, selectionColumns);
 
-            }
-            table.row();
+            ItemSelection.buildTable(UnitBlockStatusApplierThingWhat.this, table,
+                    effects,
+                    () -> planIndex >= 0 && planIndex < plans.size ? plans.get(planIndex).effect : null,
+                    effect -> {
+                        int index = plans.indexOf(p -> p.effect == effect);
+                        configure(index);
+                    },
+                    selectionRows,
+                    selectionColumns
+            );
         }
         @Override
         public void drawSelect(){

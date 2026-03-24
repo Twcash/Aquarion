@@ -11,13 +11,16 @@ import mindustry.content.Fx;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.Teams;
 import mindustry.gen.Building;
+import mindustry.graphics.Layer;
 import mindustry.world.Block;
+import mindustry.world.Tile;
 import mindustry.world.blocks.ConstructBlock;
 import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.PayloadBlock;
 
 import static mindustry.Vars.tilesize;
+import static mindustry.Vars.world;
 
 public class Displacer extends PayloadBlock{
     public TextureRegion gantry;
@@ -64,15 +67,18 @@ public class Displacer extends PayloadBlock{
         @Override
         public void updateTile(){
             updatePayload();
+            Building f = front();
+            Building b = back();
+            if(payload != null) retracting = true;
             if(payload != null && exporting){
-                Building f = front();
+
                 if(f != null && f.acceptPayload(this, payload)){
                     moveOutPayload();
                     return;
                 }
             }
             if(retracting){
-                extractProg = Mathf.lerpDelta(extractProg, 0f, 0.15f);
+                extractProg = Mathf.lerpDelta(extractProg, 0f, 0.05f);
                 if(extractProg <= 0.01f){
                     extractProg = 0f;
                     retracting = false;
@@ -83,7 +89,7 @@ public class Displacer extends PayloadBlock{
             if(payload != null){
                 return;
             }
-            Building b = back();
+
             if(b == null || b.team != team || b.block.size >= size || b instanceof ConstructBlock.ConstructBuild){
                 extract = 0f;
                 extractProg = Mathf.lerpDelta(extractProg, 0f, 0.15f);
@@ -113,40 +119,35 @@ public class Displacer extends PayloadBlock{
                 retracting = true;
                 exporting = false;
             }
+
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             Draw.rect(region, x, y, rotdeg());
 
             Draw.rect(outRegion, x, y, rotdeg());
             Draw.rect(inRegion, x, y, rotdeg());
 
 
-            Draw.z(Renderer.Layer.blockOver + 0.01f);
-
             float len = tilesize * 1.2f;
             float ox = Angles.trnsx(rotdeg(), extractProg * -len);
             float oy = Angles.trnsy(rotdeg(), extractProg * -len);
 
-            Draw.rect(gantry, x + ox, y + oy, rotdeg());
-
-            if(payload != null){
-                payload.set(x + ox, y + oy, payRotation);
+            if (payload != null) {
+                if (extractProg <= 1) payload.set(x + ox, y + oy, payRotation);
                 payload.draw();
             }
-            if(rotation == 1  || rotation == 2){
+            Draw.z(Layer.blockOver + 0.1f);
+            Draw.rect(gantry, x + ox, y + oy, rotdeg());
+
+            if (rotation == 1 || rotation == 2) {
                 Draw.scl(1f, -1f);
-            }else{
+            } else {
                 Draw.scl(-1f, 1f);
             }
             Draw.rect(topRegion, x, y, rotdeg());
             Draw.reset();
-        }
-
-        @Override
-        public boolean acceptPayload(Building source, Payload payload){
-            return false;
         }
     }
 }

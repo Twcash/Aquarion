@@ -1,15 +1,18 @@
 package aquarion.world.blocks.payload;
 
 import aquarion.world.blocks.units.UnitBlock;
+import aquarion.world.graphics.AquaFx;
 import arc.Events;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.Nullable;
 import mindustry.ai.UnitCommand;
+import mindustry.content.Fx;
 import mindustry.game.EventType;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
+import mindustry.type.StatusEffect;
 import mindustry.ui.Bar;
 import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
@@ -22,6 +25,7 @@ public class InitializationBay extends PayloadBlock {
         super(name);
         outputsPayload = acceptsPayload = true;
         rotate = true;
+        solid = false;
     }
 
     @Override
@@ -59,7 +63,16 @@ public class InitializationBay extends PayloadBlock {
 
                             unit.command().command(command != null ? command : unit.type.defaultCommand);
                         }
-                        payload = new UnitPayload(unit);
+                        unitBuild.block.breakSound.at(this);
+                        Fx.producesmoke.at(x, y);
+                        AquaFx.boing.at(x, y, 0,  unitBuild.block);
+                        unit.set(x + Mathf.range(0.001f), y + Mathf.range(0.001f));
+                        unit.rotation = payload.rotation();
+                        for(StatusEffect effect : unitBuild.effects) {
+                            unit.apply(effect);
+                        }
+                        unit.add();
+                        payload = null;
                         progress = 0f;
                     }
                 } else {
@@ -69,6 +82,7 @@ public class InitializationBay extends PayloadBlock {
             } else if (!(payload instanceof UnitBlock.UnitBlockBuild)) {
                 moveOutPayload();
             }
+            moveOutPayload();
         }
 
         @Override

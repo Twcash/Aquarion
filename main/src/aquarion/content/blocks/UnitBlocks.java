@@ -42,14 +42,24 @@ public class UnitBlocks {
             size = 6;
         }};
         statusApplier = new UnitBlockStatusApplierThingWhat("manipulation-bay"){{
-            requirements(Category.units, with(silicon, 80));
-            plans = Seq.with(new StatusPlan(StatusEffects.overdrive, 300) {{
-                liquidReq = new LiquidStack[]{new LiquidStack(oil, 1)};
-                requirements = PayloadStack.list(DefenseBlocks.nickelWall, 1);
+            requirements(Category.units, with(polymer, 200, silicon, 900, copper, 1000, metaglass, 500));
+            plans = Seq.with(new StatusPlan(AquaStatuses.weighted, 300) {{
+                requirements = PayloadStack.list(DefenseBlocks.nickelWall, 3);
+                itemReq = new ItemStack[]{new ItemStack(Items.lead, 50)};
                 fx = new RadialEffect(AquaFx.statusSmoke, 4, 90f, 10f);
-            }}, new StatusPlan(AquaStatuses.concussed, 240) {{
-                liquidReq = new LiquidStack[]{new LiquidStack(AquaLiquids.argon, 1)};
-                itemReq = new ItemStack[]{new ItemStack(Items.silicon, 80)};
+            }},new  StatusPlan(AquaStatuses.rearmed, 500) {{
+                requirements = PayloadStack.list(PowerBlocks.outlet, 10);
+                itemReq = new ItemStack[]{new ItemStack(Items.coal, 100)};
+                liquidReq = new LiquidStack[]{new LiquidStack(AquaLiquids.ammonia, 1)};
+                fx = new RadialEffect(AquaFx.statusSmoke, 4, 90f, 10f);
+            }},new  StatusPlan(AquaStatuses.retrofit, 600) {{
+                requirements = PayloadStack.list(DefenseBlocks.nickelWall, 3);
+                liquidReq = new LiquidStack[]{new LiquidStack(AquaLiquids.ammonia, 1)};
+                itemReq = new ItemStack[]{new ItemStack(graphite, 100), new ItemStack(silicon, 100)};
+                fx = new RadialEffect(AquaFx.statusSmoke, 4, 90f, 10f);
+            }}, new StatusPlan(AquaStatuses.armored, 900) {{
+                requirements = PayloadStack.list(DefenseBlocks.aluminumWall, 5);
+                requirements = PayloadStack.list(DefenseBlocks.polymerWall, 2);
                 fx = new RadialEffect(AquaFx.statusSmoke2, 4, 90f, 10f);
             }});
             consumePower(10);

@@ -233,7 +233,7 @@ public class UnitBlock extends Block {
                 Draw.color();
             }
             for(int i = 0; i < effects.size; i++) {
-                if(effects.get(i).uiIcon!=null) Draw.rect(effects.get(i).uiIcon, x+0.5f - (block.size*4) + (i*5), y + block.size *2f, block.size*4f/2f, block.size*4f/2f);
+                if(effects.get(i).uiIcon!=null) Draw.rect(effects.get(i).uiIcon, x+2f - (block.size*4) + (i*3f), y + block.size *2f, block.size*4f/2f, block.size*4f/2f);
             }
             if (unit.flying) {
                 float e =  Mathf.clamp(totProgress, unit.shadowElevation, 1f);

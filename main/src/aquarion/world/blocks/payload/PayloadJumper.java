@@ -142,13 +142,20 @@ public class PayloadJumper extends PayloadBlock {
 
             if (moveInPayload()) {
                 if (cooldown <= 0f) {
-                    if (link != null && link.acceptPayload(link, payload)) {
+                    if (link != null && link.acceptPayload(this, payload)) {
                         jumpedPayloads.add(Pools.obtain(JumpedPayloadData.class, JumpedPayloadData::new).set(
                                 payload,
                                 x, y,
                                 link.x, link.y,
-                                0f
+                                0f, this
                         ));
+                        //W H Y
+                        if(link instanceof PayloadConveyor.PayloadConveyorBuild conv){
+                            conv.item = payload;
+                        }
+                        if(link instanceof PayloadRouter.PayloadRouterBuild conv){
+                            conv.item = payload;
+                        }
                         payload = null;
                         cooldown = cooldownTime;
                     }
@@ -260,7 +267,7 @@ public class PayloadJumper extends PayloadBlock {
                 for (int i = 0; i < size; i++) {
                     Payload payload = Payload.read(read);
                     float startX = read.f(), startY = read.f(), endX = read.f(), endY = read.f(), progress = read.f();
-                    jumpedPayloads.add(Pools.obtain(JumpedPayloadData.class, JumpedPayloadData::new).set(payload, startX, startY, endX, endY, progress));
+                    jumpedPayloads.add(Pools.obtain(JumpedPayloadData.class, JumpedPayloadData::new).set(payload, startX, startY, endX, endY, progress, this));
                 }
             } else {
                 read.f();
@@ -279,18 +286,19 @@ public class PayloadJumper extends PayloadBlock {
         public static float jumpSpeed = 4f;
         public static float jumpScl = 0.3f;
         public static float maxSclDistance = 7f * 8f;
-
+        public Building source;
         public Payload payload;
         public float startX, startY, endX, endY;
         public float progress; // not 0-1 !!!!! maxes out with distance instead
 
-        public JumpedPayloadData set(Payload payload, float startX, float startY, float endX, float endY, float progress) {
+        public JumpedPayloadData set(Payload payload, float startX, float startY, float endX, float endY, float progress, Building source) {
             this.payload = payload;
             this.startX = startX;
             this.startY = startY;
             this.endX = endX;
             this.endY = endY;
             this.progress = progress;
+            this.source = source;
             return this;
         }
 
@@ -301,9 +309,9 @@ public class PayloadJumper extends PayloadBlock {
                 payload.set(endX, endY, Angles.angle(startX, startY, endX, endY));
                 Building receiver = Vars.world.buildWorld(endX, endY);
                 if (receiver != null && receiver.block.acceptsPayload) {
-                    if (receiver.acceptPayload(receiver, payload)) {
+                    if (receiver.acceptPayload(source, payload)) {
                         Fx.unitDrop.at(receiver);
-                        receiver.handlePayload(receiver, payload);
+                        receiver.handlePayload(source, payload);
                         return true;
                     }
                 } else {
@@ -323,6 +331,7 @@ public class PayloadJumper extends PayloadBlock {
             float sfin = Interp.pow2Out.apply(Mathf.clamp(Mathf.slope(fin)));
 
             Draw.scl(1f + (sfin * jumpScl * (Math.min(Mathf.dst(startX, startY, endX, endY), maxSclDistance) / maxSclDistance)));
+            Draw.z(Layer.flyingUnit - 1f);
             payload.draw();
             Draw.scl();
         }
