@@ -218,8 +218,8 @@ public class PayloadJumper extends PayloadBlock {
                     Pal.place,
                     x + dx * (tilesize * size / 2f + 2),
                     y + dy * (tilesize * size / 2f + 2),
-                    link != null ? link.x - dx * (tilesize * link.block.size / 2f + 2f) : x * tilesize + dx * maxLen * tilesize,
-                    link != null ? link.y - dy * (tilesize * link.block.size / 2f + 2f) : y * tilesize + dy * maxLen * tilesize
+                    link != null ? link.x - dx * (tilesize * link.block.size / 2f + 2f) : x + dx * maxLen * tilesize,
+                    link != null ? link.y - dy * (tilesize * link.block.size / 2f + 2f) : y + dy * maxLen * tilesize
             );
 
             if (link != null) {
