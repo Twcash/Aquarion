@@ -2,16 +2,17 @@ package aquarion.content.blocks;
 
 import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
+import aquarion.content.AquaStatuses;
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.payload.InitializationBay;
 import aquarion.world.blocks.units.UnitBlock;
 import aquarion.world.blocks.units.UnitBlockStatusApplierThingWhat;
+import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
-import mindustry.content.Blocks;
-import mindustry.content.Items;
-import mindustry.content.StatusEffects;
-import mindustry.content.UnitTypes;
+import arc.struct.Seq;
+import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
+import mindustry.entities.effect.RadialEffect;
 import mindustry.type.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.units.Reconstructor;
@@ -42,12 +43,14 @@ public class UnitBlocks {
         }};
         statusApplier = new UnitBlockStatusApplierThingWhat("manipulation-bay"){{
             requirements(Category.units, with(silicon, 80));
-            plans.addAll(new StatusPlan(StatusEffects.overdrive, 300){{
+            plans = Seq.with(new StatusPlan(StatusEffects.overdrive, 300) {{
                 liquidReq = new LiquidStack[]{new LiquidStack(oil, 1)};
                 requirements = PayloadStack.list(DefenseBlocks.nickelWall, 1);
-            }},new StatusPlan(StatusEffects.fast, 240){{
+                fx = new RadialEffect(AquaFx.statusSmoke, 4, 90f, 10f);
+            }}, new StatusPlan(AquaStatuses.concussed, 240) {{
                 liquidReq = new LiquidStack[]{new LiquidStack(AquaLiquids.argon, 1)};
                 itemReq = new ItemStack[]{new ItemStack(Items.silicon, 80)};
+                fx = new RadialEffect(AquaFx.statusSmoke2, 4, 90f, 10f);
             }});
             consumePower(10);
             size =5;

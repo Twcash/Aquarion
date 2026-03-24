@@ -1,5 +1,6 @@
 package aquarion.world.graphics;
 
+import aquarion.content.AquaLiquids;
 import aquarion.world.blocks.units.UnitBlock;
 import arc.Core;
 import arc.func.Floatc2;
@@ -52,6 +53,34 @@ public class AquaFx {
                 stroke(Interp.pow2In.apply(e.fout()) * 2f);
                 Lines.circle(e.x, e.y, e.rotation/8+4f + e.foutpowdown() * e.rotation);
                 Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
+            }),
+            statusSmoke = new Effect(25f, e -> {
+                color(Pal.slagOrange);
+                alpha(0.6f);
+
+                rand.setSeed(e.id);
+                for(int i = 0; i < 3; i++){
+                    float len = rand.random(6f), rot = rand.range(40f) + e.rotation;
+
+                    e.scaled(e.lifetime * rand.random(0.5f, 1f), b -> {
+                        v.trns(rot+180, len * b.finpow());
+                        Fill.square(e.x + v.x, e.y + v.y, 3f * b.fslope() + 0.2f);
+                    });
+                }
+            }),
+            statusSmoke2 = new Effect(15f, e -> {
+                color(AquaLiquids.argon.color);
+                alpha(0.6f);
+
+                rand.setSeed(e.id);
+                for(int i = 0; i < 3; i++){
+                    float len = rand.random(6f), rot = rand.range(40f) + e.rotation;
+
+                    e.scaled(e.lifetime * rand.random(0.5f, 1f), b -> {
+                        v.trns(rot+180, len * b.finpow());
+                        Fill.circle(e.x + v.x, e.y + v.y, 3f * b.fslope() + 0.2f);
+                    });
+                }
             }),
             healSquares = new Effect(14, e -> {
                 color(Color.white, Color.valueOf("74aff8"), e.fin());
