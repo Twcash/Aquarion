@@ -68,7 +68,7 @@ public class AquaUnitTypes {
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant;
     public static @Annotations.EntityDef(value = {Unitc.class, JetUnitc.class}) UnitType martyr;
-    public static UnitType infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam, corpse;
+    public static UnitType visitor, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam, corpse;
     //core units and transport
 
     public static UnitType
@@ -1035,6 +1035,16 @@ public class AquaUnitTypes {
                 }};
 
             }});
+        }};
+        visitor = new UnitType("visitor"){{
+            hitSize = 6;
+            speed = 1.8f;
+            outlineColor = AquaPal.tantDarkestTone;
+            drawCell = false;
+            constructor = MechUnit::create;
+            boostMultiplier = 1.8f;
+            canBoost = true;
+            drownTimeMultiplier = 0.1f;
         }};
         cull = new UnitType("cull") {{
             payloadCapacity = (2 * 2) * tilePayload;

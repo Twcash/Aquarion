@@ -3,6 +3,7 @@ package aquarion.content.blocks;
 import aquarion.content.AquaItems;
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.core.AquaCoreBlock;
+import aquarion.world.blocks.core.InfomaticBlock;
 import aquarion.world.blocks.core.OverclockProjector;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
@@ -22,6 +23,8 @@ import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
+import mindustry.world.blocks.logic.MessageBlock;
+import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.meta.Env;
 
@@ -35,7 +38,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class CoreBlocks {
-    public static Block buzzSaw, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
+    public static Block buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
             coreEscarpment,petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -43,6 +46,16 @@ public class CoreBlocks {
     }
 
     public static void loadContent() {
+        infomatic = new InfomaticBlock("infomatic"){{
+            requirements(Category.logic, with(silicon, 10));
+            size = 1;
+        }};
+        reception = new CoreBlock("reception"){{
+            size = 2;
+            itemCapacity = 0;
+            unitType = AquaUnitTypes.visitor;
+            solid = false;
+        }};
         cache = new StorageBlock("cache") {{
             requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));
             itemCapacity = 900;

@@ -9,7 +9,7 @@ public class AquaSectorPresets {
     public static AquaSectorPreset  //tantros
     Ingress, diseasedCleft, Torrent, CrystalCaverns, Grove, Ecotone,
     //serpulo (fake)
-    resurgence, twinPass, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics;
+    resurgence, twinPass, lib, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics;
     public static void load(){
         resurgence = new AquaSectorPreset("resurgence", fakeSerpulo, 361){{
             allDatabaseTabs = true;
@@ -20,6 +20,9 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
+        }};
+        lib = new AquaSectorPreset("lakesideLibrary", AquaPlanets.delubrum,1){{
+            
         }};
         frigidShores = new AquaSectorPreset("frigidShores", fakeSerpulo, 356){{
             allDatabaseTabs = true;

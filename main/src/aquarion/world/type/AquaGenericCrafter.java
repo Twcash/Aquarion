@@ -17,6 +17,7 @@ import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
 import mindustry.content.Fx;
+import mindustry.entities.Damage;
 import mindustry.entities.Effect;
 import mindustry.entities.Puddles;
 import mindustry.entities.units.BuildPlan;
@@ -463,7 +464,8 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             if(outputItems != null){
                 for(var output : outputItems){
                     int boostAmount = output.amount;
-
+                    if(output.item.radioactivity > 0) Damage.damage(x,y, block.size * 2f, output.item.radioactivity/10f);
+                    if(Mathf.chance(0.05f)) Fx.smoke.at(this);
                     if(boostersAffectOutput){
                         boostAmount = Math.round(output.amount * totalBoost);
                     }
@@ -493,6 +495,8 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
         public void dumpOutputs(){
             if(outputItems != null && timer(timerDump, dumpTime / timeScale)){
                 for(ItemStack output : outputItems){
+                    if(output.item.radioactivity > 0) Damage.damage(x,y, block.size * 2f, output.item.radioactivity/10f);
+                    if(Mathf.chance(0.05f)) Fx.smoke.at(this);
                     dump(output.item);
                 }
             }

@@ -14,6 +14,7 @@ import arc.util.*;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.content.Fx;
+import mindustry.entities.Damage;
 import mindustry.entities.Effect;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.Team;
@@ -414,6 +415,10 @@ public class GroundDrill extends AquaBlock {
             if(timer(timerDump, dumpTime / timeScale)){
                 for(Item item : returnItems){
                     dump(item);
+                    if(item != null && item.radioactivity > 0){
+                        Damage.damage(x, y, 2, item.radioactivity /10f);
+                        if(Mathf.chance(0.05f)) Fx.smoke.at(this);
+                    }
                 }
             }
             for(Item item : returnItems){

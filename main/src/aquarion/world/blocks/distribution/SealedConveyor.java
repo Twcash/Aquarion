@@ -11,6 +11,8 @@ import arc.struct.Seq;
 import arc.util.Nullable;
 import arc.util.Time;
 import arc.util.Tmp;
+import mindustry.content.Fx;
+import mindustry.entities.Damage;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Teamc;
@@ -25,6 +27,8 @@ import mindustry.world.blocks.distribution.Junction;
 
 import static mindustry.Vars.itemSize;
 import static mindustry.Vars.tilesize;
+import static mindustry.game.Team.derelict;
+
 // Certified Shit
 public class SealedConveyor extends Duct implements Autotiler{
 
@@ -181,6 +185,10 @@ public class SealedConveyor extends Duct implements Autotiler{
             progress += edelta() / speed * 2f;
             if(progress != 0 && next != null){
                 clogHeat = Mathf.approachDelta(clogHeat, 1f, 1f / stopSpeed);
+            }
+            if(current != null && current.radioactivity > 0){
+                handleDamage(current.radioactivity /10f);
+                if(Mathf.chance(0.05f)) Fx.smoke.at(this);
             }
 
             if(current != null && next != null){

@@ -6,6 +6,7 @@ import aquarion.content.AquaSounds;
 import aquarion.content.AquaStatuses;
 import aquarion.world.blocks.turrets.AquaItemTurret;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
+import aquarion.world.entities.bullet.AOEBulletType;
 import aquarion.world.entities.bullet.AquaLaserBulletType;
 import aquarion.world.entities.bullet.GambleBulletType;
 import aquarion.world.entities.parts.NewRegPart;
@@ -374,6 +375,30 @@ public class TurretBlocks {
                         knockback = -18f;
                         frontColor = Color.white;
                         backColor = trailColor = Color.lightGray;
+                    }},
+                    uranium, new BasicBulletType(){{
+                        damage = 200;
+                        speed = 12;
+                        trailWidth = 4;
+                        width = 34;
+                        height = 34;
+                        shrinkX = 0;
+                        shrinkY = 0.1f;
+                        trailLength = 20;
+                        fragBullets = 8;
+                        fragBullet = new AOEBulletType(10, 300, 9, uranium.color.cpy().a(0.6f)){{
+                            speed = 20;
+                            drag = 0.2f;
+                            fadeTime = 120;
+                            collidesAir = false;
+                        }};
+                        shootEffect = AquaFx.shootBigger;
+                        trailInterp = Interp.slope;
+                        smokeEffect = AquaFx.shootSmokeRadioactive;
+                        frontColor =Color.white;
+                        backColor = trailColor = lightColor = hitColor = AquaItems.uranium.color;
+                        hitEffect = despawnEffect = AquaFx.uraniumExplosion;
+
                     }}
             );
             shoot = new ShootBarrel() {{

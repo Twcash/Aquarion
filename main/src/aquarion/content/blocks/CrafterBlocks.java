@@ -1578,7 +1578,7 @@ public class CrafterBlocks {
                 color = Color.valueOf("ffa693");
             }});
         }};
-        steamCrackingUnit = new GenericCrafter("haze-cracking-unit"){{
+        steamCrackingUnit = new AquaGenericCrafter("haze-cracking-unit"){{
             requirements(Category.crafting, with( ferricMatter, 1500, copper, 2000, aluminum, 900));
             shownPlanets.addAll(tantros2);
             craftTime = 2f*60f;

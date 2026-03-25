@@ -35,6 +35,7 @@ public class AquaPlanets {
     fakeSerpulo,
     fakeErekir,
     ring1,
+    delubrum,
     coradum;
 
     public static void loadContent() {
@@ -171,6 +172,28 @@ public class AquaPlanets {
 
             );
         }};
+        delubrum = new Planet("delubrum", fakeSerpulo, 0.3f, 1){{
+            startSector = 1;
+            generator = new AquaPlanetGenerator();
+            meshLoader = () -> new HexMesh(this, 3);
+            orbitRadius = 60;
+            orbitOffset = 52;
+            visible = true;
+            accessible = true;
+            atmosphereRadIn = 0.09f;
+            alwaysUnlocked = true;
+            defaultCore = CoreBlocks.reception;
+            ruleSetter = r -> {
+                r.infiniteResources = true;
+                r.buildSpeedMultiplier = 0;
+                r.deconstructRefundMultiplier = 0;
+                r.possessionAllowed = false;
+                r.derelictRepair = false;
+            };
+            atmosphereRadOut = 1.5f;
+            atmosphereColor = Color.valueOf("3db899");
+            defaultCore = CoreBlocks.corePike;
+        }};
         tantros2 = new Planet("tantros", citun, 1.5f, 3){{
             generator = new AquaPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 5);
@@ -192,7 +215,8 @@ public class AquaPlanets {
             defaultCore = CoreBlocks.corePike;
             allowLaunchLoadout = false;
             atmosphereRadOut = 1.5f;
-            lightColor = Color.valueOf("171e53");
+            lightColor = Color.valueOf("0c0924");
+
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
             allowCampaignRules = true;

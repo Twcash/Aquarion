@@ -9,6 +9,8 @@ import arc.util.Nullable;
 import arc.util.Tmp;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import mindustry.content.Fx;
+import mindustry.entities.Damage;
 import mindustry.gen.Building;
 import mindustry.graphics.Layer;
 import mindustry.type.Item;
@@ -61,7 +63,10 @@ public class SealedRouter extends Router {
                 current = lastItem;
             }
             progress += edelta() / speed * 2f;
-
+            if(current != null && current.radioactivity > 0){
+               handleDamage(current.radioactivity /10f);
+                if(Mathf.chance(0.05f)) Fx.smoke.at(this);
+            }
             if (lastItem != null) {
                 // Reset target to null at the beginning of each cycle
                 target = null;

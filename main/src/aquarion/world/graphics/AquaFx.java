@@ -1,5 +1,6 @@
 package aquarion.world.graphics;
 
+import aquarion.content.AquaItems;
 import aquarion.content.AquaLiquids;
 import aquarion.world.blocks.units.UnitBlock;
 import arc.Core;
@@ -48,6 +49,32 @@ public class AquaFx {
             lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(2f, 7f) + 1.5f);
         }
     }),
+            hitUranium = new Effect(12, e -> {
+                color(AquaItems.uranium.color);
+                stroke(e.fout() * 2.5f);
+
+                randLenVectors(e.id, 9, e.finpow() * 24, (x, y) -> {
+                    float ang = Mathf.angle(x, y);
+                    lineAngle(e.x + x, e.y + y, ang, e.fout() * 6 + 1f);
+                });
+            }),
+            uraniumExplosion = new Effect(35f, 50f, e -> {
+                color(AquaItems.uranium.color);
+                stroke(e.fout() * 2.5f);
+                float circleRad = 6f + e.finpow() * 20f;
+                Lines.circle(e.x, e.y, circleRad);
+
+                rand.setSeed(e.id);
+                for(int i = 0; i < 8; i++){
+                    float angle = rand.random(360f);
+                    float lenRand = rand.random(0.5f, 1f);
+                    Tmp.v1.trns(angle, circleRad);
+
+                    for(int s : Mathf.signs){
+                        Drawf.tri(e.x + Tmp.v1.x, e.y + Tmp.v1.y, e.foutpow() * 15f, e.fout() * 20f * lenRand + 6f, angle + 90f + s * 90f);
+                    }
+                }
+            }),
             healWave = new Effect(35, e -> {
                 color(Color.valueOf("74aff8"));
                 stroke(Interp.pow2In.apply(e.fout()) * 2f);
@@ -1094,6 +1121,13 @@ public class AquaFx {
                 rand.setSeed(e.id+1);
                 randLenVectors(e.id, rand.random(5,9), Interp.pow2In.apply(e.finpow()) * 50f, e.rotation, 28f, (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, Interp.pow5Out.apply(e.fout()) * 4.5f);
+                });
+            }),
+            shootSmokeRadioactive = new Effect(75f, e -> {
+                color(AquaItems.uranium.color, Pal.slagOrange, Color.lightGray, Interp.pow2Out.apply(e.fin()));
+                rand.setSeed(e.id+1);
+                randLenVectors(e.id, rand.random(7,12), Interp.pow2In.apply(e.finpow()) * 60f, e.rotation, 32f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow5Out.apply(e.fout()) * 5.5f);
                 });
             }),
             neoplasiaPlace = new Effect(400f, 300f, b -> {
