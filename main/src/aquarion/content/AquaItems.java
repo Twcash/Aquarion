@@ -14,7 +14,7 @@ public class AquaItems {
     public static Item pentlandite;
     public static Item magnesiumPowder;
     public static Item steel;
-    public static Item minium;
+    public static Item minium, uranium, radium, pitchblende;
     public static Item chalkalloy, crystal, pearl;
     public static Item acuminite;
     public static Item strontium;
@@ -155,6 +155,20 @@ public class AquaItems {
         }};
         chalkalloy = new Item("chalkalloy", Color.valueOf("#9dccba")) {{
             cost = 1.1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+        }};
+        pitchblende = new AquaItem("pitchblende", Color.valueOf("#f1ffb2")) {{
+            radioactivity = 2f;
+            hardness = 4;
+        }};
+        uranium = new AquaItem("uranium", Color.valueOf("#ffe1b4")) {{
+            radioactivity = 2.5f;
+        }};
+        radium = new AquaItem("radium", Color.valueOf("#c7f77e")) {{
+            radioactivity = 2f;
+        }};
+        Items.thorium = null;
+        Items.thorium = new AquaItem("thorium", Color.valueOf("#ffe1b4")) {{
+            radioactivity = 1.5f;
         }};
     }
 }

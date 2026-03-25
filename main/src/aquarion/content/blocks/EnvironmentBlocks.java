@@ -49,7 +49,7 @@ public class EnvironmentBlocks {
             kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
-    public static Block oreNickelWall, oreTitaniumWall, oreArsenic, scorche,
+    public static Block oreNickelWall, oreTitaniumWall, oreArsenic, scorche, oreRadium, oreUranium, orePitchblende,
             oreNickel, oreBauxite,
             oreManganese, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
@@ -512,7 +512,7 @@ public class EnvironmentBlocks {
         }};
         oreNickelWall = new OreBlock("ore-nickel-wall", nickel) {{
             wallOre = true;
-            variants = 2;
+            variants = 3;
         }};
         oreAluminum = new OreBlock("ore-aluminum", aluminum) {{
             variants = 3;
@@ -520,7 +520,15 @@ public class EnvironmentBlocks {
         oreSilicon = new OreBlock("ore-silicon", silicon) {{
             variants = 3;
         }};
-
+        oreUranium = new OreBlock("uranium-ore", uranium) {{
+            variants = 3;
+        }};
+        oreRadium = new OreBlock("radium-ore", radium) {{
+            variants = 3;
+        }};
+        orePitchblende = new OreBlock("pitchblende-ore", pitchblende) {{
+            variants = 3;
+        }};
         ultrafamicWall = new StaticWall("ultrafamic-wall") {{
             variants = 3;
         }};

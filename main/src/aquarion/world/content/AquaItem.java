@@ -8,6 +8,7 @@ public class AquaItem extends Item {
     public AquaItem(String name, Color color) {
         super(name, color);
     }
+    public Item decayTo;
     public float magnetism = 0;
     @Override
     public void setStats(){
