@@ -73,7 +73,7 @@ public class AquaPlanets {
 //            gen.berylChance = 0.1f;
 //        });
 
-        fakeErekir = new Planet("fakeErekir", citun, 0.9f, 4){{
+        fakeErekir = new Planet("fakeErekir", citun, 1.9f, 4){{
             generator = new ErekirPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
             alwaysUnlocked = false;
@@ -115,7 +115,7 @@ public class AquaPlanets {
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
         }};
-        fakeSerpulo = new Planet("fakeSerp", citun, 1f, 4){{
+        fakeSerpulo = new Planet("fakeSerp", citun, 3f, 4){{
             generator = new FakeSerpuloPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
             alwaysUnlocked = true;
@@ -172,11 +172,11 @@ public class AquaPlanets {
 
             );
         }};
-        delubrum = new Planet("delubrum", fakeSerpulo, 0.3f, 1){{
+        delubrum = new Planet("delubrum", fakeSerpulo, 1f, 1){{
             startSector = 1;
             generator = new AquaPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 3);
-            orbitRadius = 60;
+            orbitRadius = 12;
             orbitOffset = 52;
             visible = true;
             accessible = true;
@@ -190,7 +190,7 @@ public class AquaPlanets {
                 r.possessionAllowed = false;
                 r.derelictRepair = false;
             };
-            atmosphereRadOut = 1.5f;
+            atmosphereRadOut = 1.1f;
             atmosphereColor = Color.valueOf("3db899");
             defaultCore = CoreBlocks.corePike;
         }};

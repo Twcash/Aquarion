@@ -22,7 +22,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
         }};
         lib = new AquaSectorPreset("lakesideLibrary", AquaPlanets.delubrum,1){{
-            
+
         }};
         frigidShores = new AquaSectorPreset("frigidShores", fakeSerpulo, 356){{
             allDatabaseTabs = true;
