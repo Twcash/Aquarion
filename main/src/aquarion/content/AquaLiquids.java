@@ -13,7 +13,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid ammonia, rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
+    public static Liquid ammonia, vitriol, rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
 
     public static void loadContent() {
 
@@ -141,7 +141,14 @@ public class AquaLiquids {
             canStayOn.addAll(cryofluid);
         }};
         muriaticAcid = new AquaLiquid("muriatic-acid", Color.valueOf("faf3a0")){{
-            acidity = 1.1f;
+            acidity = 1f;
+            allDatabaseTabs = true;
+            effect = corroding;
+            coolant = false;
+            boilPoint = 1.1f;
+        }};
+        vitriol = new AquaLiquid("vitriol", Color.valueOf("e8e6b1")){{
+            acidity = 1f;
             allDatabaseTabs = true;
             effect = corroding;
             coolant = false;

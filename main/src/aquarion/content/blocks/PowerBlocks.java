@@ -29,7 +29,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
-    public static Block defunctGenerator, singularityReactor, advSolarGen, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
+    public static Block defunctGenerator, miniumReactor, singularityReactor, advSolarGen, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
 
     public static void loadContent() {
         solarGenerator = new SolarGenerator("solar-generator") {{
@@ -148,6 +148,24 @@ public class PowerBlocks {
                 alpha = 0.5f;
                 color = Color.valueOf("f5c5aa");
             }});
+        }};
+        miniumReactor = new GenericGenerator("minium-reactor") {{
+            requirements(Category.power, with(graphite, 400, metaglass, 500, silicon, 700, copper, 500));
+            size = 4;
+            squareSprite = false;
+            insulated = true;
+            conductivePower = false;
+            generateEffect = AquaFx.turbineGenerate;
+            generateEffectRange = 12 / 4f;
+            powerProduction = 25;
+            liquidCapacity = 1200;
+            itemDuration = 120;
+            effectChance = 0.09f;
+            consumeItems(ItemStack.with(minium, 10, brimstone, 10));
+            outputLiquid = new LiquidStack(vitriol, 1);
+            outputItem = new ItemStack(lead, 10);
+            consumeLiquids(LiquidStack.with(haze, 8.5f ,water, 10));
+            drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-top"));
         }};
         turbineDynamo = new ConsumeGenerator("turbine-dynamo") {{
             requirements(Category.power, with(lead, 1500, metaglass, 1200, cupronickel, 1200, graphite, 400));

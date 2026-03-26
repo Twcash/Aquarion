@@ -730,7 +730,7 @@ public class CrafterBlocks {
                 drillTime = 240;
                 size = 4;
                 range = 8;
-                consumeLiquid(muriaticAcid, 0.125f);
+                consume(new ConsumeLiquidAcidic(1, 0.125f));
                 consumeLiquid(oxygen, 0.2f).boost();
                 optionalBoostIntensity = 1.5f;
                 heatColor = Color.valueOf("9d8cf2");
@@ -805,7 +805,7 @@ public class CrafterBlocks {
                 drillTime = 125;
                 consumePower(2);
                 consumeLiquid(haze, 0.125f).booster = false;
-                consumeLiquid(muriaticAcid, 0.05f).boost();
+                consume(new ConsumeLiquidAcidic(1, 0.05f).boost());
                 liquidBoostIntensity = 1.5f;
                 squareSprite = false;
                 itemCapacity = 200;
@@ -1046,7 +1046,7 @@ public class CrafterBlocks {
             size = 3;
             consumePower(0.75f);
             squareSprite = true;
-            pumpAmount = 0.375f;
+            pumpAmount = (float) (8.5/2/9f);
             liquidCapacity = 300;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -1081,7 +1081,7 @@ public class CrafterBlocks {
             squareSprite = false;
             consumePower(3.5f);
             squareSprite = true;
-            pumpAmount = 0.625f;
+            pumpAmount = (float) (12/9f);
             liquidCapacity = 4800;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
