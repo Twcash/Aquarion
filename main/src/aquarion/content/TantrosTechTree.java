@@ -125,7 +125,8 @@ public class TantrosTechTree {
                     });
                     node(heatExchanger);
                     node(leadBurner, ()-> {
-                            node(heatEngine, () -> {
+                        node(miniumReactor);
+                        node(heatEngine, () -> {
                                 node(fumeEngine);
                                 node(hydroxideReactor);
                             });
@@ -354,6 +355,7 @@ public class TantrosTechTree {
                             }));
                             nodeProduce(magma, () -> {
                                 nodeProduce(muriaticAcid, ()->{});
+                                nodeProduce(vitriol, ()->{});
                                 nodeProduce(slag, () -> nodeProduce(hydroxide, () -> {
                                 }));
                                 nodeProduce(fumes, () -> {
