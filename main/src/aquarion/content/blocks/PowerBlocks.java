@@ -155,7 +155,8 @@ public class PowerBlocks {
             squareSprite = false;
             insulated = true;
             conductivePower = false;
-            generateEffect = AquaFx.turbineGenerate;
+            generateEffect = AquaFx.hydroxideReactorGenerate;
+            itemCapacity = 25;
             generateEffectRange = 12 / 4f;
             powerProduction = 25;
             liquidCapacity = 1200;
