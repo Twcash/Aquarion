@@ -3,6 +3,7 @@ package aquarion.content.blocks;
 import aquarion.content.AquaItems;
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.core.AquaCoreBlock;
+import aquarion.world.blocks.core.Bomb;
 import aquarion.world.blocks.core.InfomaticBlock;
 import aquarion.world.blocks.core.OverclockProjector;
 import aquarion.world.blocks.defense.ChainsawTurret;
@@ -15,6 +16,7 @@ import aquarion.world.blocks.neoplasia.NeoplasiaproductionBlock;
 import aquarion.world.content.AquaItem;
 import arc.func.Cons;
 import arc.graphics.Color;
+import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.content.Planets;
@@ -23,6 +25,7 @@ import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
+import mindustry.world.blocks.environment.OverlayFloor;
 import mindustry.world.blocks.logic.MessageBlock;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
@@ -38,7 +41,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class CoreBlocks {
-    public static Block buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
+    public static Block bomb, buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
             coreEscarpment,petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -55,6 +58,15 @@ public class CoreBlocks {
             itemCapacity = 0;
             unitType = AquaUnitTypes.visitor;
             solid = false;
+        }};
+        bomb = new Bomb("improvised-explosive"){{
+            requirements(Category.effect, with(polymer, 50, copper, 900));
+            size = 1;
+            breakEffect = Fx.blastExplosion;
+            radius = 2;
+            overlayFloor = (OverlayFloor) EnvironmentBlocks.scorche;
+            bannedFloor  = EnvironmentBlocks.rubble.asFloor();
+            targetFloor = EnvironmentBlocks.rubble.asFloor();
         }};
         cache = new StorageBlock("cache") {{
             requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));

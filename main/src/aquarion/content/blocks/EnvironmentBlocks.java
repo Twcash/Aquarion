@@ -45,7 +45,7 @@ public class EnvironmentBlocks {
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, algal_carpet, brine_liquid, lava, shallowSlag, shallowLava,
             coral_floor, feldspar_vent, feldspar, ferric_extrusions,
-            gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent,
+            gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, rubble,
             kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
@@ -67,6 +67,9 @@ public class EnvironmentBlocks {
         }};
         algal_carpet = new Floor("algal-carpet", 5) {{
 
+        }};
+        rubble = new Floor("rubble"){{
+            variants = 3;
         }};
         brine_liquid = new Floor("brine-liquid") {{
             speedMultiplier = 0.1f;
