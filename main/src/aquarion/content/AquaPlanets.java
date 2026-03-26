@@ -190,9 +190,8 @@ public class AquaPlanets {
                 r.possessionAllowed = false;
                 r.derelictRepair = false;
             };
-            atmosphereRadOut = 1.1f;
+            atmosphereRadOut = 0.8f;
             atmosphereColor = Color.valueOf("3db899");
-            defaultCore = CoreBlocks.corePike;
         }};
         tantros2 = new Planet("tantros", citun, 1.5f, 3){{
             generator = new AquaPlanetGenerator();
