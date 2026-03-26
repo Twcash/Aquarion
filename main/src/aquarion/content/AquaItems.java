@@ -162,9 +162,11 @@ public class AquaItems {
         }};
         uranium = new AquaItem("uranium", Color.valueOf("#ffe1b4")) {{
             radioactivity = 2.5f;
+            hardness = 4;
         }};
         radium = new AquaItem("radium", Color.valueOf("#c7f77e")) {{
             radioactivity = 2f;
+            hardness = 4;
         }};
         Items.thorium = null;
         Items.thorium = new AquaItem("thorium", Color.valueOf("#ffe1b4")) {{

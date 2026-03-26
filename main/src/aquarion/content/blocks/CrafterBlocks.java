@@ -1124,7 +1124,7 @@ public class CrafterBlocks {
         }};
         SolidBoiler = new AquaGenericCrafter("solid-boiler") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(lead, 700, copper, 900, metaglass, 500, graphite, 800));
+            requirements(Category.crafting, with(lead, 700, copper, 900, metaglass, 500, graphite, 600));
             size = 7;
             itemCapacity = 60;
             squareSprite = false;
@@ -1138,7 +1138,7 @@ public class CrafterBlocks {
             liquidCapacity = 1000;
             consume(new ConsumeItemFlammable(0.25f));
             consume(new ConsumeItemExplode(0.2f));
-            consumeLiquids(new LiquidStack(water, 9), new LiquidStack(air, 3.5f));
+            consumeLiquids(new LiquidStack(water, 8.5f), new LiquidStack(air, 3.5f));
             outputLiquid = new LiquidStack(haze, 8.5f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;

@@ -115,7 +115,7 @@ public class AquaPlanets {
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
         }};
-        fakeSerpulo = new Planet("fakeSerp", citun, 3f, 4){{
+        fakeSerpulo = new Planet("fakeSerp", citun, 1.9f, 4){{
             generator = new FakeSerpuloPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
             alwaysUnlocked = true;
@@ -183,6 +183,7 @@ public class AquaPlanets {
             atmosphereRadIn = 0.09f;
             alwaysUnlocked = true;
             defaultCore = CoreBlocks.reception;
+            allowLaunchLoadout = false;
             ruleSetter = r -> {
                 r.infiniteResources = true;
                 r.buildSpeedMultiplier = 0;
