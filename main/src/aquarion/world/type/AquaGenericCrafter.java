@@ -464,8 +464,6 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             if(outputItems != null){
                 for(var output : outputItems){
                     int boostAmount = output.amount;
-                    if(output.item.radioactivity > 0) Damage.damage(x,y, block.size * 2f, output.item.radioactivity/10f);
-                    if(Mathf.chance(0.05f)) Fx.smoke.at(this);
                     if(boostersAffectOutput){
                         boostAmount = Math.round(output.amount * totalBoost);
                     }
@@ -481,6 +479,24 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             }
 
             progress %= 1f;
+        }
+        @Override
+        public void offload(Item item) {
+            this.produced(item, 1);
+            int dump = this.cdump;
+
+            for(int i = 0; i < this.proximity.size; ++i) {
+                this.incrementDump(this.proximity.size);
+                Building other = (Building)this.proximity.get((i + dump) % this.proximity.size);
+                if (other.acceptItem(this, item) && this.canDump(other, item)) {
+                    if(item.radioactivity > 0) Damage.damage(x,y, block.size * 2f, output.item.radioactivity/10f);
+                    if(Mathf.chance(0.05f)) Fx.smoke.at(this);
+                    other.handleItem(this, item);
+                    return;
+                }
+            }
+
+            this.handleItem(this, item);
         }
         public float liquidEff(){
             Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
