@@ -2292,7 +2292,7 @@ public class CrafterBlocks {
                         y = -4f;
                         rotationSpeed = 1;
                         width = 150 / 4f;
-                        sideCount = 17;
+                                               sideCount = 17;
                         height = 100 / 4f;
                         wheelColors = new Color[]{
                                 //I should set this as a Pallete or smth

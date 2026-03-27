@@ -94,7 +94,6 @@ public class AquaItems {
         }};
         ferricMatter = new AquaItem("ferric-matter", Color.valueOf("#675b53")) {{
             cost = 0.5f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            radioactivity = 0.05f;
             magnetism = 1;
             hardness = 4;
         }};
