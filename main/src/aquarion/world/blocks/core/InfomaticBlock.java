@@ -30,6 +30,7 @@ public class InfomaticBlock extends MessageBlock {
         }
         public void drawMessage(){
             if(renderer.pixelate) return;
+            if(Core.settings.getBool("hidedisplays")) return;
             Font font = Fonts.outline;
             GlyphLayout l = Pools.obtain(GlyphLayout.class, GlyphLayout::new);
 
@@ -37,10 +38,18 @@ public class InfomaticBlock extends MessageBlock {
             font.getData().setScale(1 / 4f / Scl.scl(1f));
             font.setUseIntegerPositions(false);
 
-            String text = message == null || message.isEmpty()
-                    ? "[lightgray]" + Core.bundle.get("empty")
-                    : UI.formatIcons(message.toString());
+            String raw = (message == null || message.isEmpty()) ? "" : message.toString();
+            String text;
+            if(raw.startsWith("@")){
+                text = Core.bundle.get(raw.substring(1));
+            }else{
+                text = raw;
+            }
+            text = UI.formatIcons(text);
 
+            if(raw.isEmpty()){
+                text = "[lightgray]" + Core.bundle.get("empty");
+            }
             l.setText(font, text, Color.white, 90f, Align.center, true);
             float offset = 1f;
             float drawY = y + tilesize/2f + l.height/2f + 2f;
@@ -55,6 +64,7 @@ public class InfomaticBlock extends MessageBlock {
 
             Pools.free(l);
         }
+
         @Override
         public void drawSelect(){
             drawMessage();

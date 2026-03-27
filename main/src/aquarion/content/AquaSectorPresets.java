@@ -16,7 +16,7 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             alwaysUnlocked = true;
             addStartingItems = true;
-            captureWave = 16;
+            captureWave = 12;
             difficulty = 1;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
