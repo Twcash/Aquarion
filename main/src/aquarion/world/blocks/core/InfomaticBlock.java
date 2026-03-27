@@ -2,10 +2,7 @@ package aquarion.world.blocks.core;
 
 import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Font;
-import arc.graphics.g2d.GlyphLayout;
+import arc.graphics.g2d.*;
 import arc.scene.ui.layout.Scl;
 import arc.util.Align;
 import arc.util.pooling.Pools;
@@ -21,10 +18,19 @@ public class InfomaticBlock extends MessageBlock {
     public InfomaticBlock(String name) {
         super(name);
     }
+    public TextureRegion topRegion;
+    @Override
+    public void load(){
+        super.load();
+        topRegion = Core.atlas.find(name + "-top");
+    }
     public class infoBuild extends MessageBlock.MessageBuild{
         @Override
         public void draw(){
             super.draw();
+            Draw.color(Color.scarlet.cpy());
+            Draw.rect(topRegion, x, y, 0);
+            Draw.color();
             Draw.z(Layer.overlayUI+1);
             drawMessage();
         }
@@ -64,10 +70,10 @@ public class InfomaticBlock extends MessageBlock {
 
             Pools.free(l);
         }
-
         @Override
         public void drawSelect(){
             drawMessage();
         }
     }
+
 }
