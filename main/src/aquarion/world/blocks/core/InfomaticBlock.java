@@ -25,7 +25,7 @@ public class InfomaticBlock extends MessageBlock {
         @Override
         public void draw(){
             super.draw();
-            Draw.z(Layer.blockOver+1);
+            Draw.z(Layer.overlayUI+1);
             drawMessage();
         }
         public void drawMessage(){

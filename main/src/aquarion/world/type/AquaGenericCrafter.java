@@ -489,7 +489,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                 this.incrementDump(this.proximity.size);
                 Building other = (Building)this.proximity.get((i + dump) % this.proximity.size);
                 if (other.acceptItem(this, item) && this.canDump(other, item)) {
-                    if(item.radioactivity > 0) Damage.damage(x,y, block.size * 2f, output.item.radioactivity/10f);
+                    if(item.radioactivity > 0) Damage.damage(x,y, block.size * 2f, item.radioactivity/10f);
                     if(Mathf.chance(0.05f)) Fx.smoke.at(this);
                     other.handleItem(this, item);
                     return;
