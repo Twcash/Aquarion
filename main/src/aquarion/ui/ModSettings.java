@@ -1,6 +1,7 @@
 package aquarion.ui;
 
 import aquarion.content.AquaPlanets;
+import aquarion.world.content.AquaHints;
 import arc.Core;
 import arc.struct.Seq;
 import mindustry.Vars;
@@ -16,7 +17,15 @@ public class ModSettings {
             root.checkPref("@settings.betterland", false);
             root.checkPref("@settings.betterfine", false);
             root.checkPref("@settings.richPrescense", true);
-
+            root.pref(new ButtonPref(
+                    Core.bundle.get("settings.resethints"),
+                    Icon.trash,
+                    () -> Vars.ui.showConfirm(
+                            "@confirm",
+                            Core.bundle.get("settings.resethints-confirm"),
+                            AquaHints::reset
+                    )
+            ));
             root.pref(new ButtonPref(Core.bundle.get("settings.clearTech-category"), Icon.trash, () -> {
                 Vars.ui.showConfirm("@confirm", Core.bundle.get("settings.clearTech-confirm"), () -> {
                     Vars.universe.clearLoadoutInfo();

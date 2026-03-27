@@ -281,8 +281,6 @@ public class GerbInfantryAI extends AIController {
         );
     }
 
-    // --- Sound helpers ---
-
     void playTacticSound(Tactic t) {
         if (soundTimer < soundCooldown) return;
         soundTimer = 0f;

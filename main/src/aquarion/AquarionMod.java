@@ -33,7 +33,6 @@ import java.util.Objects;
 @Annotations.LoadRegs("error")// Need this temporarily, so the class gets generated.
 @Annotations.EnsureLoad
 public class AquarionMod  implements Loadable{
-    public static AquaHints hints = new AquaHints();
 
 
     public static void loadContent() {
@@ -71,11 +70,11 @@ public class AquarionMod  implements Loadable{
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
-
     }
     public static void clientLoaded(){
-        hints.load();
         IconLoader.loadIcons();
+        AquaHints.addHints();
+
     }
 
 //    public static AquaMenuRenderer getMenuRenderer() {

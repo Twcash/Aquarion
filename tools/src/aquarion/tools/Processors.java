@@ -25,7 +25,7 @@ public final class Processors{
 
     public static void process(){
         Log.info("Starting asset processing...");
-        for(var process : processes){
+        for(Processor process : processes){
             String processName = process.getClass().getSimpleName();
             Log.info("Running processor: @", processName);
             Time.mark();
