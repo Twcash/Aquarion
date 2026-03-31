@@ -159,6 +159,9 @@ public class TantrosTechTree {
                         node(aftershock, ()->{
                             node(dislocate);
                         });
+                        node(confront, ()->{
+                            node(perforate);
+                        });
                         node(truncate);
                         node(thrash, ()->{
                             node(flagellate);
@@ -386,7 +389,7 @@ public class TantrosTechTree {
                 });
                 node(siphonJunction, () -> {
                 });
-                node(pulseSiphon, () -> node(pulseSiphonBridge, () -> {
+                node(pipe, () -> node(pulseSiphonBridge, () -> {
                     node(siphonReservoir);
                 }));
             });

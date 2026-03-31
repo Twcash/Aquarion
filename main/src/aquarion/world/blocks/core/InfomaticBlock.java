@@ -31,6 +31,7 @@ public class InfomaticBlock extends MessageBlock {
             Draw.color(Color.scarlet.cpy());
             Draw.rect(topRegion, x, y, 0);
             Draw.color();
+            if(!enabled) return;
             Draw.z(Layer.overlayUI+1);
             drawMessage();
         }

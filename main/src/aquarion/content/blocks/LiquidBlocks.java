@@ -32,11 +32,10 @@ public class LiquidBlocks {
             envDisabled = Env.none;
         }};
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge") {{
-            //long boi. Prolly unbalanced asf but I'm working on it
-            requirements(Category.liquid, with(manganese, 45));
+            requirements(Category.liquid, with(polymer, 30));
             willMelt = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            range = 8;
+            range = 6;
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -113,7 +112,7 @@ public class LiquidBlocks {
             envDisabled = Env.none;
         }};
         pipe = new Pipe("pipe") {{
-            requirements(Category.liquid, with(ferrosilicon, 2));
+            requirements(Category.liquid, with(polymer, 2));
             liquidPressure = 10000;
             liquidCapacity = 50;
         }};

@@ -2,7 +2,6 @@ package aquarion.dialogs;
 
 import aquarion.ModEventHandler;
 import aquarion.content.AquaPlanets;
-import aquarion.ui.AquaStyles;
 import arc.Core;
 import arc.Events;
 import arc.graphics.Color;
@@ -57,7 +56,6 @@ import static mindustry.gen.Tex.buttonDown;
 import static mindustry.gen.Tex.buttonOver;
 
 public class AquaResearchDialog extends BaseDialog {
-    public boolean showing = false;
     public static boolean debugShowRequirements = false;
 
     public final float nodeSize = Scl.scl(60f);
@@ -81,9 +79,7 @@ public class AquaResearchDialog extends BaseDialog {
                 ModEventHandler.techDialog.show();
             }
         }));
-        Events.on(ResetEvent.class, e -> {
-            hide();
-        });
+        Events.on(ResetEvent.class, e -> hide());
 
         Events.on(UnlockEvent.class, e -> {
             if (net.client() && !needsRebuild) {
@@ -110,30 +106,26 @@ public class AquaResearchDialog extends BaseDialog {
             b.label(() -> root.node.localizedName()).color(Pal.heal);
             b.add().growX();
             b.add().size(iconMed);
-        }, () -> {
-            new BaseDialog("@techtree.select") {{
-                cont.pane(t -> {
-                    t.table(Tex.button, in -> {
-                        in.defaults().width(300f).height(60f);
-                        for (TechNode node : TechTree.roots) {
-                            if (node.requiresUnlock && !node.content.unlockedHost() && node != getPrefRoot()) continue;
+        }, () -> new BaseDialog("@techtree.select") {{
+            cont.pane(t -> t.table(Tex.button, in -> {
+                in.defaults().width(300f).height(60f);
+                for (TechNode node : TechTree.roots) {
+                    if (node.requiresUnlock && !node.content.unlockedHost() && node != getPrefRoot()) continue;
 
-                            //TODO toggle
-                            in.button(node.localizedName(), node.icon(), Styles.flatTogglet, iconMed, () -> {
-                                if (node == lastNode) {
-                                    return;
-                                }
-
-                                rebuildTree(node);
-                                hide();
-                            }).marginLeft(12f).checked(node == lastNode).row();
+                    //TODO toggle
+                    in.button(node.localizedName(), node.icon(), Styles.flatTogglet, iconMed, () -> {
+                        if (node == lastNode) {
+                            return;
                         }
-                    });
-                });
 
-                addCloseButton();
-            }}.show();
-        }).visible(() -> showTechSelect = TechTree.roots.count(node -> !(node.requiresUnlock && !node.content.unlockedHost())) > 1).minWidth(300f);
+                        rebuildTree(node);
+                        hide();
+                    }).marginLeft(12f).checked(node == lastNode).row();
+                }
+            }));
+
+            addCloseButton();
+        }}.show()).visible(() -> showTechSelect = TechTree.roots.count(node -> !(node.requiresUnlock && !node.content.unlockedHost())) > 1).minWidth(300f);
 
         margin(0f).marginBottom(8);
         cont.stack(titleTable, view = new View(), itemDisplay = new ItemsDisplay()).grow();
@@ -233,18 +225,13 @@ public class AquaResearchDialog extends BaseDialog {
 
     public void rebuildItems() {
         items = new ItemSeq() {
-            // Store sector item amounts for modifications
-            ObjectMap<Sector, ItemSeq> cache = new ObjectMap<>();
-
+            final ObjectMap<Sector, ItemSeq> cache = new ObjectMap<>();
             {
-                //First get all the planets with the same techtree/root node
                 Seq<Planet> rootPlanets = content.planets().select(p -> p.techTree == lastNode);
-
                 // Fallback if none found
                 if (rootPlanets.isEmpty()) {
                     rootPlanets = Seq.with(Planets.serpulo);
                 }
-
                 // Add global counts from each planet's sectors
                 for (Planet planet : rootPlanets) {
                     for (Sector sector : planet.sectors) {
@@ -319,12 +306,6 @@ public class AquaResearchDialog extends BaseDialog {
         treeLayout();
     }
 
-    void assignDepths(TechTreeNode node, int depth, ObjectMap<Integer, Seq<TechTreeNode>> map) {
-        map.get(depth, Seq::new).add(node);
-        for (TechTreeNode child : node.children) {
-            assignDepths(child, depth + 1, map);
-        }
-    }
     int getSubtreeSize(TechTreeNode node){
         if(node.children.length == 0) return 1;
 
@@ -334,21 +315,18 @@ public class AquaResearchDialog extends BaseDialog {
         }
         return sum;
     }
-    void collectDescendants(TechTreeNode node, Seq<TechTreeNode> out){
-        for(TechTreeNode child : node.children){
-            out.add(child);
-            collectDescendants(child, out);
-        }
-    }
+
     void layoutRadialSmart(TechTreeNode node, float startAngle, float endAngle, int depth, float spacing){
         float radius = spacing * depth;
         if(node.children.length == 0) return;
 
-        // First, calculate total weight
-        int totalWeight = 0;
-        int[] weights = new int[node.children.length];
-        for(int i = 0; i < node.children.length; i++){
-            weights[i] = getSubtreeSize(node.children[i]);
+        int nodeCount = node.children.length;
+
+        float totalWeight = 0f;
+        float[] weights = new float[nodeCount];
+
+        for(int i = 0; i < nodeCount; i++){
+            weights[i] = getSubtreeSize(node.children[i]) + 2f;
             totalWeight += weights[i];
         }
 
@@ -356,8 +334,7 @@ public class AquaResearchDialog extends BaseDialog {
 
         for(int i = 0; i < node.children.length; i++){
             TechTreeNode child = node.children[i];
-            float weightRatio = (float)weights[i] / totalWeight;
-
+            float weightRatio = weights[i] / totalWeight;
             float angleWidth = (endAngle - startAngle) * weightRatio;
             float angle = angleCursor + angleWidth / 2f;
             float rad = angle * Mathf.degreesToRadians;
@@ -379,7 +356,13 @@ public class AquaResearchDialog extends BaseDialog {
         return max;
     }
     void treeLayout(){
-        float ringSpacing = 500f;     // Spacing between rings
+
+        int totalNodes = nodes.size;
+        float ringSpacing = Mathf.clamp(
+                120f + totalNodes * 2.5f,
+                250f,
+                900f
+        );
 
         // Center root
         root.x = 0f;
@@ -398,23 +381,6 @@ public class AquaResearchDialog extends BaseDialog {
             maxy = Math.max(n.y + n.height / 2f, maxy);
         }
         bounds = new Rect(minx, miny, maxx - minx, maxy - miny);
-    }
-
-    void shift(LayoutNode[] children, float amount) {
-        for (LayoutNode node : children) {
-            node.y += amount;
-            if (node.children != null && node.children.length > 0) shift(node.children, amount);
-        }
-    }
-
-    void copyInfo(LayoutNode node) {
-        node.node.x = node.x;
-        node.node.y = node.y;
-        if (node.children != null) {
-            for (LayoutNode child : node.children) {
-                copyInfo(child);
-            }
-        }
     }
 
     void checkNodes(TechTreeNode node) {
@@ -436,19 +402,6 @@ public class AquaResearchDialog extends BaseDialog {
 
     boolean locked(TechNode node) {
         return !node.content.unlockedHost();
-    }
-
-    class LayoutNode extends TreeNode<LayoutNode> {
-        final TechTreeNode node;
-
-        LayoutNode(TechTreeNode node, LayoutNode parent) {
-            this.node = node;
-            this.parent = parent;
-            this.width = this.height = nodeSize;
-            if (node.children != null) {
-                children = Seq.with(node.children).map(t -> new LayoutNode(t, this)).toArray(LayoutNode.class);
-            }
-        }
     }
 
     public class TechTreeNode extends TreeNode<TechTreeNode> {
@@ -804,7 +757,7 @@ public class AquaResearchDialog extends BaseDialog {
             addChild(infoTable);
 
             checkMargin();
-            Core.app.post(() -> checkMargin());
+            Core.app.post(AquaResearchDialog.this::checkMargin);
 
             infoTable.pack();
             infoTable.act(Core.graphics.getDeltaTime());
@@ -816,7 +769,12 @@ public class AquaResearchDialog extends BaseDialog {
             Draw.sort(true);
             float offsetX = panX + width / 2f, offsetY = panY + height / 2f;
             int maxDepth = getMaxDepth(root, 0);
-            float spacing = 500; // same as layout spacing
+            int totalNodes = nodes.size;
+            float spacing = Mathf.clamp(
+                    120f + totalNodes * 2.5f,
+                    250f,
+                    900f
+            );
 
             Draw.z(0f);
 
@@ -846,7 +804,7 @@ public class AquaResearchDialog extends BaseDialog {
             Draw.color();
             for (TechTreeNode node : nodes) {
                 if (!node.visible) continue;
-                float radius = spacing * 4;
+                //float radius = spacing * 4;
                 float cx = panX/3f + width / 2f;
                 float cy = panY/3f + height / 2f;
                 Draw.color(Pal.darkestGray.a(1f / (3 * 1.5f)));

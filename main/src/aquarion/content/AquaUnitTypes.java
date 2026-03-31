@@ -3405,35 +3405,42 @@ public class AquaUnitTypes {
             useUnitCap = false;
             flying = true;
             allowedInPayloads = false;
-            lifetime = 60*60f;
             speed = 2.7f;
             rotateSpeed = 2.5f;
+            lifetime = 600;
             controller = u -> new DroneAI();
             lowAltitude = true;
             playerControllable = false;
-            physics = false;
-            bounded = false;
             trailLength = 7;
             targetPriority = -1;
             health = 250;
-
             armor = 4;
-            weapons.add(new Weapon("large-weapon") {{
-                reload = 13f;
-                x = 4f;
-                y = 2f;
-                top = false;
-                shootStatus = StatusEffects.melting;
-                shootStatusDuration = 10;
-                ejectEffect = Fx.casing1;
-                bullet = new BasicBulletType(2.5f, 9) {{
-                    width = 7f;
-                    height = 9f;
-                    lifetime = 60f;
+            weapons.add(new Weapon() {{
+                x = 0;
+                y = 0;
+                rotate = false;
+                mirror = false;
+                reload = 10;
+                velocityRnd = 0.1f;
+                inaccuracy = 5f;
+
+            weapons.add(new Weapon() {{
+                x = 0; y = 0;
+                rotate = false;
+                shootCone = 45;
+                reload = 90;
+                shootSound = Sounds.shockBullet;
+                bullet = new LightningBulletType(){{
+                    lightning = 2;
+                    lightningDamage = 15;
+                    lightningCone = 30;
+                    lightningLength = 14;
+                    lightningColor = Pal.accent;
                 }};
             }});
         }};
-        fabricant = new UnitType("fabricant") {{
+        fabricant = new UnitType("fabricant") {
+            {
                 health = 1950;
                 armor = 8;
                 lowAltitude = false;
@@ -3447,9 +3454,12 @@ public class AquaUnitTypes {
                 targetFlags = new BlockFlag[]{BlockFlag.turret, null};
                 hitSize = 20;
                 engineOffset = 8f;
-                weapons.add(new Weapon() {{
+
+                weapons.add(new Weapon() {
+                    {
                         x = 0;
                         y = 0;
+                        shoot.shots = 3;
                         alwaysShooting = true;
                         rotate = false;
                         mirror = false;
@@ -3457,7 +3467,7 @@ public class AquaUnitTypes {
                         velocityRnd = 0.1f;
                         inaccuracy = 5f;
                         bullet = new DroneSpawnerBulletType() {{
-                            drone = fabricantDrone;
+                            spawnUnit = fabricantDrone;
                         }};
                     }
                 });
