@@ -162,14 +162,21 @@ public class AquaItems {
         uranium = new AquaItem("uranium", Color.valueOf("#ffe1b4")) {{
             radioactivity = 2.5f;
             hardness = 4;
+            decayTo = Items.thorium;
         }};
         radium = new AquaItem("radium", Color.valueOf("#c7f77e")) {{
             radioactivity = 2f;
             hardness = 4;
+            decayTo = Items.lead;
         }};
         Items.thorium = null;
         Items.thorium = new AquaItem("thorium", Color.valueOf("#ffe1b4")) {{
             radioactivity = 1.5f;
+            decayTo = radium;
+        }};
+        Items.sporePod = null;
+        Items.sporePod = new AquaItem("spore-pod", Color.valueOf("#ffe1b4")) {{
+            biomass = true;
         }};
     }
 }

@@ -8,6 +8,7 @@ import aquarion.world.blocks.heatBlocks.HotHeatConductor;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
 import aquarion.world.drawers.*;
+import aquarion.world.entities.parts.NewRegPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.graphics.NewParticleEffect;
@@ -27,6 +28,7 @@ import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.effect.RadialEffect;
 import mindustry.entities.effect.SeqEffect;
+import mindustry.entities.part.RegionPart;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
@@ -1275,39 +1277,142 @@ public class CrafterBlocks {
             consumePower(3f);
         }};
         cupronickelAlloyer = new AquaGenericCrafter("cupronickel-alloying-crucible") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(nickel, 700, copper, 400, graphite, 150));
-            consumePower(1.5f);
-            squareSprite = false;
-            size = 4;
-            baseEfficiency = 1;
-            heatRequirement = 30;
-            hasHeat = true;
+                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+                requirements(Category.crafting, with(nickel, 700, copper, 400, graphite, 150));
+                consumePower(1.5f);
+                squareSprite = false;
+                size = 4;
+                baseEfficiency = 1;
+                heatRequirement = 30;
+                hasHeat = true;
 
-            maxEfficiency = 4;
-            craftTime = 120;
-            consumeItems(new ItemStack(copper, 9), new ItemStack(nickel, 3));
-            outputItem = new ItemStack(cupronickel, 12);
-            updateEffect = Fx.coalSmeltsmoke;
-            updateEffectChance = 0.07f;
-            ambientSound = AquaSounds.derrick;
-            consumeLiquid(air, 3);
-            liquidCapacity = 700;
-            itemCapacity = 60;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawSoftParticles() {{
-                color = Color.valueOf("921f12");
-                color2 = Color.valueOf("ff9f4f");
-                alpha = 0.5f;
-                x = -2f;
-                particleRad = 8f;
-                particleSize = 6f;
-                particleLife = 45f;
-                particles = 35;
-            }}, new DrawDefault(), new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
-        }};
+                maxEfficiency = 4;
+                craftTime = 120;
+                consumeItems(new ItemStack(copper, 9), new ItemStack(nickel, 3));
+                outputItem = new ItemStack(cupronickel, 12);
+                updateEffect = Fx.coalSmeltsmoke;
+                updateEffectChance = 0.07f;
+                ambientSound = AquaSounds.derrick;
+                consumeLiquid(air, 3);
+                liquidCapacity = 700;
+                itemCapacity = 60;
+                drawer = new DrawMulti(new DrawRegion("-blupr"),new DrawOrbitRegions(){{
+                    alternateRot = true;
+                    countRotOffset = 45;
+                    spinSprite = true;
+                    regionCount = 7;
+                    rotateSpeed = 5;
+                    orbitSpeed = 2.5f;
+                    radius = 43/4f;
+                    suffix = "-gear";
+                }},new DrawRegion("-ring"), new DrawRegion("-gear2"){{
+                    rotateSpeed = 2;
+                    spinSprite = true;
+                }},new DrawBlockParts(){{
+                        parts.addAll(new NewRegPart("-pot"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In);
+                            moveRot = 360f/3;
+                            rotation = (360f);
+                            outline = false;
+                            alphaTo = 0.05f;
+                            alpha = 1;
+                        }},new NewRegPart("-pot"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In);
+                            moveRot = 360f/3;
+                            rotation = (360f);
+                            outline = false;
+                            alphaTo = 0.05f;
+                            alpha = 1;
+                        }},new NewRegPart("-pot2"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In);
+                            moveRot = 360f/3;
+                            rotation = (360f);
+                            outline = false;
+                            alphaTo = 1f;
+                            alpha = 0.05f;
+                        }},new NewRegPart("-pot2"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In);
+                            moveRot = 360f/3;
+                            rotation = (360f/3);
+                            outline = false;
+                            alphaTo = 0.05f;
+                            alpha = 1;
+                        }},new NewRegPart("-pot2"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In);
+                            moveRot = 360f/3;
+                            rotation = (360f/3);
+                            outline = false;
+                            alphaTo = 0.05f;
+                            alpha = 1;
+                        }},new NewRegPart("-pot"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In);
+                            moveRot = 360f/3;
+                            rotation = (360f/3);
+                            outline = false;
+                            alphaTo = 1f;
+                            alpha = 0.05f;
+                        }},new NewRegPart("-pot"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In);
+                            moveRot = 360f/3;
+                            rotation = (-360f/3);
+                            outline = false;
+                            alphaTo = 0.05f;
+                            alpha = 1;
+                        }},new NewRegPart("-pot"){{
+                        progress = PartProgress.reload.curve(Interp.pow2In);
+                        moveRot = 360f/3;
+                        rotation = (-360f/3);
+                        outline = false;
+                        alphaTo = 0.05f;
+                        alpha = 1;
+                    }},new NewRegPart("-pot2"){{
+                        progress = PartProgress.reload.curve(Interp.pow2In);
+                        moveRot = 360f/3;
+                        rotation = (-360f/3);
+                        outline = false;
+                        alphaTo = 1f;
+                        alpha = 0.05f;
+                    }},new NewRegPart("-pot-glow"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In).mul(PartProgress.warmup);
+                            moveRot = 360f/3;
+                            rotation = (360f/3);
+                            outline = false;
+                            alphaTo = 0.00f;
+                            alpha = 1;
+                        }},new NewRegPart("-pot-glow"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In).mul(PartProgress.warmup);
+                            moveRot = 360f/3;
+                            rotation = (360f);
+                            outline = false;
+                            alphaTo = 1f;
+                            alpha = 0;
+                        }},new NewRegPart("-pot-cupro"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In).mul(PartProgress.warmup);
+                            moveRot = 360f/3;
+                            rotation = (-360/3f);
+                            outline = false;
+                            alphaTo = 1f;
+                            alpha = 0;
+                        }},new NewRegPart("-pot-cupro"){{
+                            progress = PartProgress.reload.curve(Interp.pow2In).mul(PartProgress.warmup);
+                            moveRot = 360f/3;
+                            rotation = (360f/3);
+                            outline = false;
+                            alphaTo = 1f;
+                            alpha = 0;
+                        }});
+                }}, new DrawRegion("-blup"), new DrawRegion("-fan"){{
+                    spinSprite = true;
+                    rotateSpeed = 4f;
+                    y = -10-(15f/4f*.5f);
+                    x = 6/4f;
+                }}, new DrawRegion("-fan"){{
+                    spinSprite = true;
+                    rotateSpeed = 4f;
+                    y = -10-(15f/4f*.5f);
+                    x = -14/4f;
+                }});
+            }};
         AnnealingOven = new AquaGenericCrafter("metaglass-annealing-furnace") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(lead, 300, copper, 550));

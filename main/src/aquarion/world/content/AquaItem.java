@@ -10,6 +10,7 @@ public class AquaItem extends Item {
     }
     public Item decayTo;
     public float magnetism = 0;
+    public boolean biomass = false;
     @Override
     public void setStats(){
         super.setStats();

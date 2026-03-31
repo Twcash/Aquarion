@@ -3416,15 +3416,6 @@ public class AquaUnitTypes {
             health = 250;
             armor = 4;
             weapons.add(new Weapon() {{
-                x = 0;
-                y = 0;
-                rotate = false;
-                mirror = false;
-                reload = 10;
-                velocityRnd = 0.1f;
-                inaccuracy = 5f;
-
-            weapons.add(new Weapon() {{
                 x = 0; y = 0;
                 rotate = false;
                 shootCone = 45;
