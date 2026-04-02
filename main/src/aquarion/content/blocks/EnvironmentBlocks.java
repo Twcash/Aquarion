@@ -46,7 +46,7 @@ public class EnvironmentBlocks {
             andesiteLayers, basaltSpikes, algal_carpet, brine_liquid, lava, shallowSlag, shallowLava,
             coral_floor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, rubble,
-            kelp_floor, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
+            kelp_floor, metal13, metal14, metal15, metal16, roughFeldspar, glassFloor, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
     public static Block oreNickelWall, oreTitaniumWall, oreArsenic, scorche, oreRadium, oreUranium, orePitchblende,
@@ -168,9 +168,7 @@ public class EnvironmentBlocks {
             effectSpacing = 15f;
             effect = AquaFx.vent1;
         }};
-
         Blocks.salt.itemDrop = salt;
-
         andesiteLayers = new Floor("andesite-layers", 4) {{
             wall = daciteWall;
         }};
@@ -178,7 +176,6 @@ public class EnvironmentBlocks {
         andesiteRubble = new Floor("andesite-rubble-", 4) {{
             wall = daciteWall;
         }};
-        //You are genuinely stupid for this lol
         andesite = new Floor("andesite-", 4) {{
             wall = daciteWall;
         }};
@@ -458,12 +455,23 @@ public class EnvironmentBlocks {
             autotile = true;
             drawEdgeIn = drawEdgeOut = false;
         }};
+        metal13 = new Floor("metal-frame", 0){{
+        }};
+        metal14 = new Floor("metal-bumpe", 0){{
+        }};
+        metal15 = new Floor("metal-plating", 0){{
+        }};
+        metal16 = new Floor("metal-flooring", 2){{
+        }};
         metalVent = new TiledFloor("metal-vent", 1, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             //effect = AquaFx.vent1;
             //effectSpacing = 10;
             attributes.set(Attribute.steam, 1f);
+        }};
+        glassFloor = new Floor("glass-floor", 3) {{
+            itemDrop = Items.metaglass;
         }};
         metalWall1 = new StaticWall("metal-wall"){{
             variants = 6;
@@ -758,7 +766,7 @@ public class EnvironmentBlocks {
             health = 1200;
             clipSize = 120;
             underBullets = true;
-            variants = 3;
+            variants = 5;
             targetable = false;
             layer = Layer.groundUnit + 1;
             destroyEffect = Fx.breakProp;
@@ -772,7 +780,7 @@ public class EnvironmentBlocks {
             health = 5000;
             clipSize = 120;
             underBullets = true;
-            variants = 3;
+            variants = 5;
             targetable = false;
             layer = Layer.groundUnit + 1;
             destroyEffect = Fx.breakProp;
@@ -786,7 +794,7 @@ public class EnvironmentBlocks {
             health = 10000;
             clipSize = 120;
             underBullets = true;
-            variants = 3;
+            variants = 5;
             targetable = false;
             layer = Layer.groundUnit + 1;
             destroyEffect = Fx.breakProp;
@@ -806,7 +814,6 @@ public class EnvironmentBlocks {
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 20 * 60f;
-            forceDark = true;
         }};
         largeBasaltRock = new rokBlock("large-basalt-rock") {{
             requirements(Category.effect, with(zinc, 900, silicon, 1200));
@@ -821,7 +828,6 @@ public class EnvironmentBlocks {
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 45 * 60f;
-            forceDark = true;
         }};
         hugeBasaltRock = new rokBlock("huge-basalt-rock") {{
             requirements(Category.effect, with(zinc, 2100, silicon, 3000));
@@ -836,7 +842,6 @@ public class EnvironmentBlocks {
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 90 * 60f;
-            forceDark = true;
         }};
         massiveBasaltRock = new rokBlock("massive-basalt-rock") {{
             requirements(Category.effect, with(zinc, 4000, silicon, 6000));
@@ -850,7 +855,6 @@ public class EnvironmentBlocks {
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 280 * 60f;
-            forceDark = true;
         }};
         stoneRock = new rokBlock("stone-rock") {{
             requirements(Category.effect, with( silicon, 150, nickel, 50));
@@ -864,7 +868,6 @@ public class EnvironmentBlocks {
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 20 * 60f;
-            forceDark = true;
         }};
         largeStoneRock = new rokBlock("large-stone-rock") {{
             requirements(Category.effect, with( silicon, 1200, nickel, 500));
@@ -878,7 +881,6 @@ public class EnvironmentBlocks {
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 45 * 60f;
-            forceDark = true;
         }};
         hugeStoneRock = new rokBlock("huge-stone-rock") {{
             requirements(Category.effect, with( silicon, 3000, nickel, 1100));
@@ -892,7 +894,6 @@ public class EnvironmentBlocks {
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 90 * 60f;
-            forceDark = true;
         }};
         massiveStoneRock = new rokBlock("massive-stone-rock") {{
             requirements(Category.effect, with( silicon, 6000, nickel, 2500));
@@ -906,15 +907,12 @@ public class EnvironmentBlocks {
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 280 * 60f;
-            forceDark = true;
         }};
         bloom = new TreeBlock("bloom");
-
         algalWall = new TreeBlock("algal-wall") {{
             variants = 2;
             shadowOffset = -1;
         }};
-        //TODO proper shadows that dont look bad
         songCoral = new TreeBlock("song-coral") {{
             variants = 3;
         }};

@@ -75,7 +75,7 @@ public class Blizzard extends ParticleWeather {
     }
     @Override
     public void init(){
-        bul.load();
+        if(!Vars.headless)bul.load();
     }
 
     @Override

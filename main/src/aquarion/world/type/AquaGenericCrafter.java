@@ -163,12 +163,12 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
 
         if(outputLiquids != null && outputLiquids.length > 0){
             removeBar("liquid");
-            for(var stack : outputLiquids){
+            for(LiquidStack stack : outputLiquids){
                 addLiquidBar(stack.liquid);
             }
         }
         boolean added = false;
-        for(var consl : consumers){
+        for(Consume consl : consumers){
             if(consl instanceof ConsumeLiquid liq){
                 added = true;
                 removeBar("liquid-" + liq.liquid.name);
@@ -180,7 +180,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                 //addLiquidBar(liq.liquid);
             }else if(consl instanceof ConsumeLiquids multi){
                 added = true;
-                for(var stack : multi.liquids){
+                for(LiquidStack stack : multi.liquids){
                     removeBar("liquid-" + stack.liquid.name);
                     if(consl.booster){
                         addLiquidBoostBar(stack.liquid);
@@ -346,7 +346,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
         @Override
         public boolean shouldConsume(){
             if(outputItems != null){
-                for(var output : outputItems){
+                for(ItemStack output : outputItems){
                     if(items.get(output.item) + output.amount > itemCapacity){
                         return false;
                     }
@@ -354,7 +354,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             }
             if(outputLiquids != null && !ignoreLiquidFullness){
                 boolean allFull = true;
-                for(var output : outputLiquids){
+                for(LiquidStack output : outputLiquids){
                     if(liquids.get(output.liquid) >= liquidCapacity - 0.001f){
                         if(!dumpExtraLiquid){
                             return false;
@@ -403,7 +403,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                     float inc = getProgressIncrease(1f);
                     float boost = boostersAffectOutput ? totalBoost : 1f;
 
-                    for (var output : outputLiquids) {
+                    for (LiquidStack output : outputLiquids) {
                         handleLiquid(this, output.liquid,
                                 Math.min(output.amount * boost * inc, liquidCapacity - liquids.get(output.liquid)));
                     }
@@ -431,7 +431,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             float scaling = 1f, max = 1f;
             if(outputLiquids != null){
                 max = 0f;
-                for(var s : outputLiquids){
+                for(LiquidStack s : outputLiquids){
                     float value = (liquidCapacity - liquids.get(s.liquid)) / (s.amount * edelta());
                     scaling = Math.min(scaling, value);
                     max = Math.max(max, value);
@@ -462,7 +462,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                     Mathf.lerp(1f, itemBoostIntensity, itemEff());
 
             if(outputItems != null){
-                for(var output : outputItems){
+                for(ItemStack output : outputItems){
                     int boostAmount = output.amount;
                     if(boostersAffectOutput){
                         boostAmount = Math.round(output.amount * totalBoost);
@@ -512,7 +512,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             if(outputItems != null && timer(timerDump, dumpTime / timeScale)){
                 for(ItemStack output : outputItems){
                     if(output.item.radioactivity > 0) Damage.damage(x,y, block.size * 2f, output.item.radioactivity/10f);
-                    if(Mathf.chance(0.05f)) Fx.smoke.at(this);
+                    if(output.item.radioactivity > 0 && Mathf.chance(0.05f)) Fx.smoke.at(this);
                     dump(output.item);
                 }
             }

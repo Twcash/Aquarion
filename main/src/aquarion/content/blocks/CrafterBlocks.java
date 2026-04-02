@@ -1225,11 +1225,20 @@ public class CrafterBlocks {
                 particles = 12;
                 particleRad = 6f;
                 particleLife = 60f;
-            }}, new DrawRegion("-cover"), new DrawLiquidTile(water, 2) {{
-                padRight = 10;
-                padLeft = 10;
-                padBottom = 5;
-                padTop = 2.5f;
+            }},new DrawLiquidTile(Liquids.water, 5),new DrawBubbles(Color.valueOf("7693e3")){{
+                sides = 6;
+                recurrence = 4f;
+                spread = 22;
+                radius = 1.5f;
+                amount = 40;
+            }},new DrawRegion("-coils"), new DrawLiquidTile(Liquids.water, 5){{
+                alpha = 0.5f;
+            }},new DrawBubbles(Color.valueOf("7693e3")){{
+                sides = 6;
+                recurrence = 4f;
+                spread = 22;
+                radius = 1.5f;
+                amount = 220;
             }}, new DrawDefault(), new PhaseOffsetGlowRegion("-glow") {{
                 alpha = 0.35f;
                 color = Color.valueOf("e68569");
@@ -1261,8 +1270,6 @@ public class CrafterBlocks {
                 layer = heat;
                 blending = Blending.additive;
                 phaseOffset = 20;
-            }}, new DrawPistons() {{
-                sides = 1;
             }});
         }};
         scrapCentrifuge = new AquaGenericCrafter("scrap-centrifuge"){{
