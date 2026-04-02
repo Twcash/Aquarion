@@ -89,7 +89,7 @@ public class AquaUnitTypes {
             rotateMoveFirst = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            constructor = MechUnit::create;
+            constructor = MechUnit::create;;
             mechLegColor = AquaPal.tantDarkestTone;
             abilities.add(new ShieldRegenFieldAbility(25f, 250f, 60f * 2.5f, 110f),
 
