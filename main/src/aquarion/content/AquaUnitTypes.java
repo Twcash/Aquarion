@@ -1661,7 +1661,7 @@ public class AquaUnitTypes {
                 recoil = 2;
                 shootSound = Sounds.shootBreach;
                 shootY = 3;
-                reload = 180;
+                reload = 180;;
                 parts.addAll(new RegionPart("-barrel"){{
                     moveY = -3f;
                     progress = PartProgress.recoil.curve(Interp.pow2In);
