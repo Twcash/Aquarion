@@ -3,6 +3,8 @@ package aquarion.content;
 //import aquarion.gen.AquaLegsUnit;
 import aquarion.annotations.Annotations;
 import aquarion.gen.JetUnitc;
+import aquarion.gen.DialogueUnitc;
+import aquarion.units.DefunctUnitType;
 import aquarion.units.abilities.DamageStateEffectAbility;
 import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.type.AquaUnitType;
@@ -65,10 +67,11 @@ public class AquaUnitTypes {
     //cruxahh
     public static UnitType fabricantDrone;
     public static UnitType isop, empusa, oratoria, rhombodera, parasphendale;
-    public static UnitType endure;
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant;
     public static @Annotations.EntityDef(value = {Unitc.class, JetUnitc.class}) UnitType martyr;
+    public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}) DefunctUnitType endure;
+
     public static UnitType visitor, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam, corpse;
     //core units and transport
 
@@ -3471,8 +3474,7 @@ public class AquaUnitTypes {
                 });
             }
         };
-        endure = new UnitType("endure"){{
-            constructor = LegsUnit::create;
+        endure = new DefunctUnitType("endure"){{
             legCount = 4;
             legLength = 9;
             legMaxLength = 1.2f;
@@ -3480,6 +3482,10 @@ public class AquaUnitTypes {
             hitSize = 16;
             speed = 0.9f;
             health= 900;
+            spawnLines = new String[]{"@endureSpawn1", "@endureSpawn2", "@endureSpawn3", "@endureSpawn4", "@endureSpawn5"};
+            hurtLines = new String[]{"@endureHurt1", "@endureHurt2", "@endureHurt3", "@endureHurt4", "@endureHurt5", "@endureHurt6", "@endureHurt7"};
+            deathLines = new String[]{"@endureDeath1", "@endureDeath2", "@endureDeath3", "@endureDeath4", "@endureDeath5", "@endureDeath6", "@endureDeath7", "@endureDeath8", "@endureDeath8", "@endureDeath9", "@endureDeath10"};
+            victorLines = new String[]{"@endureWin1","@endureWin2","@endureWin3","@endureWin4","@endureWin5","@endureWin6","@endureWin7","@endureWin8","@endureWin9","@endureWin10","@endureWin11","@endureWin12"};
             outlineColor = Color.valueOf("2d2e37");
             drawCell = false;
             stepShake = 0.001f;
@@ -3496,7 +3502,6 @@ public class AquaUnitTypes {
                 legMoveSpace = 1.1f;
                 recoilTime = 20;
                 alternate = false;
-
                 y = 0.25f;
                 shootY = 32/4f;
                 bullet = new FlakBulletType(3,40){{
