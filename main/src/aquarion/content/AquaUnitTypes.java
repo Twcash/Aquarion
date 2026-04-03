@@ -2,6 +2,7 @@ package aquarion.content;
 
 //import aquarion.gen.AquaLegsUnit;
 import aquarion.annotations.Annotations;
+import aquarion.gen.FlyingDialogueUnitc;
 import aquarion.gen.JetUnitc;
 import aquarion.gen.DialogueUnitc;
 import aquarion.units.DefunctUnitType;
@@ -71,6 +72,7 @@ public class AquaUnitTypes {
     public static UnitType cog, tenon, assembly, fabricant;
     public static @Annotations.EntityDef(value = {Unitc.class, JetUnitc.class}) UnitType martyr;
     public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}) DefunctUnitType endure;
+    public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}) DefunctUnitType vilify;
 
     public static UnitType visitor, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam, corpse;
     //core units and transport
@@ -3527,6 +3529,49 @@ public class AquaUnitTypes {
                         trailLength = 6;
                         lifetime = 20;
                     }};
+                }};
+            }});
+        }};
+        vilify = new DefunctUnitType("vilify"){{
+            hitSize = 16;
+            speed = 2.2f;
+            health= 580;
+            flying  = true;
+            accel = 0.06f;
+            drag = 0.04f;
+            flying = true;
+            lowAltitude = false;
+            engineOffset = 3f;
+            spawnLines = new String[]{"@vilifySpawn1", "@vilifySpawn2", "@vilifySpawn3", "@vilifySpawn4", "@vilifySpawn5"};
+            hurtLines = new String[]{"@vilifyHurt1", "@vilifyHurt2", "@vilifyHurt3", "@vilifyHurt4", "@vilifyHurt5"};
+            deathLines = new String[]{"@vilifyDeath1", "@vilifyDeath2", "@vilifyDeath3", "@vilifyDeath4", "@vilifyDeath5"};
+            victorLines = new String[]{"@vilifyWin1","@vilifyWin2","@vilifyWin3","@vilifyWin4","@vilifyWin5"};
+            outlineColor = Color.valueOf("2d2e37");
+            drawCell = false;
+            armor = 9;
+            weapons.add(new Weapon(){{
+                rotate = false;
+                mirror = true;
+                reload = 15;
+                x = 8/4f;
+                shootSound = Sounds.shoot;
+                top = false;
+                legMoveSpace = 1.1f;
+                recoilTime = 20;
+                alternate = false;
+                y = 0.25f;
+                shootY = 16/4f;
+                bullet = new BombBulletType(3f,40){{
+                    lifetime = 25;
+                    collidesGround = true;
+                    collidesAir = true;
+                    width = 6;
+                    height = 9;
+                    shrinkX = 1;
+                    shrinkY = 1;
+                    backColor = trailColor = lightColor = hitColor = Pal.berylShot;
+                    frontColor = Color.white;
+                    trailLength = 12;
                 }};
             }});
         }};
