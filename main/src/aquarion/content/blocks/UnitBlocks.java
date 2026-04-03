@@ -65,14 +65,14 @@ public class UnitBlocks {
             consumePower(10);
             size =5;
         }};
-        bulwark = new UnitBlock("bulwark") {{
+        bulwark = new UnitBlock("bulwark-inactive") {{
             requirements(Category.units, with(silicon, 80, metaglass, 30, lead, 50, graphite, 40));
             unit = AquaUnitTypes.bulwark;
             size = 2;
             time = 15 * 60;
             consumePower(0.75f);
         }};
-        weld = new UnitBlock("weld") {{
+        weld = new UnitBlock("weld-inactive") {{
             requirements(Category.units, with(metaglass, 80, lead, 80));
             unit = AquaUnitTypes.weld;
             size = 2;
@@ -82,7 +82,7 @@ public class UnitBlocks {
             envDisabled = Env.underwater | Env.space;
             consumePower(2);
         }};
-        solder = new UnitBlock("solder") {{
+        solder = new UnitBlock("solder-inactive") {{
             requirements(Category.units, with(metaglass, 80, silicon, 280, ferricMatter, 150));
             unit = AquaUnitTypes.solder;
             size = 3;
@@ -92,21 +92,21 @@ public class UnitBlocks {
             envDisabled = Env.underwater | Env.space;
             consumePower(5);
         }};
-        pugnate = new UnitBlock("pugnate") {{
+        pugnate = new UnitBlock("pugnate-inactive") {{
             requirements(Category.units, with(silicon, 90, aluminum, 25, copper, 70, graphite, 45));
             unit = AquaUnitTypes.pugnate;
             size = 2;
             time = 20 * 60;
             consumePower(0.5f);
         }};
-        rampart = new UnitBlock("rampart") {{
+        rampart = new UnitBlock("rampart-inactive") {{
             requirements(Category.units, with(cupronickel, 40, silicon, 120, metaglass, 80));
             unit = AquaUnitTypes.rampart;
             size = 2;
             time = 10 * 60;
             consumePower(0.75f);
         }};
-        crest = new UnitBlock("crest") {{
+        crest = new UnitBlock("crest-inactive") {{
             requirements(Category.units, with(silicon, 40, graphite, 60, metaglass, 50));
             unit = AquaUnitTypes.crest;
             size = 2;
@@ -115,7 +115,7 @@ public class UnitBlocks {
             consumePower(2);
             consumeLiquid(oil, 0.25f);
         }};
-        unitByte = new UnitBlock("byte") {{
+        unitByte = new UnitBlock("byte-inactive") {{
             requirements(Category.units, with(silicon, 120, metaglass, 90, copper, 40));
             unit = AquaUnitTypes.byteUnit;
             size = 2;
@@ -124,7 +124,7 @@ public class UnitBlocks {
             consumePower(1.5f);
             consumeLiquid(oil, 0.125f);
         }};
-        reave = new UnitBlock("reave") {{
+        reave = new UnitBlock("reave-inactive") {{
             requirements(Category.units, with(polymer, 80, graphite, 120, ferricMatter, 150));
             unit = AquaUnitTypes.reave;
             size = 3;
@@ -132,7 +132,7 @@ public class UnitBlocks {
             time = 20 * 60;
             destroySound = AquaSounds.start4;
         }};
-        pillage = new UnitBlock("pillage") {{
+        pillage = new UnitBlock("pillage-inactive") {{
             requirements(Category.units, with(graphite, 110, metaglass, 90, silicon, 200, copper, 180));
             unit = AquaUnitTypes.pillage;
             size = 2;
@@ -140,7 +140,7 @@ public class UnitBlocks {
             time = 33 * 60f;
             destroySound = AquaSounds.start2;
         }};
-        soar = new UnitBlock("soar") {{
+        soar = new UnitBlock("soar-inactive") {{
             requirements(Category.units, with(cupronickel, 90, polymer, 50, metaglass, 90));
             unit = AquaUnitTypes.soar;
             size = 3;
@@ -148,7 +148,7 @@ public class UnitBlocks {
             consumePower(5);
             destroySound = AquaSounds.start2;
         }};
-        raze = new UnitBlock("raze") {{
+        raze = new UnitBlock("raze-inactive") {{
             requirements(Category.units, with(polymer, 100, silicon, 150, cupronickel, 120));
             unit = AquaUnitTypes.raze;
             size = 3;
@@ -156,7 +156,7 @@ public class UnitBlocks {
             time = 20 * 60;
             destroySound = AquaSounds.start4;
         }};
-        shatter = new UnitBlock("shatter") {{
+        shatter = new UnitBlock("shatter-inactive") {{
             requirements(Category.units, with(graphite, 120, metaglass, 250));
             unit = AquaUnitTypes.shatter;
             size = 3;

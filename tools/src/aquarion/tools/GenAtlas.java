@@ -4,6 +4,7 @@ import arc.files.Fi;
 import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
 import arc.graphics.Texture;
+import arc.graphics.g2d.PixmapRegion;
 import arc.graphics.g2d.TextureAtlas;
 import arc.graphics.g2d.TextureRegion;
 import arc.struct.ObjectMap;
@@ -17,8 +18,8 @@ import static aquarion.tools.Tools.spritesDir;
  * @author GlennFolker
  */
 public class GenAtlas extends TextureAtlas{
-    public GenRegion clear;
     private final ObjectMap<String, GenRegion> regions = new ObjectMap<>();
+    public GenRegion clear;
 
     /** The name should be prefixed with {@code modName-} */
     public GenRegion addRegion(Fi file){
@@ -87,6 +88,14 @@ public class GenAtlas extends TextureAtlas{
     }
 
     @Override
+    public PixmapRegion getPixmap(AtlasRegion region){
+        if(region instanceof GenRegion gen){
+            return new PixmapRegion(gen.pixmap());
+        }
+        return super.getPixmap(region);
+    }
+
+    @Override
     public boolean has(String s){
         synchronized(regions){
             return regions.containsKey(s);
@@ -105,9 +114,8 @@ public class GenAtlas extends TextureAtlas{
     }
 
     public static class GenRegion extends AtlasRegion{
-        public String relativePath = "";
-
         private final Pixmap pixmap;
+        public String relativePath = "";
 
         public GenRegion(String name, Pixmap pixmap){
             this.name = name;

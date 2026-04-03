@@ -2,6 +2,8 @@ sourceSets.main{
     java.srcDirs = ['src/']
 }
 
+sourceCompatibility = 17
+targetCompatibility = 17
 
 import arc.files.Fi
 import arc.func.Func2
@@ -18,12 +20,7 @@ dependencies{
     implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
     implementation "com.github.Anuken.Mindustry:core:$mindustryVersion"
 }
-task icongen(dependsOn: classes, type: JavaExec){
-    mainClass = "aquarion.tools.proc.IconConverter"
-    classpath = sourceSets.main.runtimeClasspath
-    standardInput = System.in
-    workingDir = "../main/assets-raw"
-}
+
 task proc(dependsOn: [classes, configurations.runtimeClasspath]){
 
     doLast{
@@ -52,12 +49,12 @@ task updateBundles{
             for(int i = 0; i < len; i++){
                 char ch = string.charAt(i)
                 if((ch > 61) && (ch < 127)){
-                    outBuffer.append(ch == (char)'\\' ? "\\" : ch)
+                    outBuffer.append(ch == (char) '\\' ? "\\\\" : ch)
                     continue
                 }
 
                 if(ch >= 0xE000 && ch <= 0xF8FF){
-                    String hex = Integer.toHexString((int)ch)
+                    String hex = Integer.toHexString((int) ch)
                     outBuffer.append("\\u")
                     for(int j = 0; j < 4 - hex.length(); j++){
                         outBuffer.append('0')

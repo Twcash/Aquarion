@@ -142,7 +142,6 @@ public class UnitProcessor implements Processor{
             try{
                 init(type);
                 load(type);
-
                 float scl = Draw.scl / 4f;
 
                 GenRegion unitBaseRegion = conv(type.region);

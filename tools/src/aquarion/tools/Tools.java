@@ -20,7 +20,6 @@ import mindustry.mod.*;
 import mindustry.mod.Mods.*;
 import mindustry.type.*;
 import mindustry.world.blocks.*;
-
 import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.*;
@@ -108,7 +107,7 @@ public final class Tools{
 
         //generate icons
         try{
-            Fi iconfile = assetsDir.child("icons").child("icons.properties");
+            Fi iconfile = assetsDir.child("icons").child(meta.name + "-icons.properties");
             iconfile.parent().mkdirs();
 
             OrderedMap<String, String> map = new OrderedMap<>();
@@ -123,7 +122,7 @@ public final class Tools{
             });
 
             Seq<UnlockableContent> cont = Seq.withArrays(content.blocks(), content.items(), content.liquids(), content.units(), content.statusEffects());
-            cont.removeAll(c -> c.minfo.mod != mod || c instanceof ConstructBlock || c == Blocks.air);
+            cont.removeAll(c -> c.minfo.mod != mod || c instanceof ConstructBlock || c == Blocks.air || (c instanceof UnitType t && t.internal));
 
             //scan for manual icons in assets-raw/icons
             //these are copied to sprites/icons and registered

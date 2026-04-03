@@ -126,7 +126,7 @@ public class UnitBlock extends Block {
         super.load();
         region = unit.fullIcon;
         description = unit.description;
-        inactiveRegion = Core.atlas.find(name + "-inactive");
+        inactiveRegion = Core.atlas.find(unit.name + "-inactive");
     }
     @Override
     public void setStats(){
@@ -166,14 +166,14 @@ public class UnitBlock extends Block {
             stats.add(Stat.payloadCapacity, StatValues.squared(Mathf.sqrt(unit.payloadCapacity / (tilesize * tilesize)), StatUnit.blocks));
         }
 
-        var reqs = unit.getFirstRequirements();
+        mindustry.type.ItemStack[] reqs = unit.getFirstRequirements();
 
         if(unit.weapons.any()){
             stats.add(Stat.weapons, StatValues.weapons(unit, unit.weapons));
         }
 
         if(unit.immunities.size > 0){
-            var imm = unit.immunities.toSeq().sort();
+            Seq<StatusEffect> imm = unit.immunities.toSeq().sort();
             //it's redundant to list wet for naval units
             if(unit.naval){
                 imm.remove(StatusEffects.wet);
@@ -244,7 +244,7 @@ public class UnitBlock extends Block {
                 Draw.color();
                 Draw.alpha(1);
                 Draw.z(Layer.groundUnit-1.1f);
-                    for(var engine : unit.engines){
+                    for(UnitType.UnitEngine engine : unit.engines){
                         float rot = 0;
 
                         Tmp.v1.set(x, y).rotate(rot);
@@ -291,14 +291,14 @@ public class UnitBlock extends Block {
                 return;
             }
 
-            var group = new ButtonGroup<ImageButton>();
+            ButtonGroup<ImageButton> group = new ButtonGroup<ImageButton>();
             group.setMinCheckCount(0);
             int i = 0, columns = 4;
 
             table.background(Styles.black6);
 
-            var list = unit.commands;
-            for(var item : list){
+            Seq<UnitCommand> list = unit.commands;
+            for(UnitCommand item : list){
                 ImageButton button = table.button(item.getIcon(), Styles.clearNoneTogglei, 40f, () -> {
                     configure(item);
                     deselect();
@@ -319,7 +319,7 @@ public class UnitBlock extends Block {
                 totProgress = progress/time;
             }
             if(progress >= time ){
-                var b = unit.create(team);
+                mindustry.gen.Unit b = unit.create(team);
                 if(b.isCommandable()){
                     if(commandPos != null){
                         b.command().commandPosition(commandPos);
@@ -349,7 +349,7 @@ public class UnitBlock extends Block {
             commandPos = target;
         }
         public boolean canSetCommand(){
-            var output = unit;
+            UnitType output = unit;
             return output != null && output.commands.size > 1 && output.allowChangeCommands;
         }
 
