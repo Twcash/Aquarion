@@ -9,26 +9,11 @@ import aquarion.content.AquaSectorPresets;
 import aquarion.content.TantrosTechTree;
 import aquarion.content.AquaUnitTypes;
 import aquarion.content.WreckUnits;
-import aquarion.tools.IconLoader;
 import aquarion.world.content.AquaHints;
-import aquarion.world.graphics.AquaFx;
-import arc.Core;
 import arc.Events;
 import arc.assets.Loadable;
-import arc.graphics.g2d.TextureRegion;
-import arc.struct.Seq;
-import mindustry.Vars;
 import mindustry.content.Blocks;
-import mindustry.content.Items;
-import mindustry.ctype.UnlockableContent;
-import mindustry.entities.Effect;
 import mindustry.game.EventType;
-import mindustry.mod.Mods;
-import mindustry.ui.Fonts;
-import mindustry.world.Block;
-import mindustry.world.meta.Env;
-
-import java.util.Objects;
 
 @Annotations.LoadRegs("error")// Need this temporarily, so the class gets generated.
 @Annotations.EnsureLoad
@@ -65,14 +50,13 @@ public class AquarionMod  implements Loadable{
         DistributionBlocks.loadContent();
         //keep these at the back
         AquaLoadouts.load();
-
         //MenuReplacer.replaceMenu(ui.menufrag);
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
+
     }
     public static void clientLoaded(){
-        IconLoader.loadIcons();
         AquaHints.addHints();
 
     }

@@ -93,6 +93,7 @@ public class PowerBlocks {
             insulated = true;
             size = 2;
             squareSprite = false;
+
             outputItem = new ItemStack(minium, 1);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;

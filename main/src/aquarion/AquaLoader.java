@@ -1,30 +1,18 @@
 package aquarion;
 
-import aquarion.tools.IconLoader;
 import aquarion.ui.AquaStyles;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
-import aquarion.world.blocks.neoplasia.NeoplasiaGraph;
 import aquarion.world.graphics.AquaShaders;
-import aquarion.world.graphics.AquaSoundControl;
 import aquarion.world.graphics.Renderer;
 import arc.*;
-import arc.graphics.g2d.TextureRegion;
 import arc.struct.Seq;
 import arc.util.ArcRuntimeException;
-import arc.util.Log;
-import arc.util.Time;
 import mindustry.Vars;
-import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.ctype.*;
 import mindustry.game.EventType;
-import mindustry.game.MapObjectives;
-import mindustry.game.Rules;
-import mindustry.gen.Building;
 import mindustry.mod.*;
-import mindustry.ui.Fonts;
-import mindustry.ui.dialogs.*;
 import aquarion.annotations.Annotations.*;
 import aquarion.gen.*;
 import mindustry.world.Block;
@@ -106,7 +94,6 @@ public class AquaLoader extends Mod {
                 AquaShaders.dispose()
         );
         Events.on(EventType.ClientLoadEvent.class, e -> {
-            //IconLoader.loadIcons();
             Planets.erekir.accessible = false;
             Planets.serpulo.accessible = false;
             Planets.erekir.visible = false;
@@ -141,10 +128,10 @@ public class AquaLoader extends Mod {
         loadBlock();
         AquarionMod.loadContent();
 
-        aquarionEntityMapping.init();
 //        Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
 //        Events.run(EventType.Trigger.draw, NeoplasiaGraph::draw);
         AquaLoader.postLoad();
+        aquarionEntityMapping.init();
 
     }
     public static Mods.LoadedMod mod(){
