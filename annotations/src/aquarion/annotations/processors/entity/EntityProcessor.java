@@ -59,7 +59,7 @@ public class EntityProcessor extends BaseProcessor{
     }
 
     @Override
-    public Set<String> getSupportedAnnotationTypes(){
+    public Set<String> getSupportedAnnotationTypes() {
         return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
                 EntityComponent.class.getCanonicalName(),
                 EntityBaseComponent.class.getCanonicalName(),
@@ -111,13 +111,13 @@ public class EntityProcessor extends BaseProcessor{
                     toComp(Bulletc.class), "bullet",
                     toComp(Unitc.class), "unit",
                     toComp(Buildingc.class), "build",
-                    //toComp(Syncc.class), "sync",
+                    toComp(Syncc.class), "sync",
                     toComp(Drawc.class), "draw",
                     toComp(Firec.class), "fire",
                     toComp(Puddlec.class), "puddle"
             );
 
-            for(TypeElement inter : (List<TypeElement>)((PackageElement)elements.getPackageElement("mindustry.gen")).getEnclosedElements()){
+            for(TypeElement inter : (List<TypeElement>)((PackageElement) elements.getPackageElement("mindustry.gen")).getEnclosedElements()){
                 if(
                         simpleName(inter).endsWith("c") &&
                                 inter.getKind() == ElementKind.INTERFACE
@@ -134,7 +134,7 @@ public class EntityProcessor extends BaseProcessor{
                 }
 
                 for(VariableElement var : vars(comp)){
-                    VariableTree tree = (VariableTree)trees.getTree(var);
+                    VariableTree tree = (VariableTree) trees.getTree(var);
                     if(tree.getInitializer() != null){
                         varInitializers.put(descString(var), tree.getInitializer().toString());
                     }
@@ -265,8 +265,8 @@ public class EntityProcessor extends BaseProcessor{
 
                 TypeElement baseClassType = baseClasses.any() ? baseClasses.first() : null;
                 TypeName baseClass = baseClasses.any()
-                        ? procName(baseClassType, this::baseName)
-                        : null;
+                        ?   procName(baseClassType, this::baseName)
+                        :   null;
 
                 boolean typeIsBase = baseClassType != null && annotation(def, EntityComponent.class) != null && annotation(def, EntityComponent.class).base();
 

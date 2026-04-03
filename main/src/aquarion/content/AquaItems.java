@@ -177,6 +177,7 @@ public class AquaItems {
         Items.sporePod = null;
         Items.sporePod = new AquaItem("spore-pod", Color.valueOf("#ffe1b4")) {{
             biomass = true;
+            flammability = 1;
         }};
     }
 }

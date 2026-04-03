@@ -45,7 +45,7 @@ public class InfomaticBlock extends MessageBlock {
             font.getData().setScale(1 / 4f / Scl.scl(1f));
             font.setUseIntegerPositions(false);
 
-            String raw = (message == null || message.isEmpty()) ? "" : message.toString();
+            String raw = (message == null ? "" : message.toString());
             String text;
             if(raw.startsWith("@")){
                 text = Core.bundle.get(raw.substring(1));
@@ -63,7 +63,6 @@ public class InfomaticBlock extends MessageBlock {
             Draw.color(0f, 0f, 0f, 0.2f);
             Fill.rect(x, drawY, l.width + offset*2f, l.height + offset*2f);
             Draw.color();
-            font.setColor(message.isEmpty() ? Color.lightGray : Color.white);
             font.draw(text, x - l.width/2f, drawY + l.height/2f, 90f, Align.left, true);
 
             font.setUseIntegerPositions(ints);

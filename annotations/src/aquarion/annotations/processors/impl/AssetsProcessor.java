@@ -250,6 +250,8 @@ public class AssetsProcessor extends BaseProcessor{
 
             iconcBuilder.addField(FieldSpec.builder(ParameterizedTypeName.get(IntMap.class, String.class),
                     "codeToName", Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL).initializer("new IntMap<>()").build());
+            //Prevent the stupid thing from killing me.
+            ObjectSet<String> usedNames = new ObjectSet<>();
 
             iconMap.each((key, val) -> {
                 String[] split = val.split("\\|");
@@ -257,9 +259,17 @@ public class AssetsProcessor extends BaseProcessor{
 
                 String contentName = split[0];
                 int code = Integer.parseInt(key);
-                String name = Strings.kebabToCamel(contentName);
+                String baseName = Strings.kebabToCamel(contentName);
 
-                if(javax.lang.model.SourceVersion.isKeyword(name)) name += "s";
+                if(javax.lang.model.SourceVersion.isKeyword(baseName)) baseName += "s";
+
+                String name = baseName;
+                int index = 1;
+                while(usedNames.contains(name)){
+                    name = baseName + index++;
+                }
+
+                usedNames.add(name);
 
                 iconcAll.append((char)code);
 
