@@ -1292,7 +1292,9 @@ public class CrafterBlocks {
                 baseEfficiency = 1;
                 heatRequirement = 30;
                 hasHeat = true;
-
+                consumeLiquid(nitrogen, 4);
+                liquidBoostIntensity = 1.4f;
+                boostersAffectOutput = true;
                 maxEfficiency = 4;
                 craftTime = 120;
                 consumeItems(new ItemStack(copper, 9), new ItemStack(nickel, 3));

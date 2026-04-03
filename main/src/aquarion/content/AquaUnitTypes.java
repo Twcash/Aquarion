@@ -1679,44 +1679,38 @@ public class AquaUnitTypes {
                     moveY = -4f;
                     under = true;
                 }});
-                bullet = new TentacleBulletType(){{
-                    segmentCount = 16;
-                    segmentLength = 5f;
-                    damage = 25f;
-                    width = 4f;
+                bullet = new BasicBulletType() {{
+                    collidesAir = false;
+                    speed = 3.5f;
+                    damage = 30;
+                    shrinkY = 0;
+                    shootEffect = AquaFx.shootBigger;
+                    smokeEffect = AquaFx.shootSmoke1;
+                    shrinkX = 0.2f;
+                    hitSize = 4;
+                    recoil = 1;
+                    fragBullets = 3;
+                    hitEffect = despawnEffect = AquaFx.hitBulletColor2;
+                    frontColor = AquaPal.fireLight1;
+                    status = StatusEffects.burning;
+                    statusDuration = 4 * 60f;
+                    backColor  = lightColor = trailColor = AquaPal.fireLight2;
+                    width = height = 12;
+                    knockback = 2;
+                    trailLength = 12;
+                    trailInterp = v -> Math.max(Interp.pow2Out.apply(v), 0.95f);
+                    fragBullet = new BasicBulletType(4, 9) {{
+                        frontColor = AquaPal.fireLight1;
+                        backColor = lightColor = trailColor = AquaPal.fireLight2;
+                        lifetime = 20;
+                        status = StatusEffects.burning;
+                        statusDuration = 1.5f * 60f;
+                        trailLength = 4;
+                        width = 8;
+                        height = 4;
+                        hitEffect = despawnEffect = AquaFx.hitBulletColor2;
+                    }};
                 }};
-//                bullet = new BasicBulletType() {{
-//                    collidesAir = false;
-//                    speed = 3.5f;
-//                    damage = 30;
-//                    shrinkY = 0;
-//                    shootEffect = AquaFx.shootBigger;
-//                    smokeEffect = AquaFx.shootSmoke1;
-//                    shrinkX = 0.2f;
-//                    hitSize = 4;
-//                    recoil = 1;
-//                    fragBullets = 3;
-//                    hitEffect = despawnEffect = AquaFx.hitBulletColor2;
-//                    frontColor = AquaPal.fireLight1;
-//                    status = StatusEffects.burning;
-//                    statusDuration = 4 * 60f;
-//                    backColor  = lightColor = trailColor = AquaPal.fireLight2;
-//                    width = height = 12;
-//                    knockback = 2;
-//                    trailLength = 12;
-//                    trailInterp = v -> Math.max(Interp.pow2Out.apply(v), 0.95f);
-//                    fragBullet = new BasicBulletType(4, 9) {{
-//                        frontColor = AquaPal.fireLight1;
-//                        backColor = lightColor = trailColor = AquaPal.fireLight2;
-//                        lifetime = 20;
-//                        status = StatusEffects.burning;
-//                        statusDuration = 1.5f * 60f;
-//                        trailLength = 4;
-//                        width = 8;
-//                        height = 4;
-//                        hitEffect = despawnEffect = AquaFx.hitBulletColor2;
-//                    }};
-//                }};
             }});
         }};
         pillage = new AquaUnitType("pillage"){{
