@@ -8,6 +8,7 @@ import aquarion.world.graphics.Renderer;
 import arc.*;
 import arc.struct.Seq;
 import arc.util.ArcRuntimeException;
+import arc.util.Log;
 import mindustry.Vars;
 import mindustry.content.Planets;
 import mindustry.ctype.*;
@@ -99,6 +100,8 @@ public class AquaLoader extends Mod {
             Planets.erekir.visible = false;
             Planets.serpulo.visible = false;
             Planets.sun.visible = false;
+            aquarionIconLoader.loadIcons();
+
         });
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
@@ -106,8 +109,7 @@ public class AquaLoader extends Mod {
                 Vars.content.each(content -> {
                     if (isTemplate(content) && content instanceof MappableContent mContent) {
                         aquarionContentRegionRegistry.load(mContent);
-                        aquarionIconLoader.loadIcons();
-
+                        Log.info(mContent.name + " : has been loaded");
                     }
                 });
             }
@@ -123,7 +125,7 @@ public class AquaLoader extends Mod {
         }
     }
     public static boolean isTemplate(Content content){
-        return content.minfo.mod != null && content.minfo.mod.name.equals("template");
+        return content.minfo.mod != null && content.minfo.mod.name.equals("aquarion");
     }
     @Override
     public void loadContent() {

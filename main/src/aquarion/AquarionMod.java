@@ -8,7 +8,6 @@ import aquarion.content.AquaPlanets;
 import aquarion.content.AquaSectorPresets;
 import aquarion.content.TantrosTechTree;
 import aquarion.content.AquaUnitTypes;
-import aquarion.content.WreckUnits;
 import aquarion.world.content.AquaHints;
 import arc.Events;
 import arc.assets.Loadable;
@@ -21,9 +20,6 @@ public class AquarionMod  implements Loadable{
 
 
     public static void loadContent() {
-        Events.on(EventType.ClientLoadEvent.class, e -> {
-            clientLoaded();
-        });
         //stuff that needs to be loaded first
         AquaStatuses.load();
         AquaLiquids.loadContent();
@@ -42,7 +38,6 @@ public class AquarionMod  implements Loadable{
         CrafterBlocks.loadContent();
 ;       EnvironmentBlocks.shallowSlag.asFloor().blendGroup = Blocks.slag;
         //units and cores, keep these after blocks
-        WreckUnits.loadContent();
         AquaUnitTypes.loadContent();
         UnitBlocks.loadContent();
         CoreBlocks.loadContent();
@@ -54,10 +49,6 @@ public class AquarionMod  implements Loadable{
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
-
-    }
-    public static void clientLoaded(){
-        AquaHints.addHints();
 
     }
 
