@@ -126,7 +126,22 @@ public final class Tools{
 
             //scan for manual icons in assets-raw/icons
             //these are copied to sprites/icons and registered
-            Seq<String> extraIcons = getStrings();
+            Fi iconsDir = new Fi("../assets-raw/icons");
+            Seq<String> extraIcons = new Seq<>();
+            if(iconsDir.exists()){
+                iconsDir.walk(fi -> {
+                    if(fi.extEquals("png")){
+                        //Append -ui to the region name to match standard convention
+                        String name = meta.name + "-" + fi.nameWithoutExtension() + "-ui";
+                        GenAtlas.GenRegion region = new GenAtlas.GenRegion(name, new Pixmap(fi));
+                        region.relativePath = "ui";
+                        region.save(true);
+
+                        extraIcons.add(fi.nameWithoutExtension());
+                    }
+                });
+                extraIcons.sort();
+            }
 
             int minid = 0xEB00;
             for(String key : map.keys()){
@@ -184,26 +199,6 @@ public final class Tools{
         }
 
         atlas.dispose();
-    }
-
-    private static Seq<String> getStrings() {
-        Fi iconsDir = new Fi("../assets-raw/icons");
-        Seq<String> extraIcons = new Seq<>();
-        if(iconsDir.exists()){
-            iconsDir.walk(fi -> {
-                if(fi.extEquals("png")){
-                    //Append -ui to the region name to match standard convention
-                    String name = meta.name + "-" + fi.nameWithoutExtension() + "-ui";
-                    GenAtlas.GenRegion region = new GenAtlas.GenRegion(name, new Pixmap(fi));
-                    region.relativePath = "ui";
-                    region.save(true);
-
-                    extraIcons.add(fi.nameWithoutExtension());
-                }
-            });
-            extraIcons.sort();
-        }
-        return extraIcons;
     }
 
     private static String texname(UnlockableContent c){

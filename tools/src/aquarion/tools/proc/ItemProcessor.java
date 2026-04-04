@@ -63,7 +63,6 @@ public class ItemProcessor implements Processor{
 
             Pixmap finalImage = Pixmaps.outline(new PixmapRegion(container), Pal.gray, 3);
 
-            // Overwrite original region with tinted and outlined version
             GenRegion mainRegion = new GenRegion(baseRegion.name, finalImage);
             mainRegion.relativePath = baseRegion.relativePath;
             mainRegion.save(false);

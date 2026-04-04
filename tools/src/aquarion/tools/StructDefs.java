@@ -8,6 +8,7 @@ import arc.graphics.Color;
 import arc.math.geom.Vec2;
 
 @SuppressWarnings("all")
+
 final class StructDefs{
     // SColor - Packs r, g, b, and a values into int from left-most bits to right, each taking 8 bits
     @StructWrap(value = {

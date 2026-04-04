@@ -99,6 +99,7 @@ public class AquaLoader extends Mod {
             Planets.erekir.visible = false;
             Planets.serpulo.visible = false;
             Planets.sun.visible = false;
+            aquarionIconLoader.loadIcons();
         });
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
