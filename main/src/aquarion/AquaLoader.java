@@ -99,7 +99,6 @@ public class AquaLoader extends Mod {
             Planets.erekir.visible = false;
             Planets.serpulo.visible = false;
             Planets.sun.visible = false;
-            aquarionIconLoader.loadIcons();
         });
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
@@ -107,6 +106,8 @@ public class AquaLoader extends Mod {
                 Vars.content.each(content -> {
                     if (isTemplate(content) && content instanceof MappableContent mContent) {
                         aquarionContentRegionRegistry.load(mContent);
+                        aquarionIconLoader.loadIcons();
+
                     }
                 });
             }

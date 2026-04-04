@@ -18,10 +18,11 @@ public interface Processor{
      * exception.
      * @param exec The executor service for submitting threads.
      */
-    void process(ExecutorService exec) throws IOException;
+    void process(ExecutorService exec);
 
     /** Called after all processing threads are finished. */
-    default void finish(){}
+    default void finish(){
+    }
 
     default void submit(ExecutorService exec, String name, UnsafeRunnable run){
         exec.submit(() -> {
