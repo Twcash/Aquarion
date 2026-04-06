@@ -1,6 +1,7 @@
 package aquarion;
 
 import aquarion.ui.AquaStyles;
+import aquarion.ui.IconLoader;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
 import aquarion.world.graphics.AquaShaders;
@@ -100,8 +101,8 @@ public class AquaLoader extends Mod {
             Planets.erekir.visible = false;
             Planets.serpulo.visible = false;
             Planets.sun.visible = false;
-            aquarionIconLoader.loadIcons();
-
+//            aquarionIconLoader.loadIcons();
+//            IconLoader.loadIcons();
         });
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){

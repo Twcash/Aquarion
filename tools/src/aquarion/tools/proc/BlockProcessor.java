@@ -83,7 +83,7 @@ public class BlockProcessor implements Processor{
     public void process(ExecutorService exec){
         // Standard Blocks
         content.blocks().each(AquaLoader::isTemplate, block -> {
-            if(block.isAir() || block instanceof ConstructBlock || block instanceof OreBlock || block instanceof LegacyBlock) return;
+            if(block.isAir() || block instanceof ConstructBlock || block instanceof LegacyBlock || block instanceof Floor || block instanceof Prop) return;
 
             submit(exec, block.name, () -> {
                 init(block);
@@ -187,108 +187,108 @@ public class BlockProcessor implements Processor{
             });
         });
 
-        // Ore Blocks
-        content.blocks().each(AquaLoader::isTemplate, block -> {
-            if(!(block instanceof OreBlock ore)) return;
+//        // Ore Blocks
+//        content.blocks().each(AquaLoader::isTemplate, block -> {
+//            if(!(block instanceof OreBlock ore)) return;
+//
+//            submit(exec, ore.name + "-ore", () -> {
+//                init(ore);
+//                load(ore);
+//
+//                if(ore.variants == 0) return;
+//
+//                int shadowColor = Color.rgba8888(0, 0, 0, 0.3f);
+//
+//                for(int i = 0; i < ore.variants; i++){
+//                    GenRegion baseRegion = conv(ore.variantRegions[i]);
+//                    if(!baseRegion.found()) continue;
+//
+//                    Pixmap base = baseRegion.pixmap();
+//                    Pixmap image = base.copy();
+//
+//                    int offset = image.width / tilesize - 1;
+//
+//                    for(int x = 0; x < image.width; x++){
+//                        for(int y = offset; y < image.height; y++){
+//                            if(base.getA(x, y - offset) != 0){
+//                                image.setRaw(x, y, Pixmap.blend(shadowColor, base.getRaw(x, y)));
+//                            }
+//                        }
+//                    }
+//
+//                    image.draw(base, true);
+//
+//                    if(i == 0){
+//                        String fullIconName = ore.name + "-full";
+//                        if(!atlas.has(fullIconName)){
+//                            GenRegion fullRegion = new GenRegion(fullIconName, image.copy());
+//                            fullRegion.relativePath = baseRegion.relativePath;
+//                            fullRegion.save(true);
+//                        }
+//
+//                        String uiIconName = ore.name + "-ui";
+//                        if(!atlas.has(uiIconName)){
+//                            GenRegion uiRegion = new GenRegion(uiIconName, image);
+//                            uiRegion.relativePath = "ui";
+//                            uiRegion.save(true);
+//                        }else{
+//                            image.dispose();
+//                        }
+//                    }else{
+//                        image.dispose();
+//                    }
+//                }
+//            });
+//        });
 
-            submit(exec, ore.name + "-ore", () -> {
-                init(ore);
-                load(ore);
-
-                if(ore.variants == 0) return;
-
-                int shadowColor = Color.rgba8888(0, 0, 0, 0.3f);
-
-                for(int i = 0; i < ore.variants; i++){
-                    GenRegion baseRegion = conv(ore.variantRegions[i]);
-                    if(!baseRegion.found()) continue;
-
-                    Pixmap base = baseRegion.pixmap();
-                    Pixmap image = base.copy();
-
-                    int offset = image.width / tilesize - 1;
-
-                    for(int x = 0; x < image.width; x++){
-                        for(int y = offset; y < image.height; y++){
-                            if(base.getA(x, y - offset) != 0){
-                                image.setRaw(x, y, Pixmap.blend(shadowColor, base.getRaw(x, y)));
-                            }
-                        }
-                    }
-
-                    image.draw(base, true);
-
-                    if(i == 0){
-                        String fullIconName = ore.name + "-full";
-                        if(!atlas.has(fullIconName)){
-                            GenRegion fullRegion = new GenRegion(fullIconName, image.copy());
-                            fullRegion.relativePath = baseRegion.relativePath;
-                            fullRegion.save(true);
-                        }
-
-                        String uiIconName = ore.name + "-ui";
-                        if(!atlas.has(uiIconName)){
-                            GenRegion uiRegion = new GenRegion(uiIconName, image);
-                            uiRegion.relativePath = "ui";
-                            uiRegion.save(true);
-                        }else{
-                            image.dispose();
-                        }
-                    }else{
-                        image.dispose();
-                    }
-                }
-            });
-        });
-
-        // Autotiles
-        content.blocks().each(AquaLoader::isTemplate, b -> {
-            boolean isAutotile = b instanceof Floor f && f.autotile;
-            if(b instanceof StaticWall w && w.autotile)
-                isAutotile = true;
-
-            if(!isAutotile)
-                return;
-
-            submit(exec, b.name + "-autotile", () -> {
-                String rawName = b.name.startsWith(meta.name + "-") ? b.name.substring(meta.name.length() + 1) : b.name;
-                Fi blocksDir = spritesDir.child("blocks").child("environment");
-                if(!blocksDir.exists())
-                    return;
-
-                Fi basePath = blocksDir.child(rawName + "-autotile.png");
-
-                if(basePath.exists()){
-                    try{
-                        Pixmap image = new Pixmap(basePath);
-                        int cellSize = image.width / 4;
-                        Pixmap cropped = image.crop(cellSize, cellSize, cellSize, cellSize);
-
-                        Fi iconPath = blocksDir.child(rawName + ".png");
-                        if(!iconPath.exists()){
-                            iconPath.writePng(cropped);
-                        }
-
-                        String uiIconName = b.name + "-ui";
-                        if(!atlas.has(uiIconName)){
-                            GenRegion uiRegion = new GenRegion(uiIconName, cropped);
-                            uiRegion.relativePath = "ui";
-                            uiRegion.save(true);
-                        }else{
-                            cropped.dispose();
-                        }
-                        image.dispose();
-
-                        generateAutotile(basePath, rawName, blocksDir);
-                    }catch(Exception e){
-                        Log.err("Failed to autotile: " + b.name, e);
-                    }finally{
-                        basePath.delete();
-                    }
-                }else{
-                    Log.err("Autotile block '@' not found: @", b.name, basePath.absolutePath());
-                }
-            });
-        });
+//        // Autotiles
+//        content.blocks().each(AquaLoader::isTemplate, b -> {
+//            boolean isAutotile = b instanceof Floor f && f.autotile;
+//            if(b instanceof StaticWall w && w.autotile)
+//                isAutotile = true;
+//
+//            if(!isAutotile)
+//                return;
+//
+//            submit(exec, b.name + "-autotile", () -> {
+//                String rawName = b.name.startsWith(meta.name + "-") ? b.name.substring(meta.name.length() + 1) : b.name;
+//                Fi blocksDir = spritesDir.child("blocks").child("environment");
+//                if(!blocksDir.exists())
+//                    return;
+//
+//                Fi basePath = blocksDir.child(rawName + "-autotile.png");
+//
+//                if(basePath.exists()){
+//                    try{
+//                        Pixmap image = new Pixmap(basePath);
+//                        int cellSize = image.width / 4;
+//                        Pixmap cropped = image.crop(cellSize, cellSize, cellSize, cellSize);
+//
+//                        Fi iconPath = blocksDir.child(rawName + ".png");
+//                        if(!iconPath.exists()){
+//                            iconPath.writePng(cropped);
+//                        }
+//
+//                        String uiIconName = b.name + "-ui";
+//                        if(!atlas.has(uiIconName)){
+//                            GenRegion uiRegion = new GenRegion(uiIconName, cropped);
+//                            uiRegion.relativePath = "ui";
+//                            uiRegion.save(true);
+//                        }else{
+//                            cropped.dispose();
+//                        }
+//                        image.dispose();
+//
+//                        generateAutotile(basePath, rawName, blocksDir);
+//                    }catch(Exception e){
+//                        Log.err("Failed to autotile: " + b.name, e);
+//                    }finally{
+//                        basePath.delete();
+//                    }
+//                }else{
+//                    Log.err("Autotile block '@' not found: @", b.name, basePath.absolutePath());
+//                }
+//            });
+//        });
     }
 }

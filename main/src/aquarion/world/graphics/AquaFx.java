@@ -503,17 +503,18 @@ public class AquaFx {
             turbineGenerate = new Effect(180f, e -> {
                 color(Color.white, AquaPal.smoke.a(0.5f), Interp.pow2In.apply(e.fin()));
                 alpha(Interp.pow2In.apply(e.fout()));
+                TextureRegion region = Core.atlas.find("circle-shadow");
                 randLenVectors(e.id, 2, Interp.pow5In.apply(e.finpow()) * 80f, 32f, 30f, (x, y) ->
                 {
-                    Fill.circle(e.x + x + 77 / 4f, e.y + y - 90 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
+                    Draw.rect(region, e.x + x + 77 / 4f, e.y + y - 90 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 9.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
                 });
                 randLenVectors(e.id + 1, 2, Interp.pow5In.apply(e.finpow()) * 80f, 32f, 30f, (x, y) ->
                 {
-                    Fill.circle(e.x + x + 77 / 4f, e.y + y - 72 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
+                    Draw.rect(region,e.x + x + 77 / 4f, e.y + y - 72 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 9.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
                 });
                 randLenVectors(e.id + 2, 2, Interp.pow5In.apply(e.finpow()) * 80f, 32f, 30f, (x, y) ->
                 {
-                    Fill.circle(e.x + x + 77 / 4f, e.y + y - 110 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
+                    Draw.rect(region,e.x + x + 77 / 4f, e.y + y - 110 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 9.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
                 });
             }),
             hydroxideReactorGenerate = new Effect(220f, e -> {

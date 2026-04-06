@@ -44,6 +44,9 @@ public class GenAtlas extends TextureAtlas{
     public GenRegion addRegion(String name, TextureRegion textureRegion){
         synchronized(regions){
             GenRegion reg = (GenRegion)textureRegion;
+            if(!name.startsWith("aquarion" + "-")){
+                return null;
+            }
 
             regions.put(name, reg);
             return reg;
