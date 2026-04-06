@@ -1292,7 +1292,7 @@ public class CrafterBlocks {
                 baseEfficiency = 1;
                 heatRequirement = 30;
                 hasHeat = true;
-                consumeLiquid(nitrogen, 4);
+                consumeLiquid(nitrogen, 4).boost();
                 liquidBoostIntensity = 1.4f;
                 boostersAffectOutput = true;
                 maxEfficiency = 4;
