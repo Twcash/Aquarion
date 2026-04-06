@@ -14,10 +14,10 @@ import java.util.concurrent.Executors;
  */
 public final class Processors{
     private static final Processor[] processes = {
-            new OutlineRegionProcessor(),
+//            new OutlineRegionProcessor(),
             new UnitProcessor(),
             new ItemProcessor(),
-            new BlockProcessor()
+//            new BlockProcessor()
     };
 
     private Processors(){

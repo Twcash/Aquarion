@@ -1047,8 +1047,8 @@ public class CrafterBlocks {
             requirements(Category.liquid, with(copper, 120, metaglass, 50));
             size = 3;
             consumePower(0.75f);
-            squareSprite = true;
-            pumpAmount = (float) (8.5/2/9f);
+            squareSprite = false;
+            pumpAmount = (8.5f/2/9f);
             liquidCapacity = 300;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -1082,8 +1082,8 @@ public class CrafterBlocks {
             size = 6;
             squareSprite = false;
             consumePower(3.5f);
-            squareSprite = true;
-            pumpAmount = (float) (12/9f);
+            squareSprite = false;
+            pumpAmount = (12/9f);
             liquidCapacity = 4800;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
