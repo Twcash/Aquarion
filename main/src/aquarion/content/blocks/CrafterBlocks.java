@@ -723,7 +723,7 @@ public class CrafterBlocks {
             }};
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-                requirements(Category.production, with(silicon, 200, zinc, 350));
+                requirements(Category.production, with(silicon, 200, lead, 350));
                 tier = 4;
                 itemCapacity = 50;
                 squareSprite = false;

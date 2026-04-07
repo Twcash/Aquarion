@@ -88,7 +88,7 @@ public class PowerBlocks {
             consumeItem(lead, 1);
             itemDuration = 60;
             liquidCapacity = 20;
-            powerProduction = 0.75f;
+            powerProduction = 1.5f;
             conductivePower = false;
             insulated = true;
             size = 2;
