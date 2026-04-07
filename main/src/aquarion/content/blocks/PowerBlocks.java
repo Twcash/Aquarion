@@ -437,7 +437,7 @@ public class PowerBlocks {
             size = 1;
             insulated = true;
             researchCostMultiplier = 0;
-            consumePowerBuffered(500);
+            consumePowerBuffered(1000);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
             }}, new DrawDefault(), new DrawGlowRegion() {{
@@ -451,17 +451,17 @@ public class PowerBlocks {
             requirements(Category.power, with(copper, 50, silicon, 120, lead, 200));
             size = 4;
             insulated = true;
-            consumePowerBuffered(11000);
+            consumePowerBuffered(20000);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
             }}, new DrawDefault());
         }};
         ionBattery = new Battery("ion-battery") {{
-            requirements(Category.power, with(aluminum, 120, arsenic, 200, copper, 100));
+            requirements(Category.power, with(aluminum, 120, silicon, 200, copper, 100));
             size = 3;
             insulated = true;
             researchCostMultiplier = 0;
-            consumePowerBuffered(12000);
+            consumePowerBuffered(60000);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
             }}, new DrawDefault(), new DrawGlowRegion() {{
