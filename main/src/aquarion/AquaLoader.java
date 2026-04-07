@@ -113,7 +113,7 @@ public class AquaLoader extends Mod {
                     }
                 });
             }
-        });
+        });;
     }
     @Override
     public void init() {

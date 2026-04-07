@@ -61,11 +61,10 @@ public class UnitBlock extends Block {
         destroySound = AquaSounds.start;
         destroyEffect = Fx.none;
         rebuildable = true;
-        canOverdrive = false;
+        sync = true;
         commandable = true;
         configurable = true;
         saveConfig = true;
-        saveData = true;
         update = true;
         ambientSound = AquaSounds.derrick;
         canPickup = false;
