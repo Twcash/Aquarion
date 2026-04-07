@@ -1,5 +1,6 @@
 package aquarion.content;
 
+import aquarion.content.blocks.CrafterBlocks;
 import arc.struct.ObjectFloatMap;
 import arc.struct.Seq;
 import mindustry.Vars;
@@ -382,40 +383,33 @@ public class TantrosTechTree {
             });
             node(siphon, () -> {
                 node(siphonRouter, () -> {
-                    node(pipeTank);
+                    node(siphonVessel, ()->{
+                        node(pipeTank);
+                        node(siphonReservoir);
+                    });
                     node(siphonUnderflow);
                 });
                 node(siphonBridge, () -> {
+                    node(pulseSiphonBridge);
                 });
-                node(siphonJunction, () -> {
-                });
-                node(pipe, () -> node(pulseSiphonBridge, () -> {
-                    node(siphonReservoir);
-                }));
+                node(siphonJunction);
+                node(pipe);
+            });
+            node(CentrifugalPump, ()->{
+                node(pumpAssembly);
+            });
+            node(magmaTap, ()->{
+                node(thermalEvaporator);
             });
             node(harvester, () -> {
-                node(pinDrill, Seq.with(
-                        new Objectives.SectorComplete(Grove)
-                ), () -> {
+                node(DrillDerrick, ()->{
+                    node(drillRig);
                 });
-                node(CentrifugalPump, ()->{
-                    node(pumpAssembly);
-                });
-                node(thermalEvaporator);
-                node(magmaTap, Seq.with(
-                        new Objectives.SectorComplete(twinPass)
-                ), () -> node(plasmaExtractor, () -> {
-
-                    node(beamBore, Seq.with(
-                    ), () -> {
-                    });
-                    node(DrillDerrick, Seq.with(
-                    ), () -> node(pinDrill));
-
-                }));
+                node(pinDrill);
+                node(plasmaExtractor);
+                node(beamBore);
             });
             node(atmosphericIntake, () -> {
-
                 node(graphiteConcentrator);
                 node(atmosphericCentrifuge);
                 node(inlet, () -> {

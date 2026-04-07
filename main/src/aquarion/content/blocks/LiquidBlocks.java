@@ -11,12 +11,13 @@ import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaPlanets.*;
+import static mindustry.content.Items.metaglass;
 import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 
 
 public class LiquidBlocks {
-    public static Block siphonUnderflow, pipeTank, pipeJunction, liquidVessel, siphonReservoir, liquidReservoir, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
+    public static Block siphonUnderflow, pipeTank, siphonReservoir, siphonVessel, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
 
     public static void loadContent() {
         siphonBridge = new ModifiedLiquidBridge("siphon-bridge") {{
@@ -94,18 +95,29 @@ public class LiquidBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             liquidPadding = 3;
             squareSprite = false;
-            liquidCapacity = 4000;
+            liquidCapacity = 8000;
             size = 3;
             willMelt = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
+        siphonVessel = new ModifiedLiquidRouter("siphon-vessel") {{
+            requirements(Category.liquid, with(silicon, 150, metaglass, 50));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            liquidPadding = 2;
+            squareSprite = false;
+            liquidCapacity = 4000;
+            size = 2;
+            willMelt = false;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
         siphonReservoir = new ModifiedLiquidRouter("siphon-reservoir") {{
-            requirements(Category.liquid, with(aluminum, 50, manganese, 250));
+            requirements(Category.liquid, with(aluminum, 50, polymer, 250));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             liquidPadding = 3;
             squareSprite = false;
-            liquidCapacity = 8500;
+            liquidCapacity = 18000;
             size = 4;
             willMelt = true;
             envEnabled |= Env.terrestrial | Env.underwater;
