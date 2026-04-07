@@ -1831,6 +1831,7 @@ public class CrafterBlocks {
             size = 6;
             squareSprite = false;
             ambientSound = Sounds.loopCircuit;
+            outputItem = new ItemStack(salt, 1);
             consumePower(3);
             consumeLiquid(halideWater, 6.5f);
             craftTime = 10;
@@ -2246,7 +2247,7 @@ public class CrafterBlocks {
         
         brineElectrolyzer = new AquaGenericCrafter("brine-electrolysis-manifold") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(aluminum, 1500, silicon, 3000, metaglass, 500, ferrosilicon, 500));
+            requirements(Category.crafting, with(aluminum, 1500, silicon, 3000, metaglass, 500, copper, 5000));
             size = 7;
             rotate = true;
             liquidCapacity = 4000;

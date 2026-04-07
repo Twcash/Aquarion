@@ -108,10 +108,7 @@ public class TantrosTechTree {
                 });
                 node(energyBank, ()->{
                     node(capacitorBank, () -> {
-                        node(ionBattery, Seq.with(
-                                new Objectives.OnSector(CrystalCaverns)
-                        ), () -> {
-                        });
+                        node(ionBattery);
                     });
                 });
                 node(solarGenerator, () -> {
