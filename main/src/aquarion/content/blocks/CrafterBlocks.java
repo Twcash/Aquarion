@@ -547,20 +547,16 @@ public class CrafterBlocks {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        azuriteKiln = new AdaptiveCrafter("Cupric-kiln"){{
+        azuriteKiln = new AquaGenericCrafter("azurite-kiln"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 900, lead, 1500));
+            requirements(Category.crafting, with(silicon, 900, lead, 900, zinc, 250));
             craftTime = 5 * 60f;
             squareSprite = false;
             itemCapacity = 300;
             hasPower = true;
-            recipes.addAll(new Recipe(5*60f,
-                    ItemStack.with(copper, 45),
-                    LiquidStack.with(hydroxide, 8.5f),
-                            new ConsumePower(4.5f, 0,false),
-                            consume(new ConsumeLiquidAcidic(1, 0.5f)),
-                            new ConsumeItems(ItemStack.with(AquaItems.azurite, 15)))
-                    );
+            consumeItem(azurite,15);
+            consume(new ConsumeLiquidAcidic(1, 0.5f));
+            consumePower(4.5f);
             liquidCapacity = 1500;
             ignoreLiquidFullness = true;
             dumpExtraLiquid = true;

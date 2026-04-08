@@ -35,7 +35,6 @@ public class AdaptiveCrafter extends AquaGenericCrafter {
     @Override
     public void init(){
         super.init();
-
         for(Recipe r : recipes){
             r.apply(this);
         }
