@@ -1,6 +1,7 @@
 package aquarion.world.blocks.production;
 
 import aquarion.world.consumers.Recipe;
+import aquarion.world.type.AquaGenericCrafter;
 import arc.math.Mathf;
 import arc.struct.Seq;
 import arc.util.Time;
@@ -11,7 +12,7 @@ import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 
-public class AdaptiveCrafter extends GenericCrafter {
+public class AdaptiveCrafter extends AquaGenericCrafter {
     public Seq<Recipe> recipes = new Seq<>();
     public float updateEffectChance = 0.04f;
     public float updateEffectSpread = 4f;
@@ -31,7 +32,7 @@ public class AdaptiveCrafter extends GenericCrafter {
         stats.add(Stat.productionTime, "Variable", StatUnit.seconds);
     }
 
-    public class AdaptiveCrafterBuild extends GenericCrafterBuild {
+    public class AdaptiveCrafterBuild extends AquaGenericCrafterBuild {
         private Recipe currentRecipe;
 
         @Override
@@ -110,35 +111,6 @@ public class AdaptiveCrafter extends GenericCrafter {
             }
             progress %= 1f;
         }
-        @Override
-        public boolean shouldConsume() {
-            if (outputItems != null) {
-                for (var output : outputItems) {
-                    if (items.get(output.item) + output.amount > itemCapacity) {
-                        return false;
-                    }
-                }
-            }
-            if (outputLiquids != null && !ignoreLiquidFullness) {
-                boolean allFull = true;
-                for (var output : outputLiquids) {
-                    if (liquids.get(output.liquid) >= liquidCapacity - 0.001f) {
-                        if (!dumpExtraLiquid) {
-                            return false;
-                        }
-                    } else {
-                        allFull = false;
-                    }
-                }
-
-                if (allFull) {
-                    return false;
-                }
-            }
-
-            return enabled;
-        }
-
         @Override
         public void handleLiquid(Building source, Liquid liquid, float amount) {
             for (Recipe recipe : recipes) {

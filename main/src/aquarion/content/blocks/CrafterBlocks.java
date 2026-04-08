@@ -5,8 +5,10 @@ import aquarion.content.AquaItems;
 import aquarion.content.AquaSounds;
 import aquarion.world.blocks.heatBlocks.AquaHeatCrafter;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
+import aquarion.world.blocks.production.AdaptiveCrafter;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
+import aquarion.world.consumers.Recipe;
 import aquarion.world.drawers.*;
 import aquarion.world.entities.parts.NewRegPart;
 import aquarion.world.graphics.AquaFx;
@@ -33,6 +35,7 @@ import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
+import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
@@ -41,10 +44,7 @@ import mindustry.world.blocks.production.AttributeCrafter;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.Pump;
-import mindustry.world.consumers.ConsumeItemExplode;
-import mindustry.world.consumers.ConsumeItemFlammable;
-import mindustry.world.consumers.ConsumeItems;
-import mindustry.world.consumers.ConsumeLiquidFlammable;
+import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
@@ -547,17 +547,20 @@ public class CrafterBlocks {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        azuriteKiln = new AquaGenericCrafter("azurite-kiln") {{
+        azuriteKiln = new AdaptiveCrafter("Cupric-kiln"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(silicon, 750, zinc, 250, lead, 750));
+            requirements(Category.crafting, with(silicon, 900, lead, 1500));
             craftTime = 5 * 60f;
             squareSprite = false;
-            consumePower(4.5f);
-            consumeLiquid(muriaticAcid, 0.5f);
-            consumeItem(azurite, 15);
             itemCapacity = 300;
-            outputItem = new ItemStack(copper, 45);
-            outputLiquid = new LiquidStack(hydroxide, 8.5f);
+            hasPower = true;
+            recipes.addAll(new Recipe(5*60f,
+                    ItemStack.with(copper, 45),
+                    LiquidStack.with(hydroxide, 8.5f),
+                            new ConsumePower(4.5f, 0,false),
+                            consume(new ConsumeLiquidAcidic(1, 0.5f)),
+                            new ConsumeItems(ItemStack.with(AquaItems.azurite, 15)))
+                    );
             liquidCapacity = 1500;
             ignoreLiquidFullness = true;
             dumpExtraLiquid = true;

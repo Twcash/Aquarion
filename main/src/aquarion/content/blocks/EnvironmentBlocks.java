@@ -44,7 +44,7 @@ public class EnvironmentBlocks {
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, algal_carpet, brine_liquid, lava, shallowSlag, shallowLava,
-            coral_floor, feldspar_vent, feldspar, ferric_extrusions,
+            coral_floor,cupriteBoulder,cupriteWall,cupriteChunks, cupriteFloor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, rubble,
             kelp_floor, metal13, metal14, metal15, metal16, roughFeldspar, glassFloor, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, engravedTile, gildedTile, pottedGrass,
@@ -228,7 +228,12 @@ public class EnvironmentBlocks {
             variants = 3;
             effect = AquaFx.vent1;
         }};
-
+        cupriteFloor = new Floor("cuprite-floor", 3) {{
+            emitLight = true;
+            lightRadius = 4;
+            lightColor = Color.valueOf("680b5310");
+            itemDrop = cuprite;
+        }};
         phylite_floor = new Floor("phylite-floor", 2) {{
             wall = shaleWall;
             attributes.set(metamorphic, 1f);
@@ -555,7 +560,22 @@ public class EnvironmentBlocks {
         redCoralWall = new StaticWall("red-coral-wall") {{
             variants = 3;
         }};
+        cupriteWall = new StaticWall("cuprite-wall") {{
+            variants = 2;
+            emitLight = true;
+            lightRadius = 12;
+            lightColor = Color.valueOf("97114d50");
+            itemDrop = cuprite;
+        }};
+        cupriteChunks = new TallBlock("cuprite-chunks") {{
+            variants = 4;
+            emitLight = true;
+            lightRadius = 12;
+            lightColor = Color.valueOf("ff838390");
+            itemDrop = cuprite;
+        }};
         greenCoralWall = new StaticWall("green-coral-wall") {{
+
             variants = 3;
         }};
         blueCoralWall = new StaticWall("blue-coral-wall") {{
@@ -619,6 +639,7 @@ public class EnvironmentBlocks {
             layer = Layer.blockOver + 1;
             shadowLayer = Layer.blockOver;
         }};
+
         basaltBluff = new TallBlock("basalt-bluff") {{
             variants = 0;
             clipSize = 200f;
@@ -929,6 +950,11 @@ public class EnvironmentBlocks {
             variants = 2;
             ultrafamicFloor.asFloor().decoration = this;
             ultrafamicPlates.asFloor().decoration = this;
+        }};
+        cupriteBoulder = new Prop("cuprite-boulder") {{
+            variants = 2;
+            cupriteFloor.asFloor().decoration = this;
+            cupriteFloor.asFloor().decoration = this;
         }};
         gabbroBoulder = new Prop("gabbro-boulder") {{
             variants = 3;
