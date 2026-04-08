@@ -123,8 +123,8 @@ public class TantrosTechTree {
                         node(petroleumEngine);
                     });
                     node(heatExchanger);
+                    node(miniumReactor);
                     node(leadBurner, ()-> {
-                        node(miniumReactor);
                         node(heatEngine, () -> {
                                 node(fumeEngine);
                                 node(hydroxideReactor);
@@ -150,9 +150,7 @@ public class TantrosTechTree {
                     });
                     node(douse);
                     node(grace);
-                    node(focus, () -> {
-                        node(confront);
-                    });
+                    node(focus);
                     node(vector, ()->{
                         node(aftershock, ()->{
                             node(dislocate);
