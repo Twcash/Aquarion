@@ -88,8 +88,8 @@ public class AquaPlanets {
             defaultAttributes.set(Attribute.heat, 0.8f);//Heat engine unbalance.
             atmosphereColor = Color.valueOf("a7787d");
             visible = true;
-            allowLaunchLoadout = false;
-            clearSectorOnLose = true;
+            allowLaunchLoadout = true;
+            clearSectorOnLose = false;
             allowLaunchToNumbered = false;
             cloudMeshLoader = () -> new MultiMesh(
                     new HexSkyMesh(this, 2, 0.15f, 0.14f, 5, Color.valueOf("eba768").a(0.75f), 2, 0.42f, 1f, 0.43f),
@@ -133,11 +133,12 @@ public class AquaPlanets {
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
             startSector = 361;
-            prebuildBase = false;
+            prebuildBase = true;
+            allowLaunchSchematics = false;
             orbitSpacing = 6f;
             defaultCore = CoreBlocks.corePike;
             allowLaunchLoadout = true;
-            clearSectorOnLose = true;
+            clearSectorOnLose = false;
             allowLaunchToNumbered = false;
             //for future me
             //Vars.content.planet("aquarion-fakeSerp").allowLaunchToNumbered = true
