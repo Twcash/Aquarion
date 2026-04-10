@@ -79,8 +79,6 @@ public class PowerPylon extends PowerNode {
     public void changePlacementPath(Seq<Point2> points, int rotation){
         Placement.calculateNodes(points, this, rotation, (point, other) -> overlaps(world.tile(point.x, point.y), world.tile(other.x, other.y)));
     }
-
-
     public PowerPylon(String name){
         super(name);
         configurable = false;
@@ -99,17 +97,13 @@ public class PowerPylon extends PowerNode {
             PowerModule power = entity.power;
             Building other = world.build(value);
             boolean contains = power.links.contains(value), valid = other != null && other.power != null;
-
             if(contains){
                 //unlink
                 power.links.removeValue(value);
                 if(valid) other.power.links.removeValue(entity.pos());
-
                 PowerGraph newgraph = new PowerGraph();
-
                 //reflow from this point, covering all tiles on this side
                 newgraph.reflow(entity);
-
                 if(valid && other.power.graph != newgraph){
                     //create new graph for other end
                     PowerGraph og = new PowerGraph();
@@ -127,15 +121,12 @@ public class PowerPylon extends PowerNode {
                 power.graph.addGraph(other.power.graph);
             }
         });
-
         config(Point2[].class, (tile, value) -> {
             IntSeq old = new IntSeq(tile.power.links);
-
             //clear old
             for(int i = 0; i < old.size; i++){
                 configurations.get(Integer.class).get(tile, old.get(i));
             }
-
             //set new
             for(Point2 p : value){
                 configurations.get(Integer.class).get(tile, Point2.pack(p.x + tile.tileX(), p.y + tile.tileY()));
@@ -303,44 +294,9 @@ public class PowerPylon extends PowerNode {
 //            return true;
             return false;
         }
-
         @Override
         public void drawSelect(){
         }
-
-        @Override
-        public void drawConfigure(){
-//
-//            Drawf.circles(x, y, tile.block().size * tilesize / 2f + 1f + Mathf.absin(Time.time, 4f, 1f));
-//
-//            if(drawRange){
-//                Drawf.circles(x, y, maxRange * tilesize);
-//
-//                for(int x = (int)(tile.x - maxRange - 2); x <= tile.x + maxRange + 2; x++){
-//                    for(int y = (int)(tile.y - maxRange - 2); y <= tile.y + maxRange + 2; y++){
-//                        Building link = world.build(x, y);
-//
-//                        if(link != this && linkValid(this, link, false)){
-//                            boolean linked = linked(link);
-//
-//                            if(linked){
-//                                Drawf.square(link.x, link.y, link.block.size * tilesize / 2f + 1f, Pal.place);
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                Draw.reset();
-//            }else{
-//                power.links.each(i -> {
-//                    var link = world.build(i);
-//                    if(link != null && linkValid(this, link, false)){
-//                        Drawf.square(link.x, link.y, link.block.size * tilesize / 2f + 1f, Pal.place);
-//                    }
-//                });
-//            }
-        }
-
         @Override
         public void draw(){
             super.draw();

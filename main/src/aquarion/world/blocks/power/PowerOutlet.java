@@ -100,6 +100,17 @@ public class PowerOutlet extends PowerGenerator {
         @Override
         public void updateTile() {
             lastRotation = this.rotation;
+            //Derelict rebuild edgecase.
+            Building frontBuild = fronte(front());
+            if (lastFront != null && frontBuild != null) {
+                if (lastFront.team != frontBuild.team ||
+                        lastFront.power == null ||
+                        frontBuild.power == null ||
+                        lastFront.power.graph != frontBuild.power.graph) {
+
+                    lastFront = null;
+                }
+            }
             //Remove production from current graph.
             if (this.power.graph.producers.contains(this)) {
                 this.power.graph.producers.remove(this);
@@ -108,7 +119,6 @@ public class PowerOutlet extends PowerGenerator {
             if (!this.power.graph.consumers.contains(this)) {
                 this.power.graph.consumers.add(this);
             }
-            Building frontBuild = fronte(front());
             if (!(frontBuild instanceof OutletBuild || frontBuild instanceof PowerPylon.PowerPylonBuild)) {
                 if (frontBuild == null || !(frontBuild.block.findConsumer(f -> f instanceof ConsumePower) instanceof ConsumePower)) {
                     need = 0;
