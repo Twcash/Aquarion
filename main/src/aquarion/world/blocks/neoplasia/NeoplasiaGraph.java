@@ -8,7 +8,9 @@ import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
 import arc.struct.IntMap;
 import arc.struct.ObjectMap;
+import arc.struct.ObjectSet;
 import arc.struct.Seq;
+import arc.util.Log;
 import arc.util.Time;
 import mindustry.Vars;
 import mindustry.core.GameState;
@@ -25,28 +27,75 @@ import static aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock.activeNeopla
 //Anything that iterates over every neoplasia block shall be placed here.
 //TODO chunking system??
 public class NeoplasiaGraph {
+
     public static ObjectMap<Item, Seq<GenericNeoplasiaBlock.NeoplasiaBuild>> itemRequesters = new ObjectMap<>();
-    public static ObjectMap<Item, Seq<GenericNeoplasiaBlock.NeoplasiaBuild>> producers = new ObjectMap<>();
-    public static final Seq<ItemPacket> packets = new Seq<>();
     public static ObjectMap<Item, Seq<GenericNeoplasiaBlock.NeoplasiaBuild>> itemHolders = new ObjectMap<>();
-    public static ObjectMap<Item, Seq<GenericNeoplasiaBlock>> itemProducers = new ObjectMap<>();
+
+    public static ObjectMap<Item, Seq<GenericNeoplasiaBlock>> blockProducers = new ObjectMap<>();
+    public static ObjectMap<Item, Seq<GenericNeoplasiaBlock.NeoplasiaBuild>> activeProducers = new ObjectMap<>();
+
+    public static final Seq<ItemPacket> packets = new Seq<>();
+
     public static IntMap<NeoplasiaChunk> chunks = new IntMap<>();
     static int chunkSize = 8;
 
     public static void registerProducer(Item item, GenericNeoplasiaBlock block) {
-        Seq<GenericNeoplasiaBlock> list = itemProducers.get(item);
+        if (item == null || block == null) return;
+
+        Seq<GenericNeoplasiaBlock> list = blockProducers.get(item);
         if (list == null) {
             list = new Seq<>();
-            itemProducers.put(item, list);
+            blockProducers.put(item, list);
         }
-        list.add(block);
+
+        list.addUnique(block);
+    }
+
+    public static void registerActiveProducer(Item item, GenericNeoplasiaBlock.NeoplasiaBuild build) {
+        if (item == null || build == null) return;
+
+        Seq<GenericNeoplasiaBlock.NeoplasiaBuild> list = activeProducers.get(item);
+        if (list == null) {
+            list = new Seq<>();
+            activeProducers.put(item, list);
+        }
+
+        list.addUnique(build);
+    }
+
+    public static void ensureProduction(Item item, ObjectSet<Item> visited) {
+        if (item == null) return;
+        if (visited.contains(item)) return;
+
+        visited.add(item);
+
+        Seq<GenericNeoplasiaBlock.NeoplasiaBuild> active = activeProducers.get(item);
+        if (active != null) {
+            for (var build : active) {
+                if (build.isProducing(item)) return;
+            }
+        }
+
+        Seq<GenericNeoplasiaBlock> possible = blockProducers.get(item);
+        if (possible == null || possible.isEmpty()) return;
+
+        GenericNeoplasiaBlock chosen = possible.first();
+
+        if (chosen.itemCost != null) {
+            for (ItemStack stack : chosen.itemCost) {
+                ensureProduction(stack.item, visited);
+            }
+        }
     }
 
     public static void update() {
+
         Events.on(EventType.WorldLoadEvent.class, t -> {
             packets.clear();
         });
+
         if (Vars.state.isPaused()) return;
+
         for (int i = packets.size - 1; i >= 0; i--) {
             ItemPacket p = packets.get(i);
 
@@ -56,17 +105,16 @@ public class NeoplasiaGraph {
                 if (p.target != null) {
                     p.target.handleItem(null, p.item);
                 }
-
                 packets.remove(i);
             }
         }
     }
 
     public static void draw() {
-        for (ItemPacket p : packets) {
-            Draw.z(Renderer.Layer.neoplasiaBase - 0.2f);
-            Draw.rect(p.item.fullIcon, p.drawX(), p.drawY(), 0);
-        }
+//        for (ItemPacket p : packets) {
+//            Draw.z(Renderer.Layer.neoplasiaBase - 0.2f);
+//            Draw.rect(p.item.fullIcon, p.drawX(), p.drawY(), 0);
+//        }
     }
 
     public static void registerHolder(Item item, GenericNeoplasiaBlock.NeoplasiaBuild build) {
@@ -92,7 +140,7 @@ public class NeoplasiaGraph {
             chunks.put(key, chunk);
         }
 
-        chunk.builds.add(build);
+        chunk.builds.addUnique(build);
     }
 
     public static GenericNeoplasiaBlock.NeoplasiaBuild findBlockBuilder(Building requester){
@@ -100,11 +148,11 @@ public class NeoplasiaGraph {
         float bestScore = -Float.MAX_VALUE;
 
         for (var entry : chunks) {
-
             NeoplasiaChunk chunk = entry.value;
+
             for (var other : chunk.builds) {
-                if (Mathf.dst2(requester.x, requester.y, other.x, other.y) > 500) continue;
                 if (other.tile == null) continue;
+                if (Mathf.dst2(requester.x, requester.y, other.x, other.y) > 500) continue;
 
                 float score = other.amount;
                 score -= requester.dst2(other) * 0.01f;
@@ -123,50 +171,66 @@ public class NeoplasiaGraph {
         Building best = null;
         float bestScore = Float.MAX_VALUE;
         float currentDst = Mathf.dst2(from.x, from.y, target.x, target.y);
+
         for (Point2 p : Geometry.d4) {
             Tile otherTile = Vars.world.tile(from.tile.x + p.x, from.tile.y + p.y);
             if (otherTile == null) continue;
             if (otherTile.solid() || otherTile.floor().isDeep()) continue;
+
             if (!(otherTile.build instanceof GenericNeoplasiaBlock.NeoplasiaBuild build)) continue;
             if (build.items.total() >= build.block.itemCapacity) continue;
+
             float penalty = 0f;
+
             if (target instanceof GenericNeoplasiaBlock.NeoplasiaBuild tBuild) {
-                if (!tBuild.requestedQueue.contains(s -> s.item == from.items.first())) penalty += 50f;
+                if (!tBuild.requestedQueue.contains(s -> s.item == from.items.first())) {
+                    penalty += 50f;
+                }
             }
+
             float dst = Mathf.dst2(otherTile.worldx(), otherTile.worldy(), target.x, target.y) + penalty;
+
             if ((dst < bestScore && dst < currentDst) || best == null) {
                 bestScore = dst;
                 best = build;
             }
         }
+
         return best;
     }
 
     public static void trySpawnProducer(GenericNeoplasiaBlock.NeoplasiaBuild requester, Item item) {
         if (requester == null || requester.tile == null) return;
-        Seq<GenericNeoplasiaBlock> possible = itemProducers.get(item);
+
+        Seq<GenericNeoplasiaBlock> possible = blockProducers.get(item);
+        if (possible == null || possible.isEmpty()) return;
+
         GenericNeoplasiaBlock.NeoplasiaBuild builder = findBlockBuilder(requester);
-        if(builder == null || builder.tile == null) return;
-        if(builder.tile.floor().itemDrop != null) return;
-        if (  builder.block instanceof NeoplasiaproductionBlock || !(builder.block instanceof GenericNeoplasiaBlock))
-            return;
+        if (builder == null || builder.tile == null) return;
+
+        if (builder.tile.solid() || builder.tile.floor().isDeep()) return;
+        if (!(builder.block instanceof GenericNeoplasiaBlock)) return;
+
         for (GenericNeoplasiaBlock block : possible) {
+            if (block == null) continue;
+
             if (builder.amount < block.cost) continue;
+
             if (!builder.hasItemCost(block.itemCost)) {
-                if (block.itemCost != null) {
-                    for (ItemStack stack : block.itemCost) {
-                        int missing = stack.amount - builder.items.get(stack.item);
-                        if (missing > 0) {
-                            requester.requestItem(stack.item, missing);
-                        }
+                for (ItemStack stack : block.itemCost) {
+                    int missing = stack.amount - builder.items.get(stack.item);
+                    if (missing > 0) {
+                        requester.requestItem(stack.item, missing);
                     }
                 }
-                return;
+                continue;
             }
+
             builder.consumeItemCost(block.itemCost);
             builder.amount -= block.cost;
-            if (builder.tile.floor().itemDrop != null) return;
+
             builder.tile.setBlock(block, builder.team);
+
             builder.producerRequestCooldown = 60f;
             return;
         }

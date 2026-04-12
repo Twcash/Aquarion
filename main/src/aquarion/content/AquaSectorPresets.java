@@ -27,7 +27,6 @@ public class AquaSectorPresets {
         }};
         frigidShores = new SectorPreset("frigidShores", fakeSerpulo, 356){{
             allDatabaseTabs = true;
-            alwaysUnlocked = true;
             addStartingItems = true;
             captureWave = 38;
             difficulty = 6;
@@ -37,7 +36,6 @@ public class AquaSectorPresets {
         }};
         blastedDockyards = new SectorPreset("blastedDockyard", fakeSerpulo, 786){{
             allDatabaseTabs = true;
-            alwaysUnlocked = true;
             addStartingItems = true;
             captureWave = 33;
             difficulty = 12;

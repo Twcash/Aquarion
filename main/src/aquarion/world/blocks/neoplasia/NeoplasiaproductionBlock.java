@@ -18,6 +18,7 @@ import arc.util.Time;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.gen.Building;
+import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.Tile;
@@ -49,8 +50,11 @@ public class NeoplasiaproductionBlock extends GenericNeoplasiaBlock{
     public class NeoplasiaProductionBlockBuild extends NeoplasiaBuild{
         public float prog = 0;
         @Override
+        public boolean acceptItem(Building source, Item item) {
+            return items.total() < itemCapacity;
+        }
+        @Override
         public void updateTile(){
-            super.updateTile();
             if(shouldCraft && amount > craftCost){
                 prog += 1/craftTime*delta();
                 if(input!= null) {
@@ -68,7 +72,9 @@ public class NeoplasiaproductionBlock extends GenericNeoplasiaBlock{
                     }
                 }
             }
+            super.updateTile();
         }
+
         @Override
         public void draw() {
             super.draw();

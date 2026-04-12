@@ -42,6 +42,8 @@ public class PowerOutlet extends PowerGenerator {
         consumesPower = true;
         powerProduction = 100/60f;
         rotate = true;
+        saveConfig = false;
+        saveData = false;
         rotateDraw = true;
         configurable = true;
         autoResetEnabled = false;
@@ -102,15 +104,7 @@ public class PowerOutlet extends PowerGenerator {
             lastRotation = this.rotation;
             //Derelict rebuild edgecase.
             Building frontBuild = fronte(front());
-            if (lastFront != null && frontBuild != null) {
-                if (lastFront.team != frontBuild.team ||
-                        lastFront.power == null ||
-                        frontBuild.power == null ||
-                        lastFront.power.graph != frontBuild.power.graph) {
 
-                    lastFront = null;
-                }
-            }
             //Remove production from current graph.
             if (this.power.graph.producers.contains(this)) {
                 this.power.graph.producers.remove(this);

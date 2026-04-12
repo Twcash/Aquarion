@@ -10,6 +10,7 @@ import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
 import arc.struct.ObjectMap;
+import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
@@ -42,7 +43,7 @@ public class GenericNeoplasiaBlock extends Block {
     public GenericNeoplasiaBlock base;
     //Multiplies the recent damage.
     public float upgradeDamageScale = 0.9f;
-
+    public ItemStack output;
     public float emptyUpgradeCost = 400;
     public boolean shouldEmptyUpgrade = true;
     public GenericNeoplasiaBlock emptyUpgrade;
@@ -80,6 +81,10 @@ public class GenericNeoplasiaBlock extends Block {
         itemCapacity = 2;
     }
 
+    public boolean isProducing(Item item) {
+        return output.item == item;
+    }
+
     public class NeoplasiaBuild extends Building {
         //TODO This is a LOT of variables for a single block, especially when there will be thousands of these.
         Item current;
@@ -101,20 +106,60 @@ public class GenericNeoplasiaBlock extends Block {
         Seq<ItemStack> requestedQueue = new Seq<>();
         float clogTimer = 0f;
         float clogThreshold = 120f;
+        boolean required = false;
 
+        public void setRequired(boolean value) {
+            required = value;
+        }
+        public static void ensureProduction(Item item, ObjectSet<Item> visited) {
+            if (item == null) return;
+            if (visited.contains(item)) return;
+
+            visited.add(item);
+
+            Seq<GenericNeoplasiaBlock.NeoplasiaBuild> active = activeProducers.get(item);
+            if (active != null) {
+                for (var build : active) {
+                    if (build.isProducing(item)) return;
+                }
+            }
+
+            Seq<GenericNeoplasiaBlock> possible = blockProducers.get(item);
+            if (possible == null || possible.isEmpty()) return;
+
+            GenericNeoplasiaBlock chosen = possible.first();
+
+            if (chosen.itemCost != null) {
+                for (ItemStack stack : chosen.itemCost) {
+                    ensureProduction(stack.item, visited);
+                }
+            }
+        }
         void requestItem(Item item, int amount){
+            ensureProduction(item, new ObjectSet<>());
+
+            if(producerRequestCooldown <= 0f){
+                producerRequestCooldown = 60f;
+                NeoplasiaGraph.trySpawnProducer(this, item);
+            }
+
+            if (amount <= 0) return;
+
             Seq<NeoplasiaBuild> reqs = NeoplasiaGraph.itemRequesters.get(item);
             if(reqs == null){
                 reqs = new Seq<>();
                 NeoplasiaGraph.itemRequesters.put(item, reqs);
             }
+
             reqs.addUnique(this);
+
             ItemStack existing = requestedQueue.find(s -> s.item == item);
             if(existing == null){
                 requestedQueue.add(new ItemStack(item, amount));
             }else{
                 existing.amount += amount;
             }
+
             requesting = true;
             requestTimer = 0f;
         }
@@ -158,6 +203,10 @@ public class GenericNeoplasiaBlock extends Block {
             });
             items.clear();
         }
+        public boolean isProducing(Item item){
+            return output.item == item;
+        }
+
         /*
         God awful.
         Basically try and move items every tick closer to the target, with large blobs
@@ -216,6 +265,9 @@ public class GenericNeoplasiaBlock extends Block {
         public void created() {
             super.created();
             amount = startMass;
+            if (output != null) {
+                NeoplasiaGraph.registerActiveProducer(output.item, this);
+            }
             NeoplasiaGraph.register(this);
         }
 
@@ -291,6 +343,15 @@ public class GenericNeoplasiaBlock extends Block {
             }
         }
 
+
+        @Override
+        public void onRemoved() {
+            super.onRemoved();
+
+            for (var entry : NeoplasiaGraph.activeProducers) {
+                entry.value.remove(this);
+            }
+        }
         void tryUpgrades() {
             if (tile == null) return;
             if (oreUpgrade != null) {
