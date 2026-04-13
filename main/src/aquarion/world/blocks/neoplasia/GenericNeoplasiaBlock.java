@@ -111,32 +111,9 @@ public class GenericNeoplasiaBlock extends Block {
         public void setRequired(boolean value) {
             required = value;
         }
-        public static void ensureProduction(Item item, ObjectSet<Item> visited) {
-            if (item == null) return;
-            if (visited.contains(item)) return;
 
-            visited.add(item);
-
-            Seq<GenericNeoplasiaBlock.NeoplasiaBuild> active = activeProducers.get(item);
-            if (active != null) {
-                for (var build : active) {
-                    if (build.isProducing(item)) return;
-                }
-            }
-
-            Seq<GenericNeoplasiaBlock> possible = blockProducers.get(item);
-            if (possible == null || possible.isEmpty()) return;
-
-            GenericNeoplasiaBlock chosen = possible.first();
-
-            if (chosen.itemCost != null) {
-                for (ItemStack stack : chosen.itemCost) {
-                    ensureProduction(stack.item, visited);
-                }
-            }
-        }
         void requestItem(Item item, int amount){
-            ensureProduction(item, new ObjectSet<>());
+            ensureProduction(item, new ObjectSet<>(), this);
 
             if(producerRequestCooldown <= 0f){
                 producerRequestCooldown = 60f;

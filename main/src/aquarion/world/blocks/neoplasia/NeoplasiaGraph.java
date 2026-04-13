@@ -30,7 +30,7 @@ public class NeoplasiaGraph {
 
     public static ObjectMap<Item, Seq<GenericNeoplasiaBlock.NeoplasiaBuild>> itemRequesters = new ObjectMap<>();
     public static ObjectMap<Item, Seq<GenericNeoplasiaBlock.NeoplasiaBuild>> itemHolders = new ObjectMap<>();
-
+    public static ObjectMap<Item, Float> shortageTimers = new ObjectMap<>();
     public static ObjectMap<Item, Seq<GenericNeoplasiaBlock>> blockProducers = new ObjectMap<>();
     public static ObjectMap<Item, Seq<GenericNeoplasiaBlock.NeoplasiaBuild>> activeProducers = new ObjectMap<>();
 
@@ -63,18 +63,11 @@ public class NeoplasiaGraph {
         list.addUnique(build);
     }
 
-    public static void ensureProduction(Item item, ObjectSet<Item> visited) {
+    public static void ensureProduction(Item item, ObjectSet<Item> visited, GenericNeoplasiaBlock.NeoplasiaBuild requester) {
         if (item == null) return;
         if (visited.contains(item)) return;
 
         visited.add(item);
-
-        Seq<GenericNeoplasiaBlock.NeoplasiaBuild> active = activeProducers.get(item);
-        if (active != null) {
-            for (var build : active) {
-                if (build.isProducing(item)) return;
-            }
-        }
 
         Seq<GenericNeoplasiaBlock> possible = blockProducers.get(item);
         if (possible == null || possible.isEmpty()) return;
@@ -83,29 +76,38 @@ public class NeoplasiaGraph {
 
         if (chosen.itemCost != null) {
             for (ItemStack stack : chosen.itemCost) {
-                ensureProduction(stack.item, visited);
+                ensureProduction(stack.item, visited, requester);
             }
         }
     }
 
     public static void update() {
 
-        Events.on(EventType.WorldLoadEvent.class, t -> {
-            packets.clear();
-        });
-
         if (Vars.state.isPaused()) return;
 
-        for (int i = packets.size - 1; i >= 0; i--) {
-            ItemPacket p = packets.get(i);
+        for (var entry : itemRequesters){
+            Item item = entry.key;
+            Seq<GenericNeoplasiaBlock.NeoplasiaBuild> reqs = entry.value;
 
-            p.update();
+            if (reqs.isEmpty()) continue;
 
-            if (p.arrived()) {
-                if (p.target != null) {
-                    p.target.handleItem(null, p.item);
-                }
-                packets.remove(i);
+            Seq<GenericNeoplasiaBlock.NeoplasiaBuild> producers = activeProducers.get(item);
+
+            boolean hasSupply = producers != null && producers.contains(p -> p.isProducing(item));
+
+            float timer = shortageTimers.get(item, 0f);
+
+            if (!hasSupply){
+                timer += Time.delta;
+            } else {
+                timer = 0f;
+            }
+
+            shortageTimers.put(item, timer);
+
+            if (timer > 180f){
+                trySpawnProducer(reqs.first(), item);
+                shortageTimers.put(item, 0f);
             }
         }
     }
@@ -207,10 +209,8 @@ public class NeoplasiaGraph {
 
         GenericNeoplasiaBlock.NeoplasiaBuild builder = findBlockBuilder(requester);
         if (builder == null || builder.tile == null) return;
-
+        if(builder.floor().itemDrop != null || builder.tile.overlay().itemDrop != null) return;
         if (builder.tile.solid() || builder.tile.floor().isDeep()) return;
-        if (!(builder.block instanceof GenericNeoplasiaBlock)) return;
-
         for (GenericNeoplasiaBlock block : possible) {
             if (block == null) continue;
 
