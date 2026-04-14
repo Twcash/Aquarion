@@ -51,6 +51,7 @@ import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
+import mindustry.type.unit.ErekirUnitType;
 import mindustry.type.unit.MissileUnitType;
 import mindustry.type.unit.TankUnitType;
 import mindustry.type.weapons.RepairBeamWeapon;
@@ -64,6 +65,7 @@ import static arc.math.Angles.randLenVectors;
 import static mindustry.Vars.tilePayload;
 
 public class AquaUnitTypes {
+    public static ErekirUnitType recoil;
     //cruxahh
     public static UnitType fabricantDrone;
     public static UnitType isop, empusa, oratoria, rhombodera, parasphendale;
@@ -3054,6 +3056,32 @@ public class AquaUnitTypes {
                         height = 14;
                     }};
                 }});
+        }};
+        recoil = new ErekirUnitType("recoil"){{
+            constructor = UnitEntity::create;
+            hitSize = 14;
+            speed = 1.4f;
+            accel = 0.09f;
+            drag = 0.05f;
+            rotateSpeed = 2f;
+            circleTarget = true;
+            flying = true;
+            lowAltitude = true;
+            weapons.addAll(new Weapon(){{
+                x = 5f;
+                mirror = true;
+                y = 0;
+                reload = 45f;
+                bullet = new TentacleBulletType(){{
+                    range  = 110;
+                    damage = 80;
+                    sprite = "aquarion-medium-tentacle";
+                    width = 40/8f;
+                    segmentLength = 34/4f-2;
+                    segmentCount = 19;
+                    layer = Layer.flyingUnitLow-1f;
+                }};
+            }});
         }};
         wretch = new UnitType("wretch"){{
             constructor = LegsUnit::create;

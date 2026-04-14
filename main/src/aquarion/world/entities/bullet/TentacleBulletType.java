@@ -1,5 +1,7 @@
 package aquarion.world.entities.bullet;
 
+import aquarion.world.graphics.Renderer;
+import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
@@ -11,7 +13,11 @@ import arc.util.*;
 import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.units.WeaponMount;
 import mindustry.gen.*;
+import mindustry.type.Weapon;
+import mindustry.world.blocks.defense.turrets.BaseTurret;
+import mindustry.world.blocks.defense.turrets.Turret;
 
 public class TentacleBulletType extends BulletType {
 
@@ -19,7 +25,6 @@ public class TentacleBulletType extends BulletType {
     public float segmentLength = 6f;
 
     public float stiffness = 0.25f;
-    public float damping = 0.82f;
 
     public float width = 3f;
     public float range = 120f;
@@ -28,6 +33,8 @@ public class TentacleBulletType extends BulletType {
 
     public TextureRegion backRegion;
     public TextureRegion frontRegion;
+    public String backSprite;
+    public String sprite;
 
     public TentacleBulletType(){
         speed = 0f;
@@ -47,7 +54,12 @@ public class TentacleBulletType extends BulletType {
         public Vec2[] velocity;
         public float extend = 0f;
     }
-
+    @Override
+    public void load(){
+        super.load();
+        backRegion = Core.atlas.find(backSprite == null ? (sprite + "-back") : backSprite);
+        frontRegion = Core.atlas.find(sprite);
+    }
     @Override
     public void init(Bullet b){
         TentacleData data = new TentacleData();
@@ -55,25 +67,44 @@ public class TentacleBulletType extends BulletType {
         data.points = new Vec2[segmentCount];
         data.velocity = new Vec2[segmentCount];
 
-        Vec2 forward = Tmp.v1.trns(b.rotation(), 2f);
+        float ox = b.x;
+        float oy = b.y;
+
+        Vec2 forward = Tmp.v1.trns(b.rotation(), 6f);
 
         for(int i = 0; i < segmentCount; i++){
-            data.points[i] = new Vec2(b.x, b.y);
-            data.velocity[i] = new Vec2(forward).scl(i * 0.3f); // initial outward push
+            data.points[i] = new Vec2(ox, oy);
+            data.velocity[i] = new Vec2(forward).scl(1f + i * 0.2f);
         }
 
         b.data = data;
     }
-
     @Override
     public void update(Bullet b){
         if(!(b.data instanceof TentacleData data)) return;
 
-        Unit target = Units.closestEnemy(b.team, b.x, b.y, range, u -> !u.dead());
+        float ox = b.x;
+        float oy = b.y;
+
+        if(b.owner instanceof Unit owner){
+            ox = owner.x;
+            oy = owner.y;
+            b.rotation(owner.rotation());
+        }else if(b.owner instanceof BaseTurret.BaseTurretBuild turret){
+            ox = turret.x;
+            oy = turret.y;
+            b.rotation(turret.rotation);
+        }
+
+        float bx = ox + Angles.trnsx(b.rotation(), baseOffset);
+        float by = oy + Angles.trnsy(b.rotation(), baseOffset);
+
+        b.set(bx, by);
+
+        Unit target = Units.closestEnemy(b.team, bx, by, range, u -> !u.dead());
 
         if(target != null){
-            float targetAngle = b.angleTo(target);
-
+            float targetAngle = Angles.angle(bx, by, target.x, target.y);
             b.rotation(Angles.moveToward(
                     b.rotation(),
                     targetAngle,
@@ -81,60 +112,56 @@ public class TentacleBulletType extends BulletType {
             ));
         }
 
-        // === EXTEND / RETRACT CURVE ===
         float life = b.fin();
 
-        float extendCurve = life < 0.3f
-                ? Interp.pow3Out.apply(life / 0.3f) // fast extend
-                : Interp.pow2In.apply(1f - (life - 0.3f) / 0.7f); // slow retract
+        float extendCurve;
+
+        if(life < 0.2f){
+            extendCurve = Interp.pow3Out.apply(life / 0.2f);
+        }else{
+            extendCurve = 1f;
+        }
+
+        if(life > 0.75f){
+            float t = (life - 0.75f) / 0.25f;
+            extendCurve = 1f - Interp.pow2In.apply(t);
+        }
 
         data.extend = extendCurve;
 
-        float targetLength = segmentLength * data.extend;
-
-        float bx = b.x + Angles.trnsx(b.rotation(), baseOffset);
-        float by = b.y + Angles.trnsy(b.rotation(), baseOffset);
-
         data.points[0].set(bx, by);
-        data.velocity[0].setZero();
 
-        Vec2 forwardDir = Tmp.v2.trns(b.rotation(), 1f);
+        float totalLength = segmentLength * (segmentCount - 1) * data.extend;
+
+        Vec2 forward = Tmp.v1.trns(b.rotation(), 1f);
+
         for(int i = 1; i < segmentCount; i++){
             Vec2 prev = data.points[i - 1];
             Vec2 cur = data.points[i];
 
-            Vec2 dir = Tmp.v1.set(prev).sub(cur);
+            Vec2 dir = Tmp.v2.set(cur).sub(prev);
             float dist = dir.len();
 
-            if(dist > 0.001f){
-                float force = (dist - targetLength) * stiffness;
-
-                dir.nor().scl(force);
-
-                data.velocity[i].add(dir);
-
-                // forward push (makes it feel alive)
-                data.velocity[i].add(forwardDir.x * 0.1f * data.extend, forwardDir.y * 0.1f * data.extend);
-
-                data.velocity[i].scl(damping);
-
-                // clamp extreme stretching
-                if(dist > segmentLength * 2f){
-                    dir.setLength(segmentLength * 2f);
-                    cur.set(prev).sub(dir);
-                }
-
-                cur.add(data.velocity[i]);
+            if(dist > 0.0001f){
+                float desired = segmentLength * data.extend;
+                dir.scl(1f / dist);
+                cur.set(prev).add(dir.scl(desired));
             }
 
-            // subtle wobble
-            cur.add(
-                    Mathf.sin(Time.time + i) * 0.15f,
-                    Mathf.cos(Time.time + i * 1.3f) * 0.15f
-            );
+            float attack = Mathf.clamp(data.extend * 2f);
+            cur.add(forward.x * attack * 2f, forward.y * attack * 2f);
+
+            float chainDist = cur.dst(data.points[0]);
+            if(chainDist > totalLength){
+                Vec2 clamp = Tmp.v2.set(cur).sub(data.points[0]).setLength(totalLength);
+                cur.set(data.points[0]).add(clamp);
+            }
+
+            if(data.extend < 0.05f){
+                cur.set(data.points[0]);
+            }
         }
 
-        // === DAMAGE ALONG BODY ===
         for(int i = 0; i < segmentCount; i++){
             Vec2 p = data.points[i];
 
@@ -145,21 +172,43 @@ public class TentacleBulletType extends BulletType {
             });
         }
     }
-
     @Override
     public void draw(Bullet b){
         if(!(b.data instanceof TentacleData data)) return;
+        if(layer == -1){
+            Draw.z(Renderer.Layer.flyingUnitLow-2f);
+        } else {
+            Draw.z(layer);
+        }
+        float fade = 1f - Mathf.clamp((b.fin() - 0.75f) / 0.25f);
 
+        Draw.alpha(fade);
         Draw.color(Color.white);
 
         for(int i = 0; i < segmentCount - 1; i++){
             Vec2 a = data.points[i];
             Vec2 c = data.points[i + 1];
 
+            float angle = Angles.angle(a.x, a.y, c.x, c.y);
             float w = width * (1f - i / (float)segmentCount);
-            Lines.stroke(w);
 
-            Lines.line(a.x, a.y, c.x, c.y);
+            TextureRegion region = (i == segmentCount - 2 && frontRegion != null)
+                    ? frontRegion
+                    : backRegion;
+
+            if(region != null){
+                Draw.rect(
+                        region,
+                        (a.x + c.x) / 2f,
+                        (a.y + c.y) / 2f,
+                        segmentLength,
+                        w * 2f,
+                        angle
+                );
+            }else{
+                Lines.stroke(w);
+                Lines.line(a.x, a.y, c.x, c.y);
+            }
         }
 
         Draw.reset();
