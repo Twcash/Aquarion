@@ -3062,6 +3062,8 @@ public class AquaUnitTypes {
             hitSize = 14;
             speed = 1.4f;
             accel = 0.09f;
+            health = 1700;
+            armor = 12f;
             drag = 0.05f;
             rotateSpeed = 2f;
             circleTarget = true;
@@ -3072,9 +3074,27 @@ public class AquaUnitTypes {
                 mirror = true;
                 y = 0;
                 reload = 45f;
+                alwaysShooting = true;
+                minShootVelocity = 0.1f;
                 bullet = new TentacleBulletType(){{
                     range  = 110;
-                    damage = 80;
+                    damage = 10;
+                    sprite = "aquarion-medium-tentacle";
+                    width = 40/8f;
+                    segmentLength = 34/4f-2;
+                    segmentCount = 19;
+                    layer = Layer.flyingUnitLow-1f;
+                }};
+            }},new Weapon(){{
+                x = 9f;
+                mirror = true;
+                y = -4;
+                alwaysShooting = true;
+                minShootVelocity = 0.1f;
+                reload = 45f;
+                bullet = new TentacleBulletType(){{
+                    range  = 90;
+                    damage = 10;
                     sprite = "aquarion-medium-tentacle";
                     width = 40/8f;
                     segmentLength = 34/4f-2;

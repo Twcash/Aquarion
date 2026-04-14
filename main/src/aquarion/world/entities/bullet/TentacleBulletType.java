@@ -24,8 +24,6 @@ public class TentacleBulletType extends BulletType {
     public int segmentCount = 14;
     public float segmentLength = 6f;
 
-    public float stiffness = 0.25f;
-
     public float width = 3f;
     public float range = 120f;
     public float homingPower = 5f;
