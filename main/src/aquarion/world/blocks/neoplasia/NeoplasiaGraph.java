@@ -63,24 +63,31 @@ public class NeoplasiaGraph {
         list.addUnique(build);
     }
 
-    public static void ensureProduction(Item item, ObjectSet<Item> visited, GenericNeoplasiaBlock.NeoplasiaBuild requester) {
-        if (item == null) return;
-        if (visited.contains(item)) return;
-
-        visited.add(item);
+    public static boolean ensureProduction(Item item, ObjectSet<Item> visited, GenericNeoplasiaBlock.NeoplasiaBuild requester){
+        if(item == null || requester == null) return false;
+        if(!visited.add(item)) return false;
 
         Seq<GenericNeoplasiaBlock> possible = blockProducers.get(item);
-        if (possible == null || possible.isEmpty()) return;
+        if(possible == null || possible.isEmpty()) return false;
 
         GenericNeoplasiaBlock chosen = possible.first();
 
-        if (chosen.itemCost != null) {
-            for (ItemStack stack : chosen.itemCost) {
-                ensureProduction(stack.item, visited, requester);
+        if(chosen.itemCost == null){
+            return true; // base resource
+        }
+
+        boolean canEventuallyBuild = true;
+
+        for(ItemStack stack : chosen.itemCost){
+            int have = requester.items.get(stack.item);
+            if(have < stack.amount){
+                boolean ok = ensureProduction(stack.item, visited, requester);
+                requester.requestItem(stack.item, stack.amount - have);
+                if(!ok) canEventuallyBuild = false;
             }
         }
+        return canEventuallyBuild;
     }
-
     public static void update() {
 
         if (Vars.state.isPaused()) return;
@@ -93,7 +100,16 @@ public class NeoplasiaGraph {
 
             Seq<GenericNeoplasiaBlock.NeoplasiaBuild> producers = activeProducers.get(item);
 
-            boolean hasSupply = producers != null && producers.contains(p -> p.isProducing(item));
+            boolean hasSupply = false;
+
+            if (producers != null) {
+                for (var p : producers) {
+                    if (p != null && p.isProducing(item) && p.tile != null) {
+                        hasSupply = true;
+                        break;
+                    }
+                }
+            }
 
             float timer = shortageTimers.get(item, 0f);
 
@@ -201,39 +217,56 @@ public class NeoplasiaGraph {
         return best;
     }
 
-    public static void trySpawnProducer(GenericNeoplasiaBlock.NeoplasiaBuild requester, Item item) {
-        if (requester == null || requester.tile == null) return;
+
+    private static boolean validTile(GenericNeoplasiaBlock.NeoplasiaBuild build){
+        if(build == null || build.tile == null) return false;
+        if(build.floor() != null && build.floor().itemDrop != null) return false;
+        if(build.tile.overlay() != null && build.tile.overlay().itemDrop != null) return false;
+        if(build.tile.solid()) return false;
+        return !build.tile.floor().isDeep();
+    }
+    public static void trySpawnProducer(GenericNeoplasiaBlock.NeoplasiaBuild requester, Item item){
+        trySpawnProducer(requester, item, new ObjectSet<>());
+    }
+
+    private static void trySpawnProducer(GenericNeoplasiaBlock.NeoplasiaBuild requester, Item item, ObjectSet<Item> visited){
+        if(requester == null || item == null) return;
+        if(!visited.add(item)) return;
 
         Seq<GenericNeoplasiaBlock> possible = blockProducers.get(item);
-        if (possible == null || possible.isEmpty()) return;
+        if(possible == null || possible.isEmpty()) return;
+
+        GenericNeoplasiaBlock chosen = possible.first();
+
+        boolean missingDependencies = false;
+
+        if(chosen.itemCost != null){
+            for(ItemStack stack : chosen.itemCost){
+                int have = requester.items.get(stack.item);
+
+                if(have < stack.amount){
+                    requester.requestItem(stack.item, stack.amount - have);
+                    trySpawnProducer(requester, stack.item, visited);
+
+                    missingDependencies = true;
+                }
+            }
+        }
 
         GenericNeoplasiaBlock.NeoplasiaBuild builder = findBlockBuilder(requester);
-        if (builder == null || builder.tile == null) return;
-        if(builder.floor().itemDrop != null || builder.tile.overlay().itemDrop != null) return;
-        if (builder.tile.solid() || builder.tile.floor().isDeep()) return;
-        for (GenericNeoplasiaBlock block : possible) {
-            if (block == null) continue;
+        if(builder == null || builder.tile == null) return;
+        if(!validTile(builder)) return;
 
-            if (builder.amount < block.cost) continue;
+        if(builder.amount < chosen.cost) return;
 
-            if (!builder.hasItemCost(block.itemCost)) {
-                for (ItemStack stack : block.itemCost) {
-                    int missing = stack.amount - builder.items.get(stack.item);
-                    if (missing > 0) {
-                        requester.requestItem(stack.item, missing);
-                    }
-                }
-                continue;
-            }
-
-            builder.consumeItemCost(block.itemCost);
-            builder.amount -= block.cost;
-
-            builder.tile.setBlock(block, builder.team);
-
-            builder.producerRequestCooldown = 60f;
+        if(chosen.itemCost != null && !builder.hasItemCost(chosen.itemCost)){
             return;
         }
+
+        builder.consumeItemCost(chosen.itemCost);
+        builder.amount -= chosen.cost;
+        builder.tile.setBlock(chosen, builder.team);
+        builder.producerRequestCooldown = 10f;
     }
 
     static class NeoplasiaChunk {

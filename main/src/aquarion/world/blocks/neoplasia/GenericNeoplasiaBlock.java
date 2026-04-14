@@ -106,21 +106,21 @@ public class GenericNeoplasiaBlock extends Block {
         Seq<ItemStack> requestedQueue = new Seq<>();
         float clogTimer = 0f;
         float clogThreshold = 120f;
-        boolean required = false;
 
-        public void setRequired(boolean value) {
-            required = value;
-        }
 
-        void requestItem(Item item, int amount){
-            ensureProduction(item, new ObjectSet<>(), this);
+        void requestItem(Item item, int amt){
+            if(item == null || amt <= 0) return;
 
-            if(producerRequestCooldown <= 0f){
-                producerRequestCooldown = 60f;
-                NeoplasiaGraph.trySpawnProducer(this, item);
+            ItemStack existing = requestedQueue.find(s -> s.item == item);
+
+            if(existing == null){
+                requestedQueue.add(new ItemStack(item, amt));
+            } else {
+                existing.amount += amt;
             }
 
-            if (amount <= 0) return;
+            requesting = true;
+            requestTimer = 0f;
 
             Seq<NeoplasiaBuild> reqs = NeoplasiaGraph.itemRequesters.get(item);
             if(reqs == null){
@@ -129,16 +129,6 @@ public class GenericNeoplasiaBlock extends Block {
             }
 
             reqs.addUnique(this);
-
-            ItemStack existing = requestedQueue.find(s -> s.item == item);
-            if(existing == null){
-                requestedQueue.add(new ItemStack(item, amount));
-            }else{
-                existing.amount += amount;
-            }
-
-            requesting = true;
-            requestTimer = 0f;
         }
 
         //Need to register blocks with an item
@@ -325,35 +315,52 @@ public class GenericNeoplasiaBlock extends Block {
         public void onRemoved() {
             super.onRemoved();
 
-            for (var entry : NeoplasiaGraph.activeProducers) {
-                entry.value.remove(this);
-            }
-        }
-        void tryUpgrades() {
-            if (tile == null) return;
-            if (oreUpgrade != null) {
-                if (amount >= oreUpgradeCost && isOre(tile)) {
-                    if (!hasItemCost(oreUpgrade.itemCost)) {
-                        if (oreUpgrade.itemCost != null) {
-                            for (ItemStack stack : oreUpgrade.itemCost) {
-                                request(stack.item, stack.amount);
-                            }
-                        }
-                        return;
-                    }
-                    if (amount >= oreUpgrade.cost) {
-                        consumeItemCost(oreUpgrade.itemCost);
-                        tile.setBlock(oreUpgrade, team);
-                        return;
+            if (output != null) {
+                Seq<NeoplasiaBuild> list = NeoplasiaGraph.activeProducers.get(output.item);
+                if (list != null) {
+                    list.remove(this);
+                    if (list.isEmpty()) {
+                        NeoplasiaGraph.activeProducers.remove(output.item);
                     }
                 }
             }
-            if (amount >= emptyUpgradeCost && !isOre(tile) && shouldEmptyUpgrade) {
-                if (emptyUpgrade != null) tile.setBlock(emptyUpgrade, team);
+        }
+        public GenericNeoplasiaBlock block(){
+            return (GenericNeoplasiaBlock) this.block;
+        }
+        void tryUpgrades() {
+
+            if(oreUpgrade != null && isOre(tile)){
+                if(oreUpgrade.itemCost != null){
+                    for(ItemStack stack : oreUpgrade.itemCost){
+                        int have = items.get(stack.item);
+                        if(have < stack.amount){
+                            int missing = stack.amount - have;
+                            requestItem(stack.item, missing);
+                            ensureProduction(stack.item, new ObjectSet<>(), this);
+                            return;
+                        }
+                    }
+                }
+                if(amount >= oreUpgrade.cost && hasItemCost(oreUpgrade.itemCost)){
+                    consumeItemCost(oreUpgrade.itemCost);
+                    tile.setBlock(oreUpgrade, team);
+                }
+
+                return;
             }
+
+            if(amount >= emptyUpgradeCost && !isOre(tile) && shouldEmptyUpgrade){
+                if(emptyUpgrade != null){
+                    tile.setBlock(emptyUpgrade, team);
+                }
+            }
+
             float chance = recentDamage * upgradeDamageScale;
-            if (amount >= damageUpgradeCost && Mathf.chanceDelta(chance)) {
-                if (damageUpgrade != null) tile.setBlock(damageUpgrade, team);
+            if(amount >= damageUpgradeCost && Mathf.chanceDelta(chance)){
+                if(damageUpgrade != null){
+                    tile.setBlock(damageUpgrade, team);
+                }
             }
         }
 

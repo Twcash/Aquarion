@@ -49,10 +49,7 @@ public class NeoplasiaproductionBlock extends GenericNeoplasiaBlock{
 
     public class NeoplasiaProductionBlockBuild extends NeoplasiaBuild{
         public float prog = 0;
-        @Override
-        public boolean acceptItem(Building source, Item item) {
-            return items.total() < itemCapacity;
-        }
+
         @Override
         public void updateTile(){
             if(shouldCraft && amount > craftCost){
@@ -63,6 +60,9 @@ public class NeoplasiaproductionBlock extends GenericNeoplasiaBlock{
                         items.add(output.item, output.amount);
                         prog = 0;
                         amount -= craftCost;
+                    } else if(items.get(input.item) <= input.amount){
+                        //TODO multiple item support.
+                        requestItem(input.item, items.get(input.item)-input.amount);
                     }
                 } else{
                     if (prog >= 1 &&  output.amount + items.total() < itemCapacity) {

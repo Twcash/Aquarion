@@ -232,7 +232,6 @@ public class CoreBlocks {
             requirements(Category.effect, with(silicon, 1));
             base = this;
             itemCapacity = 5;
-            maxAmount = 100;
             emptyUpgrade = (GenericNeoplasiaBlock) thicBlob;
             emptyUpgradeCost = 800;
             oreUpgrade = (GenericNeoplasiaBlock) (OreSlurper = new NeoplasiaproductionBlock("ore-slurper") {{
