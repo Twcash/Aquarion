@@ -3078,7 +3078,7 @@ public class AquaUnitTypes {
                 minShootVelocity = 0.1f;
                 bullet = new TentacleBulletType(){{
                     range  = 110;
-                    damage = 10;
+                    damage = 2;
                     sprite = "aquarion-medium-tentacle";
                     width = 40/8f;
                     segmentLength = 34/4f-2;
@@ -3094,7 +3094,7 @@ public class AquaUnitTypes {
                 reload = 45f;
                 bullet = new TentacleBulletType(){{
                     range  = 90;
-                    damage = 10;
+                    damage = 2;
                     sprite = "aquarion-medium-tentacle";
                     width = 40/8f;
                     segmentLength = 34/4f-2;
