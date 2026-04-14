@@ -99,10 +99,23 @@ public class TentacleBulletType extends BulletType {
 
         b.set(bx, by);
 
-        Unit target = Units.closestEnemy(b.team, bx, by, range, u -> !u.dead());
+        Unit unitTarget = Units.closestEnemy(b.team, bx, by, range, u -> !u.dead());
+        Building tileTarget = Units.findEnemyTile(b.team, bx, by, range, bld -> !bld.dead());
+
+        Position target = null;
+
+        if(unitTarget != null && tileTarget != null){
+            float du = Mathf.dst2(bx, by, unitTarget.x, unitTarget.y);
+            float db = Mathf.dst2(bx, by, tileTarget.x, tileTarget.y);
+            target = du < db ? unitTarget : tileTarget;
+        }else if(unitTarget != null){
+            target = unitTarget;
+        }else if(tileTarget != null){
+            target = tileTarget;
+        }
 
         if(target != null){
-            float targetAngle = Angles.angle(bx, by, target.x, target.y);
+            float targetAngle = Angles.angle(bx, by, target.getX(), target.getY());
             b.rotation(Angles.moveToward(
                     b.rotation(),
                     targetAngle,
@@ -162,12 +175,7 @@ public class TentacleBulletType extends BulletType {
 
         for(int i = 0; i < segmentCount; i++){
             Vec2 p = data.points[i];
-
-            Units.nearbyEnemies(b.team, p.x, p.y, width * 2f, u -> {
-                if(!u.dead()){
-                    u.damage(damage * Time.delta);
-                }
-            });
+            Damage.damage( b.team,damage, p.y, p.x, width * 2f);
         }
     }
     @Override
