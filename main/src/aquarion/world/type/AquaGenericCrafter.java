@@ -37,10 +37,7 @@ import mindustry.world.blocks.liquid.Conduit.ConduitBuild;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
-import mindustry.world.meta.BlockFlag;
-import mindustry.world.meta.Stat;
-import mindustry.world.meta.StatUnit;
-import mindustry.world.meta.StatValues;
+import mindustry.world.meta.*;
 
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
@@ -63,8 +60,13 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
     public boolean ignoreLiquidFullness = false;
     /** Does the Booster affect output?**/
     public boolean boostersAffectOutput = false;
+    /** Tied to the environment lighting**/
+    public boolean solar = false;
     public boolean hasHeat = false;
+    /** Self Explanatory**/
+    public boolean boostAffectSpeedANDoutput = false;
     public float craftTime = 80;
+    public Attribute envAttribute;
     public Effect craftEffect = Fx.none;
     public Effect updateEffect = Fx.none;
     public float updateEffectChance = 0.04f;
@@ -125,7 +127,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             }
         }
         stats.add(Stat.maxEfficiency, (int)(maxEfficiency * 100f), StatUnit.percent);
-        if(boostersAffectOutput) {
+        if(boostersAffectOutput || boostAffectSpeedANDoutput) {
             stats.remove(Stat.booster);
             if (itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems coni) {
 
@@ -378,7 +380,11 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             if(hasHeat){
                 heat = calculateHeat(sideHeat);
             }
-
+            if(solar) efficiency *= Vars.state.rules.solarMultiplier * Mathf.maxZero(Attribute.light.env() +
+                    (Vars.state.rules.lighting ?
+                            1f - Vars.state.rules.ambientLight.a :
+                            1f
+                    ));
             float liquidEff = 0f, itemEff = 0f;
             Consume liquidBooster = findConsumer(c -> c instanceof ConsumeLiquidBase && c.booster);
             if(liquidBooster != null) liquidEff = liquidBooster.efficiency(this);
@@ -388,20 +394,17 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             float totalBoost = Mathf.lerp(1f, liquidBoostIntensity, liquidEff) *
                     Mathf.lerp(1f, itemBoostIntensity, itemEff);
 
-            if(!boostersAffectOutput){
-                // Normal behavior: boosters affect speed/efficiency
+            if(!boostersAffectOutput || boostAffectSpeedANDoutput){
                 efficiency *= totalBoost;
             }
-
-            if(efficiency > 0){
-                float speed = boostersAffectOutput ? efficiency : totalBoost * efficiency;
+            //blegh
+            if(efficiency >= 0.01f){
+                float speed = boostersAffectOutput || boostAffectSpeedANDoutput ? efficiency : totalBoost * efficiency;
 
                 warmup = Mathf.approachDelta(warmup, speed > 0 ? 1f : 0f, warmupSpeed);
-                progress += getProgressIncrease(craftTime);
-
                 if(outputLiquids != null) {
                     float inc = getProgressIncrease(1f);
-                    float boost = boostersAffectOutput ? totalBoost : 1f;
+                    float boost = boostersAffectOutput ||boostAffectSpeedANDoutput ? totalBoost : 1f;
 
                     for (LiquidStack output : outputLiquids) {
                         handleLiquid(this, output.liquid,
@@ -416,7 +419,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             }else{
                 warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
             }
-
+            progress += getProgressIncrease(craftTime);
             totalProgress += warmup * Time.delta;
             if(progress >= 1f){
                 craft();
@@ -464,7 +467,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             if(outputItems != null){
                 for(ItemStack output : outputItems){
                     int boostAmount = output.amount;
-                    if(boostersAffectOutput){
+                    if(boostersAffectOutput || boostAffectSpeedANDoutput){
                         boostAmount = Math.round(output.amount * totalBoost);
                     }
 

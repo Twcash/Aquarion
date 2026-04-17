@@ -247,8 +247,7 @@ public class PowerPylon extends PowerNode {
     }
 
     public class PowerPylonBuild extends Building{
-
-
+        public int lastChange = -2;
         @Override
         public void placed(){
             if(net.client() || power.links.size > 0) return;
@@ -357,6 +356,7 @@ public class PowerPylon extends PowerNode {
         }
         @Override
         public void updateTile(){
+            if(lastChange == world.tileChanges) return;
             super.updateTile();
             if(this.power.links.size > maxNodes) return;
             getPotentialLinks(tile, team, other -> {

@@ -17,7 +17,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class LiquidBlocks {
-    public static Block siphonUnderflow, pipeTank, siphonReservoir, siphonVessel, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
+    public static Block siphonUnderflow, pipeTank,siphonGullet, siphonReservoir, siphonVessel, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
 
     public static void loadContent() {
         siphonBridge = new ModifiedLiquidBridge("siphon-bridge") {{
@@ -91,7 +91,7 @@ public class LiquidBlocks {
         }};
         Liquids.oil.explosiveness = 0.7f;
         pipeTank = new ModifiedLiquidRouter("siphon-tank") {{
-            requirements(Category.liquid, with(silicon, 150, ferricMatter, 50));
+            requirements(Category.liquid, with(silicon, 600, metaglass, 500));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             liquidPadding = 3;
             squareSprite = false;
@@ -112,6 +112,17 @@ public class LiquidBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
+        siphonGullet = new ModifiedLiquidRouter("siphon-gulley"){{
+            requirements(Category.liquid, with(silicon, 2000, metaglass, 1500));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            liquidPadding = 2;
+            squareSprite = false;
+            liquidCapacity = 40000;
+            size = 6;
+            willMelt = false;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
         siphonReservoir = new ModifiedLiquidRouter("siphon-reservoir") {{
             requirements(Category.liquid, with(aluminum, 50, polymer, 250));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -119,7 +130,7 @@ public class LiquidBlocks {
             squareSprite = false;
             liquidCapacity = 18000;
             size = 4;
-            willMelt = true;
+            willMelt = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

@@ -64,7 +64,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class CrafterBlocks {
-    public static Block ammoniaCompressor,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block ammoniaCompressor, solarBoiler,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -1123,6 +1123,23 @@ public class CrafterBlocks {
                 blending = Blending.additive;
             }});
         }};
+        solarBoiler = new AquaGenericCrafter("solar-boiler") {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with(silicon, 1500, metaglass, 800, copper, 500));
+            size = 4;
+            envAttribute = Attribute.light;
+            solar = true;
+            squareSprite = false;
+            liquidCapacity = 4000;
+            consumeLiquids(new LiquidStack(water, 34/12f));
+            outputLiquid = new LiquidStack(haze, 34/2f);
+            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
+                layer = shadow;
+                drawIcon = false;
+            }},new DrawDefault(), new DrawLiquidTile(water, 3.2f){{
+                alpha = 0.5f;
+            }}, new DrawRegion("-top"));
+        }};
         SolidBoiler = new AquaGenericCrafter("solid-boiler") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(lead, 700, copper, 900, metaglass, 500, graphite, 600));
@@ -1132,8 +1149,8 @@ public class CrafterBlocks {
 
             updateEffect = Fx.steam;
             shareOutputLiquids = true;
-            shareInputLiquids = true;
             updateEffectChance = 0.05f;
+            shareInputLiquids = true;
             craftEffect = AquaFx.boilerSmoke;
             craftTime = 10f;
             liquidCapacity = 1000;
@@ -1282,6 +1299,7 @@ public class CrafterBlocks {
             outputItems = ItemStack.with(sand, 8, copper, 1, nickel, 2, lead, 2);
             consumePower(3f);
         }};
+
         cupronickelAlloyer = new AquaGenericCrafter("cupronickel-alloying-crucible") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with(nickel, 700, copper, 400, graphite, 150));

@@ -27,6 +27,7 @@ public class TentacleBulletType extends BulletType {
     public float width = 3f;
     public float range = 120f;
     public float homingPower = 5f;
+    public float whip = 10;
     public float baseOffset = 0f;
 
     public TextureRegion backRegion;
@@ -51,6 +52,7 @@ public class TentacleBulletType extends BulletType {
         public Vec2[] points;
         public Vec2[] velocity;
         public float extend = 0f;
+        public float anchorX, anchorY;
     }
     @Override
     public void load(){
@@ -67,6 +69,17 @@ public class TentacleBulletType extends BulletType {
 
         float ox = b.x;
         float oy = b.y;
+
+        if(b.owner instanceof Unit owner){
+            data.anchorX = ox - owner.x;
+            data.anchorY = oy - owner.y;
+        }else if(b.owner instanceof BaseTurret.BaseTurretBuild turret){
+            data.anchorX = ox - turret.x;
+            data.anchorY = oy - turret.y;
+        }else{
+            data.anchorX = 0f;
+            data.anchorY = 0f;
+        }
 
         Vec2 forward = Tmp.v1.trns(b.rotation(), 6f);
 
@@ -85,12 +98,21 @@ public class TentacleBulletType extends BulletType {
         float oy = b.y;
 
         if(b.owner instanceof Unit owner){
-            ox = owner.x;
-            oy = owner.y;
+            float cos = Mathf.cosDeg(owner.rotation());
+            float sin = Mathf.sinDeg(owner.rotation());
+
+            ox = owner.x + data.anchorX * cos - data.anchorY * sin;
+            oy = owner.y + data.anchorX * sin + data.anchorY * cos;
+
             b.rotation(owner.rotation());
-        }else if(b.owner instanceof BaseTurret.BaseTurretBuild turret){
-            ox = turret.x;
-            oy = turret.y;
+        }
+        else if(b.owner instanceof BaseTurret.BaseTurretBuild turret){
+            float cos = Mathf.cosDeg(turret.rotation);
+            float sin = Mathf.sinDeg(turret.rotation);
+
+            ox = turret.x + data.anchorX * cos - data.anchorY * sin;
+            oy = turret.y + data.anchorX * sin + data.anchorY * cos;
+
             b.rotation(turret.rotation);
         }
 
@@ -119,16 +141,15 @@ public class TentacleBulletType extends BulletType {
             b.rotation(Angles.moveToward(
                     b.rotation(),
                     targetAngle,
-                    homingPower * Time.delta * 60f
+                    homingPower * Time.delta * 60f + whip
             ));
         }
 
         float life = b.fin();
 
         float extendCurve;
-
         if(life < 0.2f){
-            extendCurve = Interp.pow3Out.apply(life / 0.2f);
+            extendCurve = Interp.pow10Out.apply(life / 0.2f);
         }else{
             extendCurve = 1f;
         }
@@ -216,7 +237,6 @@ public class TentacleBulletType extends BulletType {
                 Lines.line(a.x, a.y, c.x, c.y);
             }
         }
-
         Draw.reset();
     }
 }
