@@ -1132,7 +1132,7 @@ public class CrafterBlocks {
             squareSprite = false;
             liquidCapacity = 4000;
             consumeLiquids(new LiquidStack(water, 34/12f));
-            outputLiquid = new LiquidStack(haze, 34/2f);
+            outputLiquid = new LiquidStack(haze, 34/12f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
