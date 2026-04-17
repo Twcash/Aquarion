@@ -35,7 +35,7 @@ public class PowerBlocks {
         solarGenerator = new SolarGenerator("solar-generator") {{
             requirements(Category.power, with(lead, 150, nickel, 150, silicon, 200));
             size = 4;
-
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             insulated = true;
             explosionDamage = 640;
             explosionRadius = 5;
@@ -59,6 +59,7 @@ public class PowerBlocks {
             explosionDamage = 640;
             explosionRadius = 5;
             powerProduction = 5f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             baseExplosiveness = 2;//funnier
             envDisabled |= Env.underwater;
         }};
@@ -66,6 +67,7 @@ public class PowerBlocks {
             consumesPower = outputsPower = true;
             consumePowerBuffered(500);
             health = 200;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             laserRange = 8;
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.power;
@@ -92,6 +94,7 @@ public class PowerBlocks {
             conductivePower = false;
             insulated = true;
             size = 2;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
 
             outputItem = new ItemStack(minium, 1);
@@ -106,6 +109,7 @@ public class PowerBlocks {
             outputLiquid = new LiquidStack(hydrogen, 2);
             heatOutput = 35;
             researchCostMultiplier = 0.1f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             liquidCapacity = 1200;
             ambientSound = AquaSounds.derrick;
             ambientSoundVolume = 0.06f;
@@ -161,6 +165,7 @@ public class PowerBlocks {
             generateEffectRange = 12 / 4f;
             powerProduction = 25;
             liquidCapacity = 1200;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             itemDuration = 120;
             effectChance = 0.09f;
             consumeItems(ItemStack.with(minium, 10, brimstone, 10));
@@ -177,6 +182,7 @@ public class PowerBlocks {
             generateEffect = AquaFx.turbineGenerate;
             generateEffectRange = 12 / 4f;
             liquidCapacity = 2000;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             insulated = true;
             powerProduction = 155;
             consumeLiquid(haze, 34);
@@ -278,6 +284,7 @@ public class PowerBlocks {
                 insulated = true;
                 liquidCapacity = 3000;
                 warmupSpeed = 0.002f;
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumeLiquids(LiquidStack.with(petroleum, 24, oxygen, 12));
                 outputLiquid = new LiquidStack(water, 12);
                 powerProduction = 360;
@@ -322,6 +329,7 @@ public class PowerBlocks {
             baseExplosiveness = 10;
             explosionDamage = 2500;
             explosionShake = 5;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             explosionRadius = 120 / 2;
             squareSprite = false;
             generateEffectRange = 9 * 8 / 2f;
@@ -430,6 +438,7 @@ public class PowerBlocks {
             alwaysUnlocked = true;
             regionRotated1 = 1;
             schematicPriority = 9;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             drawer = new DrawMulti(new DrawDefault(), new DrawSideRegion());
         }};
         energyBank = new Battery("energy-bank") {{
@@ -437,6 +446,7 @@ public class PowerBlocks {
             size = 1;
             insulated = true;
             researchCostMultiplier = 0;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumePowerBuffered(1000);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -475,6 +485,7 @@ public class PowerBlocks {
         heatEngine = new ThermalGenerator("heat-engine") {{
             requirements(Category.power, with(silicon, 220, lead, 200));
             displayEfficiency = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             insulated = true;
             researchCostMultiplier = 0.05f;
             size = 3;
@@ -505,6 +516,7 @@ public class PowerBlocks {
             requirements(Category.power, with(silicon, 1500, metaglass, 950, cupronickel, 500));
             powerProduction = 1f;
             maxHeat = 150;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 8;
             liquidCapacity = 12000;
             consumeLiquid(water, 17f);
@@ -539,6 +551,7 @@ public class PowerBlocks {
             size = 9;
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.power;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             powerProduction = 4;
             baseExplosiveness = 2;
         }};

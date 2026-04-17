@@ -71,6 +71,7 @@ public class CrafterBlocks {
     public static void loadContent() {
         disableVanilla();
         magmaDiffser = new AquaGenericCrafter("magma-diffuser") {{
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(lead, 150, zinc, 120, silicon, 80));
             size = 5;
@@ -138,10 +139,12 @@ public class CrafterBlocks {
         }};
         evaporationPool = new AquaGenericCrafter("evaporation-pool"){{
             requirements(Category.production, with(lead, 225, silicon, 100));
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
         }};
         magmaTap = new AttributeCrafter("magma-tap") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(lead, 225, silicon, 100));
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 4;
             floating = true;
             updateEffect = Fx.steam;
@@ -174,6 +177,7 @@ public class CrafterBlocks {
             requirements(Category.crafting, with(zinc, 400, lead, 400, silicon, 500, copper, 200));
             size = 8;
             squareSprite = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             liquidCapacity = 800;
             baseEfficiency = 0.5f;
             rotate = true;
@@ -206,6 +210,7 @@ public class CrafterBlocks {
         thermalEvaporator = new AttributeCrafter("geothermal-evaporator"){{
             requirements(Category.crafting, with(lead, 250, zinc, 150, silicon, 150));
             size = 5;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
             minEfficiency = 0.5f;
             updateEffect = Fx.steam;
@@ -228,6 +233,7 @@ public class CrafterBlocks {
             size = 4;
             squareSprite = false;
             liquidCapacity = 500;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             heatOutput = 20;
             consume(new ConsumeLiquidAcidic(1f));
             consumeLiquid(hydroxide, 1f);
@@ -367,6 +373,7 @@ public class CrafterBlocks {
             boostScale = 1 / 18f;
             minEfficiency = 0.1f;
             maxBoost = 2;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             baseEfficiency = 0;
             liquidCapacity = 250f;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -463,6 +470,7 @@ public class CrafterBlocks {
             updateEffectChance = 0.01f;
             squareSprite = false;
             craftTime = 600;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquids(LiquidStack.with(slag,6, fumes, 2));
             outputItems = new ItemStack[]{
                     new ItemStack(metaglass, 40),
@@ -551,10 +559,12 @@ public class CrafterBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(silicon, 900, lead, 900, zinc, 250));
             craftTime = 5 * 60f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
             itemCapacity = 300;
             hasPower = true;
             consumeItem(azurite,15);
+            outputItem = new ItemStack(copper, 45);
             consume(new ConsumeLiquidAcidic(1, 0.5f));
             consumePower(4.5f);
             liquidCapacity = 1500;
@@ -599,6 +609,7 @@ public class CrafterBlocks {
                 liquidCapacity = 80;
                 baseEfficiency = 0;
                 itemCapacity = 18;
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 size = 2;
                 minEfficiency = 0.1f;
                 squareSprite = false;
@@ -628,6 +639,7 @@ public class CrafterBlocks {
                 maxBoost = 2.5f;
                 boostScale = 1 / 36f;
                 consumePower(4);
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);;
                 consumeLiquid(water, 3);
                 outputItems = new ItemStack[]{
                         new ItemStack(sand, 20),
@@ -682,6 +694,7 @@ public class CrafterBlocks {
                 size = 3;
                 squareSprite = false;
                 liquidCapacity = 150;
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(1.5f);
                 consumeItem(ferricMatter, 3).boost();
                 craftTime = 240;
@@ -726,6 +739,7 @@ public class CrafterBlocks {
                 tier = 4;
                 itemCapacity = 50;
                 squareSprite = false;
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(0.5f);
 
                 drillTime = 240;
@@ -741,6 +755,7 @@ public class CrafterBlocks {
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(aluminum, 250, copper, 75, ferricMatter, 125));
                 tier = 5;
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(2);
                 itemCapacity = 50;
                 squareSprite = false;
@@ -758,6 +773,7 @@ public class CrafterBlocks {
                 size = 6;
                 craftTime = 5 * 60f;
                 squareSprite = false;
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 baseExplosiveness = 10;
                 consumeLiquids(LiquidStack.with(haze, 3, oxygen, 2, oil, 2));
                 outputLiquid = new LiquidStack(fumes, 4);
@@ -805,6 +821,7 @@ public class CrafterBlocks {
                 size = 5;
                 drillTime = 125;
                 consumePower(2);
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumeLiquid(haze, 0.125f).booster = false;
                 consume(new ConsumeLiquidAcidic(1, 0.05f).boost());
                 liquidBoostIntensity = 1.5f;
@@ -828,6 +845,7 @@ public class CrafterBlocks {
                 consumePower(8);
                 consumeLiquid(haze, 2f).booster = false;
                 consumeLiquid(argon, 1).boost();
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 liquidBoostIntensity = 1.8f;
                 squareSprite = false;
                 itemCapacity = 400;
@@ -863,6 +881,7 @@ public class CrafterBlocks {
                 size = 6;
                 consumeLiquids(LiquidStack.with(muriaticAcid, 0.5f));
                 itemCapacity = 150;
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(6);
                 liquidCapacity = 150;
                 squareSprite = false;
@@ -893,6 +912,7 @@ public class CrafterBlocks {
                 size = 4;
                 craftTime = 240;
                 itemCapacity = 40;
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(2);
                 consumeItem(metaglass, 20);
                 outputItems = new ItemStack[]{
@@ -910,6 +930,7 @@ public class CrafterBlocks {
                 rotateDraw = false;
                 itemCapacity = 36;
                 consumePower(5);
+                destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 liquidCapacity = 500;
                 consumeLiquid(fumes, 2);
                 outputLiquids = LiquidStack.with(oil, 0.5f, haze, 2f, muriaticAcid, 1f);
@@ -939,6 +960,7 @@ public class CrafterBlocks {
             consumePower(6);
             rotate = true;
             rotateDraw = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             heatOutput = 150;
             liquidOutputDirections = new int[]{2};
             liquidCapacity = 10000;
@@ -989,6 +1011,7 @@ public class CrafterBlocks {
             drillTime = 150;
             liquidBoostIntensity = 1.25f;
             consumePower(.125f);
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(Liquids.water, 0.75f).boost();
             consumeItems(new ItemStack(cupronickel, 2)).boost();
             itemCapacity = 25;
@@ -1046,6 +1069,7 @@ public class CrafterBlocks {
             requirements(Category.liquid, with(copper, 120, metaglass, 50));
             size = 3;
             consumePower(0.75f);
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
             pumpAmount = (8.5f/2/9f);
             liquidCapacity = 300;
@@ -1079,6 +1103,7 @@ public class CrafterBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.liquid, with(cupronickel, 500, ferricMatter, 250, metaglass, 250, graphite, 400));
             size = 6;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
             consumePower(3.5f);
             squareSprite = false;
@@ -1128,6 +1153,7 @@ public class CrafterBlocks {
             requirements(Category.crafting, with(silicon, 1500, metaglass, 800, copper, 500));
             size = 4;
             envAttribute = Attribute.light;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             solar = true;
             squareSprite = false;
             liquidCapacity = 4000;
@@ -1146,7 +1172,7 @@ public class CrafterBlocks {
             size = 7;
             itemCapacity = 60;
             squareSprite = false;
-
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             updateEffect = Fx.steam;
             shareOutputLiquids = true;
             updateEffectChance = 0.05f;
@@ -1292,6 +1318,7 @@ public class CrafterBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(silicon, 250, nickel, 200, copper, 100));
             consumeItem(scrap, 10);
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             itemCapacity = 100;
             squareSprite = false;
             size = 3;
@@ -1307,6 +1334,7 @@ public class CrafterBlocks {
                 squareSprite = false;
                 size = 4;
                 baseEfficiency = 1;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 heatRequirement = 30;
                 hasHeat = true;
                 consumeLiquid(nitrogen, 4).boost();
@@ -1444,6 +1472,7 @@ public class CrafterBlocks {
             requirements(Category.crafting, with(lead, 300, copper, 550));
             size = 5;
             itemCapacity = 60;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
             baseEfficiency = 1;
             heatRequirement = 15;
@@ -1568,6 +1597,7 @@ public class CrafterBlocks {
             heatRequirement = 30;
             maxEfficiency = 5;
             hasHeat = true;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             craftTime = 2.5f * 60f;
             overheatScale = 0.75f;
             rotate = true;
@@ -1599,6 +1629,7 @@ public class CrafterBlocks {
             size = 4;
             liquidCapacity = 400;
             squareSprite = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             itemCapacity = 60;
             outputItem = new ItemStack(polymer, 40);
             craftTime = 5 * 60f;
@@ -1640,6 +1671,7 @@ public class CrafterBlocks {
             itemCapacity = 60;
             liquidCapacity = 200;
             craftTime = 150;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeItem(silicon, 20);
             consumeLiquid(oxygen, 40/60f);
             outputItem = new ItemStack(sand, 20);
@@ -1663,6 +1695,7 @@ public class CrafterBlocks {
             size = 4;
             squareSprite = false;
             craftTime = 300;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             itemCapacity = 80;
             liquidCapacity = 200;
             consumePower(4);
@@ -1716,6 +1749,7 @@ public class CrafterBlocks {
             size = 6;
             updateEffectChance = 0.08f;
             updateEffect = Fx.steamCoolSmoke;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
             consumeLiquids(LiquidStack.with(oil, 4, haze, 2));
             outputLiquid = new LiquidStack(ammonia, 2);
@@ -1730,7 +1764,7 @@ public class CrafterBlocks {
             craftTime = 4 * 60f;
             heatRequirement = 45;
             hasHeat = true;
-
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             maxEfficiency = 2;
             craftEffect = Fx.reactorsmoke;
             updateEffectChance = 0.08f;
@@ -1752,6 +1786,7 @@ public class CrafterBlocks {
             hasHeat = true;
             heatRequirement = 25;
             overheatScale = 1;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             baseEfficiency = 0;
             maxEfficiency = 10;
             craftTime = 240;
@@ -1773,6 +1808,7 @@ public class CrafterBlocks {
             requirements(Category.production, with(silicon, 70));
             shownPlanets.addAll(tantros2);
             craftTime = 10;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             shareOutputLiquids = true;
             outputLiquid = new LiquidStack(halideWater, 0.25f);
             envDisabled = Env.groundOil | Env.scorching | Env.spores;
@@ -1796,6 +1832,7 @@ public class CrafterBlocks {
             requirements(Category.production, with(copper, 150, ferricMatter, 100, metaglass, 75));
             shownPlanets.addAll(tantros2);
             craftTime = 10;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 3;
             consumePower(2f);
             outputLiquid = new LiquidStack(halideWater, 8);
@@ -1848,6 +1885,7 @@ public class CrafterBlocks {
             size = 6;
             squareSprite = false;
             ambientSound = Sounds.loopCircuit;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             outputItem = new ItemStack(salt, 1);
             consumePower(3);
             consumeLiquid(halideWater, 6.5f);
@@ -1904,6 +1942,7 @@ public class CrafterBlocks {
                 sizeTo = 6;
                 particles = 5;
             }});
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             updateEffect = Fx.steam;
             updateEffectChance = 0.01f;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -1949,6 +1988,7 @@ public class CrafterBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(nickel, 50, silicon, 150));
             size = 2;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
             craftTime = 10;
             liquidCapacity = 200;
@@ -1979,6 +2019,7 @@ public class CrafterBlocks {
             craftTime = 5 * 60f;
             liquidCapacity = 1000;
             itemCapacity = 180;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             ambientSound = AquaSounds.waterRumble;
             ambientSoundVolume = 0.09f;
             updateEffectChance = 0.05f;
@@ -2079,6 +2120,7 @@ public class CrafterBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(metaglass, 150, copper, 255, ferricMatter, 150));
             size = 4;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             rotateDraw = false;
             consumePower(3f);
 
@@ -2147,6 +2189,7 @@ public class CrafterBlocks {
             rotate = true;
             liquidCapacity = 2000;
             itemCapacity = 200;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             craftTime = 5 * 60f;
             boostersAffectOutput = true;
             liquidBoostIntensity = 1.5f;
@@ -2197,6 +2240,7 @@ public class CrafterBlocks {
             drillTime = 100;
             size = 1;
             squareSprite = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             tier = 3;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -2210,9 +2254,11 @@ public class CrafterBlocks {
             itemCapacity = 750;
             liquidCapacity = 2000;
             squareSprite = false;
+
             craftTime = 10 * 60f;
             consumeItem(salt, 250);
             consumeLiquid(water, 8.5f);
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumePower(10);
             outputLiquid = new LiquidStack(brine, 8.5f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -2270,6 +2316,7 @@ public class CrafterBlocks {
             liquidCapacity = 4000;
             rotateDraw = false;
             consumePower(20);
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             craftTime = 10f * 60f;
             liquidOutputDirections = new int[]{3, 2, 1};
             consumeLiquid(brine, 17);
@@ -2318,6 +2365,7 @@ public class CrafterBlocks {
             requirements(Category.crafting, with(cupronickel, 90, silicon, 150, metaglass, 40));
             size = 3;
             squareSprite = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             craftTime = 720;
             itemCapacity = 36;
             consumeItem(sporePod, 9);
@@ -2342,6 +2390,7 @@ public class CrafterBlocks {
             liquidCapacity = 1200;
             itemCapacity = 20;
             minEfficiency = 0.25f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             outputLiquid = new LiquidStack(bioPulp, 6.5f);
             consumeLiquids(LiquidStack.with(water, 10));
             craftTime = 90;
@@ -2370,6 +2419,7 @@ public class CrafterBlocks {
             craftTime = 120;
             consumePower(1.25f);
             heatOutput = 60;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(ferricMatter, 250, silicon, 700, metaglass, 500));
             consumeLiquid(bioPulp, 1.25f);
@@ -2405,6 +2455,7 @@ public class CrafterBlocks {
             craftTime = 2.5f * 60f;
             hasHeat = false;
             consumePower(10);
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(air, 12);
             consumeItem(serpentine, 20);
             outputLiquids = LiquidStack.with(hydroxide, 4.25);
@@ -2457,6 +2508,7 @@ public class CrafterBlocks {
             consumeLiquid(water, 0.25f);
             rotateDraw = false;
             heatOutput = 10;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
@@ -2474,6 +2526,7 @@ public class CrafterBlocks {
             squareSprite = false;
             liquidCapacity = 150;
             regionRotated1 = 1;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(oxygen, .0125f);
             consume(new ConsumeItemFlammable(0.8f));
             craftTime =90;
@@ -2493,6 +2546,7 @@ public class CrafterBlocks {
             squareSprite = false;
             liquidCapacity = 150;
             regionRotated1 = 1;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consume(new ConsumeLiquidFlammable(1f, 1));
             consumeLiquid(oxygen, .2f);
             heatOutput = 30;
@@ -2516,6 +2570,7 @@ public class CrafterBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(copper, 60));
             visualMaxHeat = 150;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;

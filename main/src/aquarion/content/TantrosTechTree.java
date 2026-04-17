@@ -381,6 +381,7 @@ public class TantrosTechTree {
                     node(siphonVessel, ()->{
                         node(pipeTank);
                         node(siphonReservoir);
+                        node(siphonGullet);
                     });
                     node(siphonUnderflow);
                 });

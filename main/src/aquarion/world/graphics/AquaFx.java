@@ -504,18 +504,20 @@ public class AquaFx {
                 color(Color.white, AquaPal.smoke.a(0.5f), Interp.pow2In.apply(e.fin()));
                 alpha(Interp.pow2In.apply(e.fout()));
                 TextureRegion region = Core.atlas.find("circle-shadow");
+                blend(Blending.normal);
                 randLenVectors(e.id, 2, Interp.pow5In.apply(e.finpow()) * 80f, 32f, 30f, (x, y) ->
                 {
-                    Draw.rect(region, e.x + x + 77 / 4f, e.y + y - 90 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 9.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
+                    Draw.rect(region, e.x + x + 77 / 4f, e.y + y - 90 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f*8,Interp.pow5In.apply(e.finpow()) * 9.5f*8 ,Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
                 });
                 randLenVectors(e.id + 1, 2, Interp.pow5In.apply(e.finpow()) * 80f, 32f, 30f, (x, y) ->
                 {
-                    Draw.rect(region,e.x + x + 77 / 4f, e.y + y - 72 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 9.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
+                    Draw.rect(region,e.x + x + 77 / 4f, e.y + y - 72 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f*8,Interp.pow5In.apply(e.finpow()) * 9.5f*8 ,Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
                 });
                 randLenVectors(e.id + 2, 2, Interp.pow5In.apply(e.finpow()) * 80f, 32f, 30f, (x, y) ->
                 {
-                    Draw.rect(region,e.x + x + 77 / 4f, e.y + y - 110 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 9.5f + 2f*8,Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
+                    Draw.rect(region,e.x + x + 77 / 4f, e.y + y - 110 / 4f, Interp.pow5In.apply(e.finpow()) * 6.5f*8,Interp.pow5In.apply(e.finpow()) * 9.5f*8,Interp.pow5In.apply(e.finpow()) * 6.5f + 0.1f);
                 });
+                blend();
             }),
             hydroxideReactorGenerate = new Effect(220f, e -> {
                 color(Pal.sap, AquaPal.smoke, Interp.pow2In.apply(e.fin()));
@@ -864,6 +866,132 @@ public class AquaFx {
                     float fout = Math.max(e.fout(), 0.1f);
                     float size = fout * 12f;
                     Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(180) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            nickelDestroy = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation *4; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-nickel-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f * e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            aluminumDestroy = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation *4; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-aluminum-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f * e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            polymerDestroy = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation *4; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-polymer-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f * e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            steelDestroy = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation *4; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-steel-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f * e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            cuproDestroy = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation *4; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-cupro-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f * e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            ferroDestroy = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation *4; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-ferro-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f * e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            bauxiteDestroy = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation *4; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-bauxite-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f *e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            factoryDestroy = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation * e.rotation*4+2; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 12);
+                    TextureRegion region = Core.atlas.find("aquarion-factory-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f *e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 14f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            zincDestroy = new Effect(100, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation *4; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-zinc-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 28f *e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 12f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
                 }
             }).layer(Layer.flyingUnitLow),
             bonyDeathSmall = new Effect(100, e -> {

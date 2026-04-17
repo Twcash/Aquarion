@@ -159,16 +159,16 @@ public class TurretBlocks {
                         hitEffect = Fx.hitFlameBeam;
                         despawnEffect = Fx.hitFlameBeam;
                     }},
-                    AquaItems.arsenic, new LaserBoltBulletType() {{
-                        frontColor = AquaPal.redDecal1;
-                        backColor = AquaPal.redDecal1Dark;
+                    AquaItems.brimstone, new LaserBoltBulletType() {{
+                        frontColor = AquaItems.brimstone.color;
+                        backColor = AquaItems.brimstone.color;
                         speed = 40;
                         hitSize = 12;
                         lifetime = 2;
                         pierce = true;
                         pierceCap = 3;
                         knockback = 2f;
-                        damage = 110;
+                        damage = 180;
                         rangeChange = 48;
                         reloadMultiplier = 0.1f;
                         shootEffect = Fx.shootSmall;
@@ -964,7 +964,7 @@ public class TurretBlocks {
             }};
         }};
         thrash = new ItemTurret("thrash") {{
-            requirements(Category.turret, with(polymer, 400, metaglass, 450, lead, 1200));
+            requirements(Category.turret, with(polymer, 400, metaglass, 450, lead, 900));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 4;
             squareSprite = false;
@@ -989,7 +989,7 @@ public class TurretBlocks {
             consumeLiquid(petroleum, 1);
             shootSound = shootArtillerySmall;
             ammo(
-                    coal, new ArtilleryBulletType(18f, 220f) {{
+                    coal, new FlakBulletType(18f, 220f) {{
                         smokeEffect = AquaFx.thrashShootSmoke;
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 3;
@@ -1003,14 +1003,17 @@ public class TurretBlocks {
                         makeFire = true;
                         status = burning;
                         shrinkX = 0.35F;
+                        collidesGround = true;
+                        collidesAir = false;
                         shrinkY = 0.63F;
                         width = 12;
+                        explodeRange = 32f;
                         height = 18;
                         statusDuration = 600;
                         shrinkInterp = Interp.pow2Out;
                         despawnSound = explosion;
                     }},
-                    magnesiumPowder, new ArtilleryBulletType(22f, 320f) {{
+                    magnesiumPowder, new FlakBulletType(22f, 320f) {{
                         smokeEffect = AquaFx.thrashShootSmoke;
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 3;
@@ -1023,6 +1026,9 @@ public class TurretBlocks {
                         accurateDelay = true;
                         makeFire = true;
                         status = burning;
+                        explodeRange = 40;
+                        collidesAir = false;
+                        collidesGround = false;
                         shrinkX = 0.35F;
                         shrinkY = 0.63F;
                         width = 12;
@@ -1031,7 +1037,7 @@ public class TurretBlocks {
                         shrinkInterp = Interp.pow2Out;
                         despawnSound = explosion;
                     }},
-                    AquaItems.brimstone, new ArtilleryBulletType(18f, 250f) {{
+                    AquaItems.brimstone, new FlakBulletType(18f, 250f) {{
                         smokeEffect = AquaFx.thrashShootSmoke;
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 7;
@@ -1045,6 +1051,9 @@ public class TurretBlocks {
                         makeFire = true;
                         status = burning;
                         accurateDelay = true;
+                        explodeRange = 25;
+                        collidesGround = true;
+                        collidesAir = false;
                         shrinkX = 0.35F;
                         shrinkY = 0.63F;
                         width = 12;
