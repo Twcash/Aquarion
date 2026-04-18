@@ -12,6 +12,7 @@ import arc.func.Cons;
 import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.RadialEffect;
 import mindustry.type.*;
 import mindustry.world.Block;
@@ -38,10 +39,12 @@ public class UnitBlocks {
         initializationBay = new InitializationBay("initialization-bay"){{
             requirements(Category.units, with(polymer, 500, ferricMatter, 300, silicon, 1500));
             buildVisibility = BuildVisibility.sandboxOnly;
-            consumePower(36);
+            consumePower(18);
             size = 6;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
         }};
         statusApplier = new UnitBlockStatusApplierThingWhat("manipulation-bay"){{
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             requirements(Category.units, with(polymer, 200, silicon, 900, copper, 1000, metaglass, 500));
             plans = Seq.with(new StatusPlan(AquaStatuses.weighted, 300) {{
                 requirements = PayloadStack.list(DefenseBlocks.nickelWall, 3);
@@ -71,6 +74,7 @@ public class UnitBlocks {
             size = 2;
             time = 15 * 60;
             consumePower(0.75f);
+
         }};
         weld = new UnitBlock("weld-inactive") {{
             requirements(Category.units, with(metaglass, 80, lead, 80));

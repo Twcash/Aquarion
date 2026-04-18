@@ -1,8 +1,11 @@
 package aquarion.content.blocks;
 
 import aquarion.world.blocks.core.OverdrivePylon;
+import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
+import mindustry.content.Fx;
 import mindustry.content.Planets;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.OverdriveProjector;
@@ -56,6 +59,7 @@ public class EffectBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.effect, BuildVisibility.lightingOnly, with(silicon, 30));
             brightness = 0.8f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 2;
             radius = 90;
             envEnabled |= Env.terrestrial | Env.underwater;

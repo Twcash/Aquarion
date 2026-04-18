@@ -17,6 +17,7 @@ import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
 import aquarion.world.blocks.neoplasia.NeoplasiaGraph;
 import aquarion.world.blocks.neoplasia.NeoplasiaproductionBlock;
 import aquarion.world.content.AquaItem;
+import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
 import arc.graphics.Color;
 import mindustry.content.Fx;
@@ -24,6 +25,7 @@ import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.content.Planets;
 import mindustry.ctype.UnlockableContent;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
@@ -87,6 +89,7 @@ public class CoreBlocks {
             coreMerge = true;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             squareSprite = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 3;
             researchCostMultiplier = 0.02f;
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -94,9 +97,10 @@ public class CoreBlocks {
             //drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
         }};
         crate = new StorageBlock("crate") {{
-            requirements(Category.effect, with(cupronickel, 400, silicon, 1200));
+            requirements(Category.effect, with(cupronickel, 400, silicon, 800));
             itemCapacity = 150;
             coreMerge = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             squareSprite = false;
             size = 2;
@@ -111,7 +115,7 @@ public class CoreBlocks {
             health = 2500;
             itemCapacity = 8000;
             incinerateNonBuildable = true;
-
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 4;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             unitCapModifier = 25;
@@ -130,6 +134,7 @@ public class CoreBlocks {
             buildSpeed = 0.4f;
             range = 145;
             rotateSpeed = 0.85f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             schematicPriority = 8;
             consumePower(1.5f);
         }};
@@ -139,6 +144,7 @@ public class CoreBlocks {
             size = 3;
             outlineRadius = 0;
             squareSprite = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(nitrogen, 2);
             buildSpeed = 0.8f;
             range = 300;
@@ -167,6 +173,7 @@ public class CoreBlocks {
             consumeItem(Items.silicon).boost();
             range = 25;
             phaseRangeBoost = 3f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             phaseBoost = 2;
             healPercent = 10f;
             squareSprite = false;
@@ -185,6 +192,7 @@ public class CoreBlocks {
             healPercent = 14;
             squareSprite = false;
             reload = 240;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             phaseBoost = 0;
             phaseRangeBoost = 0;
             liquidCapacity = 60;
@@ -206,11 +214,13 @@ public class CoreBlocks {
             phaseBoost = 0;
             phaseRangeBoost = 0;
             lightningRange = 50;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             liquidCapacity = 700;
         }};
         deflectorWell = new deflectorShield("deflector-well") {{
             requirements(Category.effect, with(polymer, 800, metaglass, 900, silicon, 1200));
             size = 4;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
             liquidCapacity = 500;
             sides = 180;
@@ -223,6 +233,7 @@ public class CoreBlocks {
             requirements(Category.turret, with(silicon, 250, lead, 300));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 3;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumePower(4);
             researchCostMultiplier = 0.02f;
             damage = 15;

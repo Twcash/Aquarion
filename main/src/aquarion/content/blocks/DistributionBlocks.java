@@ -3,12 +3,15 @@ package aquarion.content.blocks;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
 import aquarion.world.blocks.payload.*;
+import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
 import mindustry.Vars;
 import mindustry.content.Blocks;
+import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.ctype.UnlockableContent;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
@@ -32,6 +35,7 @@ public class DistributionBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(lead, 1));
             envEnabled = 4;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
             speed = 2.1F;
             alwaysUnlocked = true;
             solid = false;
@@ -62,6 +66,8 @@ public class DistributionBlocks {
             envDisabled = Env.none;
             alwaysUnlocked = true;
             speed = 2.1f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
+
             hasItems = true;
         }};
         sealedDistributor = new SealedRouter("sealed-distributor") {{
@@ -70,6 +76,8 @@ public class DistributionBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             speed = 2.1f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
+
             size = 2;
             hasItems = true;
             solid = true;
@@ -79,6 +87,8 @@ public class DistributionBlocks {
             requirements(Category.distribution, with(silicon, 120));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
+
             speed = 2.5f;
             size = 4;
             hasItems = true;
@@ -88,6 +98,8 @@ public class DistributionBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             capacity = 8;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
+
             speed = 10;
             hasItems = true;
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -104,6 +116,8 @@ public class DistributionBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
+
             envDisabled = Env.none;
             hasItems = true;
             alwaysUnlocked = true;
@@ -113,6 +127,8 @@ public class DistributionBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
+
             envDisabled = Env.none;
             hasItems = true;
             alwaysUnlocked = true;
@@ -123,6 +139,8 @@ public class DistributionBlocks {
             requirements(Category.distribution, with(silicon, 5));
             invert = false;
             hasItems = true;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
+
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -133,6 +151,8 @@ public class DistributionBlocks {
             hasItems = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
+
         }};
         manganeseRail = new StackConveyor("manganese-rail") {{
             requirements(Category.distribution, with(manganese, 3));
@@ -156,14 +176,20 @@ public class DistributionBlocks {
             Block conveyor = Vars.content.blocks().find(f -> f == Blocks.titaniumConveyor);
         });
         payloadPad = new PayloadJumper("payload-pad"){{
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+
             requirements(Category.units, with(polymer, 45, silicon, 50, copper, 120));
             size = 3;
         }};
         payloadDisplacer = new Displacer("payload-displacer"){{
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+
             requirements(Category.units, with(polymer, 80, silicon, 90, ferricMatter, 25));
         }};
         payloadDistributor = new PayloadDistributor("payload-distributor"){{
             requirements(Category.units, with(polymer, 30));
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+
         }};
     }
 }

@@ -980,6 +980,34 @@ public class AquaFx {
                     Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
                 }
             }).layer(Layer.flyingUnitLow),
+            distriDestroy = new Effect(50, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation * e.rotation+1; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-distribution-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 14f *e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 14f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
+            siphonDestroy = new Effect(75, e -> {
+                rand.setSeed(e.id);
+                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
+
+                for (int i = 0; i < e.rotation * e.rotation+1; i++) {
+                    float rot = e.rotation + rand.range(360f);
+                    int regionId = (int) rand.random(1, 4);
+                    TextureRegion region = Core.atlas.find("aquarion-siphon-debris" + regionId);
+                    v.trns(rot, rand.random(e.finpow() * 14f *e.rotation));
+                    float fout = Math.max(e.fout(), 0.1f);
+                    float size = fout * 14f;
+                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+                }
+            }).layer(Layer.flyingUnitLow),
             zincDestroy = new Effect(100, e -> {
                 rand.setSeed(e.id);
                 color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());

@@ -1,8 +1,11 @@
 package aquarion.content.blocks;
 
 import aquarion.world.blocks.distribution.*;
+import aquarion.world.graphics.AquaFx;
+import mindustry.content.Fx;
 import mindustry.content.Liquids;
 import mindustry.content.Planets;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.production.Pump;
@@ -27,6 +30,7 @@ public class LiquidBlocks {
             range = 4;
             willMelt = false;
             hasPower = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
             liquidCapacity = 80;
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -44,6 +48,7 @@ public class LiquidBlocks {
         siphonUnderflow = new LiquidUnderflow("siphon-underflow") {{
             requirements(Category.liquid, with(silicon, 70));
             invert = true;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
         }};
         siphon = new ModifiedConduit("siphon") {{
@@ -53,6 +58,7 @@ public class LiquidBlocks {
             junctionReplacement = siphonJunction;
             bridgeReplacement = siphonBridge;
             liquidCapacity = 80;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
             leaks = true;
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -76,6 +82,7 @@ public class LiquidBlocks {
             requirements(Category.liquid, with(silicon, 30));
             envEnabled |= Env.terrestrial | Env.underwater;
             health = 120;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             liquidCapacity = 80;
             envDisabled = Env.none;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -86,6 +93,7 @@ public class LiquidBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
             ((ModifiedConduit) siphon).junctionReplacement = this;
         }};
@@ -97,6 +105,7 @@ public class LiquidBlocks {
             squareSprite = false;
             liquidCapacity = 8000;
             size = 3;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             willMelt = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -108,6 +117,7 @@ public class LiquidBlocks {
             squareSprite = false;
             liquidCapacity = 4000;
             size = 2;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             willMelt = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -117,6 +127,7 @@ public class LiquidBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             liquidPadding = 2;
             squareSprite = false;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             liquidCapacity = 40000;
             size = 6;
             willMelt = false;
