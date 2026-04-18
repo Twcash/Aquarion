@@ -173,7 +173,6 @@ public class DistributionBlocks {
         overwrite(Blocks.titaniumConveyor, (Conveyor r) -> {
             r.requirements = null;
             r.requirements(Category.distribution, with(Items.copper, 1, Items.lead, 1, chalkalloy, 1));
-            Block conveyor = Vars.content.blocks().find(f -> f == Blocks.titaniumConveyor);
         });
         payloadPad = new PayloadJumper("payload-pad"){{
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -189,7 +188,6 @@ public class DistributionBlocks {
         payloadDistributor = new PayloadDistributor("payload-distributor"){{
             requirements(Category.units, with(polymer, 30));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-
         }};
     }
 }
