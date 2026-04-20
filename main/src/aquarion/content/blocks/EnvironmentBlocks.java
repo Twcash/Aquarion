@@ -47,7 +47,7 @@ public class EnvironmentBlocks {
             coral_floor,cupriteBoulder,cupriteWall,cupriteChunks, cupriteFloor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, rubble,
              metal13, metal14, metal15, metal16, roughFeldspar, glassFloor, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
-            boricFloor, boricFloorDense, tile,
+            boricFloor, boricFloorDense, tile, relBlossom, bramble, brulrFern,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
     public static Block oreNickelWall, scorche, oreRadium, oreUranium, orePitchblende,
             oreNickel, oreBauxite,
@@ -709,6 +709,54 @@ public class EnvironmentBlocks {
             layer = Layer.power - 3;
             shadowLayer = Layer.blockOver;
             buildTime = 20 * 60f;
+        }};
+        bramble = new FloraBlock("bramble") {{
+            shadowAlpha = 0.6f;
+            buildVisibility = sandboxOnly;
+            variants = 2;
+            rotationRand = 45;
+            size = 1;
+            breakable = false;
+            health = 600;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            createRubble = false;
+            layer = Layer.blockOver - 6;
+            shadowLayer = Layer.blockOver - 7;
+            buildTime = 5 * 60f;
+        }};
+        brulrFern = new FloraBlock("brulr-fern") {{
+            shadowAlpha = 0.6f;
+            buildVisibility = sandboxOnly;
+            variants = 2;
+            rotationRand = 45;
+            size = 2;
+            breakable = false;
+            health = 900;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            createRubble = false;
+            layer = Layer.blockOver - 5;
+            shadowLayer = Layer.blockOver - 6;
+            buildTime = 10 * 60f;
+        }};
+        relBlossom = new FloraBlock("rel-blossom") {{
+            shadowAlpha = 0.6f;
+            buildVisibility = sandboxOnly;
+            variants = 2;
+            rotationRand = 45;
+            size = 1;
+            breakable = false;
+            health = 400;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            createRubble = false;
+            layer = Layer.blockOver - 5f;
+            shadowLayer =Layer.blockOver - 8;
+            buildTime = 2 * 60f;
         }};
         parzilPine = new FloraBlock("parzil-pine") {{
             shadowAlpha = 0.6f;
