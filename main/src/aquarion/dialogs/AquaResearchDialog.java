@@ -359,7 +359,7 @@ public class AquaResearchDialog extends BaseDialog {
 
         int totalNodes = nodes.size;
         float ringSpacing = Mathf.clamp(
-                120f + totalNodes * 2.5f,
+                120f + totalNodes * 3f,
                 250f,
                 900f
         );
@@ -771,7 +771,7 @@ public class AquaResearchDialog extends BaseDialog {
             int maxDepth = getMaxDepth(root, 0);
             int totalNodes = nodes.size;
             float spacing = Mathf.clamp(
-                    120f + totalNodes * 2.5f,
+                    120f + totalNodes * 3f,
                     250f,
                     900f
             );
