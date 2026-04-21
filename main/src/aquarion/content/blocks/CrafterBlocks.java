@@ -2475,7 +2475,7 @@ public class CrafterBlocks {
                         y = -4f;
                         rotationSpeed = 1;
                         width = 150 / 4f;
-                                               sideCount = 17;
+                        sideCount = 17;
                         height = 100 / 4f;
                         wheelColors = new Color[]{
                                 //I should set this as a Pallete or smth
@@ -2518,7 +2518,6 @@ public class CrafterBlocks {
                 heatColor = new Color(1f, 0.22f, 0.22f, 0.4f);
             }});
         }};
-
         coalHeater = new HeatProducer("solid-heater") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(metaglass, 120, silicon, 300, copper, 400));
