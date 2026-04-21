@@ -121,16 +121,14 @@ public class AquaStatValues {
                                     .update(i -> i.getStyle().imageUp = (!gambleColl.isCollapsed() ? Icon.upOpen : Icon.downOpen))
                                     .size(8).padLeft(16f).expandX();
                         });
-                        bt.row();
                         bt.add(gambleColl);
+                        bt.row();
                     } else {
                         if (type.damage > 0 && (type.collides || type.splashDamage <= 0)) {
                             if (type.continuousDamage() > 0) {
                                 bt.add(Core.bundle.format("bullet.damage", type.continuousDamage()) + StatUnit.perSecond.localized());
-                                bt.row();
                             } else {
                                 bt.add(Core.bundle.format("bullet.damage", type.damage));
-                                bt.row();
                             }
                         }
 
