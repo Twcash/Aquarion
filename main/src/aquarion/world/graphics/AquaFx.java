@@ -608,12 +608,24 @@ public class AquaFx {
 
             }),
             thrashShootSmoke = new Effect(145f, e -> {
-                color(Pal.lightOrange, Color.black, e.color, e.fin());
-
-                randLenVectors(e.id, 12, Interp.pow5Out.apply(e.fin()) * 40f, e.rotation, 35f, (x, y) -> {
-                            Fill.circle(e.x + x / Interp.pow2In.apply(e.fout()), e.y + y / Interp.pow2In.apply(e.fout()), Interp.pow2In.apply(e.fout()) * 6f + 0.1f);
-                        }
-                );
+                color(Pal.lightOrange, Pal.lightishGray, e.fin());
+                randLenVectors(e.id, 7, e.finpow() * 22f, e.rotation, 10f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 7f);
+                });
+                color(Color.white, Pal.lightishOrange, e.fin());
+                randLenVectors(e.id, 3, e.finpow() * 17f, e.rotation, 4f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 6f);
+                });
+            }),
+            thrashExplodeSmoke = new Effect(220f, e -> {
+                color(Pal.darkishGray, Pal.lightishGray, e.fin());
+                randLenVectors(e.id, 8, e.finpow() * 44f, e.rotation,  (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 9f);
+                });
+                color(Color.white, Pal.lightishOrange, e.fin());
+                randLenVectors(e.id, 4, e.finpow() * 38f, e.rotation,(x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 6f);
+                });
 
             }),
             flagellateExplosion = new Effect(30, 500f, b -> {

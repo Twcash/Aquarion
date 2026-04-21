@@ -116,12 +116,18 @@ public class TurretBlocks {
             );
             limitRange(1.15f);
             drawer = new DrawTurret() {{
-                parts.add(new NewRegPart("-bolt") {{
-                    moveY = -5;
+                parts.add( new RegionPart("-boioioioing"){{
+                    x = -13/4f;
+                    moveRot = 360;
                     progress = PartProgress.reload.curve(Interp.pow2In);
-                    alphaTo = 0;
-                    under = true;
-                    layer = Layer.turret - 1;
+                }},new NewRegPart("-spike") {{
+                        moveX = 5;
+                        progress = PartProgress.reload.curve(Interp.pow2In);
+                        alphaTo = 0;
+                        alpha = 1;
+                }}, new RegionPart("-top"), new RegionPart("-plate"){{
+                    moveY = 5;
+                    progress = PartProgress.recoil;
                 }});
             }};
         }};
@@ -619,7 +625,7 @@ public class TurretBlocks {
                 velocityRnd = 0.7f;
                 inaccuracy = 25;
                 ammo(
-                        minium, new BasicBulletType(6, 30) {{
+                        minium, new BasicBulletType(6, 30, "aquarion-shrapnel") {{
                             width = 16;
                             spin = 2;
                             randomAngleOffset = 1;
@@ -640,7 +646,7 @@ public class TurretBlocks {
                             shrinkX = 0.5f;
                             shrinkY = 0.8f;
                         }},
-                        metaglass, new BasicBulletType(9, 45) {{
+                        metaglass, new BasicBulletType(9, 45, "aquarion-shrapnel") {{
                             width = 15;
                             spin = 2;
                             randomAngleOffset = 1;
@@ -662,7 +668,7 @@ public class TurretBlocks {
                             frontColor = Color.white;
                             backColor = trailColor = Pal.lightishGray;
                         }},
-                        scrap, new BasicBulletType(6, 30) {{
+                        scrap, new BasicBulletType(6, 30, "aquarion-shrapnel") {{
                             width = 12;
                             spin = 2;
                             randomAngleOffset = 1;
@@ -824,9 +830,10 @@ public class TurretBlocks {
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 3;
                         trailInterval = 2;
-                        despawnEffect = hitEffect = AquaFx.thrashExplosion;
+                        despawnEffect = hitEffect = new MultiEffect(AquaFx.thrashExplosion,AquaFx.thrashExplodeSmoke);
                         velocityRnd = 0.1f;
                         accurateDelay = true;
+                        sprite = "aquarion-shell";
                         splashDamage = 340;
                         splashDamageRadius = 64f;
                         drag = 0.018f;
@@ -848,7 +855,7 @@ public class TurretBlocks {
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 3;
                         trailInterval = 2;
-                        despawnEffect = hitEffect = AquaFx.thrashExplosion;
+                        despawnEffect = hitEffect = new MultiEffect(AquaFx.thrashExplosion,AquaFx.thrashExplodeSmoke);
                         velocityRnd = 0.1f;
                         splashDamage = 125;
                         splashDamageRadius = 80f;
@@ -859,6 +866,7 @@ public class TurretBlocks {
                         explodeRange = 40;
                         collidesAir = false;
                         collidesGround = false;
+                        sprite = "aquarion-shell";
                         shrinkX = 0.35F;
                         shrinkY = 0.63F;
                         width = 12;
@@ -873,13 +881,14 @@ public class TurretBlocks {
                         despawnShake = 7;
                         scaleLifetimeOffset = 2;
                         trailInterval = 1;
-                        despawnEffect = hitEffect = AquaFx.thrashExplosion;
+                        despawnEffect = hitEffect = new MultiEffect(AquaFx.thrashExplosion,AquaFx.thrashExplodeSmoke);
                         velocityRnd = 0.12f;
                         splashDamage = 400;
                         splashDamageRadius = 50f;
                         drag = 0.013f;
                         makeFire = true;
                         status = burning;
+                        sprite = "aquarion-shell";
                         accurateDelay = true;
                         explodeRange = 25;
                         collidesGround = true;
@@ -893,6 +902,21 @@ public class TurretBlocks {
                         despawnSound = explosion;
                     }});
             drawer = new DrawTurret() {{
+                parts.addAll(new RegionPart("-bump"){{
+                    moveY = 8;
+                    progress = PartProgress.recoil.curve(pow2In);
+                }});
+                for(int i = 0; i < 4; i++){
+                    int finalI = i;
+                    parts.add(new RegionPart("-springe"){{
+                        y = -7/4f-(finalI *(9/4f));
+                        growY = -0.9f;
+                        moveY = 4 + finalI *0.5f;
+                        mirror = true;
+                        growProgress = PartProgress.recoil.curve(Interp.pow2In);
+                        progress = PartProgress.recoil.curve(Interp.pow2In);
+                    }});
+                }
                 parts.addAll(new RegionPart("-eject") {{
                     moveY = -5f;
                     progress = PartProgress.recoil.curve(pow5Out);
