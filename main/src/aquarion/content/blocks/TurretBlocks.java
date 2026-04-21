@@ -91,6 +91,21 @@ public class TurretBlocks {
                     brimstone, AquaBullets.pointBrimstone);
             limitRange(1.2f);
             consumeCoolant(10 / 60f);
+            shoot.firstShotDelay = 15;
+            moveWhileCharging = false;
+            drawer = new DrawTurret(){{
+                parts.addAll(new RegionPart("-rack"){{
+                    moveY = -3.5f;
+                    under = true;
+                    progress = charge;
+                }}, new RegionPart("-hammer"){{
+                    moveX = 3f;
+                    under = true;
+                    progress = warmup;
+                    moves.add(new PartMove(PartProgress.reload, 0,0,-180));
+                    moves.add(new PartMove(charge.curve(pow10Out), 0,-0.5f,-180));
+                }});
+            }};
         }};
         pelt = new AquaTemplates.AquaItemTurretTemplate("pelt") {{
             requirements(Category.turret, with(lead, 85, nickel, 90f, silicon, 90, graphite, 60));
