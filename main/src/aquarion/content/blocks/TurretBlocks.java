@@ -2,6 +2,7 @@ package aquarion.content.blocks;
 
 import aquarion.content.*;
 import aquarion.world.blocks.turrets.AquaItemTurret;
+import aquarion.world.blocks.turrets.AquaPowerTurret;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
 import aquarion.world.drawers.AquaDrawTurret;
 import aquarion.world.entities.bullet.AOEBulletType;
@@ -68,7 +69,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class TurretBlocks {
-    public static Block aftershock, grace, perforate, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
+    public static Block aftershock, volt, grace, perforate, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
             blaze, ensign, hack;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -107,6 +108,23 @@ public class TurretBlocks {
                     moves.add(new PartMove(charge.curve(pow10Out), 0,-0.5f,-180));
                 }});
             }};
+        }};
+        volt = new AquaPowerTurret("volt"){{
+            requirements(Category.turret, with(AquaItems.aluminum, 10, silicon, 90, copper, 150));
+            health = 300;
+            range = 80;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            squareSprite = false;
+            outlineColor = tantDarkestTone;
+            destroyEffect = new MultiEffect(AquaFx.factoryDestroy, Fx.dynamicExplosion);
+            rotateSpeed = 2.2f;
+            recoil = 0;
+            shootSound = shockBullet;
+            reload = 5;
+            shoot.shots = 3;
+            consumePower(4);
+            shoot.shotDelay = 1;
+            shootType =  AquaBullets.voltShoot;
         }};
         pelt = new AquaTemplates.AquaItemTurretTemplate("pelt") {{
             requirements(Category.turret, with(lead, 85, nickel, 90f, silicon, 90, graphite, 60));
@@ -869,7 +887,7 @@ public class TurretBlocks {
                     }},
                     magnesiumPowder, new FlakBulletType(22f, 320f) {{
                         smokeEffect = AquaFx.shootSmoke3;
-                        trailEffect = AquaFx.thrashTrailSmoke;
+                        trailEffect = AquaFx.trailSmoke1;
                         shootEffect = AquaFx.shootLudicrous;
                         despawnShake = 3;
                         trailInterval = 2;
@@ -896,7 +914,7 @@ public class TurretBlocks {
                     brimstone, new FlakBulletType(18f, 250f) {{
                         smokeEffect = AquaFx.shootSmoke3;
                         shootEffect = AquaFx.shootLudicrous;
-                        trailEffect = AquaFx.thrashTrailSmoke;
+                        trailEffect = AquaFx.trailSmoke1;
                         despawnShake = 7;
                         scaleLifetimeOffset = 2;
                         trailInterval = 1;

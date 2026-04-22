@@ -1,5 +1,6 @@
 package aquarion.content;
 
+import aquarion.world.entities.bullet.GambleBulletType;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Color;
@@ -7,6 +8,8 @@ import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.BulletType;
+import mindustry.entities.bullet.ExplosionBulletType;
+import mindustry.entities.bullet.LightningBulletType;
 
 import static mindustry.content.Items.copper;
 import static mindustry.content.Items.graphite;
@@ -97,7 +100,28 @@ public class AquaBullets {
         smokeEffect = AquaFx.shootSmoke1;
         hitEffect = Fx.hitFlameSmall;
         despawnEffect = Fx.smokePuff;
-    }},
+    }},voltShoot = new GambleBulletType( new float[]{0.99f, 0.01f}, new LightningBulletType(){{
+        damage = 4;
+        lightningLength = 12;
+        collidesAir = false;
+        ammoMultiplier = 1f;
+        buildingDamageMultiplier = 0.25f;
+        lightningType = new BulletType(0.0001f, 0f){{
+            lifetime = Fx.lightning.lifetime;
+            hitEffect = Fx.hitLancer;
+            despawnEffect = Fx.none;
+            status = StatusEffects.shocked;
+            hittable = false;
+            lightColor = Color.white;
+            collidesAir = false;
+            buildingDamageMultiplier = 0.25f;
+            shieldDamageMultiplier = 0.2f;
+        }};
+    }}, new ExplosionBulletType(){{
+        splashDamageRadius = 300;
+        damage = 300;
+        killShooter = true;
+    }}),
     peltLead = new BasicBulletType(9, 55, "aquarion-bolt") {{
         pierce = true;
         pierceBuilding = true;

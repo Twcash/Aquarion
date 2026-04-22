@@ -617,16 +617,18 @@ public class AquaFx {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 6f);
                 });
             }),
-            thrashExplodeSmoke = new Effect(220f, e -> {
-                color(Pal.darkishGray, Pal.lightishGray, e.fin());
-                randLenVectors(e.id, 8, e.finpow() * 44f, e.rotation,  (x, y) -> {
+            thrashExplodeSmoke = new Effect(100f, e -> {
+                blend(Blending.normal);
+                color(Pal.lightishGray, Pal.darkerGray, e.fin());
+                randLenVectors(e.id, 15, e.finpow() * 44f, e.rotation,  (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 9f);
                 });
+                blend(Blending.additive);
                 color(Color.white, Pal.lightishOrange, e.fin());
-                randLenVectors(e.id, 4, e.finpow() * 38f, e.rotation,(x, y) -> {
+                randLenVectors(e.id, 12, e.finpow() * 38f, e.rotation,(x, y) -> {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 6f);
                 });
-
+                blend();
             }),
             flagellateExplosion = new Effect(30, 500f, b -> {
                 float intensity = 4.8f;
