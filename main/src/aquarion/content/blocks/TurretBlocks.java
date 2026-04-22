@@ -3,6 +3,7 @@ package aquarion.content.blocks;
 import aquarion.content.*;
 import aquarion.world.blocks.turrets.AquaItemTurret;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
+import aquarion.world.drawers.AquaDrawTurret;
 import aquarion.world.entities.bullet.AOEBulletType;
 import aquarion.world.entities.bullet.AquaLaserBulletType;
 import aquarion.world.entities.bullet.GambleBulletType;
@@ -130,17 +131,17 @@ public class TurretBlocks {
                     cupronickel, AquaBullets.peltCupronickel
             );
             limitRange(1.15f);
-            drawer = new DrawTurret() {{
-                parts.add( new RegionPart("-boioioioing"){{
-                    x = -13/4f;
+            drawer = new AquaDrawTurret() {{
+                parts.add(new RegionPart("-boioioioing") {{
+                    x = -13 / 4f;
                     moveRot = 360;
                     progress = PartProgress.reload.curve(Interp.pow2In);
-                }},new NewRegPart("-spike") {{
-                        moveX = 5;
-                        progress = PartProgress.reload.curve(Interp.pow2In);
-                        alphaTo = 0;
-                        alpha = 1;
-                }}, new RegionPart("-top"), new RegionPart("-plate"){{
+                }}, new NewRegPart("-spike") {{
+                    moveX = 5;
+                    progress = PartProgress.reload.curve(Interp.pow5In);
+                    alphaTo = 0;
+                    alpha = 1;
+                }}, new RegionPart("-top"), new RegionPart("-plate") {{
                     moveY = 5;
                     progress = PartProgress.recoil;
                 }});
@@ -841,8 +842,9 @@ public class TurretBlocks {
             shootSound = shootArtillerySmall;
             ammo(
                     coal, new FlakBulletType(18f, 220f) {{
-                        smokeEffect = AquaFx.thrashShootSmoke;
+                        smokeEffect = AquaFx.shootSmoke3;
                         trailEffect = AquaFx.thrashTrailSmoke;
+                        shootEffect = AquaFx.shootLudicrous;
                         despawnShake = 3;
                         trailInterval = 2;
                         despawnEffect = hitEffect = new MultiEffect(AquaFx.thrashExplosion,AquaFx.thrashExplodeSmoke);
@@ -866,8 +868,9 @@ public class TurretBlocks {
                         despawnSound = explosion;
                     }},
                     magnesiumPowder, new FlakBulletType(22f, 320f) {{
-                        smokeEffect = AquaFx.thrashShootSmoke;
+                        smokeEffect = AquaFx.shootSmoke3;
                         trailEffect = AquaFx.thrashTrailSmoke;
+                        shootEffect = AquaFx.shootLudicrous;
                         despawnShake = 3;
                         trailInterval = 2;
                         despawnEffect = hitEffect = new MultiEffect(AquaFx.thrashExplosion,AquaFx.thrashExplodeSmoke);
@@ -891,7 +894,8 @@ public class TurretBlocks {
                         despawnSound = explosion;
                     }},
                     brimstone, new FlakBulletType(18f, 250f) {{
-                        smokeEffect = AquaFx.thrashShootSmoke;
+                        smokeEffect = AquaFx.shootSmoke3;
+                        shootEffect = AquaFx.shootLudicrous;
                         trailEffect = AquaFx.thrashTrailSmoke;
                         despawnShake = 7;
                         scaleLifetimeOffset = 2;

@@ -1281,8 +1281,12 @@ public class AquaFx {
             shootSmoke1 = new Effect(30f, e -> {
                 color(Pal.lighterOrange, Color.valueOf("1f1c19"), Color.valueOf("0f0d0b"), e.fin());
 
-                randLenVectors(e.id, 7, e.finpow() * 11f, e.rotation, 24f, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 3f);
+                randLenVectors(e.id, 7, e.finpow() * 14f, e.rotation, 24f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 2.5f);
+                });
+                color(Color.white,Pal.lightishOrange, e.fin());
+                randLenVectors(e.id, 4, e.finpow() * 11f, e.rotation, 22f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 1f);
                 });
             }),
             shootSmoke2 = new Effect(45f, e -> {

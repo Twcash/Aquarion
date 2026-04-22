@@ -14,41 +14,41 @@ import static mindustry.content.StatusEffects.burning;
 
 public class AquaBullets {
     public static BulletType
-    pointSilicon = new BasicBulletType(20,15, "aquarion-long-bullet") {{
-        frontColor = AquaPal.redDecal1;
+    pointSilicon = new BasicBulletType(14,15, "aquarion-long-bullet") {{
+        frontColor = Color.white;
         backColor = AquaPal.redDecal1Dark;
         lifetime = 5;
         knockback = 0.75f;
-        hitSize = 9;
+        hitSize = 12;
         ammoMultiplier = 2f;
         width = 5;
         height = 14;
         pierceArmor = true;
-        shootEffect = Fx.shootPyraFlame;
-        smokeEffect = Fx.shootSmallFlame;
+        shootEffect = Fx.shootBig;
+        smokeEffect = AquaFx.shootSmoke1;
         hitEffect = Fx.hitFlameSmall;
         despawnEffect = Fx.reactorsmoke;
     }},
-    pointMinium = new BasicBulletType(20,15, "aquarion-long-bullet") {{
-        frontColor = AquaPal.redDecal1;
+    pointMinium = new BasicBulletType(13,15, "aquarion-long-bullet") {{
+        frontColor = Color.white;
         backColor = AquaPal.redDecal1Dark;
         lifetime = 5;
         knockback = 0.75f;
         width = 5;
         height = 14;
-        hitSize = 9;
+        hitSize = 15;
         ammoMultiplier = 2f;
         pierceArmor = true;
-        shootEffect = Fx.shootPyraFlame;
-        smokeEffect = Fx.shootSmallFlame;
+        shootEffect = Fx.shootBig;
+        smokeEffect = AquaFx.shootSmoke1;
         hitEffect = Fx.hitFlameSmall;
         despawnEffect = Fx.reactorsmoke;
     }},
-    pointGraphite = new BasicBulletType(25,20,"aquarion-long-bullet") {{
-        frontColor = graphite.color;
+    pointGraphite = new BasicBulletType(11,20,"aquarion-long-bullet") {{
+        frontColor = Color.white;
         backColor = graphite.color;
         lifetime = 9;
-        hitSize = 11;
+        hitSize = 15;
         reloadMultiplier = 1.3f;
         knockback = 0.5f;
         ammoMultiplier = 2f;
@@ -56,16 +56,16 @@ public class AquaBullets {
         width = 5;
         height = 14;
         pierceArmor = true;
-        shootEffect = Fx.shootPyraFlame;
-        smokeEffect = AquaFx.shootPoint;
+        shootEffect = Fx.shootBig;
+        smokeEffect = AquaFx.shootSmoke1;
         hitEffect = Fx.hitFlameSmall;
         despawnEffect = Fx.reactorsmoke;
     }},
-    pointCoal =new BasicBulletType(20,12, "aquarion-long-bullet") {{
-        frontColor = AquaPal.redDecal1;
+    pointCoal =new BasicBulletType(8,12, "aquarion-long-bullet") {{
+        frontColor = Color.white;
         backColor = AquaPal.redDecal1Dark;
         lifetime = 8;
-        hitSize = 14;
+        hitSize = 11;
         status = burning;
         statusDuration = 8 * 60f;
         reloadMultiplier = 1.8f;
@@ -73,15 +73,15 @@ public class AquaBullets {
         width = 5;
         height = 14;
         ammoMultiplier = 3f;
-        shootEffect = Fx.shootPyraFlame;
-        smokeEffect = AquaFx.shootPoint;
+        shootEffect = Fx.shootBig;
+        smokeEffect = AquaFx.shootSmoke1;
         hitEffect = Fx.hitFlameBeam;
         despawnEffect = Fx.hitFlameBeam;
     }},
-    pointBrimstone = new BasicBulletType(40, 45, "aquarion-long-bullet") {{
-        frontColor = AquaItems.brimstone.color;
+    pointBrimstone = new BasicBulletType(17, 45, "aquarion-long-bullet") {{
+        frontColor = Color.white;
         backColor = AquaItems.brimstone.color;
-        hitSize = 12;
+        hitSize = 19;
         lifetime = 2;
         pierce = true;
         pierceCap = 3;
@@ -93,8 +93,8 @@ public class AquaBullets {
         knockback = 2f;
         rangeChange = 48;
         reloadMultiplier = 0.1f;
-        shootEffect = Fx.shootSmall;
-        smokeEffect = AquaFx.shootPoint;
+        shootEffect = Fx.shootBig;
+        smokeEffect = AquaFx.shootSmoke1;
         hitEffect = Fx.hitFlameSmall;
         despawnEffect = Fx.smokePuff;
     }},

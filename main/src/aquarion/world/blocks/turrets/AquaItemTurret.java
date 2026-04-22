@@ -1,6 +1,7 @@
 package aquarion.world.blocks.turrets;
 
 import aquarion.world.Uti.AquaStatValues;
+import mindustry.entities.part.DrawPart;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.meta.Stat;
 
