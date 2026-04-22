@@ -182,112 +182,15 @@ public class TurretBlocks {
             recoils = 4;
             coolantMultiplier = 0.9f;
             liquidCapacity = 200;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             ammo(
-                    copper, new BasicBulletType(15, 40) {{
-                        ammoMultiplier = 2;
-                        height = 15;
-                        width = 24;
-                        trailWidth = 4;
-                        trailLength = 12;
-                        shootEffect = AquaFx.shootBigger;
-                        trailInterp = Interp.slope;
-                        smokeEffect = AquaFx.shootSmoke3;
-                        hitEffect = despawnEffect = Fx.hitBulletBig;
-                        frontColor = AquaPal.redDecal1;
-                        backColor = AquaPal.redDecal1Dark;
-                    }},
-                    cupronickel, new BasicBulletType(20, 60) {{
-                        ammoMultiplier = 2;
-                        height = 15;
-                        width = 24;
-                        trailWidth = 4;
-                        trailLength = 12;
-                        shieldDamageMultiplier = 1.5f;
-                        shootEffect = AquaFx.shootBigger;
-                        trailInterp = Interp.slope;
-                        smokeEffect = AquaFx.shootSmoke3;
-                        hitEffect = despawnEffect = Fx.hitBulletBig;
-                        knockback = 8f;
-                        frontColor = AquaPal.redDecal1;
-                        backColor = AquaPal.redDecal1Dark;
-                    }},
-                    metaglass, new BasicBulletType() {{
-                        damage = 45;
-                        ammoMultiplier = 3;
-                        height = 15;
-                        speed = 16f;
-                        width = 24;
-                        trailWidth = 4;
-                        trailLength = 12;
-                        shootEffect = AquaFx.shootBigger;
-                        trailInterp = Interp.slope;
-                        smokeEffect = AquaFx.shootSmoke3;
-                        hitEffect = despawnEffect = Fx.hitBulletBig;
-                        knockback = -12f;
-                        frontColor = Color.white;
-                        backColor = Color.lightGray;
-                        fragBullets = 5;
-                        fragBullet= new BulletType(2, 15){{
-                            frontColor = Color.white;
-                            backColor = Pal.lightishGray;
-                            trailLength = 5;
-                            width = 12;
-                            height = 7;
-                            lifetime = 15;
-                        }};
-                    }},
-                    steel, new BasicBulletType() {{
-                        damage = 140;
-                        ammoMultiplier = 6;
-                        height = 30;
-                        speed = 16f;
-                        width = 30;
-                        trailWidth = 4;
-                        reloadMultiplier = 0.5f;
-                        rangeChange = 40;
-                        trailLength = 18;
-                        pierce = true;
-                        shootEffect = AquaFx.shootBigger;
-                        trailInterp = Interp.slope;
-                        smokeEffect = AquaFx.shootSmoke3;
-                        hitEffect = despawnEffect = Fx.hitBulletBig;
-                        knockback = -18f;
-                        frontColor = Color.white;
-                        backColor = trailColor = Color.lightGray;
-                    }},
-                    uranium, new BasicBulletType(){{
-                        damage = 200;
-                        speed = 12;
-                        trailWidth = 4;
-                        width = 34;
-                        height = 34;
-                        shrinkX = 0;
-                        shrinkY = 0.1f;
-                        trailLength = 20;
-                        fragBullets = 8;
-                        fragBullet = new AOEBulletType(10, 300, 9, uranium.color.cpy().a(0.6f)){{
-                            speed = 20;
-                            drag = 0.2f;
-                            fadeTime = 120;
-                            collidesAir = false;
-                        }};
-                        shootEffect = AquaFx.shootBigger;
-                        trailInterp = Interp.slope;
-                        smokeEffect = AquaFx.shootSmokeRadioactive;
-                        frontColor =Color.white;
-                        backColor = trailColor = lightColor = hitColor = AquaItems.uranium.color;
-                        hitEffect = despawnEffect = AquaFx.uraniumExplosion;
-
-                    }}
+                    copper, AquaBullets.vectorCopper,
+                    cupronickel, AquaBullets.vectorCupronickel,
+                    metaglass, AquaBullets.vectorMetaglass,
+                    steel, AquaBullets.vectorSteel,
+                    uranium, AquaBullets.vectorUranium
             );
             shoot = new ShootBarrel() {{
-                barrels = new float[]{
-                        0, 6, 0,
-                        0, -2, 0,
-                        0, -11, 0,
-                        0, -12, 0
-                };
+                barrels = new float[]{0, 6, 0, 0, -2, 0, 0, -11, 0, 0, -12, 0};
                 shots = 4;
                 shotDelay = 10;
             }};

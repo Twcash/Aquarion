@@ -1,16 +1,20 @@
 package aquarion.content;
 
+import aquarion.world.entities.bullet.AOEBulletType;
 import aquarion.world.entities.bullet.GambleBulletType;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Color;
+import arc.math.Interp;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.BulletType;
 import mindustry.entities.bullet.ExplosionBulletType;
 import mindustry.entities.bullet.LightningBulletType;
+import mindustry.graphics.Pal;
 
+import static aquarion.content.AquaItems.uranium;
 import static mindustry.content.Items.copper;
 import static mindustry.content.Items.graphite;
 import static mindustry.content.StatusEffects.burning;
@@ -183,5 +187,96 @@ public class AquaBullets {
         despawnEffect = hitEffect = AquaFx.hitBulletColor2;
         shootEffect = AquaFx.shootHori;
         smokeEffect = AquaFx.shootSmoke2;
+    }},vectorCupronickel = new BasicBulletType(20, 60) {{
+        ammoMultiplier = 2;
+        height = 15;
+        width = 24;
+        trailWidth = 4;
+        trailLength = 12;
+        shieldDamageMultiplier = 1.5f;
+        shootEffect = AquaFx.shootBigger;
+        trailInterp = Interp.slope;
+        smokeEffect = AquaFx.shootSmoke3;
+        hitEffect = despawnEffect = Fx.hitBulletBig;
+        knockback = 8f;
+        frontColor = AquaPal.redDecal1;
+        backColor = AquaPal.redDecal1Dark;
+    }},vectorCopper = new BasicBulletType(15, 40) {{
+        ammoMultiplier = 2;
+        height = 15;
+        width = 24;
+        trailWidth = 4;
+        trailLength = 12;
+        shootEffect = AquaFx.shootBigger;
+        trailInterp = Interp.slope;
+        smokeEffect = AquaFx.shootSmoke3;
+        hitEffect = despawnEffect = Fx.hitBulletBig;
+        frontColor = AquaPal.redDecal1;
+        backColor = AquaPal.redDecal1Dark;
+    }},vectorMetaglass = new BasicBulletType() {{
+        damage = 45;
+        ammoMultiplier = 3;
+        height = 15;
+        speed = 16f;
+        width = 24;
+        trailWidth = 4;
+        trailLength = 12;
+        shootEffect = AquaFx.shootBigger;
+        trailInterp = Interp.slope;
+        smokeEffect = AquaFx.shootSmoke3;
+        hitEffect = despawnEffect = Fx.hitBulletBig;
+        knockback = -12f;
+        frontColor = Color.white;
+        backColor = Color.lightGray;
+        fragBullets = 5;
+        fragBullet= new BulletType(2, 15){{
+            frontColor = Color.white;
+            backColor = Pal.lightishGray;
+            trailLength = 5;
+            width = 12;
+            height = 7;
+            lifetime = 15;
+        }};
+    }},vectorSteel = new BasicBulletType() {{
+        damage = 140;
+        ammoMultiplier = 6;
+        height = 30;
+        speed = 16f;
+        width = 30;
+        trailWidth = 4;
+        reloadMultiplier = 0.5f;
+        rangeChange = 40;
+        trailLength = 18;
+        pierce = true;
+        shootEffect = AquaFx.shootBigger;
+        trailInterp = Interp.slope;
+        smokeEffect = AquaFx.shootSmoke3;
+        hitEffect = despawnEffect = Fx.hitBulletBig;
+        knockback = -18f;
+        frontColor = Color.white;
+        backColor = trailColor = Color.lightGray;
+    }},
+    vectorUranium = new BasicBulletType(){{
+        damage = 200;
+        speed = 12;
+        trailWidth = 4;
+        width = 34;
+        height = 34;
+        shrinkX = 0;
+        shrinkY = 0.1f;
+        trailLength = 20;
+        fragBullets = 8;
+        fragBullet = new AOEBulletType(10, 300, 9, uranium.color.cpy().a(0.6f)){{
+            speed = 20;
+            drag = 0.2f;
+            fadeTime = 120;
+            collidesAir = false;
+        }};
+        shootEffect = AquaFx.shootBigger;
+        trailInterp = Interp.slope;
+        smokeEffect = AquaFx.shootSmokeRadioactive;
+        frontColor =Color.white;
+        backColor = trailColor = lightColor = hitColor = AquaItems.uranium.color;
+        hitEffect = despawnEffect = AquaFx.uraniumExplosion;
     }};
 }
