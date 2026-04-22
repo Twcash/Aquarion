@@ -327,21 +327,37 @@ public class TurretBlocks {
                     y = -30 / 4f;
                     growX = -1f;
                     growY = -1f;
-                }}, new RegionPart("-side") {{
-                    mirror = true;
-                    moveY = -7 / 4f;
-                    moveX = 10 / 4f;
-                    x = 26 / 4f;
-                    moveRot = 5;
-                    progress = warmup;
-                    moves.add(new PartMove(PartProgress.recoil, -.25f, -.25f, -12));
-                }}, new RegionPart("-barrel") {{
-                    mirror = true;
-                    moveY = -.5f;
-                    moveX = 24 / 4f;
-                    y = 0.25f;
-                    progress = warmup.delay(0.2f);
-                    moves.add(new PartMove(PartProgress.recoil, -.75f, 0.25f, 8));
+                }});
+                for(int  i = 0; i < 4; i++){{
+                    int finalI = i;
+                    parts.add(new RegionPart("-yub"){{
+                        moveX = 3;
+                        y = (22/4f) * finalI;
+                        recoilIndex = 3-finalI;
+                        progress = PartProgress.recoil.curve(pow5In);
+                        moves.add(new PartMove(PartProgress.warmup, -1, 0, 0));
+                    }});
+                }};
+                parts.addAll( new RegionPart("-top"),new RegionPart("-shield-l"){{
+                    growX = -0.5f;
+                    growProgress = PartProgress.warmup.curve(Interp.pow5Out);
+                    progress = PartProgress.warmup.curve(Interp.pow5Out);
+                    moveX = -6/4f;
+                }},new RegionPart("-shield-l"){{
+                    growX = -0.5f;
+                    growProgress = PartProgress.warmup.curve(Interp.pow5Out);
+                    progress = PartProgress.warmup.curve(Interp.pow5Out);
+                    moveX = -8/4f;
+                }},new RegionPart("-shield-r"){{
+                    growX = -0.5f;
+                    growProgress = PartProgress.warmup.curve(Interp.pow5Out);
+                    progress = PartProgress.warmup.curve(Interp.pow5Out);
+                    moveX = 5/4f;
+                }},new RegionPart("-shield-r"){{
+                    growX = -0.5f;
+                    growProgress = PartProgress.warmup.curve(Interp.pow5Out);
+                    progress = PartProgress.warmup.curve(Interp.pow5Out);
+                    moveX = 6/4f;
                 }});
             }};
             consumeCoolant(40 / 60f);
