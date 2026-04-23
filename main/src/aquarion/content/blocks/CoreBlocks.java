@@ -135,7 +135,7 @@ public class CoreBlocks {
             range = 145;
             rotateSpeed = 0.85f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            schematicPriority = 8;
+            schematicPriority = -11;
             consumePower(1.5f);
         }};
         constructionTower = new BuildTurret("construction-tower") {{

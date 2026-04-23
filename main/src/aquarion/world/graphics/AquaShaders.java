@@ -25,11 +25,11 @@ import static mindustry.Vars.tree;
 public class AquaShaders {
     public static PlanetShader planet;
 
-    public static @Nullable SurfaceShader brine, lava, shallowLava, shallowSlag, shadow, heat, glitch, neoplasiaBaseShader;
+    public static @Nullable SurfaceShader brine, petroleum, lava, shallowLava, shallowSlag, shadow, heat, glitch, neoplasiaBaseShader;
     public static @Nullable MonsoonShader monsoon;
     public static @Nullable PodShader neoplasiaPodShader;
     public static @Nullable deflectorShader deflectorShield;
-    public static CacheLayer.ShaderLayer lavalLayer, slavaLayer, sslagLayer, brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer;
+    public static CacheLayer.ShaderLayer lavalLayer, slavaLayer, petroleumLayer, sslagLayer, brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer;
     public static Fi file(String name){
         return Core.files.internal("shaders/" + name);
     }
@@ -42,7 +42,7 @@ public static void init() {
     lava = new SurfaceShader("lava");
     shallowSlag = new SurfaceShader("shallowSlag");
     shallowLava = new SurfaceShader("shallowLava");
-
+    petroleum = new SurfaceShader("petroleum");
     neoplasiaBaseShader = new SurfaceShader("neoplasiaBase");
     neoplasiaPodShader = new PodShader("neoplasiaPods");
 
@@ -62,6 +62,8 @@ public static void init() {
     heatLayer = new CacheLayer.ShaderLayer(heat);
     glitchLayer = new CacheLayer.ShaderLayer(glitch);
     deflecterLayer = new CacheLayer.ShaderLayer(deflectorShield);
+    petroleumLayer = new CacheLayer.ShaderLayer(petroleum);
+    CacheLayer.addLast(petroleumLayer);
     CacheLayer.addLast(brineLayer);
     CacheLayer.addLast(slavaLayer);
     CacheLayer.addLast(sslagLayer);
@@ -74,6 +76,7 @@ public static void init() {
         if (!Vars.headless) {
             brine.dispose();
             lava.dispose();
+            petroleum.dispose();
             shallowLava.dispose();
             shallowSlag.dispose();
             neoplasiaBaseShader.dispose();

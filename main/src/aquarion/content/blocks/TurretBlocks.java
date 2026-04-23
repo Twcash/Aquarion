@@ -120,6 +120,7 @@ public class TurretBlocks {
             outlineColor = tantDarkestTone;
             destroyEffect = new MultiEffect(AquaFx.factoryDestroy, Fx.dynamicExplosion);
             rotateSpeed = 2.2f;
+            targetAir = false;
             recoil = 0;
             shootSound = shockBullet;
             reload = 5;

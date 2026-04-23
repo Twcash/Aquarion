@@ -45,7 +45,7 @@ public class EnvironmentBlocks {
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, algal_carpet, brine_liquid, lava, shallowSlag, shallowLava,
             coral_floor,cupriteBoulder,cupriteWall,cupriteChunks, cupriteFloor, feldspar_vent, feldspar, ferric_extrusions,
-            gabbro_extrusions, gabbro_vent, gabbro, geothermal_vent, rubble,
+            gabbro_extrusions, gabbro_vent, gabbro, petroleumFloor, petroleumSeep, geothermal_vent, rubble,
              metal13, metal14, metal15, metal16, roughFeldspar, glassFloor, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, relBlossom, bramble, brulrFern,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
@@ -105,7 +105,14 @@ public class EnvironmentBlocks {
         boricFloorDense = new Floor("boric-floor-dense", 4) {{
             wall = boricWall;
         }};
-
+        petroleumSeep = new Floor("petroleum-seep", 3){{
+            liquidDrop = AquaLiquids.petroleum;
+            liquidMultiplier = 0.25f;
+        }};
+        petroleumFloor = new Floor("liquid-petroleum", 0){{
+            liquidDrop = AquaLiquids.petroleum;
+            cacheLayer = CacheLayer.tar;
+        }};
         denseStone = new Floor("dense-stone", 8);
         stonePores = new Floor("stone-pores", 6);
         clay = new Floor("clay", 4);
