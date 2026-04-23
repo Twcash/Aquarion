@@ -49,7 +49,7 @@ public class EnvironmentBlocks {
              metal13, metal14, metal15, metal16, roughFeldspar, glassFloor, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
             boricFloor, boricFloorDense, tile, relBlossom, bramble, brulrFern,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
-    public static Block oreNickelWall, scorche, oreRadium, oreUranium, orePitchblende,
+    public static Block oreNickelWall, scorche, oreRadium, oreUranium, orePitchblende, nickelFloor,
             oreNickel, oreBauxite,
             oreManganese, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
@@ -110,7 +110,10 @@ public class EnvironmentBlocks {
         stonePores = new Floor("stone-pores", 6);
         clay = new Floor("clay", 4);
 
-
+        nickelFloor = new AquaFloor("nickel-floor", 3) {{
+          itemDrop = AquaItems.nickel;
+          itemDropMultiplier = 1.5f;
+        }};
         ferricStone.attributes.set(iron, 0.8f);
         ferric_extrusions = new Floor("ferric-extrusions", 2) {{
             attributes.set(iron, 1.5f);

@@ -1,6 +1,7 @@
 package aquarion.world.type;
 
 import aquarion.world.Uti.AquaStats;
+import aquarion.world.blocks.environment.AquaFloor;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -280,7 +281,7 @@ public class GroundDrill extends AquaBlock {
         build.returnItems.clear();
         build.returnCounts.clear();
 
-        ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
+        ObjectFloatMap<Item> oreCount = new ObjectFloatMap<>();
         Seq<Item> itemArray = new Seq<>();
         //Accounting for both overlays and floors is sorta a pain but it works.
         for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){
@@ -290,13 +291,16 @@ public class GroundDrill extends AquaBlock {
             if(overlay != null && overlay.itemDrop != null){
                 Item drop = overlay.itemDrop;
                 if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){
-                    oreCount.increment(drop, 0, 1);
+                    //float mult = overlay instanceof AquaFloor af ? af.itemDropMultiplier : 1f;
+                    oreCount.increment(drop, 0f, 1);
                 }
             }
+
             if(floor != null && floor.itemDrop != null){
                 Item drop = floor.itemDrop;
                 if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){
-                    oreCount.increment(drop, 0, 1);
+                    float mult = floor instanceof AquaFloor af ? af.itemDropMultiplier : 1f;
+                    oreCount.increment(drop, 0f, mult);
                 }
             }
         }
@@ -308,14 +312,15 @@ public class GroundDrill extends AquaBlock {
         itemArray.sort((item1, item2) -> {
             int type = Boolean.compare(!item1.lowPriority, !item2.lowPriority);
             if (type != 0) return type;
-            int amounts = Integer.compare(oreCount.get(item1, 0), oreCount.get(item2, 0));
+            //I don't remember making this.
+            int amounts = Float.compare(oreCount.get(item1, 0), oreCount.get(item2, 0));
             if (amounts != 0) return amounts;
             return Integer.compare(item1.id, item2.id);
         });
 
         for (Item item : itemArray) {
             build.returnItems.add(item);
-            build.returnCounts.put(item, oreCount.get(item, 0));
+            build.returnCounts.put(item, oreCount.get(item,0));
         }
     }
 
@@ -338,7 +343,7 @@ public class GroundDrill extends AquaBlock {
 
     public class DrillBuild extends Building implements HeatConsumer {
         public Seq<Item> returnItems = new Seq<>();
-        public ObjectIntMap<Item> returnCounts = new ObjectIntMap<>();
+        public ObjectFloatMap<Item> returnCounts = new ObjectFloatMap<>();
         public ObjectFloatMap<Item> progresses = new ObjectFloatMap<>();
         public float progress;
         public float totalProgress;
@@ -421,12 +426,16 @@ public class GroundDrill extends AquaBlock {
                     }
                 }
             }
+            if(itemBooster != null && itemBooster.efficiency(this) > 0f){
+                if(timer(timerUse, ItemBoostUseTime)){
+                    itemBooster.trigger(this);
+                }
+            }
             for(Item item : returnItems){
                 float delay = getDrillTime(item);
                 float prog = progresses.get(item, 0f);
 
                 prog += delta() * returnCounts.get(item, 1) * speed * warmup;
-
                 if(prog >= delay){
 
                     int amount = (int)(prog / delay);

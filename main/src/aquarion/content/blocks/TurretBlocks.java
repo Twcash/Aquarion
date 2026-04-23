@@ -19,6 +19,7 @@ import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
+import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
@@ -36,6 +37,7 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
+import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
@@ -188,6 +190,7 @@ public class TurretBlocks {
                     metaglass, AquaBullets.vectorMetaglass,
                     steel, AquaBullets.vectorSteel,
                     uranium, AquaBullets.vectorUranium
+
             );
             shoot = new ShootBarrel() {{
                 barrels = new float[]{0, 6, 0, 0, -2, 0, 0, -11, 0, 0, -12, 0};
