@@ -693,8 +693,8 @@ public class CrafterBlocks {
                 consumePower(1.5f);
                 consumeItem(ferricMatter, 3).boost();
                 craftTime = 240;
-                itemBoostIntensity = 1.75f;
-                outputLiquid = new LiquidStack(ammonia, 0.05f);
+                itemBoostIntensity = 2f;
+                outputLiquid = new LiquidStack(ammonia, 0.4f);
                 consumeLiquids(LiquidStack.with(methane, 0.3f, nitrogen,.1f));
             }};
             towaniteReductionVat = new AquaGenericCrafter("towanite-reduction-vat") {{
@@ -1746,7 +1746,7 @@ public class CrafterBlocks {
             updateEffect = Fx.steamCoolSmoke;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
-            consumeLiquids(LiquidStack.with(oil, 4, haze, 2));
+            consumeLiquids(LiquidStack.with(petroleum, 4, haze, 2));
             outputLiquid = new LiquidStack(ammonia, 2);
             outputItems = ItemStack.with(polymer, 4);
             liquidCapacity = 300;

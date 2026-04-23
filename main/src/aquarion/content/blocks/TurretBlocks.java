@@ -149,6 +149,7 @@ public class TurretBlocks {
                     lead, AquaBullets.peltLead,
                     nickel, AquaBullets.peltNickel,
                     cupronickel, AquaBullets.peltCupronickel
+
             );
             limitRange(1.15f);
             drawer = new AquaDrawTurret() {{
@@ -190,7 +191,6 @@ public class TurretBlocks {
                     metaglass, AquaBullets.vectorMetaglass,
                     steel, AquaBullets.vectorSteel,
                     uranium, AquaBullets.vectorUranium
-
             );
             shoot = new ShootBarrel() {{
                 barrels = new float[]{0, 6, 0, 0, -2, 0, 0, -11, 0, 0, -12, 0};
