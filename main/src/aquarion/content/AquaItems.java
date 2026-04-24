@@ -187,12 +187,12 @@ public class AquaItems {
             buildable = false;
         }};
         Items.thorium = null;
-        Items.thorium = new AquaItem("thorium", Color.valueOf("#ffe1b4")) {{
+        Items.thorium = new AquaItem("thorium", Color.valueOf("#141314")) {{
             radioactivity = 1.5f;
             decayTo = radium;
         }};
         Items.sporePod = null;
-        Items.sporePod = new AquaItem("spore-pod", Color.valueOf("#ffe1b4")) {{
+        Items.sporePod = new AquaItem("spore-pod", Color.valueOf("#a15bc4")) {{
             biomass = true;
             flammability = 1;
         }};
