@@ -7,6 +7,7 @@ import aquarion.world.blocks.heatBlocks.HotHeatConductor;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
 import aquarion.world.drawers.*;
+import aquarion.world.drawers.DrawBlockParts;
 import aquarion.world.entities.parts.NewRegPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;

@@ -10,6 +10,7 @@ import arc.struct.EnumSet;
 import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Nullable;
+import mindustry.Vars;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
@@ -98,6 +99,7 @@ public class PowerOutlet extends PowerGenerator {
         public float need = 0;
         public float lastRotation = 0;
         public @Nullable Building lastFront;
+        public float lastChange = -2;
 
         @Override
         public void updateTile() {
@@ -123,6 +125,10 @@ public class PowerOutlet extends PowerGenerator {
                 //Remove consumption from target graph.
                 if (lastFront != null && lastFront == frontBuild) {
                     PowerGraph front = frontBuild.power.graph;
+                    if(lastChange != Vars.world.tileChanges) {
+                        lastChange = Vars.world.tileChanges;
+                        front.reflow(front());
+                    }
                     if (front.consumers.contains(this)) {
                         front.consumers.remove(this);
                     }

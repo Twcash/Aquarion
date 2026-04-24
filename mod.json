@@ -1,11 +1,11 @@
 {
 "repo": "Twcash/Tantros-test",
 "name": "aquarion",
-"displayName": "aquarion",
+"displayName": "Aquarion",
 "author": "twcash",
-"description": "INCOMPATIABLE WITH MOST OTHER CONTENT MODS",
+"description": "A complete rewrite of the campaign. Currently in heavy development.",
 "version": "3.9.3",
-"minGameVersion": "156.2",
+"minGameVersion": "157.4",
 "hidden": false,
 "java": true,
 "main": "aquarion.AquaLoader"
