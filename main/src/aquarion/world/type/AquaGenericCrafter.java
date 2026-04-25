@@ -260,12 +260,12 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
 
         super.init();
         if(shareOutputLiquids){
-            if(outputLiquid != null){
-                liquidFilter[outputLiquid.liquid.id] = true;
-            } else if (outputLiquids != null){
+            if (outputLiquids != null){
                 for (LiquidStack liquid : outputLiquids) {
                     liquidFilter[liquid.liquid.id] = true;
                 }
+            } else if(outputLiquid != null){
+                liquidFilter[outputLiquid.liquid.id] = true;
             }
         }
     }
