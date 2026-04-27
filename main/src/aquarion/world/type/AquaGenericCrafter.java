@@ -39,6 +39,7 @@ import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.meta.*;
 
+import static java.lang.Float.NaN;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
@@ -260,12 +261,12 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
 
         super.init();
         if(shareOutputLiquids){
-            if(outputLiquid != null){
-                liquidFilter[outputLiquid.liquid.id] = true;
-            } else if (outputLiquids != null){
+            if (outputLiquids != null){
                 for (LiquidStack liquid : outputLiquids) {
                     liquidFilter[liquid.liquid.id] = true;
                 }
+            } else if(outputLiquid != null){
+                liquidFilter[outputLiquid.liquid.id] = true;
             }
         }
     }
@@ -435,7 +436,8 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             if(outputLiquids != null){
                 max = 0f;
                 for(LiquidStack s : outputLiquids){
-                    float value = (liquidCapacity - liquids.get(s.liquid)) / (s.amount * edelta());
+                    float maxOutput = (s.amount * edelta());
+                    float value = (maxOutput > 0)?(liquidCapacity - liquids.get(s.liquid)) / (maxOutput): 0;
                     scaling = Math.min(scaling, value);
                     max = Math.max(max, value);
                 }
