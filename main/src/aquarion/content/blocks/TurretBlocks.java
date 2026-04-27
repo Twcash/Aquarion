@@ -71,7 +71,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class TurretBlocks {
-    public static Block aftershock, volt, grace, perforate, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
+    public static Block aftershock,concuss, volt, grace, perforate, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
             blaze, ensign, hack;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -168,6 +168,22 @@ public class TurretBlocks {
                     progress = PartProgress.recoil;
                 }});
             }};
+        }};
+        concuss = new AquaTemplates.AquaItemTurretTemplate("concuss"){{
+            requirements(Category.turret, with(graphite, 200, silicon, 120, AquaItems.ferricMatter, 150));
+            health = 650;
+            size = 2;
+            reload = 400;
+            shoot.shots = 2;
+            shoot = new ShootAlternate(2);
+            ammoPerShot = 4;
+            maxAmmo = 20;
+            shootSound = shootMissileLong;
+            range = 300;
+            ammo(
+                    graphite, AquaBullets.concussGraphite
+            );
+            limitRange(1.2f);
         }};
         vector = new AquaTemplates.AquaItemTurretTemplate("vector") {{
             requirements(Category.turret, with(cupronickel, 120, silicon, 110, metaglass, 150, graphite, 70));
