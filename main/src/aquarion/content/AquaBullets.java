@@ -187,7 +187,6 @@ public class AquaBullets {
     }},concussGraphite = new MissileBulletType(1.5f, 40){{
         splashDamage = 40;
         splashDamageRadius = 48;
-        status = AquaStatuses.flung;
         statusDuration = 90;
         weaveMag = 6;
         weaveScale = 10;
