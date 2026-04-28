@@ -192,6 +192,7 @@ public class AquaBullets {
         weaveScale = 10;
         weaveRandom = true;
         homingPower = 0.01f;
+        status = AquaStatuses.concussed;
         trailEffect = Fx.missileTrailSmokeSmall;
         trailRotation = true;
         trailInterval = 10;
