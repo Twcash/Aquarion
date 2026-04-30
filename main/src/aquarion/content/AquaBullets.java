@@ -8,10 +8,7 @@ import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
-import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.BulletType;
-import mindustry.entities.bullet.ExplosionBulletType;
-import mindustry.entities.bullet.LightningBulletType;
+import mindustry.entities.bullet.*;
 import mindustry.graphics.Pal;
 
 import static aquarion.content.AquaItems.uranium;
@@ -187,6 +184,22 @@ public class AquaBullets {
         despawnEffect = hitEffect = AquaFx.hitBulletColor2;
         shootEffect = AquaFx.shootHori;
         smokeEffect = AquaFx.shootSmoke2;
+    }},concussGraphite = new MissileBulletType(1.5f, 40){{
+        splashDamage = 40;
+        splashDamageRadius = 48;
+        statusDuration = 90;
+        weaveMag = 6;
+        weaveScale = 10;
+        weaveRandom = true;
+        homingPower = 0.01f;
+        status = AquaStatuses.concussed;
+        trailEffect = Fx.missileTrailSmokeSmall;
+        trailRotation = true;
+        trailInterval = 10;
+        trailLength = 12;
+        backColor = trailColor = lightColor = Pal.techBlue;
+        frontColor = Color.white;
+        despawnEffect = hitEffect = Fx.flakExplosionBig;
     }},vectorCupronickel = new BasicBulletType(20, 60) {{
         ammoMultiplier = 2;
         height = 15;

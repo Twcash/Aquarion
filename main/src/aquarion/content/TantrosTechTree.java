@@ -133,23 +133,26 @@ public class TantrosTechTree {
                 });
             });
             node(point, () -> {
+
                 node(buzzSaw);
                 node(buildCairn, ()->{
                     node(constructionTower);
                 });
-                node(Foment, Seq.with(
-                        new Objectives.OnSector(Ingress)
-                ), () -> {
+                node(Foment, () -> {
                     node(redact, () ->
                             node(maelstrom));
                 });
                 node(sentry);
                 node(pelt, () -> {
-                    node(refraction, () -> {
-                        node(torrefy);
+                    node(volt, ()->{
+                        node(refraction, () -> {
+                            node(torrefy);
+                        });
                     });
                     node(douse);
-                    node(grace);
+                    node(grace, ()->{
+                        node(concuss);
+                    });
                     node(focus);
                     node(vector, ()->{
                         node(aftershock, ()->{
@@ -166,9 +169,8 @@ public class TantrosTechTree {
                 });
             });
             node(sealedConveyor, () -> {
-                node(manganeseRail, Seq.with(
-                        new Objectives.SectorComplete(Grove)
-                ), () -> {
+                node(steelConveyor, ()->{
+                    node(steelRouter);
                 });
                 node(crate, () -> {
                     node(cache, () -> {

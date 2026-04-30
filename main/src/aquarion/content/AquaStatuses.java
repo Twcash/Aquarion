@@ -2,15 +2,19 @@ package aquarion.content;
 
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
+import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.content.Fx;
+import mindustry.content.StatusEffects;
+import mindustry.entities.units.StatusEntry;
+import mindustry.gen.Unit;
 import mindustry.graphics.Pal;
 import mindustry.type.StatusEffect;
 
 import static mindustry.content.StatusEffects.*;
 
 public class AquaStatuses {
-    public static StatusEffect ionized, concussed, corroding, cold, weighted, rearmed, retrofit, armored;
+    public static StatusEffect ionized, flung, concussed, corroding, cold, weighted, rearmed, retrofit, armored;
     public static void load(){
         cold = new StatusEffect("cold"){{
             speedMultiplier = 0.8f;
@@ -21,6 +25,14 @@ public class AquaStatuses {
             buildSpeedMultiplier = 0.8f;
             effect = AquaFx.cold;
             allDatabaseTabs = true;
+        }};
+        flung = new AquaStatusEffect("flung"){{
+            dragMultiplier = 0.1f;
+            color = Pal.health;
+            effect = AquaFx.trailSmoke1;
+            speedMultiplier = 0;
+            fling = true;
+            reloadMultiplier = 0.25f;
         }};
         weighted = new StatusEffect("weighted"){{
             dragMultiplier = 1.3f;
@@ -94,5 +106,25 @@ public class AquaStatuses {
             damageMultiplier = 1.1f;
             reloadMultiplier = 0.7f;
         }};
+    }
+    public static class AquaStatusEffect extends StatusEffect{
+        public boolean fling = false;
+        public AquaStatusEffect(String name) {
+            super(name);
+        }
+        @Override
+        public boolean showUnlock(){
+            return false;
+        }
+
+        /** Runs every tick on the affected unit while time is greater than 0. */
+        public void update(Unit unit, StatusEntry entry){
+            super.update(unit, entry);
+            if(fling){
+                float prog = entry.time;
+                unit.rotation += 0.01f;
+                unit.elevation = Interp.pow2In.apply(Mathf.clamp(4*(prog+(-Mathf.pow(prog, 2)))));
+            };
+        }
     }
 }
