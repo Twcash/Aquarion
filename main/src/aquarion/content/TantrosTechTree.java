@@ -169,9 +169,8 @@ public class TantrosTechTree {
                 });
             });
             node(sealedConveyor, () -> {
-                node(manganeseRail, Seq.with(
-                        new Objectives.SectorComplete(Grove)
-                ), () -> {
+                node(steelConveyor, ()->{
+                    node(steelRouter);
                 });
                 node(crate, () -> {
                     node(cache, () -> {

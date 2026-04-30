@@ -23,7 +23,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
-    public static Block payloadDistributor, payloadPad, sealedInvertedSorter, manganeseRail, armoredSealedConveyor, sealedOverflow, sealedDistributor,
+    public static Block payloadDistributor, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
@@ -154,21 +154,24 @@ public class DistributionBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
 
         }};
-        manganeseRail = new StackConveyor("manganese-rail") {{
-            requirements(Category.distribution, with(manganese, 3));
+        steelConveyor = new StackConveyor("steel-conveyor") {{
+            requirements(Category.distribution, with(steel, 1, aluminum, 2));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             speed = 2f / 60f;
-            itemCapacity = 30;
+            itemCapacity = 150;
             drawDisabled = false;
             outputRouter = true;
-            hasPower = true;
-            consumesPower = true;
-            conductivePower = true;
             underBullets = true;
-            baseEfficiency = 1f;
-            consumePower(1f / 60f);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+        }};
+        steelRouter = new StackRouter("steel-router"){{
+            requirements(Category.distribution, with(steel, 15, aluminum, 20));
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            underBullets = true;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            baseEfficiency = 1;
         }};
         overwrite(Blocks.titaniumConveyor, (Conveyor r) -> {
             r.requirements = null;
@@ -176,7 +179,6 @@ public class DistributionBlocks {
         });
         payloadPad = new PayloadJumper("payload-pad"){{
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-
             requirements(Category.units, with(polymer, 45, silicon, 50, copper, 120));
             size = 3;
         }};
