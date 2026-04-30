@@ -305,6 +305,7 @@ public class TurretBlocks {
             range = 250;
             maxAmmo = 25;
             ammoPerShot = 5;
+            targetAir = false;
             ammo(
                     graphite, new BasicBulletType(4.5f, 20) {{
                         splashDamage = 90;

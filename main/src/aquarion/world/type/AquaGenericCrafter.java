@@ -538,7 +538,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                     if(liquid == liq.liquid) return;
                 }
                 for(int i = 0; i < proximity.size; i++){
-                    if(proximity.get(i).block == this.block) moveLiquid(proximity.get(i), liquid);
+                    if(proximity.get(i).block == this.block) dumpLiquid(proximity.get(i), liquid);
                 }
             }
         }
