@@ -109,7 +109,7 @@ public class Pipe extends LiquidRouter implements Autotiler {
     public class PipeBuild extends LiquidRouterBuild {
         public int tiling = 0, blending;
         public int index1, index2, underBlending;
-
+        publiQueue<Building> queue = new LinkedList<>();
         private final Set<Building> visited = new HashSet<>();
 
         public void equalizeLiquids() {
@@ -119,7 +119,7 @@ public class Pipe extends LiquidRouter implements Autotiler {
         }
 
         private void aggregateAndDistributeLiquids(Building origin) {
-            Queue<Building> queue = new LinkedList<>();
+            queue.clear();
             queue.add(origin);
             visited.add(origin);
             if(liquids.current() == null) return;
