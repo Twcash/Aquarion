@@ -113,7 +113,7 @@ public class Pipe extends LiquidRouter implements Autotiler {
         private final Set<Building> visited = new HashSet<>();
 
         public void equalizeLiquids() {
-            if (!block.hasLiquids || liquids.currentAmount() <= 0.01f) return;
+            if (liquids.currentAmount() <= 0.01f) return;
             visited.clear();
             aggregateAndDistributeLiquids(this);
         }
