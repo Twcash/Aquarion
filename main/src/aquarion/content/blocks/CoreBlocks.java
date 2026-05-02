@@ -171,13 +171,13 @@ public class CoreBlocks {
             schematicPriority = 7;
             consumePower(0.75f);
             consumeItem(Items.silicon).boost();
-            range = 25;
+            range = 28;
             phaseRangeBoost = 3f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             phaseBoost = 2;
             healPercent = 10f;
             squareSprite = false;
-            reload = 280;
+            reload = 400;
             alwaysUnlocked = true;
         }};
         mendPylon = new RegenPylon("mend-pylon") {{
