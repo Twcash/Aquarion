@@ -168,16 +168,16 @@ public class CoreBlocks {
             requirements(Category.effect, with(lead, 55, silicon, 80));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 1;
-            schematicPriority = 7;
+            schematicPriority = 2;
             consumePower(0.75f);
             consumeItem(Items.silicon).boost();
-            range = 28;
+            range = 25;
             phaseRangeBoost = 3f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             phaseBoost = 2;
             healPercent = 10f;
             squareSprite = false;
-            reload = 400;
+            reload = 350;
             alwaysUnlocked = true;
         }};
         mendPylon = new RegenPylon("mend-pylon") {{
