@@ -239,7 +239,7 @@ public class RegenPylon extends MendProjector {
             super.read(read, revision);
             this.charge = read.f();
             this.heat = read.f();
-            this.phaseHeat = read.f();
+            if(read.checkEOF() != -1) this.phaseHeat = read.f();
         }
     }
 }
