@@ -48,7 +48,7 @@ public class RegenPylon extends MendProjector {
         timerUse = timers++;
         baseColor = Pal.heal;
         phaseColor = Pal.heal;
-        reload = 250.0F;
+        reload = 300f;
         range = 60.0F;
         healPercent = 12.0F;
         phaseBoost = 12.0F;
