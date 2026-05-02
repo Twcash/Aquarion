@@ -232,14 +232,12 @@ public class RegenPylon extends MendProjector {
             super.write(write);
             write.f(this.charge);
             write.f(this.heat);
-            write.f(this.phaseHeat);
         }
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             this.charge = read.f();
             this.heat = read.f();
-            if(read.checkEOF() != -1) this.phaseHeat = read.f();
         }
     }
 }
