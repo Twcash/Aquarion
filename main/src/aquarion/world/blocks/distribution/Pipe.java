@@ -122,7 +122,7 @@ public class Pipe extends LiquidRouter implements Autotiler {
             Queue<Building> queue = new LinkedList<>();
             queue.add(origin);
             visited.add(origin);
-
+            if(liquids.current() == null) return;
             Liquid liquidType = liquids.current();
             float totalLiquid = 0f;
             float totalCapacity = 0f;
