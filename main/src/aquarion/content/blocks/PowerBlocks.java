@@ -433,6 +433,7 @@ public class PowerBlocks {
             requirements(Category.power, with(silicon, 10));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeErekir, fakeSerpulo, tantros2, qeraltar);
             rotate = true;
+            health = 150;
             rotateDraw = false;
             powerProduction = 1;
             alwaysUnlocked = true;
