@@ -177,7 +177,7 @@ public class CoreBlocks {
             phaseBoost = 2;
             healPercent = 10f;
             squareSprite = false;
-            reload = 350;
+            reload = 300;
             alwaysUnlocked = true;
         }};
         mendPylon = new RegenPylon("mend-pylon") {{
