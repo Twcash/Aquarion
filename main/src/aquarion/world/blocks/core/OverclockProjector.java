@@ -18,7 +18,7 @@ import static mindustry.Vars.indexer;
 
 public class OverclockProjector extends OverdriveProjector{
 
-    public float damagePercent = 0.008f;
+    public float damagePercent = 0.0025f;
 
     public OverclockProjector(String name){
         super(name);
@@ -69,7 +69,7 @@ public class OverclockProjector extends OverdriveProjector{
                             float healthFrac = other.healthf();
                             float slow = Mathf.clamp(healthFrac, 0.1f, 1f);
                             float damage = other.block.health * (damagePercent + phaseHeat * 0.02f) * slow * Time.delta;
-                            other.damage(damage);
+                            other.damage(other.block.health  * damagePercent);
                             other.applyBoost(realBoost(), reload + 1f);
                         }
                 );
