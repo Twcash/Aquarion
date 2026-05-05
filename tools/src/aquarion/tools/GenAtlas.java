@@ -1,12 +1,11 @@
 package aquarion.tools;
 
 import arc.files.Fi;
-import arc.graphics.Pixmap;
-import arc.graphics.Pixmaps;
-import arc.graphics.Texture;
+import arc.graphics.*;
 import arc.graphics.g2d.PixmapRegion;
 import arc.graphics.g2d.TextureAtlas;
 import arc.graphics.g2d.TextureRegion;
+import arc.graphics.gl.PixmapTextureData;
 import arc.struct.ObjectMap;
 
 import static aquarion.tools.Tools.atlas;
@@ -124,9 +123,13 @@ public class GenAtlas extends TextureAtlas{
             this.name = name;
             this.pixmap = pixmap;
 
+            //added to allow methods like TextureRegion.split() to function without error
+            this.texture = Texture.createEmpty(new PixmapTextureData(pixmap, false, false));
             if(pixmap != null){
                 width = pixmap.width;
                 height = pixmap.height;
+                this.texture.width = width;
+                this.texture.height = height;
             }
 
             u = v = 0f;
@@ -144,7 +147,11 @@ public class GenAtlas extends TextureAtlas{
          * @see Pixmap#dispose()
          */
         public Pixmap pixmap(){
-            if(!found()) throw new IllegalArgumentException("Region does not exist: " + name);
+            if(!found()){
+                Pixmap pixmap = new Pixmap(64, 64);
+                pixmap.fill(Color.magenta);
+                return pixmap;
+            }
             return pixmap;
         }
 
