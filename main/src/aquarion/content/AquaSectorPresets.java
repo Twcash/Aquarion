@@ -8,7 +8,7 @@ import static aquarion.content.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
     public static SectorPreset  //tantros
-    Ingress, diseasedCleft, Torrent, CrystalCaverns, Grove, Ecotone,
+    Ingress, diseasedCleft, Torrent, CrystalCaverns, Grove, Ecotone, FeldsparRavine, SubmergedCanyon
     //serpulo (fake)
     resurgence, twinPass, lib, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics;
     public static void load(){
