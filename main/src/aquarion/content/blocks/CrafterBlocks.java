@@ -559,6 +559,7 @@ public class CrafterBlocks {
             squareSprite = false;
             itemCapacity = 300;
             hasPower = true;
+            outputLiquid = new LiquidStack(hydroxide, 4.25f);
             consumeItem(azurite,15);
             outputItem = new ItemStack(copper, 45);
             consume(new ConsumeLiquidAcidic(1, 0.5f));
