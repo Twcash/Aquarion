@@ -1,6 +1,7 @@
 package aquarion.tools;
 
 import arc.files.Fi;
+import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
 import arc.graphics.Texture;
@@ -144,7 +145,11 @@ public class GenAtlas extends TextureAtlas{
          * @see Pixmap#dispose()
          */
         public Pixmap pixmap(){
-            if(!found()) throw new IllegalArgumentException("Region does not exist: " + name);
+            if(!found()){
+                Pixmap pixmap = new Pixmap(64, 64);
+                pixmap.fill(Color.magenta);
+                return pixmap;
+            }
             return pixmap;
         }
 
