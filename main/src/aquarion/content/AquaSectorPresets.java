@@ -145,7 +145,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 3;
         }};
 
-            FeldsparRavine = new SectorPreset("FeldsparRavine", tantros2, 145){{
+        FeldsparRavine = new SectorPreset("FeldsparRavine", tantros2, 145){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 18;
@@ -155,7 +155,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 3;
         }};
 
-            SubmergedCanyon = new SectorPreset("submerged-canyon", tantros2, 214){{
+        SubmergedCanyon = new SectorPreset("submerged-canyon", tantros2, 214){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 18;
