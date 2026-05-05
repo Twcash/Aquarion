@@ -138,7 +138,7 @@ public class AquaSectorPresets {
         ripHold = new SectorPreset("riparian-hold", tantros2, 1444){{
             allDatabaseTabs = true;
             addStartingItems = true;
-            captureWave = 11;
+            captureWave = 17;
             difficulty = 6;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
@@ -148,7 +148,7 @@ public class AquaSectorPresets {
         FeldsparRavine = new SectorPreset("FeldsparRavine", tantros2, 145){{
             allDatabaseTabs = true;
             addStartingItems = true;
-            captureWave = 18;
+            captureWave = 11;
             difficulty = 6;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
