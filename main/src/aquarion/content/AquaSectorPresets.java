@@ -158,8 +158,8 @@ public class AquaSectorPresets {
         SubmergedCanyon = new SectorPreset("submerged-canyon", tantros2, 214){{
             allDatabaseTabs = true;
             addStartingItems = true;
-            captureWave = 18;
-            difficulty = 6;
+            captureWave = 31;
+            difficulty = 8;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
