@@ -173,17 +173,18 @@ public class TurretBlocks {
             requirements(Category.turret, with(graphite, 200, silicon, 120, AquaItems.ferricMatter, 150));
             health = 650;
             size = 2;
-            reload = 400;
+            reload = 240;
             shoot.shots = 2;
             shoot = new ShootAlternate(2);
-            ammoPerShot = 4;
+            shoot.shots = 2;
+            ammoPerShot = 8;
             maxAmmo = 20;
             shootSound = shootMissileLong;
             range = 300;
             ammo(
                     graphite, AquaBullets.concussGraphite
             );
-            limitRange(1.2f);
+            limitRange(1.5f);
         }};
         vector = new AquaTemplates.AquaItemTurretTemplate("vector") {{
             requirements(Category.turret, with(cupronickel, 120, silicon, 110, metaglass, 150, graphite, 70));

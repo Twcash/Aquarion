@@ -184,16 +184,15 @@ public class AquaBullets {
         despawnEffect = hitEffect = AquaFx.hitBulletColor2;
         shootEffect = AquaFx.shootHori;
         smokeEffect = AquaFx.shootSmoke2;
-    }},concussGraphite = new MissileBulletType(1.5f, 40){{
-        splashDamage = 40;
+    }},concussGraphite = new MissileBulletType(1.8f, 40){{
+        splashDamage = 90;
         splashDamageRadius = 48;
-        statusDuration = 90;
         weaveMag = 6;
         weaveScale = 10;
         weaveRandom = true;
         homingPower = 0.01f;
         status = AquaStatuses.concussed;
-        trailEffect = Fx.missileTrailSmokeSmall;
+        trailEffect = Fx.incendTrail ;
         trailRotation = true;
         trailInterval = 10;
         trailLength = 12;
