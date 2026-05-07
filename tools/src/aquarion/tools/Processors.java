@@ -17,7 +17,7 @@ public final class Processors{
 //            new OutlineRegionProcessor(),
             new UnitProcessor(),
             new ItemProcessor(),
-//            new BlockProcessor()
+            new BlockProcessor()
     };
 
     private Processors(){

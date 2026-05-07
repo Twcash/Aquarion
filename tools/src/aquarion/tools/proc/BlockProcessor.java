@@ -115,8 +115,16 @@ public class BlockProcessor implements Processor{
                         }
                     }
                 }
-
                 TextureRegion[] regions = block.getGeneratedIcons();
+                if(regions == null){
+                    regions = new TextureRegion[]{};
+                }
+                for(int i = 0; i < regions.length; i++){
+                    if(regions[i] == null){
+                        //name doesn't matter unless you decide you want to add a missing texture for this.
+                        regions[i] = atlas.find("missing");
+                    }
+                }
                 if(regions.length == 0){
                     if(shardTeamTop != null) shardTeamTop.dispose();
                     return;
@@ -173,10 +181,16 @@ public class BlockProcessor implements Processor{
 
                 if(image != null){
                     String uiIconName = block.name + "-ui";
+                    Log.debug("generating block icon " + block.name);
                     if(!atlas.has(uiIconName)){
-                        GenRegion uiRegion = new GenRegion(uiIconName, image);
+                        int size = Math.min(image.width, 128);
+                        Pixmap scaled = new Pixmap(size, size);
+                        //TODO bad linear scaling
+                        scaled.draw(image, 0, 0, image.width, image.height, 0, 0, size, size, true, true);
+                        GenRegion uiRegion = new GenRegion(uiIconName, scaled);
                         uiRegion.relativePath = "ui";
                         uiRegion.save(true);
+                        Log.debug("generated block icon " + block.name);
                     }else{
                         image.dispose();
                     }
