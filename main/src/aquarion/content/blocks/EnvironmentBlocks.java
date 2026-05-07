@@ -43,11 +43,11 @@ public class EnvironmentBlocks {
     public static Block varcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
-            andesiteLayers, basaltSpikes, algal_carpet, brine_liquid, lava, shallowSlag, shallowLava,
+            andesiteLayers, basaltSpikes, pinkSaltBoulder, algal_carpet, brine_liquid, lava, shallowSlag, shallowLava,
             coral_floor,cupriteBoulder,cupriteWall,cupriteChunks, cupriteFloor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, petroleumFloor, petroleumSeep, geothermal_vent, rubble,
              metal13, metal14, metal15, metal16, roughFeldspar, glassFloor, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
-            boricFloor, boricFloorDense, tile, relBlossom, bramble, brulrFern,
+            boricFloor, pinkSaltFloor, pinkSaltFlats, smoothPinkSaltFloor, pinkSaltWall, pinkSaltCrystals, boricFloorDense, tile, relBlossom, bramble, brulrFern,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
     public static Block oreNickelWall, scorche, oreRadium, oreUranium, orePitchblende, nickelFloor,
             oreNickel, oreBauxite,
@@ -163,6 +163,17 @@ public class EnvironmentBlocks {
             effect = AquaFx.vent1;
         }};
         Blocks.salt.itemDrop = salt;
+        pinkSaltFlats = new  AquaTiledFloor("pink-salt-flats"){{
+            tilingVariants = 1;
+            tilingSize = 5;
+        }};
+        pinkSaltFloor = new Floor("pink-salt", 3){{
+            itemDrop = salt;
+        }};
+        smoothPinkSaltFloor = new Floor("smooth-pink-salt", 8){{
+            itemDrop = salt;
+        }};
+        
         andesiteLayers = new Floor("andesite-layers", 4) {{
             wall = daciteWall;
         }};
@@ -546,6 +557,14 @@ public class EnvironmentBlocks {
         feldsparWall = new StaticWall("feldspar-wall") {{
             variants = 3;
             attributes.set(iron, 1);
+        }};
+        pinkSaltWall = new StaticWall("pink-salt-wall"){{
+            variants = 2;
+            itemDrop = salt;
+        }};
+        pinkSaltCrystals = new TallBlock("pink-salt-crystals") {{
+            variants = 2;
+            itemDrop = salt;
         }};
         redCoralWall = new StaticWall("red-coral-wall") {{
             variants = 3;
@@ -977,6 +996,12 @@ public class EnvironmentBlocks {
             variants = 2;
             ultrafamicFloor.asFloor().decoration = this;
             ultrafamicPlates.asFloor().decoration = this;
+        }};
+        pinkSaltBoulder = new Prop("pink-salt-boulder") {{
+            variants = 2;
+            pinkSaltFloor.asFloor().decoration = this;
+            smoothPinkSaltFloor.asFloor().decoration = this;
+            pinkSaltFlats.asFloor().decoration = this;
         }};
         cupriteBoulder = new Prop("cuprite-boulder") {{
             variants = 2;
