@@ -1703,7 +1703,7 @@ public class TurretBlocks {
             coolantMultiplier = 0.5f;
             requirements(Category.turret, with(AquaItems.ferricMatter, 90, silicon, 120, AquaItems.aluminum, 150));
             ammo(
-                    AquaItems.arsenic, new BasicBulletType(6f, 50, "missile-large") {{
+                    AquaItems.cuprite, new BasicBulletType(6f, 50, "missile-large") {{
                         width = 8f;
                         pierce = true;
                         height = 14f;
@@ -1760,8 +1760,8 @@ public class TurretBlocks {
                             sparks = 12;
                             sparkLen = 6;
                             sparkStroke = 3;
-                            sparkColor = AquaPal.arsenic;
-                            waveColor = AquaPal.arsenic;
+                            sparkColor = AquaPal.cuprite;
+                            waveColor = AquaPal.cuprite;
                             smoke = smokeLight;
                         }};
                         backColor = trailColor = Color.valueOf("e58ca0");
@@ -1770,7 +1770,7 @@ public class TurretBlocks {
                             width = height = 8;
                             trailLength = 8;
                             frontColor = Color.white;
-                            backColor = trailColor = lightColor = hitColor = AquaPal.arsenic;
+                            backColor = trailColor = lightColor = hitColor = AquaPal.cuprite;
                             despawnEffect = new ExplosionEffect() {{
                                 waveRad = 10;
                                 waveStroke = 6;
@@ -1780,8 +1780,8 @@ public class TurretBlocks {
                                 sparks = 6;
                                 sparkLen = 3;
                                 sparkStroke = 2;
-                                sparkColor = AquaPal.arsenic;
-                                waveColor = AquaPal.arsenic;
+                                sparkColor = AquaPal.cuprite;
+                                waveColor = AquaPal.cuprite;
                                 smoke = smokeLight;
                             }};
                         }};
