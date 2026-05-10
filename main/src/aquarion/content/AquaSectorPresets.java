@@ -125,7 +125,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
         }};
-        pinkPlateau = new SectorPreset("pinkPlateau", tantros2, 194){{
+        brineplateau = new SectorPreset("brineplateau", tantros2, 194){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 27;
