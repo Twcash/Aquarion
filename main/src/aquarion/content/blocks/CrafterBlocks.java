@@ -928,9 +928,9 @@ public class CrafterBlocks {
                 itemCapacity = 36;
                 consumePower(5);
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-                liquidCapacity = 500;
+                liquidCapacity = 1500;
                 consumeLiquid(fumes, 2);
-                outputLiquids = LiquidStack.with(oil, 0.5f, haze, 2f, muriaticAcid, 1f);
+                outputLiquids = LiquidStack.with(oil, 4f, haze, 2f, muriaticAcid, 1f);
                 outputItem = new ItemStack(brimstone, 4);
                 liquidOutputDirections = new int[]{3, 1, 2};
                 drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
