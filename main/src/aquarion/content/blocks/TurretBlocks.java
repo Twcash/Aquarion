@@ -1760,8 +1760,8 @@ public class TurretBlocks {
                             sparks = 12;
                             sparkLen = 6;
                             sparkStroke = 3;
-                            sparkColor = AquaPal.cuprite;
-                            waveColor = AquaPal.cuprite;
+                            sparkColor = AquaPal.arsenic;
+                            waveColor = AquaPal.arsenic;
                             smoke = smokeLight;
                         }};
                         backColor = trailColor = Color.valueOf("e58ca0");
@@ -1770,7 +1770,7 @@ public class TurretBlocks {
                             width = height = 8;
                             trailLength = 8;
                             frontColor = Color.white;
-                            backColor = trailColor = lightColor = hitColor = AquaPal.cuprite;
+                            backColor = trailColor = lightColor = hitColor = AquaPal.arsenic;
                             despawnEffect = new ExplosionEffect() {{
                                 waveRad = 10;
                                 waveStroke = 6;
@@ -1780,8 +1780,8 @@ public class TurretBlocks {
                                 sparks = 6;
                                 sparkLen = 3;
                                 sparkStroke = 2;
-                                sparkColor = AquaPal.cuprite;
-                                waveColor = AquaPal.cuprite;
+                                sparkColor = AquaPal.arsenic;
+                                waveColor = AquaPal.arsenic;
                                 smoke = smokeLight;
                             }};
                         }};
