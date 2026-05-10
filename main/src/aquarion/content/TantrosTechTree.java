@@ -229,7 +229,7 @@ public class TantrosTechTree {
                                     new Objectives.Research(armoredSealedConveyor),
                                     new Objectives.Research(redact)
                             ), () -> {
-                                node(pinkPlateau, Seq.with(
+                                node(brineplateau, Seq.with(
                                      new Objectives.SectorComplete(CrystalCaverns)
                                      ), ()->{});
                                 node(FeldsparRavine, Seq.with(
