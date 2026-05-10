@@ -164,6 +164,7 @@ public class EnvironmentBlocks {
         }};
         Blocks.salt.itemDrop = salt;
         pinkSaltFlats = new  AquaTiledFloor("pink-salt-flats"){{
+            itemDrop = salt;
             tilingVariants = 1;
             tilingSize = 5;
         }};
