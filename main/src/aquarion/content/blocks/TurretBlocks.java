@@ -1703,7 +1703,7 @@ public class TurretBlocks {
             coolantMultiplier = 0.5f;
             requirements(Category.turret, with(AquaItems.ferricMatter, 90, silicon, 120, AquaItems.aluminum, 150));
             ammo(
-                    AquaItems.arsenic, new BasicBulletType(6f, 50, "missile-large") {{
+                    AquaItems.cuprite, new BasicBulletType(6f, 50, "missile-large") {{
                         width = 8f;
                         pierce = true;
                         height = 14f;
