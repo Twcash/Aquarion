@@ -772,7 +772,7 @@ public class CrafterBlocks {
                 squareSprite = false;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 baseExplosiveness = 10;
-                consumeLiquids(LiquidStack.with(haze, 3, oxygen, 2, oil, 2));
+                consumeLiquids(LiquidStack.with(haze, 3, oxygen, 2, oil, 4));
                 outputLiquid = new LiquidStack(fumes, 4);
                 consumeItems(ItemStack.with( brimstone, 16));
                 itemCapacity = 350;
