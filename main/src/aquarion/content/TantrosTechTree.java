@@ -226,8 +226,8 @@ public class TantrosTechTree {
 									node(GalenaFringe, Seq.with(
                                         new Objectives.SectorComplete(SubmergedCanyon),
                                         new Objectives.Research(galena),
-                                        new Objectives.Research(GalenaCrucible),
-                                        new Objectives.Research(PetroleumEngine)
+                                        new Objectives.Research(galenaCrucible),
+                                        new Objectives.Research(petroleumEngine)
                             			), () -> { 
                             node(CrystalCaverns, Seq.with(
                                     new Objectives.Research(fumeEngine),
