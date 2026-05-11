@@ -193,7 +193,6 @@ public class AquaBullets {
         homingPower = 0.01f;
         status = AquaStatuses.concussed;
         trailEffect = Fx.incendTrail ;
-        trailRotation = true;
         trailInterval = 10;
         trailLength = 12;
         backColor = trailColor = lightColor = Pal.techBlue;
