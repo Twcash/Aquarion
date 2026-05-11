@@ -180,6 +180,56 @@ public class SealedConveyor extends Duct implements Autotiler{
             drawAt(x, y, blendbits, rotation, SliceMode.none);
             Draw.reset();
         }
+        public void onDestroyed(){
+        float explosiveness = block.baseExplosiveness;
+        float flammability = 0f;
+        float power = 0f;
+
+        if(block.hasItems){
+            for(Item item : content.items()){
+                int amount = Math.min(items.get(item), explosionItemCap());
+                explosiveness += item.explosiveness * amount;
+                flammability += item.flammability * amount;
+                power += item.charge * Mathf.pow(amount, 1.1f) * 150f;
+            }
+        }
+
+        if(block.hasLiquids){
+            flammability += liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);
+            explosiveness += liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);
+        }
+
+        if(block.consPower != null && block.consPower.buffered){
+            power += this.power.status * block.consPower.capacity;
+        }
+
+        if(block.hasLiquids && state.rules.damageExplosions){
+            liquids.each(this::splashLiquid);
+        }
+
+        //cap explosiveness so fluid tanks/vaults don't instakill units
+        Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 6f * block.explosivenessScale*2,power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);
+
+        if(block.createRubble && !floor().solid && !floor().isLiquid){
+            Effect.rubble(x, y, block.size);
+        }
+
+        if(!headless){
+            playDestroySound();
+
+            if(explosiveness > 40f){
+                (Mathf.chance(0.5) ? Sounds.blockExplodeExplosive : Sounds.blockExplodeExplosiveAlt).at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+            }else if(flammability > 5f){
+                Sounds.blockExplodeFlammable.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+            }
+
+            if(power > 30000f){
+                Sounds.blockExplodeElectricBig.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+            }else if(power > 2000f){
+                Sounds.blockExplodeElectric.at(tile, Mathf.random(block.destroyPitchMin, block.destroyPitchMax), block.destroySoundVolume);
+            }
+        }
+    }
         @Override
         public void updateTile(){
             progress += edelta() / speed * 2f;
