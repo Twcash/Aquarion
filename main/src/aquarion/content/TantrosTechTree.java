@@ -229,6 +229,9 @@ public class TantrosTechTree {
                                     new Objectives.Research(armoredSealedConveyor),
                                     new Objectives.Research(redact)
                             ), () -> {
+                                node(brinePlateau, Seq.with(
+                                     new Objectives.SectorComplete(CrystalCaverns)
+                                     ), ()->{});
                                 node(FeldsparRavine, Seq.with(
                                     new Objectives.SectorComplete(CrystalCaverns),
                                     new Objectives.Research(leachingVessel)
@@ -388,10 +391,11 @@ public class TantrosTechTree {
             });
             node(siphon, () -> {
                 node(siphonRouter, () -> {
-                    node(siphonVessel, ()->{
+                    node(siphonVessel, ()-> {
                         node(pipeTank);
-                        node(siphonReservoir);
-                        node(siphonGullet);
+                        node(siphonReservoir, ()-> {
+                            node(siphonGullet);
+                        });
                     });
                     node(siphonUnderflow);
                 });

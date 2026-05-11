@@ -8,7 +8,7 @@ import static aquarion.content.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
     public static SectorPreset  //tantros
-    Ingress, diseasedCleft, FeldsparRavine, Torrent, CrystalCaverns, Grove, Ecotone,
+    Ingress, diseasedCleft, brinePlateau, FeldsparRavine, Torrent, CrystalCaverns, Grove, Ecotone,
     //serpulo (fake)
     resurgence, SubmergedCanyon, twinPass, lib, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics;
     public static void load(){
@@ -121,6 +121,15 @@ public class AquaSectorPresets {
             addStartingItems = true;
             captureWave = 7;
             difficulty = 4;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 3;
+        }};
+        brinePlateau = new SectorPreset("brineplateau", tantros2, 194){{
+            allDatabaseTabs = true;
+            addStartingItems = true;
+            captureWave = 27;
+            difficulty = 5;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;

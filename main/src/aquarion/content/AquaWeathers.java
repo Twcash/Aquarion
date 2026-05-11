@@ -34,11 +34,11 @@ public class AquaWeathers {
             hidden = false;
             sizeMax = 700;
             sizeMin = 10;
-            minAlpha = 0.1f;
-            maxAlpha = 0.4f;
+            minAlpha = 0.05f;
+            maxAlpha = 0.1f;
             density = 90000;
             baseSpeed = 0.5f;
-            duration = 1.2f * Time.toMinutes;
+            duration = 10 * Time.toMinutes;
         }};
         volcanicFallout = new AquaParticleWeather("volcanic-fallout"){{
             color =   Color.valueOf("393837");
