@@ -364,8 +364,11 @@ public class TantrosTechTree {
 
                         nodeProduce(water, () -> {
                             nodeProduce(haze, ()->{});
-                            nodeProduce(air, () -> nodeProduce(halideWater, () -> {
-                            }));
+                            nodeProduce(air, () -> {
+                                nodeProduce(cryogen, ()->{});
+                                nodeProduce(halideWater, () -> {
+                                });
+                            });
                             nodeProduce(magma, () -> {
                                 nodeProduce(muriaticAcid, ()->{});
                                 nodeProduce(vitriol, ()->{});
