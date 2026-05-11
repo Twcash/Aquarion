@@ -218,17 +218,18 @@ public class TantrosTechTree {
                             new Objectives.Research(pugnate),
                             new Objectives.Research(vacuumFreezer),
                             new Objectives.Research(aluminum)
-                                    ), ()->{
+                            ), ()->{
                                 node(SubmergedCanyon, Seq.with(
                                     new Objectives.SectorComplete(Grove)       
-                                    ), ()->{});
-                                    });
+                                ), ()->{
 									node(GalenaFringe, Seq.with(
                                         new Objectives.SectorComplete(SubmergedCanyon),
                                         new Objectives.Research(galena),
                                         new Objectives.Research(galenaCrucible),
                                         new Objectives.Research(petroleumEngine)
-                            			), () -> { 
+                            		), () -> {});
+								});
+							});
                             node(CrystalCaverns, Seq.with(
                                     new Objectives.Research(fumeEngine),
                                     new Objectives.SectorComplete(Torrent),
