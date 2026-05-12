@@ -10,7 +10,7 @@ public class AquaSectorPresets {
     public static SectorPreset  //tantros
     Ingress, diseasedCleft, brinePlateau, FeldsparRavine, Torrent, CrystalCaverns, Grove, Ecotone,
     //serpulo (fake)
-    resurgence, SubmergedCanyon, twinPass, lib, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics;
+    resurgence, SubmergedCanyon, GalenaFringe, twinPass, lib, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics;
     public static void load(){
         resurgence = new SectorPreset("resurgence", fakeSerpulo, 361){{
             allDatabaseTabs = true;
@@ -174,6 +174,16 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 3;
         }};
 
+        GalenaFringe = new SectorPreset( “galenafringe”, tantros2, 82){
+			allDatabaseTabs = true;
+            addStartingItems = true;
+            captureWave = 14;
+            difficulty = 8;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            startWaveTimeMultiplier = 5;
+		}};
+    
         Ecotone = new SectorPreset("Ecotone", tantros2, 146){{
             allDatabaseTabs = true;
             addStartingItems = true;
