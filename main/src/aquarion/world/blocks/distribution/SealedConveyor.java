@@ -13,8 +13,10 @@ import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.content.Fx;
 import mindustry.entities.Damage;
+import mindustry.entities.Effect;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
+import mindustry.gen.Sounds;
 import mindustry.gen.Teamc;
 import mindustry.graphics.Layer;
 import mindustry.type.Item;
@@ -24,6 +26,7 @@ import mindustry.world.blocks.Autotiler;
 import mindustry.world.blocks.distribution.Conveyor;
 import mindustry.world.blocks.distribution.Duct;
 import mindustry.world.blocks.distribution.Junction;
+import mindustry.Vars;
 
 import static mindustry.Vars.itemSize;
 import static mindustry.Vars.tilesize;
@@ -186,7 +189,7 @@ public class SealedConveyor extends Duct implements Autotiler{
         float power = 0f;
 
         if(block.hasItems){
-            for(Item item : content.items()){
+            for(Item item : Vars.content.items()){
                 int amount = Math.min(items.get(item), explosionItemCap());
                 explosiveness += item.explosiveness * amount;
                 flammability += item.flammability * amount;
@@ -203,18 +206,18 @@ public class SealedConveyor extends Duct implements Autotiler{
             power += this.power.status * block.consPower.capacity;
         }
 
-        if(block.hasLiquids && state.rules.damageExplosions){
+        if(block.hasLiquids && Vars.state.rules.damageExplosions){
             liquids.each(this::splashLiquid);
         }
 
         //cap explosiveness so fluid tanks/vaults don't instakill units
-        Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 6f * block.explosivenessScale*2,power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect, block.baseShake);
+        Damage.dynamicExplosion(x, y, flammability * block.flammabilityScale, explosiveness * 6f * block.explosivenessScale*2,power, tilesize * block.size / 2f, Vars.state.rules.damageExplosions, block.destroyEffect, block.baseShake);
 
         if(block.createRubble && !floor().solid && !floor().isLiquid){
             Effect.rubble(x, y, block.size);
         }
 
-        if(!headless){
+        if(!Vars.headless){
             playDestroySound();
 
             if(explosiveness > 40f){
