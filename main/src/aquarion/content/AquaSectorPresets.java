@@ -174,7 +174,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 3;
         }};
 
-        GalenaFringe = new SectorPreset( “galenafringe”, tantros2, 82){
+        GalenaFringe = new SectorPreset( "galenafringe", tantros2, 82){{
 			allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 14;
