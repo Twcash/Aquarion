@@ -284,7 +284,13 @@ public class TantrosTechTree {
                                     });
                                 });
                                 node(diseasedCleft, Seq.with(new Objectives.SectorComplete(bay)), ()->{
-                                    node(fungalTropics, Seq.with(new Objectives.SectorComplete(diseasedCleft)), ()->{});
+                                    node(fungalTropics, Seq.with(new Objectives.SectorComplete(diseasedCleft)), ()->{
+										node(violetValley, Seq.with(
+											 new Objectives.SectorComplete(fungalTropics),
+											 new Objectives.Research(sporeProcessor),
+											 new Objectives.SectorComplete(ferrosilicon)
+										), ()->{});
+									});
                                 });
                                 node(mountainsideComplex, Seq.with(
                                         new Objectives.SectorComplete(bay)
