@@ -288,7 +288,7 @@ public class TantrosTechTree {
 										node(violetValley, Seq.with(
 											 new Objectives.SectorComplete(fungalTropics),
 											 new Objectives.Research(sporeProcessor),
-											 new Objectives.SectorComplete(ferrosilicon)
+											 new Objectives.Research(ferrosilicon)
 										), ()->{});
 									});
                                 });
