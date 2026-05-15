@@ -266,7 +266,7 @@ public class GroundDrill extends AquaBlock {
             stats.add(Stat.booster,
                     StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
                             consBase.amount,
-                            liquidBoostIntensity * liquidBoostIntensity, false, liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
+                            liquidBoostIntensity, false, liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
             );
         }
     }

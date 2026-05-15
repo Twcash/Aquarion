@@ -77,7 +77,7 @@ public class ModifiedbeamDrill extends BeamDrill {
             stats.add(Stat.booster,
                     StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
                             consBase.amount,
-                            liquidBoostIntensity * liquidBoostIntensity, false, liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
+                            liquidBoostIntensity, false, liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
             );
         }
     }
