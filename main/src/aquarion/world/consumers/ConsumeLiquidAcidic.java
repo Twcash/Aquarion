@@ -29,7 +29,7 @@ public class ConsumeLiquidAcidic extends ConsumeLiquidFilter {
                 booster ? Stat.booster : Stat.input,
                 AquaStats.liquidEffMultiplier(
                         l -> l instanceof AquaLiquid a ? a.acidity : 0f,
-                        amount * 60f,
+                        amount,
                         filter
                 )
         );
