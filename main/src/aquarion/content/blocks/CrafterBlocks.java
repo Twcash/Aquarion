@@ -820,7 +820,7 @@ public class CrafterBlocks {
                 consumePower(2);
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumeLiquid(haze, 0.125f).booster = false;
-                consumeLiquid(new ConsumeLiquidAcidic(1, 0.05f).boost());
+                consume(new ConsumeLiquidAcidic(1, 0.05f).boost());
                 liquidBoostIntensity = 1.5f;
                 squareSprite = false;
                 itemCapacity = 200;
