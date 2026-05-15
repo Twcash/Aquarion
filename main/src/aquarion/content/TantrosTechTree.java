@@ -207,14 +207,29 @@ public class TantrosTechTree {
                         ), () -> node(Torrent, Seq.with(
                                 new Objectives.SectorComplete(Ingress)
                         ), () -> {
-                            node(Ecotone, Seq.with(
-                                    new Objectives.SectorComplete(CrystalCaverns),
-                                    new Objectives.SectorComplete(Torrent)
-                            ), ()->{
-                                node(ripHold, Seq.with(new Objectives.SectorComplete(Ecotone)), ()->{});
+                             node(FeldsparRavine, Seq.with(
+                                    new Objectives.SectorComplete(Torrent),
+                                    new Objectives.Research(leachingVessel)
+                                    ), ()->{
+
+                            node(CrystalCaverns, Seq.with(
+                                    new Objectives.Research(fumeEngine),
+                                    new Objectives.SectorComplete(FeldsparRavine),
+                                    new Objectives.Research(armoredSealedConveyor),
+                                    new Objectives.Research(redact)
+                            ), () -> {
+                                node(Ecotone, Seq.with(
+                                    new Objectives.SectorComplete(CrystalCaverns)
+                                ),()->{
+                                node(brinePlateau, Seq.with(
+                                     new Objectives.SectorComplete(Ecotone)
+                                     ), ()->{});
+                                });
+                                node(ripHold, Seq.with(new Objectives.SectorComplete(Ecotone),()->{});
+                            });
                             });
                             node(Grove, Seq.with(
-                            new Objectives.SectorComplete(Torrent),
+                            new Objectives.SectorComplete(FeldsparRavine),
                             new Objectives.Research(pugnate),
                             new Objectives.Research(vacuumFreezer),
                             new Objectives.Research(aluminum)
@@ -230,20 +245,7 @@ public class TantrosTechTree {
                             		), () -> {});
 								});
 							});
-                            node(CrystalCaverns, Seq.with(
-                                    new Objectives.Research(fumeEngine),
-                                    new Objectives.SectorComplete(Torrent),
-                                    new Objectives.Research(armoredSealedConveyor),
-                                    new Objectives.Research(redact)
-                            ), () -> {
-                                node(brinePlateau, Seq.with(
-                                     new Objectives.SectorComplete(CrystalCaverns)
-                                     ), ()->{});
-                                node(FeldsparRavine, Seq.with(
-                                    new Objectives.SectorComplete(CrystalCaverns),
-                                    new Objectives.Research(leachingVessel)
-                                    ), ()->{});
-                            });
+                            
                         }));
                         node(floodPlains, Seq.with(
                                 new Objectives.Research(metaglass),
@@ -252,6 +254,19 @@ public class TantrosTechTree {
                                 new Objectives.Research(pelt),
                                 new Objectives.SectorComplete(twinPass)
                         ), () -> {
+                            node(mountainsideComplex, Seq.with(
+                                        new Objectives.SectorComplete(floodPlains)
+                                ), () -> {
+                                    node(lowlandStrait, Seq.with(
+                                        new Objectives.SectorComplete(mountainsideComplex),
+                                        new Objectives.Research(vector),
+                                        new Objectives.Research(SolidBoiler)
+                                ), () -> {
+                                });
+                                });
+                            node(coupledBasin, Seq.with(
+                            new Objectives.SectorComplete(floodPlains)
+                            ),()->{});
                             node(bay, Seq.with(
                                     new Objectives.Research(vector),
                                     new Objectives.Research(bulwark),
@@ -262,7 +277,7 @@ public class TantrosTechTree {
                                     new Objectives.SectorComplete(twinPass),
                                     new Objectives.SectorComplete(floodPlains)
                             ), () -> {
-                                node(coupledBasin);
+                                
                                 node(frigidShores, ()->{
                                     node(blastedDockyards);
                                 });
@@ -276,10 +291,11 @@ public class TantrosTechTree {
                                         new Objectives.Research(combustionHeater),
                                         new Objectives.Research(arcFurnace)
                                         ), ()->{
-                                    node(dryRiver, Seq.with(new Objectives.SectorComplete(erodedCanyon)), ()->{});
+
                                     node(searedWastes, Seq.with(
                                             new Objectives.SectorComplete(erodedCanyon),
                                             new Objectives.Research(thrash)),()->{
+                                    node(dryRiver, Seq.with(new Objectives.SectorComplete(searedWastes)), ()->{});
 
                                     });
                                 });
@@ -292,16 +308,8 @@ public class TantrosTechTree {
 										), ()->{});
 									});
                                 });
-                                node(mountainsideComplex, Seq.with(
-                                        new Objectives.SectorComplete(bay)
-                                ), () -> {
-                                });
-                                node(lowlandStrait, Seq.with(
-                                        new Objectives.SectorComplete(bay),
-                                        new Objectives.Research(vector),
-                                        new Objectives.Research(SolidBoiler)
-                                ), () -> {
-                                });
+                                
+                                
                             });
                         });
                     }));
