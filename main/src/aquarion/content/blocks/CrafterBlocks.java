@@ -559,14 +559,13 @@ public class CrafterBlocks {
             squareSprite = false;
             itemCapacity = 300;
             hasPower = true;
-            outputLiquid = new LiquidStack(hydroxide, 4.25f);
             consumeItem(azurite,15);
             outputItem = new ItemStack(copper, 45);
             consume(new ConsumeLiquidAcidic(1, 0.5f));
+            outputLiquid = new LiquidStack(hydroxide, 4.25f);
             consumePower(4.5f);
             liquidCapacity = 1500;
             ignoreLiquidFullness = true;
-            dumpExtraLiquid = true;
             size = 5;
             updateEffect = Fx.steam;
             updateEffectChance = 0.05f;
