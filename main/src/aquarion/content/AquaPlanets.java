@@ -73,7 +73,7 @@ public class AquaPlanets {
 //            gen.berylChance = 0.1f;
 //        });
 
-        fakeErekir = new Planet("fakeErekir", citun, 1.9f, 4){{
+        fakeErekir = new Planet("fakeErekir", citun, 1.5f, 3){{
             generator = new ErekirPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
             alwaysUnlocked = false;
@@ -232,6 +232,7 @@ public class AquaPlanets {
                 r.fog = false;
                 r.staticFog = false;
                 r.onlyDepositCore = true;
+                r.waveTeam = Team.green;
                 r.deconstructRefundMultiplier = 1.01f;
             };
         }};
