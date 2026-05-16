@@ -125,7 +125,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
         }};
-        brinePlateau = new SectorPreset("brineplateau", tantros2, 194){{
+        brinePlateau = new SectorPreset("brine-plateau", tantros2, 194){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 27;
@@ -144,7 +144,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 3;
 
         }};
-        ripHold = new SectorPreset("riparian-hold", tantros2, 1444){{
+        ripHold = new SectorPreset("riparian-holt", tantros2, 1444){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 17;
@@ -193,7 +193,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
         }};
-        diseasedCleft = new SectorPreset("diseasedCleft", fakeSerpulo, 456){{
+        diseasedCleft = new SectorPreset("diseased-cleft", fakeSerpulo, 456){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 8;
