@@ -1,5 +1,6 @@
 package aquarion.world.blocks.production;
 
+import aquarion.ui.AquaBarHelpers;
 import aquarion.world.Uti.AquaStats;
 import arc.Core;
 import arc.graphics.Blending;
@@ -12,30 +13,25 @@ import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
 import arc.struct.Seq;
-import arc.util.Eachable;
-import arc.util.Nullable;
-import arc.util.Time;
-import arc.util.Tmp;
+import arc.util.*;
 import mindustry.entities.units.BuildPlan;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.type.Item;
+import mindustry.type.LiquidStack;
 import mindustry.world.Tile;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.StaticWall;
 import mindustry.world.blocks.environment.TallBlock;
 import mindustry.world.blocks.production.BeamDrill;
-import mindustry.world.consumers.Consume;
-import mindustry.world.consumers.ConsumeItems;
-import mindustry.world.consumers.ConsumeLiquid;
-import mindustry.world.consumers.ConsumeLiquidBase;
+import mindustry.world.consumers.*;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValues;
 
 import static mindustry.Vars.tilesize;
 
-public class ModifiedbeamDrill extends BeamDrill {
+public class ModifiedbeamDrill extends BeamDrill implements AquaBarHelpers.CustomBarHolder {
     public TextureRegion top1, top2;
     public @Nullable Item blockedItem;
     /** Special exemption items that this drill can't mine. */
@@ -81,6 +77,38 @@ public class ModifiedbeamDrill extends BeamDrill {
             );
         }
     }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        for(Consume consl : consumers){
+            if(consl instanceof ConsumeLiquid liq){
+                removeBar("liquid-" + liq.liquid.name);
+                if(consl.booster){
+                    addLiquidBoostBar(liq.liquid);
+                } else {
+                    addLiquidBar(liq.liquid);
+                }
+            }else if(consl instanceof ConsumeLiquids multi){
+                for(LiquidStack stack : multi.liquids){
+                    removeBar("liquid-" + stack.liquid.name);
+                    if(consl.booster){
+                        addLiquidBoostBar(stack.liquid);
+                    }else {
+                        addLiquidBar(stack.liquid);
+                    }
+                }
+            }else if(consl instanceof ConsumeLiquidFilter filt){
+                if(consl.booster){
+                    addLiquidBoostBar(filt::getConsumed);
+                }else {
+                    addLiquidBar(filt::getConsumed);
+                }
+            }
+        }
+    }
+
     public ModifiedbeamDrill(String name) {
         super(name);
     }
