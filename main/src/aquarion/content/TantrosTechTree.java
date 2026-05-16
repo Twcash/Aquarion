@@ -225,7 +225,7 @@ public class TantrosTechTree {
                                      new Objectives.SectorComplete(Ecotone)
                                      ), ()->{});
                                 });
-                                node(ripHold, Seq.with(new Objectives.SectorComplete(Ecotone),()->{});
+                                node(ripHold, Seq.with(new Objectives.SectorComplete(Ecotone)),()->{});
                             });
                             });
                             node(Grove, Seq.with(
