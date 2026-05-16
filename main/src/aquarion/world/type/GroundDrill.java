@@ -435,7 +435,7 @@ public class GroundDrill extends AquaBlock {
                 float delay = getDrillTime(item);
                 float prog = progresses.get(item, 0f);
 
-                prog += delta() * returnCounts.get(item, 1) * speed * warmup;
+                prog += delta() * returnCounts.get(item, 1) * warmup;
                 if(prog >= delay){
 
                     int amount = (int)(prog / delay);
