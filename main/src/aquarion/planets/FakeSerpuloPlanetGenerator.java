@@ -58,11 +58,11 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
                     {Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, Blocks.salt, Blocks.salt, Blocks.sand, Blocks.stone, Blocks.stone, Blocks.stone, Blocks.snow, Blocks.iceSnow, Blocks.ice},
                     {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, Blocks.sand, Blocks.sand, Blocks.basalt, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice},
                     {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.moss, Blocks.iceSnow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.snow, Blocks.ice},
-                    {Blocks.deepwater, Blocks.sandWater, Blocks.sand, Blocks.sand, Blocks.moss, Blocks.moss, Blocks.snow, Blocks.stone, Blocks.basalt, Blocks.basalt, Blocks.ice, Blocks.snow, Blocks.ice},
-                    {Blocks.water, Blocks.sand, Blocks.sand, Blocks.stone, Blocks.stone, Blocks.moss, Blocks.basalt, Blocks.stone, Blocks.basalt, Blocks.ice, Blocks.snow, Blocks.ice, Blocks.ice},
+                    {Blocks.deepwater, Blocks.sandWater, Blocks.sand, Blocks.sand, Blocks.moss, Blocks.moss, Blocks.snow, Blocks.snow, Blocks.basalt, Blocks.basalt, Blocks.ice, Blocks.snow, Blocks.ice},
+                    {Blocks.water, Blocks.sand, Blocks.sand, Blocks.stone, Blocks.stone, Blocks.moss, Blocks.basalt, Blocks.stone, Blocks.snow, Blocks.ice, Blocks.snow, Blocks.ice, Blocks.ice},
                     {Blocks.taintedWater, Blocks.darksand, Blocks.stone, Blocks.stone, Blocks.moss, Blocks.sporeMoss, Blocks.snow, Blocks.basalt, Blocks.basalt, Blocks.ice, Blocks.snow, Blocks.ice, Blocks.ice},
-                    {Blocks.deepTaintedWater, Blocks.darksand, Blocks.darksand, Blocks.sporeMoss, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice},
-                    {Blocks.deepTaintedWater, Blocks.moss, Blocks.sporeMoss, EnvironmentBlocks.qusGrass, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice},
+                    {Blocks.deepTaintedWater, Blocks.darksand, Blocks.moss, Blocks.sporeMoss, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice},
+                    {Blocks.deepTaintedWater, Blocks.moss, Blocks.sporeMoss, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice},
                     {Blocks.deepwater, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.iceSnow, Blocks.iceSnow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice},
                     {Blocks.ice, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.iceSnow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice}
             };
