@@ -715,12 +715,12 @@ public class AquaResearchDialog extends BaseDialog {
                                         }).fillX().left();
                                         t.row();
                                     }
-                                } else if (node.objectives.size > 0) {
+                                } else if (!selectable || node.objectives.size > 0) {
                                     t.table(r -> {
                                         r.add("@complete").colspan(2).left();
                                         r.row();
                                         for (Objective o : node.objectives) {
-                                            r.add("> " + o.display()).color(o.complete()? Pal.heal : Pal.health).left();
+                                            r.add("> " + o.display()).color(Color.lightGray).left();
                                             r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
                                             r.row();
                                         }
