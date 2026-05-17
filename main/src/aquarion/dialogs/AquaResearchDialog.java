@@ -720,10 +720,8 @@ public class AquaResearchDialog extends BaseDialog {
                                         r.add("@complete").colspan(2).left();
                                         r.row();
                                         for (Objective o : node.objectives) {
-                                            if (o.complete()) continue;
-
-                                            r.add("> " + o.display()).color(Color.lightGray).left();
-                                            r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Color.lightGray : Color.darkGray).padLeft(3);
+                                            r.add("> " + o.display()).color(o.complete()? Pal.heal : Pal.health).left();
+                                            r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
                                             r.row();
                                         }
                                     });
