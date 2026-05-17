@@ -83,7 +83,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
 
     float rawHeight(Vec3 position){
         position = Tmp.v33.set(position).scl(scl);
-        return (Mathf.pow(NewSimplex.voronoi3d(seed, 7, 1/2.5f, 1/2f, position.x, position.y, position.z), 2.3f) + waterOffset) / (1f + waterOffset);
+        return (Mathf.pow(NewSimplex.voronoi3d(seed, 7, 1/2.5f, 1/2f, position.x, position.y, position.z), 2.3f) + waterOffset) / (1f + waterOffset) + (Math.abs(position.y) - 1.5f)/ 10f;
     }
 
     @Override
