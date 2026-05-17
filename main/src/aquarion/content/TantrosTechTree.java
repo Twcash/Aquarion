@@ -194,7 +194,7 @@ public class TantrosTechTree {
                 node(sealedOverflow, () -> node(sealedUnderflow, () -> {
                 }));
             });
-            node(resurgence, () ->
+            node(resurgence, () -> {
                     node(twinPass, Seq.with(
                             new Objectives.SectorComplete(resurgence),
                             new Objectives.Research(nickelWall),
@@ -311,7 +311,12 @@ public class TantrosTechTree {
 
                             });
                         });
-                    }));
+
+                    });
+                    node(frozenLake, Seq.with(
+                            new Objectives.SectorComplete(resurgence)
+                    ), ()->{});
+            });
             nodeProduce(silicon, () -> {
                 nodeProduce(oil, () -> {
                     nodeProduce(petroleum, () -> {
