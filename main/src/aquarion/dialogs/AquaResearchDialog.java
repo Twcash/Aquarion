@@ -715,7 +715,7 @@ public class AquaResearchDialog extends BaseDialog {
                                         }).fillX().left();
                                         t.row();
                                     }
-                                } else if (node.objectives.size > 0) {
+                                } else if (!selectable || node.objectives.size > 0) {
                                     t.table(r -> {
                                         r.add("@complete").colspan(2).left();
                                         r.row();
