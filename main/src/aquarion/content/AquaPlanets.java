@@ -132,7 +132,7 @@ public class AquaPlanets {
             );
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
-            startSector = 361;
+            startSector = 112;
             prebuildBase = true;
             allowLaunchSchematics = false;
             orbitSpacing = 6f;
