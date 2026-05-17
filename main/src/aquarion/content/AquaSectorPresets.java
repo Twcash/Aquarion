@@ -151,8 +151,8 @@ public class AquaSectorPresets {
         frozenLake = new SectorPreset("frozen-lake", fakeSerpulo, 468){{
             allDatabaseTabs = true;
             addStartingItems = true;
-            difficulty = 12;
-            captureWave = 50;
+            difficulty = 3;
+            captureWave = 20;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};
