@@ -12,7 +12,7 @@ public class AquaSectorPresets {
     //serpulo (fake)
     resurgence, SubmergedCanyon, GalenaFringe, twinPass, lib, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex, ripHold, erodedCanyon, searedWastes, fungalTropics, violetValley;
     public static void load(){
-        resurgence = new SectorPreset("resurgence", fakeSerpulo, 399){{
+        resurgence = new SectorPreset("resurgence", fakeSerpulo, 112){{
             allDatabaseTabs = true;
             alwaysUnlocked = true;
             addStartingItems = true;
@@ -25,7 +25,7 @@ public class AquaSectorPresets {
 
         lib = new SectorPreset("lakesideLibrary", AquaPlanets.delubrum,1){{
         }};
-        frigidShores = new SectorPreset("frigidShores", fakeSerpulo, 450){{
+        frigidShores = new SectorPreset("frigidShores", fakeSerpulo, 467){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 38;
@@ -34,7 +34,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        blastedDockyards = new SectorPreset("blastedDockyard", fakeSerpulo, 355){{
+        blastedDockyards = new SectorPreset("blastedDockyard", fakeSerpulo, 459){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 33;
@@ -43,7 +43,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        twinPass = new SectorPreset("twinPass", fakeSerpulo, 400){{
+        twinPass = new SectorPreset("twinPass", fakeSerpulo, 597){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 25;
@@ -53,7 +53,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3f;
         }};
-        floodPlains = new SectorPreset("floodPlains", fakeSerpulo, 510){{
+        floodPlains = new SectorPreset("floodPlains", fakeSerpulo, 596){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 17;
@@ -63,7 +63,7 @@ public class AquaSectorPresets {
             alwaysUnlocked = false;
             startWaveTimeMultiplier = 4f;
         }};
-        bay = new SectorPreset("Lagoon", fakeSerpulo, 220){{
+        bay = new SectorPreset("Lagoon", fakeSerpulo, 349){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 21;
@@ -72,7 +72,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        erodedCanyon = new SectorPreset("erodedCanyon", fakeSerpulo, 100){{
+        erodedCanyon = new SectorPreset("erodedCanyon", fakeSerpulo, 496){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 37;
@@ -81,7 +81,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        lowlandStrait = new SectorPreset("lowlandStrait", fakeSerpulo, 221){{
+        lowlandStrait = new SectorPreset("lowlandStrait", fakeSerpulo, 469){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 16;
@@ -90,7 +90,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        mountainsideComplex = new SectorPreset("mountainsideComplex", fakeSerpulo, 401){{
+        mountainsideComplex = new SectorPreset("mountainsideComplex", fakeSerpulo, 159){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 5;
@@ -98,14 +98,14 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        diseasedCleft = new SectorPreset("diseased-cleft", fakeSerpulo, 778){{
+        diseasedCleft = new SectorPreset("diseased-cleft", fakeSerpulo, 493){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 8;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};
-        coupledBasin = new SectorPreset("coupled-basin", fakeSerpulo, 213){{
+        coupledBasin = new SectorPreset("coupled-basin", fakeSerpulo, 494){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 8;
@@ -122,7 +122,7 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};
-        fungalTropics = new SectorPreset("fungal-tropics", fakeSerpulo, 86){{
+        fungalTropics = new SectorPreset("fungal-tropics", fakeSerpulo, 38){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 10;
@@ -138,7 +138,7 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};
-        violetValley = new SectorPreset("violet-valley", fakeSerpulo, 772){{
+        violetValley = new SectorPreset("violet-valley", fakeSerpulo, 448){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 12;

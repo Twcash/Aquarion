@@ -52,7 +52,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
 
     Block[][] arr =
             {
-                    {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.darksand, Blocks.darksand, Blocks.darksand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.deepwater, Blocks.stone, Blocks.stone},
+                    {Blocks.water, Blocks.water, Blocks.sand, Blocks.darksand, Blocks.darksand, Blocks.darksand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.deepwater, Blocks.stone, Blocks.stone},
                     {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.darksand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.taintedWater, Blocks.stone, Blocks.stone, Blocks.stone},
                     {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.sand, Blocks.salt, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.taintedWater, Blocks.stone, Blocks.stone, Blocks.stone},
                     {Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, Blocks.salt, Blocks.salt, Blocks.sand, Blocks.stone, Blocks.stone, Blocks.stone, Blocks.snow, Blocks.iceSnow, Blocks.ice},
@@ -75,7 +75,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     );
 
     ObjectMap<Block, Block> tars = ObjectMap.of(
-            Blocks.sporeMoss, Blocks.shale,
+            Blocks.sporeMoss,
             Blocks.moss, Blocks.shale
     );
 
