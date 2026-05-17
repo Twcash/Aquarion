@@ -730,7 +730,16 @@ public class AquaResearchDialog extends BaseDialog {
                             });
                         }
                     } else {
-                        desc.add("@completed");
+                        desc.table(r -> {
+                            r.add("@completed").colspan(2).left();
+                            r.row();
+                            for (Objective o : node.objectives) {
+                                r.add("> " + o.display()).color(Color.lightGray).left();
+                                r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
+                                r.row();
+                            }
+                        });
+
                     }
                 }).pad(9);
 
