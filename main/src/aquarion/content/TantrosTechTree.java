@@ -411,7 +411,7 @@ public class TantrosTechTree {
                             nodeProduce(towanite, () ->{
                                 nodeProduce(acuminite, () ->{});
                             });
-                            nodeProduce(arsenic, () ->{});
+                            nodeProduce(cuprite, () ->{});
                         });
                     });
 
