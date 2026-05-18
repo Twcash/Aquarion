@@ -194,7 +194,9 @@ public class TantrosTechTree {
                 node(sealedOverflow, () -> node(sealedUnderflow, () -> {
                 }));
             });
-            node(resurgence, () -> {
+            node(resurgence, Seq.with(
+                    new Objectives.Research(corePike)
+            ), () -> {
                     node(twinPass, Seq.with(
                             new Objectives.SectorComplete(resurgence),
                             new Objectives.Research(nickelWall),
