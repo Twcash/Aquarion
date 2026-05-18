@@ -646,7 +646,7 @@ public class AquaResearchDialog extends BaseDialog {
             infoTable.table(b -> {
                 b.margin(0).left().defaults().left();
                 if (selectable) {
-                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).growY().growX().width(50);
+                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50);
                 }
                 b.add().grow();
                 b.table(desc -> {
@@ -750,7 +750,7 @@ public class AquaResearchDialog extends BaseDialog {
             });
 
             infoTable.row();
-            if (node.content.description != null && node.content.inlineDescription && selectable) {
+            if (node.objectives.size > 0) {
                 infoTable.table(r -> {
                     for (Objective o : node.objectives) {
                         r.add("> " + o.display()).color(Color.lightGray).left();
@@ -758,6 +758,8 @@ public class AquaResearchDialog extends BaseDialog {
                         r.row();
                     }
                 });
+            }
+            if (node.content.description != null && node.content.inlineDescription && selectable) {
                 infoTable.add("");
                 infoTable.row();
                 infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).growX()).fillX();
