@@ -2216,7 +2216,7 @@ public class TurretBlocks {
         }};
         hack = new ItemTurret("hack") {{
             ammo(
-                    titanium, new BasicBulletType(3, 9) {{
+                    chalkalloy, new BasicBulletType(3, 9) {{
                         frontColor = Color.white;
                         backColor = trailColor = Color.valueOf("667fba");
                         lightColor = Color.valueOf("667fba");
