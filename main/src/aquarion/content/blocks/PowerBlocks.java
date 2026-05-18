@@ -493,6 +493,7 @@ public class PowerBlocks {
             squareSprite = false;
             displayEfficiencyScale = 1f / 9f;
             powerProduction = 4 / 9f;
+            displayEfficiency = true;
             generateEffect = AquaFx.heatEngineGenerate;
             effectChance = 0.02f;
             floating = true;

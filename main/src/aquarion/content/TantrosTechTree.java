@@ -194,7 +194,7 @@ public class TantrosTechTree {
                 node(sealedOverflow, () -> node(sealedUnderflow, () -> {
                 }));
             });
-            node(resurgence, () ->
+            node(resurgence, () -> {
                     node(twinPass, Seq.with(
                             new Objectives.SectorComplete(resurgence),
                             new Objectives.Research(nickelWall),
@@ -241,6 +241,11 @@ public class TantrosTechTree {
                                                 new Objectives.Research(galena),
                                                 new Objectives.Research(galenaCrucible),
                                                 new Objectives.Research(petroleumEngine)
+                                        ), () -> {});
+                                        node(verdantShallows, Seq.with(
+                                                new Objectives.SectorComplete(SubmergedCanyon),
+                                                new Objectives.Research(ultrafamicRefinery),
+                                                new Objectives.Research(DrillDerrick)
                                         ), () -> {});
                                     });
                                 });
@@ -311,7 +316,12 @@ public class TantrosTechTree {
 
                             });
                         });
-                    }));
+
+                    });
+                    node(frozenLake, Seq.with(
+                            new Objectives.SectorComplete(resurgence)
+                    ), ()->{});
+            });
             nodeProduce(silicon, () -> {
                 nodeProduce(oil, () -> {
                     nodeProduce(petroleum, () -> {
@@ -406,7 +416,7 @@ public class TantrosTechTree {
                             nodeProduce(towanite, () ->{
                                 nodeProduce(acuminite, () ->{});
                             });
-                            nodeProduce(arsenic, () ->{});
+                            nodeProduce(cuprite, () ->{});
                         });
                     });
 

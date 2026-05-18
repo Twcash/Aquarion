@@ -646,7 +646,7 @@ public class AquaResearchDialog extends BaseDialog {
             infoTable.table(b -> {
                 b.margin(0).left().defaults().left();
                 if (selectable) {
-                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).growY().growX().width(50);
+                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50).left().top();
                 }
                 b.add().grow();
                 b.table(desc -> {
@@ -715,12 +715,12 @@ public class AquaResearchDialog extends BaseDialog {
                                         }).fillX().left();
                                         t.row();
                                     }
-                                } else if (!selectable || node.objectives.size > 0) {
+                                } else if (node.objectives.size > 0) {
                                     t.table(r -> {
                                         r.add("@complete").colspan(2).left();
                                         r.row();
                                         for (Objective o : node.objectives) {
-                                            r.add("> " + o.display()).color(o.complete()? Pal.heal : Pal.health).left();
+                                            r.add("> " + o.display()).color(Color.lightGray).left();
                                             r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
                                             r.row();
                                         }
@@ -730,7 +730,17 @@ public class AquaResearchDialog extends BaseDialog {
                             });
                         }
                     } else {
-                        desc.add("@completed");
+                        desc.add("@completed").colspan(2).left();
+                        desc.row();
+                        if (node.objectives.size > 0) {
+                            desc.table(r -> {
+                                for (Objective o : node.objectives) {
+                                    r.add("> " + o.display()).color(Color.lightGray).left();
+                                    r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
+                                    r.row();
+                                }
+                            });
+                        }
                     }
                 }).pad(9);
 
@@ -746,9 +756,8 @@ public class AquaResearchDialog extends BaseDialog {
                     }}, () -> spend(node)).disabled(i -> !canSpend(node)).growX().height(44f).colspan(3);
                 }
             });
-
-            infoTable.row();
             if (node.content.description != null && node.content.inlineDescription && selectable) {
+                infoTable.row();
                 infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).growX()).fillX();
             }
 

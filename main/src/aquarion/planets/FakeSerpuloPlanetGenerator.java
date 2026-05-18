@@ -1,7 +1,6 @@
 package aquarion.planets;
 
 import aquarion.content.AquaWeathers;
-import aquarion.content.blocks.EnvironmentBlocks;
 import aquarion.world.Uti.NewSimplex;
 import aquarion.world.type.AquaBlock;
 import arc.graphics.Color;
@@ -30,6 +29,7 @@ import mindustry.game.Team;
 import mindustry.game.Waves;
 import mindustry.maps.generators.BaseGenerator;
 import mindustry.maps.generators.PlanetGenerator;
+import mindustry.maps.planet.SerpuloPlanetGenerator;
 import mindustry.type.Liquid;
 import mindustry.type.Sector;
 import mindustry.type.Weather;
@@ -39,6 +39,7 @@ import mindustry.world.TileGen;
 import mindustry.world.Tiles;
 import mindustry.world.blocks.environment.Floor;
 
+import static aquarion.content.blocks.EnvironmentBlocks.*;
 import static mindustry.Vars.*;
 
 public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
@@ -46,25 +47,26 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     public static boolean alt = false;
 
     BaseGenerator basegen = new BaseGenerator();
-    float scl = 5f;
-    float waterOffset = -0.1f;
+    float scl = 4f;
+    float waterOffset = -0.04f;
     boolean genLakes = false;
 
     Block[][] arr =
             {
-                    {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.darksand, Blocks.darksand, Blocks.darksand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.darksandTaintedWater, Blocks.stone, Blocks.stone},
-                    {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.darksand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.darksandTaintedWater, Blocks.stone, Blocks.stone, Blocks.stone},
-                    {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.sand, Blocks.salt, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.darksandTaintedWater, Blocks.stone, Blocks.stone, Blocks.stone},
-                    {Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, Blocks.salt, Blocks.salt, Blocks.sand, Blocks.stone, Blocks.stone, Blocks.stone, Blocks.snow, Blocks.iceSnow, Blocks.ice},
-                    {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, Blocks.sand, Blocks.sand, Blocks.basalt, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice},
-                    {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.moss, Blocks.iceSnow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.snow, Blocks.ice},
-                    {Blocks.deepwater, Blocks.sandWater, Blocks.sand, Blocks.sand, Blocks.moss, Blocks.moss, Blocks.snow, Blocks.basalt, Blocks.basalt, Blocks.basalt, Blocks.ice, Blocks.snow, Blocks.ice},
-                    {Blocks.deepTaintedWater, Blocks.darksandTaintedWater, Blocks.darksand, Blocks.darksand, Blocks.basalt, Blocks.moss, Blocks.basalt, Blocks.hotrock, Blocks.basalt, Blocks.ice, Blocks.snow, Blocks.ice, Blocks.ice},
-                    {Blocks.darksandWater, Blocks.darksand, Blocks.darksand, Blocks.darksand, Blocks.moss, Blocks.sporeMoss, Blocks.snow, Blocks.basalt, Blocks.basalt, Blocks.ice, Blocks.snow, Blocks.ice, Blocks.ice},
-                    {Blocks.darksandWater, Blocks.darksand, Blocks.darksand, Blocks.sporeMoss, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice},
-                    {Blocks.deepTaintedWater, Blocks.darksandTaintedWater, Blocks.darksand, Blocks.sporeMoss, Blocks.sporeMoss, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice},
-                    {Blocks.taintedWater, Blocks.darksandTaintedWater, Blocks.darksand, Blocks.sporeMoss, Blocks.moss, Blocks.sporeMoss, Blocks.iceSnow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice},
-                    {Blocks.darksandWater, Blocks.darksand, Blocks.snow, Blocks.ice, Blocks.iceSnow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice, Blocks.ice}
+                    {Blocks.water, Blocks.water, Blocks.sand, Blocks.darksand, Blocks.darksand, Blocks.darksand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.deepwater, Blocks.stone, Blocks.stone},
+                    {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.darksand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.taintedWater, Blocks.stone, Blocks.stone, Blocks.stone},
+                    {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.sand, pinkSaltFloor, pinkSaltFloor, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.taintedWater, Blocks.stone, Blocks.stone, Blocks.stone},
+                    {Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, Blocks.salt, Blocks.salt, Blocks.sand, feldspar, smoothFeldspar, Blocks.stone, Blocks.snow, Blocks.iceSnow, Blocks.ice},
+                    {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, pinkSaltFlats, pinkSaltFloor, Blocks.sand, Blocks.stone, Blocks.stone, Blocks.snow, Blocks.snow, Blocks.ice},
+                    {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.sand, Blocks.salt, pinkSaltFlats, pinkSaltFloor, Blocks.stone, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice},
+                    {Blocks.deepwater, Blocks.sandWater, blueSandFLoor, brecciaFloor, smoothBrecciaFloor, feldspar, roughFeldspar, roughFeldspar, Blocks.ferricStone, Blocks.ferricStone, Blocks.stone, Blocks.snow, Blocks.snow},
+                    {Blocks.deepwater, blueSandWater, blueSandFLoor, roughFeldspar, feldspar, feldspar, feldspar, smoothFeldspar, smoothFeldspar, ferric_extrusions, Blocks.basalt, Blocks.snow, Blocks.ice},
+                    {Blocks.deepwater, blueSandFLoor, Blocks.ferricStone, Blocks.ferricStone, ferric_extrusions, roughFeldspar, feldspar, smoothFeldspar, Blocks.basalt, Blocks.basalt, Blocks.snow, Blocks.snow, Blocks.ice},
+                    {Blocks.deepwater, Blocks.darksand, Blocks.stone, Blocks.moss, Blocks.moss, Blocks.sporeMoss, Blocks.basalt, Blocks.ferricStone, ferric_extrusions, ferric_extrusions, Blocks.snow, Blocks.ice, Blocks.ice},
+                    {blueSandWater, slate, phylite_floor, Blocks.ferricStone, Blocks.moss, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice},
+                    {blueSandWater, Blocks.moss, feldspar, Blocks.basalt, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, packedSnow, Blocks.snow, Blocks.ice, Blocks.ice},
+                    {blueSandWater, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.iceSnow, Blocks.iceSnow, Blocks.snow, packedSnow, packedSnow, Blocks.ice, Blocks.ice, Blocks.ice},
+                    {Blocks.ice, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.iceSnow, Blocks.snow, Blocks.snow, packedSnow, packedSnow, Blocks.iceSnow, Blocks.ice, Blocks.ice, Blocks.ice}
             };
 
     ObjectMap<Block, Block> dec = ObjectMap.of(
@@ -75,7 +77,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     );
 
     ObjectMap<Block, Block> tars = ObjectMap.of(
-            Blocks.sporeMoss, Blocks.shale,
+            Blocks.sporeMoss,
             Blocks.moss, Blocks.shale
     );
 
@@ -83,7 +85,13 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
 
     float rawHeight(Vec3 position){
         position = Tmp.v33.set(position).scl(scl);
-        return (Mathf.pow(NewSimplex.voronoi3d(seed, 7, 1/2.5f, 1/2f, position.x, position.y, position.z), 2.3f) + waterOffset) / (1f + waterOffset);
+        float poles = Mathf.clamp(Math.abs(position.y / scl));
+        float noise = NewSimplex.voronoi3d(seed , 7, 1/2.5f, 1/2f, position.x, position.y, position.z);
+
+        float power = Mathf.lerp(3f, 3.3f, poles);
+        float base = (Mathf.pow(noise, power) + waterOffset) / (1f + waterOffset);
+
+        return base + (Math.abs(position.y) - 1f)/ 16f + 0.4f * base * (Mathf.clamp((Math.abs(position.y) - 0.3f) / (0.7f - 0.3f)));
     }
 
     @Override
@@ -102,7 +110,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     @Override
     public void getColor(Vec3 position, Color out){
         Block block = getBlock(position);
-       out.set(block.mapColor).a(1f - block.albedo);
+        out.set(block.mapColor).a(1f - block.albedo);
     }
     @Override
     public void genTile(Vec3 position, TileGen tile){
