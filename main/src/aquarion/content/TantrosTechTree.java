@@ -242,6 +242,11 @@ public class TantrosTechTree {
                                                 new Objectives.Research(galenaCrucible),
                                                 new Objectives.Research(petroleumEngine)
                                         ), () -> {});
+                                        node(verdantShallows, Seq.with(
+                                                new Objectives.SectorComplete(SubmergedCanyon),
+                                                new Objectives.Research(ultrafamicRefinery),
+                                                new Objectives.Research(DrillDerrick)
+                                        ), () -> {});
                                     });
                                 });
                             });

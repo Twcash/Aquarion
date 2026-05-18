@@ -8,7 +8,7 @@ import static aquarion.content.AquaPlanets.tantros2;
 
 public class AquaSectorPresets {
     public static SectorPreset  //tantros
-    Ingress, diseasedCleft, brinePlateau, FeldsparRavine, Torrent, CrystalCaverns, Grove, Ecotone, SubmergedCanyon, GalenaFringe, ripHold,
+    Ingress, diseasedCleft, brinePlateau, FeldsparRavine, Torrent, CrystalCaverns, Grove, Ecotone, SubmergedCanyon, GalenaFringe, ripHold, verdantShallows,
     //serpulo (fake)
     resurgence, twinPass, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex,  erodedCanyon, searedWastes, fungalTropics, violetValley, frozenLake,
     //Delubrum
@@ -211,7 +211,6 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
         }};
-
         FeldsparRavine = new SectorPreset("FeldsparRavine", tantros2, 145){{
             allDatabaseTabs = true;
             addStartingItems = true;
@@ -221,7 +220,6 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
         }};
-
         SubmergedCanyon = new SectorPreset("submerged-canyon", tantros2, 214){{
             allDatabaseTabs = true;
             addStartingItems = true;
@@ -231,7 +229,6 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
         }};
-
         GalenaFringe = new SectorPreset( "galenafringe", tantros2, 82){{
             allDatabaseTabs = true;
             addStartingItems = true;
@@ -241,7 +238,6 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 5;
         }};
-
         Ecotone = new SectorPreset("Ecotone", tantros2, 146){{
             allDatabaseTabs = true;
             addStartingItems = true;
@@ -250,6 +246,14 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
+        }};
+        verdantShallows = new SectorPreset("verdant-shallows", tantros2, 86){{
+            allDatabaseTabs = true;
+            addStartingItems = true;
+            captureWave = 26;
+            difficulty = 8;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
         }};
     }
 }
