@@ -1,5 +1,6 @@
 package aquarion.world.type;
 
+import aquarion.ui.AquaBarHelpers;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import mindustry.world.Block;
@@ -7,7 +8,7 @@ import mindustry.world.Tile;
 
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 
-public class AquaBlock extends Block {
+public class AquaBlock extends Block implements AquaBarHelpers.CustomBarHolder {
     public AquaBlock(String name) {
         super(name);
     }

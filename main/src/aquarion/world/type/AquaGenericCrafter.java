@@ -9,17 +9,13 @@ import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.struct.EnumSet;
 import arc.struct.Seq;
-import arc.util.Eachable;
-import arc.util.Nullable;
-import arc.util.Time;
-import arc.util.Tmp;
+import arc.util.*;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.Damage;
 import mindustry.entities.Effect;
-import mindustry.entities.Puddles;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
@@ -39,7 +35,6 @@ import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.meta.*;
 
-import static java.lang.Float.NaN;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
@@ -153,13 +148,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
             }
         }
     }
-    public void addLiquidBoostBar(Liquid liq){
-        addBar("liquid-" + liq.name + Core.bundle.get("bar.boost"), entity -> !liq.unlockedNow() ? null : new Bar(
-                () -> liq.localizedName + " " + Core.bundle.get("bar.boost"),
-                liq::barColor,
-                () -> entity.liquids.get(liq) / liquidCapacity
-        ));
-    }
+
     @Override
     public void setBars(){
         super.setBars();
@@ -193,7 +182,11 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                 }
             }else if(consl instanceof ConsumeLiquidFilter filt){
                 added = true;
-                addLiquidBar(build -> build.liquids.current());
+                if(consl.booster){
+                    addLiquidBoostBar(filt::getConsumed);
+                }else {
+                    addLiquidBar(filt::getConsumed);
+                }
             }
         }
         if(hasHeat && (heatRequirement > 0 || heatRequirement < 0)){
