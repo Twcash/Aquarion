@@ -115,7 +115,7 @@ public class AquaPlanets {
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
         }};
-        fakeSerpulo = new Planet("fakeSerp", citun, 1.9f, 4){{
+        fakeSerpulo = new Planet("fakeSerp", citun, 1.25f, 4){{
             generator = new FakeSerpuloPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
             alwaysUnlocked = true;
@@ -123,15 +123,14 @@ public class AquaPlanets {
             orbitRadius = 70;
             orbitOffset = 56;
             visible = true;
-            iconColor = Color.valueOf("7d4dff");
-            atmosphereColor = Color.valueOf("3c1b8f");
+            iconColor = Color.valueOf("#7d4dff");
+            atmosphereColor = Color.valueOf("#3c1b8f");
             cloudMeshLoader = () -> new MultiMesh(
-                    new HexSkyMesh(this, 3, 0.13f, 0.11f, 5, Color.valueOf("c4ebed").a(0.75f), 2, 0.18f, 1.2f, 0.3f),
-                    new HexSkyMesh(this, 5, 0.7f, 0.09f, 5, Color.valueOf("edfeff").a(0.65f), 3, 0.12f, 1.5f, 0.32f),
-                    new HexSkyMesh(this, 8, 0.3f, 0.08f, 5, Color.valueOf("d3cad7").a(0.55f), 2, 0.08f, 1.6f, 0.35f)
+                new HexSkyMesh(this, 3, 0.13f, 0.11f, 6, Color.valueOf("#a4e8eca8").mul(0.9f).a(0.75f), 2, 0.18f, 1.2f, 0.24f),
+                new HexSkyMesh(this, 5, 0.7f, 0.09f, 6, Color.white.cpy().lerp(Color.valueOf("#c6f2f496"), 0.75f), 3, 0.12f, 1.5f, 0.28f),
+                new HexSkyMesh(this, 8, 0.3f, 0.08f, 6, Color.white.cpy().lerp(Color.valueOf("#f8e7ff8d"), 0.55f), 2, 0.08f, 1.6f, 0.30f)
             );
-            atmosphereRadIn = 0.02f;
-            atmosphereRadOut = 0.2f;
+            atmosphereRadOut = 0.28f;
             startSector = 112;
             prebuildBase = true;
             allowLaunchSchematics = false;
