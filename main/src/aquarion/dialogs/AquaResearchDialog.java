@@ -646,7 +646,7 @@ public class AquaResearchDialog extends BaseDialog {
             infoTable.table(b -> {
                 b.margin(0).left().defaults().left();
                 if (selectable) {
-                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).growX().growY().width(50);
+                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50).left().top();
                 }
                 b.add().grow();
                 b.table(desc -> {
@@ -731,6 +731,16 @@ public class AquaResearchDialog extends BaseDialog {
                         }
                     } else {
                         desc.add("@completed").colspan(2).left();
+                        desc.row();
+                        if (node.objectives.size > 0) {
+                            desc.table(r -> {
+                                for (Objective o : node.objectives) {
+                                    r.add("> " + o.display()).color(Color.lightGray).left();
+                                    r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
+                                    r.row();
+                                }
+                            });
+                        }
                     }
                 }).pad(9);
 
@@ -746,17 +756,6 @@ public class AquaResearchDialog extends BaseDialog {
                     }}, () -> spend(node)).disabled(i -> !canSpend(node)).growX().height(44f).colspan(3);
                 }
             });
-
-            infoTable.row();
-            if (node.objectives.size > 0) {
-                infoTable.table(r -> {
-                    for (Objective o : node.objectives) {
-                        r.add("> " + o.display()).color(Color.lightGray).left();
-                        r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
-                        r.row();
-                    }
-                });
-            }
             if (node.content.description != null && node.content.inlineDescription && selectable) {
                 infoTable.row();
                 infoTable.add("");
