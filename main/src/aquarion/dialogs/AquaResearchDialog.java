@@ -646,7 +646,7 @@ public class AquaResearchDialog extends BaseDialog {
             infoTable.table(b -> {
                 b.margin(0).left().defaults().left();
                 if (selectable) {
-                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50);
+                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).growX().growY().width(50);
                 }
                 b.add().grow();
                 b.table(desc -> {
@@ -730,9 +730,7 @@ public class AquaResearchDialog extends BaseDialog {
                             });
                         }
                     } else {
-                        desc.table(r -> {
-                            r.add("@completed").colspan(2).right();
-                        });
+                        desc.add("@completed").colspan(2).left();
                     }
                 }).pad(9);
 
@@ -760,6 +758,7 @@ public class AquaResearchDialog extends BaseDialog {
                 });
             }
             if (node.content.description != null && node.content.inlineDescription && selectable) {
+                infoTable.row();
                 infoTable.add("");
                 infoTable.row();
                 infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).growX()).fillX();
