@@ -715,7 +715,7 @@ public class AquaResearchDialog extends BaseDialog {
                                         }).fillX().left();
                                         t.row();
                                     }
-                                } else if (!selectable || node.objectives.size > 0) {
+                                } else if (node.objectives.size > 0) {
                                     t.table(r -> {
                                         r.add("@complete").colspan(2).left();
                                         r.row();
@@ -757,10 +757,10 @@ public class AquaResearchDialog extends BaseDialog {
                         r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
                         r.row();
                     }
-                    r.add("");
-                    r.row();
-                    r.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).growX()).fillX();
                 });
+                infoTable.add("");
+                infoTable.row();
+                infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).growX()).fillX();
             }
 
             addChild(infoTable);
