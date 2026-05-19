@@ -645,13 +645,11 @@ public class AquaResearchDialog extends BaseDialog {
 
             infoTable.table(b -> {
                 b.margin(0).left().defaults().left();
-                if (selectable) {
-                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50).left().top();
-                }
+                b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50).left().top();
                 b.add().grow();
                 b.table(desc -> {
                     desc.left().defaults().left();
-                    desc.add(selectable ? node.content.localizedName : "[accent]???[]");
+                    desc.add(node.content.localizedName);
                     desc.row();
                     if (locked(node) || (debugShowRequirements && !net.client())) {
 
@@ -719,6 +717,8 @@ public class AquaResearchDialog extends BaseDialog {
                                     t.table(r -> {
                                         r.add("@complete").colspan(2).left();
                                         r.row();
+                                        r.add().padTop(5);  //adjust this for spacing between research req and the thingy above
+                                        r.row();
                                         for (Objective o : node.objectives) {
                                             r.add("> " + o.display()).color(Color.lightGray).left();
                                             r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
@@ -731,6 +731,8 @@ public class AquaResearchDialog extends BaseDialog {
                         }
                     } else {
                         desc.add("@completed").colspan(2).left();
+                        desc.row();
+                        desc.add().padTop(5); //adjust this too for spacing between research req and the thingy above
                         desc.row();
                         if (node.objectives.size > 0) {
                             desc.table(r -> {
