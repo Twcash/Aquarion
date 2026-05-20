@@ -58,6 +58,7 @@ public class LiquidBlocks {
             junctionReplacement = siphonJunction;
             bridgeReplacement = siphonBridge;
             liquidCapacity = 80;
+            replaceable = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
             leaks = true;

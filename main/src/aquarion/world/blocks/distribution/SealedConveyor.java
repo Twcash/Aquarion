@@ -1,5 +1,6 @@
 package aquarion.world.blocks.distribution;
 
+import aquarion.content.blocks.LiquidBlocks;
 import arc.Core;
 import arc.func.Boolf;
 import arc.graphics.g2d.Draw;
@@ -11,6 +12,7 @@ import arc.struct.Seq;
 import arc.util.Nullable;
 import arc.util.Time;
 import arc.util.Tmp;
+import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.entities.Damage;
 import mindustry.entities.Effect;
@@ -19,14 +21,14 @@ import mindustry.gen.Building;
 import mindustry.gen.Sounds;
 import mindustry.gen.Teamc;
 import mindustry.graphics.Layer;
+import mindustry.input.Placement;
 import mindustry.type.Item;
 import mindustry.world.Block;
 import mindustry.world.Edges;
 import mindustry.world.blocks.Autotiler;
-import mindustry.world.blocks.distribution.Conveyor;
-import mindustry.world.blocks.distribution.Duct;
-import mindustry.world.blocks.distribution.Junction;
+import mindustry.world.blocks.distribution.*;
 import mindustry.Vars;
+import mindustry.world.blocks.liquid.Conduit;
 
 import static mindustry.Vars.itemSize;
 import static mindustry.Vars.tilesize;
@@ -37,12 +39,18 @@ public class SealedConveyor extends Duct implements Autotiler{
 
     public float stopSpeed;
     public float visualSpeed = 1f;
-    public int capacity = 3;
     public TextureRegion capRegion;
 
     public SealedConveyor(String name) {
         super(name);
 
+    }
+    public @Nullable Block siphonReplacement;
+    @Override
+    public void init(){
+        super.init();
+
+        if(siphonReplacement == null) siphonReplacement = LiquidBlocks.siphonJunction;
     }
 
     public TextureRegion[][] regions = new TextureRegion[7][4];
@@ -64,15 +72,23 @@ public class SealedConveyor extends Duct implements Autotiler{
     public Block getReplacement(BuildPlan req, Seq<BuildPlan> plans){
         if(junctionReplacement == null) return this;
 
-        Boolf<Point2> cont = p -> plans.contains(o -> o.x == req.x + p.x && o.y == req.y + p.y && (req.block instanceof SealedConveyor || req.block instanceof Junction));
+        Boolf<Point2> cont = p -> plans.contains(o -> o.x == req.x + p.x && o.y == req.y + p.y && (req.block instanceof SealedConveyor || req.block instanceof  Conduit || req.block instanceof Junction));
+        if(cont.get(Geometry.d4(req.rotation - 2)) && req.tile() != null && req.tile().block() instanceof ModifiedConduit && req.tile().block() instanceof ModifiedConduit &&
+                Mathf.mod(req.tile().build.rotation - req.rotation, 2) == 1){
+            return siphonReplacement;
+        };
         return cont.get(Geometry.d4(req.rotation)) &&
                 cont.get(Geometry.d4(req.rotation - 2)) &&
                 req.tile() != null &&
                 req.tile().block() instanceof SealedConveyor &&
-                Mathf.mod(req.build().rotation - req.rotation, 2) == 1 ? junctionReplacement : this;
+                Mathf.mod(req.tile().build.rotation - req.rotation, 2) == 1 ? junctionReplacement : this;
     }
     @Override
     public void handlePlacementLine(Seq<BuildPlan> plans){
+        if(bridgeReplacement == null) return;
+        boolean hasJuntionReplacement = junctionReplacement != null;
+        if(bridgeReplacement instanceof DuctBridge bridge) Placement.calculateBridges(plans, bridge, hasJuntionReplacement, b -> b instanceof Duct || b instanceof SealedConveyor || b instanceof Conduit);
+        if(bridgeReplacement instanceof ItemBridge bridge) Placement.calculateBridges(plans, bridge, hasJuntionReplacement, b -> b instanceof SealedConveyor || b instanceof Conduit);
     }
     public class SealedConveyorBuild extends Building {
         public boolean backCapped = false;
@@ -102,6 +118,7 @@ public class SealedConveyor extends Duct implements Autotiler{
             if(item == current) current = null;
             return removed;
         }
+
         @Override
         public boolean acceptItem(Building source, Item item){
             return current == null && items.total() == 0 &&
