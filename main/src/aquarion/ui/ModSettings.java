@@ -17,6 +17,7 @@ public class ModSettings {
             root.checkPref("@settings.betterland", false);
             root.checkPref("@settings.betterfine", false);
             root.checkPref("@settings.richPrescense", true);
+            root.checkPref("@settings.debugResearchRendering", false);
             root.pref(new ButtonPref(
                     Core.bundle.get("settings.resethints"),
                     Icon.trash,
@@ -80,5 +81,9 @@ public class ModSettings {
 
     public static boolean getRichPresence(){
         return Core.settings.getBool("richPrescense", true);
+    }
+
+    public static boolean getDebugResearchRendering(){
+        return Core.settings.getBool("@settings.debugResearchRendering", false);
     }
 }
