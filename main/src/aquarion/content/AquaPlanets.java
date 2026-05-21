@@ -101,6 +101,7 @@ public class AquaPlanets {
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
                 r.coreDestroyClear = true;
+                r.coreIncinerates = false;
                 r.fog = false;
                 r.staticFog = false;
                 r.onlyDepositCore = true;
@@ -147,6 +148,7 @@ public class AquaPlanets {
                 r.waveTeam = Team.crux;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
+                r.coreIncinerates = false;
                 r.coreDestroyClear = false;
                 r.fog = false;
                 r.staticFog = false;

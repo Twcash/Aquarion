@@ -149,7 +149,9 @@ public class TantrosTechTree {
                             node(torrefy);
                         });
                     });
-                    node(douse);
+                    node(suffocate, ()->{
+                        node(douse);
+                    });
                     node(grace, ()->{
                         node(concuss);
                     });
@@ -169,6 +171,7 @@ public class TantrosTechTree {
                 });
             });
             node(sealedConveyor, () -> {
+                node(cremator);
                 node(steelConveyor, ()->{
                     node(steelRouter);
                 });
