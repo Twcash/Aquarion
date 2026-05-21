@@ -184,21 +184,21 @@ public class TurretBlocks {
             limitRange(1.1f);
             drawer = new AquaDrawTurret(){{
                 setAmmoParts(sand, Seq.with(new NewRegPart("-sand"){{
-                    growProgress = smoothReload.curve(Interp.pow5In).mul(PartProgress.reload).inv().clamp();
+                    growProgress = PartProgress.reload.inv().mul(smoothReload.curve(Interp.pow5In).clamp());
                     yScl = 0.01f;
                     growY = 1;
                     y = -32/4f;
                     moveY = 32/4f;
                     under = true;
-                    progress = smoothReload.curve(Interp.pow5In).mul(PartProgress.reload).inv().clamp();
+                    progress = PartProgress.reload.inv().mul(smoothReload.curve(Interp.pow5In).clamp());
                 }}),lead, Seq.with(new NewRegPart("-lead"){{
-                    growProgress = smoothReload.curve(Interp.pow5In).mul(PartProgress.reload).inv().clamp();
+                    growProgress = PartProgress.reload.inv().mul(smoothReload.curve(Interp.pow5In).clamp());
                     yScl = 0.01f;
                     growY = 1;
                     y = -32/4f;
                     moveY = 32/4f;
                     under = true;
-                    progress = smoothReload.curve(Interp.pow5In).mul(PartProgress.reload).inv().clamp();
+                    progress = PartProgress.reload.inv().mul(smoothReload.curve(Interp.pow5In).clamp());
                 }}));
                 parts.addAll(new RegionPart("-pad"){{
                     moveY = 6f;
