@@ -3,6 +3,7 @@ package aquarion.content.blocks;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
 import aquarion.world.blocks.payload.*;
+import aquarion.world.blocks.production.DelayIncinerator;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
 import mindustry.Vars;
@@ -23,7 +24,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
-    public static Block payloadDistributor, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
+    public static Block payloadDistributor, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
@@ -173,6 +174,13 @@ public class DistributionBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             baseEfficiency = 1;
+        }};
+        cremator = new DelayIncinerator("cremator"){{
+            requirements(Category.distribution, with(copper, 50));
+            size = 2;
+            incinTime = 30;
+            itemCapacity = 30;
+            consumePower(1);
         }};
         overwrite(Blocks.titaniumConveyor, (Conveyor r) -> {
             r.requirements = null;
