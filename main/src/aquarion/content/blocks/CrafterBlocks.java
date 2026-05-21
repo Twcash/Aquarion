@@ -737,7 +737,6 @@ public class CrafterBlocks {
                 squareSprite = false;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(0.5f);
-
                 drillTime = 240;
                 size = 4;
                 range = 8;
@@ -758,10 +757,8 @@ public class CrafterBlocks {
                 drillTime = 120;
                 size = 3;
                 range = 3;
-                consumeLiquid(fumes, 0.125f).boost();
-                optionalBoostIntensity = 1f;
                 heatColor = Color.valueOf("9d8cf2");
-                boostHeatColor = Color.valueOf("e1f28c");
+                optionalBoostIntensity = 1f;
             }};
             fumeMixer = new AquaGenericCrafter("fume-mixer") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
