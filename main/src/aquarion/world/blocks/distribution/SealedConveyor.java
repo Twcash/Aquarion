@@ -1,5 +1,6 @@
 package aquarion.world.blocks.distribution;
 
+import aquarion.content.AquaBullets;
 import aquarion.content.blocks.LiquidBlocks;
 import arc.Core;
 import arc.func.Boolf;
@@ -13,10 +14,12 @@ import arc.util.Nullable;
 import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.content.Blocks;
+import mindustry.content.Bullets;
 import mindustry.content.Fx;
 import mindustry.entities.Damage;
 import mindustry.entities.Effect;
 import mindustry.entities.units.BuildPlan;
+import mindustry.game.Team;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
 import mindustry.gen.Teamc;
@@ -261,8 +264,22 @@ public class SealedConveyor extends Duct implements Autotiler{
                 if(Mathf.chance(0.05f)) Fx.smoke.at(this);
             }
 
-            if(current != null && next != null){
-                if(progress >= (1f - 1f/speed) && moveForward(current)){
+            if(current != null){
+
+                if(progress >= (1f - 1f/speed) && moveForward(current) && next != null || (!armored && next == null)){
+                    if(next == null){
+                        AquaBullets.dumpitem.create(
+                                null,
+                                derelict,
+                                x,
+                                y,
+                                rotdeg() + Mathf.range(15f),
+                                -1f,
+                                Mathf.random(0f, 0.2f),
+                                Mathf.random(0.6f, 1f),
+                                items.first()
+                        );
+                    }
                     items.remove(current, 1);
                     current = null;
                     progress %= (1f - 1f/speed);

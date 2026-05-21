@@ -1,23 +1,29 @@
 package aquarion.content;
 
 import aquarion.world.entities.bullet.AOEBulletType;
+import aquarion.world.entities.bullet.AquaBulletType;
+import aquarion.world.entities.bullet.DumpItemBulletType;
 import aquarion.world.entities.bullet.GambleBulletType;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
+import aquarion.world.graphics.Renderer;
 import arc.graphics.Color;
 import arc.math.Interp;
+import arc.util.Time;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.WrapEffect;
+import mindustry.entities.pattern.ShootPattern;
 import mindustry.graphics.Pal;
 
 import static aquarion.content.AquaItems.uranium;
-import static mindustry.content.Items.copper;
-import static mindustry.content.Items.graphite;
+import static mindustry.content.Items.*;
 import static mindustry.content.StatusEffects.burning;
 
 public class AquaBullets {
     public static BulletType
+            dumpitem = new DumpItemBulletType(){{}},
     pointSilicon = new BasicBulletType(14,15, "aquarion-long-bullet") {{
         frontColor = Color.white;
         backColor = AquaPal.redDecal1Dark;
@@ -184,6 +190,38 @@ public class AquaBullets {
         despawnEffect = hitEffect = AquaFx.hitBulletColor2;
         shootEffect = AquaFx.shootHori;
         smokeEffect = AquaFx.shootSmoke2;
+    }}, suffocateSand = new AquaBulletType(5f, 25, "aquarion-sand-clump"){{
+        shootPattern = new ShootPattern(){{
+            shots = 9;
+        }};
+        inaccuracy = 12;
+        extinguishFires = true;
+        extinguishIntensity = 400f;
+        spin = 0.1f;
+        hitSize = 14;
+        velocityScaleRandMax = 1.1f;
+        velocityScaleRandMin = 0.9f;
+        ammoMultiplier = 1;
+        sprite = "aquarion-sand-clump";
+        frontColor = backColor = Color.white;
+        knockback = 1;
+        width = height = 8;
+        layer = Renderer.Layer.flyingUnitLow + 0.1f;
+        hitEffect = despawnEffect = new WrapEffect(Fx.breakProp, sand.color);
+    }}, suffocateLead = new AquaBulletType(4, 250, "aquarion-lead-slab"){{
+        scaleLife = true;
+        hitSize = 18;
+        knockback = 20;
+        status = AquaStatuses.concussed;
+        statusDuration = 1 * Time.toMinutes;
+        frontColor = Color.white;
+        inaccuracy = 0;
+        shrinkX = 0.5f;
+        shrinkY = 0.5f;
+        sprite = "aquarion-lead-slab";
+        layer = Renderer.Layer.flyingUnitLow + 0.1f;
+        width = height = 12;
+        hitEffect = despawnEffect = new WrapEffect(Fx.breakProp, lead.color);
     }},concussGraphite = new MissileBulletType(1.8f, 40){{
         splashDamage = 90;
         splashDamageRadius = 48;

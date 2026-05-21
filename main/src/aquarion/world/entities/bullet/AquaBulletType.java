@@ -1,8 +1,11 @@
 package aquarion.world.entities.bullet;
 
 import arc.Events;
+import arc.math.geom.Geometry;
+import arc.math.geom.Point2;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
+import mindustry.entities.Fires;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.units.WeaponMount;
 import mindustry.game.EventType;
@@ -11,7 +14,18 @@ import mindustry.gen.Unit;
 import mindustry.gen.Unitc;
 import mindustry.world.blocks.defense.turrets.Turret;
 
+import static mindustry.Vars.tilesize;
+import static mindustry.Vars.world;
+
 public class AquaBulletType extends BasicBulletType {
+
+    public AquaBulletType(float speed, float damage, String bulletSprite){
+        super(speed, damage);
+        this.sprite = bulletSprite;
+    }
+    //Can this bullet extinguish fires?
+    public boolean extinguishFires = false;
+    public float extinguishIntensity = 150;
     //Determines if the bullet should follow the parent unit's rotation'
     public boolean followParentRotation = false;
     //Recoil rotation behavior
@@ -90,6 +104,16 @@ public class AquaBulletType extends BasicBulletType {
             float rot = (b.owner instanceof Unitc c) ? c.rotation() : (b.owner instanceof Turret.TurretBuild turret) ? turret.rotation : 0;
             b.vel.setAngle(rot).setLength(speed);
             b.rotation(rot);
+        }
+    }
+    @Override
+    public void hit(Bullet b, float hitx, float hity, boolean createFrags){
+        super.hit(b,hitx,hity,createFrags);
+        if(extinguishFires){
+            Fires.extinguish(world.tileWorld(hitx, hity), extinguishIntensity);
+            for(Point2 p : Geometry.d4){
+                Fires.extinguish(world.tileWorld(hitx + p.x * tilesize, hity + p.y * tilesize), extinguishIntensity);
+            }
         }
     }
 }
