@@ -208,7 +208,7 @@ public class AquaBullets {
         width = height = 8;
         layer = Renderer.Layer.flyingUnitLow + 0.1f;
         hitEffect = despawnEffect = new WrapEffect(Fx.breakProp, sand.color);
-    }}, suffocateLead = new AquaBulletType(4, 250, "aquarion-lead-slab"){{
+    }}, suffocateLead = new AquaBulletType(4, 400, "aquarion-lead-slab"){{
         scaleLife = true;
         hitSize = 18;
         knockback = 20;
@@ -217,6 +217,7 @@ public class AquaBullets {
         frontColor = Color.white;
         inaccuracy = 0;
         shrinkX = 0.5f;
+        reloadMultiplier = 1.5f;
         shrinkY = 0.5f;
         sprite = "aquarion-lead-slab";
         layer = Renderer.Layer.flyingUnitLow + 0.1f;
