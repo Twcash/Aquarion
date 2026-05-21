@@ -12,6 +12,7 @@ import mindustry.game.EventType;
 import mindustry.gen.Bullet;
 import mindustry.gen.Unit;
 import mindustry.gen.Unitc;
+import mindustry.world.Tile;
 import mindustry.world.blocks.defense.turrets.Turret;
 
 import static mindustry.Vars.tilesize;
@@ -104,6 +105,14 @@ public class AquaBulletType extends BasicBulletType {
             float rot = (b.owner instanceof Unitc c) ? c.rotation() : (b.owner instanceof Turret.TurretBuild turret) ? turret.rotation : 0;
             b.vel.setAngle(rot).setLength(speed);
             b.rotation(rot);
+        }
+        if(extinguishFires){
+            Tile tile = world.tileWorld(b.x, b.y);
+            if(tile != null && Fires.has(tile.x, tile.y)){
+                Fires.extinguish(tile, 100f);
+                b.remove();
+                hit(b);
+            }
         }
     }
     @Override

@@ -176,8 +176,8 @@ public class TurretBlocks {
             extinguish = true;
             recoilTime = 60;
             reload = 90;
-            ammoPerShot = 5;
-            maxAmmo = 40;
+            ammoPerShot = 10;
+            maxAmmo = 60;
             shootSound = shootDiffuse;
             recoil = 1.5f;
             ammo(sand, AquaBullets.suffocateSand,lead, AquaBullets.suffocateLead);

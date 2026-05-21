@@ -201,14 +201,14 @@ public class AquaBullets {
         hitSize = 14;
         velocityScaleRandMax = 1.1f;
         velocityScaleRandMin = 0.9f;
-        ammoMultiplier = 1;
+        ammoMultiplier = 2;
         sprite = "aquarion-sand-clump";
         frontColor = backColor = Color.white;
         knockback = 1;
         width = height = 8;
         layer = Renderer.Layer.flyingUnitLow + 0.1f;
         hitEffect = despawnEffect = new WrapEffect(Fx.breakProp, sand.color);
-    }}, suffocateLead = new AquaBulletType(4, 400, "aquarion-lead-slab"){{
+    }}, suffocateLead = new AquaBulletType(4, 150, "aquarion-lead-slab"){{
         scaleLife = true;
         hitSize = 18;
         knockback = 20;
@@ -217,11 +217,12 @@ public class AquaBullets {
         frontColor = Color.white;
         inaccuracy = 0;
         shrinkX = 0.5f;
-        reloadMultiplier = 1.5f;
+        reloadMultiplier = 0.4f;
         shrinkY = 0.5f;
         sprite = "aquarion-lead-slab";
         layer = Renderer.Layer.flyingUnitLow + 0.1f;
-        width = height = 12;
+        width = height = 16;
+        ammoMultiplier = 1f;
         hitEffect = despawnEffect = new WrapEffect(Fx.breakProp, lead.color);
     }},concussGraphite = new MissileBulletType(1.8f, 40){{
         splashDamage = 90;
