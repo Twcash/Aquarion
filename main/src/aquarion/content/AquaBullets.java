@@ -190,7 +190,7 @@ public class AquaBullets {
         despawnEffect = hitEffect = AquaFx.hitBulletColor2;
         shootEffect = AquaFx.shootHori;
         smokeEffect = AquaFx.shootSmoke2;
-    }}, suffocateSand = new AquaBulletType(5f, 25, "aquarion-sand-clump"){{
+    }}, suffocateSand = new AquaBulletType(5f, 10, "aquarion-sand-clump"){{
         shootPattern = new ShootPattern(){{
             shots = 9;
         }};
