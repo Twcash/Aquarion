@@ -216,7 +216,7 @@ public class UnitBlocks {
             r.requirements = null;
             r.requirements(Category.units, with(Items.lead, 2000, Items.silicon, 1000, chalkalloy, 2000, Items.plastanium, 450));
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
-            r.consumeItems(with(Items.silicon, 850, chalkalloy, 750, Items.plastanium, 650));
+            r.consumeItems(with(Items.silicon, 810, chalkalloy, 720, Items.plastanium, 630));
             r.upgrades.addAll(
                 new UnitType[]{oratoria, rhombodera},
                 new UnitType[]{verglas, glaciate}

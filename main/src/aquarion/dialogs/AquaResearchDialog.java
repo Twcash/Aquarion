@@ -2,6 +2,8 @@ package aquarion.dialogs;
 
 import aquarion.ModEventHandler;
 import aquarion.content.AquaPlanets;
+import aquarion.ui.ModSettings;
+import aquarion.world.graphics.AquaFill;
 import arc.Core;
 import arc.Events;
 import arc.graphics.Color;
@@ -12,6 +14,7 @@ import arc.math.Angles;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Rect;
+import arc.math.geom.Vec2;
 import arc.scene.Element;
 import arc.scene.Group;
 import arc.scene.actions.Actions;
@@ -26,9 +29,7 @@ import arc.scene.ui.Label;
 import arc.scene.ui.TextButton.TextButtonStyle;
 import arc.scene.ui.layout.Scl;
 import arc.scene.ui.layout.Table;
-import arc.struct.ObjectMap;
-import arc.struct.ObjectSet;
-import arc.struct.Seq;
+import arc.struct.*;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.Planets;
@@ -65,6 +66,13 @@ public class AquaResearchDialog extends BaseDialog {
     public Rect bounds = new Rect();
     public ItemsDisplay itemDisplay;
     public View view;
+
+    //temporary points
+    public static Vec2 v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2(), v4 = new Vec2(), offset = new Vec2(),
+        v5 = new Vec2();
+
+    //The spacings between depth layers. Used to align layers.
+    public IntFloatMap spacings = new IntFloatMap();
 
     public ItemSeq items;
 
@@ -316,8 +324,12 @@ public class AquaResearchDialog extends BaseDialog {
         return sum;
     }
 
-    void layoutRadialSmart(TechTreeNode node, float startAngle, float endAngle, int depth, float spacing){
-        float radius = spacing * depth;
+    void layoutRadialSmart(TechTreeNode node, float startAngle, float endAngle, int depth){
+        final float minimumNodeRadius = Mathf.dst(nodeSize,nodeSize) * 2f;
+
+        node.leftBorderPos.set(1,0).rotate(startAngle).nor();
+        node.rightBorderPos.set(1,0).rotate(endAngle).nor();
+        node.depth = depth - 1;
         if(node.children.length == 0) return;
 
         int nodeCount = node.children.length;
@@ -332,6 +344,27 @@ public class AquaResearchDialog extends BaseDialog {
 
         float angleCursor = startAngle;
 
+        //find the smallest gap between members in this group of nodes. That angle will determine the radius.
+        float smallest = 360;
+        for(int i = 0; i < node.children.length; i++) {
+            int j = Mathf.mod(i - 1, node.children.length);
+            float angleWidth = (endAngle - startAngle) * (weights[i] / totalWeight) / 2 + (endAngle - startAngle) * (weights[j] / totalWeight) / 2;
+            if(smallest > angleWidth){
+                smallest = angleWidth;
+            }
+        }
+
+        //compute the radius
+        float lastRadius = computeRadiusAt(depth - 1);
+        float fitRadius = Math.max(minimumNodeRadius / (2 * Mathf.sinDeg(smallest)), lastRadius + minimumNodeRadius);
+        float spacing = fitRadius - lastRadius;
+        if(spacings.get(depth, 0) < spacing){
+            spacings.put(depth, spacing);
+        } else {
+            fitRadius = lastRadius + Math.max(spacings.get(depth, 0), minimumNodeRadius);
+        }
+
+        //compute node placement angles
         for(int i = 0; i < node.children.length; i++){
             TechTreeNode child = node.children[i];
             float weightRatio = weights[i] / totalWeight;
@@ -339,12 +372,21 @@ public class AquaResearchDialog extends BaseDialog {
             float angle = angleCursor + angleWidth / 2f;
             float rad = angle * Mathf.degreesToRadians;
 
-            child.x = Mathf.cos(rad) * radius;
-            child.y = Mathf.sin(rad) * radius;
+            child.x = Mathf.cos(rad);
+            child.y = Mathf.sin(rad);
 
-            layoutRadialSmart(child, angleCursor, angleCursor + angleWidth, depth + 1, spacing);
+            layoutRadialSmart(child, angleCursor, angleCursor + angleWidth, depth + 1);
 
             angleCursor += angleWidth;
+        }
+
+        //final pass, push nodes up to their chosen radii
+        for(int i = 0; i < node.children.length; i++){
+            TechTreeNode child = node.children[i];
+
+            float radius = computeRadiusAt(child.depth);
+            child.x *= radius;
+            child.y *= radius;
         }
     }
 
@@ -369,7 +411,7 @@ public class AquaResearchDialog extends BaseDialog {
         root.y = 0f;
 
         // Big brain moment here folks
-        layoutRadialSmart(root, 0f, 360f, 1, ringSpacing);
+        layoutRadialSmart(root, 0f, 360f, 1);
 
         // Recalculate bounds
         float minx = 0f, miny = 0f, maxx = 0f, maxy = 0f;
@@ -408,6 +450,13 @@ public class AquaResearchDialog extends BaseDialog {
         public final TechNode node;
         public boolean visible = true, selectable = true;
 
+        //the angle of the leftmost border
+        public Vec2 leftBorderPos;
+
+        //the angle of the rightmost border
+        public Vec2 rightBorderPos;
+        public int depth = 0;
+
         public TechTreeNode(TechNode node, TechTreeNode parent) {
             this.node = node;
             this.parent = parent;
@@ -417,6 +466,8 @@ public class AquaResearchDialog extends BaseDialog {
             for (int i = 0; i < children.length; i++) {
                 children[i] = new TechTreeNode(node.children.get(i), this);
             }
+            leftBorderPos = new Vec2();
+            rightBorderPos = new Vec2();
         }
     }
 
@@ -777,6 +828,7 @@ public class AquaResearchDialog extends BaseDialog {
             clamp();
             Draw.sort(true);
             float offsetX = panX + width / 2f, offsetY = panY + height / 2f;
+            offset.set(offsetX, offsetY);
             int maxDepth = getMaxDepth(root, 0);
             int totalNodes = nodes.size;
             float spacing = Mathf.clamp(
@@ -790,7 +842,7 @@ public class AquaResearchDialog extends BaseDialog {
 
 
             for(int i = 1; i <= maxDepth; i++){
-                float radius = spacing * i;
+                float radius = computeRadiusAt(i);
                 float cx = panX + width / 2f;
                 float cy = panY + height / 2f;
 
@@ -820,6 +872,33 @@ public class AquaResearchDialog extends BaseDialog {
                 Lines.stroke(12f);
                 Lines.dashLine(node.x+offsetX, node.y+offsetY, node.x+cx, node.y+cy, 10);
 
+                if(ModSettings.getDebugResearchRendering()) {
+                    float nodeRadius = computeRadiusAt(node.depth);
+                    float nodeSpacing = spacings.get(node.depth + 1, 0);
+                    float measure = Angles.angleDist(node.leftBorderPos.angle(),node.rightBorderPos.angle());
+
+                    v1.set(node.leftBorderPos).scl(nodeRadius).add(offsetX, offsetY);
+                    v2.set(node.leftBorderPos).scl(nodeSpacing).add(v1);
+
+                    v3.set(node.rightBorderPos).scl(nodeRadius).add(offsetX, offsetY);
+                    v4.set(node.rightBorderPos).scl(nodeSpacing).add(v3);
+
+                    if(!locked(node.node)){
+                        Draw.color(Pal.accent);
+                        AquaFill.arcSlice(
+                                offset,
+                                measure,
+                                v5.set(node.x, node.y).angle(),
+                                nodeRadius,
+                                nodeRadius + nodeSpacing,
+                                Mathf.ceil(Mathf.PI * (nodeRadius + nodeSpacing) / 500)
+                                );
+                    }
+
+                    Draw.color(Color.red);
+                    Lines.line(v1.x, v1.y, v2.x, v2.y);
+                    Lines.line(v3.x, v3.y, v4.x, v4.y);
+                }
 
                 for (TechTreeNode child : node.children) {
                     if (!child.visible) continue;
@@ -852,5 +931,10 @@ public class AquaResearchDialog extends BaseDialog {
             Draw.color(Pal.accent);
 
         }
+    }
+
+    public float computeRadiusAt(int depth){
+        if(depth <= 0) return 0;
+        return computeRadiusAt(depth - 1) + spacings.get(depth,0);
     }
 }

@@ -71,7 +71,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class TurretBlocks {
-    public static Block aftershock,concuss, volt, grace, perforate, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
+    public static Block aftershock, suffocate,concuss, volt, grace, perforate, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
             blaze, ensign, hack;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -165,6 +165,47 @@ public class TurretBlocks {
                     alpha = 1;
                 }}, new RegionPart("-top"), new RegionPart("-plate") {{
                     moveY = 5;
+                    progress = PartProgress.recoil;
+                }});
+            }};
+        }};
+        suffocate = new AquaTemplates.AquaItemTurretTemplate("suffocate"){{
+            requirements(Category.turret, with(silicon, 150, graphite, 80, nickel, 90));
+            size = 2;
+            range = 250;
+            extinguish = true;
+            recoilTime = 60;
+            reload = 90;
+            ammoPerShot = 5;
+            maxAmmo = 40;
+            shootSound = shootDiffuse;
+            recoil = 1.5f;
+            ammo(sand, AquaBullets.suffocateSand,lead, AquaBullets.suffocateLead);
+            limitRange(1.1f);
+            drawer = new AquaDrawTurret(){{
+                setAmmoParts(sand, Seq.with(new NewRegPart("-sand"){{
+                    growProgress = smoothReload.curve(Interp.pow5In).mul(PartProgress.reload).inv().clamp();
+                    yScl = 0.01f;
+                    growY = 1;
+                    y = -32/4f;
+                    moveY = 32/4f;
+                    under = true;
+                    progress = smoothReload.curve(Interp.pow5In).mul(PartProgress.reload).inv().clamp();
+                }}),lead, Seq.with(new NewRegPart("-lead"){{
+                    growProgress = smoothReload.curve(Interp.pow5In).mul(PartProgress.reload).inv().clamp();
+                    yScl = 0.01f;
+                    growY = 1;
+                    y = -32/4f;
+                    moveY = 32/4f;
+                    under = true;
+                    progress = smoothReload.curve(Interp.pow5In).mul(PartProgress.reload).inv().clamp();
+                }}));
+                parts.addAll(new RegionPart("-pad"){{
+                    moveY = 6f;
+                    under = true;
+                    progress = PartProgress.recoil.curve(pow5In);
+                }}, new RegionPart("-top"){{
+                    moveY = -0.5f;
                     progress = PartProgress.recoil;
                 }});
             }};

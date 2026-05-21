@@ -35,6 +35,7 @@ public class DistributionBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(lead, 1));
             envEnabled = 4;
+            siphonReplacement = LiquidBlocks.siphonJunction;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
             speed = 2.1F;
             alwaysUnlocked = true;
@@ -75,7 +76,7 @@ public class DistributionBlocks {
             requirements(Category.distribution, with(silicon, 50));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            speed = 2.1f;
+            speed = 1.2f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
 
             size = 2;
@@ -89,7 +90,7 @@ public class DistributionBlocks {
             envDisabled = Env.none;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
 
-            speed = 2.5f;
+            speed = 1.5f;
             size = 4;
             hasItems = true;
             solid = true;
