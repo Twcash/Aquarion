@@ -2,6 +2,7 @@ package aquarion;
 
 import aquarion.ui.AquaStyles;
 import aquarion.ui.IconLoader;
+import aquarion.ui.ModSettings; // Импортируем настройки
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
 import aquarion.world.graphics.AquaShaders;
@@ -24,6 +25,7 @@ import java.lang.reflect.Modifier;
 
 import static arc.Core.app;
 import static mindustry.Vars.headless;
+
 @LoadRegs("error")
 @EnsureLoad
 public class AquaLoader extends Mod {
@@ -33,6 +35,7 @@ public class AquaLoader extends Mod {
         this(false);
 
     }
+    
     public static final Seq<Block> mirrorList = new Seq<>();
     public static Block block;
 
@@ -95,6 +98,7 @@ public class AquaLoader extends Mod {
         Events.on(EventType.DisposeEvent.class, e ->
                 AquaShaders.dispose()
         );
+        
         Events.on(EventType.ClientLoadEvent.class, e -> {
             Planets.erekir.accessible = false;
             Planets.serpulo.accessible = false;
@@ -102,7 +106,13 @@ public class AquaLoader extends Mod {
             Planets.serpulo.visible = false;
             Planets.sun.visible = false;
             aquarionIconLoader.loadIcons();
+
+            // Проверка обновлений при запуске клиента, если галочка включена
+            if (Core.settings.getBool("aquarion.showUpdates", true)) {
+                new AquaUpdate().check(AquaLoader.class);
+            }
         });
+
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
                 Regions.load();
@@ -113,8 +123,9 @@ public class AquaLoader extends Mod {
                     }
                 });
             }
-        });;
+        });
     }
+
     @Override
     public void init() {
 
@@ -122,11 +133,14 @@ public class AquaLoader extends Mod {
         if (!Vars.headless && Vars.ui != null) {
             AquaStyles.load();
             ModEventHandler.load();
+            ModSettings.init();
         }
     }
+
     public static boolean isTemplate(Content content){
         return content.minfo.mod != null && content.minfo.mod.name.equals("aquarion");
     }
+
     @Override
     public void loadContent() {
         loadBlock();
@@ -138,6 +152,7 @@ public class AquaLoader extends Mod {
         aquarionEntityMapping.init();
 
     }
+
     public static Mods.LoadedMod mod(){
         return mod;
     }
