@@ -3,6 +3,7 @@ package aquarion.dialogs;
 import aquarion.ModEventHandler;
 import aquarion.content.AquaPlanets;
 import aquarion.ui.ModSettings;
+import aquarion.world.graphics.AquaFill;
 import arc.Core;
 import arc.Events;
 import arc.graphics.Color;
@@ -65,6 +66,10 @@ public class AquaResearchDialog extends BaseDialog {
     public Rect bounds = new Rect();
     public ItemsDisplay itemDisplay;
     public View view;
+
+    //temporary points
+    public static Vec2 v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2(), v4 = new Vec2(), offset = new Vec2(),
+        v5 = new Vec2();
 
     //The spacings between depth layers. Used to align layers.
     public IntFloatMap spacings = new IntFloatMap();
@@ -821,6 +826,7 @@ public class AquaResearchDialog extends BaseDialog {
             clamp();
             Draw.sort(true);
             float offsetX = panX + width / 2f, offsetY = panY + height / 2f;
+            offset.set(offsetX, offsetY);
             int maxDepth = getMaxDepth(root, 0);
             int totalNodes = nodes.size;
             float spacing = Mathf.clamp(
@@ -867,15 +873,29 @@ public class AquaResearchDialog extends BaseDialog {
                 if(ModSettings.getDebugResearchRendering()) {
                     float nodeRadius = computeRadiusAt(node.depth);
                     float nodeSpacing = spacings.get(node.depth + 1, 0);
+                    float measure = Angles.angleDist(node.leftBorderPos.angle(),node.rightBorderPos.angle());
+
+                    v1.set(node.leftBorderPos).scl(nodeRadius).add(offsetX, offsetY);
+                    v2.set(node.leftBorderPos).scl(nodeSpacing).add(v1);
+
+                    v3.set(node.rightBorderPos).scl(nodeRadius).add(offsetX, offsetY);
+                    v4.set(node.rightBorderPos).scl(nodeSpacing).add(v3);
+
+                    if(!locked(node.node)){
+                        Draw.color(Pal.accent);
+                        AquaFill.arcSlice(
+                                offset,
+                                measure,
+                                v5.set(node.x, node.y).angle(),
+                                nodeRadius,
+                                nodeRadius + nodeSpacing,
+                                Mathf.ceil(Mathf.PI * (nodeRadius + nodeSpacing) / 500)
+                                );
+                    }
 
                     Draw.color(Color.red);
-                    Tmp.v1.set(node.leftBorderPos).scl(nodeRadius).add(offsetX, offsetY);
-                    Tmp.v2.set(node.leftBorderPos).scl(nodeSpacing).add(Tmp.v1);
-                    Lines.line(Tmp.v1.x, Tmp.v1.y, Tmp.v2.x, Tmp.v2.y);
-
-                    Tmp.v1.set(node.rightBorderPos).scl(nodeRadius).add(offsetX, offsetY);
-                    Tmp.v2.set(node.rightBorderPos).scl(nodeSpacing).add(Tmp.v1);
-                    Lines.line(Tmp.v1.x, Tmp.v1.y, Tmp.v2.x, Tmp.v2.y);
+                    Lines.line(v1.x, v1.y, v2.x, v2.y);
+                    Lines.line(v3.x, v3.y, v4.x, v4.y);
                 }
 
                 for (TechTreeNode child : node.children) {
