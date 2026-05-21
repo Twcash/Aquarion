@@ -696,11 +696,13 @@ public class AquaResearchDialog extends BaseDialog {
 
             infoTable.table(b -> {
                 b.margin(0).left().defaults().left();
-                b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50).left().top();
+                if (selectable) {
+                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50).left().top();
+                }
                 b.add().grow();
                 b.table(desc -> {
                     desc.left().defaults().left();
-                    desc.add(node.content.localizedName);
+                    desc.add(selectable ? node.content.localizedName : "[accent]???[]");
                     desc.row();
                     if (locked(node) || (debugShowRequirements && !net.client())) {
 
@@ -765,35 +767,24 @@ public class AquaResearchDialog extends BaseDialog {
                                         t.row();
                                     }
                                 } else if (node.objectives.size > 0) {
-                                    t.table(r -> {
-                                        r.add("@complete").colspan(2).left();
-                                        r.row();
-                                        r.add().padTop(5);  //adjust this for spacing between research req and the thingy above
-                                        r.row();
-                                        for (Objective o : node.objectives) {
-                                            r.add("> " + o.display()).color(Color.lightGray).left();
-                                            r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
-                                            r.row();
-                                        }
-                                    });
-                                    t.row();
+                                    desc.add("@complete").colspan(2).left();
                                 }
                             });
                         }
                     } else {
                         desc.add("@completed").colspan(2).left();
-                        desc.row();
-                        desc.add().padTop(5); //adjust this too for spacing between research req and the thingy above
-                        desc.row();
-                        if (node.objectives.size > 0) {
-                            desc.table(r -> {
-                                for (Objective o : node.objectives) {
-                                    r.add("> " + o.display()).color(Color.lightGray).left();
-                                    r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
-                                    r.row();
-                                }
-                            });
-                        }
+                    }
+                    desc.row();
+                    desc.add().padTop(5); //adjust this too for spacing between research req and the thingy above
+                    desc.row();
+                    if (node.objectives.size > 0) {
+                        desc.table(r -> {
+                            for (Objective o : node.objectives) {
+                                r.add("> " + o.display()).color(Color.lightGray).left();
+                                r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
+                                r.row();
+                            }
+                        });
                     }
                 }).pad(9);
 
