@@ -25,8 +25,7 @@ import static aquarion.content.AquaAttributes.*;
 import static aquarion.content.AquaItems.salt;
 import static aquarion.content.AquaItems.*;
 import static mindustry.content.Blocks.*;
-import static mindustry.content.Items.copper;
-import static mindustry.content.Items.silicon;
+import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
@@ -64,6 +63,7 @@ public class EnvironmentBlocks {
         //TODO fix the blend group
         qusGrass = new Floor("qus-grass", 6){{
             attributes.set(fertility, 1);
+            itemDrop = sporePod;
         }};
         algal_carpet = new Floor("algal-carpet", 5) {{
 
