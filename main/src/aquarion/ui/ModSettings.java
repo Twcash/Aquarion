@@ -9,15 +9,32 @@ import mindustry.content.TechTree;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Saves;
 import mindustry.gen.Icon;
+import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.Setting;
+import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.CheckSetting;
 
 public class ModSettings {
+    private static boolean initialized = false;
     public static void init() {
+        if (initialized) return; // Если уже запускали — выходим, чтобы не плодить вкладки
+        initialized = true;
         Vars.ui.settings.addCategory("Aquarion", root -> {
-            root.checkPref("@settings.onlyModMus", false);
-            root.checkPref("@settings.betterland", false);
-            root.checkPref("@settings.betterfine", false);
-            root.checkPref("@settings.richPrescense", true);
-            root.checkPref("@settings.debugResearchRendering", false);
+            // Ключи настроек без знака @ для корректного сохранения
+            root.checkPref("onlyModMus", false);
+            root.checkPref("betterland", false);
+            root.checkPref("betterfine", false);
+            root.checkPref("richPrescense", true);
+            root.checkPref("showUpdates", true);
+            root.checkPref("debugResearchRendering", false); // Добавлено сюда
+            
+            // Автоматический перевод названий для всех чекбоксов
+            for (Setting setting : root.getSettings()) {
+                if (setting instanceof CheckSetting) {
+                    CheckSetting check = (CheckSetting) setting;
+                    check.title = "@settings." + check.name;
+                }
+            }
+            
+            // Кнопка: Сброс подсказок
             root.pref(new ButtonPref(
                     Core.bundle.get("settings.resethints"),
                     Icon.trash,
@@ -27,6 +44,8 @@ public class ModSettings {
                             AquaHints::reset
                     )
             ));
+
+            // Кнопка: Сброс древа технологий
             root.pref(new ButtonPref(Core.bundle.get("settings.clearTech-category"), Icon.trash, () -> {
                 Vars.ui.showConfirm("@confirm", Core.bundle.get("settings.clearTech-confirm"), () -> {
                     Vars.universe.clearLoadoutInfo();
@@ -39,8 +58,11 @@ public class ModSettings {
                     }
 
                     Vars.content.each(c -> {
-                        if(c instanceof UnlockableContent u && u.minfo != null && u.minfo.mod != null && u.minfo.mod.name.equals("src/aquarion")){
-                            u.clearUnlock();
+                        if (c instanceof UnlockableContent) {
+                            UnlockableContent u = (UnlockableContent) c;
+                            if (u.minfo != null && u.minfo.mod != null && "aquarion".equals(u.minfo.mod.name)) {
+                                u.clearUnlock();
+                            }
                         }
                     });
 
@@ -49,6 +71,8 @@ public class ModSettings {
                     Core.settings.remove("unlocks");
                 });
             }));
+
+            // Кнопка: Очистить прогресс кампании
             root.pref(new ButtonPref(Core.bundle.get("settings.clearCampaign"), Icon.trash, () -> {
                 Vars.ui.showConfirm("@confirm", Core.bundle.get("settings.clearCampaign-confirm"), () -> {
                     Seq<Saves.SaveSlot> toDelete = new Seq<>();
@@ -67,6 +91,7 @@ public class ModSettings {
             }));
         });
     }
+
     public static boolean getOnlyModMus(){
         return Core.settings.getBool("onlyModMus", false);
     }
@@ -83,7 +108,12 @@ public class ModSettings {
         return Core.settings.getBool("richPrescense", true);
     }
 
+    public static boolean getShowUpdates(){
+        return Core.settings.getBool("showUpdates", true);
+    }
+
+    // Геттер для новой настройки
     public static boolean getDebugResearchRendering(){
-        return Core.settings.getBool("@settings.debugResearchRendering", false);
+        return Core.settings.getBool("debugResearchRendering", false);
     }
 }
