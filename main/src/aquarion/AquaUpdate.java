@@ -16,6 +16,8 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AquaUpdate {
 
@@ -27,6 +29,7 @@ public class AquaUpdate {
     
     private float downloadProgress = 0f;
     private String progressText = "";
+    private String releaseNotes = "";
 
     public void check(Class<? extends Mod> mainClass) {
         var modContainer = Vars.mods.getMod(mainClass);
@@ -45,6 +48,7 @@ public class AquaUpdate {
             try {
                 Jval json = Jval.read(response.getResultAsString());
                 String remoteVersion = json.getString("tag_name", "").trim();
+                releaseNotes = json.getString("body", "");
 
                 if (!remoteVersion.isEmpty() && !remoteVersion.equals(currentVersion)) {
                     Jval assets = json.get("assets");
@@ -97,12 +101,16 @@ public class AquaUpdate {
             dialog.cont.add(Core.bundle.get("aquarion.update.hint_settings"))
                 .color(Color.lightGray)
                 .fontScale(0.85f)
+                .wrap()
+                .width(400f)
                 .padBottom(15f)
                 .row();
         } else {
             checkBox.addListener(new Tooltip(t -> {
                 t.background(mindustry.gen.Tex.button) 
                  .add(Core.bundle.get("aquarion.update.hint_settings"))
+                 .wrap()
+                 .width(400f)
                  .pad(8f);
             }));
             checkBox.getCell(checkBox.getLabel()).padBottom(15f);
@@ -112,10 +120,41 @@ public class AquaUpdate {
         dialog.buttons.button(Core.bundle.get("aquarion.update.download"), () -> {
             dialog.hide();
             downloadAndInstall(downloadUrl);
-        }).size(200f, 60f);
+        }).size(160f, 60f);
 
-        dialog.buttons.button(Core.bundle.get("aquarion.update.cancel"), dialog::hide).size(150f, 60f);
+        dialog.buttons.button(Core.bundle.get("aquarion.update.changelog"), () -> {
+            showChangelogDialog();
+        }).size(160f, 60f);
+
+        dialog.buttons.button(Core.bundle.get("aquarion.update.cancel"), dialog::hide).size(130f, 60f);
         dialog.show();
+    }
+
+    private void showChangelogDialog() {
+        BaseDialog logDialog = new BaseDialog(Core.bundle.get("aquarion.update.changelog"));
+        
+        logDialog.cont.pane(table -> {
+            table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+        }).size(450f, 300f).pad(10f).row();
+
+        String foundUrl = null;
+        try {
+            Pattern pattern = Pattern.compile("(https?://[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]+)", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(releaseNotes);
+            if (matcher.find()) {
+                foundUrl = matcher.group(1);
+            }
+        } catch (Exception ignored) {}
+
+        if (foundUrl != null) {
+            final String link = foundUrl;
+            logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"), () -> {
+                Core.app.openURI(link);
+            }).size(180f, 60f);
+        }
+
+        logDialog.buttons.button(Core.bundle.get("aquarion.update.back"), logDialog::hide).size(150f, 60f);
+        logDialog.show();
     }
 
     private void downloadAndInstall(String urlString) {
