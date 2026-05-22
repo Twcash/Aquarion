@@ -13,7 +13,6 @@ import arc.scene.ui.Tooltip;
 import arc.graphics.Color;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -149,7 +148,9 @@ public class AquaUpdate {
         Threads.daemon(() -> {
             HttpURLConnection connection = null;
             InputStream input = null;
-            ByteArrayOutputStream output = null;
+            
+            Fi tempFile = Core.files.local("cache/aquarion_tmp.jar");
+            java.io.OutputStream output = null;
             
             try {
                 URL url = new URL(urlString);
@@ -174,7 +175,7 @@ public class AquaUpdate {
 
                 long fileLength = connection.getContentLengthLong();
                 input = new BufferedInputStream(connection.getInputStream());
-                output = new ByteArrayOutputStream();
+                output = tempFile.write(false);
 
                 byte[] data = new byte[4096];
                 long total = 0;
@@ -194,23 +195,42 @@ public class AquaUpdate {
                     output.write(data, 0, count);
                 }
 
+                output.close();
+                output = null;
+                input.close();
+                input = null;
+
                 if (!isCancelled) {
-                    byte[] fileBytes = output.toByteArray();
-                    
-                    if (modFile != null) {
-                        modFile.writeBytes(fileBytes);
-                        
-                        Core.app.post(() -> {
+                    Core.app.post(() -> {
+                        try {
                             progressDialog.hide();
+                            
+                            var oldMod = Vars.mods.getMod(AquaLoader.class);
+                            if (oldMod != null) {
+                                Vars.mods.removeMod(oldMod);
+                            }
+                            
+                            Vars.mods.importMod(tempFile);
+                            Vars.mods.reload();
+                            
+                            tempFile.delete();
                             showSuccessDialog();
-                        });
-                    } else {
-                        throw new Exception("Mod file reference is null! Cannot update.");
-                    }
+                        } catch (Exception e) {
+                            Log.err("[AquarionUpdate] Import error", e);
+                            Vars.ui.showException(Core.bundle.get("aquarion.update.install_error"), e);
+                        }
+                    });
+                } else {
+                    tempFile.delete();
                 }
 
             } catch (Exception e) {
                 Log.err("[AquarionUpdate] Error", e);
+                if (output != null) {
+                    try { output.close(); } catch (Exception ignored) {}
+                }
+                tempFile.delete();
+                
                 Core.app.post(() -> {
                     if (!isCancelled) {
                         progressDialog.hide();
@@ -219,7 +239,6 @@ public class AquaUpdate {
                 });
             } finally {
                 try {
-                    if (output != null) output.close();
                     if (input != null) input.close();
                 } catch (Exception ignored) {}
                 if (connection != null) connection.disconnect();
