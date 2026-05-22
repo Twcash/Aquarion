@@ -11,6 +11,10 @@ import mindustry.ui.dialogs.BaseDialog;
 import arc.scene.ui.CheckBox;
 import arc.scene.ui.Tooltip;
 import arc.graphics.Color;
+import arc.graphics.Texture;
+import arc.graphics.g2d.TextureRegion;
+import arc.scene.ui.Image;
+import arc.scene.style.TextureRegionDrawable;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -130,12 +134,60 @@ public class AquaUpdate {
         dialog.show();
     }
 
+    private String parseImageUrl(String markdown) {
+        if (markdown == null || markdown.isEmpty()) return null;
+        int imgIndex = markdown.indexOf("![");
+        if (imgIndex == -1) {
+            imgIndex = markdown.indexOf("<img");
+            if (imgIndex == -1) return null;
+            int srcIndex = markdown.indexOf("src=\"", imgIndex);
+            if (srcIndex == -1) return null;
+            int endSrc = markdown.indexOf("\"", srcIndex + 5);
+            if (endSrc == -1) return null;
+            return markdown.substring(srcIndex + 5, endSrc);
+        }
+        int openPar = markdown.indexOf("(", imgIndex);
+        if (openPar == -1) return null;
+        int closePar = markdown.indexOf(")", openPar);
+        if (closePar == -1) return null;
+        return markdown.substring(openPar + 1, closePar).trim().split(" ")[0];
+    }
+
     private void showChangelogDialog() {
         BaseDialog logDialog = new BaseDialog(Core.bundle.get("aquarion.update.changelog"));
-        
+        String imageUrl = parseImageUrl(releaseNotes);
+
         logDialog.cont.pane(table -> {
-            table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
-        }).size(450f, 300f).pad(10f).row();
+            if (imageUrl != null) {
+                Http.get(imageUrl, imgResponse -> {
+                    byte[] bytes = imgResponse.getResult();
+                    Core.app.post(() -> {
+                        try {
+                            Texture texture = new Texture(new arc.graphics.Pixmap(bytes));
+                            Image image = new Image(new TextureRegionDrawable(new TextureRegion(texture)));
+                            
+                            table.add(image).maxWidth(400f).maxHeight(240f).scaling(arc.util.Scaling.fit).padBottom(15f).row();
+                            table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+                            
+                            logDialog.onResize(() -> {
+                                if (Vars.mobile) {
+                                    image.setMaxWidth(Core.graphics.getWidth() * 0.65f);
+                                    image.setMaxHeight(Core.graphics.getHeight() * 0.25f);
+                                }
+                            });
+                        } catch (Exception e) {
+                            Log.err("[AquarionUpdate] Failed to load changelog image", e);
+                            table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+                        }
+                    });
+                }, imgError -> {
+                    Log.err("[AquarionUpdate] Failed to download changelog image: " + imgError.getMessage());
+                    Core.app.post(() -> table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f));
+                });
+            } else {
+                table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+            }
+        }).size(450f, 320f).pad(10f).row();
 
         String foundUrl = null;
         try {
