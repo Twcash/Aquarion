@@ -92,13 +92,23 @@ public class AquaUpdate {
             Core.settings.manualSave();
         });
         
-        checkBox.addListener(new Tooltip(t -> {
-            t.background(mindustry.gen.Tex.button) 
-             .add(Core.bundle.get("aquarion.update.hint_settings"))
-             .pad(8f);
-        }));
-        
-        dialog.cont.add(checkBox).padBottom(15f).row();
+        dialog.cont.add(checkBox).padBottom(5f).row();
+
+        if (Vars.mobile) {
+            dialog.cont.add(Core.bundle.get("aquarion.update.hint_settings"))
+                .color(Color.lightGray)
+                .fontScale(0.85f)
+                .padBottom(15f)
+                .row();
+        } else {
+            checkBox.addListener(new Tooltip(t -> {
+                t.background(mindustry.gen.Tex.button) 
+                 .add(Core.bundle.get("aquarion.update.hint_settings"))
+                 .pad(8f);
+            }));
+            checkBox.getCell(checkBox.getLabel()).padBottom(15f);
+            dialog.cont.row();
+        }
         
         dialog.buttons.button(Core.bundle.get("aquarion.update.download"), () -> {
             dialog.hide();
