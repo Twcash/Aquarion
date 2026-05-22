@@ -352,7 +352,9 @@ public class TantrosTechTree {
                     nodeProduce(salt, ()->{});
                     nodeProduce(Items.lead, () -> {
                         nodeProduce(minium,()->{});
-                        nodeProduce(zinc, ()->{});
+                        nodeProduce(zinc, ()->{
+                            nodeProduce(brass, ()->{});
+                        });
                         nodeProduce(biotite, ()->{
                             nodeProduce(rareSludge, ()->{});
                         });

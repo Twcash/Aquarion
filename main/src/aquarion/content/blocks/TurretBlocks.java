@@ -112,7 +112,7 @@ public class TurretBlocks {
             }};
         }};
         volt = new AquaPowerTurret("volt"){{
-            requirements(Category.turret, with(AquaItems.aluminum, 10, silicon, 90, copper, 150));
+            requirements(Category.turret, with(AquaItems.brass, 10, silicon, 90, copper, 150));
             health = 300;
             range = 80;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
@@ -1285,7 +1285,7 @@ public class TurretBlocks {
             }
         };
         refraction = new ContinuousTurret("refraction") {{
-            requirements(Category.turret, with(metaglass, 90, cupronickel, 120, lead, 100, graphite, 120));
+            requirements(Category.turret, with(metaglass, 90, copper, 120, lead, 100, graphite, 120));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             shootType = new PointLaserBulletType() {{
@@ -1442,76 +1442,9 @@ public class TurretBlocks {
         Foment = new AquaTemplates.AquaItemTurretTemplate("foment") {{
             health = 925;
             ammo(
-                    lead, new MissileBulletType(3f, 75, "bullet") {{
-                        width = 10f;
-                        height = 16f;
-                        trailLength = 12;
-
-                        lifetime = 60f;
-                        ammoMultiplier = 1;
-                        shootEffect = AquaFx.shootHori;
-                        smokeEffect = new MultiEffect(AquaFx.shootSmokeTri, AquaFx.fomentShootSmoke);
-                        trailEffect = Fx.none;
-                        weaveMag = 2;
-                        homingPower = 0.01f;
-                        homingDelay = 5;
-                        weaveScale = 1.75f;
-                        shrinkX = 0.2f;
-                        shrinkY = 0.8f;
-                        frontColor = lightColor = hitColor = Color.white;
-                        backColor = trailColor = Color.valueOf("8d70ab");
-                        hitEffect = despawnEffect = AquaFx.fomentHitColor;
-                    }},
-                    AquaItems.ferricMatter, new MissileBulletType(3.2f, 150, "bullet") {{
-                        width = 9f;
-                        height = 15f;
-                        trailLength = 10;
-                        lifetime = 60f;
-                        reloadMultiplier = 0.4f;
-                        rangeChange = 32;
-                        trailEffect = Fx.none;
-                        heatColor = Color.white;
-                        shootEffect = AquaFx.shootHori;
-                        smokeEffect = new MultiEffect(Fx.shootSmokeSquareSparse, AquaFx.pentagonShootSmoke, AquaFx.fomentShootSmoke);
-                        weaveMag = 2;
-                        homingPower = 0.01f;
-                        homingDelay = 10;
-                        pierce = true;
-                        pierceCap = 2;
-                        pierceDamageFactor = 0.5f;
-                        weaveScale = 1.75f;
-                        shrinkX = 0.2f;
-                        shrinkY = 0.8f;
-                        reloadMultiplier = 0.7f;
-                        ammoMultiplier = 3;
-                        frontColor = lightColor = hitColor = Color.white;
-                        backColor = trailColor = Color.valueOf("8d706a");
-                        hitEffect = despawnEffect = AquaFx.fomentHitColor;
-                    }},
-                    ferrosilicon, new MissileBulletType(7.5f, 190, "bullet") {{
-                        width = 12f;
-                        height = 18f;
-                        rangeChange = 16;
-                        trailLength = 8;
-                        lifetime = 60f;
-                        reloadMultiplier = 0.9f;
-                        pierce = true;
-                        pierceCap = 3;
-                        pierceDamageFactor = 0.8f;
-                        ammoMultiplier = 5;
-                        trailEffect = Fx.none;
-                        shootEffect = AquaFx.shootHori;
-                        hitEffect = despawnEffect = AquaFx.fomentHitColor;
-                        smokeEffect = new MultiEffect(AquaFx.pentagonShootSmoke, Fx.shootSmokeSquareSparse, AquaFx.fomentShootSmoke);
-                        weaveMag = 0;
-                        homingPower = 0.00f;
-                        weaveScale = 0f;
-                        shrinkX = 0.2f;
-                        knockback = 4;
-                        shrinkY = 0.8f;
-                        frontColor = lightColor = hitColor = Color.white;
-                        backColor = trailColor = Color.valueOf("98a1ab");
-                    }});
+                    lead, AquaBullets.fomentLead,
+                    AquaItems.ferricMatter, AquaBullets.fomentFerric,
+                    ferrosilicon, AquaBullets.fomentFerrosilicon, brass, AquaBullets.fomentBrass);
             requirements(Category.turret, with(lead, 90, AquaItems.zinc, 60f, silicon, 90));
             size = 3;
             range = 170;
@@ -2568,7 +2501,7 @@ public class TurretBlocks {
             squareSprite = false;
             shootSound = shootSap;
             targetGround = false;
-            requirements(Category.turret, with(AquaItems.aluminum, 250, copper, 100));
+            requirements(Category.turret, with(AquaItems.brass, 250, copper, 100));
             ammo(
                     fumes, new MissileBulletType(7, 10) {{
                         knockback = 2f;

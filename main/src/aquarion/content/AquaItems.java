@@ -13,7 +13,7 @@ public class AquaItems {
     public static Item serpentine;
     public static Item pentlandite;
     public static Item magnesiumPowder;
-    public static Item steel;
+    public static Item steel, brass;
     public static Item minium, uranium, radium, pitchblende;
     public static Item chalkalloy, crystal, pearl;
     public static Item acuminite;
@@ -89,6 +89,9 @@ public class AquaItems {
         cupronickel = new AquaItem("cupronickel", Color.valueOf("#dfaf88")) {{
             cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             magnetism = 0.5f;
+        }};
+        brass = new AquaItem("brass", Color.valueOf("#bfa96d")) {{
+            cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         polymer = new Item("polymer", Color.valueOf("#eaeadf")) {{
             cost = 1.3f;
