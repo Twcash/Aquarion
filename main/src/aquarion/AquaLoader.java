@@ -2,7 +2,7 @@ package aquarion;
 
 import aquarion.ui.AquaStyles;
 import aquarion.ui.IconLoader;
-import aquarion.ui.ModSettings; // Импортируем настройки
+import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
 import aquarion.world.graphics.AquaShaders;
@@ -33,7 +33,6 @@ public class AquaLoader extends Mod {
     protected static Mods.LoadedMod mod;
     public AquaLoader(){
         this(false);
-
     }
     
     public static final Seq<Block> mirrorList = new Seq<>();
@@ -107,8 +106,7 @@ public class AquaLoader extends Mod {
             Planets.sun.visible = false;
             aquarionIconLoader.loadIcons();
 
-            // Проверка обновлений при запуске клиента, если галочка включена
-            if (Core.settings.getBool("aquarion.showUpdates", true)) {
+            if (ModSettings.getShowUpdates()) {
                 new AquaUpdate().check(AquaLoader.class);
             }
         });
@@ -128,8 +126,6 @@ public class AquaLoader extends Mod {
 
     @Override
     public void init() {
-
-
         if (!Vars.headless && Vars.ui != null) {
             AquaStyles.load();
             ModEventHandler.load();
@@ -145,16 +141,11 @@ public class AquaLoader extends Mod {
     public void loadContent() {
         loadBlock();
         AquarionMod.loadContent();
-
-//        Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
-//        Events.run(EventType.Trigger.draw, NeoplasiaGraph::draw);
         AquaLoader.postLoad();
         aquarionEntityMapping.init();
-
     }
 
     public static Mods.LoadedMod mod(){
         return mod;
     }
-
 }
