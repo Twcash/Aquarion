@@ -154,6 +154,38 @@ public class AquaMenuDialog extends BaseDialog {
                     Icon.players
                 )).size(380f, 100f).padBottom(10f).row();
 
+                t.button(b -> {
+                    createRoundAvatar(b, "Leo", Icon.players, 32f);
+                    b.add("Leo").left().padLeft(15f);
+                }, () -> showAuthorInfo(
+                    "Leo", 
+                    Core.bundle.get("aquarion.menu.desc_Leo"), 
+                    "https://github.com/Leo-MathGuy", 
+                    "Leo", 
+                    Icon.players
+                )).size(380f, 100f).padBottom(10f).row();
+
+                t.button(b -> {
+                    createRoundAvatar(b, "Mythril", Icon.players, 32f);
+                    b.add("Mythril").left().padLeft(15f);
+                }, () -> showAuthorInfo(
+                    "Mythril", 
+                    Core.bundle.get("aquarion.menu.desc_Mythril"), 
+                    "https://github.com/Mythril382", 
+                    "Mythril", 
+                    Icon.players
+                )).size(380f, 100f).padBottom(10f).row();
+
+                t.button(b -> {
+                    createRoundAvatar(b, "Mythril", Icon.players, 32f);
+                    b.add("Mythril").left().padLeft(15f);
+                }, () -> showAuthorInfo(
+                    "Mythril", 
+                    Core.bundle.get("aquarion.menu.desc_Mythril"), 
+                    "https://github.com/Mythril382", 
+                    "Mythril", 
+                    Icon.players
+                )).size(380f, 100f).padBottom(10f).row();
             }).size(420f, 650f);
         }
 
