@@ -1,5 +1,6 @@
 package aquarion.content.blocks;
 
+import aquarion.world.blocks.distribution.ItemYeeter;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
 import aquarion.world.blocks.payload.*;
@@ -24,7 +25,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
-    public static Block payloadDistributor, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
+    public static Block payloadDistributor, itemYeeter, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
@@ -71,6 +72,10 @@ public class DistributionBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
 
             hasItems = true;
+        }};
+        itemYeeter = new ItemYeeter("conveyor-yeeter"){{
+            requirements(Category.distribution, with(silicon, 50));
+            size = 1;
         }};
         sealedDistributor = new SealedRouter("sealed-distributor") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);

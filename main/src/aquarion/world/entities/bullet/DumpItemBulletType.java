@@ -31,7 +31,7 @@ public class DumpItemBulletType extends BulletType {
     @Override
     public void draw(Bullet b){
         super.draw(b);
-        Draw.z(Renderer.Layer.blockUnder-0.1f);
+        Draw.z(Renderer.Layer.flyingUnit-0.1f);
         if(!(b.data instanceof Item item)) return;
         Draw.scl(0.9f*Interp.pow3Out.apply(b.fslope()));
         Draw.alpha(1*Interp.pow10Out.apply(b.fslope()));
