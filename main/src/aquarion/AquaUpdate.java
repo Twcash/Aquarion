@@ -134,23 +134,33 @@ public class AquaUpdate {
         dialog.show();
     }
 
+    private String fixGithubImageUrl(String url) {
+        if (url == null) return null;
+        // Переделываем внутренние вложения гитхаба в прямые ссылки на сырые файлы для корректной загрузки
+        if (url.contains("github.com") && url.contains("user-attachments/assets")) {
+            return url.replace("github.com", "raw.githubusercontent.com").replace("/user-attachments/assets/", "/main/user-attachments/assets/");
+        }
+        return url;
+    }
+
     private String parseImageUrl(String markdown) {
         if (markdown == null || markdown.isEmpty()) return null;
-        int imgIndex = markdown.indexOf("![");
-        if (imgIndex == -1) {
-            imgIndex = markdown.indexOf("<img");
-            if (imgIndex == -1) return null;
-            int srcIndex = markdown.indexOf("src=\"", imgIndex);
-            if (srcIndex == -1) return null;
-            int endSrc = markdown.indexOf("\"", srcIndex + 5);
-            if (endSrc == -1) return null;
-            return markdown.substring(srcIndex + 5, endSrc);
+
+        // Поиск HTML тега <img с поддержкой любых переносов строк и атрибутов (width, height и т.д.) перед src
+        Pattern htmlTagPattern = Pattern.compile("<img[^>]+src\\s*=\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher htmlMatcher = htmlTagPattern.matcher(markdown);
+        if (htmlMatcher.find()) {
+            return fixGithubImageUrl(htmlMatcher.group(1).trim());
         }
-        int openPar = markdown.indexOf("(", imgIndex);
-        if (openPar == -1) return null;
-        int closePar = markdown.indexOf(")", openPar);
-        if (closePar == -1) return null;
-        return markdown.substring(openPar + 1, closePar).trim().split(" ")[0];
+
+        // Поиск стандартного Markdown формата картинок ![](url)
+        Pattern mdTagPattern = Pattern.compile("!\\[[^\\]]*\\]\\(([^\\)]+)\\)");
+        Matcher mdMatcher = mdTagPattern.matcher(markdown);
+        if (mdMatcher.find()) {
+            return fixGithubImageUrl(mdMatcher.group(1).trim().split(" ")[0]);
+        }
+
+        return null;
     }
 
     private void showChangelogDialog() {
@@ -185,21 +195,10 @@ public class AquaUpdate {
             }
         }).size(450f, 320f).pad(10f).row();
 
-        String foundUrl = null;
-        try {
-            Pattern pattern = Pattern.compile("(https?://[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]+)", Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(releaseNotes);
-            if (matcher.find()) {
-                foundUrl = matcher.group(1);
-            }
-        } catch (Exception ignored) {}
-
-        if (foundUrl != null) {
-            final String link = foundUrl;
-            logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"), () -> {
-                Core.app.openURI(link);
-            }).size(180f, 60f);
-        }
+        // Кнопка теперь ВСЕГДА ведет строго на страницу релизов вашего репозитория
+        logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"), () -> {
+            Core.app.openURI("https://github.com/" + GITHUB_REPO + "/releases/latest");
+        }).size(180f, 60f);
 
         logDialog.buttons.button(Core.bundle.get("aquarion.update.back"), logDialog::hide).size(150f, 60f);
         logDialog.show();
