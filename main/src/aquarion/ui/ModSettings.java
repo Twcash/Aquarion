@@ -14,27 +14,28 @@ import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.CheckSetting;
 
 public class ModSettings {
     private static boolean initialized = false;
+
     public static void init() {
-        if (initialized) return; // Если уже запускали — выходим, чтобы не плодить вкладки
+        if (initialized) return;
         initialized = true;
+
         Vars.ui.settings.addCategory("Aquarion", root -> {
-            // Ключи настроек без знака @ для корректного сохранения
             root.checkPref("onlyModMus", false);
             root.checkPref("betterland", false);
             root.checkPref("betterfine", false);
             root.checkPref("richPrescense", true);
-            root.checkPref("showUpdates", true);
-            root.checkPref("debugResearchRendering", false); // Добавлено сюда
+            root.checkPref("@settings.showUpdates", true);
+            root.checkPref("debugResearchRendering", false);
             
-            // Автоматический перевод названий для всех чекбоксов
             for (Setting setting : root.getSettings()) {
                 if (setting instanceof CheckSetting) {
                     CheckSetting check = (CheckSetting) setting;
-                    check.title = "@settings." + check.name;
+                    if (!check.name.startsWith("@")) {
+                        check.title = "@settings." + check.name;
+                    }
                 }
             }
             
-            // Кнопка: Сброс подсказок
             root.pref(new ButtonPref(
                     Core.bundle.get("settings.resethints"),
                     Icon.trash,
@@ -45,7 +46,6 @@ public class ModSettings {
                     )
             ));
 
-            // Кнопка: Сброс древа технологий
             root.pref(new ButtonPref(Core.bundle.get("settings.clearTech-category"), Icon.trash, () -> {
                 Vars.ui.showConfirm("@confirm", Core.bundle.get("settings.clearTech-confirm"), () -> {
                     Vars.universe.clearLoadoutInfo();
@@ -72,7 +72,6 @@ public class ModSettings {
                 });
             }));
 
-            // Кнопка: Очистить прогресс кампании
             root.pref(new ButtonPref(Core.bundle.get("settings.clearCampaign"), Icon.trash, () -> {
                 Vars.ui.showConfirm("@confirm", Core.bundle.get("settings.clearCampaign-confirm"), () -> {
                     Seq<Saves.SaveSlot> toDelete = new Seq<>();
@@ -109,10 +108,9 @@ public class ModSettings {
     }
 
     public static boolean getShowUpdates(){
-        return Core.settings.getBool("showUpdates", true);
+        return Core.settings.getBool("@settings.showUpdates", true);
     }
 
-    // Геттер для новой настройки
     public static boolean getDebugResearchRendering(){
         return Core.settings.getBool("debugResearchRendering", false);
     }
