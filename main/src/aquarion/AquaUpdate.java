@@ -11,12 +11,17 @@ import mindustry.ui.dialogs.BaseDialog;
 import arc.scene.ui.CheckBox;
 import arc.scene.ui.Tooltip;
 import arc.graphics.Color;
+import arc.graphics.Texture;
+import arc.graphics.g2d.TextureRegion;
+import arc.scene.ui.Image;
+import arc.scene.style.TextureRegionDrawable;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AquaUpdate {
 
@@ -28,6 +33,7 @@ public class AquaUpdate {
     
     private float downloadProgress = 0f;
     private String progressText = "";
+    private String releaseNotes = "";
 
     public void check(Class<? extends Mod> mainClass) {
         var modContainer = Vars.mods.getMod(mainClass);
@@ -46,6 +52,7 @@ public class AquaUpdate {
             try {
                 Jval json = Jval.read(response.getResultAsString());
                 String remoteVersion = json.getString("tag_name", "").trim();
+                releaseNotes = json.getString("body", "");
 
                 if (!remoteVersion.isEmpty() && !remoteVersion.equals(currentVersion)) {
                     Jval assets = json.get("assets");
@@ -92,21 +99,105 @@ public class AquaUpdate {
             Core.settings.manualSave();
         });
         
-        checkBox.addListener(new Tooltip(t -> {
-            t.background(mindustry.gen.Tex.button) 
-             .add(Core.bundle.get("aquarion.update.hint_settings"))
-             .pad(8f);
-        }));
-        
-        dialog.cont.add(checkBox).padBottom(15f).row();
+        dialog.cont.add(checkBox).padBottom(5f).row();
+
+        if (Vars.mobile) {
+            dialog.cont.add(Core.bundle.get("aquarion.update.hint_settings"))
+                .color(Color.lightGray)
+                .fontScale(0.85f)
+                .wrap()
+                .width(400f)
+                .padBottom(15f)
+                .row();
+        } else {
+            checkBox.addListener(new Tooltip(t -> {
+                t.background(mindustry.gen.Tex.button) 
+                 .add(Core.bundle.get("aquarion.update.hint_settings"))
+                 .wrap()
+                 .width(400f)
+                 .pad(8f);
+            }));
+            checkBox.getCell(checkBox.getLabel()).padBottom(15f);
+            dialog.cont.row();
+        }
         
         dialog.buttons.button(Core.bundle.get("aquarion.update.download"), () -> {
             dialog.hide();
             downloadAndInstall(downloadUrl);
-        }).size(200f, 60f);
+        }).size(160f, 60f);
 
-        dialog.buttons.button(Core.bundle.get("aquarion.update.cancel"), dialog::hide).size(150f, 60f);
+        dialog.buttons.button(Core.bundle.get("aquarion.update.changelog"), () -> {
+            showChangelogDialog();
+        }).size(160f, 60f);
+
+        dialog.buttons.button(Core.bundle.get("aquarion.update.cancel"), dialog::hide).size(130f, 60f);
         dialog.show();
+    }
+
+    private String fixGithubImageUrl(String url) {
+        if (url == null) return null;
+        if (url.contains("github.com") && url.contains("user-attachments/assets")) {
+            return url.replace("github.com", "raw.githubusercontent.com").replace("/user-attachments/assets/", "/main/user-attachments/assets/");
+        }
+        return url;
+    }
+
+    private String parseImageUrl(String markdown) {
+        if (markdown == null || markdown.isEmpty()) return null;
+
+        Pattern htmlTagPattern = Pattern.compile("<img[^>]+src\\s*=\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher htmlMatcher = htmlTagPattern.matcher(markdown);
+        if (htmlMatcher.find()) {
+            return fixGithubImageUrl(htmlMatcher.group(1).trim());
+        }
+
+        Pattern mdTagPattern = Pattern.compile("!\\[[^\\]]*\\]\\(([^\\)]+)\\)");
+        Matcher mdMatcher = mdTagPattern.matcher(markdown);
+        if (mdMatcher.find()) {
+            return fixGithubImageUrl(mdMatcher.group(1).trim().split(" ")[0]);
+        }
+
+        return null;
+    }
+
+    private void showChangelogDialog() {
+        BaseDialog logDialog = new BaseDialog(Core.bundle.get("aquarion.update.changelog"));
+        String imageUrl = parseImageUrl(releaseNotes);
+
+        logDialog.cont.pane(table -> {
+            if (imageUrl != null) {
+                Http.get(imageUrl, imgResponse -> {
+                    byte[] bytes = imgResponse.getResult();
+                    Core.app.post(() -> {
+                        try {
+                            Texture texture = new Texture(new arc.graphics.Pixmap(bytes));
+                            Image image = new Image(new TextureRegionDrawable(new TextureRegion(texture)));
+                            
+                            float maxW = Vars.mobile ? Core.graphics.getWidth() * 0.65f : 400f;
+                            float maxH = Vars.mobile ? Core.graphics.getHeight() * 0.25f : 240f;
+                            
+                            table.add(image).maxWidth(maxW).maxHeight(maxH).scaling(arc.util.Scaling.fit).padBottom(15f).row();
+                            table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+                        } catch (Exception e) {
+                            Log.err("[AquarionUpdate] Failed to load changelog image", e);
+                            table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+                        }
+                    });
+                }, imgError -> {
+                    Log.err("[AquarionUpdate] Failed to download changelog image: " + imgError.getMessage());
+                    Core.app.post(() -> table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f));
+                });
+            } else {
+                table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+            }
+        }).size(450f, 320f).pad(10f).row();
+
+        logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"), () -> {
+            Core.app.openURI("https://github.com/" + GITHUB_REPO + "/releases/latest");
+        }).size(180f, 60f);
+
+        logDialog.buttons.button(Core.bundle.get("aquarion.update.back"), logDialog::hide).size(150f, 60f);
+        logDialog.show();
     }
 
     private void downloadAndInstall(String urlString) {
@@ -139,7 +230,9 @@ public class AquaUpdate {
         Threads.daemon(() -> {
             HttpURLConnection connection = null;
             InputStream input = null;
-            ByteArrayOutputStream output = null;
+            
+            Fi tempFile = Core.files.local("cache/aquarion_tmp.jar");
+            java.io.OutputStream output = null;
             
             try {
                 URL url = new URL(urlString);
@@ -164,7 +257,7 @@ public class AquaUpdate {
 
                 long fileLength = connection.getContentLengthLong();
                 input = new BufferedInputStream(connection.getInputStream());
-                output = new ByteArrayOutputStream();
+                output = tempFile.write(false);
 
                 byte[] data = new byte[4096];
                 long total = 0;
@@ -184,23 +277,42 @@ public class AquaUpdate {
                     output.write(data, 0, count);
                 }
 
+                output.close();
+                output = null;
+                input.close();
+                input = null;
+
                 if (!isCancelled) {
-                    byte[] fileBytes = output.toByteArray();
-                    
-                    if (modFile != null) {
-                        modFile.writeBytes(fileBytes);
-                        
-                        Core.app.post(() -> {
+                    Core.app.post(() -> {
+                        try {
                             progressDialog.hide();
+                            
+                            var oldMod = Vars.mods.getMod(AquaLoader.class);
+                            if (oldMod != null) {
+                                Vars.mods.removeMod(oldMod);
+                            }
+                            
+                            Vars.mods.importMod(tempFile);
+                            Vars.mods.reload();
+                            
+                            tempFile.delete();
                             showSuccessDialog();
-                        });
-                    } else {
-                        throw new Exception("Mod file reference is null! Cannot update.");
-                    }
+                        } catch (Exception e) {
+                            Log.err("[AquarionUpdate] Import error", e);
+                            Vars.ui.showException(Core.bundle.get("aquarion.update.install_error"), e);
+                        }
+                    });
+                } else {
+                    tempFile.delete();
                 }
 
             } catch (Exception e) {
                 Log.err("[AquarionUpdate] Error", e);
+                if (output != null) {
+                    try { output.close(); } catch (Exception ignored) {}
+                }
+                tempFile.delete();
+                
                 Core.app.post(() -> {
                     if (!isCancelled) {
                         progressDialog.hide();
@@ -209,7 +321,6 @@ public class AquaUpdate {
                 });
             } finally {
                 try {
-                    if (output != null) output.close();
                     if (input != null) input.close();
                 } catch (Exception ignored) {}
                 if (connection != null) connection.disconnect();
