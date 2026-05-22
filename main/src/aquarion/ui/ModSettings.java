@@ -24,15 +24,13 @@ public class ModSettings {
             root.checkPref("betterland", false);
             root.checkPref("betterfine", false);
             root.checkPref("richPrescense", true);
-            root.checkPref("@settings.showUpdates", true);
+            root.checkPref("showUpdates", true);
             root.checkPref("debugResearchRendering", false);
             
             for (Setting setting : root.getSettings()) {
                 if (setting instanceof CheckSetting) {
                     CheckSetting check = (CheckSetting) setting;
-                    if (!check.name.startsWith("@")) {
-                        check.title = "@settings." + check.name;
-                    }
+                    check.title = "@settings." + check.name;
                 }
             }
             
@@ -108,7 +106,7 @@ public class ModSettings {
     }
 
     public static boolean getShowUpdates(){
-        return Core.settings.getBool("@settings.showUpdates", true);
+        return Core.settings.getBool("showUpdates", true);
     }
 
     public static boolean getDebugResearchRendering(){
