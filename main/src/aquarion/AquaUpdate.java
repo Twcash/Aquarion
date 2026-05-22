@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 public class AquaUpdate {
 
-    public static final String GITHUB_REPO = "Twcash/Aquarion"; 
+    public static final String GITHUB_REPO = "Twcash/NikolayKot02"; 
     
     private String currentVersion = "unknown";
     private Fi modFile;
