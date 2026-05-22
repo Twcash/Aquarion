@@ -111,7 +111,7 @@ public class AquaUpdate {
                 .row();
         } else {
             checkBox.addListener(new Tooltip(t -> {
-                t.background(mindustffy.gen.Tex.button) 
+                t.background(mindustry.gen.Tex.button) 
                  .add(Core.bundle.get("aquarion.update.hint_settings"))
                  .wrap()
                  .width(400f)
@@ -166,11 +166,15 @@ public class AquaUpdate {
                             Texture texture = new Texture(new arc.graphics.Pixmap(bytes));
                             Image image = new Image(new TextureRegionDrawable(new TextureRegion(texture)));
                             
-                            float maxW = Vars.mobile ? Core.graphics.getWidth() * 0.65f : 400f;
-                            float maxH = Vars.mobile ? Core.graphics.getHeight() * 0.25f : 240f;
-                            
-                            table.add(image).maxWidth(maxW).maxHeight(maxH).scaling(arc.util.Scaling.fit).padBottom(15f).row();
+                            table.add(image).maxWidth(400f).maxHeight(240f).scaling(arc.util.Scaling.fit).padBottom(15f).row();
                             table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+                            
+                            logDialog.onResize(() -> {
+                                if (Vars.mobile) {
+                                    image.setMaxWidth(Core.graphics.getWidth() * 0.65f);
+                                    image.setMaxHeight(Core.graphics.getHeight() * 0.25f);
+                                }
+                            });
                         } catch (Exception e) {
                             Log.err("[AquarionUpdate] Failed to load changelog image", e);
                             table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
