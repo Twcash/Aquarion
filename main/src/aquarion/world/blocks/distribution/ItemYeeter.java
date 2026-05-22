@@ -32,7 +32,7 @@ public class ItemYeeter extends Block {
                     x,
                     y,
                     rotdeg() + Mathf.range(2f),
-                    -1f,
+                    item.hardness,
                     1,
                     Mathf.random(2.9f, 3.2f),
                    item

@@ -18,14 +18,14 @@ public class DumpItemBulletType extends BulletType {
     public DumpItemBulletType(){
         super(6.5f, 0);
         drag = 0.1f;
-        collides = false;
+        collides = true;
         lifetime = 30f;
         despawnEffect = Fx.none;
         hitEffect = Fx.none;
         smokeEffect = Fx.none;
         shootEffect = Fx.none;
         drag = 0.01f;
-        hittable = false;
+        hittable = true;
     }
 
     @Override
