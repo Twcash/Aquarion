@@ -111,7 +111,7 @@ public class AquaUpdate {
                 .row();
         } else {
             checkBox.addListener(new Tooltip(t -> {
-                t.background(mindustffy.gen.Tex.button) 
+                t.background(mindustry.gen.Tex.button) 
                  .add(Core.bundle.get("aquarion.update.hint_settings"))
                  .wrap()
                  .width(400f)
