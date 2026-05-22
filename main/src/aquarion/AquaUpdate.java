@@ -136,7 +136,6 @@ public class AquaUpdate {
 
     private String fixGithubImageUrl(String url) {
         if (url == null) return null;
-        // Переделываем внутренние вложения гитхаба в прямые ссылки на сырые файлы для корректной загрузки
         if (url.contains("github.com") && url.contains("user-attachments/assets")) {
             return url.replace("github.com", "raw.githubusercontent.com").replace("/user-attachments/assets/", "/main/user-attachments/assets/");
         }
@@ -146,14 +145,12 @@ public class AquaUpdate {
     private String parseImageUrl(String markdown) {
         if (markdown == null || markdown.isEmpty()) return null;
 
-        // Поиск HTML тега <img с поддержкой любых переносов строк и атрибутов (width, height и т.д.) перед src
         Pattern htmlTagPattern = Pattern.compile("<img[^>]+src\\s*=\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
         Matcher htmlMatcher = htmlTagPattern.matcher(markdown);
         if (htmlMatcher.find()) {
             return fixGithubImageUrl(htmlMatcher.group(1).trim());
         }
 
-        // Поиск стандартного Markdown формата картинок ![](url)
         Pattern mdTagPattern = Pattern.compile("!\\[[^\\]]*\\]\\(([^\\)]+)\\)");
         Matcher mdMatcher = mdTagPattern.matcher(markdown);
         if (mdMatcher.find()) {
@@ -195,7 +192,6 @@ public class AquaUpdate {
             }
         }).size(450f, 320f).pad(10f).row();
 
-        // Кнопка теперь ВСЕГДА ведет строго на страницу релизов вашего репозитория
         logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"), () -> {
             Core.app.openURI("https://github.com/" + GITHUB_REPO + "/releases/latest");
         }).size(180f, 60f);
