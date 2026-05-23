@@ -42,21 +42,21 @@ public class AquaMenuDialog extends BaseDialog {
     private void updateContent(String type) {
         cont.clear();
 
-        // Адаптивные размеры под ПК и Мобилки
-        float paneWidth = Vars.mobile ? Core.graphics.getWidth() * 0.85f : 420f;
-        float paneHeight = Vars.mobile ? Core.graphics.getHeight() * 0.55f : 650f;
-        float buttonWidth = Vars.mobile ? paneWidth - 20f : 380f;
-        float buttonHeight = Vars.mobile ? 110f : 100f;
+        // Адаптивные размеры, работающие корректно на ПК и мобилках (без сырых пикселей экрана)
+        float paneWidth = Vars.mobile ? 460f : 420f;
+        float paneHeight = Vars.mobile ? 350f : 650f;
+        float buttonWidth = Vars.mobile ? 440f : 380f;
+        float buttonHeight = Vars.mobile ? 85f : 100f;
 
         Table nav = new Table();
         nav.button(Core.bundle.get("aquarion.menu.tab_links"), () -> updateContent("links"))
-           .size(Vars.mobile ? 140f : 160f, 50f)
+           .size(Vars.mobile ? 150f : 160f, 50f)
            .disabled(type.equals("links"));
         nav.button(Core.bundle.get("aquarion.menu.tab_credits"), () -> updateContent("text"))
-           .size(Vars.mobile ? 140f : 160f, 50f)
+           .size(Vars.mobile ? 150f : 160f, 50f)
            .disabled(type.equals("text"));
         
-        cont.add(nav).padBottom(20f).row();
+        cont.add(nav).padBottom(15f).row();
 
         Table body = new Table();
         if (type.equals("links")) {
@@ -76,7 +76,7 @@ public class AquaMenuDialog extends BaseDialog {
                 .size(buttonWidth, 60f)
                 .padBottom(10f)
                 .row();
-            }).size(paneWidth, Vars.mobile ? paneHeight : 250f);
+            }).size(paneWidth, Vars.mobile ? 140f : 250f);
         } else {
             // Список участников с прокруткой
             var cell = body.pane(t -> {
@@ -185,7 +185,6 @@ public class AquaMenuDialog extends BaseDialog {
 
             }).size(paneWidth, paneHeight);
 
-            // Настройка самого элемента ScrollPane для мобильного свайпа
             if(cell.get() instanceof ScrollPane){
                 ((ScrollPane)cell.get()).setFlickScroll(true);
             }
@@ -198,8 +197,8 @@ public class AquaMenuDialog extends BaseDialog {
         BaseDialog authorDialog = new BaseDialog(name);
         authorDialog.addCloseButton();
 
-        float dialogWidth = Vars.mobile ? Core.graphics.getWidth() * 0.8f : 400f;
-        float dialogHeight = Vars.mobile ? Core.graphics.getHeight() * 0.5f : 320f;
+        float dialogWidth = Vars.mobile ? 380f : 400f;
+        float dialogHeight = Vars.mobile ? 260f : 320f;
 
         authorDialog.cont.pane(t -> {
             createRoundAvatar(t, textureName, fallbackIcon, 64f);
@@ -212,7 +211,7 @@ public class AquaMenuDialog extends BaseDialog {
 
         authorDialog.buttons.button(Core.bundle.get("aquarion.menu.open_profile"), () -> {
             Core.app.openURI(profileUrl);
-        }).size(Vars.mobile ? 160f : 180f, 50f);
+        }).size(Vars.mobile ? 150f : 180f, 50f);
 
         authorDialog.show();
     }
