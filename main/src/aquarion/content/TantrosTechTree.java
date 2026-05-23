@@ -425,72 +425,78 @@ public class TantrosTechTree {
                 node(ferricGrinder, () -> {});
             });
             node(atmosphericIntake, () -> {
-                node(graphiteConcentrator);
-                node(atmosphericCentrifuge);
-                node(inlet, () -> {
-                    node(vacuumFreezer, () -> {
+                node(magmaTap, () -> {
+                    node(inlet, () -> {
+                        node(inletArray, () -> {});
+                        node(vacuumFreezer, () -> {});
                     });
-                    node(inletArray);
-                });
-                node(SilicaOxidator, () ->{
-                    node(arcFurnace);
-                });
-                node(scrapCentrifuge);
-                node(electrolysisCell);
-                node(AnnealingOven, () -> {
-                    node(slagRefinementAssemblage, Seq.with(
-                            new Objectives.Produce(slag)
-                    ), ()->{});
-                    node(sporeProcessor, Seq.with(
-                            new Objectives.OnSector(diseasedCleft)
-                    ), ()->{});
-                    node(cupronickelAlloyer, () -> {
-                        node(ferricGrinder, () -> {
-                            node(ultrafamicRefinery);
-                            node(ferroSiliconFoundry, Seq.with(
+                    node(magmaDiffser, () -> {
+                        node(fumeFilter, () -> {
+                            node(fumeSeparator, () -> {
+                                node(fumeMixer, () -> {});
+                            });
+                            node(slagRefinementAssemblage, Seq.with(
+                                    new Objectives.Produce(slag)
                             ), () -> {
-                                node(steelFoundry);
+                                node(glassPulverizer, () -> {});
                             });
                         });
-                        node(SolidBoiler, Seq.with(
-                                new Objectives.SectorComplete(twinPass)
-                        ), () -> {
-                            node(solarBoiler);
+                        node(azuriteKiln, () -> {
+                            node(galenaCrucible, () -> {});
+                            node(leachingVessel, () -> {
+                                node(ultrafamicRefinery, () -> {});
+                                node(towaniteReductionVat, () -> {
+                                    node(algalTerrace, () -> {
+                                        node(gasifier, () -> {
+                                            node(coalLiquefactor, () -> {});
+                                        });
+                                        node(sporeProcessor, () -> {});
+                                    });
+                                });
+                                node(bauxiteCentrifuge, () -> {});
+                            });
+                            node(brassMixingPot, () -> {});
+                        });
+                    });
+                    node(thermalEvaporator, () -> {});
+                });
+                node(AnnealingOven, () -> {
+                    node(scrapCentrifuge, () -> {});
+                    node(cupronickelAlloyer, () -> {
+                        node(arcFurnace, () -> {
+                            node(SilicaOxidator, () -> {});
+                            node(ferroSiliconFoundry, () -> {
+                                node(steelFoundry, () -> {});
+                            });
+                        });
+                        node(convectionHeater, () -> {
+                            node(coalHeater, () -> {
+                                node(combustionHeater, () -> {});
+                            });
+                            node(heatChannel, () -> {});
+                        });
+                    });
+                    node(graphiteConcentrator, () -> {
+                        node(SolidBoiler, () -> {
+                            node(solarBoiler, () -> {
+                                node(coolingTower, () -> {});
+                            });
+                        });
+                        node(electrolysisCell, () -> {
+                            node(brineElectrolyzer, () -> {
+                                node(brineMixer, () -> {});
+                            });
+                        });
+                        node(thermalCrackingUnit, () -> {
+                            node(ammoniaCompressor, () -> {});
+                            node(polymerPress, () -> {
+                                node(steamCrackingUnit, () -> {});
+                            });
+                            node(desulferizationAssembly, () -> {});
                         });
                     });
                 });
-                node(thermalCrackingUnit, () -> {
-                    node(steamCrackingUnit);
-                    node(coalLiquefactor);
-                    node(desulferizationAssembly);
-                    node(polymerPress);
-                });
-                node(fumeMixer);
-                node(fumeSeparator);
-                node(fumeFilter, Seq.with(
-                ), () -> {
-
-                });
-                node(gasifier);
-                node(algalTerrace);
-                node(magmaDiffser, Seq.with(
-                        new Objectives.Research(magmaTap),
-                        new Objectives.OnSector(Ingress)
-                ), () -> node(azuriteKiln, () -> {
-                    node(galenaCrucible);
-                    node(towaniteReductionVat, Seq.with(
-                            new Objectives.OnSector(CrystalCaverns)
-                    ), () -> {
-                        node(brineMixer);
-                        node(brineElectrolyzer);
-                        node(acuminiteDegredationArray, Seq.with(
-                                new Objectives.SectorComplete(Grove)
-                        ), () -> {
-                        });
-                    });
-                    node(bauxiteCentrifuge);
-                    node(leachingVessel);
-                }));
+                node(atmosphericCentrifuge, () -> {});
             });
         });
     }
