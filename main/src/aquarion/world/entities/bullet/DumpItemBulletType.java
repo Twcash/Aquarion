@@ -20,6 +20,7 @@ import mindustry.type.Item;
 
 public class DumpItemBulletType extends BulletType {
     public float spin = 0.5f;
+    public float elevation  = 8;
     public float layer = Layer.flyingUnitLow -0.1f;
     public DumpItemBulletType(){
         super(6.5f, 0);
@@ -43,7 +44,7 @@ public class DumpItemBulletType extends BulletType {
         Draw.color(Pal.shadow);
         Draw.z(Layer.debris);
         float elevation = b.lifetime/b.type.lifetime;
-        Draw.rect(item.fullIcon, b.x -(8 *b.fslope()), b.y - (8 *b.fslope()), b.rotation() + spin + b.lifetime);
+        Draw.rect(item.fullIcon, b.x -(elevation *b.fslope()), b.y - (elevation *b.fslope()), b.rotation() + spin + b.lifetime);
         Draw.reset();
     }
     public void despawned(Bullet b) {
