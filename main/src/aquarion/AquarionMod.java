@@ -8,6 +8,7 @@ import aquarion.content.AquaPlanets;
 import aquarion.content.AquaSectorPresets;
 import aquarion.content.TantrosTechTree;
 import aquarion.content.AquaUnitTypes;
+import aquarion.ui.AquaMenuDialog;
 import aquarion.world.content.AquaHints;
 import arc.Events;
 import arc.assets.Loadable;
@@ -36,6 +37,7 @@ public class AquarionMod  implements Loadable{
         DefenseBlocks.loadContent();
         TurretBlocks.loadContent();
         CrafterBlocks.loadContent();
+        AquaMenuDialog.attach();
 ;       EnvironmentBlocks.shallowSlag.asFloor().blendGroup = Blocks.slag;
         //units and cores, keep these after blocks
         AquaUnitTypes.loadContent();
