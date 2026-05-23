@@ -80,7 +80,8 @@ public class AquaMenuDialog extends BaseDialog {
         } else {
             // Список участников с прокруткой
             var cell = body.pane(t -> {
-                t.add(Core.bundle.get("aquarion.menu.role_creator")).color(arc.graphics.Color.red).padBottom(10f).row();
+                // Заголовок Создателя прижат влево
+                t.add(Core.bundle.get("aquarion.menu.role_creator")).color(arc.graphics.Color.red).center().padBottom(10f).row();
 
                 t.button(b -> {
                     createRoundAvatar(b, "Twcash", Icon.admin, 32f);
@@ -93,9 +94,10 @@ public class AquaMenuDialog extends BaseDialog {
                     Icon.admin,
                     true // Есть кнопка профиля
                 )).size(buttonWidth, buttonHeight).padBottom(20f).row();
-
-                t.add(Core.bundle.get("aquarion.menu.role_helpers")).color(arc.graphics.Color.green).padBottom(10f).row();
-
+                t.add(Core.bundle.get("aquarion.menu.role_helpers")).color(arc.graphics.Color.green).center().padBottom(10f).row();
+                // Заголовок Разработчиков: серый цвет и выравнивание по левому краю (.left())
+                t.add(Core.bundle.get("aquarion.menu.role_developers")).color(arc.graphics.Color.lightGray).left().padBottom(10f).row();
+                
                 t.button(b -> {
                     createRoundAvatar(b, "nikolaykot", Icon.players, 32f);
                     b.add("NikolayKot02").left().padLeft(15f);
@@ -105,19 +107,45 @@ public class AquaMenuDialog extends BaseDialog {
                     "https://github.com/NikolayKot02", 
                     "nikolaykot", 
                     Icon.players,
-                    true // Измени на false, если надо выключить кнопку
+                    true 
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
 
                 t.button(b -> {
-                    createRoundAvatar(b, "thinkerdoodle", Icon.players, 32f);
-                    b.add("Thinkerdoodle").left().padLeft(15f);
+                    createRoundAvatar(b, "OwO", Icon.players, 32f);
+                    b.add("OwO (Sentinel)").left().padLeft(15f);
                 }, () -> showAuthorInfo(
-                    "Thinkerdoodle", 
-                    Core.bundle.get("aquarion.menu.desc_Thinkerdoodle"), 
-                    "https://github.com/BSp-2", 
-                    "thinkerdoodle", 
+                    "OwO (Sentinel)", 
+                    Core.bundle.get("aquarion.menu.desc_OwO"), 
+                    "https://github.com/SentinelDart919", 
+                    "OwO", 
                     Icon.players,
-                    true 
+                    true
+                )).size(buttonWidth, buttonHeight).padBottom(10f).row();                
+
+                t.button(b -> {
+                    createRoundAvatar(b, "Alecthe2nd", Icon.players, 32f);
+                    b.add("Alecthe2nd").left().padLeft(15f);
+                }, () -> showAuthorInfo(
+                    "Alecthe2nd", 
+                    Core.bundle.get("aquarion.menu.desc_Alecthe2nd"), 
+                    "https://github.com/alecthe2nd", 
+                    "Alecthe2nd", 
+                    Icon.players,
+                    true
+                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
+
+                t.add(Core.bundle.get("aquarion.menu.role_Maps")).color(arc.graphics.Color.lightGray).left().padBottom(10f).row();
+
+                t.button(b -> {
+                    createRoundAvatar(b, "cupcakerouter", Icon.players, 32f);
+                    b.add("cupcakerouter").left().padLeft(15f);
+                }, () -> showAuthorInfo(
+                    "cupcakerouter", 
+                    Core.bundle.get("aquarion.menu.desc_cupcakerouter"), 
+                    "", 
+                    "cupcakerouter", 
+                    Icon.players,
+                    false
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
 
                 t.button(b -> {
@@ -144,28 +172,18 @@ public class AquaMenuDialog extends BaseDialog {
                     true
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
 
-                t.button(b -> {
-                    createRoundAvatar(b, "Alecthe2nd", Icon.players, 32f);
-                    b.add("Alecthe2nd").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Alecthe2nd", 
-                    Core.bundle.get("aquarion.menu.desc_Alecthe2nd"), 
-                    "https://github.com/alecthe2nd", 
-                    "Alecthe2nd", 
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
+
 
                 t.button(b -> {
-                    createRoundAvatar(b, "OwO", Icon.players, 32f);
-                    b.add("OwO (Sentinel)").left().padLeft(15f);
+                    createRoundAvatar(b, "thinkerdoodle", Icon.players, 32f);
+                    b.add("Thinkerdoodle").left().padLeft(15f);
                 }, () -> showAuthorInfo(
-                    "OwO (Sentinel)", 
-                    Core.bundle.get("aquarion.menu.desc_OwO"), 
-                    "https://github.com/SentinelDart919", 
-                    "OwO", 
+                    "Thinkerdoodle", 
+                    Core.bundle.get("aquarion.menu.desc_Thinkerdoodle"), 
+                    "https://github.com/BSp-2", 
+                    "thinkerdoodle", 
                     Icon.players,
-                    true
+                    true 
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
 
                 t.button(b -> {
@@ -217,18 +235,6 @@ public class AquaMenuDialog extends BaseDialog {
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
 
                 t.button(b -> {
-                    createRoundAvatar(b, "CY4NIDE", Icon.players, 32f);
-                    b.add("CY4NIDE").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "CY4NIDE", 
-                    Core.bundle.get("aquarion.menu.desc_CY4NIDE"), 
-                    "https://github.com/cyanide863", 
-                    "CY4NIDE", 
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
                     createRoundAvatar(b, "nullotte", Icon.players, 32f);
                     b.add("nullotte").left().padLeft(15f);
                 }, () -> showAuthorInfo(
@@ -275,19 +281,6 @@ public class AquaMenuDialog extends BaseDialog {
                     Icon.players,
                     true
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "actions-user", Icon.players, 32f);
-                    b.add("actions-user").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "actions-user", 
-                    Core.bundle.get("aquarion.menu.desc_actions-user"), 
-                    "https://github.com/actions-user", 
-                    "actions-user", 
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
                 t.button(b -> {
                     createRoundAvatar(b, "Norax", Icon.players, 32f);
                     b.add("Norax").left().padLeft(15f);
@@ -326,7 +319,6 @@ public class AquaMenuDialog extends BaseDialog {
             t.row();
         }).size(dialogWidth, dialogHeight);
 
-        // Кнопка создаётся только если аргумент hasProfile равен true
         if (hasProfile) {
             authorDialog.buttons.button(Core.bundle.get("aquarion.menu.open_profile"), () -> {
                 Core.app.openURI(profileUrl);
