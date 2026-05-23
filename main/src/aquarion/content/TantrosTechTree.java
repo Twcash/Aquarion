@@ -85,7 +85,7 @@ public class TantrosTechTree {
                 });
                 node(pillage, Seq.with(
                         new Objectives.SectorComplete(mountainsideComplex)
-                ));
+                ), () -> {});
                 node(payloadPad, ()-> {
                     node(payloadDistributor);
                     node(payloadDisplacer);
@@ -141,7 +141,7 @@ public class TantrosTechTree {
                     ), () -> {});
                     node(solarGenerator, () -> {
                         node(advSolarGen, Seq.with(
-                                new Objectives.OnSector(stormyCoast))
+                                new Objectives.OnSector(stormyCoast)
                         ), () -> {});
                     });
                 });
@@ -234,8 +234,6 @@ public class TantrosTechTree {
                         node(Ingress, Seq.with(
                                 new Objectives.Research(magmaDiffser)
                         ), () -> node(Torrent, Seq.with(
-                                new Objectives.SectorComplete(Ingress),
-                                new Objectives.Research(graphiteConcentrator),
                                 new Objectives.Research(inlet)
                         ), () -> {
                             node(FeldsparRavine, Seq.with(
@@ -268,10 +266,8 @@ public class TantrosTechTree {
                                         new Objectives.Produce(aluminum)
                                 ), ()->{
                                     node(SubmergedCanyon, Seq.with(
-                                            new Objectives.SectorComplete(Grove)
                                     ), ()->{
                                         node(GalenaFringe, Seq.with(
-                                                new Objectives.SectorComplete(SubmergedCanyon),
                                                 new Objectives.Research(galena),
                                                 new Objectives.Research(galenaCrucible),
                                                 new Objectives.Research(petroleumEngine)
@@ -470,7 +466,9 @@ public class TantrosTechTree {
                                 node(glassPulverizer, () -> {});
                             });
                         });
-                        node(azuriteKiln, () -> {
+                        node(azuriteKiln, Seq.with(
+                                new Objectives.SectorComplete(Ingress)
+                        ), () -> {
                             node(galenaCrucible, () -> {});
                             node(leachingVessel, () -> {
                                 node(ultrafamicRefinery, () -> {});
@@ -490,10 +488,14 @@ public class TantrosTechTree {
                                 });
                                 node(bauxiteCentrifuge, () -> {});
                             });
-                            node(brassMixingPot, () -> {});
+                            node(brassMixingPot, Seq.with(
+                                    new Objectives.Research(azuriteKiln)
+                            ), () -> {});
                         });
                     });
-                    node(thermalEvaporator, () -> {});
+                    node(thermalEvaporator, () -> {
+                        node(nuetralizationChamber, () -> {});
+                    });
                 });
                 node(AnnealingOven, () -> {
                     node(scrapCentrifuge, Seq.with(
@@ -511,8 +513,12 @@ public class TantrosTechTree {
                             });
                         });
                         node(convectionHeater, () -> {
-                            node(coalHeater, () -> {
-                                node(combustionHeater, () -> {});
+                            node(coalHeater, Seq.with(
+                                    new Objectives.Produce(oxygen)
+                            ), () -> {
+                                node(combustionHeater, Seq.with(
+                                        new Objectives.Produce(oxygen)
+                                ), () -> {});
                             });
                             node(heatChannel, () -> {});
                         });
@@ -526,17 +532,30 @@ public class TantrosTechTree {
                                 node(coolingTower, () -> {});
                             });
                         });
-                        node(electrolysisCell, () -> {
-                            node(brineElectrolyzer, () -> {
+                        node(electrolysisCell, Seq.with(
+                                new Objectives.Produce(water)
+                        ), () -> {
+                            node(brineElectrolyzer, Seq.with(
+                                    new Objectives.Produce(brine)
+                            ), () -> {
                                 node(brineMixer, () -> {});
                             });
                         });
-                        node(thermalCrackingUnit, () -> {
-                            node(ammoniaCompressor, () -> {});
-                            node(polymerPress, () -> {
+                        node(thermalCrackingUnit, Seq.with(
+                                new Objectives.Produce(oil)
+                        ), () -> {
+                            node(ammoniaCompressor, Seq.with(
+                                    new Objectives.Produce(methane),
+                                    new Objectives.Produce(nitrogen)
+                            ), () -> {});
+                            node(polymerPress, Seq.with(
+                                    new Objectives.Produce(petroleum)
+                            ), () -> {
                                 node(steamCrackingUnit, () -> {});
                             });
-                            node(desulferizationAssembly, () -> {});
+                            node(desulferizationAssembly, Seq.with(
+                                    new Objectives.Produce(methane)
+                            ), () -> {});
                         });
                     });
                 });
