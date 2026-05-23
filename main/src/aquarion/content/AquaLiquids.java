@@ -17,6 +17,8 @@ public class AquaLiquids {
 
     public static void loadContent() {
 
+        water.alwaysUnlocked = false;
+
         brine = new Liquid("brine", Color.valueOf("#b8c89f")) {{
             coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             viscosity = 0.8f;
@@ -146,7 +148,6 @@ public class AquaLiquids {
             effect = StatusEffects.wet;
             boilPoint = 0.5f;
             gasColor = Color.grays(0.9f);
-            alwaysUnlocked = true;
             canStayOn.addAll(cryofluid);
         }};
         muriaticAcid = new AquaLiquid("muriatic-acid", Color.valueOf("faf3a0")){{

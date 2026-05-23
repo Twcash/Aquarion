@@ -72,8 +72,6 @@ public class CrafterBlocks {
             requirements(Category.crafting, with(lead, 150, silicon, 80));
             size = 5;
             squareSprite = false;
-            alwaysUnlocked = true;
-
             outputItems = new ItemStack[]{
                     new ItemStack(lead, 25),
                     new ItemStack(zinc, 15),
@@ -142,6 +140,7 @@ public class CrafterBlocks {
             requirements(Category.production, with(lead, 225, zinc, 120, silicon, 100));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 4;
+            alwaysUnlocked = true;
             floating = true;
             updateEffect = Fx.steam;
             attribute = Attribute.heat;
@@ -1999,6 +1998,7 @@ public class CrafterBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
             craftTime = 10;
+            alwaysUnlocked = true;
             liquidCapacity = 200;
             consumePower(.25f);
             envDisabled = Env.underwater | Env.space;

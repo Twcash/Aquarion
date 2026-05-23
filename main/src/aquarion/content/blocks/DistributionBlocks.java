@@ -124,10 +124,8 @@ public class DistributionBlocks {
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
-
             envDisabled = Env.none;
             hasItems = true;
-            alwaysUnlocked = true;
 
         }};
         sealedInvertedSorter = new Sorter("sealed-inverted-sorter") {{
@@ -135,10 +133,8 @@ public class DistributionBlocks {
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
-
             envDisabled = Env.none;
             hasItems = true;
-            alwaysUnlocked = true;
             invert = true;
         }};
         sealedOverflow = new OverflowGate("sealed-overflow") {{
