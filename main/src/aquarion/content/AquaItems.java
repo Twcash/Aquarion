@@ -42,7 +42,6 @@ public class AquaItems {
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
             hardness = 3;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             cost = 1.1F;
-            alwaysUnlocked = true;
             buildable = false;
         }};
         salt = new Item("salt", Color.valueOf("#ffffff")) {{

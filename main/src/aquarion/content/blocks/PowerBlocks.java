@@ -41,7 +41,6 @@ public class PowerBlocks {
             explosionRadius = 5;
             powerProduction = 2.75f;
             baseExplosiveness = 1;//funny
-            alwaysUnlocked = true;
             envDisabled |= Env.underwater;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;

@@ -79,6 +79,7 @@ public class TurretBlocks {
     public static void loadContent() {
         point = new AquaTemplates.AquaItemTurretTemplate("point") {{
             requirements(Category.turret, with(silicon, 35f, lead, 30));
+            alwaysUnlocked = true;
             health = 250;
             shootSound = shootLaser;
             ammoUseEffect = Fx.casing1;

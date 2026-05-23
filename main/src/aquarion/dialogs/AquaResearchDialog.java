@@ -768,24 +768,36 @@ public class AquaResearchDialog extends BaseDialog {
                                     }
                                 } else if (node.objectives.size > 0) {
                                     desc.add("@complete").colspan(2).left();
+                                    desc.row();
+                                    if (node.objectives.size > 0) {
+                                        desc.table(r -> {
+                                            for (Objective o : node.objectives) {
+                                                r.add("> " + o.display()).color(Color.lightGray).left();
+                                                r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
+                                                r.row();
+                                            }
+                                        });
+                                    }
                                 }
                             });
                         }
                     } else {
                         desc.add("@completed").colspan(2).left();
+                        desc.row();
+                        if (node.objectives.size > 0) {
+                            desc.table(r -> {
+                                for (Objective o : node.objectives) {
+                                    r.add("> " + o.display()).color(Color.darkGray).left();
+                                    r.image(o.complete() ? Icon.ok : Icon.cancel, Color.darkGray).padLeft(3);
+                                    r.row();
+                                }
+                            });
+                        }
                     }
                     desc.row();
                     desc.add().padTop(5); //adjust this too for spacing between research req and the thingy above
                     desc.row();
-                    if (node.objectives.size > 0) {
-                        desc.table(r -> {
-                            for (Objective o : node.objectives) {
-                                r.add("> " + o.display()).color(Color.lightGray).left();
-                                r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
-                                r.row();
-                            }
-                        });
-                    }
+
                 }).pad(9);
 
                 if (mobile && locked(node) && !net.client()) {
