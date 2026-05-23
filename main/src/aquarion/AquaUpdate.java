@@ -2,9 +2,14 @@ package aquarion;
 
 import arc.*;
 import arc.files.*;
+import arc.scene.event.Touchable;
+import arc.scene.ui.TextButton;
+import arc.scene.ui.layout.Table;
 import arc.util.*;
 import arc.util.serialization.*;
 import mindustry.Vars;
+import mindustry.core.Version;
+import mindustry.gen.Tex;
 import mindustry.mod.Mod;
 import mindustry.ui.Bar;
 import mindustry.ui.dialogs.BaseDialog;
@@ -34,9 +39,10 @@ public class AquaUpdate {
     private float downloadProgress = 0f;
     private String progressText = "";
     private String releaseNotes = "";
+    private Table disclaimerBanner;
 
     public void check(Class<? extends Mod> mainClass) {
-        var modContainer = Vars.mods.getMod(mainClass);
+        mindustry.mod.Mods.LoadedMod modContainer = Vars.mods.getMod(mainClass);
         if (modContainer != null) {
             if (modContainer.meta != null) {
                 currentVersion = modContainer.meta.version.trim(); 
@@ -48,31 +54,69 @@ public class AquaUpdate {
     }
 
     private void checkUpdates() {
+        showDisclaimer();
         Http.get("https://api.github.com/repos/" + GITHUB_REPO + "/releases/latest", response -> {
             try {
                 Jval json = Jval.read(response.getResultAsString());
                 String remoteVersion = json.getString("tag_name", "").trim();
                 releaseNotes = json.getString("body", "");
-
-                if (!remoteVersion.isEmpty() && !remoteVersion.equals(currentVersion)) {
-                    Jval assets = json.get("assets");
-                    if (assets != null && assets.isArray() && assets.asArray().size > 0) {
-                        String downloadUrl = null;
-                        
-                        for (Jval asset : assets.asArray()) {
-                            String name = asset.getString("name", "");
-                            if (name.endsWith(".jar")) {
-                                downloadUrl = asset.getString("browser_download_url", null);
-                                break;
-                            }
-                        }
-
-                        if (downloadUrl != null) {
-                            final String finalUrl = downloadUrl;
-                            Core.app.post(() -> showUpdateDialog(remoteVersion, finalUrl));
-                        }
+                if (remoteVersion.isEmpty() ||
+                        compareVersions(remoteVersion, currentVersion) <= 0) {
+                    return;
+                }
+                Jval assets = json.get("assets");
+                if (assets == null || !assets.isArray() || assets.asArray().size == 0) {
+                    return;
+                }
+                String downloadUrl = null;
+                for (Jval asset : assets.asArray()) {
+                    String name = asset.getString("name", "");
+                    if (name.endsWith(".jar")) {
+                        downloadUrl = asset.getString("browser_download_url", null);
+                        break;
                     }
                 }
+                if (downloadUrl == null) return;
+                final String finalUrl = downloadUrl;
+                //This is just in case the new game version for the new mod update isn't compatible with the users current version
+                Http.get(finalUrl, jarResponse -> {
+                    try {
+                        Fi tempJar = Core.files.cache("aquarion_version_check.jar");
+                        tempJar.writeBytes(jarResponse.getResult());
+                        ZipFi zip = new ZipFi(tempJar);
+                        Fi metaFile = zip.child("mod.hjson");
+                        if (!metaFile.exists()) {
+                            metaFile = zip.child("mod.json");
+                        }
+                        boolean compatible = true;
+                        if (metaFile.exists()) {
+                            Jval meta = Jval.read(metaFile.readString());
+                            String minGameVersion = meta.getString("minGameVersion", "");
+                            if (!minGameVersion.isEmpty()) {
+                                try {
+                                    int required = Integer.parseInt(minGameVersion.trim());
+                                    int current = Version.build;
+                                    compatible = current >= required;
+                                } catch (Exception ignored) {
+                                }
+                            }
+                        }
+                        tempJar.delete();
+                        if (compatible) {
+                            Core.app.post(() ->
+                                    showUpdateDialog(remoteVersion, finalUrl)
+                            );
+                        } else {
+                            Log.info("[AquarionUpdate] Ignoring update - requires newer Mindustry version.");
+                        }
+
+                    } catch (Exception e) {
+                        Log.err("[AquarionUpdate] Compatibility check failed", e);
+                    }
+                }, err -> {
+                    Log.err("[AquarionUpdate] Failed to check mod compatibility: " + err.getMessage());
+                });
+
             } catch (Exception e) {
                 Log.err("[AquarionUpdate] Error", e);
             }
@@ -81,6 +125,84 @@ public class AquaUpdate {
         });
     }
 
+    //This is so stupid. Too late to switch to whole numbers now...
+    private int compareVersions(String v1, String v2) {
+        try {
+            String[] a = v1.split("\\.");
+            String[] b = v2.split("\\.");
+
+            int max = Math.max(a.length, b.length);
+
+            for (int i = 0; i < max; i++) {
+                int n1 = i < a.length ? Integer.parseInt(a[i]) : 0;
+                int n2 = i < b.length ? Integer.parseInt(b[i]) : 0;
+
+                if (n1 > n2) return 1;
+                if (n1 < n2) return -1;
+            }
+
+            return 0;
+        } catch (Exception e) {
+            Log.err("[AquarionUpdate] Failed version compare", e);
+            return v1.equals(v2) ? 0 : -1;
+        }
+    }
+
+    private void showDisclaimer() {
+        if (!Vars.state.isMenu()) return;
+        if (Core.settings.getBool("aquarion.disclaimer.dismissed", false)) {
+            return;
+        }
+
+        if (disclaimerBanner != null) {
+            disclaimerBanner.remove();
+        }
+
+        disclaimerBanner = new Table(Tex.pane2);
+        disclaimerBanner.touchable = Touchable.enabled;
+        disclaimerBanner.margin(12f);
+
+        String disclaimerTitle = Core.bundle.get("aquarion.disclaimer.title");
+        String disclaimerText = Core.bundle.get("aquarion.disclaimer.text");
+
+        Table header = new Table();
+        header.add(disclaimerTitle)
+                .fontScale(1.2f)
+                .left()
+                .growX();
+
+        TextButton close = new TextButton(Core.bundle.get("aquarion.disclaimer.close"));
+        close.clicked(() -> {
+            Core.settings.put("aquarion.disclaimer.dismissed", true);
+            Core.settings.manualSave();
+            disclaimerBanner.remove();
+            disclaimerBanner = null;
+        });
+
+        header.add(close).size(40f, 40f).right();
+
+        disclaimerBanner.add(header).growX().row();
+        disclaimerBanner.add(disclaimerText)
+                .wrap()
+                .width(500f)
+                .left();
+
+        Core.scene.add(disclaimerBanner);
+
+        disclaimerBanner.pack();
+
+        disclaimerBanner.setPosition(
+                (Core.graphics.getWidth() - disclaimerBanner.getWidth()) / 2f,
+                Core.graphics.getHeight() - disclaimerBanner.getHeight() -150f
+        );
+
+        disclaimerBanner.update(() -> {
+            if (!Vars.state.isMenu()) {
+                disclaimerBanner.remove();
+                disclaimerBanner = null;
+            }
+        });
+    }
     private void showUpdateDialog(String newVersion, String downloadUrl) {
         BaseDialog dialog = new BaseDialog(Core.bundle.get("aquarion.update.title"));
         
@@ -126,9 +248,7 @@ public class AquaUpdate {
             downloadAndInstall(downloadUrl);
         }).size(160f, 60f);
 
-        dialog.buttons.button(Core.bundle.get("aquarion.update.changelog"), () -> {
-            showChangelogDialog();
-        }).size(160f, 60f);
+        dialog.buttons.button(Core.bundle.get("aquarion.update.changelog"), this::showChangelogDialog).size(160f, 60f);
 
         dialog.buttons.button(Core.bundle.get("aquarion.update.cancel"), dialog::hide).size(130f, 60f);
         dialog.show();
@@ -287,7 +407,7 @@ public class AquaUpdate {
                         try {
                             progressDialog.hide();
                             
-                            var oldMod = Vars.mods.getMod(AquaLoader.class);
+                            mindustry.mod.Mods.LoadedMod oldMod = Vars.mods.getMod(AquaLoader.class);
                             if (oldMod != null) {
                                 Vars.mods.removeMod(oldMod);
                             }
