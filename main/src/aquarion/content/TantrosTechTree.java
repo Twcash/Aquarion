@@ -326,105 +326,81 @@ public class TantrosTechTree {
                     ), ()->{});
             });
             nodeProduce(silicon, () -> {
-                nodeProduce(oil, () -> {
-                    nodeProduce(petroleum, () -> {
-                        nodeProduce(polymer, ()->{});
-                        nodeProduce(hydrogen, () -> {
-
+                nodeProduce(zinc, () -> {
+                    nodeProduce(biotite, () -> {
+                        nodeProduce(ferricMatter, () -> {
+                            nodeProduce(fumes, () -> {});
+                            nodeProduce(ferrosilicon, () -> {});
+                            nodeProduce(steel, () -> {});
                         });
+                        nodeProduce(aluminum, () -> {});
+                        nodeProduce(rareSludge, () -> {});
                     });
-                    nodeProduce(methane, () -> {
-
-                    });
-                });
-                nodeProduce(bioPulp, () -> {
-                });
-                nodeProduce(brine, () -> {
-                    nodeProduce(chlorine, () -> {
-                    });
-                });
-
-                nodeProduce(nickel, () -> {
-                    nodeProduce(serpentine, () -> {
-                        nodeProduce(magnesiumPowder, () -> {
-                        });
-                    });
-                    nodeProduce(salt, ()->{});
-                    nodeProduce(Items.lead, () -> {
-                        nodeProduce(minium,()->{});
-                        nodeProduce(zinc, ()->{
-                            nodeProduce(brass, ()->{});
-                        });
-                        nodeProduce(biotite, ()->{
-                            nodeProduce(rareSludge, ()->{});
-                        });
+                    nodeProduce(azurite, () -> {
                         nodeProduce(bauxite, () -> {
-                            nodeProduce(aluminum, () -> {
-                            });
-                            nodeProduce(ferricMatter, () -> {
-                                nodeProduce(steel, () -> {
-                                });
-                                nodeProduce(ferrosilicon, () -> {
-                                });
-                            });
-                            nodeProduce(oxygen, () -> {
-                            });
-                            nodeProduce(fluorine, () -> {
-                            });
-                            nodeProduce(nitrogen, () -> {
-                            });
-                            nodeProduce(argon, () -> {
-                            });
+                            nodeProduce(galena, () -> {});
                         });
-                        nodeProduce(sand, () -> {
-                            nodeProduce(metaglass, () -> {
-                            });
-
-                        });
+                        nodeProduce(towanite, () -> {});
+                        nodeProduce(cuprite, () -> {});
                     });
-                    nodeProduce(Items.copper, () -> {
-                        nodeProduce(scrap, ()->{});
-                        nodeProduce(coal, ()->{
-                            nodeProduce(sporePod, () -> {});
-                        });
-                        nodeProduce(graphite, () -> {});
-                        nodeProduce(galena, () -> {
-                        });
-                        nodeProduce(manganese, () -> {
-                        });
-                        nodeProduce(acuminite, () -> {
-                            nodeProduce(strontium, () -> {
-                            });
-                        });
-
+                    nodeProduce(magma, () -> {});
+                });
+                nodeProduce(nickel, () -> {
+                    nodeProduce(air, () -> {
                         nodeProduce(water, () -> {
-                            nodeProduce(haze, ()->{});
-                            nodeProduce(air, () -> {
-                                nodeProduce(cryogen, ()->{});
-                                nodeProduce(halideWater, () -> {
+                            nodeProduce(halideWater, () -> {
+                                nodeProduce(muriaticAcid, () -> {
+                                    nodeProduce(hydroxide, () -> {});
                                 });
-                            });
-                            nodeProduce(magma, () -> {
-                                nodeProduce(muriaticAcid, ()->{});
-                                nodeProduce(vitriol, ()->{});
-                                nodeProduce(slag, () -> nodeProduce(hydroxide, () -> {
-                                }));
-                                nodeProduce(fumes, () -> {
-                                    nodeProduce(brimstone, () -> {
+                                nodeProduce(salt, () -> {
+                                    nodeProduce(brine, () -> {
+                                        nodeProduce(chlorine, () -> {});
                                     });
                                 });
                             });
-                        });
-                        nodeProduce(cupronickel, () -> {
-                        });
-                        nodeProduce(azurite, () -> {
-                            nodeProduce(towanite, () ->{
-                                nodeProduce(acuminite, () ->{});
+                            nodeProduce(haze, () -> {});
+                            nodeProduce(oxygen, () -> {
+                                nodeProduce(hydrogen, () -> {});
                             });
-                            nodeProduce(cuprite, () ->{});
+                        });
+                        nodeProduce(argon, () -> {});
+                        nodeProduce(nitrogen, () -> {});
+                    });
+                    nodeProduce(cupronickel, () -> {});
+                });
+                nodeProduce(copper, () -> {
+                    nodeProduce(graphite, () -> {
+                        nodeProduce(coal, () -> {
+                            nodeProduce(sporePod, () -> {
+                                nodeProduce(bioPulp, () -> {});
+                            });
+                            nodeProduce(brimstone, () -> {});
                         });
                     });
-
+                    nodeProduce(brass, () -> {});
+                });
+                nodeProduce(lead, () -> {
+                    nodeProduce(minium, () -> {
+                        nodeProduce(vitriol, () -> {
+                            nodeProduce(serpentine, () -> {
+                                nodeProduce(magnesiumPowder, () -> {});
+                            });
+                        });
+                    });
+                    nodeProduce(metaglass, () -> {
+                        nodeProduce(oil, () -> {
+                            nodeProduce(petroleum, () -> {
+                                nodeProduce(polymer, () -> {});
+                            });
+                            nodeProduce(methane, () -> {
+                                nodeProduce(ammonia, () -> {});
+                            });
+                        });
+                    });
+                });
+                nodeProduce(sand, () -> {
+                    nodeProduce(scrap, () -> {});
+                    nodeProduce(slag, () -> {});
                 });
             });
             node(siphon, () -> {

@@ -69,7 +69,7 @@ public class CrafterBlocks {
         magmaDiffser = new AquaGenericCrafter("magma-diffuser") {{
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(lead, 150, zinc, 120, silicon, 80));
+            requirements(Category.crafting, with(lead, 150, silicon, 80));
             size = 5;
             squareSprite = false;
             alwaysUnlocked = true;
@@ -139,7 +139,7 @@ public class CrafterBlocks {
         }};
         magmaTap = new AttributeCrafter("magma-tap") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with(lead, 225, silicon, 100));
+            requirements(Category.production, with(lead, 225, zinc, 120, silicon, 100));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 4;
             floating = true;
