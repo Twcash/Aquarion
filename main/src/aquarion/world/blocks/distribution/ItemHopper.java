@@ -21,9 +21,8 @@ public class ItemHopper extends Block {
                 if(b!=null&&b.data instanceof Item item){
                     if(acceptItem(this, item)) {
                         Fx.smoke.at(b.x, b.y);
-                        items.add(item, 1);
-                        //Does this even work???
                         b.remove();
+                        items.add(item, 1);
                     }
                 }
             });

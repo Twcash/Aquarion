@@ -77,6 +77,7 @@ public class DistributionBlocks {
         itemYeeter = new ItemYeeter("conveyor-yeeter"){{
             requirements(Category.distribution, with(silicon, 50));
             size = 1;
+            consumePower(3);
         }};
         itemHopper = new ItemHopper("item-hopper"){{
             requirements(Category.distribution, with(silicon, 50));
