@@ -26,9 +26,9 @@ public class ItemYeeter extends Block {
         }
         @Override
         public void handleItem(Building source, Item item){
-            AquaBullets.dumpitem.create(
+            AquaBullets.throwItem.create(
                     null,
-                    derelict,
+                    this.team,
                     x,
                     y,
                     rotdeg() + Mathf.range(2f),

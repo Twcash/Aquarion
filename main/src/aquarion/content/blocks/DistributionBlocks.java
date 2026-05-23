@@ -1,5 +1,6 @@
 package aquarion.content.blocks;
 
+import aquarion.world.blocks.distribution.ItemHopper;
 import aquarion.world.blocks.distribution.ItemYeeter;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
@@ -25,7 +26,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
-    public static Block payloadDistributor, itemYeeter, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
+    public static Block payloadDistributor, itemHopper, itemYeeter, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
@@ -74,6 +75,10 @@ public class DistributionBlocks {
             hasItems = true;
         }};
         itemYeeter = new ItemYeeter("conveyor-yeeter"){{
+            requirements(Category.distribution, with(silicon, 50));
+            size = 1;
+        }};
+        itemHopper = new ItemHopper("item-hopper"){{
             requirements(Category.distribution, with(silicon, 50));
             size = 1;
         }};

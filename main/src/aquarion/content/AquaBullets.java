@@ -24,7 +24,10 @@ import static mindustry.content.StatusEffects.burning;
 
 public class AquaBullets {
     public static BulletType
-            dumpitem = new DumpItemBulletType(){{}},
+            dumpitem = new DumpItemBulletType(){{
+                layer = Renderer.Layer.blockUnder - 0.1f;
+    }},
+            throwItem = new DumpItemBulletType(){{}},
     pointSilicon = new BasicBulletType(14,15, "aquarion-long-bullet") {{
         frontColor = Color.white;
         backColor = AquaPal.redDecal1Dark;
