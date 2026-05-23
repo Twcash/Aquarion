@@ -104,71 +104,59 @@ public class TantrosTechTree {
                 });
             });
             node(pylon, () -> {
-                node(outlet, () ->{
+                node(leadBurner, () -> {
+                    node(turbineDynamo, () -> {
+                        node(fumeEngine, () -> {});
+                        node(petroleumEngine, () -> {});
+                        node(hydroxideReactor, () -> {});
+                    });
+                    node(heatEngine, () -> {
+                        node(heatExchanger, () -> {});
+                    });
+                    node(miniumReactor, () -> {});
+                    node(solarGenerator, () -> {
+                        node(advSolarGen, () -> {});
+                    });
                 });
-                node(energyBank, ()->{
+                node(outlet, () -> {});
+                node(energyBank, () -> {
                     node(capacitorBank, () -> {
-                        node(ionBattery);
-                    });
-                });
-                node(solarGenerator, () -> {
-                    node(advSolarGen);
-                    node(convectionHeater, () -> {
-                        node(heatChannel);
-                        node(coalHeater, ()->{
-                            node(combustionHeater);
-                        });
-                    });
-                    node(turbineDynamo, ()->{
-                        node(petroleumEngine);
-                    });
-                    node(heatExchanger);
-                    node(miniumReactor);
-                    node(leadBurner, ()-> {
-                        node(heatEngine, () -> {
-                            node(fumeEngine);
-                            node(hydroxideReactor);
-                        });
+                        node(ionBattery, () -> {});
                     });
                 });
             });
             node(point, () -> {
-
-                node(buzzSaw);
-                node(buildCairn, ()->{
-                    node(constructionTower);
-                });
                 node(Foment, () -> {
-                    node(redact, () ->
-                            node(maelstrom));
+                    node(buzzSaw, () -> {});
+                    node(redact, () -> {
+                        node(maelstrom, () -> {});
+                        node(dislocate, () -> {
+                            node(perforate, () -> {
+                                node(torrefy, () -> {});
+                                node(flagellate, () -> {});
+                            });
+                        });
+                        node(focus, () -> {});
+                    });
+                    node(confront, () -> {});
                 });
-                node(sentry);
                 node(pelt, () -> {
-                    node(volt, ()->{
-                        node(refraction, () -> {
-                            node(torrefy);
+                    node(douse, () -> {
+                        node(suffocate, () -> {});
+                        node(concuss, () -> {});
+                        node(sentry, () -> {});
+                    });
+                    node(vector, () -> {
+                        node(grace, () -> {
+                            node(thrash, () -> {
+                                node(truncate, () -> {});
+                                node(aftershock, () -> {});
+                            });
                         });
                     });
-                    node(suffocate, ()->{
-                        node(douse);
-                    });
-                    node(grace, ()->{
-                        node(concuss);
-                    });
-                    node(focus);
-                    node(vector, ()->{
-                        node(aftershock, ()->{
-                            node(dislocate);
-                        });
-                        node(confront, ()->{
-                            node(perforate);
-                        });
-                        node(truncate);
-                        node(thrash, ()->{
-                            node(flagellate);
-                        });
-                    });
+                    node(refraction, () -> {});
                 });
+                node(volt, () -> {});
             });
             node(sealedConveyor, () -> {
                 node(cremator);
