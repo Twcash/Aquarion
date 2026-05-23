@@ -75,12 +75,12 @@ public class DistributionBlocks {
             hasItems = true;
         }};
         itemYeeter = new ItemYeeter("conveyor-yeeter"){{
-            requirements(Category.distribution, with(silicon, 50));
+            requirements(Category.distribution, with(silicon, 30, copper, 90, graphite, 50));
             size = 1;
             consumePower(3);
         }};
         itemHopper = new ItemHopper("item-hopper"){{
-            requirements(Category.distribution, with(silicon, 50));
+            requirements(Category.distribution, with(graphite, 50, copper, 90, polymer, 35));
             size = 1;
         }};
         sealedDistributor = new SealedRouter("sealed-distributor") {{
