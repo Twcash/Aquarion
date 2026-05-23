@@ -32,49 +32,52 @@ public class TantrosTechTree {
         AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = AquaPlanets.fakeErekir.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             context().researchCostMultipliers = costMultipliers;
             node(infomatic);
+            node(mendPyre, () -> {
+                node(mendPylon, () -> {
+                    node(mendSubstation, () -> {});
+                    node(overClockProjector, () -> {});
+                });
+                node(lantern, () -> {});
+                node(buildCairn, () -> {
+                    node(bomb, () -> {});
+                    node(constructionTower, () -> {});
+                    node(forceGenerator, () -> {
+                        node(deflectorWell, () -> {});
+                    });
+                });
+            });
             node(nickelWall, () -> {
-                node(mendPyre, () -> {
-                    node(overClockProjector);
-                    node(forceGenerator);
-                    node(deflectorWell);
-                    node(lantern);
-                    node(mendPylon, () -> {
-                        node(mendSubstation);
+                node(zincWall, () -> {
+                    node(bauxiteWall, () -> {
+                        node(hugeBauxiteWall, () -> {
+                            node(bauxiteBarricade, () -> {});
+                        });
+                    });
+                    node(hugeZincWall, () -> {});
+                    node(aluminumWall, () -> {
+                        node(hugeAluminumWall, () -> {});
                     });
                 });
                 node(hugeNickelWall, () -> {
-                            node(cupronickelWall, () -> {
-                                        node(hugeCupronickelWall);
-                                        node(polymerWall, () -> {
-                                                    node(hugePolymerWall);
-                                                }
-                                        );
-                                    }
-                            );
-                            node(nickelBarricade);
-                            node(steelWall, () -> node(hugeSteelWall));
-                        }
-                );
-                node(zincWall, ()->{
-                    node(hugeZincWall);
+                    node(nickelBarricade, () -> {});
                 });
-                node(aluminumWall, () ->
-                        node(hugeAluminumWall, () ->
-                                node(ferrosilconWall, () ->
-                                        node(hugeFerrosiliconWall, () -> {
-                                        }))));
-            });
-            node(bauxiteWall, () -> {
-                node(hugeBauxiteWall, () -> {
-                    node(bauxiteBarricade);
-
+                node(cupronickelWall, () -> {
+                    node(polymerWall, () -> {
+                        node(hugePolymerWall, () -> {});
+                    });
+                    node(hugeCupronickelWall, () -> {});
+                    node(ferrosilconWall, () -> {
+                        node(hugeFerrosiliconWall, () -> {});
+                        node(steelWall, () -> {
+                            node(hugeSteelWall, () -> {});
+                        });
+                    });
                 });
             });
             node(bulwark, Seq.with(
                     new Objectives.OnSector(twinPass),
                     new Objectives.Research(pelt)
             ), () -> {
-                node(bomb);
                 node(meteor, ()-> {
                     node(vesta);
                 });
@@ -413,12 +416,13 @@ public class TantrosTechTree {
                 node(thermalEvaporator);
             });
             node(harvester, () -> {
-                node(DrillDerrick, ()->{
-                    node(drillRig);
+                node(plasmaExtractor, () -> {
+                    node(beamBore, () -> {});
                 });
-                node(pinDrill);
-                node(plasmaExtractor);
-                node(beamBore);
+                node(DrillDerrick, () -> {
+                    node(drillRig, () -> {});
+                });
+                node(ferricGrinder, () -> {});
             });
             node(atmosphericIntake, () -> {
                 node(graphiteConcentrator);
