@@ -159,31 +159,30 @@ public class TantrosTechTree {
                 node(volt, () -> {});
             });
             node(sealedConveyor, () -> {
-                node(cremator);
-                node(steelConveyor, ()->{
-                    node(steelRouter);
-                });
-                node(crate, () -> {
-                    node(cache, () -> {
-                    });
-                });
-
                 node(sealedRouter, () -> {
-                    node(sealedDistributor, () -> {
-                        node(massDistributor);
-                    });
                     node(sealedUnloader, () -> {
+                        node(cremator, () -> {});
+                        node(crate, () -> {
+                            node(cache, () -> {});
+                        });
+                    });
+                    node(sealedDistributor, () -> {
+                        node(massDistributor, () -> {});
+                    });
+                    node(sealedOverflow, () -> {
+                        node(sealedUnderflow, () -> {});
+                        node(itemYeeter, () -> {});
+                        node(sealedSorter, () -> {
+                            node(sealedInvertedSorter, () -> {});
+                        });
                     });
                 });
                 node(armoredSealedConveyor, () -> {
+                    node(steelConveyor, () -> {
+                        node(steelRouter, () -> {});
+                    });
                 });
-                node(sealedSorter, () -> {
-                    node(sealedInvertedSorter);
-                });
-                node(sealedJunction, () -> {
-                });
-                node(sealedOverflow, () -> node(sealedUnderflow, () -> {
-                }));
+                node(sealedJunction, () -> {});
             });
             node(resurgence, () -> {
                     node(twinPass, Seq.with(
