@@ -49,7 +49,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     BaseGenerator basegen = new BaseGenerator();
     float scl = 4f;
     float waterOffset = -0.04f;
-    float meshOffset = 0.3f;
+    float meshOffset = 0.25f;
     boolean genLakes = false;
 
     Block[][] arr =
