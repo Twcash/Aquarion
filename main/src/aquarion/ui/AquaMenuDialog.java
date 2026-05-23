@@ -131,6 +131,18 @@ public class AquaMenuDialog extends BaseDialog {
                     true
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
 
+                t.button(b -> {
+                    createRoundAvatar(b, "ItsKirby", Icon.players, 32f);
+                    b.add("ItsKirby").left().padLeft(15f);
+                }, () -> showAuthorInfo(
+                    "ItsKirby", 
+                    Core.bundle.get("aquarion.menu.desc_ItsKirby"), 
+                    "https://github.com/ItsKirby69", 
+                    "ItsKirby", 
+                    Icon.players,
+                    true
+                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
+
                 t.add(Core.bundle.get("aquarion.menu.role_Maps")).color(arc.graphics.Color.lightGray).left().padBottom(10f).row();
 
                 t.button(b -> {
@@ -153,18 +165,6 @@ public class AquaMenuDialog extends BaseDialog {
                     Core.bundle.get("aquarion.menu.desc_Vire"), 
                     "https://github.com/VireVeonix", 
                     "Vire", 
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "ItsKirby", Icon.players, 32f);
-                    b.add("ItsKirby").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "ItsKirby", 
-                    Core.bundle.get("aquarion.menu.desc_ItsKirby"), 
-                    "https://github.com/ItsKirby69", 
-                    "ItsKirby", 
                     Icon.players,
                     true
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
