@@ -49,7 +49,9 @@ public class TantrosTechTree {
                 });
             });
             node(nickelWall, () -> {
-                node(zincWall, () -> {
+                node(zincWall, Seq.with(
+                        new Objectives.OnSector(Ingress)
+                ), () -> {
                     node(bauxiteWall, () -> {
                         node(hugeBauxiteWall, () -> {
                             node(bauxiteBarricade, () -> {});
@@ -445,7 +447,9 @@ public class TantrosTechTree {
                 node(DrillDerrick, () -> {
                     node(drillRig, () -> {});
                 });
-                node(ferricGrinder, () -> {});
+                node(ferricGrinder, Seq.with(
+                        new Objectives.SectorComplete(bay)
+                ), () -> {});
             });
             node(atmosphericIntake, () -> {
                 node(magmaTap, () -> {
@@ -489,12 +493,17 @@ public class TantrosTechTree {
                                 node(bauxiteCentrifuge, () -> {});
                             });
                             node(brassMixingPot, Seq.with(
-                                    new Objectives.Research(azuriteKiln)
+
                             ), () -> {});
                         });
                     });
-                    node(thermalEvaporator, () -> {
-                        node(nuetralizationChamber, () -> {});
+                    node(thermalEvaporator, Seq.with(
+                            new Objectives.OnSector(Ingress)
+                    ), () -> {
+                        node(nuetralizationChamber, Seq.with(
+                                new Objectives.Produce(muriaticAcid),
+                                new Objectives.Produce(hydroxide)
+                        ), () -> {});
                     });
                 });
                 node(AnnealingOven, () -> {
