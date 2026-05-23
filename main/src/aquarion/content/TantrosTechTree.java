@@ -395,25 +395,22 @@ public class TantrosTechTree {
             });
             node(siphon, () -> {
                 node(siphonRouter, () -> {
-                    node(siphonVessel, ()-> {
-                        node(pipeTank);
-                        node(siphonReservoir, ()-> {
-                            node(siphonGullet);
+                    node(siphonUnderflow, () -> {});
+                    node(siphonVessel, () -> {
+                        node(pipeTank, () -> {
+                            node(siphonGullet, () -> {});
+                            node(siphonReservoir, () -> {});
                         });
                     });
-                    node(siphonUnderflow);
+                    node(pipe, () -> {});
                 });
                 node(siphonBridge, () -> {
-                    node(pulseSiphonBridge);
+                    node(pulseSiphonBridge, () -> {});
                 });
-                node(siphonJunction);
-                node(pipe);
+                node(siphonJunction, () -> {});
             });
             node(CentrifugalPump, ()->{
                 node(pumpAssembly);
-            });
-            node(magmaTap, ()->{
-                node(thermalEvaporator);
             });
             node(harvester, () -> {
                 node(plasmaExtractor, () -> {
