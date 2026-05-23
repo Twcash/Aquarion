@@ -270,7 +270,7 @@ public class SealedConveyor extends Duct implements Autotiler{
                     if(next == null){
                         AquaBullets.dumpitem.create(
                                 null,
-                                derelict,
+                                this.team,
                                 x,
                                 y,
                                 rotdeg() + Mathf.range(15f),

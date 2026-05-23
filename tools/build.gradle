@@ -89,8 +89,7 @@ tasks.register('updateBundles'){
         Fi.get(bundlesDir.path).walk(child -> {
 
             if(child.name() == "bundle.properties" ||
-               child.name() == "global.properties" ||
-               child.toString().contains("output")) return
+               child.name() == "global.properties") return
 
             if(project.hasProperty("bundle") && child.name() != project.property("bundle")) return
 
@@ -125,7 +124,7 @@ tasks.register('updateBundles'){
                 (key + " =" + (value.trim().isEmpty() ? "" : " ") + uniEscape(value))
                 .replace("\n", "\\n") + "\n"
 
-            Fi output = child.sibling("output/" + child.name())
+            Fi output = child.sibling(child.name())
             output.parent().mkdirs()
 
 
