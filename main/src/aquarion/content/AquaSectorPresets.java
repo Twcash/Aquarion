@@ -10,7 +10,7 @@ public class AquaSectorPresets {
     public static SectorPreset  //tantros
     Ingress, diseasedCleft, brinePlateau, FeldsparRavine, Torrent, CrystalCaverns, Grove, Ecotone, SubmergedCanyon, GalenaFringe, ripHold, verdantShallows,
     //serpulo (fake)
-    resurgence, twinPass, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex,  erodedCanyon, searedWastes, fungalTropics, violetValley, frozenLake,
+    resurgence, twinPass, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex,  erodedCanyon, searedWastes, fungalTropics, violetValley, frozenLake, stormyCoast,
     //Delubrum
     lib;
     public static void load(){
@@ -31,10 +31,18 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 38;
-            difficulty = 6;
+            difficulty = 4;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
+        }};
+        stormyCoast = new SectorPreset("stormy-coast", fakeSerpulo, 276){{
+            allDatabaseTabs = true;
+            addStartingItems = true;
+            captureWave = 20;
+            difficulty = 5;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
         }};
         blastedDockyards = new SectorPreset("blastedDockyard", fakeSerpulo, 459){{
             allDatabaseTabs = true;
