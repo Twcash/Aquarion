@@ -36,7 +36,7 @@ public class ModifiedbeamDrill extends BeamDrill implements AquaBarHelpers.Custo
     public @Nullable Item blockedItem;
     /** Special exemption items that this drill can't mine. */
     public @Nullable Seq<Item> blockedItems;
-    public float itemBoostIntensity, liquidBoostIntensity = 1.5f;
+    public float itemBoostIntensity, liquidBoostIntensity = 3f;
     public float itemBoostUseTime = 60;
     @Override
     public void load() {

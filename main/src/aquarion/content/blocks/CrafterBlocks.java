@@ -746,7 +746,7 @@ public class CrafterBlocks {
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(silicon, 200, lead, 350));
-                tier = 4;
+                tier = 3;
                 itemCapacity = 50;
                 squareSprite = false;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -756,14 +756,15 @@ public class CrafterBlocks {
                 range = 8;
                 consume(new ConsumeLiquidAcidic(1, 0.125f));
                 consumeLiquid(ammonia, 0.5f).boost();
-                optionalBoostIntensity = 1.5f;
+                liquidBoostIntensity = 1.5f;
                 heatColor = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
+                optionalBoostIntensity = 1f;
             }};
             beamBore = new ModifiedbeamDrill("beam-bore") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(aluminum, 250, copper, 75, ferricMatter, 125));
-                tier = 5;
+                tier = 4;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(2);
                 itemCapacity = 50;
