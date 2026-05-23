@@ -4,6 +4,7 @@ import arc.*;
 import arc.scene.style.Drawable;
 import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.layout.*;
+import arc.scene.ui.ScrollPane;
 import arc.util.Log;
 import mindustry.Vars;
 import mindustry.ui.dialogs.BaseDialog;
@@ -41,11 +42,11 @@ public class AquaMenuDialog extends BaseDialog {
     private void updateContent(String type) {
         cont.clear();
 
-        // Размеры UI в зависимости от платформы (ПК / Телефон)
+        // Адаптивные размеры под ПК и Мобилки
         float paneWidth = Vars.mobile ? Core.graphics.getWidth() * 0.85f : 420f;
         float paneHeight = Vars.mobile ? Core.graphics.getHeight() * 0.55f : 650f;
         float buttonWidth = Vars.mobile ? paneWidth - 20f : 380f;
-        float buttonHeight = Vars.mobile ? 110f : 100f; // На телефонах кнопки чуть выше для удобства тапа
+        float buttonHeight = Vars.mobile ? 110f : 100f;
 
         Table nav = new Table();
         nav.button(Core.bundle.get("aquarion.menu.tab_links"), () -> updateContent("links"))
@@ -75,10 +76,10 @@ public class AquaMenuDialog extends BaseDialog {
                 .size(buttonWidth, 60f)
                 .padBottom(10f)
                 .row();
-            }).size(paneWidth, Vars.mobile ? paneHeight : 250f).setupFadeScroll();
+            }).size(paneWidth, Vars.mobile ? paneHeight : 250f);
         } else {
-            // Листаемый список создателей и хелперов
-            var scrollPane = body.pane(t -> {
+            // Список участников с прокруткой
+            var cell = body.pane(t -> {
                 t.add(Core.bundle.get("aquarion.menu.role_creator")).color(arc.graphics.Color.red).padBottom(10f).row();
 
                 t.button(b -> {
@@ -182,11 +183,12 @@ public class AquaMenuDialog extends BaseDialog {
                     Icon.players
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
 
-            }).size(paneWidth, paneHeight).get();
+            }).size(paneWidth, paneHeight);
 
-            // Включаем корректное поведение прокрутки пальцем на мобилках
-            scrollPane.setFlickScroll(true);
-            scrollPane.setupFadeScroll();
+            // Настройка самого элемента ScrollPane для мобильного свайпа
+            if(cell.get() instanceof ScrollPane){
+                ((ScrollPane)cell.get()).setFlickScroll(true);
+            }
         }
 
         cont.add(body).row();
@@ -206,7 +208,7 @@ public class AquaMenuDialog extends BaseDialog {
             var label = t.add(description).width(dialogWidth - 40f).wrap().padTop(15f).padBottom(20f).get();
             label.setAlignment(arc.util.Align.center);
             t.row();
-        }).size(dialogWidth, dialogHeight).setupFadeScroll();
+        }).size(dialogWidth, dialogHeight);
 
         authorDialog.buttons.button(Core.bundle.get("aquarion.menu.open_profile"), () -> {
             Core.app.openURI(profileUrl);
