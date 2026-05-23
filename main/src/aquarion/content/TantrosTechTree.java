@@ -118,7 +118,7 @@ public class TantrosTechTree {
                     ), () -> {
                         node(fumeEngine, Seq.with(
                                 new Objectives.Produce(fumes),
-                                new Objectives.OnSector(CrystalCaverns)
+                                new Objectives.SectorComplete(FeldsparRavine)
                         ), () -> {});
                         node(petroleumEngine, Seq.with(
                                 new Objectives.Produce(petroleum),
@@ -138,8 +138,7 @@ public class TantrosTechTree {
                         ), () -> {});
                     });
                     node(miniumReactor, Seq.with(
-                            new Objectives.Produce(minium),
-                            new Objectives.Produce(brimstone)
+
                     ), () -> {});
                     node(solarGenerator, () -> {
                         node(advSolarGen, Seq.with(
@@ -185,9 +184,11 @@ public class TantrosTechTree {
                             new Objectives.SectorComplete(twinPass)
                     ), () -> {
                         node(grace, () -> {
-                            node(thrash, () -> {
+                            node(thrash, Seq.with(
+                                    new Objectives.SectorComplete(bay)
+                            ), () -> {
                                 node(truncate, Seq.with(
-                                        new Objectives.SectorComplete(bay)
+                                        new Objectives.SectorComplete(erodedCanyon)
                                 ), () -> {});
                                 node(aftershock, () -> {});
                             });
@@ -538,7 +539,9 @@ public class TantrosTechTree {
                                 new Objectives.OnSector(floodPlains)
                         ), () -> {
                             node(solarBoiler, () -> {
-                                node(coolingTower, () -> {});
+                                node(coolingTower, Seq.with(
+                                        new Objectives.SectorComplete(searedWastes)
+                                ), () -> {});
                             });
                         });
                         node(electrolysisCell, Seq.with(
@@ -558,7 +561,8 @@ public class TantrosTechTree {
                                     new Objectives.Produce(nitrogen)
                             ), () -> {});
                             node(polymerPress, Seq.with(
-                                    new Objectives.Produce(petroleum)
+                                    new Objectives.Produce(petroleum),
+                                    new Objectives.OnSector(bay)
                             ), () -> {
                                 node(steamCrackingUnit, () -> {});
                             });
