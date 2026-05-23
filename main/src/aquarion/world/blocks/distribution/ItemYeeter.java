@@ -61,7 +61,7 @@ public class ItemYeeter extends Block {
                     rotdeg() + Mathf.range(2f),
                     item.hardness,
                     1 * efficiency,
-                    Mathf.random(2.9f, 3.2f),
+                    Mathf.random(1.9f, 2.0f),
                    item
             );
         }
