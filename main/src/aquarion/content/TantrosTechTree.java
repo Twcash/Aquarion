@@ -41,7 +41,9 @@ public class TantrosTechTree {
                 node(buildCairn, () -> {
                     node(bomb, () -> {});
                     node(constructionTower, () -> {});
-                    node(forceGenerator, () -> {
+                    node(forceGenerator, Seq.with(
+                            new Objectives.OnSector(stormyCoast)
+                    ), () -> {
                         node(deflectorWell, () -> {});
                     });
                 });
@@ -81,7 +83,9 @@ public class TantrosTechTree {
                 node(meteor, ()-> {
                     node(vesta);
                 });
-                node(pillage);
+                node(pillage, Seq.with(
+                        new Objectives.SectorComplete(mountainsideComplex)
+                ));
                 node(payloadPad, ()-> {
                     node(payloadDistributor);
                     node(payloadDisplacer);
@@ -90,10 +94,9 @@ public class TantrosTechTree {
                 node(weld, ()->{
                     node(solder);
                 });
-                node(unitByte);
                 node(crest, () -> {
-                    node(soar, () -> {
-                    });
+                    node(soar, () -> {});
+                    node(unitByte, () -> {});
                 });
                 node(rampart, () -> {
                     node(reave, () -> {
@@ -137,7 +140,9 @@ public class TantrosTechTree {
                             new Objectives.Produce(brimstone)
                     ), () -> {});
                     node(solarGenerator, () -> {
-                        node(advSolarGen, () -> {});
+                        node(advSolarGen, Seq.with(
+                                new Objectives.OnSector(stormyCoast))
+                        ), () -> {});
                     });
                 });
                 node(outlet, () -> {});
@@ -179,7 +184,9 @@ public class TantrosTechTree {
                     ), () -> {
                         node(grace, () -> {
                             node(thrash, () -> {
-                                node(truncate, () -> {});
+                                node(truncate, Seq.with(
+                                        new Objectives.SectorComplete(bay)
+                                ), () -> {});
                                 node(aftershock, () -> {});
                             });
                         });
@@ -225,10 +232,11 @@ public class TantrosTechTree {
                             new Objectives.Research(point)
                     ), () -> {
                         node(Ingress, Seq.with(
-                                new Objectives.SectorComplete(twinPass),
-                                new Objectives.Research(magmaTap)
+                                new Objectives.Research(magmaDiffser)
                         ), () -> node(Torrent, Seq.with(
-                                new Objectives.SectorComplete(Ingress)
+                                new Objectives.SectorComplete(Ingress),
+                                new Objectives.Research(graphiteConcentrator),
+                                new Objectives.Research(inlet)
                         ), () -> {
                             node(FeldsparRavine, Seq.with(
                                     new Objectives.SectorComplete(Torrent),
@@ -237,24 +245,27 @@ public class TantrosTechTree {
 
                                 node(CrystalCaverns, Seq.with(
                                         new Objectives.Research(fumeEngine),
-                                        new Objectives.SectorComplete(FeldsparRavine),
                                         new Objectives.Research(armoredSealedConveyor),
-                                        new Objectives.Research(redact)
+                                        new Objectives.Research(DrillDerrick),
+                                        new Objectives.Research(beamBore)
                                 ), () -> {
                                     node(Ecotone, Seq.with(
                                             new Objectives.SectorComplete(CrystalCaverns)
                                     ),()->{
                                         node(brinePlateau, Seq.with(
-                                                new Objectives.SectorComplete(Ecotone)
+                                                new Objectives.SectorComplete(Ecotone),
+                                                new Objectives.Research(truncate),
+                                                new Objectives.Research(steamCrackingUnit)
                                         ), ()->{});
                                     });
-                                    node(ripHold, Seq.with(new Objectives.SectorComplete(Ecotone)),()->{});
+                                    node(ripHold, Seq.with(
+                                            new Objectives.SectorComplete(Ecotone)
+                                    ),()->{});
                                 });
                                 node(Grove, Seq.with(
-                                        new Objectives.SectorComplete(FeldsparRavine),
                                         new Objectives.Research(pugnate),
                                         new Objectives.Research(vacuumFreezer),
-                                        new Objectives.Research(aluminum)
+                                        new Objectives.Produce(aluminum)
                                 ), ()->{
                                     node(SubmergedCanyon, Seq.with(
                                             new Objectives.SectorComplete(Grove)
@@ -266,7 +277,6 @@ public class TantrosTechTree {
                                                 new Objectives.Research(petroleumEngine)
                                         ), () -> {});
                                         node(verdantShallows, Seq.with(
-                                                new Objectives.SectorComplete(SubmergedCanyon),
                                                 new Objectives.Research(ultrafamicRefinery),
                                                 new Objectives.Research(DrillDerrick)
                                         ), () -> {});
@@ -275,11 +285,7 @@ public class TantrosTechTree {
                             });
                         }));
                         node(floodPlains, Seq.with(
-                                new Objectives.Research(metaglass),
-                                new Objectives.Research(AnnealingOven),
-
-                                new Objectives.Research(pelt),
-                                new Objectives.SectorComplete(twinPass)
+                                new Objectives.Research(vector)
                         ), () -> {
                             node(mountainsideComplex, Seq.with(
                                     new Objectives.SectorComplete(floodPlains)
@@ -297,26 +303,16 @@ public class TantrosTechTree {
                             node(bay, Seq.with(
                                     new Objectives.Research(vector),
                                     new Objectives.Research(bulwark),
-                                    new Objectives.Research(heatEngine),
-                                    new Objectives.Research(convectionHeater),
-                                    new Objectives.Research(CentrifugalPump),
-                                    new Objectives.SectorComplete(resurgence),
-                                    new Objectives.SectorComplete(twinPass),
-                                    new Objectives.SectorComplete(floodPlains)
+                                    new Objectives.Research(CentrifugalPump)
                             ), () -> {
 
                                 node(frigidShores, ()->{
-                                    node(blastedDockyards);
+                                    node(blastedDockyards,()->{});
                                 });
                                 node(erodedCanyon, Seq.with(
-                                        new Objectives.Research(polymer),
                                         new Objectives.Research(ferricGrinder),
-                                        new Objectives.Research(arcFurnace),
-                                        new Objectives.Research(grace),
-                                        new Objectives.Research(refraction),
                                         new Objectives.Research(thermalCrackingUnit),
-                                        new Objectives.Research(combustionHeater),
-                                        new Objectives.Research(arcFurnace)
+                                        new Objectives.Research(combustionHeater)
                                 ), ()->{
 
                                     node(searedWastes, Seq.with(
@@ -343,7 +339,7 @@ public class TantrosTechTree {
                     });
                     node(frozenLake, Seq.with(
                     ), ()->{
-                        node(frozenLake, Seq.with(
+                        node(stormyCoast, Seq.with(
                                 new Objectives.Research(pelt),
                                 new Objectives.Research(refraction)
                         ), ()->{});
@@ -459,7 +455,9 @@ public class TantrosTechTree {
                 node(magmaTap, () -> {
                     node(inlet, () -> {
                         node(inletArray, () -> {});
-                        node(vacuumFreezer, () -> {});
+                        node(vacuumFreezer, Seq.with(
+                                new Objectives.SectorComplete(FeldsparRavine)
+                        ), () -> {});
                     });
                     node(magmaDiffser, () -> {
                         node(fumeFilter, () -> {
@@ -477,11 +475,17 @@ public class TantrosTechTree {
                             node(leachingVessel, () -> {
                                 node(ultrafamicRefinery, () -> {});
                                 node(towaniteReductionVat, () -> {
-                                    node(algalTerrace, () -> {
-                                        node(gasifier, () -> {
+                                    node(algalTerrace, Seq.with(
+                                            new Objectives.SectorComplete(ripHold)
+                                    ), () -> {
+                                        node(gasifier, Seq.with(
+                                                new Objectives.Produce(bioPulp)
+                                        ), () -> {
                                             node(coalLiquefactor, () -> {});
                                         });
-                                        node(sporeProcessor, () -> {});
+                                        node(sporeProcessor, Seq.with(
+                                                new Objectives.SectorComplete(diseasedCleft)
+                                        ), () -> {});
                                     });
                                 });
                                 node(bauxiteCentrifuge, () -> {});
@@ -500,7 +504,9 @@ public class TantrosTechTree {
                     ), () -> {
                         node(arcFurnace, () -> {
                             node(SilicaOxidator, () -> {});
-                            node(ferroSiliconFoundry, () -> {
+                            node(ferroSiliconFoundry, Seq.with(
+                                    new Objectives.OnSector(Ecotone)
+                            ), () -> {
                                 node(steelFoundry, () -> {});
                             });
                         });
