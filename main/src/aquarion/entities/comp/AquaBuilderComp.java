@@ -1,10 +1,6 @@
 package aquarion.entities.comp;
 
 import aquarion.annotations.Annotations.*;
-import aquarion.gen.AquaBuilderc;
-import aquarion.gen.AquaUnitc;
-import mindustry.gen.Builderc;
-import mindustry.graphics.Layer;
 
 import arc.*;
 import arc.graphics.*;

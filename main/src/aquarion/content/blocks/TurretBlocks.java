@@ -1562,6 +1562,8 @@ public class TurretBlocks {
         confront = new AquaTemplates.AquaItemTurretTemplate("confront") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             health = 1125;
+            requirements(Category.turret, with(brass, 250, graphite, 150, AquaItems.ferricMatter, 300));
+
             size = 4;
             range = 300;
             limitRange(1f);
@@ -1620,7 +1622,7 @@ public class TurretBlocks {
                             waveRad = 8;
                         }};
                     }},
-                    manganese, new BasicBulletType(6, 50, "bullet") {{
+                    brass, new BasicBulletType(6, 50, "bullet") {{
                         width = 10f;
                         height = 18f;
                         trailLength = 10;
@@ -1634,7 +1636,7 @@ public class TurretBlocks {
                         shrinkX = 0.2f;
                         shrinkY = 0.8f;
                         frontColor = lightColor = hitColor = Color.white;
-                        backColor = trailColor = AquaItems.manganese.color;
+                        backColor = trailColor = AquaItems.brass.color;
                     }});
             shoot = new ShootBarrel() {{
                 barrels = new float[]{
