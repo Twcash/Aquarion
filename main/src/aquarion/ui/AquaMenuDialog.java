@@ -81,15 +81,17 @@ public class AquaMenuDialog extends BaseDialog {
                 t.add(Core.bundle.get("aquarion.menu.role_creator")).color(arc.graphics.Color.red).center().padBottom(10f).row();
 
                 t.button(b -> {
-                    createRoundAvatar(b, "Twcash", Icon.admin, 32f); // Name icon
-                    b.add("Twcash").left().padLeft(15f); // Name label
+                    createRoundAvatar(b, "Twcash", Icon.admin, 32f);
+                    b.add("Twcash").left().padLeft(15f);
+                    b.add("• Лидер").color(arc.graphics.Color.lightGray).padLeft(10f);
                 }, () -> showAuthorInfo(
-                    "Twcash", // Name for dialog title
-                    Core.bundle.get("aquarion.menu.desc_creator"), // Description translation key
-                    "https://github.com/Twcash", // Profile URL
-                    "Twcash", // Texture name for avatar
+                    "Twcash", 
+                    "Главный разработчик и основатель проекта.", 
+                    "Основной код",
+                    "https://github.com/Twcash", 
+                    "Twcash", 
                     Icon.admin,
-                    true // Has profile link
+                    true
                 )).size(buttonWidth, buttonHeight).padBottom(20f).row();
                 
                 t.add(Core.bundle.get("aquarion.menu.role_helpers")).color(arc.graphics.Color.green).center().padBottom(10f).row();
@@ -97,9 +99,11 @@ public class AquaMenuDialog extends BaseDialog {
                 t.button(b -> {
                     createRoundAvatar(b, "nikolaykot", Icon.players, 32f);
                     b.add("NikolayKot02").left().padLeft(15f);
+                    b.add("• Перевод").color(arc.graphics.Color.lightGray).padLeft(10f);
                 }, () -> showAuthorInfo(
                     "NikolayKot", 
                     Core.bundle.get("aquarion.menu.desc_NikolayKot"), 
+                    "Локализация и тексты",
                     "https://github.com/NikolayKot02", 
                     "nikolaykot", 
                     Icon.players,
@@ -109,9 +113,11 @@ public class AquaMenuDialog extends BaseDialog {
                 t.button(b -> {
                     createRoundAvatar(b, "OwO", Icon.players, 32f);
                     b.add("OwO (Sentinel)").left().padLeft(15f);
+                    b.add("• Текстуры").color(arc.graphics.Color.lightGray).padLeft(10f);
                 }, () -> showAuthorInfo(
                     "OwO (Sentinel)", 
                     Core.bundle.get("aquarion.menu.desc_OwO"), 
+                    "Graphics and Design",
                     "https://github.com/SentinelDart919", 
                     "OwO", 
                     Icon.players,
@@ -121,23 +127,13 @@ public class AquaMenuDialog extends BaseDialog {
                 t.button(b -> {
                     createRoundAvatar(b, "Alecthe2nd", Icon.players, 32f);
                     b.add("Alecthe2nd").left().padLeft(15f);
+                    b.add("• Код").color(arc.graphics.Color.lightGray).padLeft(10f);
                 }, () -> showAuthorInfo(
                     "Alecthe2nd", 
                     Core.bundle.get("aquarion.menu.desc_Alecthe2nd"), 
+                    "Внутренняя логика",
                     "https://github.com/alecthe2nd", 
                     "Alecthe2nd", 
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "ItsKirby", Icon.players, 32f);
-                    b.add("ItsKirby").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "ItsKirby", 
-                    Core.bundle.get("aquarion.menu.desc_ItsKirby"), 
-                    "https://github.com/ItsKirby69", 
-                    "ItsKirby", 
                     Icon.players,
                     true
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
@@ -148,6 +144,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "cupcakerouter", 
                     Core.bundle.get("aquarion.menu.desc_cupcakerouter"), 
+                    "Дизайн уровней",
                     "", 
                     "cupcakerouter", 
                     Icon.players,
@@ -160,8 +157,22 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Vire", 
                     Core.bundle.get("aquarion.menu.desc_Vire"), 
+                    "Различный вклад",
                     "https://github.com/VireVeonix", 
                     "Vire", 
+                    Icon.players,
+                    true
+                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
+
+                t.button(b -> {
+                    createRoundAvatar(b, "ItsKirby", Icon.players, 32f);
+                    b.add("ItsKirby").left().padLeft(15f);
+                }, () -> showAuthorInfo(
+                    "ItsKirby", 
+                    Core.bundle.get("aquarion.menu.desc_ItsKirby"), 
+                    "Различный вклад",
+                    "https://github.com/ItsKirby69", 
+                    "ItsKirby", 
                     Icon.players,
                     true
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
@@ -172,6 +183,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Thinkerdoodle", 
                     Core.bundle.get("aquarion.menu.desc_Thinkerdoodle"), 
+                    "Различный вклад",
                     "https://github.com/BSp-2", 
                     "thinkerdoodle", 
                     Icon.players,
@@ -184,6 +196,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Leo", 
                     Core.bundle.get("aquarion.menu.desc_Leo"), 
+                    "Различный вклад",
                     "https://github.com/Leo-MathGuy", 
                     "Leo", 
                     Icon.players,
@@ -196,6 +209,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Mythril", 
                     Core.bundle.get("aquarion.menu.desc_Mythril"), 
+                    "Различный вклад",
                     "https://github.com/Mythril382", 
                     "Mythril", 
                     Icon.players,
@@ -208,6 +222,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Andromeda-Galaxy29", 
                     Core.bundle.get("aquarion.menu.desc_Andromeda-Galaxy29"), 
+                    "Различный вклад",
                     "https://github.com/Andromeda-Galaxy29", 
                     "Andromeda-Galaxy29", 
                     Icon.players,
@@ -220,6 +235,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Sputnuc", 
                     Core.bundle.get("aquarion.menu.desc_Sputnuc"), 
+                    "Различный вклад",
                     "https://github.com/Sputnuc", 
                     "Sputnuc", 
                     Icon.players,
@@ -232,6 +248,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "nullotte", 
                     Core.bundle.get("aquarion.menu.desc_nullotte"), 
+                    "Различный вклад",
                     "https://github.com/nullotte", 
                     "nullotte", 
                     Icon.players,
@@ -244,6 +261,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "kapzduke", 
                     Core.bundle.get("aquarion.menu.desc_kapzduke"), 
+                    "Различный вклад",
                     "https://github.com/kapzduke", 
                     "kapzduke", 
                     Icon.players,
@@ -256,6 +274,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "camelStyleUser", 
                     Core.bundle.get("aquarion.menu.desc_camelStyleUser"), 
+                    "Различный вклад",
                     "https://github.com/camelStyleUser", 
                     "camelStyleUser", 
                     Icon.players,
@@ -268,6 +287,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Henan-CN-0921", 
                     Core.bundle.get("aquarion.menu.desc_Henan-CN-0921"), 
+                    "Различный вклад",
                     "https://github.com/Henan-CN-0921", 
                     "Henan-CN-0921", 
                     Icon.players,
@@ -280,6 +300,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Norax", 
                     Core.bundle.get("aquarion.menu.desc_Norax"), 
+                    "Различный вклад",
                     "https://github.com/Noraxx1", 
                     "Norax", 
                     Icon.players,
@@ -296,20 +317,33 @@ public class AquaMenuDialog extends BaseDialog {
         cont.add(body).row();
     }
 
-    private void showAuthorInfo(String name, String description, String profileUrl, String textureName, Drawable fallbackIcon, boolean hasProfile) {
+    private void showAuthorInfo(String name, String description, String subTitle, String profileUrl, String textureName, Drawable fallbackIcon, boolean hasProfile) {
         BaseDialog authorDialog = new BaseDialog(name);
         authorDialog.addCloseButton();
 
-        float dialogWidth = Vars.mobile ? 380f : 400f;
-        float dialogHeight = Vars.mobile ? 260f : 320f;
+        float dialogWidth = Vars.mobile ? 400f : 440f;
+        float dialogHeight = Vars.mobile ? 280f : 340f;
 
         authorDialog.cont.pane(t -> {
-            createRoundAvatar(t, textureName, fallbackIcon, 64f);
-            t.row();
+            t.left();
+            
+            Table leftTable = new Table();
+            createRoundAvatar(leftTable, textureName, fallbackIcon, 64f);
+            t.add(leftTable).top().padRight(15f);
 
-            var label = t.add(description).width(dialogWidth - 40f).wrap().padTop(15f).padBottom(20f).get();
-            label.setAlignment(arc.util.Align.center);
-            t.row();
+            Table rightTable = new Table();
+            rightTable.left();
+            
+            rightTable.add(name).left().fontScale(1.1f).row();
+            
+            if (subTitle != null && !subTitle.isEmpty()) {
+                rightTable.add(subTitle).left().color(arc.graphics.Color.lightGray).padTop(2f).row();
+            }
+            
+            var label = rightTable.add(description).width(dialogWidth - 120f).wrap().padTop(10f).left().get();
+            label.setAlignment(arc.util.Align.left);
+            
+            t.add(rightTable).top().expandX().fillX();
         }).size(dialogWidth, dialogHeight);
 
         if (hasProfile) {
