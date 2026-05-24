@@ -93,7 +93,6 @@ public class AquaMenuDialog extends BaseDialog {
                 )).size(buttonWidth, buttonHeight).padBottom(20f).row();
                 
                 t.add(Core.bundle.get("aquarion.menu.role_helpers")).color(arc.graphics.Color.green).center().padBottom(10f).row();
-                t.add(Core.bundle.get("aquarion.menu.role_developers")).color(arc.graphics.Color.lightGray).left().padBottom(10f).row();
                 
                 t.button(b -> {
                     createRoundAvatar(b, "nikolaykot", Icon.players, 32f);
@@ -142,8 +141,6 @@ public class AquaMenuDialog extends BaseDialog {
                     Icon.players,
                     true
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.add(Core.bundle.get("aquarion.menu.role_Maps")).color(arc.graphics.Color.lightGray).left().padBottom(10f).row();
 
                 t.button(b -> {
                     createRoundAvatar(b, "cupcakerouter", Icon.players, 32f);
