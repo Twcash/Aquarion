@@ -2019,7 +2019,7 @@ public class CrafterBlocks {
         }};
         acuminiteDegredationArray = new AquaGenericCrafter("acuminite-degredation-array") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(manganese, 550, aluminum, 700, strontium, 500));
+            requirements(Category.crafting, with(copper, 550, aluminum, 700, silicon, 500));
             squareSprite = false;
             size = 8;
             ignoreLiquidFullness = true;
@@ -2034,7 +2034,7 @@ public class CrafterBlocks {
             updateEffectChance = 0.05f;
             updateEffect = Fx.coalSmeltsmoke;
             outputLiquid = new LiquidStack(fluorine, 0.75f);
-            outputItems = ItemStack.with(aluminum, 60, strontium, 60);
+            outputItems = ItemStack.with(aluminum, 60, copper, 60);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
@@ -2245,7 +2245,7 @@ public class CrafterBlocks {
         }};
         pinDrill = new GroundDrill("pin-drill") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with(manganese, 40, aluminum, 50, strontium, 20));
+            requirements(Category.production, with(copper, 40, aluminum, 50, silicon, 20));
             drillTime = 100;
             size = 1;
             squareSprite = false;

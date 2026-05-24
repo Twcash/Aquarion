@@ -68,7 +68,7 @@ public class LiquidBlocks {
         }};
         pulseSiphon = new ModifiedConduit("pulse-siphon") {{
             //but what if siligone? SOLVEDDD!
-            requirements(Category.liquid, with(manganese, 2));
+            requirements(Category.liquid, with(polymer, 2));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;

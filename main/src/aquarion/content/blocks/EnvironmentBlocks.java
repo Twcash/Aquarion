@@ -49,8 +49,7 @@ public class EnvironmentBlocks {
             boricFloor, pinkSaltFloor, pinkSaltFlats, smoothPinkSaltFloor, pinkSaltWall, pinkSaltCrystals, boricFloorDense, tile, relBlossom, bramble, brulrFern,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
     public static Block oreNickelWall, scorche, oreRadium, oreUranium, orePitchblende, nickelFloor,
-            oreNickel, oreBauxite,
-            oreManganese, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
+            oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
              boricWall, arsenideWall, chertWall, metalWall3, metalWall4, metalWall5, metalWall6, metalWall7,
             chertOutcrop, pillarCoral, loteasCoral, songCoral,
@@ -518,7 +517,6 @@ public class EnvironmentBlocks {
         }};
         oreBauxite = new OreBlock("ore-bauxite", AquaItems.bauxite);
         oreNickel = new OreBlock("ore-nickel", nickel);
-        oreManganese = new OreBlock("ore-manganese", AquaItems.manganese);
         acuminiteOre = new OreBlock("acuminite-ore", acuminite) {{
             variants = 5;
         }};
