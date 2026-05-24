@@ -756,7 +756,7 @@ public class CrafterBlocks {
                 range = 8;
                 consume(new ConsumeLiquidAcidic(1, 0.125f));
                 consumeLiquid(ammonia, 0.5f).boost();
-                liquidBoostIntensity = 1.5f;
+                liquidBoostIntensity = 3f;
                 heatColor = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
                 optionalBoostIntensity = 1f;
