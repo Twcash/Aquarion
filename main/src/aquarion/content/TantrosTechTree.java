@@ -211,7 +211,9 @@ public class TantrosTechTree {
                     });
                     node(sealedOverflow, () -> {
                         node(sealedUnderflow, () -> {});
-                        node(itemYeeter, () -> {});
+                        node(itemYeeter, () -> {
+                            node(itemHopper, () -> {});
+                        });
                         node(sealedSorter, () -> {
                             node(sealedInvertedSorter, () -> {});
                         });
