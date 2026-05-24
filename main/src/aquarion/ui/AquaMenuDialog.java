@@ -83,11 +83,11 @@ public class AquaMenuDialog extends BaseDialog {
                 t.button(b -> {
                     createRoundAvatar(b, "Twcash", Icon.admin, 32f);
                     b.add("Twcash").left().padLeft(15f);
-                    b.add("• Лидер").color(arc.graphics.Color.lightGray).padLeft(10f);
+                    b.add(Core.bundle.get("aquarion.menu.sub_leader")).color(arc.graphics.Color.lightGray).padLeft(10f);
                 }, () -> showAuthorInfo(
                     "Twcash", 
-                    "Главный разработчик и основатель проекта.", 
-                    "Основной код",
+                    Core.bundle.get("aquarion.menu.desc_creator"), 
+                    Core.bundle.get("aquarion.menu.info_main_code"),
                     "https://github.com/Twcash", 
                     "Twcash", 
                     Icon.admin,
@@ -99,11 +99,11 @@ public class AquaMenuDialog extends BaseDialog {
                 t.button(b -> {
                     createRoundAvatar(b, "nikolaykot", Icon.players, 32f);
                     b.add("NikolayKot02").left().padLeft(15f);
-                    b.add("• Перевод").color(arc.graphics.Color.lightGray).padLeft(10f);
+                    b.add(Core.bundle.get("aquarion.menu.sub_translation")).color(arc.graphics.Color.lightGray).padLeft(10f);
                 }, () -> showAuthorInfo(
                     "NikolayKot", 
                     Core.bundle.get("aquarion.menu.desc_NikolayKot"), 
-                    "Локализация и тексты",
+                    Core.bundle.get("aquarion.menu.info_localization"),
                     "https://github.com/NikolayKot02", 
                     "nikolaykot", 
                     Icon.players,
@@ -113,11 +113,11 @@ public class AquaMenuDialog extends BaseDialog {
                 t.button(b -> {
                     createRoundAvatar(b, "OwO", Icon.players, 32f);
                     b.add("OwO (Sentinel)").left().padLeft(15f);
-                    b.add("• Текстуры").color(arc.graphics.Color.lightGray).padLeft(10f);
+                    b.add(Core.bundle.get("aquarion.menu.sub_textures")).color(arc.graphics.Color.lightGray).padLeft(10f);
                 }, () -> showAuthorInfo(
                     "OwO (Sentinel)", 
                     Core.bundle.get("aquarion.menu.desc_OwO"), 
-                    "Graphics and Design",
+                    Core.bundle.get("aquarion.menu.info_graphics"),
                     "https://github.com/SentinelDart919", 
                     "OwO", 
                     Icon.players,
@@ -127,11 +127,11 @@ public class AquaMenuDialog extends BaseDialog {
                 t.button(b -> {
                     createRoundAvatar(b, "Alecthe2nd", Icon.players, 32f);
                     b.add("Alecthe2nd").left().padLeft(15f);
-                    b.add("• Код").color(arc.graphics.Color.lightGray).padLeft(10f);
+                    b.add(Core.bundle.get("aquarion.menu.sub_code")).color(arc.graphics.Color.lightGray).padLeft(10f);
                 }, () -> showAuthorInfo(
                     "Alecthe2nd", 
                     Core.bundle.get("aquarion.menu.desc_Alecthe2nd"), 
-                    "Внутренняя логика",
+                    Core.bundle.get("aquarion.menu.info_logic"),
                     "https://github.com/alecthe2nd", 
                     "Alecthe2nd", 
                     Icon.players,
@@ -144,7 +144,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "cupcakerouter", 
                     Core.bundle.get("aquarion.menu.desc_cupcakerouter"), 
-                    "Дизайн уровней",
+                    Core.bundle.get("aquarion.menu.info_levels"),
                     "", 
                     "cupcakerouter", 
                     Icon.players,
@@ -157,7 +157,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Vire", 
                     Core.bundle.get("aquarion.menu.desc_Vire"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/VireVeonix", 
                     "Vire", 
                     Icon.players,
@@ -170,7 +170,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "ItsKirby", 
                     Core.bundle.get("aquarion.menu.desc_ItsKirby"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/ItsKirby69", 
                     "ItsKirby", 
                     Icon.players,
@@ -183,7 +183,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Thinkerdoodle", 
                     Core.bundle.get("aquarion.menu.desc_Thinkerdoodle"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/BSp-2", 
                     "thinkerdoodle", 
                     Icon.players,
@@ -196,7 +196,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Leo", 
                     Core.bundle.get("aquarion.menu.desc_Leo"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/Leo-MathGuy", 
                     "Leo", 
                     Icon.players,
@@ -209,7 +209,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Mythril", 
                     Core.bundle.get("aquarion.menu.desc_Mythril"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/Mythril382", 
                     "Mythril", 
                     Icon.players,
@@ -222,7 +222,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Andromeda-Galaxy29", 
                     Core.bundle.get("aquarion.menu.desc_Andromeda-Galaxy29"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/Andromeda-Galaxy29", 
                     "Andromeda-Galaxy29", 
                     Icon.players,
@@ -235,7 +235,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Sputnuc", 
                     Core.bundle.get("aquarion.menu.desc_Sputnuc"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/Sputnuc", 
                     "Sputnuc", 
                     Icon.players,
@@ -248,7 +248,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "nullotte", 
                     Core.bundle.get("aquarion.menu.desc_nullotte"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/nullotte", 
                     "nullotte", 
                     Icon.players,
@@ -261,7 +261,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "kapzduke", 
                     Core.bundle.get("aquarion.menu.desc_kapzduke"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/kapzduke", 
                     "kapzduke", 
                     Icon.players,
@@ -274,7 +274,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "camelStyleUser", 
                     Core.bundle.get("aquarion.menu.desc_camelStyleUser"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/camelStyleUser", 
                     "camelStyleUser", 
                     Icon.players,
@@ -287,7 +287,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Henan-CN-0921", 
                     Core.bundle.get("aquarion.menu.desc_Henan-CN-0921"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/Henan-CN-0921", 
                     "Henan-CN-0921", 
                     Icon.players,
@@ -300,7 +300,7 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> showAuthorInfo(
                     "Norax", 
                     Core.bundle.get("aquarion.menu.desc_Norax"), 
-                    "Различный вклад",
+                    Core.bundle.get("aquarion.menu.info_contribution"),
                     "https://github.com/Noraxx1", 
                     "Norax", 
                     Icon.players,
