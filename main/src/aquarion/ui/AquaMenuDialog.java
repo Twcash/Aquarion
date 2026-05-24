@@ -81,19 +81,18 @@ public class AquaMenuDialog extends BaseDialog {
                 t.add(Core.bundle.get("aquarion.menu.role_creator")).color(arc.graphics.Color.red).center().padBottom(10f).row();
 
                 t.button(b -> {
-                    createRoundAvatar(b, "Twcash", Icon.admin, 32f); // Name icon
-                    b.add("Twcash").left().padLeft(15f); // Name label
+                    createRoundAvatar(b, "Twcash", Icon.admin, 32f);
+                    b.add("Twcash").left().padLeft(15f);
                 }, () -> showAuthorInfo(
-                    "Twcash", // Name for dialog title
-                    Core.bundle.get("aquarion.menu.desc_creator"), // Description translation key
-                    "https://github.com/Twcash", // Profile URL
-                    "Twcash", // Texture name for avatar
+                    "Twcash", 
+                    Core.bundle.get("aquarion.menu.desc_creator"), 
+                    "https://github.com/Twcash", 
+                    "Twcash", 
                     Icon.admin,
-                    true // Has profile link
+                    true
                 )).size(buttonWidth, buttonHeight).padBottom(20f).row();
                 
                 t.add(Core.bundle.get("aquarion.menu.role_helpers")).color(arc.graphics.Color.green).center().padBottom(10f).row();
-                t.add(Core.bundle.get("aquarion.menu.role_developers")).color(arc.graphics.Color.lightGray).left().padBottom(10f).row();
                 
                 t.button(b -> {
                     createRoundAvatar(b, "nikolaykot", Icon.players, 32f);
@@ -130,8 +129,6 @@ public class AquaMenuDialog extends BaseDialog {
                     Icon.players,
                     true
                 )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.add(Core.bundle.get("aquarion.menu.role_Maps")).color(arc.graphics.Color.lightGray).left().padBottom(10f).row();
 
                 t.button(b -> {
                     createRoundAvatar(b, "cupcakerouter", Icon.players, 32f);
@@ -303,16 +300,25 @@ public class AquaMenuDialog extends BaseDialog {
         BaseDialog authorDialog = new BaseDialog(name);
         authorDialog.addCloseButton();
 
-        float dialogWidth = Vars.mobile ? 380f : 400f;
-        float dialogHeight = Vars.mobile ? 260f : 320f;
+        float dialogWidth = Vars.mobile ? 400f : 440f;
+        float dialogHeight = Vars.mobile ? 280f : 340f;
 
         authorDialog.cont.pane(t -> {
-            createRoundAvatar(t, textureName, fallbackIcon, 64f);
-            t.row();
+            t.left();
+            
+            Table leftTable = new Table();
+            createRoundAvatar(leftTable, textureName, fallbackIcon, 64f);
+            t.add(leftTable).top().padRight(15f);
 
-            var label = t.add(description).width(dialogWidth - 40f).wrap().padTop(15f).padBottom(20f).get();
-            label.setAlignment(arc.util.Align.center);
-            t.row();
+            Table rightTable = new Table();
+            rightTable.left();
+            
+            rightTable.add(name).left().fontScale(1.1f).row();
+            
+            var label = rightTable.add(description).width(dialogWidth - 120f).wrap().padTop(10f).left().get();
+            label.setAlignment(arc.util.Align.left);
+            
+            t.add(rightTable).top().expandX().fillX();
         }).size(dialogWidth, dialogHeight);
 
         if (hasProfile) {
