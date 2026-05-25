@@ -44,7 +44,7 @@ public class AquaMenuDialog extends BaseDialog {
 
         float paneWidth = Vars.mobile ? 460f : 420f;
         float paneHeight = Vars.mobile ? 350f : 650f;
-        float buttonWidth = Vars.mobile ? paneWidth - 20f : 380f;
+        float buttonWidth = Vars.mobile ? paneWidth - 10f : 380f;
         float buttonHeight = Vars.mobile ? 80f : 100f;
 
         Table nav = new Table();
