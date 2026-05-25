@@ -44,7 +44,6 @@ public class AquaMenuDialog extends BaseDialog {
 
         float paneWidth = Vars.mobile ? 460f : 420f;
         float paneHeight = Vars.mobile ? 350f : 650f;
-        // Сделали кнопки на мобилках чуть уже (отступ 50f вместо 20f), чтобы они не вылезали за край
         float buttonWidth = Vars.mobile ? paneWidth - 50f : 380f; 
         float buttonHeight = Vars.mobile ? 85f : 100f;
 
@@ -61,7 +60,7 @@ public class AquaMenuDialog extends BaseDialog {
         Table body = new Table();
         if (type.equals("links")) {
             body.pane(t -> {
-                t.center(); // Центрируем контент внутри панели
+                t.center(); 
                 t.button(b -> {
                     createRoundAvatar(b, "github", Icon.github, 24f);
                     b.add(Core.bundle.get("aquarion.menu.link_github")).padLeft(10f);
@@ -80,7 +79,7 @@ public class AquaMenuDialog extends BaseDialog {
             }).size(paneWidth, Vars.mobile ? 140f : 250f);
         } else {
             var cell = body.pane(t -> {
-                t.center(); // Центрируем кнопки авторов по оси
+                t.center(); 
                 
                 t.add(Core.bundle.get("aquarion.menu.role_creator")).color(arc.graphics.Color.red).center().padBottom(10f).row();
 
