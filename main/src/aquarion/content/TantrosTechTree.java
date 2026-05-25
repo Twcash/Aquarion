@@ -82,32 +82,34 @@ public class TantrosTechTree {
                     new Objectives.OnSector(twinPass),
                     new Objectives.Research(pelt)
             ), () -> {
-                node(meteor, ()-> {
-                    node(vesta);
-                });
-                node(pillage, Seq.with(
-                        new Objectives.SectorComplete(mountainsideComplex)
-                ), () -> {});
-                node(payloadPad, ()-> {
-                    node(payloadDistributor);
-                    node(payloadDisplacer);
-                    node(initializationBay);
-                });
-                node(weld, ()->{
-                    node(solder);
-                });
                 node(crest, () -> {
-                    node(soar, () -> {});
                     node(unitByte, () -> {});
+                    node(soar, () -> {});
                 });
-                node(rampart, () -> {
-                    node(reave, () -> {
+                node(weld, Seq.with(
+                        new Objectives.OnSector(diseasedCleft)
+                ), () -> {
+                    node(solder, () -> {});
+                });
+                node(pugnate, () -> {
+                    node(rampart, () -> {
+                        node(raze, () -> {});
+                        node(reave, () -> {});
+                        node(shatter, () -> {});
                     });
-                    node(pugnate, () -> {
-                        node(shatter, () -> {
+                    node(pillage, Seq.with(
+                            new Objectives.SectorComplete(mountainsideComplex)
+                    ), () -> {
+                        node(meteor, () -> {
+                            node(vesta, () -> {});
                         });
-                        node(raze, () -> {
+                    });
+                    node(payloadPad, () -> {
+                        node(payloadDisplacer, () -> {});
+                        node(initializationBay, () -> {
+                            node(statusApplier, () -> {});
                         });
+                        node(payloadDistributor, () -> {});
                     });
                 });
             });
