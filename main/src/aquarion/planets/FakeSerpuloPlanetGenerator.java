@@ -49,6 +49,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     BaseGenerator basegen = new BaseGenerator();
     float scl = 4f;
     float waterOffset = -0.04f;
+    float meshOffset = 0.25f;
     boolean genLakes = false;
 
     Block[][] arr =
@@ -57,15 +58,15 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
                     {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.darksand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.taintedWater, Blocks.stone, Blocks.stone, Blocks.stone},
                     {Blocks.water, Blocks.darksandWater, Blocks.darksand, Blocks.sand, pinkSaltFloor, pinkSaltFloor, Blocks.sand, Blocks.sand, Blocks.sand, Blocks.taintedWater, Blocks.stone, Blocks.stone, Blocks.stone},
                     {Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, Blocks.salt, Blocks.salt, Blocks.sand, feldspar, smoothFeldspar, Blocks.stone, Blocks.snow, Blocks.iceSnow, Blocks.ice},
-                    {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, pinkSaltFlats, pinkSaltFloor, Blocks.sand, Blocks.stone, Blocks.stone, Blocks.snow, Blocks.snow, Blocks.ice},
-                    {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.sand, Blocks.salt, pinkSaltFlats, pinkSaltFloor, Blocks.stone, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice},
-                    {Blocks.deepwater, Blocks.sandWater, blueSandFLoor, brecciaFloor, smoothBrecciaFloor, feldspar, roughFeldspar, roughFeldspar, Blocks.ferricStone, Blocks.ferricStone, Blocks.stone, Blocks.snow, Blocks.snow},
-                    {Blocks.deepwater, blueSandWater, blueSandFLoor, roughFeldspar, feldspar, feldspar, feldspar, smoothFeldspar, smoothFeldspar, ferric_extrusions, Blocks.basalt, Blocks.snow, Blocks.ice},
+                    {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.salt, pinkSaltFlats, pinkSaltFloor, Blocks.sand, Blocks.stone, Blocks.stone, Blocks.stone, Blocks.snow, Blocks.ice},
+                    {Blocks.deepwater, Blocks.water, Blocks.sandWater, Blocks.sand, Blocks.sand, Blocks.salt, pinkSaltFlats, pinkSaltFloor, Blocks.salt, Blocks.stone, Blocks.snow, Blocks.snow, Blocks.ice},
+                    {Blocks.deepwater, Blocks.sandWater, blueSandFLoor, brecciaFloor, brecciaFloor, feldspar, roughFeldspar, roughFeldspar, Blocks.ferricStone, Blocks.ferricStone, Blocks.stone, Blocks.snow, Blocks.snow},
+                    {Blocks.deepwater, blueSandWater, blueSandFLoor, smoothBrecciaFloor, roughFeldspar, feldspar, feldspar, smoothFeldspar, smoothFeldspar, ferric_extrusions, Blocks.basalt, Blocks.snow, Blocks.ice},
                     {Blocks.deepwater, blueSandFLoor, Blocks.ferricStone, Blocks.ferricStone, ferric_extrusions, roughFeldspar, feldspar, smoothFeldspar, Blocks.basalt, Blocks.basalt, Blocks.snow, Blocks.snow, Blocks.ice},
-                    {Blocks.deepwater, Blocks.darksand, Blocks.stone, Blocks.moss, Blocks.moss, Blocks.sporeMoss, Blocks.basalt, Blocks.ferricStone, ferric_extrusions, ferric_extrusions, Blocks.snow, Blocks.ice, Blocks.ice},
-                    {blueSandWater, slate, phylite_floor, Blocks.ferricStone, Blocks.moss, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice},
-                    {blueSandWater, Blocks.moss, feldspar, Blocks.basalt, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, packedSnow, Blocks.snow, Blocks.ice, Blocks.ice},
-                    {blueSandWater, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.iceSnow, Blocks.iceSnow, Blocks.snow, packedSnow, packedSnow, Blocks.ice, Blocks.ice, Blocks.ice},
+                    {Blocks.deepwater, Blocks.darksand, Blocks.stone, smoothBrecciaFloor, Blocks.moss, Blocks.sporeMoss, Blocks.basalt, Blocks.ferricStone, ferric_extrusions, ferric_extrusions, Blocks.snow, Blocks.ice, Blocks.ice},
+                    {Blocks.taintedWater, Blocks.moss, Blocks.ferricStone, Blocks.basalt, Blocks.snow, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.ice, Blocks.ice},
+                    {Blocks.ferricStone, Blocks.basalt, Blocks.snow, Blocks.ice, Blocks.iceSnow, Blocks.iceSnow, packedSnow, packedSnow, Blocks.snow, packedSnow, Blocks.snow, Blocks.ice, Blocks.ice},
+                    {Blocks.basalt, Blocks.ice, Blocks.ice, Blocks.snow, Blocks.snow, Blocks.iceSnow, Blocks.iceSnow, Blocks.snow, packedSnow, packedSnow, Blocks.ice, Blocks.ice, Blocks.ice},
                     {Blocks.ice, Blocks.snow, Blocks.snow, Blocks.ice, Blocks.iceSnow, Blocks.snow, Blocks.snow, packedSnow, packedSnow, Blocks.iceSnow, Blocks.ice, Blocks.ice, Blocks.ice}
             };
 
@@ -86,7 +87,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     float rawHeight(Vec3 position){
         position = Tmp.v33.set(position).scl(scl);
         float poles = Mathf.clamp(Math.abs(position.y / scl));
-        float noise = NewSimplex.voronoi3d(seed , 7, 1/2.5f, 1/2f, position.x, position.y, position.z);
+        float noise = NewSimplex.voronoi3d(seed , 7, 1/2.5f, 1/1.7f, position.x, position.y, position.z);
 
         float power = Mathf.lerp(3f, 3.3f, poles);
         float base = (Mathf.pow(noise, power) + waterOffset) / (1f + waterOffset);
@@ -103,8 +104,8 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
 
     @Override
     public float getHeight(Vec3 position){
-        float height = rawHeight(position);
-        return Math.max(height, water);
+        float height = rawHeight(position) - meshOffset;
+        return Math.max(height, water - meshOffset);
     }
 
     @Override

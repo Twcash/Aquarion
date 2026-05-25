@@ -101,6 +101,7 @@ public class AquaUnitTypes {
             constructor = UnitEntity::create;
             health = 80;
             healColor = Pal.accent;
+            outlineColor = AquaPal.tantDarkestTone;
 
             engines.add(
                     new UnitEngine(0, -18 / 4f, 2.5f, -90),
