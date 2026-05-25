@@ -740,6 +740,7 @@ public class EnvironmentBlocks {
         }};
         bramble = new FloraBlock("bramble") {{
             shadowAlpha = 0.6f;
+            shadowOffset = -2.5f;
             buildVisibility = sandboxOnly;
             variants = 2;
             rotationRand = 45;
@@ -756,6 +757,7 @@ public class EnvironmentBlocks {
         }};
         brulrFern = new FloraBlock("brulr-fern") {{
             shadowAlpha = 0.6f;
+            shadowOffset = -2.5f;
             buildVisibility = sandboxOnly;
             variants = 2;
             rotationRand = 45;

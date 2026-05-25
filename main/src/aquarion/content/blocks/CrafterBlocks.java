@@ -14,6 +14,7 @@ import aquarion.world.graphics.AquaPal;
 import aquarion.world.graphics.NewParticleEffect;
 import aquarion.world.type.AquaGenericCrafter;
 import aquarion.world.type.GroundDrill;
+import arc.Core;
 import arc.func.Cons;
 import arc.graphics.Blending;
 import arc.graphics.Color;
@@ -619,18 +620,23 @@ public class CrafterBlocks {
                 size = 2;
                 minEfficiency = 0.1f;
                 squareSprite = false;
-                drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                    layer = shadow;
-                    drawIcon = false;
-                }}, new DrawParticles() {{
-                    color = Color.valueOf("67a0cd");
-                    alpha = 0.7f;
-                    particleSize = 2f;
-                    particles = 12;
-                    particleRad = 5f;
-                    particleLife = 160f;
-                    rotateScl = 2f;
-                }}, new DrawDefault());
+                hasShadow = false;
+                drawer = new DrawMulti(
+                    new DrawRegion("-bottom"),
+                    new DrawRegion("-bottom-shadow"),
+                    new DrawBetterRegion("-shadow") {{
+                        layer = shadow;
+                        drawIcon = false;
+                    }}, new AquaDrawBetterParticles() {{
+                        colorFrom = Color.valueOf("#67a0cd");
+                        colorTo = Color.white;
+                        alpha = 0.7f;
+                        particleSize = 2f;
+                        particles = 16;
+                        particleRad = 6f;
+                        particleLife = 160f;
+                        rotateScl = 2f;
+                    }}, new DrawDefault());
             }};
             ferricGrinder = new AttributeCrafter("ferric-macerator") {{
                 requirements(Category.production, with( silicon, 500, metaglass, 200, graphite, 700, polymer, 450));
@@ -1666,7 +1672,8 @@ public class CrafterBlocks {
                 timeOffset = 90;
                 x = 16 / 4f;
                 y = 16 / 4f;
-            }}, new DrawDefault(), new DrawHeatInputBitmask());
+            }}, new DrawDefault(), 
+            new DrawHeatInputBitmask());
         }};
         SilicaOxidator = new AquaGenericCrafter("silicon-oxidator") {{
             requirements(Category.crafting, with(copper, 300, graphite, 200, metaglass, 200));
@@ -2207,12 +2214,22 @@ public class CrafterBlocks {
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(slag) {{
-                alpha = 0.7f;
+            }}, new DrawRegion("-bottom"), new DrawLiquidTile(oxygen) {{
                 padBottom = 2;
-                padLeft = 22;
+                padLeft = 33;
                 padTop = 2;
                 padRight = 2;
+            }}, new DrawLiquidTile(slag) {{
+                alpha = 0.7f;
+                padBottom = 7;
+                padLeft = 18;
+                padTop = 25;
+                padRight = 21;
+            }}, new DrawLiquidTile(argon) {{
+                padBottom = 38;
+                padLeft = 13;
+                padTop = 2;
+                padRight = 40;
             }}, new DrawDefault(), new PhaseOffsetGlowRegion("-glow") {{
                 alpha = 0.3f;
                 color = Color.valueOf("e68569");

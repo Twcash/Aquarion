@@ -10,6 +10,8 @@ run/
 
 # Project
 main/assets/sprites/
+*.kra
+*.png~
 
 # IDE-specific
 .idea/
