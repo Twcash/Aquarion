@@ -45,7 +45,7 @@ public class AquaMenuDialog extends BaseDialog {
         float paneWidth = Vars.mobile ? 460f : 420f;
         float paneHeight = Vars.mobile ? 350f : 650f;
         float buttonWidth = Vars.mobile ? paneWidth - 20f : 380f;
-        float buttonHeight = Vars.mobile ? 85f : 100f;
+        float buttonHeight = Vars.mobile ? 80f : 100f;
 
         Table nav = new Table();
         nav.button(Core.bundle.get("aquarion.menu.tab_links"), () -> updateContent("links"))
