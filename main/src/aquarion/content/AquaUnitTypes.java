@@ -1236,10 +1236,10 @@ public class AquaUnitTypes {
             constructor = LegsUnit::create;
             speed = 0.35f;
             hitSize = 16;
-            range = 90;
-            health = 350;
+            range = 70;
+            health = 850;
             stepShake = 0.2f;
-            armor = 3;
+            armor = 65
             targetAir = true;
             rotateSpeed = 1.2f;
             shadowElevation = 0.2f;
