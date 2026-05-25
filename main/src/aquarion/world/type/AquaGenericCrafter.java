@@ -271,6 +271,9 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
 
     @Override
     public TextureRegion[] icons(){
+        if(fullRegion != null && fullRegion.found()){
+            return new TextureRegion[]{fullRegion};
+        }
         return drawer.finalIcons(this);
     }
 

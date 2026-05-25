@@ -116,7 +116,7 @@ public class AquaPlanets {
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
         }};
-        fakeSerpulo = new Planet("fakeSerp", citun, 2f, 4){{
+        fakeSerpulo = new Planet("fakeSerp", citun, 1.2f, 4){{
             generator = new FakeSerpuloPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
             alwaysUnlocked = true;
@@ -131,8 +131,8 @@ public class AquaPlanets {
                 new HexSkyMesh(this, 5, 0.7f, 0.09f, 6, Color.white.cpy().lerp(Color.valueOf("#c6f2f496"), 0.75f), 3, 0.12f, 1.5f, 0.28f),
                 new HexSkyMesh(this, 8, 0.3f, 0.08f, 6, Color.white.cpy().lerp(Color.valueOf("#f8e7ff8d"), 0.55f), 2, 0.08f, 1.6f, 0.30f)
             );
-            atmosphereRadIn = -0.1f;
-            atmosphereRadOut = 0.3f;
+            atmosphereRadIn = -0.02f;
+            atmosphereRadOut = 0.2f;
             startSector = 112;
             prebuildBase = true;
             allowLaunchSchematics = false;
