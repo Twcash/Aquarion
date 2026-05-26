@@ -306,7 +306,7 @@ public class AquaMenuDialog extends BaseDialog {
         float dialogWidth = Vars.mobile ? 400f : 440f;
         float dialogHeight = Vars.mobile ? 280f : 340f;
 
-        authorDialog.cont.pane.padRight(30f)(t -> {
+        authorDialog.cont.pane(t -> {
             t.left();
             
             Table leftTable = new Table();
