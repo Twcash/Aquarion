@@ -130,10 +130,6 @@ public class LightningFieldAbility extends Ability {
 
             if(anyNearby){
                 shootSound.at(unit);
-
-                if(useAmmo && state.rules.unitAmmo){
-                    unit.ammo --;
-                }
             }
 
             timer = 0f;
