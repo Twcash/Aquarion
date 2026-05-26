@@ -2649,7 +2649,7 @@ public class CrafterBlocks {
             hasPower = true;
             tier = 6;
             updateEffect = Fx.pulverizeRed;
-            updateEffectChance = 0.04f;
+            updateEffectChance = 0.05f;
             drillEffect = Fx.mineHuge;
             rotateSpeed = 12f;
             warmupSpeed = 0.005f;
