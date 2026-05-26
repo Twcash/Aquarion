@@ -310,7 +310,7 @@ public class AquaMenuDialog extends BaseDialog {
             t.left();
             
             Table leftTable = new Table();
-            createRoundAvatar(leftTable, textureName, fallbackIcon, 64f);
+            createRoundAvatar(leftTable, textureName, fallbackIcon, 150f);
             t.add(leftTable).top().padRight(15f);
 
             Table rightTable = new Table();
