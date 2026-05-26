@@ -310,7 +310,7 @@ public class AquaMenuDialog extends BaseDialog {
             t.left();
             
             Table leftTable = new Table();
-            createRoundAvatar(leftTable, textureName, fallbackIcon, 150f);
+            createRoundAvatar(leftTable, textureName, fallbackIcon, 120f);
             t.add(leftTable).top().padRight(15f);
 
             Table rightTable = new Table();
@@ -322,7 +322,7 @@ public class AquaMenuDialog extends BaseDialog {
             label.setAlignment(arc.util.Align.left);
             
             t.add(rightTable).top().expandX().fillX();
-        }).size(dialogWidth, dialogHeight).padLeft(-25f);
+        }).size(dialogWidth, dialogHeight);
 
         if (hasProfile) {
             authorDialog.buttons.button(Core.bundle.get("aquarion.menu.open_profile"), () -> {
