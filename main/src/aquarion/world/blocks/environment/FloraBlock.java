@@ -2,6 +2,7 @@ package aquarion.world.blocks.environment;
 
 import arc.Core;
 import arc.audio.Sound;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
@@ -40,7 +41,7 @@ public class FloraBlock extends Block {
     public float explosionPuddleAmount = 100f;
     public @Nullable Liquid explosionPuddleLiquid;
 
-    public float explosionShake = 0f, explosionShakeDuration = 6f;
+    public float explosionShake = 0f, explosionShakeDuration = 7f;
 
     public float shadowLayer = Layer.power - 1;
     public float updateEffectChance = 0.03f;
@@ -140,5 +141,18 @@ public class FloraBlock extends Block {
     public void loadIcon(){
         super.loadIcon();
         fullIcon = Core.atlas.find(name + 1);
+    }
+    public class floraBuild extends Building{
+
+        @Override
+        public void drawTeam(){
+            //no
+        }
+
+    }
+    @Override
+    public Color getColor(Tile tile){
+        int mc = minimapColor(tile);
+        return Tmp.c3.set(mc);
     }
 }
