@@ -17,6 +17,7 @@ import mindustry.gen.Bullet;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Item;
+import mindustry.type.ItemStack;
 
 public class DumpItemBulletType extends BulletType {
     public float spin = 0.5f;
@@ -39,12 +40,12 @@ public class DumpItemBulletType extends BulletType {
     public void draw(Bullet b){
         super.draw(b);
         Draw.z(layer);
-        if(!(b.data instanceof Item item)) return;
-        Draw.rect(item.fullIcon, b.x, b.y, b.rotation() + spin + b.lifetime);
+        if(!(b.data instanceof ItemStack item)) return;
+        Draw.rect(item.item.fullIcon, b.x, b.y, b.rotation() + spin + b.lifetime);
         Draw.color(Pal.shadow);
         Draw.z(Layer.debris);
         float elevation = b.lifetime/b.type.lifetime;
-        Draw.rect(item.fullIcon, b.x -(elevation *b.fslope()), b.y - (elevation *b.fslope()), b.rotation() + spin + b.lifetime);
+        Draw.rect(item.item.fullIcon, b.x -(elevation *b.fslope()), b.y - (elevation *b.fslope()), b.rotation() + spin + b.lifetime);
         Draw.reset();
     }
     public void despawned(Bullet b) {
@@ -53,11 +54,11 @@ public class DumpItemBulletType extends BulletType {
         if(b.tileOn().floor().isLiquid){
             Fx.ripple.at(b.x, b.y, 1f, b.tileOn().floor().liquidDrop.color);
         } else {
-            if (b.data instanceof Item item) {
-                if (item.explosiveness > 0)
-                    Damage.damage(Team.derelict, b.x, b.y, item.explosiveness * 30f, item.explosiveness * 80f, false, true);
-                Fx.dynamicExplosion.at(b, item.explosiveness * 2);
-                if (b.tileOn() != null && item.flammability > 0.5f) Fires.create(b.tileOn());
+            if (b.data instanceof ItemStack item) {
+                if (item.item.explosiveness > 0)
+                    Damage.damage(Team.derelict, b.x, b.y, item.item.explosiveness * 30f, item.item.explosiveness * 80f, false, true);
+                Fx.dynamicExplosion.at(b, item.item.explosiveness * 2);
+                if (b.tileOn() != null && item.item.flammability > 0.5f) Fires.create(b.tileOn());
             }
         }
     }

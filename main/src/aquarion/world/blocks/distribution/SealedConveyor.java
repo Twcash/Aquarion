@@ -26,6 +26,7 @@ import mindustry.gen.Teamc;
 import mindustry.graphics.Layer;
 import mindustry.input.Placement;
 import mindustry.type.Item;
+import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.Edges;
 import mindustry.world.blocks.Autotiler;
@@ -277,7 +278,7 @@ public class SealedConveyor extends Duct implements Autotiler{
                                 -1f,
                                 Mathf.random(0f, 0.2f),
                                 Mathf.random(0.6f, 1f),
-                                items.first()
+                                new ItemStack(items.first(), 1)
                         );
                     }
                     items.remove(current, 1);
