@@ -9,12 +9,13 @@ import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import mindustry.gen.Building;
 import mindustry.type.Item;
+import mindustry.type.ItemStack;
 import mindustry.world.Block;
 
 import static mindustry.game.Team.derelict;
 
 public class ItemYeeter extends Block {
-    public float reload = 15;
+    public float reload = 30;
     public TextureRegion glowRegion;
     @Override
     public void load(){
@@ -27,7 +28,7 @@ public class ItemYeeter extends Block {
         rotateDraw = true;
         drawArrow = true;
         hasItems = true;
-        itemCapacity = 1;
+        itemCapacity = 5;
         acceptsItems = true;
         update = true;
     }
@@ -35,35 +36,37 @@ public class ItemYeeter extends Block {
         public float reloadProg  = 0;
         @Override
         public void updateTile(){
+
             reloadProg += edelta();
+            if(reloadProg >= reload){
+                if(!items.empty()) {
+                    AquaBullets.throwItem.create(
+                            null,
+                            this.team,
+                            x,
+                            y,
+                            rotdeg() + Mathf.range(2f),
+                            items.first().hardness,
+                            1 * efficiency,
+                            Mathf.random(1.9f, 2.0f),
+                            new ItemStack(items.first(), items.get(items.first()))
+                    );
+                    items.remove(items.first(), items.get(items.first()));
+                    reloadProg = 0;
+                }
+            }
         }
         @Override
         public boolean acceptItem(Building source, Item item){
-            float curProg = reloadProg;
-            if(curProg >= reload) reloadProg = 0;
-            return curProg >= reload && source == back() && efficiency > 0;
+            return (items.empty()) || item == items.first();
         }
         @Override
         public void draw(){
             Draw.z(Renderer.Layer.blockUnder);
             Draw.rect(region, x, y,  rotdeg());
-            Draw.alpha(reloadProg/reload);
+            Draw.alpha(Mathf.clamp(reloadProg/reload));
             Draw.rect(glowRegion, x, y, rotdeg());
             Draw.reset();
-        }
-        @Override
-        public void handleItem(Building source, Item item){
-            AquaBullets.throwItem.create(
-                    null,
-                    this.team,
-                    x,
-                    y,
-                    rotdeg() + Mathf.range(2f),
-                    item.hardness,
-                    1 * efficiency,
-                    Mathf.random(1.9f, 2.0f),
-                   item
-            );
         }
     }
 }

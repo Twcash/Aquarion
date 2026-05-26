@@ -2664,7 +2664,7 @@ public class CrafterBlocks {
             consumeItems(ItemStack.with(copper, 4, lead, 6, blastCompound, 1));
             consumeLiquid(cryofluid, 0.1f);
             liquidCapacity = 20;
-            itemCapacity = 25;
+            itemCapacity = 40;
             craftTime = 120;
             outputItem = new ItemStack(chalkalloy, 16);
             size = 3;
