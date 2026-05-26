@@ -35,6 +35,7 @@ public class LiquidBlocks {
             liquidCapacity = 80;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            floating = true;
         }};
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge") {{
             requirements(Category.liquid, with(polymer, 30));
@@ -44,12 +45,14 @@ public class LiquidBlocks {
             hasPower = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+            floating = true;
         }};
         siphonUnderflow = new LiquidUnderflow("siphon-underflow") {{
             requirements(Category.liquid, with(silicon, 70));
             invert = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
+            floating = true;
         }};
         siphon = new ModifiedConduit("siphon") {{
             requirements(Category.liquid, with(silicon, 3));
