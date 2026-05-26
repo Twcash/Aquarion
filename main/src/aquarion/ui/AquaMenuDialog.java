@@ -306,7 +306,7 @@ public class AquaMenuDialog extends BaseDialog {
         float dialogWidth = Vars.mobile ? 400f : 440f;
         float dialogHeight = Vars.mobile ? 280f : 340f;
 
-        authorDialog.cont.pane(t -> {
+        authorDialog.cont.pane.padRight(30f)(t -> {
             t.left();
             
             Table leftTable = new Table();
@@ -321,7 +321,7 @@ public class AquaMenuDialog extends BaseDialog {
             var label = rightTable.add(description).width(dialogWidth - 120f).wrap().padTop(10f).left().get();
             label.setAlignment(arc.util.Align.left);
             
-            t.add(rightTable).top().expandX().fillX().padRight(30f);
+            t.add(rightTable).top().expandX().fillX();
         }).size(dialogWidth, dialogHeight);
 
         if (hasProfile) {
