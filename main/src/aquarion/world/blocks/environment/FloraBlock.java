@@ -41,7 +41,7 @@ public class FloraBlock extends Block {
     public float explosionPuddleAmount = 100f;
     public @Nullable Liquid explosionPuddleLiquid;
 
-    public float explosionShake = 0f, explosionShakeDuration = 6f;
+    public float explosionShake = 0f, explosionShakeDuration = 7f;
 
     public float shadowLayer = Layer.power - 1;
     public float updateEffectChance = 0.03f;
