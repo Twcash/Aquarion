@@ -4,24 +4,34 @@ import aquarion.content.AquaSounds;
 import aquarion.world.blocks.power.*;
 import aquarion.world.drawers.*;
 import aquarion.world.graphics.AquaFx;
+import arc.func.Cons;
 import arc.graphics.Color;
+import mindustry.content.Blocks;
 import mindustry.content.Fx;
+import mindustry.content.Items;
 import mindustry.content.Planets;
+import mindustry.ctype.UnlockableContent;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
+import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.sandbox.PowerSource;
+import mindustry.world.blocks.units.Reconstructor;
+import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
+import mindustry.world.blocks.power.ImpactReactor;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.*;
 import static aquarion.content.AquaPlanets.*;
+import static aquarion.content.AquaUnitTypes.*;
+import static aquarion.content.AquaUnitTypes.verglas;
 import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
@@ -30,6 +40,10 @@ import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
     public static Block defunctGenerator, miniumReactor, singularityReactor, advSolarGen, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, channel, fumeEngine;
+
+    public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
+        setter.get((T) target);
+    }
 
     public static void loadContent() {
         solarGenerator = new SolarGenerator("solar-generator") {{
@@ -556,5 +570,11 @@ public class PowerBlocks {
             powerProduction = 4;
             baseExplosiveness = 2;
         }};
+
+        //Overwrite vanilla blocks
+
+        overwrite(Blocks.impactReactor, (ImpactReactor r) ->{
+            r.itemDuration = 120f;
+        });
     }
 }
