@@ -2,6 +2,7 @@ package aquarion.world.blocks.environment;
 
 import arc.Core;
 import arc.audio.Sound;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
@@ -140,5 +141,18 @@ public class FloraBlock extends Block {
     public void loadIcon(){
         super.loadIcon();
         fullIcon = Core.atlas.find(name + 1);
+    }
+    public class floraBuild extends Building{
+
+        @Override
+        public void drawTeam(){
+            //no
+        }
+
+    }
+    @Override
+    public Color getColor(Tile tile){
+        int mc = minimapColor(tile);
+        return Tmp.c3.set(mc);
     }
 }

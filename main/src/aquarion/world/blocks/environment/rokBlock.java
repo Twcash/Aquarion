@@ -1,9 +1,11 @@
 package aquarion.world.blocks.environment;
 
 import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.util.Tmp;
 import mindustry.content.Fx;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
@@ -34,5 +36,17 @@ public class rokBlock extends Block {
     @Override
     public TextureRegion[] icons() {
         return variants == 0 ? super.icons() : new TextureRegion[]{Core.atlas.find(name + "1")};
+    }
+    public class rokBuild extends Building{
+        @Override
+        public void drawTeam(){
+            //no
+        }
+
+    }
+    @Override
+    public Color getColor(Tile tile){
+        int mc = minimapColor(tile);
+        return Tmp.c3.set(mc);
     }
 }
