@@ -2628,7 +2628,7 @@ public class CrafterBlocks {
             tier = 1;
             category = Category.production;
         }};
-        mixingArray = new GenericCrafter("blast-mixer"){{
+        mixingArray = new GenericCrafter("array-mixer"){{
             requirements(Category.crafting, with(Items.copper, 65, Items.silicon, 60, chalkalloy, 1500));
             size = 4;
             hasLiquids = true;
