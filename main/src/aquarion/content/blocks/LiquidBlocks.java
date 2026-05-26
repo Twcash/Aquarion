@@ -20,7 +20,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class LiquidBlocks {
-    public static Block siphonUnderflow, pipeTank,siphonGullet, siphonReservoir, siphonVessel, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
+    public static Block blastPump, siphonUnderflow, pipeTank,siphonGullet, siphonReservoir, siphonVessel, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
 
     public static void loadContent() {
         siphonBridge = new ModifiedLiquidBridge("siphon-bridge") {{
@@ -153,6 +153,15 @@ public class LiquidBlocks {
             requirements(Category.liquid, with(polymer, 2));
             liquidPressure = 10000;
             liquidCapacity = 50;
+        }};
+        blastPump = new Pump("blast-pump"){{
+            requirements(Category.liquid, with(silicon, 7000, chalkalloy, 50));
+            pumpAmount = 0.33f;
+            consumePower(4f);
+            liquidCapacity = 1000f;
+            hasPower = true;
+            size = 4;
+            squareSprite = false;
         }};
     }
 }
