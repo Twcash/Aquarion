@@ -2697,12 +2697,14 @@ public class CrafterBlocks {
         overwrite(Blocks.pyratiteMixer, (GenericCrafter r) ->{
             r.outputItem = null;
             r.outputItem = new ItemStack(Items.pyratite, 3);
-            r.craftTime = 90;
+            r.craftTime = 120;
         });
         overwrite(Blocks.blastMixer, (GenericCrafter r) ->{
             r.outputItem = null;
             r.outputItem = new ItemStack(Items.blastCompound, 3);
-            r.craftTime = 90;
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(ItemStack.with(pyratite, 3, sporePod, 3));
+            r.craftTime = 120;
         });
         overwrite(Blocks.cryofluidMixer, (GenericCrafter r) ->{
             r.requirements = null;
