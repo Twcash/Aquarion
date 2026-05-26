@@ -321,7 +321,7 @@ public class AquaMenuDialog extends BaseDialog {
             var label = rightTable.add(description).width(dialogWidth - 120f).wrap().padTop(10f).left().get();
             label.setAlignment(arc.util.Align.left);
             
-            t.add(rightTable).top().expandX().fillX();
+            t.add(rightTable).top().expandX().fillX().padRight(30f);
         }).size(dialogWidth, dialogHeight);
 
         if (hasProfile) {
