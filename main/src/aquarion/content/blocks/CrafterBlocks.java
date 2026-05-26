@@ -2694,13 +2694,15 @@ public class CrafterBlocks {
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
             r.consumeItems(ItemStack.with(chalkalloy, 2));
         });
+        overwrite(Blocks.cultivator, (AttributeCrafter r) ->{
+            r.outputItem = new ItemStack(sporePod, 3);
+            r.craftTime = 240f;
+        });
         overwrite(Blocks.pyratiteMixer, (GenericCrafter r) ->{
-            r.outputItem = null;
             r.outputItem = new ItemStack(Items.pyratite, 3);
             r.craftTime = 120;
         });
         overwrite(Blocks.blastMixer, (GenericCrafter r) ->{
-            r.outputItem = null;
             r.outputItem = new ItemStack(Items.blastCompound, 3);
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
             r.consumeItems(ItemStack.with(pyratite, 3, sporePod, 3));
