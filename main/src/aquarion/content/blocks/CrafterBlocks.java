@@ -20,10 +20,7 @@ import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
-import mindustry.content.Blocks;
-import mindustry.content.Fx;
-import mindustry.content.Liquids;
-import mindustry.content.Planets;
+import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
@@ -61,7 +58,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class CrafterBlocks {
-    public static Block ammoniaCompressor, brassMixingPot, solarBoiler,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block ammoniaCompressor,blastFoundry,blastCompressor,blastierDrill,mixingArray, brassMixingPot, solarBoiler,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -2634,11 +2631,81 @@ public class CrafterBlocks {
             tier = 1;
             category = Category.production;
         }};
+        mixingArray = new GenericCrafter("blast-mixer"){{
+            requirements(Category.crafting, with(Items.copper, 65, Items.silicon, 60, chalkalloy, 1500));
+            size = 4;
+            hasLiquids = true;
+            consumeLiquid(Liquids.water, 2);
+            consumeItems(ItemStack.with(metaglass, 2, chalkalloy, 4));
+            craftTime = 120;
+            itemCapacity = 20;
+            liquidCapacity = 500;
+            outputLiquid = new LiquidStack(cryofluid, 2);
+            drawer = new DrawMulti(new DrawDefault(), new DrawLiquidTile(cryofluid), new DrawRegion("-top"));
+        }};
+
+        blastierDrill = new Drill("blastier-drill"){{
+            requirements(Category.production, with(Items.copper, 65, Items.silicon, 60, chalkalloy, 1500));
+            size = 6;
+            drillTime = 280;
+            drawRim = true;
+            hasPower = true;
+            tier = 6;
+            updateEffect = Fx.pulverizeRed;
+            updateEffectChance = 0.04f;
+            drillEffect = Fx.mineHuge;
+            rotateSpeed = 12f;
+            warmupSpeed = 0.005f;
+            itemCapacity = 60;
+            liquidBoostIntensity = 1.8f;
+            consumePower(5f);
+            consumeLiquid(Liquids.cryofluid, 0.2f).boost();
+        }};
+        blastFoundry = new GenericCrafter("blast-foundry"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.crafting, with(copper, 60, lead, 45, silicon, 25));
+            consumeItems(ItemStack.with(copper, 4, lead, 6, blastCompound, 1));
+            consumeLiquid(cryofluid, 0.1f);
+            liquidCapacity = 20;
+            itemCapacity = 25;
+            craftTime = 120;
+            outputItem = new ItemStack(chalkalloy, 16);
+            size = 3;
+            consumePower(3);
+            ambientSoundVolume = 0.06f;
+            ambientSound = Sounds.loopSmelter;
+            craftEffect = Fx.mineBig;
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame());
+        }};
+        blastCompressor = new GenericCrafter("blast-compressor"){{
+            requirements(Category.crafting, with(copper, 60, lead, 45, silicon, 25));
+            size = 3;
+            consumeLiquid(oil, 1);
+            hasPower = hasLiquids = true;
+            craftEffect = Fx.formsmoke;
+            updateEffect = Fx.plasticburn;
+            hasItems = true;
+            consumePower(9);
+            outputItem = new ItemStack(plastanium, 8);
+            consumeItems(ItemStack.with(chalkalloy, 4, blastCompound, 2));
+            craftTime = 120;
+            drawer = new DrawMulti(new DrawDefault(), new DrawFade());
+        }};
         overwrite(Blocks.plastaniumCompressor, (GenericCrafter r) ->{
             r.requirements = null;
             r.requirements(Category.crafting, ItemStack.with(silicon, 120, chalkalloy, 60, graphite, 40));
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
             r.consumeItems(ItemStack.with(chalkalloy, 2));
+        });
+        overwrite(Blocks.pyratiteMixer, (GenericCrafter r) ->{
+            r.outputItem = null;
+            r.outputItem = new ItemStack(Items.pyratite, 3);
+            r.craftTime = 90;
+        });
+        overwrite(Blocks.blastMixer, (GenericCrafter r) ->{
+            r.outputItem = null;
+            r.outputItem = new ItemStack(Items.blastCompound, 3);
+            r.craftTime = 90;
         });
         overwrite(Blocks.cryofluidMixer, (GenericCrafter r) ->{
             r.requirements = null;
