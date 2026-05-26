@@ -44,7 +44,7 @@ public class AquaMenuDialog extends BaseDialog {
 
         float paneWidth = Vars.mobile ? 460f : 420f;
         float paneHeight = Vars.mobile ? 350f : 650f;
-        float buttonWidth = Vars.mobile ? paneWidth - 20f : 380f;
+        float buttonWidth = Vars.mobile ? paneWidth - 50f : 380f; 
         float buttonHeight = Vars.mobile ? 85f : 100f;
 
         Table nav = new Table();
@@ -60,6 +60,7 @@ public class AquaMenuDialog extends BaseDialog {
         Table body = new Table();
         if (type.equals("links")) {
             body.pane(t -> {
+                t.center(); 
                 t.button(b -> {
                     createRoundAvatar(b, "github", Icon.github, 24f);
                     b.add(Core.bundle.get("aquarion.menu.link_github")).padLeft(10f);
@@ -78,6 +79,8 @@ public class AquaMenuDialog extends BaseDialog {
             }).size(paneWidth, Vars.mobile ? 140f : 250f);
         } else {
             var cell = body.pane(t -> {
+                t.center(); 
+                
                 t.add(Core.bundle.get("aquarion.menu.role_creator")).color(arc.graphics.Color.red).center().padBottom(10f).row();
 
                 t.button(b -> {
@@ -288,7 +291,7 @@ public class AquaMenuDialog extends BaseDialog {
 
             }).size(paneWidth, paneHeight);
 
-            if(cell.get() instanceof ScrollPane){
+            if (cell.get() instanceof ScrollPane) {
                 ((ScrollPane)cell.get()).setFlickScroll(true);
             }
         }
@@ -307,7 +310,7 @@ public class AquaMenuDialog extends BaseDialog {
             t.left();
             
             Table leftTable = new Table();
-            createRoundAvatar(leftTable, textureName, fallbackIcon, 64f);
+            createRoundAvatar(leftTable, textureName, fallbackIcon, 120f);
             t.add(leftTable).top().padRight(15f);
 
             Table rightTable = new Table();
