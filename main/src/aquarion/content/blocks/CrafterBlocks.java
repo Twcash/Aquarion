@@ -2644,7 +2644,7 @@ public class CrafterBlocks {
         blastierDrill = new Drill("blastier-drill"){{
             requirements(Category.production, with(Items.copper, 65, Items.silicon, 60, chalkalloy, 1500));
             size = 6;
-            drillTime = 21;
+            drillTime = 210;
             drawRim = true;
             hasPower = true;
             tier = 6;
