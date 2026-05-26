@@ -289,6 +289,7 @@ public class EnvironmentBlocks {
             speedMultiplier = 0.8f;
             cacheLayer = CacheLayer.water;
             shallow = true;
+            isLiquid = true;
         }};
         iceWater = new Floor("ice-water", 0) {{
             liquidDrop = Liquids.water;
