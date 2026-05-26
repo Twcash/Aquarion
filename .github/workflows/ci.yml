@@ -30,7 +30,7 @@ jobs:
           echo "mod_display_name_clean=${MOD_DISPLAY_NAME_CLEAN}" >> $GITHUB_OUTPUT
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v4.7.1
         with:
           java-version: 17
           distribution: temurin
