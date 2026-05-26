@@ -13,7 +13,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid ammonia, cryogen, vitriol, rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, carbonicAcid, oxygen, dioxide, brine, helium, hydroxide, tritium;
+    public static Liquid ammonia, cryogen, vitriol, rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, oxygen, brine, helium, hydroxide;
 
     public static void loadContent() {
 

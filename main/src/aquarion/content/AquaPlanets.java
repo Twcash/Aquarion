@@ -143,12 +143,13 @@ public class AquaPlanets {
             allowLaunchToNumbered = false;
             //for future me
             //Vars.content.planet("aquarion-fakeSerp").allowLaunchToNumbered = true
+            //PlanetDialog.debugSelect = true does this but also allows you to select any sector on any planet
             ruleSetter = r -> {
                 r.fire = true;
                 r.waveTeam = Team.crux;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
-                r.coreIncinerates = false;
+                r.coreIncinerates = true;
                 r.coreDestroyClear = false;
                 r.fog = false;
                 r.staticFog = false;

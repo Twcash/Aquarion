@@ -1,7 +1,6 @@
 package aquarion.annotations.processors.entity;
 
-import aquarion.annotations.Annotations.SyncField;
-import aquarion.annotations.Annotations.SyncLocal;
+import aquarion.annotations.Annotations.*;
 import aquarion.annotations.processors.BaseProcessor;
 import aquarion.annotations.processors.util.TypeIOResolver.ClassSerializer;
 import arc.math.Mathf;
@@ -15,6 +14,8 @@ import mindustry.ctype.ContentType;
 
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.VariableElement;
+
+import java.lang.annotation.*;
 import java.util.Objects;
 
 public class EntityIO{
@@ -39,11 +40,17 @@ public class EntityIO{
         ).sortComparing(BaseProcessor::simpleName);
     }
 
-    public void write(BaseProcessor proc, MethodSpec.Builder method, boolean write, Seq<VariableElement> fields){
+    boolean fieldhasAnno(VariableElement field, Seq<VariableElement> allFields, Class<? extends Annotation> type){
+        VariableElement match = allFields.find(s -> BaseProcessor.simpleName(s).equals(BaseProcessor.simpleName(field)));
+        return match != null && BaseProcessor.annotation(match, type) != null;
+    }
+
+    public void write(BaseProcessor proc, MethodSpec.Builder method, boolean write, Seq<VariableElement> allFields){
         this.method = method;
         this.write = write;
 
-        for(VariableElement e : sel(fields)){
+        for(VariableElement e : sel(allFields)){
+            if(fieldhasAnno(e, allFields, NoSerialize.class)) continue;
             io(proc, e.asType().toString(), "this." + BaseProcessor.simpleName(e) + (write ? "" : " = "));
         }
     }
@@ -54,6 +61,7 @@ public class EntityIO{
 
         if(write){
             for(VariableElement e : sel(allFields)){
+                if(fieldhasAnno(e, allFields, NoSync.class)) continue;
                 io(proc, e.asType().toString(), "this." + BaseProcessor.simpleName(e));
             }
         }else{
@@ -62,6 +70,7 @@ public class EntityIO{
             st("boolean islocal = isLocal()");
 
             for(VariableElement e : sel(allFields)){
+                if(fieldhasAnno(e, allFields, NoSync.class)) continue;
                 boolean sf = BaseProcessor.annotation(e, SyncField.class) != null;
                 boolean sl = BaseProcessor.annotation(e, SyncLocal.class) != null;
 

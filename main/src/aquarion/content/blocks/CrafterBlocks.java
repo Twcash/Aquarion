@@ -129,10 +129,6 @@ public class CrafterBlocks {
                 effect = AquaFx.diffuserCraft;
             }});
         }};
-        evaporationPool = new AquaGenericCrafter("evaporation-pool"){{
-            requirements(Category.production, with(lead, 225, silicon, 100));
-            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-        }};
         magmaTap = new AttributeCrafter("magma-tap") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(lead, 225, zinc, 120, silicon, 100));
@@ -559,7 +555,7 @@ public class CrafterBlocks {
             consumeItem(azurite,15);
             outputItem = new ItemStack(copper, 45);
             consume(new ConsumeLiquidAcidic(1, 0.5f));
-            outputLiquid = new LiquidStack(hydroxide, 4.25f);
+            outputLiquid = new LiquidStack(hydroxide, 8.5f);
             consumePower(4.5f);
             liquidCapacity = 1500;
             ignoreLiquidFullness = true;
@@ -749,7 +745,7 @@ public class CrafterBlocks {
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(silicon, 200, lead, 350));
-                tier = 4;
+                tier = 3;
                 itemCapacity = 50;
                 squareSprite = false;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -759,14 +755,15 @@ public class CrafterBlocks {
                 range = 8;
                 consume(new ConsumeLiquidAcidic(1, 0.125f));
                 consumeLiquid(ammonia, 0.5f).boost();
-                optionalBoostIntensity = 1.5f;
+                liquidBoostIntensity = 3f;
                 heatColor = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
+                optionalBoostIntensity = 1f;
             }};
             beamBore = new ModifiedbeamDrill("beam-bore") {{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(aluminum, 250, copper, 75, ferricMatter, 125));
-                tier = 5;
+                tier = 4;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(2);
                 itemCapacity = 50;
@@ -2022,7 +2019,7 @@ public class CrafterBlocks {
         }};
         acuminiteDegredationArray = new AquaGenericCrafter("acuminite-degredation-array") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(manganese, 550, aluminum, 700, strontium, 500));
+            requirements(Category.crafting, with(copper, 550, aluminum, 700, silicon, 500));
             squareSprite = false;
             size = 8;
             ignoreLiquidFullness = true;
@@ -2037,7 +2034,7 @@ public class CrafterBlocks {
             updateEffectChance = 0.05f;
             updateEffect = Fx.coalSmeltsmoke;
             outputLiquid = new LiquidStack(fluorine, 0.75f);
-            outputItems = ItemStack.with(aluminum, 60, strontium, 60);
+            outputItems = ItemStack.with(aluminum, 60, copper, 60);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
@@ -2258,7 +2255,7 @@ public class CrafterBlocks {
         }};
         pinDrill = new GroundDrill("pin-drill") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with(manganese, 40, aluminum, 50, strontium, 20));
+            requirements(Category.production, with(copper, 40, aluminum, 50, silicon, 20));
             drillTime = 100;
             size = 1;
             squareSprite = false;

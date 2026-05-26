@@ -82,7 +82,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 2f;
         }};
-        erodedCanyon = new SectorPreset("erodedCanyon", fakeSerpulo, 496){{
+        erodedCanyon = new SectorPreset("erodedCanyon", fakeSerpulo, 346){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 37;
@@ -115,7 +115,7 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};
-        coupledBasin = new SectorPreset("coupled-basin", fakeSerpulo, 494){{
+        coupledBasin = new SectorPreset("coupled-basin", fakeSerpulo, 166){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 8;
@@ -124,7 +124,7 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};
-        searedWastes = new SectorPreset("seared-wastes", fakeSerpulo, 502){{
+        searedWastes = new SectorPreset("seared-wastes", fakeSerpulo, 165){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 8;
@@ -140,7 +140,7 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
         }};
-        dryRiver = new SectorPreset("dried-riverbed", fakeSerpulo, 503){{
+        dryRiver = new SectorPreset("dried-riverbed", fakeSerpulo, 487){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 12;

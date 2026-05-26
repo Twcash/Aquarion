@@ -50,7 +50,6 @@ import mindustry.world.meta.Env;
 import static aquarion.content.AquaItems.brimstone;
 import static aquarion.content.AquaItems.cupronickel;
 import static aquarion.content.AquaItems.ferrosilicon;
-import static aquarion.content.AquaItems.manganese;
 import static aquarion.content.AquaItems.nickel;
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.fumes;
