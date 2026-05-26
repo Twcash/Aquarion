@@ -1,5 +1,6 @@
 package aquarion.world.blocks.distribution;
 
+import arc.util.io.Writes;
 import mindustry.content.Fx;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
@@ -21,7 +22,6 @@ public class ItemHopper extends Block {
         public void updateTile(){
             curReload += edelta();
             if(curReload >= reload) {
-                //TODO There is a *tiny* gap where the items can duplicate. Although it's not like a massive issue and quite rare.
                 Groups.bullet.intersect(x, y, block.size * 4f, block.size * 4f).each(b -> {
                     if (b != null && b.data instanceof ItemStack item) {
                         if (acceptItem(this, item.item)) {
