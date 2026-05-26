@@ -4,9 +4,11 @@ import mindustry.content.Fx;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
 import mindustry.type.Item;
+import mindustry.type.ItemStack;
 import mindustry.world.Block;
 
 public class ItemHopper extends Block {
+    public float reload = 10;
     public ItemHopper(String name) {
         super(name);
         itemCapacity = 10;
@@ -14,18 +16,25 @@ public class ItemHopper extends Block {
         update = true;
     }
     public class HopperBuild extends Building{
+        public float curReload = 0;
         @Override
         public void updateTile(){
-            //TODO There is a *tiny* gap where the items can duplicate. Although it's not like a massive issue and quite rare.
-            Groups.bullet.intersect(x, y, block.size * 4f, block.size * 4f).each(b ->{
-                if(b!=null&&b.data instanceof Item item){
-                    if(acceptItem(this, item)) {
-                        Fx.smoke.at(b.x, b.y);
-                        b.remove();
-                        items.add(item, 1);
+            curReload += edelta();
+            if(curReload >= reload) {
+                //TODO There is a *tiny* gap where the items can duplicate. Although it's not like a massive issue and quite rare.
+                Groups.bullet.intersect(x, y, block.size * 4f, block.size * 4f).each(b -> {
+                    if (b != null && b.data instanceof ItemStack item) {
+                        if (acceptItem(this, item.item)) {
+                            Fx.smoke.at(b.x, b.y);
+                            b.remove();
+                            items.add(item.item, item.amount);
+                        } else {
+                            return;
+                        }
                     }
-                }
-            });
+                });
+                reload = 0;
+            }
             dump();
         }
         @Override

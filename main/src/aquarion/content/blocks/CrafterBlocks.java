@@ -2644,7 +2644,7 @@ public class CrafterBlocks {
         blastierDrill = new Drill("blastier-drill"){{
             requirements(Category.production, with(Items.copper, 65, Items.silicon, 60, chalkalloy, 1500));
             size = 6;
-            drillTime = 21;
+            drillTime = 210;
             drawRim = true;
             hasPower = true;
             tier = 6;
@@ -2664,7 +2664,7 @@ public class CrafterBlocks {
             consumeItems(ItemStack.with(copper, 4, lead, 6, blastCompound, 1));
             consumeLiquid(cryofluid, 0.1f);
             liquidCapacity = 20;
-            itemCapacity = 25;
+            itemCapacity = 40;
             craftTime = 120;
             outputItem = new ItemStack(chalkalloy, 16);
             size = 3;
