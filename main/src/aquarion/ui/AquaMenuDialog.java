@@ -322,7 +322,7 @@ public class AquaMenuDialog extends BaseDialog {
             label.setAlignment(arc.util.Align.left);
             
             t.add(rightTable).top().expandX().fillX();
-        }).size(dialogWidth, dialogHeight);
+        }).size(dialogWidth, dialogHeight).padLeft(-25f);
 
         if (hasProfile) {
             authorDialog.buttons.button(Core.bundle.get("aquarion.menu.open_profile"), () -> {
