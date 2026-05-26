@@ -12,7 +12,7 @@
 ---
 
 An ambitious attempt to recreate **Tantros** in Mindustry, added a new solar system.
-## 💡 Features
+## <img src="main/assets-raw/sprites/blocks/defense/aluminum-wall.png" alt="Aquarion Banner" width="20"> Features
 
 * **🪐 A completely new solar system**
 ---
