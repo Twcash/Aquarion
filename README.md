@@ -28,7 +28,7 @@ An ambitious attempt to recreate **Tantros** in Mindustry, added a new solar sys
 
 ---
 
-## 🛠️ Installation & Contribution
+## <img src="main/assets-raw/sprites/blocks/core/core-pike.png" alt="Aquarion Banner" width="30"> Installation & Contribution
 
 ### How to Install
 1. In Mindustry, go to **Mods** -> **Browse Mods**.
