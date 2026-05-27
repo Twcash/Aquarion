@@ -58,7 +58,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class CrafterBlocks {
-    public static Block ammoniaCompressor,blastFoundry,blastCompressor,blastierDrill,mixingArray, brassMixingPot, solarBoiler,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block ammoniaCompressor,blastFoundry,blastCompressor,blastierDrill,mixingArray, brassMixingPot, solarBoiler,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -2649,7 +2649,7 @@ public class CrafterBlocks {
             hasPower = true;
             tier = 6;
             updateEffect = Fx.pulverizeRed;
-            updateEffectChance = 0.04f;
+            updateEffectChance = 0.05f;
             drillEffect = Fx.mineHuge;
             rotateSpeed = 12f;
             warmupSpeed = 0.005f;
@@ -2694,13 +2694,15 @@ public class CrafterBlocks {
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
             r.consumeItems(ItemStack.with(chalkalloy, 2));
         });
+        overwrite(Blocks.cultivator, (AttributeCrafter r) ->{
+            r.outputItem = new ItemStack(sporePod, 3);
+            r.craftTime = 240f;
+        });
         overwrite(Blocks.pyratiteMixer, (GenericCrafter r) ->{
-            r.outputItem = null;
             r.outputItem = new ItemStack(Items.pyratite, 3);
             r.craftTime = 120;
         });
         overwrite(Blocks.blastMixer, (GenericCrafter r) ->{
-            r.outputItem = null;
             r.outputItem = new ItemStack(Items.blastCompound, 3);
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
             r.consumeItems(ItemStack.with(pyratite, 3, sporePod, 3));
@@ -2711,6 +2713,18 @@ public class CrafterBlocks {
             r.requirements(Category.crafting, ItemStack.with(silicon, 120, chalkalloy, 90, graphite, 40, metaglass, 60));
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
             r.consumeItems(ItemStack.with(chalkalloy, 1));
+        });
+        overwrite(Blocks.siliconCrucible, (GenericCrafter r) ->{
+            r.outputItem = new ItemStack(Items.silicon, 12);
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(ItemStack.with(coal, 6, sand, 9, pyratite, 1));
+            r.craftTime = 120;
+        });
+        overwrite(Blocks.sporePress, (GenericCrafter r) ->{
+            r.outputLiquid = new LiquidStack(oil, 18/60f);
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(ItemStack.with(sporePod, 1));
+            r.craftTime = 60;
         });
     }
 
