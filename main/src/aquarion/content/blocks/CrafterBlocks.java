@@ -2714,6 +2714,12 @@ public class CrafterBlocks {
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
             r.consumeItems(ItemStack.with(chalkalloy, 1));
         });
+        overwrite(Blocks.siliconCrucible, (GenericCrafter r) ->{
+            r.outputItem = new ItemStack(Items.silicon, 12);
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(ItemStack.with(coal, 6, sand, 9, pyratite, 1));
+            r.craftTime = 120;
+        });
     }
 
     public static void disableVanilla() {
