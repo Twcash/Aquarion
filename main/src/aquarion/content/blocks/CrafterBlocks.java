@@ -58,7 +58,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class CrafterBlocks {
-    public static Block ammoniaCompressor,blastFoundry,blastCompressor,blastierDrill,mixingArray, brassMixingPot, solarBoiler,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, evaporationPool, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
+    public static Block ammoniaCompressor,blastFoundry,blastCompressor,blastierDrill,mixingArray, brassMixingPot, solarBoiler,electrolysisCell, defunctDrill,scrapCentrifuge, chalkalloySmelter, coolingTower, glassPulverizer, nuetralizationChamber, thermalEvaporator, leachingVessel, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator, cupronickelAlloyer, brineMixer, brineElectrolyzer, ferricGrinder, SilicaOxidator, arcFurnace, desulferizationAssembly, heatChannel, convectionHeater, combustionHeater, thermalCrackingUnit, steamCrackingUnit, ultrafamicRefinery, gasifier, algalTerrace, atmosphericCentrifuge, steelFoundry, pinDrill, inlet, inletArray, acuminiteDegredationArray, vacuumFreezer, atmosphericIntake, AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, galenaCrucible, DrillDerrick, beamBore, fumeMixer, plasmaExtractor, towaniteReductionVat, azuriteKiln, slagRefinementAssemblage, fumeFilter, ferroSiliconFoundry, bauxiteCentrifuge, magmaTap, fumeSeparator, magmaDiffser;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -2719,6 +2719,12 @@ public class CrafterBlocks {
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
             r.consumeItems(ItemStack.with(coal, 6, sand, 9, pyratite, 1));
             r.craftTime = 120;
+        });
+        overwrite(Blocks.sporePress, (GenericCrafter r) ->{
+            r.outputLiquid = new LiquidStack(oil, 18/60f);
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(ItemStack.with(sporePod, 1));
+            r.craftTime = 60;
         });
     }
 
