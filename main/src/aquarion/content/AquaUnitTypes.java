@@ -760,7 +760,7 @@ public class AquaUnitTypes {
             speed  =0.34f;
             outlineColor = AquaPal.tantDarkestTone;
             hitSize = 8;
-            range = 190;
+            range = 150;
             health = 350;
             legCount = 8;
             legGroupSize = 4;
