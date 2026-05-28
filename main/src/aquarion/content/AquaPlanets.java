@@ -101,9 +101,9 @@ public class AquaPlanets {
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
                 r.coreDestroyClear = true;
-                r.coreIncinerates = false;
-                r.fog = false;
-                r.staticFog = false;
+                r.coreIncinerates = true;
+                r.fog = true;
+                r.staticFog = true;
                 r.onlyDepositCore = true;
                 r.deconstructRefundMultiplier = 1.01f;
             };
