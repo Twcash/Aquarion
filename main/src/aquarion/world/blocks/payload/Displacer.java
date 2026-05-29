@@ -29,6 +29,7 @@ public class Displacer extends PayloadBlock{
         super(name);
         update = true;
         solid = true;
+        acceptsPayload = false;
         outputsPayload = true;
         size = 3;
         rotate = true;
