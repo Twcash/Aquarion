@@ -57,7 +57,7 @@ public class LiquidBlocks {
         siphon = new ModifiedConduit("siphon") {{
             requirements(Category.liquid, with(silicon, 3));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            willMelt = false;
+            willMelt = true;
             junctionReplacement = siphonJunction;
             bridgeReplacement = siphonBridge;
             liquidCapacity = 80;
@@ -71,14 +71,13 @@ public class LiquidBlocks {
         }};
         pulseSiphon = new ModifiedConduit("pulse-siphon") {{
             //but what if siligone? SOLVEDDD!
-            requirements(Category.liquid, with(polymer, 2));
+            requirements(Category.liquid, with(polymer, 2, aluminum, 4));
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 120;
-
             willMelt = false;
-            leaks = true;
+            leaks = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -91,6 +90,7 @@ public class LiquidBlocks {
             envDisabled = Env.none;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             alwaysUnlocked = true;
+            willMelt = true;
         }};
         siphonJunction = new ModifiedLiquidJunction("siphon-junction") {{
             requirements(Category.liquid, with(silicon, 70));
@@ -110,7 +110,7 @@ public class LiquidBlocks {
             liquidCapacity = 8000;
             size = 3;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
-            willMelt = false;
+            willMelt = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -122,7 +122,7 @@ public class LiquidBlocks {
             liquidCapacity = 4000;
             size = 2;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
-            willMelt = false;
+            willMelt = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -134,7 +134,7 @@ public class LiquidBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             liquidCapacity = 40000;
             size = 6;
-            willMelt = false;
+            willMelt = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

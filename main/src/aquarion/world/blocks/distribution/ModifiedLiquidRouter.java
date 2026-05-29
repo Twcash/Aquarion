@@ -24,7 +24,7 @@ public class ModifiedLiquidRouter extends LiquidRouter {
             super.updateTile();
             if (liquids.currentAmount() < 0.01f) return;
             Liquid liquid = liquids.current();
-            if (liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt) {
+            if (liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && willMelt) {
                 damageContinuous(liquid.temperature / 100f);
                 if (Mathf.chanceDelta(0.01f)) {
                     Fx.steam.at(x, y);
