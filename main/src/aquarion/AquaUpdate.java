@@ -33,7 +33,6 @@ public class AquaUpdate {
     public static final String GITHUB_REPO = "Twcash/Aquarion";
 
     private String currentVersion = "unknown";
-    private Fi modFile;
     private boolean isCancelled = false;
 
     private float downloadProgress = 0f;
@@ -43,11 +42,8 @@ public class AquaUpdate {
 
     public void check(Class<? extends Mod> mainClass) {
         mindustry.mod.Mods.LoadedMod modContainer = Vars.mods.getMod(mainClass);
-        if (modContainer != null) {
-            if (modContainer.meta != null) {
-                currentVersion = modContainer.meta.version.trim();
-            }
-            modFile = modContainer.file;
+        if (modContainer != null && modContainer.meta != null) {
+            currentVersion = modContainer.meta.version.trim();
         }
 
         checkUpdates();
@@ -107,9 +103,7 @@ public class AquaUpdate {
             } catch (Exception e) {
                 Log.err("[AquarionUpdate] Error", e);
             }
-        }, error -> {
-            Log.err("[AquarionUpdate] Network error: " + error.getMessage());
-        });
+        }, error -> Log.err("[AquarionUpdate] Network error: " + error.getMessage()));
     }
 
     //This is so stupid. Too late to switch to whole numbers now...
@@ -203,8 +197,7 @@ public class AquaUpdate {
         checkBox.setChecked(true);
 
         checkBox.changed(() -> {
-            boolean value = checkBox.isChecked();
-            Core.settings.put("showUpdates", value);
+            Core.settings.put("showUpdates", checkBox.isChecked());
             Core.settings.manualSave();
         });
 
@@ -258,7 +251,7 @@ public class AquaUpdate {
             return fixGithubImageUrl(htmlMatcher.group(1).trim());
         }
 
-        Pattern mdTagPattern = Pattern.compile("!\\[[^\\]]*\\]\\(([^\\)]+)\\)");
+        Pattern mdTagPattern = Pattern.compile("!\\[[^]]*]\\(([^)]+)\\)");
         Matcher mdMatcher = mdTagPattern.matcher(markdown);
         if (mdMatcher.find()) {
             return fixGithubImageUrl(mdMatcher.group(1).trim().split(" ")[0]);
@@ -299,9 +292,8 @@ public class AquaUpdate {
             }
         }).size(450f, 320f).pad(10f).row();
 
-        logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"), () -> {
-            Core.app.openURI("https://github.com/" + GITHUB_REPO + "/releases/latest");
-        }).size(180f, 60f);
+        logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"),
+                () -> Core.app.openURI("https://github.com/" + GITHUB_REPO + "/releases/latest")).size(180f, 60f);
 
         logDialog.buttons.button(Core.bundle.get("aquarion.update.back"), logDialog::hide).size(150f, 60f);
         logDialog.show();
@@ -420,12 +412,12 @@ public class AquaUpdate {
                 }
                 tempFile.delete();
 
-                Core.app.post(() -> {
-                    if (!isCancelled) {
+                if (!isCancelled) {
+                    Core.app.post(() -> {
                         progressDialog.hide();
                         Vars.ui.showException(Core.bundle.get("aquarion.update.install_error"), e);
-                    }
-                });
+                    });
+                }
             } finally {
                 try {
                     if (input != null) input.close();
@@ -440,9 +432,7 @@ public class AquaUpdate {
         String successMessage = Core.bundle.get("aquarion.update.success_text");
         successDialog.cont.add(successMessage).pad(20).row();
 
-        successDialog.buttons.button(Core.bundle.get("aquarion.update.ok"), () -> {
-            Core.app.exit();
-        }).size(150f, 60f);
+        successDialog.buttons.button(Core.bundle.get("aquarion.update.ok"), Core.app::exit).size(150f, 60f);
 
         successDialog.show();
     }
