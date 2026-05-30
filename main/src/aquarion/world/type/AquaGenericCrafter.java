@@ -207,7 +207,7 @@ public class AquaGenericCrafter extends aquarion.world.type.AquaBlock {
                                     return Tmp.c1.set(Pal.lightOrange).lerp(Color.white, t);
                                 }
                             },
-                            () -> Mathf.clamp(Math.abs(entity.heat) / Math.abs(heatRequirement) + entity.efficiency-baseEfficiency)
+                            () -> Mathf.clamp(Math.abs(entity.heat) / Math.abs(heatRequirement))
                     )
             );
         }
