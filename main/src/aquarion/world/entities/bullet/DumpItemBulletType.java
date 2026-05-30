@@ -29,6 +29,7 @@ public class DumpItemBulletType extends BulletType {
         collides = false;
         lifetime = 30f;
         despawnEffect = Fx.none;
+        hitSize = 0.5f;
         hitEffect = Fx.none;
         smokeEffect = Fx.none;
         shootEffect = Fx.none;
