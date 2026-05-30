@@ -18,14 +18,16 @@ public class ItemHopper extends Block {
         @Override
         public void updateTile(){
             float size = block.size * 4f - 0.5f;
-            Groups.bullet.intersect(x - size / 2f, y - size / 2f, size, size).each(b -> {
-                if (b != null && b.data instanceof ItemStack) {
-                    ItemStack item = (ItemStack) b.data;
-                    if (items.get(item.item) < itemCapacity) {
-                        Fx.smoke.at(b.x, b.y);
-                        b.remove();
-                        items.add(item.item, item.amount);
-                    }
+            Groups.bullet.each(b -> {
+                if (b == null || !(b.data instanceof ItemStack)) return;
+                if (b.data == null) return;
+                if (!b.hitseg(x - size / 2f, y - size / 2f, size, size)) return;
+                ItemStack item = (ItemStack) b.data;
+                if (items.get(item.item) < itemCapacity) {
+                    Fx.smoke.at(b.x, b.y);
+                    b.data = null;
+                    b.remove();
+                    items.add(item.item, item.amount);
                 }
             });
             dump();
