@@ -1,5 +1,6 @@
 package aquarion.ui;
 
+import aquarion.AquaLoader;
 import arc.*;
 import arc.scene.style.Drawable;
 import arc.scene.style.TextureRegionDrawable;
@@ -63,7 +64,7 @@ public class AquaMenuDialog extends BaseDialog {
                 t.center(); 
                 t.button(b -> {
                     createRoundAvatar(b, "github", Icon.github, 24f);
-                    b.add(Core.bundle.get("aquarion.menu.link_github")).padLeft(10f);
+                    b.add(Core.bundle.get("aquarion.menu.link_github")).padLeft(15f);
                 }, () -> Core.app.openURI("https://github.com/Twcash/Aquarion"))
                 .size(buttonWidth, 60f)
                 .padBottom(10f)
@@ -75,6 +76,17 @@ public class AquaMenuDialog extends BaseDialog {
                 }, () -> Core.app.openURI("https://discord.gg/SbFhxYD797"))
                 .size(buttonWidth, 60f)
                 .padBottom(10f)
+                .row();
+
+                t.button(b -> {
+                    createRoundAvatar(b, "checkupdate", Icon.list, 24f);
+                    b.add(Core.bundle.get("aquarion.menu.link_checkupdate")).padLeft(10f);
+                }, () -> {
+                    AquaLoader.updater.checkUpdates(true);
+                })
+                .size(buttonWidth, 60f)
+                .padBottom(10f)
+                .update(btn -> btn.setDisabled(AquaLoader.updater.currentVersion.equals("unknown")))
                 .row();
             }).size(paneWidth, Vars.mobile ? 140f : 250f);
         } else {

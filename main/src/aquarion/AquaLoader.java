@@ -41,6 +41,7 @@ public class AquaLoader extends Mod {
     public static final int maxsize = 4;
     public static LinkBlock[] linkEntity, linkEntityLiquid;
     public static PlaceholderBlock[] placeholderEntity;
+    public static AquaUpdate updater;
 
     public static void postLoad(){
         Events.on(EventType.ContentInitEvent.class, e -> {
@@ -104,10 +105,12 @@ public class AquaLoader extends Mod {
             Planets.erekir.visible = false;
             Planets.serpulo.visible = false;
             Planets.sun.visible = false;
-            aquarionIconLoader.loadIcons();
+            IconLoader.loadIcons();
 
+            updater = new AquaUpdate();
+            updater.initVersion(AquaLoader.class);
             if (ModSettings.getShowUpdates()) {
-                new AquaUpdate().check(AquaLoader.class);
+                updater.checkUpdates(false);
             }
         });
 

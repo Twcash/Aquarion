@@ -18,6 +18,7 @@ import arc.scene.ui.Tooltip;
 import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.g2d.TextureRegion;
+import arc.input.KeyCode;
 import arc.scene.ui.Image;
 import arc.scene.style.TextureRegionDrawable;
 
@@ -32,7 +33,7 @@ public class AquaUpdate {
 
     public static final String GITHUB_REPO = "Twcash/Aquarion"; 
     
-    private String currentVersion = "unknown";
+    public String currentVersion = "unknown";
     private Fi modFile;
     private boolean isCancelled = false;
     
@@ -41,7 +42,8 @@ public class AquaUpdate {
     private String releaseNotes = "";
     private Table disclaimerBanner;
 
-    public void check(Class<? extends Mod> mainClass) {
+    /** Checks and initializes the updater */
+    public void initVersion(Class<? extends Mod> mainClass){
         mindustry.mod.Mods.LoadedMod modContainer = Vars.mods.getMod(mainClass);
         if (modContainer != null) {
             if (modContainer.meta != null) {
@@ -49,19 +51,19 @@ public class AquaUpdate {
             }
             modFile = modContainer.file;
         }
-        
-        checkUpdates();
     }
 
-    private void checkUpdates() {
-        showDisclaimer();
+    public void checkUpdates(Boolean silent) {
+        if(!silent) showDisclaimer();
         Http.get("https://api.github.com/repos/" + GITHUB_REPO + "/releases/latest", response -> {
             try {
                 Jval json = Jval.read(response.getResultAsString());
                 String remoteVersion = json.getString("tag_name", "").trim();
                 releaseNotes = json.getString("body", "");
-                if (remoteVersion.isEmpty() ||
-                        compareVersions(remoteVersion, currentVersion) <= 0) {
+                if (remoteVersion.isEmpty() || compareVersions(remoteVersion, currentVersion) <= 0) {
+                    if(silent) {
+                        Core.app.post(() -> showUpToDateDialog());
+                    }
                     return;
                 }
                 Jval assets = json.get("assets");
@@ -121,7 +123,7 @@ public class AquaUpdate {
                 Log.err("[AquarionUpdate] Error", e);
             }
         }, error -> {
-            Log.err("[AquarionUpdate] Network error: " + error.getMessage());
+            Log.err("[AquarionUpdate] Network error: @ - @", error.getClass().getSimpleName(), error.getMessage());
         });
     }
 
@@ -203,6 +205,16 @@ public class AquaUpdate {
             }
         });
     }
+
+    private void showUpToDateDialog(){
+        BaseDialog dialog = new BaseDialog(Core.bundle.get("aquarion.update.title"));
+        dialog.cont.add(Core.bundle.get("aquarion.update.uptodate")).padBottom(20f).row();
+        
+        dialog.keyDown(KeyCode.escape, dialog::hide);
+        dialog.buttons.button(Core.bundle.get("aquarion.update.ok"), dialog::hide).size(130f, 60f);
+        dialog.show();
+    }
+
     private void showUpdateDialog(String newVersion, String downloadUrl) {
         BaseDialog dialog = new BaseDialog(Core.bundle.get("aquarion.update.title"));
         
@@ -250,6 +262,7 @@ public class AquaUpdate {
 
         dialog.buttons.button(Core.bundle.get("aquarion.update.changelog"), this::showChangelogDialog).size(160f, 60f);
 
+        dialog.keyDown(KeyCode.escape, dialog::hide);
         dialog.buttons.button(Core.bundle.get("aquarion.update.cancel"), dialog::hide).size(130f, 60f);
         dialog.show();
     }
@@ -453,6 +466,7 @@ public class AquaUpdate {
         String successMessage = Core.bundle.get("aquarion.update.success_text");
         successDialog.cont.add(successMessage).pad(20).row();
         
+        successDialog.keyDown(KeyCode.escape, successDialog::hide);
         successDialog.buttons.button(Core.bundle.get("aquarion.update.ok"), () -> {
             Core.app.exit();
         }).size(150f, 60f);
