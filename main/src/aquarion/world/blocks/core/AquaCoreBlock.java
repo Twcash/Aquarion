@@ -39,5 +39,9 @@ public class AquaCoreBlock extends CoreBlock {
             }
             return true;
         }
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            return items.get(item) < itemCapacity && item.buildable;
+        }
     }
 }
