@@ -239,6 +239,8 @@ public class TantrosTechTree {
                             new Objectives.Research(point)
                     ), () -> {
                         node(Ingress, Seq.with(
+                                new Objectives.SectorComplete(twinPass),
+                                new Objectives.Research(magmaTap),
                                 new Objectives.Research(magmaDiffser)
                         ), () -> node(Torrent, Seq.with(
                                 new Objectives.Research(inlet)
@@ -457,14 +459,20 @@ public class TantrosTechTree {
                 ), () -> {});
             });
             node(atmosphericIntake, () -> {
-                node(magmaTap, () -> {
-                    node(inlet, () -> {
+                node(magmaTap, Seq.with(
+                        new Objectives.SectorComplete(twinPass)
+                ), () -> {
+                    node(inlet, Seq.with(
+                            new Objectives.SectorComplete(Ingress)
+                    ), () -> {
                         node(inletArray, () -> {});
                         node(vacuumFreezer, Seq.with(
                                 new Objectives.SectorComplete(FeldsparRavine)
                         ), () -> {});
                     });
-                    node(magmaDiffser, () -> {
+                    node(magmaDiffser, Seq.with(
+                            new Objectives.SectorComplete(twinPass)
+                    ), () -> {
                         node(fumeFilter, () -> {
                             node(fumeSeparator, () -> {
                                 node(fumeMixer, () -> {});
