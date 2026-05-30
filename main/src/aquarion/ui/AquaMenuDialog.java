@@ -20,7 +20,7 @@ public class AquaMenuDialog extends BaseDialog {
 
     private void setup() {
         addCloseButton();
-        updateContent("links");
+        updateContent("info");
     }
 
     private Drawable getModIcon(String name, Drawable fallback) {
@@ -49,9 +49,9 @@ public class AquaMenuDialog extends BaseDialog {
         float buttonHeight = Vars.mobile ? 85f : 100f;
 
         Table nav = new Table();
-        nav.button(Core.bundle.get("aquarion.menu.tab_links"), () -> updateContent("links"))
+        nav.button(Core.bundle.get("aquarion.menu.tab_info"), () -> updateContent("info"))
            .size(Vars.mobile ? 150f : 160f, 50f)
-           .disabled(type.equals("links"));
+           .disabled(type.equals("info"));
         nav.button(Core.bundle.get("aquarion.menu.tab_credits"), () -> updateContent("text"))
            .size(Vars.mobile ? 150f : 160f, 50f)
            .disabled(type.equals("text"));
@@ -59,7 +59,7 @@ public class AquaMenuDialog extends BaseDialog {
         cont.add(nav).padBottom(15f).row();
 
         Table body = new Table();
-        if (type.equals("links")) {
+        if (type.equals("info")) {
             body.pane(t -> {
                 t.center(); 
                 t.button(b -> {
