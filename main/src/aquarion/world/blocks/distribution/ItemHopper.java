@@ -47,7 +47,7 @@ public class ItemHopper extends Block {
         }
         @Override
         public boolean acceptItem(Building source, Item item){
-            return items.get(item) < itemCapacity;
+            return source == this && items.get(item) < itemCapacity;
         }
 
         @Override
