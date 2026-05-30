@@ -81,7 +81,7 @@ public class AquaUnitTypes {
     public static UnitType
         //Sharded units
             weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit;
-        public static  UnitType  cull;
+        public static  UnitType  cull, cullButScorch;
     public static void loadContent() {
         visitor = new UnitType("visitor"){{
             hitSize = 6;
@@ -92,6 +92,59 @@ public class AquaUnitTypes {
             boostMultiplier = 1.8f;
             canBoost = true;
             drownTimeMultiplier = 0.1f;
+        }};
+        cullButScorch = new UnitType("cull-but-scorch") {{
+            payloadCapacity = (2 * 2) * tilePayload;
+            outlineColor = AquaPal.tantDarkerTone;
+            lowAltitude = flying = coreUnitDock = true;
+            aiController = BuilderAI::new;
+            constructor = UnitEntity::create;
+            health = 80;
+            healColor = Pal.accent;
+            envRequired = Env.scorching;
+            envDisabled = Env.none;
+
+            engines.add(
+                    new UnitEngine(0, -18 / 4f, 2.5f, -90),
+                    new UnitEngine(0, 18 / 4f, 2.5f, 90)
+            );
+            setEnginesMirror(
+                    new UnitEngine(16 / 4f, 0, 2.5f, 0)
+            );
+            speed = 9;
+            fogRadius = 2;
+            buildRange = 160;
+            mineSpeed = 9;
+            accel = 0.08f;
+            drag = 0.1f;
+            mineWalls = true;
+            mineFloor = true;
+            buildSpeed = 1.3f;
+            rotateSpeed = 12;
+            engineSize = 0;
+            mineTier = 2;
+            hitSize = 16;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            weapons.add(
+                    new RepairBeamWeapon("cull-b") {{
+                        mirror = false;
+                        rotate = true;
+                        autoTarget = true;
+                        name = "cull-b";
+                        x = 0;
+                        y = 0;
+                        controllable = false;
+                        targetUnits = true;
+                        targetBuildings = true;
+                        fractionRepairSpeed = 0.03f;
+                        widthSinMag = 0.11f;
+                        healColor = laserColor = Pal.accent;
+                        bullet = new BulletType() {{
+                            maxRange = 80;
+                        }};
+                    }}
+            );
         }};
         cull = new UnitType("cull") {{
             payloadCapacity = (2 * 2) * tilePayload;
