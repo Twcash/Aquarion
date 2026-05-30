@@ -2565,7 +2565,7 @@ public class CrafterBlocks {
             liquidCapacity = 150;
             regionRotated1 = 1;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            consume(new ConsumeLiquidFlammable(1f, 1));
+            consume(new ConsumeLiquidFlammable(1.01f, 1));
             consumeLiquid(oxygen, .2f);
             heatOutput = 30;
             rotateDraw = false;
