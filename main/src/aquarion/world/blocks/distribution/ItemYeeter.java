@@ -58,7 +58,7 @@ public class ItemYeeter extends Block {
         }
         @Override
         public boolean acceptItem(Building source, Item item){
-            return (items.empty()) || item == items.first();
+            return (items.empty()) || item == items.first() && items.get(item) < itemCapacity;
         }
         @Override
         public void draw(){
