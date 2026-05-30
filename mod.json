@@ -5,7 +5,7 @@
 "subtitle": "This mod adds a separate solar system.",
 "author": "twcash",
 "description": "A complete rewrite of the campaign. Currently in heavy development.",
-"version": "3.0.1",
+"version": "4.0.2",
 "minGameVersion": "158.1",
 "hidden": false,
 "java": true,
