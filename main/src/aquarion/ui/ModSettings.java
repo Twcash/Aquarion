@@ -26,6 +26,7 @@ public class ModSettings {
             root.checkPref("richPrescense", true);
             root.checkPref("showUpdates", true);
             root.checkPref("debugResearchRendering", false);
+            root.checkPref("debugHitboxRendering", false);
             
             for (Setting setting : root.getSettings()) {
                 if (setting instanceof CheckSetting) {
@@ -111,5 +112,9 @@ public class ModSettings {
 
     public static boolean getDebugResearchRendering(){
         return Core.settings.getBool("debugResearchRendering", false);
+    }
+
+    public static boolean getDebugHitboxRendering(){
+        return Core.settings.getBool("debugHitboxRendering", false);
     }
 }
