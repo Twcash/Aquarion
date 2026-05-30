@@ -1,7 +1,7 @@
 package aquarion;
 
 import arc.*;
-import arc.files.*;
+import arc.files.Fi;
 import arc.scene.event.Touchable;
 import arc.scene.ui.TextButton;
 import arc.scene.ui.layout.Table;
@@ -30,12 +30,11 @@ import java.util.regex.Pattern;
 
 public class AquaUpdate {
 
-    public static final String GITHUB_REPO = "Twcash/Aquarion"; 
-    
+    public static final String GITHUB_REPO = "Twcash/Aquarion";
+
     private String currentVersion = "unknown";
-    private Fi modFile;
     private boolean isCancelled = false;
-    
+
     private float downloadProgress = 0f;
     private String progressText = "";
     private String releaseNotes = "";
@@ -43,13 +42,10 @@ public class AquaUpdate {
 
     public void check(Class<? extends Mod> mainClass) {
         mindustry.mod.Mods.LoadedMod modContainer = Vars.mods.getMod(mainClass);
-        if (modContainer != null) {
-            if (modContainer.meta != null) {
-                currentVersion = modContainer.meta.version.trim(); 
-            }
-            modFile = modContainer.file;
+        if (modContainer != null && modContainer.meta != null) {
+            currentVersion = modContainer.meta.version.trim();
         }
-        
+
         checkUpdates();
     }
 
@@ -78,51 +74,36 @@ public class AquaUpdate {
                 }
                 if (downloadUrl == null) return;
                 final String finalUrl = downloadUrl;
-                //This is just in case the new game version for the new mod update isn't compatible with the users current version
-                Http.get(finalUrl, jarResponse -> {
-                    try {
-                        Fi tempJar = Core.files.cache("aquarion_version_check.jar");
-                        tempJar.writeBytes(jarResponse.getResult());
-                        ZipFi zip = new ZipFi(tempJar);
-                        Fi metaFile = zip.child("mod.hjson");
-                        if (!metaFile.exists()) {
-                            metaFile = zip.child("mod.json");
-                        }
-                        boolean compatible = true;
-                        if (metaFile.exists()) {
-                            Jval meta = Jval.read(metaFile.readString());
-                            String minGameVersion = meta.getString("minGameVersion", "");
-                            if (!minGameVersion.isEmpty()) {
-                                try {
-                                    int required = Integer.parseInt(minGameVersion.trim());
-                                    int current = Version.build;
-                                    compatible = current >= required;
-                                } catch (Exception ignored) {
-                                }
-                            }
-                        }
-                        tempJar.delete();
-                        if (compatible) {
-                            Core.app.post(() ->
-                                    showUpdateDialog(remoteVersion, finalUrl)
-                            );
-                        } else {
-                            Log.info("[AquarionUpdate] Ignoring update - requires newer Mindustry version.");
-                        }
 
-                    } catch (Exception e) {
-                        Log.err("[AquarionUpdate] Compatibility check failed", e);
+                // Fetch only mod.hjson (tiny file) instead of the whole JAR for compatibility check
+                String rawMetaUrl = "https://raw.githubusercontent.com/" + GITHUB_REPO + "/" + remoteVersion + "/mod.hjson";
+                Http.get(rawMetaUrl, metaResponse -> {
+                    boolean compatible = true;
+                    try {
+                        Jval meta = Jval.read(metaResponse.getResultAsString());
+                        String minGameVersion = meta.getString("minGameVersion", "");
+                        if (!minGameVersion.isEmpty()) {
+                            int required = Integer.parseInt(minGameVersion.trim());
+                            compatible = Version.build >= required;
+                        }
+                    } catch (Exception ignored) {
+                        // If meta parse fails, assume compatible
+                    }
+                    if (compatible) {
+                        Core.app.post(() -> showUpdateDialog(remoteVersion, finalUrl));
+                    } else {
+                        Log.info("[AquarionUpdate] Ignoring update - requires newer Mindustry version.");
                     }
                 }, err -> {
-                    Log.err("[AquarionUpdate] Failed to check mod compatibility: " + err.getMessage());
+                    // If raw meta fetch fails (e.g. file not at expected path), show dialog anyway
+                    Log.info("[AquarionUpdate] Could not fetch remote mod.hjson, skipping compat check: " + err.getMessage());
+                    Core.app.post(() -> showUpdateDialog(remoteVersion, finalUrl));
                 });
 
             } catch (Exception e) {
                 Log.err("[AquarionUpdate] Error", e);
             }
-        }, error -> {
-            Log.err("[AquarionUpdate] Network error: " + error.getMessage());
-        });
+        }, error -> Log.err("[AquarionUpdate] Network error: " + error.getMessage()));
     }
 
     //This is so stupid. Too late to switch to whole numbers now...
@@ -205,44 +186,43 @@ public class AquaUpdate {
     }
     private void showUpdateDialog(String newVersion, String downloadUrl) {
         BaseDialog dialog = new BaseDialog(Core.bundle.get("aquarion.update.title"));
-        
+
         String headerText = Core.bundle.get("aquarion.update.header");
         dialog.cont.label(() -> headerText).padBottom(25f).row();
-        
+
         String message = Core.bundle.format("aquarion.update.message", currentVersion, newVersion);
         dialog.cont.add(message).padBottom(20f).row();
-        
+
         CheckBox checkBox = new CheckBox(Core.bundle.get("settings.showUpdates"));
         checkBox.setChecked(true);
-        
+
         checkBox.changed(() -> {
-            boolean value = checkBox.isChecked();
-            Core.settings.put("showUpdates", value);
+            Core.settings.put("showUpdates", checkBox.isChecked());
             Core.settings.manualSave();
         });
-        
+
         dialog.cont.add(checkBox).padBottom(5f).row();
 
         if (Vars.mobile) {
             dialog.cont.add(Core.bundle.get("aquarion.update.hint_settings"))
-                .color(Color.lightGray)
-                .fontScale(0.85f)
-                .wrap()
-                .width(400f)
-                .padBottom(15f)
-                .row();
+                    .color(Color.lightGray)
+                    .fontScale(0.85f)
+                    .wrap()
+                    .width(400f)
+                    .padBottom(15f)
+                    .row();
         } else {
             checkBox.addListener(new Tooltip(t -> {
-                t.background(mindustry.gen.Tex.button) 
-                 .add(Core.bundle.get("aquarion.update.hint_settings"))
-                 .wrap()
-                 .width(400f)
-                 .pad(8f);
+                t.background(mindustry.gen.Tex.button)
+                        .add(Core.bundle.get("aquarion.update.hint_settings"))
+                        .wrap()
+                        .width(400f)
+                        .pad(8f);
             }));
             checkBox.getCell(checkBox.getLabel()).padBottom(15f);
             dialog.cont.row();
         }
-        
+
         dialog.buttons.button(Core.bundle.get("aquarion.update.download"), () -> {
             dialog.hide();
             downloadAndInstall(downloadUrl);
@@ -271,7 +251,7 @@ public class AquaUpdate {
             return fixGithubImageUrl(htmlMatcher.group(1).trim());
         }
 
-        Pattern mdTagPattern = Pattern.compile("!\\[[^\\]]*\\]\\(([^\\)]+)\\)");
+        Pattern mdTagPattern = Pattern.compile("!\\[[^]]*]\\(([^)]+)\\)");
         Matcher mdMatcher = mdTagPattern.matcher(markdown);
         if (mdMatcher.find()) {
             return fixGithubImageUrl(mdMatcher.group(1).trim().split(" ")[0]);
@@ -292,10 +272,10 @@ public class AquaUpdate {
                         try {
                             Texture texture = new Texture(new arc.graphics.Pixmap(bytes));
                             Image image = new Image(new TextureRegionDrawable(new TextureRegion(texture)));
-                            
+
                             float maxW = Vars.mobile ? Core.graphics.getWidth() * 0.65f : 400f;
                             float maxH = Vars.mobile ? Core.graphics.getHeight() * 0.25f : 240f;
-                            
+
                             table.add(image).maxWidth(maxW).maxHeight(maxH).scaling(arc.util.Scaling.fit).padBottom(15f).row();
                             table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
                         } catch (Exception e) {
@@ -312,9 +292,8 @@ public class AquaUpdate {
             }
         }).size(450f, 320f).pad(10f).row();
 
-        logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"), () -> {
-            Core.app.openURI("https://github.com/" + GITHUB_REPO + "/releases/latest");
-        }).size(180f, 60f);
+        logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"),
+                () -> Core.app.openURI("https://github.com/" + GITHUB_REPO + "/releases/latest")).size(180f, 60f);
 
         logDialog.buttons.button(Core.bundle.get("aquarion.update.back"), logDialog::hide).size(150f, 60f);
         logDialog.show();
@@ -327,33 +306,33 @@ public class AquaUpdate {
 
         BaseDialog progressDialog = new BaseDialog(Core.bundle.get("aquarion.update.titledownl"));
         progressDialog.cont.add(Core.bundle.get("aquarion.update.downloading_text")).pad(10f).row();
-        
+
         Color startColor = Color.valueOf("#ff0000");
         Color endColor = Color.valueOf("#ffd37f");
         Color currentColor = new Color();
 
         Bar progressBar = new Bar(
-            () -> progressText, 
-            () -> currentColor.set(startColor).lerp(endColor, downloadProgress), 
-            () -> downloadProgress
+                () -> progressText,
+                () -> currentColor.set(startColor).lerp(endColor, downloadProgress),
+                () -> downloadProgress
         );
-        
+
         progressDialog.cont.add(progressBar).size(400f, 40f).pad(10f).row();
-        
+
         progressDialog.buttons.button(Core.bundle.get("aquarion.update.cancel"), () -> {
             isCancelled = true;
             progressDialog.hide();
         }).size(150f, 60f).pad(10f);
-        
+
         progressDialog.show();
 
         Threads.daemon(() -> {
             HttpURLConnection connection = null;
             InputStream input = null;
-            
+
             Fi tempFile = Core.files.local("cache/aquarion_tmp.jar");
             java.io.OutputStream output = null;
-            
+
             try {
                 URL url = new URL(urlString);
                 connection = (HttpURLConnection) url.openConnection();
@@ -362,8 +341,8 @@ public class AquaUpdate {
                 connection.connect();
 
                 if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                    if (connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP || 
-                        connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM) {
+                    if (connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP ||
+                            connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM) {
                         String newUrl = connection.getHeaderField("Location");
                         connection.disconnect();
                         url = new URL(newUrl);
@@ -386,11 +365,11 @@ public class AquaUpdate {
                 while ((count = input.read(data)) != -1) {
                     if (isCancelled) break;
                     total += count;
-                    
+
                     if (fileLength > 0) {
                         float progress = (float) total / fileLength;
                         int percent = (int) (progress * 100);
-                        
+
                         downloadProgress = progress;
                         progressText = percent + "%";
                     }
@@ -406,15 +385,15 @@ public class AquaUpdate {
                     Core.app.post(() -> {
                         try {
                             progressDialog.hide();
-                            
+
                             mindustry.mod.Mods.LoadedMod oldMod = Vars.mods.getMod(AquaLoader.class);
                             if (oldMod != null) {
                                 Vars.mods.removeMod(oldMod);
                             }
-                            
+
                             Vars.mods.importMod(tempFile);
                             Vars.mods.reload();
-                            
+
                             tempFile.delete();
                             showSuccessDialog();
                         } catch (Exception e) {
@@ -432,13 +411,13 @@ public class AquaUpdate {
                     try { output.close(); } catch (Exception ignored) {}
                 }
                 tempFile.delete();
-                
-                Core.app.post(() -> {
-                    if (!isCancelled) {
+
+                if (!isCancelled) {
+                    Core.app.post(() -> {
                         progressDialog.hide();
                         Vars.ui.showException(Core.bundle.get("aquarion.update.install_error"), e);
-                    }
-                });
+                    });
+                }
             } finally {
                 try {
                     if (input != null) input.close();
@@ -452,11 +431,9 @@ public class AquaUpdate {
         BaseDialog successDialog = new BaseDialog(Core.bundle.get("aquarion.update.success_title"));
         String successMessage = Core.bundle.get("aquarion.update.success_text");
         successDialog.cont.add(successMessage).pad(20).row();
-        
-        successDialog.buttons.button(Core.bundle.get("aquarion.update.ok"), () -> {
-            Core.app.exit();
-        }).size(150f, 60f);
-        
+
+        successDialog.buttons.button(Core.bundle.get("aquarion.update.ok"), Core.app::exit).size(150f, 60f);
+
         successDialog.show();
     }
 }
