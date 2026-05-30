@@ -22,7 +22,7 @@ public class ItemHopper extends Block {
         public void updateTile(){
             curReload += edelta();
             if(curReload >= reload) {
-                Groups.bullet.intersect(x, y, block.size * 4f, block.size * 4f).each(b -> {
+                Groups.bullet.intersect(x, y, (block.size * 4f, block.size * 4f)-1.5f).each(b -> {
                     if (b != null && b.data instanceof ItemStack item) {
                         if (acceptItem(this, item.item)) {
                             Fx.smoke.at(b.x, b.y);
