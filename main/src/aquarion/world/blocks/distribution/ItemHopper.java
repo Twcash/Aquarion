@@ -1,6 +1,5 @@
 package aquarion.world.blocks.distribution;
 
-import arc.util.io.Writes;
 import mindustry.content.Fx;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
@@ -9,7 +8,6 @@ import mindustry.type.ItemStack;
 import mindustry.world.Block;
 
 public class ItemHopper extends Block {
-    public float reload = 10;
     public ItemHopper(String name) {
         super(name);
         itemCapacity = 10;
@@ -17,30 +15,24 @@ public class ItemHopper extends Block {
         update = true;
     }
     public class HopperBuild extends Building{
-        public float curReload = 0;
         @Override
         public void updateTile(){
-            curReload += edelta();
-            if(curReload >= reload) {
-                Groups.bullet.intersect(x, y, (block.size * 4f, block.size * 4f)-0.5f).each(b -> {
-                    if (b != null && b.data instanceof ItemStack item) {
-                        if (acceptItem(this, item.item)) {
-                            Fx.smoke.at(b.x, b.y);
-                            b.remove();
-                            items.add(item.item, item.amount);
-                        } else {
-                            return;
-                        }
+            float size = block.size * 4f - 0.5f;
+            Groups.bullet.intersect(x - size / 2f, y - size / 2f, size, size).each(b -> {
+                if (b != null && b.data instanceof ItemStack) {
+                    ItemStack item = (ItemStack) b.data;
+                    if (items.get(item.item) < itemCapacity) {
+                        Fx.smoke.at(b.x, b.y);
+                        b.remove();
+                        items.add(item.item, item.amount);
                     }
-                });
-                reload = 0;
-            }
+                }
+            });
             dump();
         }
         @Override
         public boolean acceptItem(Building source, Item item){
-            //This building should not accept items from anything but itself.
-            return items.get(item) < itemCapacity && source == this;
+            return items.get(item) < itemCapacity;
         }
     }
 }
