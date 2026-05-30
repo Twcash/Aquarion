@@ -1,28 +1,18 @@
 package aquarion.content;
 
 import aquarion.content.blocks.CoreBlocks;
-import aquarion.planets.AquaPlanetGenerator;
-import aquarion.planets.CoradumPlanetGenerator;
-import aquarion.planets.FakeSerpuloPlanetGenerator;
-import aquarion.planets.QeralterPlanetGen;
+import aquarion.planets.*;
 import arc.func.Cons;
 import arc.graphics.Color;
-import arc.math.Mathf;
-import arc.math.Rand;
-import arc.math.geom.Mat3D;
-import arc.math.geom.Vec3;
+import arc.math.*;
+import arc.math.geom.*;
 import arc.struct.Seq;
 import arc.util.Tmp;
-import mindustry.content.Blocks;
-import mindustry.content.Planets;
 import mindustry.game.Team;
 import mindustry.graphics.Pal;
 import mindustry.graphics.g3d.*;
-import mindustry.maps.planet.AsteroidGenerator;
-import mindustry.maps.planet.ErekirPlanetGenerator;
-import mindustry.type.Planet;
-import mindustry.type.Sector;
-import mindustry.type.Weather;
+import mindustry.maps.planet.*;
+import mindustry.type.*;
 import mindustry.world.Block;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.Env;
@@ -43,16 +33,16 @@ public class AquaPlanets {
             bloom = true;
             accessible = false;
             cloudMeshLoader = () -> new MultiMesh(
-                    new HexSkyMesh(this, 3, 0.13f, 0.11f, 5, Color.valueOf("3b64ff").a(0.99f), 2, 0.18f, 1.2f, 0.3f),
-                    new HexSkyMesh(this, 3, 0.14f, 0.12f, 5, Color.valueOf("3b64ff").a(0.99f), 2, 0.17f, 1.3f, .28f),
-                    new HexSkyMesh(this, 3, 0.15f, 0.15f, 5, Color.valueOf("477ef2").a(0.95f), 2, 0.16f, 1.4f, 0.26f),
-                    new HexSkyMesh(this, 3, 0.16f, 0.17f, 5, Color.valueOf("55a3ef").a(0.90f), 2, 0.15f, 1.5f, 0.24f),
-                    new HexSkyMesh(this, 3, 0.18f, 0.22f, 5, Color.valueOf("86d1e9").a(0.85f), 2, 0.14f, 1.7f, 0.22f),
-                    new HexSkyMesh(this, 3, 0.22f, 0.28f, 5, Color.valueOf("aee6f8").a(0.65f), 2, 0.12f, 1.9f, 0.20f),
-                    new HexSkyMesh(this, 3, 0.26f, 0.36f, 5, Color.valueOf("c8f2ff").a(0.50f), 2, 0.10f, 2.3f, 0.17f),
-                    new HexSkyMesh(this, 3, 0.32f, 0.43f, 5, Color.valueOf("ffffff").a(0.22f), 2, 0.08f, 2.6f, 0.12f)
+                new HexSkyMesh(this, 3, 0.13f, 0.11f, 5, Color.valueOf("3b64ff").a(0.99f), 2, 0.18f, 1.2f, 0.3f),
+                new HexSkyMesh(this, 3, 0.14f, 0.12f, 5, Color.valueOf("3b64ff").a(0.99f), 2, 0.17f, 1.3f, .28f),
+                new HexSkyMesh(this, 3, 0.15f, 0.15f, 5, Color.valueOf("477ef2").a(0.95f), 2, 0.16f, 1.4f, 0.26f),
+                new HexSkyMesh(this, 3, 0.16f, 0.17f, 5, Color.valueOf("55a3ef").a(0.90f), 2, 0.15f, 1.5f, 0.24f),
+                new HexSkyMesh(this, 3, 0.18f, 0.22f, 5, Color.valueOf("86d1e9").a(0.85f), 2, 0.14f, 1.7f, 0.22f),
+                new HexSkyMesh(this, 3, 0.22f, 0.28f, 5, Color.valueOf("aee6f8").a(0.65f), 2, 0.12f, 1.9f, 0.20f),
+                new HexSkyMesh(this, 3, 0.26f, 0.36f, 5, Color.valueOf("c8f2ff").a(0.50f), 2, 0.10f, 2.3f, 0.17f),
+                new HexSkyMesh(this, 3, 0.32f, 0.43f, 5, Color.valueOf("ffffff").a(0.22f), 2, 0.08f, 2.6f, 0.12f)
 
-                    );
+            );
             meshLoader = () -> new SunMesh(
                     this, 4,
                     5, 0.3, 1.7, 1.2, 1,
@@ -92,8 +82,8 @@ public class AquaPlanets {
             clearSectorOnLose = false;
             allowLaunchToNumbered = false;
             cloudMeshLoader = () -> new MultiMesh(
-                    new HexSkyMesh(this, 2, 0.15f, 0.14f, 5, Color.valueOf("eba768").a(0.75f), 2, 0.42f, 1f, 0.43f),
-                    new HexSkyMesh(this, 3, 0.6f, 0.15f, 5, Color.valueOf("eea293").a(0.75f), 2, 0.42f, 1.2f, 0.45f)
+                new HexSkyMesh(this, 2, 0.15f, 0.14f, 5, Color.valueOf("eba768").a(0.75f), 2, 0.42f, 1f, 0.43f),
+                new HexSkyMesh(this, 3, 0.6f, 0.15f, 5, Color.valueOf("eea293").a(0.75f), 2, 0.42f, 1.2f, 0.45f)
             );
             ruleSetter = r -> {
                 r.fire = false;
@@ -101,9 +91,9 @@ public class AquaPlanets {
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
                 r.coreDestroyClear = true;
-                r.coreIncinerates = false;
-                r.fog = false;
-                r.staticFog = false;
+                r.coreIncinerates = true;
+                r.fog = true;
+                r.staticFog = true;
                 r.onlyDepositCore = true;
                 r.deconstructRefundMultiplier = 1.01f;
             };
@@ -171,14 +161,14 @@ public class AquaPlanets {
             atmosphereRadOut = 0.19f;
             atmosphereColor = Color.valueOf("798d87");
             cloudMeshLoader = () -> new MultiMesh(
-                    new HexSkyMesh(this, 2, 0.16f, 0.17f, 5, Color.valueOf("98a4d2").a(0.75f), 2, 0.42f, 1f, 0.43f),
-                    new HexSkyMesh(this, 3, 0.7f, 0.18f, 5, Color.valueOf("dbe2e8").a(0.7f), 2, 0.42f, 1.2f, 0.45f)
+                new HexSkyMesh(this, 2, 0.16f, 0.17f, 5, Color.valueOf("98a4d2").a(0.75f), 2, 0.42f, 1f, 0.43f),
+                new HexSkyMesh(this, 3, 0.7f, 0.18f, 5, Color.valueOf("dbe2e8").a(0.7f), 2, 0.42f, 1.2f, 0.45f)
 
             );
         }};
         delubrum = new Planet("delubrum", fakeSerpulo, 1f, 1){{
             startSector = 1;
-            generator = new AquaPlanetGenerator();
+            generator = new DelubrumPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 3);
             orbitRadius = 12;
             orbitOffset = 52;
@@ -199,7 +189,7 @@ public class AquaPlanets {
             atmosphereRadOut = 0.8f;
             atmosphereColor = Color.valueOf("3db899");
         }};
-        tantros2 = new Planet("tantros", citun, 1.5f, 3){{
+        tantros2 = new Planet("tantros", citun, 1f, 3){{
             generator = new AquaPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 5);
             alwaysUnlocked = true;
@@ -207,21 +197,20 @@ public class AquaPlanets {
             orbitRadius = 112;
             orbitOffset = 78;
             visible = true;
-            atmosphereColor = Color.valueOf("3db899");
-            iconColor = Color.valueOf("597be3");
+            atmosphereColor = Color.valueOf("#6298b2");
+            iconColor = Color.valueOf("#597be3");
             cloudMeshLoader = () -> new MultiMesh(
-                    new HexSkyMesh(this, 3, 0.13f, 0.11f, 5, Color.valueOf("c4ebed").a(0.75f), 2, 0.18f, 1.2f, 0.3f),
-                    new HexSkyMesh(this, 5, 0.7f, 0.09f, 5, Color.valueOf("edfeff").a(0.65f), 3, 0.12f, 1.5f, 0.32f),
-                    new HexSkyMesh(this, 8, 0.3f, 0.08f, 5, Color.valueOf("d3cad7").a(0.55f), 2, 0.08f, 1.6f, 0.35f)
+                new HexSkyMesh(this, 3, 0.13f, 0.11f, 5, Color.valueOf("#b1d6d8").a(0.75f), 2, 0.18f, 1.2f, 0.25f),
+                new HexSkyMesh(this, 5, 0.7f, 0.09f, 5, Color.valueOf("#c1d6d7").a(0.65f), 3, 0.12f, 1.5f, 0.28f),
+                new HexSkyMesh(this, 8, 0.3f, 0.08f, 5, Color.valueOf("#b5acb9").a(0.65f), 2, 0.08f, 1.6f, 0.3f)
             );
             startSector = 10;
-            atmosphereRadIn = 0.09f;
+            atmosphereRadIn = 0.02f;
+            atmosphereRadOut = 0.3f;
             orbitSpacing = 6f;
             defaultCore = CoreBlocks.corePike;
             allowLaunchLoadout = false;
-            atmosphereRadOut = 1.5f;
-            lightColor = Color.valueOf("0c0924");
-
+            lightColor = Color.valueOf("#0c0924");
             clearSectorOnLose = true;
             allowLaunchToNumbered = false;
             allowCampaignRules = true;

@@ -1579,11 +1579,11 @@ public class TurretBlocks {
             shootY = 0;
             coolantMultiplier = 0.2f;
             ammo(
-                    lead, new BasicBulletType(8, 65, "bullet") {{
+                    lead, new BasicBulletType(6, 65, "bullet") {{
                         width = 10f;
                         height = 16f;
                         trailLength = 12;
-                        lifetime = 60f;
+                        lifetime = 40f;
                         ammoMultiplier = 1;
                         shootEffect = AquaFx.shootLong;
                         smokeEffect = Fx.smoke;
@@ -1598,7 +1598,7 @@ public class TurretBlocks {
                         width = 10f;
                         height = 18f;
                         trailLength = 10;
-                        lifetime = 60f;
+                        lifetime = 50f;
                         ammoMultiplier = 4;
                         shootEffect = AquaFx.shootLong;
                         smokeEffect = Fx.smoke;
@@ -1625,7 +1625,7 @@ public class TurretBlocks {
                         width = 10f;
                         height = 18f;
                         trailLength = 10;
-                        lifetime = 60f;
+                        lifetime = 50f;
                         ammoMultiplier = 1;
                         reloadMultiplier = 2f;
                         shootEffect = AquaFx.shootLong;

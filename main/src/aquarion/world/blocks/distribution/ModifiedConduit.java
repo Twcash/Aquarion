@@ -47,7 +47,7 @@ public class ModifiedConduit extends Conduit {
                 sleep();
             }
 
-            if (liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt) {
+            if (liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && willMelt) {
                 damageContinuous(liquid.temperature / 100f);
                 if (Mathf.chanceDelta(0.01)) {
                     Fx.steam.at(x, y);
