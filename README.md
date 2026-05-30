@@ -40,11 +40,6 @@ We welcome community contributions! Whether you want to help with code, sprites,
 
 ---
 
-## <img src="main/assets-raw/sprites/statuses/armored.png" alt="Aquarion Banner" width="30"> Credits
-
-* **[Twcash](https://github.com/Twcash)** — Lead Developer, Coding & Core Concept.
----
-
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Twcash/Aquarion&type=Date)](https://star-history.com/#Twcash/Aquarion&Date)
