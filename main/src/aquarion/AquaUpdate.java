@@ -38,6 +38,7 @@ public class AquaUpdate {
     private float downloadProgress = 0f;
     private String progressText = "";
     private String releaseNotes = "";
+    private int downloadCount = 0;
     private Table disclaimerBanner;
 
     public void check(Class<? extends Mod> mainClass) {
@@ -69,6 +70,7 @@ public class AquaUpdate {
                     String name = asset.getString("name", "");
                     if (name.endsWith(".jar")) {
                         downloadUrl = asset.getString("browser_download_url", null);
+                        downloadCount = asset.getInt("download_count", 0);
                         break;
                     }
                 }
@@ -191,7 +193,10 @@ public class AquaUpdate {
         dialog.cont.label(() -> headerText).padBottom(25f).row();
 
         String message = Core.bundle.format("aquarion.update.message", currentVersion, newVersion);
-        dialog.cont.add(message).padBottom(20f).row();
+        dialog.cont.add(message).padBottom(4f).row();
+
+        String downloadsText = Core.bundle.format("aquarion.update.downloads", downloadCount);
+        dialog.cont.add(downloadsText).color(Color.lightGray).fontScale(0.85f).padBottom(20f).row();
 
         CheckBox checkBox = new CheckBox(Core.bundle.get("settings.showUpdates"));
         checkBox.setChecked(true);
