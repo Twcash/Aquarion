@@ -72,13 +72,14 @@ public class UIEvents {
     }
 
     public static void registerControls() {
-        if (!Vars.mobile) {
+        if (Core.input.hasKeyboard()) {
             arc.Events.run(mindustry.game.EventType.Trigger.update, () -> {
                 if (Core.input.keyTap(getMusicKey())) {
                     showCurrentMusic();
                 }
             });
-        } else {
+        }
+        if (Vars.mobile) {
             Vars.ui.paused.shown(() -> {
                 arc.scene.ui.layout.Table cont = Vars.ui.paused.cont;
                 cont.row();
