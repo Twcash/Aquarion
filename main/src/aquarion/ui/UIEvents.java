@@ -70,8 +70,8 @@ public class UIEvents {
                 cont.row();
                 cont.button(b -> {
                     b.defaults().center();
-                    b.add(new arc.scene.ui.Image(mindustry.gen.Icon.music)).size(42f).row();
-                    b.add(Core.bundle.get("aquarion.music.button")).wrap().width(120f).center().labelAlign(arc.scene.ui.Label.CENTER);
+                    b.add(new arc.scene.ui.Image(mindustry.gen.Icon.effect)).size(42f).row();
+                    b.add(Core.bundle.get("aquarion.music.button")).wrap().width(120f).center().labelAlign(arc.util.Align.center);
                 }, () -> {
                     Vars.ui.paused.hide();
                     showCurrentMusic();
