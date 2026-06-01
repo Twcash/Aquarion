@@ -66,7 +66,7 @@ public class AquaPlanets {
         fakeErekir = new Planet("fakeErekir", citun, 1.5f, 3){{
             generator = new ErekirPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 5);
-            alwaysUnlocked = false;
+            alwaysUnlocked = true;
             orbitOffset = 85;
             orbitRadius = 60;
             atmosphereRadIn = 0.02f;
