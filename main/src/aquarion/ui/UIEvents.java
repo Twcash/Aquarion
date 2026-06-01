@@ -65,7 +65,7 @@ public class UIEvents {
 
         if (!Vars.mobile) {
             arc.Events.run(mindustry.game.EventType.Trigger.update, () -> {
-                if (showMusicBind.tap()) {
+                if (Core.input.keyTap(showMusicBind)) {
                     showCurrentMusic();
                 }
             });
