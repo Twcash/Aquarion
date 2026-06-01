@@ -69,11 +69,13 @@ public class UIEvents {
                 arc.scene.ui.layout.Table cont = Vars.ui.paused.cont;
                 cont.row();
                 cont.button(b -> {
-                    b.add(Core.bundle.get("aquarion.music.button")).wrap().grow().center();
+                    b.defaults().center();
+                    b.add(new arc.scene.ui.Image(mindustry.gen.Icon.music)).size(42f).row();
+                    b.add(Core.bundle.get("aquarion.music.button")).wrap().width(120f).center().labelAlign(arc.scene.ui.Label.CENTER);
                 }, () -> {
                     Vars.ui.paused.hide();
                     showCurrentMusic();
-                }).size(140f).pad(4f).colspan(1);
+                }).size(140f).pad(4f);
             });
         }
     }
