@@ -37,13 +37,11 @@ public class ModSettings {
                 }
             }
 
-            if (Core.input.hasKeyboard()) {
-                root.pref(new ButtonPref(
-                    Core.bundle.get("settings.music-key"),
-                    Icon.menu,
-                    ModSettings::showKeyPickerDialog
-                ));
-            }
+            root.pref(new ButtonPref(
+                Core.bundle.get("settings.music-key"),
+                Icon.menu,
+                ModSettings::showKeyPickerDialog
+            ));
             
             root.pref(new ButtonPref(
                     Core.bundle.get("settings.resethints"),
