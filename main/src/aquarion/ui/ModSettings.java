@@ -106,23 +106,28 @@ public class ModSettings {
         dialog.cont.add(Core.bundle.format("settings.music-key-current", current.toString())).pad(10f).row();
         dialog.cont.add(Core.bundle.get("settings.music-key-press")).color(arc.graphics.Color.lightGray).pad(10f).row();
 
-        dialog.cont.addListener(new arc.scene.event.InputListener() {
-            @Override
-            public boolean keyDown(arc.scene.event.InputEvent event, int keycode) {
-                KeyCode key = KeyCode.byOrdinal(keycode);
+        boolean[] listening = {false};
+
+        dialog.shown(() -> listening[0] = true);
+        dialog.hidden(() -> listening[0] = false);
+
+        arc.Events.run(mindustry.game.EventType.Trigger.update, () -> {
+            if (!listening[0]) return;
+            for (KeyCode key : KeyCode.values()) {
                 if (key == KeyCode.escape) {
-                    dialog.hide();
-                    return true;
+                    if (Core.input.keyTap(key)) {
+                        dialog.hide();
+                        return;
+                    }
+                    continue;
                 }
-                if (key != null) {
+                if (Core.input.keyTap(key)) {
                     UIEvents.setMusicKey(key);
                     dialog.hide();
+                    return;
                 }
-                return true;
             }
         });
-
-        dialog.shown(() -> Core.scene.setKeyboardFocus(dialog.cont));
 
         dialog.buttons.button(Core.bundle.get("aquarion.music.close"), dialog::hide).size(150f, 50f);
         dialog.show();
