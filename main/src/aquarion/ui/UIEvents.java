@@ -9,10 +9,33 @@ import arc.util.Timer;
 import mindustry.Vars;
 import mindustry.core.GameState;
 import mindustry.gen.Musics;
+import mindustry.input.Binding;
 
 public class UIEvents {
     private static Music musLast = null;
     public static boolean musEnabled = true;
+
+    public enum AquaBinding implements KeyBind {
+        show_music(KeyCode.f3, "aquarion");
+
+        private final KeybindValue defaultValue;
+        private final String category;
+
+        AquaBinding(KeybindValue value, String category) {
+            this.defaultValue = value;
+            this.category = category;
+        }
+
+        @Override
+        public KeybindValue defaultValue(boolean controller) {
+            return defaultValue;
+        }
+
+        @Override
+        public String category() {
+            return category;
+        }
+    }
 
     public static void monitorMusic() {
         Timer.schedule(UIEvents::checkMusic, 1);
@@ -59,8 +82,10 @@ public class UIEvents {
 
     public static void registerControls() {
         if (!Vars.mobile) {
+            Core.keybinds.setDefaults(AquaBinding.values());
+
             arc.Events.run(mindustry.game.EventType.Trigger.update, () -> {
-                if (Core.input.keyTap(KeyCode.f3)) {
+                if (Core.keybinds.get(AquaBinding.show_music).key.tap()) {
                     showCurrentMusic();
                 }
             });
