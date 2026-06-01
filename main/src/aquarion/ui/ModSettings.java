@@ -3,12 +3,14 @@ package aquarion.ui;
 import aquarion.content.AquaPlanets;
 import aquarion.world.content.AquaHints;
 import arc.Core;
+import arc.input.KeyCode;
 import arc.struct.Seq;
 import mindustry.Vars;
 import mindustry.content.TechTree;
 import mindustry.ctype.UnlockableContent;
 import mindustry.game.Saves;
 import mindustry.gen.Icon;
+import mindustry.ui.dialogs.BaseDialog;
 import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.Setting;
 import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.CheckSetting;
 
@@ -34,6 +36,12 @@ public class ModSettings {
                     check.title = "@settings." + check.name;
                 }
             }
+
+            root.pref(new ButtonPref(
+                Core.bundle.get("settings.music-key"),
+                Icon.menu,
+                ModSettings::showKeyPickerDialog
+            ));
             
             root.pref(new ButtonPref(
                     Core.bundle.get("settings.resethints"),
@@ -88,6 +96,36 @@ public class ModSettings {
                 });
             }));
         });
+    }
+
+    private static void showKeyPickerDialog() {
+        BaseDialog dialog = new BaseDialog(Core.bundle.get("settings.music-key-title"));
+
+        KeyCode current = UIEvents.getMusicKey();
+
+        dialog.cont.add(Core.bundle.format("settings.music-key-current", current.toString())).pad(10f).row();
+        dialog.cont.add(Core.bundle.get("settings.music-key-press")).color(arc.graphics.Color.lightGray).pad(10f).row();
+
+        dialog.cont.addListener(new arc.scene.event.InputListener() {
+            @Override
+            public boolean keyDown(arc.scene.event.InputEvent event, int keycode) {
+                KeyCode key = KeyCode.byOrdinal(keycode);
+                if (key == KeyCode.escape) {
+                    dialog.hide();
+                    return true;
+                }
+                if (key != null) {
+                    UIEvents.setMusicKey(key);
+                    dialog.hide();
+                }
+                return true;
+            }
+        });
+
+        dialog.shown(() -> Core.scene.setKeyboardFocus(dialog.cont));
+
+        dialog.buttons.button(Core.bundle.get("aquarion.music.close"), dialog::hide).size(150f, 50f);
+        dialog.show();
     }
 
     public static boolean getOnlyModMus(){
