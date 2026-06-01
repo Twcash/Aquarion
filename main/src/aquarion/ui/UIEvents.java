@@ -72,7 +72,7 @@ public class UIEvents {
     }
 
     public static void registerControls() {
-        if (Core.input.hasKeyboard()) {
+        if (!Vars.mobile) {
             arc.Events.run(mindustry.game.EventType.Trigger.update, () -> {
                 if (Core.input.keyTap(getMusicKey())) {
                     showCurrentMusic();
