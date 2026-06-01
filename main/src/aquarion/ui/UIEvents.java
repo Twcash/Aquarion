@@ -3,9 +3,7 @@ package aquarion.ui;
 import aquarion.content.ModMusic;
 import arc.Core;
 import arc.audio.Music;
-import arc.input.KeyBind;
 import arc.input.KeyCode;
-import arc.input.KeybindValue;
 import arc.util.Log;
 import arc.util.Timer;
 import mindustry.Vars;
@@ -16,26 +14,18 @@ public class UIEvents {
     private static Music musLast = null;
     public static boolean musEnabled = true;
 
-    public enum AquaBinding implements KeyBind {
-        show_music(KeyCode.f3, "aquarion");
-
-        private final KeybindValue defaultValue;
-        private final String category;
-
-        AquaBinding(KeybindValue value, String category) {
-            this.defaultValue = value;
-            this.category = category;
+    public static KeyCode getMusicKey() {
+        String saved = Core.settings.getString("aquarion.music.key", KeyCode.f3.name());
+        try {
+            return KeyCode.valueOf(saved);
+        } catch (Exception e) {
+            return KeyCode.f3;
         }
+    }
 
-        @Override
-        public KeybindValue defaultValue(boolean controller) {
-            return defaultValue;
-        }
-
-        @Override
-        public String category() {
-            return category;
-        }
+    public static void setMusicKey(KeyCode key) {
+        Core.settings.put("aquarion.music.key", key.name());
+        Core.settings.manualSave();
     }
 
     public static void monitorMusic() {
@@ -83,10 +73,8 @@ public class UIEvents {
 
     public static void registerControls() {
         if (!Vars.mobile) {
-            Core.keybinds.setDefaults(AquaBinding.values());
-
             arc.Events.run(mindustry.game.EventType.Trigger.update, () -> {
-                if (Core.keybinds.get(AquaBinding.show_music).key.tap()) {
+                if (Core.input.keyTap(getMusicKey())) {
                     showCurrentMusic();
                 }
             });
