@@ -4,8 +4,6 @@ import aquarion.content.ModMusic;
 import arc.Core;
 import arc.audio.Music;
 import arc.input.KeyCode;
-import arc.scene.event.InputEvent;
-import arc.scene.event.InputListener;
 import arc.util.Log;
 import arc.util.Timer;
 import mindustry.Vars;
@@ -61,14 +59,9 @@ public class UIEvents {
 
     public static void registerControls() {
         if (!Vars.mobile) {
-            Core.scene.addListener(new InputListener() {
-                @Override
-                public boolean keyDown(InputEvent event, int keycode) {
-                    if (keycode == KeyCode.f3.ordinal()) {
-                        showCurrentMusic();
-                        return true;
-                    }
-                    return false;
+            arc.Events.run(mindustry.game.EventType.Trigger.update, () -> {
+                if (Core.input.keyTap(KeyCode.f3)) {
+                    showCurrentMusic();
                 }
             });
         } else {
