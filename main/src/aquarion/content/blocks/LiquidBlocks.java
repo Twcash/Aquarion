@@ -107,7 +107,7 @@ public class LiquidBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             liquidPadding = 3;
             squareSprite = false;
-            liquidCapacity = 8000;
+            liquidCapacity = 10000;
             size = 3;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             willMelt = true;
@@ -132,7 +132,7 @@ public class LiquidBlocks {
             liquidPadding = 2;
             squareSprite = false;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
-            liquidCapacity = 40000;
+            liquidCapacity = 45000;
             size = 6;
             willMelt = true;
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -143,7 +143,7 @@ public class LiquidBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             liquidPadding = 3;
             squareSprite = false;
-            liquidCapacity = 18000;
+            liquidCapacity = 32000;
             size = 4;
             willMelt = false;
             envEnabled |= Env.terrestrial | Env.underwater;
