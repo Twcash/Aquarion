@@ -21,7 +21,7 @@ public class ModifiedLiquidBridge extends LiquidBridge {
             }
             Liquid liquid = liquids.current();
 
-            if(liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && !willMelt){
+            if(liquids.currentAmount() > 0.1f && liquid.temperature > 0.5f && willMelt){
                 damageContinuous(liquid.temperature/100f);
                 if(Mathf.chanceDelta(0.01)){
                     Fx.steam.at(x, y);
@@ -61,7 +61,7 @@ public class ModifiedLiquidBridge extends LiquidBridge {
                     Liquid other = next.liquids.current();
                     if(other.blockReactive && liquid.blockReactive){
                         //TODO liquid reaction handler for extensibility
-                        if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f) && !willMelt){
+                        if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f) && willMelt){
                             damageContinuous(liquid.temperature/100f);
                             next.damageContinuous(liquid.temperature/100f);
                             if(Mathf.chanceDelta(0.01)){
