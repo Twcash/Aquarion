@@ -3,6 +3,7 @@ package aquarion.ui;
 import aquarion.content.ModMusic;
 import arc.Core;
 import arc.audio.Music;
+import arc.input.KeyBind;
 import arc.input.KeyCode;
 import arc.util.Log;
 import arc.util.Timer;
@@ -14,19 +15,7 @@ public class UIEvents {
     private static Music musLast = null;
     public static boolean musEnabled = true;
 
-    public static KeyCode getMusicKey() {
-        String saved = Core.settings.getString("aquarion.music.key", KeyCode.f3.name());
-        try {
-            return KeyCode.valueOf(saved);
-        } catch (Exception e) {
-            return KeyCode.f3;
-        }
-    }
-
-    public static void setMusicKey(KeyCode key) {
-        Core.settings.put("aquarion.music.key", key.name());
-        Core.settings.manualSave();
-    }
+    public static final KeyBind showMusicBind = KeyBind.add("aquarion_show_music", KeyCode.f3, "Aquarion");
 
     public static void monitorMusic() {
         Timer.schedule(UIEvents::checkMusic, 1);
@@ -72,9 +61,11 @@ public class UIEvents {
     }
 
     public static void registerControls() {
+        showMusicBind.load();
+
         if (!Vars.mobile) {
             arc.Events.run(mindustry.game.EventType.Trigger.update, () -> {
-                if (Core.input.keyTap(getMusicKey())) {
+                if (Core.input.keyTap(showMusicBind.key)) {
                     showCurrentMusic();
                 }
             });
