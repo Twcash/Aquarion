@@ -66,11 +66,19 @@ public class UIEvents {
             });
         } else {
             Vars.ui.paused.shown(() -> {
-                Vars.ui.paused.cont.row();
-                Vars.ui.paused.cont.button(Core.bundle.get("aquarion.music.button"), () -> {
-                    Vars.ui.paused.hide();
-                    showCurrentMusic();
-                }).size(270f, 50f).pad(4f);
+                // Найти таблицу с кнопками (вторая колонка: Настройки, Сохранить, Запустить сервер, Сохранить & Выйти)
+                arc.scene.ui.layout.Table cont = Vars.ui.paused.cont;
+                // Добавляем кнопку в стиле остальных — квадратную, после "Запустить сервер"
+                cont.row();
+                cont.table(t -> {
+                    t.defaults().size(140f).pad(4f);
+                    t.button(b -> {
+                        b.add(Core.bundle.get("aquarion.music.button")).wrap().grow();
+                    }, () -> {
+                        Vars.ui.paused.hide();
+                        showCurrentMusic();
+                    }).size(140f);
+                }).colspan(3).center();
             });
         }
     }
