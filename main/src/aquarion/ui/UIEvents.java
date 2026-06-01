@@ -3,13 +3,14 @@ package aquarion.ui;
 import aquarion.content.ModMusic;
 import arc.Core;
 import arc.audio.Music;
+import arc.input.KeyBind;
 import arc.input.KeyCode;
+import arc.input.KeybindValue;
 import arc.util.Log;
 import arc.util.Timer;
 import mindustry.Vars;
 import mindustry.core.GameState;
 import mindustry.gen.Musics;
-import mindustry.input.Binding;
 
 public class UIEvents {
     private static Music musLast = null;
