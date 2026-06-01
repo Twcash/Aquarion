@@ -1,7 +1,11 @@
 package aquarion.ui;
 
 import aquarion.content.ModMusic;
+import arc.Core;
 import arc.audio.Music;
+import arc.input.KeyCode;
+import arc.scene.event.InputEvent;
+import arc.scene.event.InputListener;
 import arc.util.Log;
 import arc.util.Timer;
 import mindustry.Vars;
@@ -31,10 +35,50 @@ public class UIEvents {
                 musS = musS2[musS2.length-1];
                 if (ModMusic.musics.containsKey(musS)) {
                     ModMusic.MusicInfo musicInfo = ModMusic.musics.get(musS);
-                    ModUI.showBottomToast("Now playing: " + musicInfo.name + " - " + musicInfo.author);
+                    ModUI.showBottomToast(Core.bundle.format("aquarion.music.now_playing", musicInfo.name, musicInfo.author));
                 }
             }
         }
         Timer.schedule(UIEvents::checkMusic, 1);
+    }
+
+    public static void showCurrentMusic() {
+        Music curMus = ModMusic.getCurMusic();
+        if (curMus == null) {
+            ModUI.showBottomToast(Core.bundle.get("aquarion.music.nothing"));
+            return;
+        }
+        String musS = curMus.toString();
+        String[] musS2 = musS.substring(13, musS.length() - 4).split("/");
+        musS = musS2[musS2.length - 1];
+        if (ModMusic.musics.containsKey(musS)) {
+            ModMusic.MusicInfo info = ModMusic.musics.get(musS);
+            ModUI.showBottomToast(Core.bundle.format("aquarion.music.now_playing", info.name, info.author));
+        } else {
+            ModUI.showBottomToast(Core.bundle.format("aquarion.music.now_playing_unknown", musS));
+        }
+    }
+
+    public static void registerControls() {
+        if (!Vars.mobile) {
+            Core.scene.addListener(new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if (keycode == KeyCode.f3.ordinal()) {
+                        showCurrentMusic();
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        } else {
+            Vars.ui.paused.shown(() -> {
+                Vars.ui.paused.cont.row();
+                Vars.ui.paused.cont.button(Core.bundle.get("aquarion.music.button"), () -> {
+                    Vars.ui.paused.hide();
+                    showCurrentMusic();
+                }).size(270f, 50f).pad(4f);
+            });
+        }
     }
 }
