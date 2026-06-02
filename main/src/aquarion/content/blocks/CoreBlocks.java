@@ -110,7 +110,7 @@ public class CoreBlocks {
             requirements(Category.effect, with(silicon, 1500));
             squareSprite = false;
             health = 2500;
-            itemCapacity = 8000;
+            itemCapacity = 6000;
             incinerateNonBuildable = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 4;
@@ -120,6 +120,26 @@ public class CoreBlocks {
             unitTypes.add(AquaUnitTypes.cullButScorch);
             unitTypes.add(AquaUnitTypes.cull);
             alwaysUnlocked = true;
+            hasItems = true;
+            hasColor = true;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        coreCuesta = new AquaCoreBlock("core-cuesta") {{
+            requirements(Category.effect, with(silicon, 3000, ferrosilicon, 2500, steel, 1500));
+            squareSprite = false;
+            health = 7500;
+            armor = 8;
+            itemCapacity = 8000;
+            incinerateNonBuildable = true;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            size = 6;
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar, fakeErekir);
+            unitCapModifier = 45;
+            unitType = AquaUnitTypes.cull;
+            unitTypes.add(AquaUnitTypes.cullButScorch);
+            unitTypes.add(AquaUnitTypes.cull);
+            alwaysUnlocked = false;
             hasItems = true;
             hasColor = true;
             envEnabled |= Env.terrestrial | Env.underwater;
