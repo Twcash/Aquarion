@@ -3,8 +3,8 @@ sourceSets.main{
     resources.srcDirs = ['assets/']
 }
 
-sourceCompatibility = 8
-targetCompatibility = 8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 dependencies{
     implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
@@ -13,6 +13,6 @@ dependencies{
 }
 
 tasks.withType(JavaCompile){
-    sourceCompatibility = 8
-    targetCompatibility = 8
+    sourceCompatibility = 17
+    targetCompatibility = 17
 }
