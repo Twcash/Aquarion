@@ -3,7 +3,7 @@ sourceSets.main{
     resources.srcDirs = ['assets/']
 }
 
-sourceCompatibility = 17
+sourceCompatibility = 8
 targetCompatibility = 17
 
 dependencies{
@@ -13,6 +13,6 @@ dependencies{
 }
 
 tasks.withType(JavaCompile){
-    sourceCompatibility = 17
+    sourceCompatibility = 8
     targetCompatibility = 17
 }
