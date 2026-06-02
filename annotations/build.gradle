@@ -4,7 +4,7 @@ sourceSets.main{
 }
 
 sourceCompatibility = 8
-targetCompatibility = 17
+targetCompatibility = 8
 
 dependencies{
     implementation "com.github.Anuken.Arc:arc-core:$arcVersion"
@@ -14,5 +14,5 @@ dependencies{
 
 tasks.withType(JavaCompile){
     sourceCompatibility = 8
-    targetCompatibility = 17
+    targetCompatibility = 8
 }
