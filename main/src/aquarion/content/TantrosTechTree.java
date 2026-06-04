@@ -31,6 +31,7 @@ public class TantrosTechTree {
 
         AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = AquaPlanets.fakeErekir.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             context().researchCostMultipliers = costMultipliers;
+            node(coreCuesta, () -> {});
             node(infomatic);
             node(mendPyre, () -> {
                 node(mendPylon, () -> {
