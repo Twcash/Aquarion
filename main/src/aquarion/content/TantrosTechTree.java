@@ -488,7 +488,9 @@ public class TantrosTechTree {
                                 new Objectives.SectorComplete(Ingress)
                         ), () -> {
                             node(galenaCrucible, () -> {});
-                            node(leachingVessel, () -> {
+                            node(leachingVessel, Seq.with(
+                                    new Objectives.SectorComplete(Torrent)
+                            ), () -> {
                                 node(ultrafamicRefinery, () -> {});
                                 node(towaniteReductionVat, () -> {
                                     node(algalTerrace, Seq.with(

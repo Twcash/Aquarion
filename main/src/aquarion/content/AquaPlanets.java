@@ -95,7 +95,7 @@ public class AquaPlanets {
                 r.fog = true;
                 r.staticFog = true;
                 r.onlyDepositCore = true;
-                r.deconstructRefundMultiplier = 1.01f;
+                r.deconstructRefundMultiplier = 1f;
             };
             campaignRuleDefaults.fog = false;
             campaignRuleDefaults.showSpawns = true;
@@ -144,7 +144,7 @@ public class AquaPlanets {
                 r.fog = false;
                 r.staticFog = false;
                 r.onlyDepositCore = true;
-                r.deconstructRefundMultiplier = 1.01f;
+                r.deconstructRefundMultiplier = 1f;
             };
             campaignRuleDefaults.fog = false;
             campaignRuleDefaults.showSpawns = true;
@@ -185,6 +185,7 @@ public class AquaPlanets {
                 r.deconstructRefundMultiplier = 0;
                 r.possessionAllowed = false;
                 r.derelictRepair = false;
+                r.coreIncinerates = true;
             };
             atmosphereRadOut = 0.8f;
             atmosphereColor = Color.valueOf("3db899");
@@ -226,7 +227,8 @@ public class AquaPlanets {
                 r.staticFog = false;
                 r.onlyDepositCore = true;
                 r.waveTeam = Team.green;
-                r.deconstructRefundMultiplier = 1.01f;
+                r.deconstructRefundMultiplier = 1f;
+                r.coreIncinerates = true;
             };
         }};
         coradum = new Planet("coradum", citun, 0.85f, 2){{
