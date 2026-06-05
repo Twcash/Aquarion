@@ -28,7 +28,7 @@ public class LiquidBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             fadeIn = false;
             range = 4;
-            willMelt = false;
+            willMelt = true;
             hasPower = false;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
@@ -39,7 +39,7 @@ public class LiquidBlocks {
         }};
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge") {{
             requirements(Category.liquid, with(polymer, 30));
-            willMelt = true;
+            willMelt = false;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             range = 6;
             hasPower = false;
