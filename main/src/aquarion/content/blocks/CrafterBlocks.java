@@ -284,7 +284,7 @@ public class CrafterBlocks {
             maxEfficiency = 5;
             overheatScale = 0.25f;
             craftTime = 10 * 60f;
-            consumePower(4);
+            consumePower(8);
             consumeItems(with(ferricMatter, 15, silicon, 35));
             outputItem = new ItemStack(ferrosilicon, 50);
             consumeLiquid(water, 2);

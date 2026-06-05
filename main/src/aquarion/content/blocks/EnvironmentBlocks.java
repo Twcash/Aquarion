@@ -38,7 +38,7 @@ public class EnvironmentBlocks {
             arsenideBoulder, feldsparBoulder, gabbroBoulder,
             ultrafamicBoulder;
     public static Block parzilSprig,
-            CrasseCoral,stoneRock,largeStoneRock,hugeStoneRock,massiveStoneRock, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock;
+            CrasseCoral,stoneRock,largeStoneRock,hugeStoneRock,massiveStoneRock, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock,shaleChunk, largeShaleChunk;
     public static Block varcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
@@ -976,6 +976,34 @@ public class EnvironmentBlocks {
             destroyEffect = Fx.breakProp;
             createRubble = false;
             buildTime = 280 * 60f;
+        }};
+        shaleChunk = new rokBlock("shale-chunk") {{
+            requirements(Category.effect, with( silicon, 100, graphite, 200));
+            buildVisibility = sandboxOnly;
+            size = 1;
+            health = 1000;
+            layer = Layer.groundUnit + 1;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 15 * 60f;
+            variants = 2;
+        }};
+        largeShaleChunk = new rokBlock("large-shale-chunk") {{
+            requirements(Category.effect, with( silicon, 200, graphite, 600));
+            buildVisibility = sandboxOnly;
+            size = 2;
+            health = 1000;
+            layer = Layer.groundUnit + 2;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            destroyEffect = Fx.breakProp;
+            createRubble = false;
+            buildTime = 30 * 60f;
+            variants = 2;
         }};
         bloom = new TreeBlock("bloom");
         algalWall = new TreeBlock("algal-wall") {{
