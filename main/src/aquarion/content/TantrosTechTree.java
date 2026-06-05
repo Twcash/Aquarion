@@ -514,7 +514,7 @@ public class TantrosTechTree {
                         });
                     });
                     node(thermalEvaporator, Seq.with(
-                            new Objectives.OnSector(Ingress)
+                            new Objectives.SectorComplete(Ingress)
                     ), () -> {
                         node(nuetralizationChamber, Seq.with(
                                 new Objectives.Produce(muriaticAcid),
