@@ -554,7 +554,7 @@ public class TantrosTechTree {
                     node(graphiteConcentrator, () -> {
                         node(SolidBoiler, Seq.with(
                                 new Objectives.Research(coal),
-                                new Objectives.SectorComplete(floodPlains)
+                                new Objectives.SectorComplete(twinPass)
                         ), () -> {
                             node(solarBoiler, () -> {
                                 node(coolingTower, Seq.with(
@@ -585,7 +585,8 @@ public class TantrosTechTree {
                                 node(steamCrackingUnit, () -> {});
                             });
                             node(desulferizationAssembly, Seq.with(
-                                    new Objectives.Produce(methane)
+                                    new Objectives.Produce(methane),
+                                    new Objectives.SectorComplete(icyRiver)
                             ), () -> {});
                         });
                     });
