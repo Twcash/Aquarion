@@ -129,7 +129,7 @@ public class TantrosTechTree {
                         ), () -> {});
                         node(hydroxideReactor, Seq.with(
                                 new Objectives.Produce(hydroxide),
-                                new Objectives.OnSector(Ecotone)
+                                new Objectives.OnSector(Grove)
                         ), () -> {});
                     });
                     node(heatEngine, Seq.with(
@@ -258,7 +258,8 @@ public class TantrosTechTree {
                                         new Objectives.Research(beamBore)
                                 ), () -> {
                                     node(Ecotone, Seq.with(
-                                            new Objectives.SectorComplete(CrystalCaverns)
+                                            new Objectives.SectorComplete(CrystalCaverns),
+                                            new Objectives.Research(hydroxideReactor)
                                     ),()->{
                                         node(brinePlateau, Seq.with(
                                                 new Objectives.SectorComplete(Ecotone),
