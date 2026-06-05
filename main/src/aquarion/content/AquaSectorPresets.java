@@ -264,7 +264,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
         }};
-        verdantShallows = new SectorPreset("verdant-shallows", tantros2, 86){{
+        verdantShallows = new SectorPreset("verdant-shallows", tantros2, 22){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 26;

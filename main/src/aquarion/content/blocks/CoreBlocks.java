@@ -110,7 +110,7 @@ public class CoreBlocks {
             requirements(Category.effect, with(silicon, 1500));
             squareSprite = false;
             health = 2500;
-            itemCapacity = 6000;
+            itemCapacity = 5000;
             incinerateNonBuildable = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 4;
@@ -130,7 +130,7 @@ public class CoreBlocks {
             squareSprite = false;
             health = 7500;
             armor = 8;
-            itemCapacity = 8000;
+            itemCapacity = 7500;
             incinerateNonBuildable = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 6;

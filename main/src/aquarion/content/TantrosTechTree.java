@@ -243,7 +243,8 @@ public class TantrosTechTree {
                                 new Objectives.Research(magmaTap),
                                 new Objectives.Research(magmaDiffser)
                         ), () -> node(Torrent, Seq.with(
-                                new Objectives.Research(inlet)
+                                new Objectives.Research(inlet),
+                                new Objectives.Research(plasmaExtractor)
                         ), () -> {
                             node(FeldsparRavine, Seq.with(
                                     new Objectives.SectorComplete(Torrent),
