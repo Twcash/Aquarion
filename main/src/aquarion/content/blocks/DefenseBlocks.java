@@ -219,7 +219,7 @@ public class DefenseBlocks {
             requirements(Category.defense, with(bauxite, 500, metaglass, 200, silicon, 600, copper, 250));
             size = 5;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            health = (int) (6250 * 0.75f);
+            health = 8620;
             armor = 12;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.bauxiteDestroy);
 
@@ -299,7 +299,7 @@ public class DefenseBlocks {
         }};
         aluminumWall = new AquaWall("aluminum-wall") {{
             requirements(Category.defense, with(aluminum, 24));
-            health = 2400;
+            health = 600 * 4;
             size = 2;
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
 
@@ -311,7 +311,7 @@ public class DefenseBlocks {
         }};
         hugeAluminumWall = new AquaWall("huge-aluminum-wall") {{
             requirements(Category.defense, with(aluminum, 54));
-            health = 5400;
+            health = 600 * 9;
             size = 3;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.aluminumDestroy);
 
@@ -351,7 +351,7 @@ public class DefenseBlocks {
         }};
         steelWall = new AquaWall("steel-wall") {{
             requirements(Category.defense, with(steel, 24));
-            health = 400 * 4;
+            health = 1000 * 4;
             size = 2;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.steelDestroy);
 
@@ -362,7 +362,7 @@ public class DefenseBlocks {
         }};
         hugeSteelWall = new AquaWall("huge-steel-wall") {{
             requirements(Category.defense, with(steel, 54));
-            health = 400 * 9;
+            health = 1000 * 9;
             size = 3;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.steelDestroy);
 
@@ -371,7 +371,7 @@ public class DefenseBlocks {
         }};
         ferrosilconWall = new AquaWall("ferrosilicon-wall") {{
             requirements(Category.defense, with(ferrosilicon, 24));
-            health = 3200;
+            health = 800 * 4;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.ferroDestroy);
 
             size = 2;
@@ -382,7 +382,7 @@ public class DefenseBlocks {
         }};
         hugeFerrosiliconWall = new AquaWall("huge-ferrosilicon-wall") {{
             requirements(Category.defense, with(ferrosilicon, 54));
-            health = 7200;
+            health = 800 * 9;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.ferroDestroy);
 
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
