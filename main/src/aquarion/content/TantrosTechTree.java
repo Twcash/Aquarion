@@ -233,7 +233,11 @@ public class TantrosTechTree {
             });
             node(lib, Seq.with(
                     new Objectives.OnSector(resurgence)
-            ), () -> {});
+            ), () -> {
+                node(ruinedRepository, Seq.with(
+                        new Objectives.OnSector(icyRiver)
+                ), () -> {});
+            });
             node(resurgence, () -> {
                     node(twinPass, Seq.with(
                             new Objectives.Research(cupronickelAlloyer)

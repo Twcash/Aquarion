@@ -12,7 +12,7 @@ public class AquaSectorPresets {
     //serpulo (fake)
     resurgence, twinPass, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex,  erodedCanyon, searedWastes, fungalTropics, violetValley, frozenLake, stormyCoast, icyRiver,
     //Delubrum
-    lib;
+    lib, ruinedRepository;
     public static void load(){
         resurgence = new SectorPreset("resurgence", fakeSerpulo, 112){{
             allDatabaseTabs = true;
@@ -26,6 +26,9 @@ public class AquaSectorPresets {
         }};
 
         lib = new SectorPreset("lakesideLibrary", AquaPlanets.delubrum,1){{
+        }};
+        ruinedRepository = new SectorPreset("ruined-repository", AquaPlanets.delubrum,0){{
+            overrideLaunchDefaults = true;
         }};
         frigidShores = new SectorPreset("frigidShores", fakeSerpulo, 467){{
             allDatabaseTabs = true;
