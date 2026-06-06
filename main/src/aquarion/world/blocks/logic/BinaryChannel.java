@@ -54,7 +54,7 @@ public class BinaryChannel extends Block {
                         y.active = active;
                     }
                 if(back()!=null&&back() instanceof BinaryChannelBuild orange){
-                    if(orange.front()!=null&&orange.front()==this) active = orange.active;
+                    if(orange.front()!=null&&orange.front()==this) orange.active = active;
                 }
                 }else {
                     front().enabled = active;
