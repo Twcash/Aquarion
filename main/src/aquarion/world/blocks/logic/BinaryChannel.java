@@ -7,6 +7,7 @@ import arc.util.Eachable;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.world.Block;
+import mindustry.gen.Building;
 import aquarion.world.blocks.logic.toggler;
 public class BinaryChannel extends Block {
     public BinaryChannel(String name) {
@@ -42,19 +43,21 @@ public class BinaryChannel extends Block {
         @Override
         public void updateTile(){
         if(back() != null){
-            if(back() instanceof TogglerBuild b){
+            if(back() instanceof toggler.togglerBuild b){
             active = b.enabled;
             }else if(back() instanceof BinaryChannelBuild c){
                 active = c.active;
             }
             if(front() != null){
-            if(front() instanceof BinaryChannelBuild y){
-                y.active = active;
-            }else if(front() instanceof Building Gregory){
-                if(Gregory.rotation % this.rotation == 0){
-                Gregory.enabled = active;
-            }
+                if(front() instanceof BinaryChannelBuild y){
+                    y.active = active;
+                }else {
+                    if(front().rotation % this.rotation == 0){
+                        front().enabled = active;
+                    }
+                }
             }
         }
+    }
     }
 }

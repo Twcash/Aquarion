@@ -7,6 +7,7 @@ import arc.util.Eachable;
 import mindustry.entities.units.BuildPlan;
 import mindustry.world.blocks.logic.SwitchBlock;
 import aquarion.world.blocks.logic.BinaryChannel;
+import mindustry.gen.Building;
 
 public class toggler extends SwitchBlock {
     public toggler(String name) {
@@ -40,10 +41,10 @@ public class toggler extends SwitchBlock {
         @Override
         public void updateTile(){
             if(front() != null){
-                if(front() instanceof BinaryChannelBuild Johnathan){
+                if(front() instanceof BinaryChannel.BinaryChannelBuild Johnathan){
                     Johnathan.active = enabled;
-                } else if(front() instanceof Building y){
-                    y.enabled = enabled;
+                } else {
+                    front().enabled = enabled;
                 }
             }
         }
