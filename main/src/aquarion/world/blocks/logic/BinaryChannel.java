@@ -57,5 +57,4 @@ public class BinaryChannel extends Block {
                 }
             }
         }
-    }
 }
