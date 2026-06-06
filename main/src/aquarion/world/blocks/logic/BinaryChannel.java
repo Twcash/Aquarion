@@ -7,6 +7,7 @@ import arc.util.Eachable;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.world.Block;
+import mindustry.gen.Building;
 import aquarion.world.blocks.logic.toggler;
 public class BinaryChannel extends Block {
     public BinaryChannel(String name) {
