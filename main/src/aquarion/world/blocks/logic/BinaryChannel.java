@@ -7,7 +7,7 @@ import arc.util.Eachable;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.world.Block;
-
+import aquarion.world.blocks.logic.toggler;
 public class BinaryChannel extends Block {
     public BinaryChannel(String name) {
         super(name);
@@ -32,25 +32,27 @@ public class BinaryChannel extends Block {
         return new TextureRegion[]{region};
     }
     public class BinaryChannelBuild extends Building{
-
+    public boolean active = false;
         @Override
         public void draw(){
             super.draw();
             Draw.rect(region, x, y, rotation * 90);
-            if(enabled) Draw.rect(onRegion, x, y, rotation * 90);
+            if(active) Draw.rect(onRegion, x, y, rotation * 90);
         }
         @Override
         public void updateTile(){
-            if(back()!= null) {
-                enabled = back().enabled;
+        if(back() != null){
+            if(back() instanceof TogglerBuild b){
+            active = b.enabled;
+            }else if(back() instanceof BinaryChannelBuild c){
+                active = c.active;
             }
-            if(front()!=null){
-                if(front() instanceof BinaryChannelBuild b ){
-                    if(b.rotation == rotation)b.enabled = enabled;
-                } else {
-                    return;
-                }
-                front().enabled = enabled;
+            if(front() != null){
+            if(front() instanceof BinaryChannelBuild y){
+                y.active = active;
+            }else if(front() instanceof Building Gregory){
+                Gregory.enabled = active;
+            }
             }
         }
     }
