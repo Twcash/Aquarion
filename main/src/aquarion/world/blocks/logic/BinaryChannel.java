@@ -48,12 +48,13 @@ public class BinaryChannel extends Block {
                 active = c.active;
             }
             if(front() != null){
-            if(front() instanceof BinaryChannelBuild y){
-                y.active = active;
-            }else if(front() instanceof Building Gregory){
-                if(Gregory.rotation % this.rotation == 0){
-                Gregory.enabled = active;
-            }
+                if(front() instanceof BinaryChannelBuild y){
+                    y.active = active;
+                }else if(front() instanceof Building Gregory){
+                    if(Gregory.rotation % this.rotation == 0){
+                        Gregory.enabled = active;
+                    }
+                }
             }
         }
     }
