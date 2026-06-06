@@ -54,9 +54,7 @@ public class BinaryChannel extends Block {
                         y.active = active;
                     }
                 }else {
-                    if(front().back()!=null&&front().back()==this){
-                        front().enabled = active;
-                    }
+                    front().enabled = active;
                 }
             }
         }
