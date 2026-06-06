@@ -51,7 +51,17 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew main:deploy main:dex tools:proc
-
+      - name: Update bundles
+        run: |
+          ./gradlew updateBundles
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            git config --global user.name "Github Actions"
+            git config --global user.email "actions@github.com"
+            git add main/assets/bundles/*
+            git commit -m "Automatic bundle update"
+              git push
+            fi
       - name: Upload built mod artifact as a GitHub Action artifact
         uses: actions/upload-artifact@v4
         with:
