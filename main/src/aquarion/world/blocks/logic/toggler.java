@@ -43,8 +43,8 @@ public class toggler extends SwitchBlock {
             if(front() != null){
                 if(front() instanceof BinaryChannelBuild Johnathan){
                     Johnathan.active = enabled;
-                } else if(front() instanceof Building y){
-                    y.enabled = enabled;
+                } else {
+                    front().enabled = enabled;
                 }
             }
         }
