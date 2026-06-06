@@ -41,7 +41,7 @@ public class toggler extends SwitchBlock {
         @Override
         public void updateTile(){
             if(front() != null){
-                if(front() instanceof BinaryChannelBuild Johnathan){
+                if(front() instanceof BinaryChannel.BinaryChannelBuild Johnathan){
                     Johnathan.active = enabled;
                 } else {
                     front().enabled = enabled;
