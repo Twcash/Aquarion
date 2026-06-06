@@ -51,9 +51,9 @@ public class BinaryChannel extends Block {
             if(front() != null){
                 if(front() instanceof BinaryChannelBuild y){
                     y.active = active;
-                }else if(front() instanceof Building Gregory){
-                    if(Gregory.rotation % this.rotation == 0){
-                        Gregory.enabled = active;
+                }else {
+                    if(front().rotation % this.rotation == 0){
+                        front().enabled = active;
                     }
                 }
             }
