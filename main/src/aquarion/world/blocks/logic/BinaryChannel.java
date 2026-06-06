@@ -45,11 +45,11 @@ public class BinaryChannel extends Block {
         if(back() != null){
             if(back() instanceof toggler.togglerBuild b){
             active = b.enabled;
-            }else if(back() instanceof this c){
+            }else if(back() instanceof BinaryChannelBuild c){
                 active = c.active;
             }
             if(front() != null){
-                if(front() instanceof this y){
+                if(front() instanceof BinaryChannelBuild y){
                     y.active = active;
                 }else {
                     if(front().rotation % this.rotation == 0){
