@@ -45,12 +45,6 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-
-      - name: Build mod artifact
-        id: build
-        run: |
-          chmod +x gradlew
-          ./gradlew main:deploy main:dex tools:proc
       - name: Update bundles
         run: |
           ./gradlew updateBundles
@@ -62,6 +56,12 @@ jobs:
             git commit -m "Automatic bundle update"
               git push
             fi
+      - name: Build mod artifact
+        id: build
+        run: |
+          chmod +x gradlew
+          ./gradlew main:deploy main:dex tools:proc
+
       - name: Upload built mod artifact as a GitHub Action artifact
         uses: actions/upload-artifact@v4
         with:
