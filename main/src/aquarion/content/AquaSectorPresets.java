@@ -216,7 +216,7 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 17;
-            difficulty = 6;
+            difficulty = 3;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
@@ -226,7 +226,7 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 17;
-            difficulty = 6;
+            difficulty = 7;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
@@ -235,7 +235,7 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 11;
-            difficulty = 6;
+            difficulty = 3;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;
@@ -244,7 +244,7 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 31;
-            difficulty = 8;
+            difficulty = 5;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             startWaveTimeMultiplier = 3;

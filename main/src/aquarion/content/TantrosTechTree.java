@@ -32,7 +32,9 @@ public class TantrosTechTree {
         AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = AquaPlanets.fakeErekir.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             context().researchCostMultipliers = costMultipliers;
             node(coreCuesta, () -> {});
-            node(infomatic);
+            node(infomatic, () -> {
+                node(toggler, () -> {});
+            });
             node(mendPyre, () -> {
                 node(mendPylon, () -> {
                     node(mendSubstation, () -> {});
@@ -589,10 +591,7 @@ public class TantrosTechTree {
                             ), () -> {
                                 node(steamCrackingUnit, () -> {});
                             });
-                            node(desulferizationAssembly, Seq.with(
-                                    new Objectives.Produce(methane),
-                                    new Objectives.SectorComplete(icyRiver)
-                            ), () -> {});
+                            node(desulferizationAssembly, Seq.with(), () -> {});
                         });
                     });
                 });
