@@ -5,6 +5,8 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import mindustry.gen.Building;
 import mindustry.world.Block;
+import aquarion.world.blocks.logic.toggler;
+import aquarion.world.blocks.logic.BinaryChannel;
 
 public class BinarySplitter extends Block {
     public BinarySplitter(String name) {
@@ -18,6 +20,7 @@ public class BinarySplitter extends Block {
         onRegion = Core.atlas.find(name + "-on");
     }
     public class BinarySplitterBuild extends Building {
+        public boolean active;
         @Override
         public void draw(){
             super.draw();
@@ -28,11 +31,16 @@ public class BinarySplitter extends Block {
             for(int i = 0; i < proximity.size; i++){
                 Building other = proximity.get(i);
                 if(other != null) {
-                    if (other.front() == this) {
-                        enabled = other.enabled;
-                        return;
+                    if(other instanceof BinaryChannel.BinaryChannelBuild h){
+                        if(h.front()!=null && h.front()==this) h.active = active;
+                        if(h.back()!=null && h.back()==this) h.active = active;
                     }
-                    other.enabled = enabled;
+                    if(other instanceOf toggler.togglerBuild b){
+                        if(h.front()!=null && h.front()==this) active == b.enabled;
+                    }
+                    if(other instanceOf Building help){
+                        help.enabled = active;
+                    }
                 }
             }
         }
