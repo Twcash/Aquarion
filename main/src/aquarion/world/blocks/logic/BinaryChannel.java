@@ -43,13 +43,13 @@ public class BinaryChannel extends Block {
         @Override
         public void updateTile(){
         if(back() != null){
-            if(back() instanceof TogglerBuild b){
+            if(back() instanceof toggler.TogglerBuild b){
             active = b.enabled;
-            }else if(back() instanceof BinaryChannelBuild c){
+            }else if(back() instanceof this c){
                 active = c.active;
             }
             if(front() != null){
-                if(front() instanceof BinaryChannelBuild y){
+                if(front() instanceof this y){
                     y.active = active;
                 }else {
                     if(front().rotation % this.rotation == 0){
