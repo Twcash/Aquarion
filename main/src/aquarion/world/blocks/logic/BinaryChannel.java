@@ -46,7 +46,7 @@ public class BinaryChannel extends Block {
             if(back() instanceof toggler.togglerBuild b){
             if(back().front()!=null&&back().front()==this)active = b.enabled;
             }else if(back() instanceof BinaryChannelBuild c){
-                if(back().front()!=null&&back.front()==this)active = c.active;
+                if(back().front()!=null&&back().front()==this)active = c.active;
             }
             if(front() != null){
                 if(front() instanceof BinaryChannelBuild y){
