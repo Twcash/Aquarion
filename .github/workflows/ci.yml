@@ -48,7 +48,17 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-
+      - name: Update bundles
+        run: |
+          ./gradlew updateBundles
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            git config --global user.name "Github Actions"
+            git config --global user.email "actions@github.com"
+            git add main/assets/bundles/*
+            git commit -m "Automatic bundle update"
+              git push
+            fi
       - name: Build mod artifact
         id: build
         run: |

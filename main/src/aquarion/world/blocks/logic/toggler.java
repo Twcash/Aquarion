@@ -6,6 +6,8 @@ import arc.graphics.g2d.TextureRegion;
 import arc.util.Eachable;
 import mindustry.entities.units.BuildPlan;
 import mindustry.world.blocks.logic.SwitchBlock;
+import aquarion.world.blocks.logic.BinaryChannel;
+import mindustry.gen.Building;
 
 public class toggler extends SwitchBlock {
     public toggler(String name) {
@@ -38,8 +40,13 @@ public class toggler extends SwitchBlock {
         }
         @Override
         public void updateTile(){
-            if(!enabled && front()!=null) front().enabled = false;
-            if(enabled && front()!=null) front().enabled = true;
+            if(front() != null){
+                if(front() instanceof BinaryChannel.BinaryChannelBuild Johnathan){
+                    Johnathan.active = enabled;
+                } else {
+                    front().enabled = enabled;
+                }
+            }
         }
     }
 }
