@@ -7,6 +7,7 @@ import arc.util.Eachable;
 import mindustry.entities.units.BuildPlan;
 import mindustry.world.blocks.logic.SwitchBlock;
 import aquarion.world.blocks.logic.BinaryChannel;
+import mindustry.gen.Building;
 
 public class toggler extends SwitchBlock {
     public toggler(String name) {
