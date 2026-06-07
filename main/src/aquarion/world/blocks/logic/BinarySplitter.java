@@ -35,10 +35,10 @@ public class BinarySplitter extends Block {
                         if(h.front()!=null && h.front()==this) h.active = active;
                         if(h.back()!=null && h.back()==this) h.active = active;
                     }
-                    if(other instanceOf toggler.togglerBuild b){
+                    if(other instanceof toggler.togglerBuild b){
                         if(h.front()!=null && h.front()==this) active == b.enabled;
                     }
-                    if(other instanceOf Building help){
+                    if(other instanceof Building help){
                         help.enabled = active;
                     }
                 }
