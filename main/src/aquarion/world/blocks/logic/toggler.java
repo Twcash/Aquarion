@@ -9,6 +9,7 @@ import mindustry.world.blocks.logic.SwitchBlock;
 import aquarion.world.blocks.logic.BinaryChannel;
 import mindustry.gen.Building;
 import aquarion.world.blocks.logic.BinarySplitter;
+
 public class toggler extends SwitchBlock {
     public toggler(String name) {
         super(name);
@@ -17,35 +18,41 @@ public class toggler extends SwitchBlock {
         drawArrow = true;
         regionRotated1 = 1;
     }
+
     public TextureRegion topRegion;
+
     @Override
     public void load(){
         super.load();
         topRegion = Core.atlas.find(name + "-top");
     }
+
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         Draw.rect(region, plan.drawx(), plan.drawy());
         Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);
     }
+
     @Override
     public TextureRegion[] icons(){
         return new TextureRegion[]{region, topRegion};
     }
+
     public class togglerBuild extends SwitchBlock.SwitchBuild{
         @Override
         public void draw(){
             super.draw();
             Draw.rect(topRegion, x, y, rotation * 90);
         }
+
         @Override
         public void updateTile(){
             if(front() != null){
                 if(front() instanceof BinaryChannel.BinaryChannelBuild Johnathan){
                     Johnathan.active = enabled;
-                } else if(front() instanceOf BinarySplitter.BinarySplitterBuild){
+                } else if(front() instanceof BinarySplitter.BinarySplitterBuild){
                     return;
-                    }else {
+                } else {
                     front().enabled = enabled;
                 }
             }
