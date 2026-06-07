@@ -8,6 +8,7 @@ import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.world.Block;
 import mindustry.gen.Building;
+import aquarion.world.blocks.logic.BinarySplitter;
 import aquarion.world.blocks.logic.toggler;
 public class BinaryChannel extends Block {
     public BinaryChannel(String name) {
@@ -48,15 +49,16 @@ public class BinaryChannel extends Block {
             }else if(back() instanceof BinaryChannelBuild c){
                 if(back().front()!=null&&back().front()==this)active = c.active;
             }
+            if(back()!=null&&back() instanceof BinaryChannelBuild orange){
+                    if(orange.front()!=null&&orange.front()==this) orange.active = active;
+                }
             if(front() != null){
                 if(front() instanceof BinaryChannelBuild y){
                     if(front().back()!=null&&front().back()==this){
                         y.active = active;
                     }
-                if(back()!=null&&back() instanceof BinaryChannelBuild orange){
-                    if(orange.front()!=null&&orange.front()==this) active = orange.active;
-                }
-                }else {
+                
+                }else if(front() instanceof BinarySplitter.BinarySplitterBuild){return;} else {
                     front().enabled = active;
                 }
             }
