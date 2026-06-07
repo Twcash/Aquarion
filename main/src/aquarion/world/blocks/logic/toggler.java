@@ -8,7 +8,7 @@ import mindustry.entities.units.BuildPlan;
 import mindustry.world.blocks.logic.SwitchBlock;
 import aquarion.world.blocks.logic.BinaryChannel;
 import mindustry.gen.Building;
-
+import aquarion.world.blocks.logic.BinarySplitter;
 public class toggler extends SwitchBlock {
     public toggler(String name) {
         super(name);
@@ -43,7 +43,9 @@ public class toggler extends SwitchBlock {
             if(front() != null){
                 if(front() instanceof BinaryChannel.BinaryChannelBuild Johnathan){
                     Johnathan.active = enabled;
-                } else {
+                } else if(front() instanceOf BinarySplitter.BinarySplitterBuild){
+                    return;
+                    }else {
                     front().enabled = enabled;
                 }
             }
