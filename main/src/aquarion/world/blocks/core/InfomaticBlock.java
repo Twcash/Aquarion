@@ -74,7 +74,38 @@ public class InfomaticBlock extends MessageBlock {
         }
         @Override
         public void drawSelect(){
-            drawMessage();
+            if(renderer.pixelate) return;
+            Font font = Fonts.outline;
+            GlyphLayout l = Pools.obtain(GlyphLayout.class, GlyphLayout::new);
+
+            boolean ints = font.usesIntegerPositions();
+            font.getData().setScale(1 / 4f / Scl.scl(1f));
+            font.setUseIntegerPositions(false);
+
+            String raw = (message == null ? "" : message.toString());
+            String text;
+            if(raw.startsWith("@")){
+                text = Core.bundle.get(raw.substring(1));
+            }else{
+                text = raw;
+            }
+            text = UI.formatIcons(text);
+
+            if(raw.isEmpty()){
+                text = "[lightgray]" + Core.bundle.get("empty");
+            }
+            l.setText(font, text, Color.white, 90f, Align.center, true);
+            float offset = 1f;
+            float drawY = y + tilesize/2f + l.height/2f + 2f;
+            Draw.color(0f, 0f, 0f, 0.2f);
+            Fill.rect(x, drawY, l.width + offset*2f, l.height + offset*2f);
+            Draw.color();
+            font.draw(text, x - l.width/2f, drawY + l.height/2f, 90f, Align.left, true);
+
+            font.setUseIntegerPositions(ints);
+            font.getData().setScale(1f);
+
+            Pools.free(l);
         }
     }
 }

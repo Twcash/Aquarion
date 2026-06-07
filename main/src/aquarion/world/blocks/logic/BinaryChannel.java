@@ -7,7 +7,9 @@ import arc.util.Eachable;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.world.Block;
-
+import mindustry.gen.Building;
+import aquarion.world.blocks.logic.BinarySplitter;
+import aquarion.world.blocks.logic.toggler;
 public class BinaryChannel extends Block {
     public BinaryChannel(String name) {
         super(name);
@@ -32,26 +34,35 @@ public class BinaryChannel extends Block {
         return new TextureRegion[]{region};
     }
     public class BinaryChannelBuild extends Building{
-
+    public boolean active = false;
         @Override
         public void draw(){
             super.draw();
             Draw.rect(region, x, y, rotation * 90);
-            if(enabled) Draw.rect(onRegion, x, y, rotation * 90);
+            if(active) Draw.rect(onRegion, x, y, rotation * 90);
         }
         @Override
         public void updateTile(){
-            if(back()!= null) {
-                enabled = back().enabled;
+        if(back() != null){
+            if(back() instanceof toggler.togglerBuild b){
+            if(back().front()!=null&&back().front()==this)active = b.enabled;
+            }else if(back() instanceof BinaryChannelBuild c){
+                if(back().front()!=null&&back().front()==this)active = c.active;
             }
-            if(front()!=null){
-                if(front() instanceof BinaryChannelBuild b ){
-                    if(b.rotation == rotation)b.enabled = enabled;
-                } else {
-                    return;
+            if(back()!=null&&back() instanceof BinaryChannelBuild orange){
+                    if(orange.front()!=null&&orange.front()==this) orange.active = active;
                 }
-                front().enabled = enabled;
+            if(front() != null){
+                if(front() instanceof BinaryChannelBuild y){
+                    if(front().back()!=null&&front().back()==this){
+                        y.active = active;
+                    }
+                
+                }else if(front() instanceof BinarySplitter.BinarySplitterBuild){return;} else {
+                    front().enabled = active;
+                }
             }
         }
+    }
     }
 }
