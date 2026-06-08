@@ -1798,13 +1798,13 @@ public class CrafterBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             baseEfficiency = 0;
             maxEfficiency = 10;
-            craftTime = 240;
+            craftTime = 20;
             itemCapacity = 60;
             size = 4;
             squareSprite = false;
             liquidCapacity = 500;
             consumePower(2.5f);
-            consumeItem(coal, 12);
+            consume(new ConsumeItemFlammable(1f));
             consumeLiquid(oxygen, 0.25f);
             outputLiquid = new LiquidStack(oil, 3f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{

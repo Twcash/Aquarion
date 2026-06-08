@@ -34,9 +34,12 @@ public class AquaItems {
     public static void load() {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
+        Items.pyratite.hidden = true;
+        Items.sporePod.hidden = true;
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
             hardness = 3;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             cost = 1.1F;
+            buildable = false;
         }};
         salt = new Item("salt", Color.valueOf("#ffffff")) {{
             buildable = false;
@@ -167,7 +170,8 @@ public class AquaItems {
         Items.sporePod = null;
         Items.sporePod = new AquaItem("spore-pod", Color.valueOf("#a15bc4")) {{
             biomass = true;
-            flammability = 1;
+            flammability = 1.15f;
+            buildable = false;
         }};
     }
 }
