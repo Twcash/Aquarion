@@ -12,34 +12,39 @@ public class BinarySplitter extends Block {
     public BinarySplitter(String name) {
         super(name);
     }
+
     public TextureRegion onRegion;
+
     @Override
     public void load(){
         update = true;
         super.load();
         onRegion = Core.atlas.find(name + "-on");
     }
+
     public class BinarySplitterBuild extends Building {
         public boolean active;
+
         @Override
         public void draw(){
             super.draw();
             if(enabled) Draw.rect(onRegion, x, y);
         }
+
         @Override
         public void updateTile(){
             for(int i = 0; i < proximity.size; i++){
                 Building other = proximity.get(i);
                 if(other != null) {
                     if(other instanceof BinaryChannel.BinaryChannelBuild h){
-                        if(h.front()!=null && h.front()==this) h.active = active;
-                        if(h.back()!=null && h.back()==this) h.active = active;
+                        if(h.front() != null && h.front() == this) h.active = active;
+                        if(h.back() != null && h.back() == this) h.active = active;
                     }
-                    if(other instanceOf toggler.togglerBuild b){
-                        if(h.front()!=null && h.front()==this) active == b.enabled;
+                    else if(other instanceof toggler.togglerBuild b){
+                        active = b.enabled;
                     }
-                    if(other instanceOf Building help){
-                        help.enabled = active;
+                    else {
+                        other.enabled = active;
                     }
                 }
             }
