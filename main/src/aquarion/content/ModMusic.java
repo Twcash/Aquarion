@@ -146,6 +146,7 @@ public class ModMusic {
 
         reflectCurMus();
         UIEvents.monitorMusic();
+        UIEvents.registerControls();
     }
 
     public static void enableCustomMusic() {
@@ -198,4 +199,3 @@ public class ModMusic {
         Vars.control.sound.ambientMusic = Seq.with(Musics.game1, Musics.game3, Musics.game6, Musics.game8, Musics.game9, Musics.fine);
     }
 }
-

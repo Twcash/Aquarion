@@ -34,7 +34,7 @@ public class ModSettings {
                     check.title = "@settings." + check.name;
                 }
             }
-            
+
             root.pref(new ButtonPref(
                     Core.bundle.get("settings.resethints"),
                     Icon.trash,
