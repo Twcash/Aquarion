@@ -152,7 +152,7 @@ public class LiquidBlocks {
         pipe = new Pipe("pipe") {{
             requirements(Category.liquid, with(polymer, 2));
             liquidPressure = 10000;
-            liquidCapacity = 50;
+            liquidCapacity = 100;
         }};
         blastPump = new Pump("blast-pump"){{
             requirements(Category.liquid, with(silicon, 7000, chalkalloy, 50));
