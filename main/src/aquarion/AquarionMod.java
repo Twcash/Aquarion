@@ -14,6 +14,7 @@ import arc.Events;
 import arc.assets.Loadable;
 import mindustry.content.Blocks;
 import mindustry.game.EventType;
+import mindustry.type.Category;
 
 @Annotations.LoadRegs("error")// Need this temporarily, so the class gets generated.
 @Annotations.EnsureLoad
