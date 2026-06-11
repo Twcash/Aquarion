@@ -39,7 +39,7 @@ public class EnvironmentBlocks {
             ultrafamicBoulder;
     public static Block parzilSprig,
             CrasseCoral,stoneRock,largeStoneRock,hugeStoneRock,massiveStoneRock, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock,shaleChunk, largeShaleChunk;
-    public static Block varcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
+    public static Block varcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, clearWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, pinkSaltBoulder, algal_carpet, brine_liquid, lava, shallowSlag, shallowLava,
@@ -297,6 +297,15 @@ public class EnvironmentBlocks {
             speedMultiplier = 0.7f;
             cacheLayer = CacheLayer.water;
             isLiquid = true;
+            shallow = true;
+        }};
+        clearWater = new Floor("clear-water", 0) {{
+            liquidDrop = Liquids.water;
+            liquidMultiplier = 0.5f;
+            speedMultiplier = 0.7f;
+            cacheLayer = CacheLayer.water;
+            isLiquid = true;
+            supportsOverlay = true;
             shallow = true;
         }};
         packedSnow = new Floor("packed-snow", 4){{

@@ -560,7 +560,6 @@ public class TantrosTechTree {
                     });
                     node(graphiteConcentrator, () -> {
                         node(SolidBoiler, Seq.with(
-                                new Objectives.Research(coal),
                                 new Objectives.SectorComplete(twinPass)
                         ), () -> {
                             node(solarBoiler, () -> {
