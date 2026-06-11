@@ -20,7 +20,7 @@ public class SpaceReceiver extends Block {
     public class SpaceReceiverBuild extends Building {
 
         public void handleIncomingItems(Item item, int amount) {
-            Fx.land.at(x, y);
+            Fx.spawn.at(x, y); 
             items.add(item, amount);
         }
 
