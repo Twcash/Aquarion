@@ -1,4 +1,4 @@
-package aquarion.world.blocks;
+package aquarion.world.blocks.distribution.spacetransfer;
 
 import arc.util.io.Reads;
 import arc.util.io.Writes;
@@ -20,7 +20,7 @@ public class SpaceReceiver extends Block {
     public class SpaceReceiverBuild extends Building {
 
         public void handleIncomingItems(Item item, int amount) {
-            Fx.coreLand.at(x, y);
+            Fx.land.at(x, y);
             items.add(item, amount);
         }
 
