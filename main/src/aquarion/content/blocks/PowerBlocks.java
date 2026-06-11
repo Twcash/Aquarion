@@ -1,5 +1,6 @@
 package aquarion.content.blocks;
 
+import aquarion.content.AquaCategories;
 import aquarion.content.AquaSounds;
 import aquarion.world.blocks.power.*;
 import aquarion.world.drawers.*;
@@ -528,7 +529,7 @@ public class PowerBlocks {
             }});
         }};
         heatExchanger = new HeatGenerator("basic-heat-exchanger") {{
-            requirements(Category.power, with(silicon, 1500, metaglass, 950, cupronickel, 500));
+            requirements(AquaCategories.heat, with(silicon, 1500, metaglass, 950, cupronickel, 500));
             powerProduction = 1f;
             maxHeat = 150;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
