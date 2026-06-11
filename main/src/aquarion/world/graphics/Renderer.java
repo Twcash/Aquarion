@@ -22,35 +22,24 @@ import static mindustry.Vars.tilesize;
 
 public class Renderer {
     public static FrameBuffer buffer;
-    public static FrameBuffer prevBuffer;
     public static FrameBuffer glitchBuffer;
-    public static @Nullable Bloom bloom;
-    public static FrameBuffer neoplasiaBaseBuffer;
-    public static FrameBuffer neoplasiaPodBuffer;
+    //public static @Nullable Bloom bloom;
 
     public static class Layer extends mindustry.graphics.Layer {
         public static final float shadow = 29.8936f;
         public static final float heat = 39.7656f;
         public static final float deflector = 126.05f;
         public static final float neoplasiaUnder = Layer.blockUnder + 0.011221232134f;
-        public static final float neoplasiaPods = Layer.blockOver + 0.111221232134f;
         public static final float neoplasiaBase = Layer.blockOver + 0.133262332134f;
         public static final float glitch = Layer.deflector+3;
     }
 
     public static void draw(){
-        if(bloom == null) bloom = new Bloom(true);
-
+        //if(bloom == null) bloom = new Bloom(true);
         int w = Core.graphics.getWidth();
         int h = Core.graphics.getHeight();
-        if(neoplasiaPodBuffer == null) neoplasiaPodBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
-        if(neoplasiaBaseBuffer == null) neoplasiaBaseBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
         if(buffer == null) buffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
-        if(prevBuffer == null) prevBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
-        if(glitchBuffer == null) glitchBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
 
-        buffer.resize(w, h);
-        glitchBuffer.resize(w, h);
         Draw.drawRange(Layer.shadow, 0.0001f,
                 () -> buffer.begin(Color.clear),
                 () -> {
@@ -58,14 +47,14 @@ public class Renderer {
                     buffer.blit(AquaShaders.shadow);
                 }
         );
-
-        Draw.drawRange(Layer.heat, 0.1f,
-                () -> buffer.begin(Color.clear),
-                () -> {
-                    buffer.end();
-                    buffer.blit(AquaShaders.heat);
-                }
-        );
+//Heat is nigh Useless and is barely used at all
+//        Draw.drawRange(Layer.heat, 0.1f,
+//                () -> buffer.begin(Color.clear),
+//                () -> {
+//                    buffer.end();
+//                    buffer.blit(AquaShaders.heat);
+//                }
+//        );
 
         Draw.drawRange(Layer.deflector, 0.01f,
                 () -> buffer.begin(Color.clear),
