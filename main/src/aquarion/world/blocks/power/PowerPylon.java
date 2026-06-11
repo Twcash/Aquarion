@@ -1,6 +1,5 @@
 package aquarion.world.blocks.power;
 
-import aquarion.world.graphics.link;
 import arc.Core;
 import arc.func.Boolf;
 import arc.func.Cons;
@@ -17,7 +16,6 @@ import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Time;
-import mindustry.core.Renderer;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.Team;
 import mindustry.gen.Building;
