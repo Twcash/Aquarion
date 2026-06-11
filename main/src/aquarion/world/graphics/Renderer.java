@@ -22,7 +22,6 @@ import static mindustry.Vars.tilesize;
 
 public class Renderer {
     public static FrameBuffer buffer;
-    public static FrameBuffer glitchBuffer;
     //public static @Nullable Bloom bloom;
 
     public static class Layer extends mindustry.graphics.Layer {
@@ -65,13 +64,13 @@ public class Renderer {
         );
 
         Draw.drawRange(Layer.glitch, 0.0001f,
-                () -> glitchBuffer.begin(Color.clear),
+                () -> buffer.begin(Color.clear),
                 () -> {
-                    glitchBuffer.end();
+                    buffer.end();
                     Shader shader = AquaShaders.glitch;
                     if(shader != null){
                         shader.bind();
-                        glitchBuffer.blit(shader);
+                        buffer.blit(shader);
                     }
                 }
         );

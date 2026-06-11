@@ -1,6 +1,7 @@
 package aquarion.content.blocks;
 
 import aquarion.content.AquaAttributes;
+import aquarion.content.AquaCategories;
 import aquarion.content.AquaItems;
 import aquarion.content.AquaSounds;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
@@ -234,7 +235,7 @@ public class CrafterBlocks {
         }};
         bauxiteCentrifuge = new AquaGenericCrafter("bauxite-centrifuge") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(lead, 450, silicon, 600, copper, 300));
+            requirements(AquaCategories.refinery, with(lead, 450, silicon, 600, copper, 300));
             craftTime = 60;
             consumeItem(bauxite, 10);
             consumePower(2);
@@ -2589,7 +2590,7 @@ public class CrafterBlocks {
         }};
         heatChannel = new HotHeatConductor("heat-channel") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.crafting, with(copper, 60));
+            requirements(AquaCategories.heat, with(copper, 60));
             visualMaxHeat = 150;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
