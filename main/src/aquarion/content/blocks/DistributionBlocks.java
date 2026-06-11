@@ -5,6 +5,7 @@ import aquarion.world.blocks.distribution.ItemYeeter;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
 import aquarion.world.blocks.payload.*;
+import aquarion.world.blocks.SpaceTransfer;
 import aquarion.world.blocks.production.DelayIncinerator;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
@@ -30,6 +31,7 @@ public class DistributionBlocks {
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
+    public static Block spaceSender, spaceReceiver;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -206,6 +208,25 @@ public class DistributionBlocks {
         payloadDistributor = new PayloadDistributor("payload-distributor"){{
             requirements(Category.units, with(polymer, 30));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+        }};
+
+        spaceSender = new SpaceSender("space-sender") {{
+            requirements(Category.distribution, with(
+                copper, 100, 
+                lead, 100
+            ));
+            size = 3;
+            maxLaunchStorage = 150;
+            launchCooldown = 400f;
+        }};
+
+        spaceReceiver = new SpaceReceiver("space-receiver") {{
+            requirements(Category.distribution, with(
+                copper, 150, 
+                lead, 50
+            ));
+            size = 3;
+            itemCapacity = 300;
         }};
     }
 }
