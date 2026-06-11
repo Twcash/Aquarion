@@ -4,7 +4,7 @@ import arc.math.Mathf;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.gen.Building;
-import mindustry.gen.Fx;
+import mindustry.content.Fx;
 import mindustry.type.Item;
 import mindustry.world.Block;
 
