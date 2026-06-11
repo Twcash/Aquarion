@@ -57,7 +57,7 @@ public class PowerPylon extends PowerNode {
         super.load();
         cableEnd = Core.atlas.find(this.name + "-cable-end");
         cable = Core.atlas.find(this.name + "-cable");
-        glow = Core.atlas.find(this.name + "-cable-glow");//2
+        glow = Core.atlas.find(this.name + "-cable-glow");
         glowBase = Core.atlas.find(this.name + "-glow");
     }
     @Override
