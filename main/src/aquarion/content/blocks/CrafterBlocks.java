@@ -2255,12 +2255,15 @@ public class CrafterBlocks {
         }};
         pinDrill = new GroundDrill("pin-drill") {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-            requirements(Category.production, with(copper, 40, aluminum, 50, silicon, 20));
+            requirements(Category.production, with(tungsten, 40, beryllium, 50, silicon, 20));
             drillTime = 100;
             size = 1;
             squareSprite = false;
+            consumePower(1);
+            consumeLiquid(water, 1);
+            liquidBoostIntensity = 2.56f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            tier = 3;
+            tier = 4;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
