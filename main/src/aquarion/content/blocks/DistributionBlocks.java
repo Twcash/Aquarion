@@ -219,8 +219,11 @@ public class DistributionBlocks {
             buildTime = 1f;
             alwaysUnlocked = true;
             size = 4;
+            hasItems = true;
+            hasLiquids = true;
+            hasPower = true;
             itemCapacity = 100;
-            liquidCapacity = 40f;
+            liquidCapacity = 100f;
             launchTime = 300f;
             kerosenePerLaunch = 35f;
             powerPerTick = 2f;

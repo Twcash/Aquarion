@@ -8,68 +8,94 @@ import mindustry.content.Fx;
 import mindustry.gen.Building;
 import mindustry.gen.Icon;
 import mindustry.type.Item;
+import mindustry.type.Liquid;
+import mindustry.type.SectorPreset;
 import mindustry.world.Block;
 
 public class SpaceSender extends Block {
-    // Время до запуска ракеты в кадрах (60 кадров = 1 секунда). Сделаем 5 секунд.
     public float launchTime = 60f * 5f;
+    public float kerosenePerLaunch = 0f;
+    public float powerPerTick = 0f;
 
     public SpaceSender(String name) {
         super(name);
         update = true;
         solid = true;
         hasItems = true;
-        configurable = true; // Позволяет кликать на блок для выбора настроек
+        itemCapacity = 100;
+        configurable = true;
 
-        // Синхронизация ID сектора назначения
+        hasLiquids = true;
+        liquidCapacity = 100f;
+        hasPower = true;
+
         config(Integer.class, (SpaceSenderBuild tile, Integer sectorId) -> tile.destinationSectorId = sectorId);
     }
 
+    @Override
+    public void init() {
+        super.init();
+        if (powerPerTick > 0) consumePower(powerPerTick);
+    }
+
     public class SpaceSenderBuild extends Building {
-        public int destinationSectorId = -1; // -1 значит сектор не выбран
+        public int destinationSectorId = -1;
         public float progress = 0;
 
         @Override
         public void buildConfiguration(Table table) {
-            // Создаем кнопку с иконкой планетки, как у ванильного LaunchPad
-            table.button(Icon.world, () -> {
-                // Открывает оригинальную карту планет Mindustry для выбора сектора
+            table.button(Icon.planet, () -> {
                 Vars.ui.planet.showSelect(Vars.state.getSector(), otherSector -> {
-                    configure(otherSector.id); // Сохраняем ID выбранного сектора
+                    configure(otherSector.id);
                 });
             }).size(50f);
+        }
+
+        @Override
+        public boolean acceptLiquid(Building source, Liquid liquid) {
+            return block.hasLiquids && liquids.get(liquid) < block.liquidCapacity;
+        }
+
+        @Override
+        public boolean acceptItem(Building source, Item item) {
+            return block.hasItems && items.get(item) < block.itemCapacity;
+        }
+
+        @Override
+        public void display(Table table) {
+            super.display(table);
+            table.row();
+
+            SectorPreset dest = Vars.content.sectors().find(s -> s.id == destinationSectorId);
+
+            if (dest != null) {
+                table.add("[lightgray]Destination: [accent]" + dest.localizedName).left().padTop(4f);
+            } else {
+                table.add("[lightgray]Destination: [scarlet]None").left().padTop(4f);
+            }
         }
 
         @Override
         public void updateTile() {
             if (destinationSectorId == -1) return;
 
-            // Ищем любой предмет, который лежит на складе отправителя
+            if (kerosenePerLaunch > 0 && liquids.currentAmount() < kerosenePerLaunch) return;
+
             Item toSend = items.first();
-
-            // Если нашли и его накопилось хотя бы 10 штук — начинаем подготовку к запуску
-            if (toSend != null && items.get(toSend) >= 10) {
+            if (toSend != null && items.get(toSend) >= block.itemCapacity) {
                 progress += edelta();
-
                 if (progress >= launchTime) {
                     progress = 0;
-                    int amountToSend = Math.min(items.get(toSend), 10); // Отправляем пачкой по 10 штук
-
-                    // 1. Списываем предметы со склада отправителя
-                    items.remove(toSend, amountToSend);
-
-                    // 2. Создаем ванильный визуальный эффект улетающей в космос ракеты!
+                    if (kerosenePerLaunch > 0) liquids.remove(liquids.current(), kerosenePerLaunch);
+                    items.remove(toSend, block.itemCapacity);
                     Fx.launchPod.at(x, y);
-
-                    // 3. Отправляем ресурсы в нашу космическую сеть для нужного сектора
-                    SpaceNet.addCargo(destinationSectorId, toSend, amountToSend);
+                    SpaceNet.addCargo(destinationSectorId, toSend, block.itemCapacity);
                 }
             } else {
-                progress = 0; // Сбрасываем таймер, если ресурсов не хватает
+                progress = 0;
             }
         }
 
-        // Сохранение данных блока при выходе из игры
         @Override
         public void write(Writes write) {
             super.write(write);
@@ -82,6 +108,11 @@ public class SpaceSender extends Block {
             super.read(read, revision);
             destinationSectorId = read.i();
             progress = read.f();
+        }
+
+        @Override
+        public Integer config() {
+            return destinationSectorId;
         }
     }
 }

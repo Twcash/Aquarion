@@ -5,7 +5,6 @@ import mindustry.type.Item;
 import mindustry.world.modules.ItemModule;
 
 public class SpaceNet {
-    // Хранилище: ID сектора -> Предметы, которые сейчас летят к нему на орбиту
     public static IntMap<ItemModule> orbitCargo = new IntMap<>();
 
     public static void addCargo(int sectorId, Item item, int amount) {
