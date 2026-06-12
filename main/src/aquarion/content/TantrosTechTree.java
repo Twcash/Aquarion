@@ -227,7 +227,12 @@ public class TantrosTechTree {
                         node(steelRouter, () -> {});
                     });
                 });
-                node(sealedJunction, () -> {});
+                node(sealedJunction, () -> {
+                    node(spaceSender, () -> {
+                        // А после блока отправки открывается блок приёма
+                        node(spaceReceiver, () -> {});
+                    });
+                });
             });
             node(lib, Seq.with(
                     new Objectives.OnSector(resurgence)

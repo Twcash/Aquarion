@@ -211,27 +211,35 @@ public class DistributionBlocks {
         }};
 
         spaceSender = new SpaceSender("space-sender") {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(
-                copper, 100, 
-                lead, 100
+                copper, 1,
+                lead, 1
             ));
-            size = 3;
+            buildTime = 1f;
+            alwaysUnlocked = true;
+            size = 4;
             itemCapacity = 100;
-            liquidCapacity = 100f;
-            launchCooldown = 300f;
-            kerosenePerLaunch = 50f;
+            liquidCapacity = 40f;
+            launchTime = 300f;
+            kerosenePerLaunch = 35f;
             powerPerTick = 2f;
         }};
 
         spaceReceiver = new SpaceReceiver("space-receiver") {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(
-                copper, 150, 
-                lead, 50
+                copper, 1,
+                lead, 1
             ));
-            size = 3;
+            alwaysUnlocked = true;
+            buildTime = 1f;
+            size = 4;
             itemCapacity = 300;
-            liquidCapacity = 100f;
-            waterPerReceive = 40f;
+            liquidCapacity = 40f;
+            waterPerReceive = 0.5f;
+            hasItems = true;
+            update = true;
         }};
     }
 }

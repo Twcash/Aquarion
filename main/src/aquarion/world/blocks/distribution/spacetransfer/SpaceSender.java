@@ -1,137 +1,86 @@
 package aquarion.world.blocks.distribution.spacetransfer;
 
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
+import arc.scene.ui.layout.Table;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
-import mindustry.graphics.Pal;
-import mindustry.gen.Building;
-import mindustry.gen.Groups;
 import mindustry.content.Fx;
+import mindustry.gen.Building;
+import mindustry.gen.Icon;
 import mindustry.type.Item;
-import mindustry.type.Liquid;
 import mindustry.world.Block;
-import mindustry.world.consumers.ConsumePower;
-import aquarion.world.blocks.distribution.spacetransfer.SpaceReceiver;
 
 public class SpaceSender extends Block {
-    public float launchCooldown = 300f;
-    public float kerosenePerLaunch = 50f;
-    public float powerPerTick = 2f;
+    // Время до запуска ракеты в кадрах (60 кадров = 1 секунда). Сделаем 5 секунд.
+    public float launchTime = 60f * 5f;
 
     public SpaceSender(String name) {
         super(name);
         update = true;
         solid = true;
         hasItems = true;
-        hasLiquids = true;
-        hasPower = true;
-        configurable = true;
-        
-        consume(new ConsumePower(powerPerTick, 0.0f, false));
+        configurable = true; // Позволяет кликать на блок для выбора настроек
+
+        // Синхронизация ID сектора назначения
+        config(Integer.class, (SpaceSenderBuild tile, Integer sectorId) -> tile.destinationSectorId = sectorId);
     }
 
     public class SpaceSenderBuild extends Building {
+        public int destinationSectorId = -1; // -1 значит сектор не выбран
         public float progress = 0;
 
-        public Liquid getKerosene() {
-            return Vars.content.liquids().find(l -> l.name.equals("aquarion-hydroxide"));
+        @Override
+        public void buildConfiguration(Table table) {
+            // Создаем кнопку с иконкой планетки, как у ванильного LaunchPad
+            table.button(Icon.world, () -> {
+                // Открывает оригинальную карту планет Mindustry для выбора сектора
+                Vars.ui.planet.showSelect(Vars.state.getSector(), otherSector -> {
+                    configure(otherSector.id); // Сохраняем ID выбранного сектора
+                });
+            }).size(50f);
         }
 
         @Override
         public void updateTile() {
-            Liquid kerosene = getKerosene();
-            if (kerosene == null) return;
+            if (destinationSectorId == -1) return;
 
-            boolean hasResources = items.total() >= itemCapacity && liquids.get(kerosene) >= kerosenePerLaunch;
-            boolean hasPowerSupply = power != null && power.status > 0;
-            boolean receiverReady = checkReceiverReady();
+            // Ищем любой предмет, который лежит на складе отправителя
+            Item toSend = items.first();
 
-            if (hasResources && hasPowerSupply && receiverReady) {
-                if (progress < launchCooldown) {
-                    progress += edelta();
-                } else {
-                    launchResources();
+            // Если нашли и его накопилось хотя бы 10 штук — начинаем подготовку к запуску
+            if (toSend != null && items.get(toSend) >= 10) {
+                progress += edelta();
+
+                if (progress >= launchTime) {
                     progress = 0;
+                    int amountToSend = Math.min(items.get(toSend), 10); // Отправляем пачкой по 10 штук
+
+                    // 1. Списываем предметы со склада отправителя
+                    items.remove(toSend, amountToSend);
+
+                    // 2. Создаем ванильный визуальный эффект улетающей в космос ракеты!
+                    Fx.launchPod.at(x, y);
+
+                    // 3. Отправляем ресурсы в нашу космическую сеть для нужного сектора
+                    SpaceNet.addCargo(destinationSectorId, toSend, amountToSend);
                 }
             } else {
-                if (progress > 0) {
-                    progress -= edelta() * 0.5f;
-                }
+                progress = 0; // Сбрасываем таймер, если ресурсов не хватает
             }
         }
 
-        public boolean checkReceiverReady() {
-            final boolean[] ready = {false};
-            Groups.build.each(b -> {
-                if (b instanceof SpaceReceiver.SpaceReceiverBuild receiver) {
-                    if (receiver.team == this.team && receiver.canReceive()) {
-                        ready[0] = true;
-                    }
-                }
-            });
-            return ready[0];
-        }
-
-        public void launchResources() {
-            Liquid kerosene = getKerosene();
-            if (kerosene != null) {
-                liquids.remove(kerosene, kerosenePerLaunch);
-            }
-            
-            Fx.launch.at(x, y);
-
-            Groups.build.each(b -> {
-                if (b instanceof SpaceReceiver.SpaceReceiverBuild receiver) {
-                    if (receiver.team == this.team && receiver.canReceive()) {
-                        items.each((item, amount) -> {
-                            receiver.handleIncomingItems(item, amount);
-                        });
-                    }
-                }
-            });
-            items.clear();
-        }
-
-        @Override
-        public void drawSelect() {
-            super.drawSelect();
-            float barWidth = size * 8f;
-            float barHeight = 4f;
-            float bx = x - barWidth / 2f;
-            float by = y + (size * 8f) / 2f + 4f;
-
-            Draw.color(Pal.darkerGray);
-            Fill.rect(x, by + barHeight / 2f, barWidth, barHeight);
-            
-            if (progress > 0) {
-                Draw.color(Pal.accent);
-                float currentWidth = (barWidth - 2f) * (progress / launchCooldown);
-                Fill.rect(bx + 1f + currentWidth / 2f, by + barHeight / 2f, currentWidth, barHeight - 2f);
-            }
-            Draw.reset();
-        }
-
-        @Override
-        public boolean acceptItem(Building source, Item item) {
-            return items.total() < itemCapacity;
-        }
-
-        @Override
-        public boolean acceptLiquid(Building source, Liquid liquid) {
-            return liquid == getKerosene() && liquids.get(liquid) < liquidCapacity;
-        }
-
+        // Сохранение данных блока при выходе из игры
         @Override
         public void write(Writes write) {
             super.write(write);
+            write.i(destinationSectorId);
             write.f(progress);
         }
 
         @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
+            destinationSectorId = read.i();
             progress = read.f();
         }
     }
