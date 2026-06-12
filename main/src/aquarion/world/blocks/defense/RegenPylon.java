@@ -32,7 +32,7 @@ public class RegenPylon extends MendProjector {
     public Color phaseColor;
     public float reload;
     public float range;
-    public float healPercent;
+    public float healAmount;
     public float phaseBoost;
     public float phaseRangeBoost;
 
@@ -50,7 +50,7 @@ public class RegenPylon extends MendProjector {
         phaseColor = Pal.heal;
         reload = 300f;
         range = 60.0F;
-        healPercent = 12.0F;
+        healAmount = 250F;
         phaseBoost = 12.0F;
         phaseRangeBoost = 50.0F;
         useTime = 400.0F;
@@ -76,14 +76,13 @@ public class RegenPylon extends MendProjector {
 
         stats.remove(Stat.repairTime);
         stats.remove(Stat.range);
-        stats.add(Stat.repairTime, (float)((int)(100.0F / healPercent * reload / 60.0F)), StatUnit.seconds);
         stats.add(Stat.range, range / 8.0F, StatUnit.blocks);
 
         Consume var2 = this.findConsumer((c) -> c instanceof ConsumeItems);
         if (var2 instanceof ConsumeItems) {
             ConsumeItems cons = (ConsumeItems)var2;
             this.stats.remove(Stat.booster);
-            this.stats.add(Stat.booster, StatValues.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, (this.phaseBoost + this.healPercent) / this.healPercent, this.phaseRangeBoost, cons.items));
+            this.stats.add(Stat.booster, StatValues.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, (this.phaseBoost * this.healAmount), this.phaseRangeBoost, cons.items));
         }
 
     }
@@ -168,9 +167,7 @@ public class RegenPylon extends MendProjector {
                         b -> b.damaged() && !b.isHealSuppressed(),
                         other -> {
                             other.heal(
-                                    other.maxHealth() *
-                                            (RegenPylon.this.healPercent + this.phaseHeat * RegenPylon.this.phaseBoost)
-                                            / 100f * this.efficiency
+                                     healAmount * phaseBoost * efficiency
                             );
                             other.recentlyHealed();
                             Fx.healBlockFull.at(

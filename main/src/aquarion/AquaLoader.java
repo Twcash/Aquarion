@@ -123,7 +123,6 @@ public class AquaLoader extends Mod {
                 Vars.content.each(content -> {
                     if (isTemplate(content) && content instanceof MappableContent mContent) {
                         aquarionContentRegionRegistry.load(mContent);
-                        Log.info(mContent.name + " : has been loaded");
                     }
                 });
             }

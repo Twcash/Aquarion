@@ -209,7 +209,7 @@ public final class Tools{
         Log.info("Adding regions...");
         Time.mark();
 
-        ExecutorService exec = Executors.newCachedThreadPool();
+        ExecutorService exec = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
         spritesDir.walk(path -> {
             if(!path.extEquals("png")) return;

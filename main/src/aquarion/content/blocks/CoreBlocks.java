@@ -194,7 +194,7 @@ public class CoreBlocks {
             phaseRangeBoost = 3f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             phaseBoost = 2;
-            healPercent = 10f;
+            healAmount = 250;
             squareSprite = false;
             reload = 300;
             alwaysUnlocked = true;
@@ -208,9 +208,9 @@ public class CoreBlocks {
             consumePower(0.125f);
             consumeLiquid(fumes, 0.05f);
             range = 35;
-            healPercent = 14;
             squareSprite = false;
             reload = 240;
+            healAmount = 300;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             phaseBoost = 0;
             phaseRangeBoost = 0;
@@ -227,7 +227,7 @@ public class CoreBlocks {
             consumePower(6);
             consumeLiquid(haze, 3f);
             range = 70;
-            healPercent = 10;
+            healAmount = 500;
             squareSprite = false;
             reload = 120;
             phaseBoost = 0;

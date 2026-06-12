@@ -21,7 +21,12 @@ dependencies{
     implementation "com.github.Anuken.Mindustry:core:$mindustryVersion"
 }
 
-task proc(dependsOn: [classes, configurations.runtimeClasspath]){
+task proc{
+    dependsOn classes
+    inputs.dir(project.file(spritesRawDir)).withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.files(configurations.runtimeClasspath)
+    outputs.dir(project.file(spritesDir))
+    outputs.cacheIf{ true }
 
     doLast{
         delete{ delete spritesDir }

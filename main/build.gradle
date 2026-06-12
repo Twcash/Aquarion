@@ -41,8 +41,8 @@ import arc.util.serialization.Jval
 
 import java.util.concurrent.CopyOnWriteArrayList
 
-task deploy(type: Jar, dependsOn: configurations.runtimeClasspath){
-    dependsOn ':tools:proc'
+task deploy(type: Jar){
+    dependsOn ':tools:proc', sourceSets.main.runtimeClasspath
 
     archiveFileName.set "${modDisplayName}Desktop.jar"
 
@@ -102,6 +102,7 @@ task fetchComps{
     inputs.property "fetchRevision", fetchRevision
     outputs.dir fetchDir
     outputs.file fetchTemp
+    outputs.cacheIf{ true }
 
     doLast{
         delete{ delete fetchDir.parentFile.parentFile }
