@@ -11,13 +11,15 @@ import aquarion.world.blocks.logic.BinaryChannel;
 public class BinarySplitter extends Block {
     public BinarySplitter(String name) {
         super(name);
+        rotate = true;
+        update = true;
+        drawArrow = true;
     }
 
     public TextureRegion onRegion;
 
     @Override
     public void load(){
-        update = true;
         super.load();
         onRegion = Core.atlas.find(name + "-on");
     }
@@ -28,22 +30,23 @@ public class BinarySplitter extends Block {
         @Override
         public void draw(){
             super.draw();
-            if(enabled) Draw.rect(onRegion, x, y);
+            if(active) Draw.rect(onRegion, x, y, rotation * 90);
         }
 
         @Override
         public void updateTile(){
+            if(back() instanceof toggler.togglerBuild b){
+                if(back().front()!=null && back().front()==this) active = b.enabled;
+            }else if(back() instanceof BinaryChannel.BinaryChannelBuild c){
+                if(back().front()!=null && back().front()==this) active = c.active;
+            }
+
             for(int i = 0; i < proximity.size; i++){
                 Building other = proximity.get(i);
-                if(other != null) {
+                if(other != null && other != back()){
                     if(other instanceof BinaryChannel.BinaryChannelBuild h){
-                        if(h.front() != null && h.front() == this) h.active = active;
-                        if(h.back() != null && h.back() == this) h.active = active;
-                    }
-                    else if(other instanceof toggler.togglerBuild b){
-                        active = b.enabled;
-                    }
-                    else {
+                        if(h.front() == this || h.back() == this) h.active = active;
+                    }else if(!(other instanceof toggler.togglerBuild)){
                         other.enabled = active;
                     }
                 }
