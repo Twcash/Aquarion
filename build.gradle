@@ -112,6 +112,7 @@ tasks.register('install', DefaultTask){
     inputs.file(deployJarProvider).withPathSensitivity(PathSensitivity.ABSOLUTE)
     inputs.property("mindustryPathPropValue", mindustryPathProp.orElse(""))
 
+    dependsOn(mainProj.tasks.named('clean'))
     dependsOn(mainProj.tasks.named('deploy'))
 
     doLast{
