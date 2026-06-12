@@ -75,8 +75,8 @@ public class CrafterBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(lead, 225, zinc, 120, silicon, 100));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            researchCost = with(lead,225, silicon, 100);
             size = 4;
-            alwaysUnlocked = true;
             floating = true;
             updateEffect = Fx.steam;
             attribute = Attribute.heat;

@@ -302,7 +302,7 @@ public class TantrosTechTree {
                 });
                 node(icyRiver, Seq.with(
                         new Objectives.Research(SolidBoiler)
-                ), ()->{
+                ), () -> {
                     node(floodPlains, Seq.with(
                             new Objectives.Research(vector)
                     ), () -> {
@@ -313,12 +313,11 @@ public class TantrosTechTree {
                                     new Objectives.SectorComplete(mountainsideComplex),
                                     new Objectives.Research(vector),
                                     new Objectives.Research(SolidBoiler)
-                            ), () -> {
-                            });
+                            ), () -> {});
                         });
                         node(coupledBasin, Seq.with(
                                 new Objectives.SectorComplete(floodPlains)
-                        ),()->{});
+                        ),() -> {});
                         node(bay, Seq.with(
                                 new Objectives.Research(vector),
                                 new Objectives.Research(bulwark),
@@ -332,7 +331,7 @@ public class TantrosTechTree {
                                     new Objectives.Research(ferricGrinder),
                                     new Objectives.Research(thermalCrackingUnit),
                                     new Objectives.Research(combustionHeater)
-                            ), ()->{
+                            ), () -> {
 
                                 node(searedWastes, Seq.with(
                                         new Objectives.SectorComplete(erodedCanyon),
@@ -347,7 +346,7 @@ public class TantrosTechTree {
                                             new Objectives.SectorComplete(fungalTropics),
                                             new Objectives.Research(sporeProcessor),
                                             new Objectives.Research(ferrosilicon)
-                                    ), ()->{});
+                                    ), () -> {});
                                 });
                             });
                         });
@@ -355,11 +354,11 @@ public class TantrosTechTree {
                 });
             });
             node(frozenLake, Seq.with(
-            ), ()->{
+            ), () -> {
                 node(stormyCoast, Seq.with(
                         new Objectives.Research(pelt),
                         new Objectives.Research(refraction)
-                ), ()->{});
+                ), () -> {});
             });
             nodeProduce(silicon, () -> {
                 nodeProduce(zinc, () -> {
