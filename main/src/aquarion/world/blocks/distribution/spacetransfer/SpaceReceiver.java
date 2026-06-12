@@ -3,7 +3,6 @@ package aquarion.world.blocks.distribution.spacetransfer;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.gen.Building;
-import mindustry.content.Fx;
 import mindustry.type.Item;
 import mindustry.world.Block;
 
@@ -20,7 +19,6 @@ public class SpaceReceiver extends Block {
     public class SpaceReceiverBuild extends Building {
 
         public void handleIncomingItems(Item item, int amount) {
-            Fx.spawn.at(x, y); 
             items.add(item, amount);
         }
 
