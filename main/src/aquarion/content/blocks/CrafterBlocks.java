@@ -90,7 +90,6 @@ public class CrafterBlocks {
             ambientSound = Sounds.loopFire;
             ambientSoundVolume = 0.05f;
             squareSprite = false;
-
             liquidCapacity = 900;
             maxBoost = 3;
             outputLiquid = new LiquidStack(magma, 1.5f);
@@ -153,9 +152,9 @@ public class CrafterBlocks {
             overheatScale = 0.25f;
             craftTime = 10 * 60f;
             consumePower(4);
-            consumeItems(with(ferricMatter, 15, silicon, 35));
+            consumeItemStack(new ItemStack(ferricMatter, 15), new ItemStack(silicon, 35));
             outputItem = new ItemStack(ferrosilicon, 50);
-            consumeLiquid(water, 2);
+            consumeLiq(water, 2);
             liquidCapacity = 600;
             updateEffect = new MultiEffect(Fx.coalSmeltsmoke, new ParticleEffect() {{
                 layer = Layer.debris;
@@ -320,12 +319,12 @@ public class CrafterBlocks {
             brassMixingPot = new AquaGenericCrafter("brass-mixing-pot"){{
                 shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with(silicon, 150, zinc, 200, copper, 100));
-                consumeItems(ItemStack.with(copper, 1, zinc, 1));
+                consumeItemStack(new ItemStack(copper, 1), new ItemStack(zinc, 1));
                 consumePower(2);
                 size = 1;
                 squareSprite = false;
                 itemCapacity = 10;
-                consumeLiquid(nitrogen, 0.5f).boost();
+                consumeBoost(nitrogen, 0.5f, 1f);
                 liquidBoostIntensity = 2.0f;
                 boostersAffectOutput = true;
                 outputItem = new ItemStack(brass, 2);
@@ -434,11 +433,11 @@ public class CrafterBlocks {
                 liquidCapacity = 150;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(1.5f);
-                consumeItem(ferricMatter, 3).boost();
+                consumeBoost(ferricMatter, 3, 1f);
                 craftTime = 240;
                 itemBoostIntensity = 2f;
                 outputLiquid = new LiquidStack(ammonia, 0.4f);
-                consumeLiquids(LiquidStack.with(methane, 0.3f, nitrogen,.1f));
+                consume(new LiquidStack(methane, 0.3f), new LiquidStack(nitrogen, .1f));
             }};
 
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor") {{
@@ -481,9 +480,9 @@ public class CrafterBlocks {
                 squareSprite = false;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 baseExplosiveness = 10;
-                consumeLiquids(LiquidStack.with(haze, 3, oxygen, 2, oil, 4));
+                consume(new LiquidStack(haze, 3), new LiquidStack(oxygen, 2), new LiquidStack(oil, 4));
                 outputLiquid = new LiquidStack(fumes, 4);
-                consumeItems(ItemStack.with( brimstone, 16));
+                consumeItemStack(new ItemStack(brimstone, 16));
                 itemCapacity = 350;
                 liquidCapacity = 900;
                 drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -589,7 +588,7 @@ public class CrafterBlocks {
                 itemCapacity = 40;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(2);
-                consumeItem(metaglass, 20);
+                consumeItemStack(new ItemStack(metaglass, 20));
                 outputItems = new ItemStack[]{
                      new ItemStack(lead, 20),
                         new ItemStack(silicon, 20)
@@ -805,7 +804,7 @@ public class CrafterBlocks {
             solar = true;
             squareSprite = false;
             liquidCapacity = 4000;
-            consumeLiquids(new LiquidStack(water, 34/12f));
+            consume(new LiquidStack(water, 34/12f));
             outputLiquid = new LiquidStack(haze, 34/12f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -828,9 +827,9 @@ public class CrafterBlocks {
             craftEffect = AquaFx.boilerSmoke;
             craftTime = 10f;
             liquidCapacity = 1000;
-            consume(new ConsumeItemFlammable(0.25f));
-            consume(new ConsumeItemExplode(0.2f));
-            consumeLiquids(new LiquidStack(water, 8.5f), new LiquidStack(air, 3.5f));
+            consumeWrapped(new ConsumeItemFlammable(0.25f)).set(1f, true);
+            consumeWrapped(new ConsumeItemExplode(0.2f)).set(1f, true);
+            consume(new LiquidStack(water, 8.5f), new LiquidStack(air, 3.5f));
             outputLiquid = new LiquidStack(haze, 8.5f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -973,17 +972,17 @@ public class CrafterBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 heatRequirement = 30;
                 hasHeat = true;
-                consumeLiquid(nitrogen, 4).boost();
+                consumeBoost(nitrogen, 4, 1f);
                 liquidBoostIntensity = 1.4f;
                 boostersAffectOutput = true;
                 maxEfficiency = 4;
                 craftTime = 120;
-                consumeItems(new ItemStack(copper, 9), new ItemStack(nickel, 3));
+                consumeItemStack(new ItemStack(copper, 9), new ItemStack(nickel, 3));
                 outputItem = new ItemStack(cupronickel, 12);
                 updateEffect = Fx.coalSmeltsmoke;
                 updateEffectChance = 0.07f;
                 ambientSound = AquaSounds.derrick;
-                consumeLiquid(air, 3);
+                consumeLiq(air, 3);
                 liquidCapacity = 700;
                 itemCapacity = 60;
                 drawer = new DrawMulti(new DrawRegion("-blupr"),new DrawOrbitRegions(){{
@@ -1118,6 +1117,7 @@ public class CrafterBlocks {
             liquidCapacity = 600;
             craftTime = 120;
             consumeItemStack(new ItemStack(lead, 10), new ItemStack(sand, 10));
+            consumeLiq(air, 4);
             consumeBoost(minium, 2, 1.25f);
             boostersAffectOutput = true;
             outputItem = new ItemStack(metaglass, 15);
@@ -1134,7 +1134,6 @@ public class CrafterBlocks {
             updateEffectChance = 0.07f;
             ambientSound = AquaSounds.refine;
             ambientSoundVolume = 0.07f;
-            consumeLiquid(air, 4);
             consumePower(3);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -1243,8 +1242,8 @@ public class CrafterBlocks {
             maxEfficiency = 4;
             boostersAffectOutput = true;
             consumePower(4);
-            consumeLiquids(LiquidStack.with(petroleum, 4, oxygen, 11));
-            consumeLiquid(haze, 8.5f).boost();
+            consume(new LiquidStack(petroleum, 4), new LiquidStack(oxygen, 11));
+            consumeBoost(haze, 8.5f, 1f);
             liquidBoostIntensity = 1.2f;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -1276,8 +1275,8 @@ public class CrafterBlocks {
             liquidCapacity = 200;
             craftTime = 150;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            consumeItem(silicon, 20);
-            consumeLiquid(oxygen, 40/60f);
+            consumeItemStack(new ItemStack(silicon, 20));
+            consumeLiq(oxygen, 40/60f);
             outputItem = new ItemStack(sand, 20);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -1303,8 +1302,8 @@ public class CrafterBlocks {
             itemCapacity = 80;
             liquidCapacity = 200;
             consumePower(4);
-            consumeItem(sand, 40);
-            consumeItem(graphite, 2).boost();
+            consumeItemStack(new ItemStack(sand, 40));
+            consumeBoost(graphite, 2, 1f);
             outputLiquid = new LiquidStack(oxygen, 80/60f);
             outputItem = new ItemStack(silicon, 40);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -1362,8 +1361,8 @@ public class CrafterBlocks {
             squareSprite = false;
             liquidCapacity = 500;
             consumePower(2.5f);
-            consumeItem(coal, 12);
-            consumeLiquid(oxygen, 0.25f);
+            consumeItemStack(new ItemStack(coal, 12));
+            consumeLiq(oxygen, 0.25f);
             outputLiquid = new LiquidStack(oil, 3f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -1486,10 +1485,10 @@ public class CrafterBlocks {
             craftTime = 5 * 60f;
             boostersAffectOutput = true;
             liquidBoostIntensity = 1.5f;
-            consumeItems(ItemStack.with(ferricMatter, 50, coal, 80));
+            consumeItemStack(new ItemStack(ferricMatter, 50), new ItemStack(coal, 80));
             outputItems = ItemStack.with(steel, 50, graphite, 40);
-            consumeLiquid(oxygen, 2);
-            consumeLiquid(argon, 0.5f).boost();
+            consumeLiq(oxygen, 2);
+            consumeBoost(argon, 0.5f, 1f);
             outputLiquid = new LiquidStack(slag, 4);
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -1562,8 +1561,8 @@ public class CrafterBlocks {
             squareSprite = false;
 
             craftTime = 10 * 60f;
-            consumeItem(salt, 250);
-            consumeLiquid(water, 8.5f);
+            consumeItemStack(new ItemStack(salt, 250));
+            consumeLiq(water, 8.5f);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumePower(10);
             outputLiquid = new LiquidStack(brine, 8.5f);
@@ -1601,7 +1600,7 @@ public class CrafterBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             craftTime = 720;
             itemCapacity = 36;
-            consumeItem(sporePod, 9);
+            consumeItemStack(new ItemStack(sporePod, 9));
             consumePower(0.5f);
             outputLiquid = new LiquidStack(bioPulp, 0.125f);
             liquidCapacity = 120;

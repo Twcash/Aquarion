@@ -63,11 +63,13 @@ public class AquaConsume extends Consume {
 
     @Override
     public void apply(Block block){
-        for(var e : entries){
+        for(Entry e : entries){
             if(e.consumer instanceof ConsumeLiquid cl){
+                block.hasLiquids = true;
                 block.liquidFilter[cl.liquid.id] = true;
             }else if(e.consumer instanceof ConsumeLiquids cls){
-                for(var ls : cls.liquids){
+                block.hasLiquids = true;
+                for(LiquidStack ls : cls.liquids){
                     block.liquidFilter[ls.liquid.id] = true;
                 }
             }else if(e.consumer instanceof ConsumeItems CI){
@@ -76,7 +78,6 @@ public class AquaConsume extends Consume {
                     block.itemFilter[item.item.id] = true;
                 }
             }else{
-                //Unknown types (power, wrapped, custom) need full apply()
                 e.consumer.apply(block);
             }
         }
@@ -84,24 +85,24 @@ public class AquaConsume extends Consume {
 
     @Override
     public void build(Building build, Table table){
-        for(var e : entries) e.consumer.build(build, table);
+        for(Entry e : entries) e.consumer.build(build, table);
     }
 
     @Override
     public void update(Building build){
-        for(var e : entries) e.consumer.update(build);
+        for(Entry e : entries) e.consumer.update(build);
     }
 
     @Override
     public void trigger(Building build){
-        for(var e : entries) e.consumer.trigger(build);
+        for(Entry e : entries) e.consumer.trigger(build);
     }
 
     /** Returns the minimum efficiency across required entries only (boosters skipped) */
     @Override
     public float efficiency(Building build){
         float min = 1f;
-        for(var e : entries){
+        for(Entry e : entries){
             if(!e.required) continue;
             min = Math.min(min, e.consumer.efficiency(build));
         }
@@ -112,7 +113,7 @@ public class AquaConsume extends Consume {
     @Override
     public float efficiencyMultiplier(Building build){
         float prod = 1f;
-        for(var e : entries){
+        for(Entry e : entries){
             prod *= e.multiplier * e.consumer.efficiencyMultiplier(build);
         }
         return prod;
@@ -120,16 +121,16 @@ public class AquaConsume extends Consume {
 
     /** Adds custom formatted stat entries for each consumer in this group */
     public void displayStats(Stats stats, float timePeriod){
-        for(var e : entries){
+        for(Entry e : entries){
             Stat stat = e.required ? Stat.input : Stat.booster;
             if(e.consumer instanceof ConsumeLiquid cl){
                 stats.add(stat, entryTable(cl.liquid, cl.amount, e.multiplier, timePeriod, !e.required, true));
             }else if(e.consumer instanceof ConsumeLiquids cls){
-                for(var ls : cls.liquids){
+                for(LiquidStack ls : cls.liquids){
                     stats.add(stat, entryTable(ls.liquid, ls.amount, e.multiplier, timePeriod, !e.required, true));
                 }
             }else if(e.consumer instanceof ConsumeItems ci){
-                for(var is : ci.items){
+                for(ItemStack is : ci.items){
                     stats.add(stat, entryTable(is.item, is.amount, e.multiplier, timePeriod, !e.required, false));
                 }
             }
@@ -147,9 +148,9 @@ public class AquaConsume extends Consume {
                     b.add(displayItem((mindustry.type.Item)iconObj, Math.round(baseAmount * mult), timePeriod, true)).pad(10f).left();
                 }
                 if(mult != 1f){
-                    b.add("[lightgray]" + Strings.autoFixed(mult, 2) + "x").pad(10f).right();
+                    b.add("[lightgray]" + "* " + Strings.autoFixed(mult, 2)).pad(10f).right();
                 }
-                b.add(booster ? "[accent]Booster" : "[white]Required").pad(10f).padRight(15f).right();
+                b.add(booster ? "[accent]Booster" : "[gray]Required").pad(10f).padRight(15f).right();
             }).growX().pad(3).row();
         };
     }

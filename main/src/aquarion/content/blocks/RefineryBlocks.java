@@ -63,9 +63,9 @@ public class RefineryBlocks {
             ignoreLiquidFullness = true;
             liquidCapacity = 500;
             craftTime = 300;
-            consumeLiquid(magma, 2);
+            consumeLiq(magma, 2);
             itemBoostIntensity = 2;
-            consumeItem(salt, 1).boost();
+            consumeBoost(salt, 1, 1f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
                 drawIcon = false;
@@ -129,8 +129,8 @@ public class RefineryBlocks {
             liquidOutputDirections = new int[]{1, 2, 3};
             craftTime = 60;
             itemCapacity = 200;
-            consumeLiquid(muriaticAcid, 2);
-            consumeItem(biotite, 35);
+            consumeLiq(muriaticAcid, 2);
+            consumeItemStack(new ItemStack(biotite, 35));
             outputItems = new ItemStack[]{
                     new ItemStack(sand, 6),
                     new ItemStack(ferricMatter, 10),
@@ -150,7 +150,7 @@ public class RefineryBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(lead, 450, silicon, 600, copper, 300));
             craftTime = 60;
-            consumeItem(bauxite, 10);
+            consumeItemStack(new ItemStack(bauxite, 10));
             consumePower(2);
             outputItems = new ItemStack[]{
                     new ItemStack(sand, 6),
@@ -198,7 +198,7 @@ public class RefineryBlocks {
             squareSprite = false;
             craftTime = 600;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            consumeLiquids(LiquidStack.with(slag, 6, fumes, 2));
+            consume(new LiquidStack(slag, 6), new LiquidStack(fumes, 2));
             outputItems = new ItemStack[]{
                     new ItemStack(metaglass, 40),
                     new ItemStack(sand, 5),
@@ -293,9 +293,9 @@ public class RefineryBlocks {
                 squareSprite = false;
                 itemCapacity = 300;
                 hasPower = true;
-                consumeItem(azurite, 15);
+                consumeItemStack(new ItemStack(azurite, 15));
                 outputItem = new ItemStack(copper, 45);
-                consume(new ConsumeLiquidAcidic(1, 0.5f));
+                consumeWrapped(new ConsumeLiquidAcidic(1, 0.5f)).set(1f, true);
                 outputLiquid = new LiquidStack(hydroxide, 8.5f);
                 consumePower(4.5f);
                 liquidCapacity = 1500;
@@ -339,8 +339,8 @@ public class RefineryBlocks {
             craftTime = 3 * 60f;
             squareSprite = false;
             consumePower(5);
-            consumeItem(towanite, 15);
-            consumeLiquid(fumes, 0.5f);
+            consumeItemStack(new ItemStack(towanite, 15));
+            consumeLiq(fumes, 0.5f);
             outputItems = new ItemStack[]{
                     new ItemStack(copper, 15),
                     new ItemStack(brimstone, 30),
@@ -366,14 +366,14 @@ public class RefineryBlocks {
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(zinc, 500, silicon, 200, graphite, 120));
             size = 6;
-            consumeLiquids(LiquidStack.with(muriaticAcid, 0.5f));
+            consume(new LiquidStack(muriaticAcid, 0.5f));
             itemCapacity = 150;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumePower(6);
             liquidCapacity = 150;
             squareSprite = false;
             craftTime = 5 * 60f;
-            consumeItem(galena, 40);
+            consumeItemStack(new ItemStack(galena, 40));
             outputItems = ItemStack.with(lead, 40, brimstone, 25, copper, 15);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;
@@ -404,7 +404,7 @@ public class RefineryBlocks {
             consumePower(5);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             liquidCapacity = 1500;
-            consumeLiquid(fumes, 2);
+            consumeLiq(fumes, 2);
             outputLiquids = LiquidStack.with(oil, 3/2f, haze, 2f, muriaticAcid, 1f);
             outputItem = new ItemStack(brimstone, 4);
             liquidOutputDirections = new int[]{3, 1, 2};
@@ -423,7 +423,7 @@ public class RefineryBlocks {
         scrapCentrifuge = new AquaGenericCrafter("scrap-centrifuge"){{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(silicon, 250, nickel, 200, copper, 100));
-            consumeItem(scrap, 10);
+            consumeItemStack(new ItemStack(scrap, 10));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             itemCapacity = 100;
             squareSprite = false;
@@ -447,9 +447,9 @@ public class RefineryBlocks {
             updateEffectChance = 0.06f;
             updateEffect = AquaFx.heatEngineGenerate;
             squareSprite = false;
-            consumeLiquid(oil, 3);
+            consumeLiq(oil, 3);
             outputLiquids = LiquidStack.with(methane, 1, petroleum, 1.5f);
-            consumeLiquid(haze, 2).boost();
+            consumeBoost(haze, 2, 1f);
             liquidOutputDirections = new int[]{1, 3};
             outputItem = new ItemStack(graphite, 5);
             liquidCapacity = 300;
@@ -474,7 +474,7 @@ public class RefineryBlocks {
             updateEffect = Fx.steamCoolSmoke;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
-            consumeLiquids(LiquidStack.with(petroleum, 4, haze, 2));
+            consume(new LiquidStack(petroleum, 4), new LiquidStack(haze, 2));
             outputLiquid = new LiquidStack(ammonia, 2);
             outputItems = ItemStack.with(polymer, 4);
             liquidCapacity = 300;
@@ -492,8 +492,8 @@ public class RefineryBlocks {
             craftEffect = Fx.reactorsmoke;
             updateEffectChance = 0.08f;
             updateEffect = Fx.reactorsmoke;
-            consumeLiquid(petroleum, 1.5f);
-            consumeLiquid(petroleum, 1.5f);
+            consumeLiq(petroleum, 1.5f);
+            consumeLiq(petroleum, 1.5f);
             outputItem = new ItemStack(brimstone, 30);
             outputLiquid = new LiquidStack(methane, 2.5f);
             liquidCapacity = 900;
@@ -514,7 +514,7 @@ public class RefineryBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             outputItem = new ItemStack(salt, 1);
             consumePower(3);
-            consumeLiquid(halideWater, 6.5f);
+            consumeLiq(halideWater, 6.5f);
             craftTime = 10;
             outputLiquids = LiquidStack.with(air, 4f, water, 6.375f);
             liquidOutputDirections = new int[]{1, 4};
@@ -617,7 +617,7 @@ public class RefineryBlocks {
             size = 8;
             ignoreLiquidFullness = true;
             dumpExtraLiquid = true;
-            consumeItem(acuminite, 60);
+            consumeItemStack(new ItemStack(acuminite, 60));
             craftTime = 5 * 60f;
             liquidCapacity = 1000;
             itemCapacity = 180;
@@ -729,7 +729,7 @@ public class RefineryBlocks {
             rotate = true;
             regionRotated1 = 1;
             liquidCapacity = 400;
-            consumeLiquid(air, 4f);
+            consumeLiq(air, 4f);
             outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 2f, nitrogen, 1.75f);
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -789,7 +789,7 @@ public class RefineryBlocks {
             size = 2;
             squareSprite = false;
             liquidCapacity = 400;
-            consumeLiquid(Liquids.water, 3);
+            consumeLiq(Liquids.water, 3);
             outputLiquids = new LiquidStack[]{
                     new LiquidStack(oxygen, 1),
                     new LiquidStack(hydrogen, 2)
@@ -814,7 +814,7 @@ public class RefineryBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             craftTime = 10f * 60f;
             liquidOutputDirections = new int[]{3, 2, 1};
-            consumeLiquid(brine, 17);
+            consumeLiq(brine, 17);
             outputLiquids = new LiquidStack[]{
                     new LiquidStack(chlorine, 17),
                     new LiquidStack(hydrogen, 17),
@@ -901,8 +901,8 @@ public class RefineryBlocks {
             hasHeat = false;
             consumePower(10);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            consumeLiquid(air, 12);
-            consumeItem(serpentine, 20);
+            consumeLiq(air, 12);
+            consumeItemStack(new ItemStack(serpentine, 20));
             outputLiquids = LiquidStack.with(hydroxide, 4.25);
             outputItems = new ItemStack[]{
                     new ItemStack(sand, 10),

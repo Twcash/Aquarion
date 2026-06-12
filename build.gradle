@@ -118,7 +118,7 @@ tasks.register('install', DefaultTask){
         File jarFile = deployJarProvider.get().asFile
         String customPath = mindustryPathProp.getOrNull()
 
-        // Verify the main class exists in the JAR
+        // If the JAR is from a stale build, force a clean rebuild
         def jarEntries = new java.util.jar.JarFile(jarFile).entries()
         boolean hasMainClass = false
         while(jarEntries.hasMoreElements()){
@@ -129,7 +129,7 @@ tasks.register('install', DefaultTask){
             }
         }
         if(!hasMainClass){
-            throw new GradleException("JAR missing ${modName}.AquaLoader! Run 'gradle clean' and rebuild.")
+            throw new GradleException("JAR missing ${modName}.AquaLoader!\nRun 'gradlew.bat :main:clean :main:deploy' and try again.")
         }
 
         def mindustrySaves = customPath && !customPath.trim().isEmpty()

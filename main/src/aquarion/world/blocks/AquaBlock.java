@@ -32,7 +32,7 @@ public class AquaBlock extends Block {
     public AquaBlock(String name) {
         super(name);
     }
-    public AquaConsume consume(Liquid liquid, float amount){
+    public AquaConsume consumeLiq(Liquid liquid, float amount){
         AquaConsume ac = new AquaConsume(new ConsumeLiquid(liquid, amount));
         ac.entries.first().required = true;
         return consume(ac);
@@ -49,7 +49,7 @@ public class AquaBlock extends Block {
     }
     public AquaConsume consume(LiquidStack... stacks){
         AquaConsume ac = new AquaConsume(new ConsumeLiquids(stacks));
-        for(var e : ac.entries) e.required = true;
+        for(AquaConsume.Entry e : ac.entries) e.required = true;
         return consume(ac);
     }
 
@@ -61,7 +61,7 @@ public class AquaBlock extends Block {
 
     public AquaConsume consumeItemStack(ItemStack... items){
         AquaConsume ac = new AquaConsume(new ConsumeItems(items));
-        for(var e : ac.entries) e.required = true;
+        for(AquaConsume.Entry e : ac.entries) e.required = true;
         return consume(ac);
     }
     public AquaConsume consumers(){
@@ -72,11 +72,11 @@ public class AquaBlock extends Block {
     }
     /** Finds the efficiency of a booster consumer matching the given type, looking inside AquaConsume wrappers */
     public float getEfficiency(Building build, Class<? extends Consume> type){
-        for(var c : consumers){
+        for(Consume c : consumers){
             if(!c.booster) continue;
             if(type.isInstance(c)) return c.efficiency(build);
             if(c instanceof AquaConsume ac){
-                for(var e : ac.entries){
+                for(AquaConsume.Entry e : ac.entries){
                     if(type.isInstance(e.consumer)) return e.consumer.efficiency(build);
                 }
             }
@@ -86,11 +86,11 @@ public class AquaBlock extends Block {
     /** Finds a booster consumer by type, unwrapping AquaConsume if needed */
     @SuppressWarnings("unchecked")
     public <T extends Consume> T findConsume(Class<T> type) {
-        for (var c : consumers) {
+        for (Consume c : consumers) {
             if (!c.booster) continue;
             if (type.isInstance(c)) return (T) c;
             if (c instanceof AquaConsume ac) {
-                for (var e : ac.entries) {
+                for (AquaConsume.Entry e : ac.entries) {
                     if (type.isInstance(e.consumer)) return (T) e.consumer;
                 }
             }
@@ -108,7 +108,7 @@ public class AquaBlock extends Block {
             }
         }
         stats.add(Stat.maxEfficiency, (int)(maxEfficiency * 100f), StatUnit.percent);
-        for(var c : consumers){
+        for(Consume c : consumers){
             if(c instanceof AquaConsume ac){
                 ac.displayStats(stats, stats.timePeriod);
             }
@@ -150,3 +150,50 @@ public class AquaBlock extends Block {
             }
         }
 
+        @Override
+        public float efficiencyScale() {
+            if(!hasHeat || heatRequirement == 0f) return 1f;
+
+            float eff;
+            float over = Math.max(heat - heatRequirement, 0f);
+
+            if(flipHeatScale){
+                eff = -Math.min((heat / -heatRequirement) + over / -heatRequirement * overheatScale, maxEfficiency);
+                if(eff > 1) eff = Math.min(((eff - 1) * overheatScale) + 1, maxEfficiency);
+            }else{
+                eff = Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) + baseEfficiency;
+            }
+
+            return Math.max(eff, 0f);
+        }
+
+        @Override
+        public float heatRequirement() {
+            return hasHeat ? heatRequirement : 0f;
+        }
+
+        @Override
+        public float[] sideHeat() {
+            return hasHeat ? sideHeat : new float[4];
+        }
+        //Hopefully this jury rigged read/write version system won't fail me
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            //Pretty please don't brick saves
+            if(hasHeat) write.f(heat);
+
+            if(version != 0) write.i(version);
+
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            if(hasHeat) heat = read.f();
+            int ver = version;
+            if(version != 0) read.i();
+            if(ver != version) return;
+        }
+    }
+}
