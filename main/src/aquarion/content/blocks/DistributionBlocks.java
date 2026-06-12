@@ -183,11 +183,11 @@ public class DistributionBlocks {
             baseEfficiency = 1;
         }};
         cremator = new DelayIncinerator("cremator"){{
-            requirements(Category.distribution, with(copper, 50));
+            requirements(Category.crafting, with(copper, 50));
             size = 2;
-            incinTime = 30;
+            incinTime = 6;
             itemCapacity = 30;
-            consumePower(1);
+            consumePower(1/2f);
         }};
         overwrite(Blocks.titaniumConveyor, (Conveyor r) -> {
             r.requirements = null;
