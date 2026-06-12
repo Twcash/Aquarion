@@ -29,8 +29,8 @@ public class BinarySplitter extends Block {
 
         @Override
         public void draw(){
-            super.draw();
-            if(active) Draw.rect(onRegion, x, y, rotation * 90);
+            Draw.rect(region, x, y, 0);
+            if(active) Draw.rect(onRegion, x, y, rotation);
         }
 
         @Override

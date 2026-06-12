@@ -17,6 +17,7 @@ import mindustry.world.blocks.ItemSelection;
 
 public class StorageReader extends Block {
     public TextureRegion onRegion;
+    public TextureRegion topRegion;
 
     public StorageReader(String name) {
         super(name);
@@ -39,16 +40,20 @@ public class StorageReader extends Block {
     public void load(){
         super.load();
         onRegion = Core.atlas.find(name + "-on");
+        topRegion = Core.atlas.find(name + "-top");
+
     }
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
-        Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);
+        Draw.rect(region, plan.drawx(), plan.drawy(), 0);
+        Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);
+
     }
 
     @Override
     public TextureRegion[] icons(){
-        return new TextureRegion[]{region};
+        return new TextureRegion[]{region, topRegion};
     }
 
     public class StorageReaderBuild extends Building {
@@ -59,8 +64,9 @@ public class StorageReader extends Block {
         @Override
         public void draw(){
             super.draw();
-            Draw.rect(region, x, y, rotation * 90);
+            Draw.rect(region, x, y, 0);
             if(enabled) Draw.rect(onRegion, x, y, rotation * 90);
+            Draw.rect(topRegion, x, y, 0);
         }
 
         @Override
