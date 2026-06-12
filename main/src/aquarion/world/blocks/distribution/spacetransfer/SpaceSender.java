@@ -9,7 +9,7 @@ import mindustry.graphics.Pal;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
 import mindustry.content.Fx;
-import mindustry.type.ContentType;
+import mindustry.core.ContentType;
 import mindustry.type.Item;
 import mindustry.type.Liquid;
 import mindustry.world.Block;
