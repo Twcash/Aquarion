@@ -32,7 +32,10 @@ public class TantrosTechTree {
 
         AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = AquaPlanets.fakeErekir.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             context().researchCostMultipliers = costMultipliers;
-            node(infomatic);
+            node(coreCuesta, () -> {});
+            node(infomatic, () -> {
+                node(toggler, () -> {});
+            });
             node(mendPyre, () -> {
                 node(mendPylon, () -> {
                     node(mendSubstation, () -> {});
@@ -80,7 +83,7 @@ public class TantrosTechTree {
                 });
             });
             node(bulwark, Seq.with(
-                    new Objectives.OnSector(twinPass),
+                    new Objectives.OnSector(floodPlains),
                     new Objectives.Research(pelt)
             ), () -> {
                 node(crest, () -> {
@@ -116,33 +119,35 @@ public class TantrosTechTree {
             });
             node(pylon, () -> {
                 node(leadBurner, () -> {
-                    node(turbineDynamo, Seq.with(
-                            new Objectives.Produce(haze)
+                    node(miniumReactor, Seq.with(
+                            new Objectives.OnSector(icyRiver)
                     ), () -> {
-                        node(fumeEngine, Seq.with(
-                                new Objectives.Produce(fumes),
-                                new Objectives.SectorComplete(FeldsparRavine)
-                        ), () -> {});
-                        node(petroleumEngine, Seq.with(
-                                new Objectives.Produce(petroleum),
-                                new Objectives.OnSector(GalenaFringe)
-                        ), () -> {});
-                        node(hydroxideReactor, Seq.with(
-                                new Objectives.Produce(hydroxide),
-                                new Objectives.OnSector(Ecotone)
-                        ), () -> {});
+                        node(turbineDynamo, Seq.with(
+                                new Objectives.Produce(haze)
+                        ), () -> {
+                            node(fumeEngine, Seq.with(
+                                    new Objectives.Produce(fumes),
+                                    new Objectives.SectorComplete(FeldsparRavine)
+                            ), () -> {});
+                            node(petroleumEngine, Seq.with(
+                                    new Objectives.Produce(petroleum),
+                                    new Objectives.OnSector(GalenaFringe)
+                            ), () -> {});
+                            node(hydroxideReactor, Seq.with(
+                                    new Objectives.Produce(hydroxide),
+                                    new Objectives.SectorComplete(Grove)
+                            ), () -> {});
+                        });
                     });
                     node(heatEngine, Seq.with(
                             new Objectives.OnSector(twinPass)
                     ), () -> {
                         node(heatExchanger, Seq.with(
                                 new Objectives.Research(turbineDynamo),
-                                new Objectives.Research(convectionHeater)
+                                new Objectives.Research(convectionHeater),
+                                new Objectives.SectorComplete(bay)
                         ), () -> {});
                     });
-                    node(miniumReactor, Seq.with(
-
-                    ), () -> {});
                     node(solarGenerator, () -> {
                         node(advSolarGen, Seq.with(
                                 new Objectives.OnSector(stormyCoast)
@@ -231,7 +236,11 @@ public class TantrosTechTree {
             });
             node(lib, Seq.with(
                     new Objectives.OnSector(resurgence)
-            ), () -> {});
+            ), () -> {
+                node(ruinedRepository, Seq.with(
+                        new Objectives.OnSector(icyRiver)
+                ), () -> {});
+            });
             node(resurgence, () -> {
                     node(twinPass, Seq.with(
                             new Objectives.SectorComplete(resurgence),
@@ -540,7 +549,6 @@ public class TantrosTechTree {
                     });
                     node(graphiteConcentrator, () -> {
                         node(SolidBoiler, Seq.with(
-                                new Objectives.Research(coal),
                                 new Objectives.OnSector(floodPlains)
                         ), () -> {
                             node(solarBoiler, () -> {
