@@ -36,7 +36,7 @@ public class SpaceSender extends Block {
         public float progress = 0;
 
         public Liquid getKerosene() {
-            return Vars.content.getLiquid("aquarion-kerosene");
+            return Vars.content.liquids().find(l -> l.name.equals("aquarion-hydroxide"));
         }
 
         @Override
