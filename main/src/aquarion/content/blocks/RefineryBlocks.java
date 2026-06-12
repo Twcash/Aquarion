@@ -784,7 +784,7 @@ public class RefineryBlocks {
             }}, new AquaDrawLiquidOutputs());
         }};
         electrolysisVat = new AquaGenericCrafter("electrolysis-vat"){{
-            requirements(Category.crafting, with(metaglass, 250, copper, 300, silicon, 150));
+            requirements(AquaCategories.refinery, with(metaglass, 250, copper, 300, silicon, 150));
             consumePower(3);
             size = 2;
             squareSprite = false;
