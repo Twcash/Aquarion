@@ -4,10 +4,9 @@ import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
-import mindustry.content.Fx;
 import mindustry.type.Item;
 import mindustry.world.Block;
-import aquarion.world.blocks.distribution.spacetransfer.*;
+import aquarion.world.blocks.distribution.spacetransfer.SpaceReceiver;
 
 public class SpaceSender extends Block {
     public int maxLaunchStorage = 100;
@@ -36,8 +35,6 @@ public class SpaceSender extends Block {
         }
 
         public void launchResources() {
-            Fx.launch.at(x, y);
-
             Groups.build.each(b -> {
                 if (b instanceof SpaceReceiver.SpaceReceiverBuild) {
                     SpaceReceiver.SpaceReceiverBuild receiver = (SpaceReceiver.SpaceReceiverBuild) b;
