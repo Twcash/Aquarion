@@ -4,6 +4,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import mindustry.Vars;
 import mindustry.graphics.Pal;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
@@ -12,7 +13,6 @@ import mindustry.type.Item;
 import mindustry.type.Liquid;
 import mindustry.world.Block;
 import mindustry.world.consumers.ConsumePower;
-import aquarion.content.AquaLiquids;
 import aquarion.world.blocks.distribution.spacetransfer.SpaceReceiver;
 
 public class SpaceSender extends Block {
@@ -35,9 +35,16 @@ public class SpaceSender extends Block {
     public class SpaceSenderBuild extends Building {
         public float progress = 0;
 
+        public Liquid getKerosene() {
+            return Vars.content.getLiquid("aquarion-kerosene");
+        }
+
         @Override
         public void updateTile() {
-            boolean hasResources = items.total() >= itemCapacity && liquids.get(AquaLiquids.kerosene) >= kerosenePerLaunch;
+            Liquid kerosene = getKerosene();
+            if (kerosene == null) return;
+
+            boolean hasResources = items.total() >= itemCapacity && liquids.get(kerosene) >= kerosenePerLaunch;
             boolean hasPowerSupply = power != null && power.status > 0;
             boolean receiverReady = checkReceiverReady();
 
@@ -68,8 +75,12 @@ public class SpaceSender extends Block {
         }
 
         public void launchResources() {
+            Liquid kerosene = getKerosene();
+            if (kerosene != null) {
+                liquids.remove(kerosene, kerosenePerLaunch);
+            }
+            
             Fx.launch.at(x, y);
-            liquids.remove(AquaLiquids.kerosene, kerosenePerLaunch);
 
             Groups.build.each(b -> {
                 if (b instanceof SpaceReceiver.SpaceReceiverBuild receiver) {
@@ -109,7 +120,7 @@ public class SpaceSender extends Block {
 
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid) {
-            return liquid == AquaLiquids.kerosene && liquids.get(liquid) < liquidCapacity;
+            return liquid == getKerosene() && liquids.get(liquid) < liquidCapacity;
         }
 
         @Override
