@@ -216,8 +216,11 @@ public class DistributionBlocks {
                 lead, 100
             ));
             size = 3;
-            maxLaunchStorage = 150;
-            launchCooldown = 400f;
+            itemCapacity = 100;
+            liquidCapacity = 100f;
+            launchCooldown = 300f;
+            kerosenePerLaunch = 50f;
+            powerPerTick = 2f;
         }};
 
         spaceReceiver = new SpaceReceiver("space-receiver") {{
@@ -227,6 +230,8 @@ public class DistributionBlocks {
             ));
             size = 3;
             itemCapacity = 300;
+            liquidCapacity = 100f;
+            waterPerReceive = 40f;
         }};
     }
 }
