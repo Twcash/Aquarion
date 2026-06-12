@@ -89,18 +89,6 @@ allprojects{
                 "-AmodName=${currentModName}",
                 "-AclassPrefix=${currentClassPrefix}"
         ]
-
-        options.fork = true
-        options.forkOptions.jvmArgs += [
-                '--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED',
-                '--add-opens=java.base/sun.reflect.annotation=ALL-UNNAMED'
-        ]
     }
 
     tasks.withType(Javadoc){
@@ -124,11 +112,26 @@ tasks.register('install', DefaultTask){
     inputs.file(deployJarProvider).withPathSensitivity(PathSensitivity.ABSOLUTE)
     inputs.property("mindustryPathPropValue", mindustryPathProp.orElse(""))
 
+    dependsOn(mainProj.tasks.named('clean'))
     dependsOn(mainProj.tasks.named('deploy'))
 
     doLast{
         File jarFile = deployJarProvider.get().asFile
         String customPath = mindustryPathProp.getOrNull()
+
+        // If the JAR is from a stale build, force a clean rebuild
+        def jarEntries = new java.util.jar.JarFile(jarFile).entries()
+        boolean hasMainClass = false
+        while(jarEntries.hasMoreElements()){
+            def entry = jarEntries.nextElement()
+            if(entry.name == "${modName.replaceAll('-', '')}/AquaLoader.class".toString()){
+                hasMainClass = true
+                break
+            }
+        }
+        if(!hasMainClass){
+            throw new GradleException("JAR missing ${modName}.AquaLoader!\nRun 'gradlew.bat :main:clean :main:deploy' and try again.")
+        }
 
         def mindustrySaves = customPath && !customPath.trim().isEmpty()
                 ? Fi.get(customPath)

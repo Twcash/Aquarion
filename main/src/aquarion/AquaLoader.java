@@ -1,5 +1,7 @@
 package aquarion;
 
+import arc.scene.style.TextureRegionDrawable;
+import aquarion.content.AquaCategories;
 import aquarion.ui.AquaStyles;
 import aquarion.ui.IconLoader;
 import aquarion.ui.ModSettings;
@@ -15,6 +17,7 @@ import mindustry.Vars;
 import mindustry.content.Planets;
 import mindustry.ctype.*;
 import mindustry.game.EventType;
+import mindustry.gen.Icon;
 import mindustry.mod.*;
 import aquarion.annotations.Annotations.*;
 import aquarion.gen.*;
@@ -106,6 +109,9 @@ public class AquaLoader extends Mod {
             Planets.sun.visible = false;
             aquarionIconLoader.loadIcons();
 
+            if (Core.atlas.has("aquarion-icon-refinery")) Icon.icons.put("refinery", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-refinery")));
+            if (Core.atlas.has("aquarion-icon-heat")) Icon.icons.put("heat", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-heat")));
+
             if (ModSettings.getShowUpdates()) {
                 new AquaUpdate().check(AquaLoader.class);
             }
@@ -117,7 +123,6 @@ public class AquaLoader extends Mod {
                 Vars.content.each(content -> {
                     if (isTemplate(content) && content instanceof MappableContent mContent) {
                         aquarionContentRegionRegistry.load(mContent);
-                        Log.info(mContent.name + " : has been loaded");
                     }
                 });
             }
@@ -140,6 +145,7 @@ public class AquaLoader extends Mod {
     @Override
     public void loadContent() {
         loadBlock();
+        AquaCategories.init();
         AquarionMod.loadContent();
         AquaLoader.postLoad();
         aquarionEntityMapping.init();
