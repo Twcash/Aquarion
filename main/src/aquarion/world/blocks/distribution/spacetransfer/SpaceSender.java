@@ -9,7 +9,6 @@ import mindustry.graphics.Pal;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
 import mindustry.content.Fx;
-import mindustry.core.ContentType;
 import mindustry.type.Item;
 import mindustry.type.Liquid;
 import mindustry.world.Block;
@@ -37,7 +36,7 @@ public class SpaceSender extends Block {
         public float progress = 0;
 
         public Liquid getKerosene() {
-            return Vars.content.get(ContentType.liquid, "aquarion-kerosene");
+            return Vars.content.getLiquid("aquarion-kerosene");
         }
 
         @Override
