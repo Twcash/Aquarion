@@ -17,6 +17,7 @@ import static aquarion.content.blocks.DistributionBlocks.*;
 import static aquarion.content.blocks.EffectBlocks.lantern;
 import static aquarion.content.blocks.LiquidBlocks.*;
 import static aquarion.content.blocks.PowerBlocks.*;
+import static aquarion.content.blocks.RefineryBlocks.*;
 import static aquarion.content.blocks.TurretBlocks.*;
 import static aquarion.content.blocks.UnitBlocks.*;
 import static aquarion.content.AquaSectorPresets.*;
@@ -239,13 +240,13 @@ public class TantrosTechTree {
                             new Objectives.Research(point)
                     ), () -> {
                         node(Ingress, Seq.with(
-                                new Objectives.Research(magmaDiffser)
+                                new Objectives.Research(magmaDiffuser)
                         ), () -> node(Torrent, Seq.with(
                                 new Objectives.Research(inlet)
                         ), () -> {
                             node(FeldsparRavine, Seq.with(
                                     new Objectives.SectorComplete(Torrent),
-                                    new Objectives.Research(leachingVessel)
+                                    new Objectives.Research(biotiteLeachingVessel)
                             ), ()->{
 
                                 node(CrystalCaverns, Seq.with(
@@ -260,7 +261,7 @@ public class TantrosTechTree {
                                         node(brinePlateau, Seq.with(
                                                 new Objectives.SectorComplete(Ecotone),
                                                 new Objectives.Research(truncate),
-                                                new Objectives.Research(steamCrackingUnit)
+                                                new Objectives.Research(hazeCrackingUnit)
                                         ), ()->{});
                                     });
                                     node(ripHold, Seq.with(
@@ -464,12 +465,12 @@ public class TantrosTechTree {
                                 new Objectives.SectorComplete(FeldsparRavine)
                         ), () -> {});
                     });
-                    node(magmaDiffser, () -> {
+                    node(magmaDiffuser, () -> {
                         node(fumeFilter, () -> {
                             node(fumeSeparator, () -> {
                                 node(fumeMixer, () -> {});
                             });
-                            node(slagRefinementAssemblage, Seq.with(
+                            node(slagRefinementArray, Seq.with(
                                     new Objectives.Produce(slag)
                             ), () -> {
                                 node(glassPulverizer, () -> {});
@@ -479,7 +480,7 @@ public class TantrosTechTree {
                                 new Objectives.SectorComplete(Ingress)
                         ), () -> {
                             node(galenaCrucible, () -> {});
-                            node(leachingVessel, () -> {
+                            node(biotiteLeachingVessel, () -> {
                                 node(ultrafamicRefinery, () -> {});
                                 node(towaniteReductionVat, () -> {
                                     node(algalTerrace, Seq.with(
@@ -548,7 +549,7 @@ public class TantrosTechTree {
                                 ), () -> {});
                             });
                         });
-                        node(electrolysisCell, Seq.with(
+                        node(electrolysisVat, Seq.with(
                                 new Objectives.Produce(water)
                         ), () -> {
                             node(brineElectrolyzer, Seq.with(
@@ -568,7 +569,7 @@ public class TantrosTechTree {
                                     new Objectives.Produce(petroleum),
                                     new Objectives.OnSector(bay)
                             ), () -> {
-                                node(steamCrackingUnit, () -> {});
+                                node(hazeCrackingUnit, () -> {});
                             });
                             node(desulferizationAssembly, Seq.with(
                                     new Objectives.Produce(methane)

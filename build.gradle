@@ -89,18 +89,6 @@ allprojects{
                 "-AmodName=${currentModName}",
                 "-AclassPrefix=${currentClassPrefix}"
         ]
-
-        options.fork = true
-        options.forkOptions.jvmArgs += [
-                '--add-opens=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED',
-                '--add-opens=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED',
-                '--add-opens=java.base/sun.reflect.annotation=ALL-UNNAMED'
-        ]
     }
 
     tasks.withType(Javadoc){
@@ -129,6 +117,20 @@ tasks.register('install', DefaultTask){
     doLast{
         File jarFile = deployJarProvider.get().asFile
         String customPath = mindustryPathProp.getOrNull()
+
+        // Verify the main class exists in the JAR
+        def jarEntries = new java.util.jar.JarFile(jarFile).entries()
+        boolean hasMainClass = false
+        while(jarEntries.hasMoreElements()){
+            def entry = jarEntries.nextElement()
+            if(entry.name == "${modName.replaceAll('-', '')}/AquaLoader.class".toString()){
+                hasMainClass = true
+                break
+            }
+        }
+        if(!hasMainClass){
+            throw new GradleException("JAR missing ${modName}.AquaLoader! Run 'gradle clean' and rebuild.")
+        }
 
         def mindustrySaves = customPath && !customPath.trim().isEmpty()
                 ? Fi.get(customPath)

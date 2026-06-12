@@ -19,7 +19,7 @@ import mindustry.type.Category;
 @Annotations.LoadRegs("error")// Need this temporarily, so the class gets generated.
 @Annotations.EnsureLoad
 public class AquarionMod  implements Loadable{
-
+    public static int blockVersions = 0;
 
     public static void loadContent() {
         //stuff that needs to be loaded first
@@ -38,6 +38,7 @@ public class AquarionMod  implements Loadable{
         DefenseBlocks.loadContent();
         TurretBlocks.loadContent();
         CrafterBlocks.loadContent();
+        RefineryBlocks.loadContent();
         AquaMenuDialog.attach();
 ;       EnvironmentBlocks.shallowSlag.asFloor().blendGroup = Blocks.slag;
         //units and cores, keep these after blocks
