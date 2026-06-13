@@ -89,7 +89,9 @@ public class EnvironmentBlocks {
             isLiquid = true;
             status = StatusEffects.burning;
             attributes.set(Attribute.heat, 1.1f);
-            cacheLayer = AquaShaders.sslagLayer;
+            cacheLayer =  CacheLayer.slag;
+            supportsOverlay = true;
+            variants = 5;
         }};
         ultrafamicFloor = new Floor("ultrafamic-floor", 3) {{
             wall = ultrafamicWall;
