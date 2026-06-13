@@ -49,38 +49,6 @@ public class FloraBlock extends Block {
     public float shadowAlpha = 0.5f;
     public TextureRegion baseShadow, baseRegion;
 
-    public class FloraBlockBuild extends Building {
-        @Override
-        public void updateTile() {
-
-        }
-        public void createExplosion(){
-            if(explosionDamage > 0) {
-                Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);
-            }
-
-            explodeEffect.at(this);
-            explodeSound.at(this);
-
-            if(explosionPuddleLiquid != null){
-                for(int i = 0; i < explosionPuddles; i++){
-                    Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));
-                    Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);
-                    Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);
-                }
-            }
-
-            if(explosionShake > 0){
-                Effect.shake(explosionShake, explosionShakeDuration, this);
-            }
-        }
-        @Override
-        public void onDestroyed(){
-            super.onDestroyed();
-             createExplosion();
-        }
-    }
-
     public FloraBlock(String name) {
         super(name);
         solid = true;
@@ -150,9 +118,46 @@ public class FloraBlock extends Block {
         }
 
     }
-    @Override
-    public Color getColor(Tile tile){
-        int mc = minimapColor(tile);
-        return Tmp.c3.set(mc);
+
+    public class FloraBlockBuild extends Building {
+        @Override
+        public void updateTile() {
+
+        }
+        public void createExplosion(){
+            if(explosionDamage > 0) {
+                Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);
+            }
+
+            explodeEffect.at(this);
+            explodeSound.at(this);
+
+            if(explosionPuddleLiquid != null){
+                for(int i = 0; i < explosionPuddles; i++){
+                    Tmp.v1.trns(Mathf.random(360f), Mathf.random(explosionPuddleRange));
+                    Tile tile = world.tileWorld(x + Tmp.v1.x, y + Tmp.v1.y);
+                    Puddles.deposit(tile, explosionPuddleLiquid, explosionPuddleAmount);
+                }
+            }
+
+            if(explosionShake > 0){
+                Effect.shake(explosionShake, explosionShakeDuration, this);
+            }
+        }
+        //prevents the tree from breaking during wave shockwave
+        //shamelessly stolen from Minedustry
+        //no, it totally didnt take me over an hour to find out that i have to actually put this INTO the thing that defines florablock as a building; i didnt even know it did this
+        @Override
+        public void damage(float amount){
+            if(amount >= 1e7f){
+                return;
+            }
+            super.damage(amount);
+        }
+        @Override
+        public void onDestroyed(){
+            super.onDestroyed();
+            createExplosion();
+        }
     }
 }
