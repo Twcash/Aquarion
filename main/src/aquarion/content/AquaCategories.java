@@ -3,6 +3,9 @@ package aquarion.content;
 import arc.util.Reflect;
 import mindustry.type.Category;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+
 public class AquaCategories {
 
     public static Category refinery;
@@ -15,17 +18,28 @@ public class AquaCategories {
         initialized = true;
 
         try {
-            refinery = new Category("refinery");
-            heat = new Category("heat");
+            Constructor<Category> constructor = Category.class.getDeclaredConstructor(String.class, int.class);
+            constructor.setAccessible(true);
 
             Category[] original = Category.all;
+            int nextOrdinal = original.length;
+
+            refinery = constructor.newInstance("refinery", nextOrdinal);
+            heat = constructor.newInstance("heat", nextOrdinal + 1);
+
             Category[] extended = new Category[original.length + 2];
             System.arraycopy(original, 0, extended, 0, original.length);
-            
             extended[original.length] = refinery;
             extended[original.length + 1] = heat;
 
             Reflect.set(Category.class, "all", extended);
+
+            for (Field f : Category.class.getDeclaredFields()) {
+                if (f.getType() == Category[].class && !f.getName().equals("all")) {
+                    Reflect.set(Category.class, f.getName(), extended);
+                    break;
+                }
+            }
 
         } catch (Exception e) {
             throw new RuntimeException("Custom Category failed to initialize", e);
