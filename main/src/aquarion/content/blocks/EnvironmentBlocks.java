@@ -744,6 +744,7 @@ public class EnvironmentBlocks {
             createRubble = false;
             layer = Layer.power - 3;
             shadowLayer = Layer.power - 4;
+            shadowOffset = -8;
         }};
 
         varcaudStalk = new FloraBlock("varcaud-stalk") {{
@@ -761,6 +762,7 @@ public class EnvironmentBlocks {
             layer = Layer.power - 3;
             shadowLayer = Layer.blockOver;
             buildTime = 20 * 60f;
+            shadowOffset = -8;
         }};
         bramble = new FloraBlock("bramble") {{
             shadowAlpha = 0.6f;
@@ -814,6 +816,7 @@ public class EnvironmentBlocks {
         }};
         parzilPine = new FloraBlock("parzil-pine") {{
             shadowAlpha = 0.6f;
+            shadowOffset = -4;
             buildVisibility = sandboxOnly;
             variants = 2;
             rotationRand = 30;
@@ -849,7 +852,7 @@ public class EnvironmentBlocks {
             shadowLayer = Layer.power - 2;
             layer = Layer.power - 1;
             shadowAlpha = 0.8f;
-            shadowOffset = -4;
+            shadowOffset = -8;
         }};
         scrap1 = new rokBlock("small-scrap") {{
             requirements(Category.effect, with(copper, 100, nickel, 50));
