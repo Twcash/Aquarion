@@ -21,8 +21,8 @@ public class AquaCategories {
             Category[] original = Category.all;
             int nextOrdinal = original.length;
 
-            refinery = Reflect.constructor(Category.class, String.class, int.class).newInstance("refinery", nextOrdinal);
-            heat = Reflect.constructor(Category.class, String.class, int.class).newInstance("heat", nextOrdinal + 1);
+            refinery = Reflect.makeConstructor(Category.class, String.class, int.class).newInstance("refinery", nextOrdinal);
+            heat = Reflect.makeConstructor(Category.class, String.class, int.class).newInstance("heat", nextOrdinal + 1);
 
             Category[] extended = new Category[original.length + 2];
             System.arraycopy(original, 0, extended, 0, original.length);
