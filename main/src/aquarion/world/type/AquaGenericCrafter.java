@@ -44,7 +44,7 @@ public class AquaGenericCrafter extends AquaBlock {
     public @Nullable ItemStack outputItem;
     /** Overwrites outputItem if not null. */
     public @Nullable ItemStack[] outputItems;
-
+    public TextureRegion fullRegion;
     /** Written to outputLiquids as a single-element array if outputLiquids is null. */
     public @Nullable LiquidStack outputLiquid;
     /** Overwrites outputLiquid if not null. */
@@ -237,7 +237,7 @@ public class AquaGenericCrafter extends AquaBlock {
     @Override
     public void load(){
         super.load();
-
+        fullRegion = Core.atlas.find(name+ "-full");
         drawer.load(this);
     }
 
@@ -275,13 +275,13 @@ public class AquaGenericCrafter extends AquaBlock {
         drawer.drawPlan(this, plan, list);
     }
 
-//    @Override
-//    public TextureRegion[] icons(){
-//        if(fullRegion != null && fullRegion.found()){
-//            return new TextureRegion[]{fullRegion};
-//        }
-//        return drawer.finalIcons(this);
-//    }
+    @Override
+    public TextureRegion[] icons(){
+        if(fullRegion != null && fullRegion.found()){
+            return new TextureRegion[]{fullRegion};
+        }
+        return drawer.finalIcons(this);
+    }
 
     @Override
     public boolean outputsItems(){

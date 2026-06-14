@@ -11,6 +11,7 @@ import aquarion.world.blocks.defense.RegenPylon;
 import aquarion.world.blocks.defense.deflectorShield;
 import aquarion.world.blocks.logic.BinaryChannel;
 import aquarion.world.blocks.logic.BinarySplitter;
+import aquarion.world.blocks.logic.StorageReader;
 import aquarion.world.blocks.logic.toggler;
 import aquarion.world.blocks.neoplasia.DefensiveNeoplasiaBlock;
 import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
@@ -43,7 +44,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class CoreBlocks {
-    public static Block bomb, toggler, splitter, channel, merger, buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
+    public static Block bomb, toggler, splitter, channel, storageReader, merger, buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
             coreEscarpment, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -64,6 +65,9 @@ public class CoreBlocks {
         }};
         channel = new BinaryChannel("binary-channel"){{
             requirements(Category.logic, with(silicon, 5, graphite, 10));
+        }};
+        storageReader = new StorageReader("storage-reader"){{
+            requirements(Category.logic, with(silicon, 20, graphite, 10));
         }};
         reception = new CoreBlock("reception"){{
             size = 2;

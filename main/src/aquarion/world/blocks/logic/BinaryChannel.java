@@ -43,26 +43,31 @@ public class BinaryChannel extends Block {
         }
         @Override
         public void updateTile(){
-        if(back() != null){
+            boolean readBack = false;
+
             if(back() instanceof toggler.togglerBuild b){
-            if(back().front()!=null&&back().front()==this)active = b.enabled;
+                if(back().front()!=null && back().front()==this){ active = b.enabled; readBack = true; }
             }else if(back() instanceof BinaryChannelBuild c){
-                if(back().front()!=null&&back().front()==this)active = c.active;
+                if(back().front()!=null && back().front()==this){ active = c.active; readBack = true; }
             }
-            if(back()!=null&&back() instanceof BinaryChannelBuild orange){
-                    if(orange.front()!=null&&orange.front()==this) orange.active = active;
-                }
+
+            if(!readBack && front() instanceof toggler.togglerBuild b){
+                if(front().back()!=null && front().back()==this) active = b.enabled;
+            }else if(!readBack && front() instanceof BinaryChannelBuild c){
+                if(front().back()!=null && front().back()==this) active = c.active;
+            }
+
             if(front() != null){
                 if(front() instanceof BinaryChannelBuild y){
-                    if(front().back()!=null&&front().back()==this){
-                        y.active = active;
-                    }
-                
-                }else if(front() instanceof BinarySplitter.BinarySplitterBuild){return;} else {
+                    if(front().back()!=null && front().back()==this) y.active = active;
+                }else if(!(front() instanceof BinarySplitter.BinarySplitterBuild || front() instanceof toggler.togglerBuild)){
                     front().enabled = active;
                 }
             }
+
+            if(!readBack && back() instanceof BinaryChannelBuild y){
+                if(back().front()!=null && back().front()==this) y.active = active;
+            }
         }
-    }
     }
 }
