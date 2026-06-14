@@ -96,6 +96,8 @@ public class FloraBlock extends Block {
 
         Draw.z(layer);
         //guess who looked at Kirbys homework again?
+        //surpisingly, it didnt take an hour!
+        //only like half an hour or 45 mins or so
         float fade = 1f;
         float dst;
         float fadeStart = Math.max(this.size*this.size*4, 20);
@@ -106,8 +108,6 @@ public class FloraBlock extends Block {
         dst = Mathf.dst(mouse.x, mouse.y, tile.worldx(), tile.worldy());
         fade = Mathf.clamp((dst - (fadeEnd * dstMulti)) / ((fadeStart * dstMulti) - (fadeEnd * dstMulti)), fadeOpacity, 1f);
         Draw.alpha(fade);
-        //surpisingly, it didnt take an hour!
-        //only like half an hour or 45 mins or so
         Draw.rectv(reg,  size % 2 == 0 ? tile.worldx() + size*2 : tile.worldx(), size % 2 == 0 ? tile.worldy() + size*2 : tile.worldy(), w, h, rot + rot2, vec -> vec.add(
                 Mathf.sin(vec.y*3 + Time.time, scl, mag) + Mathf.sin(vec.x*3 - Time.time, 70, 0.8f),
                 Mathf.cos(vec.x*3 + Time.time + 8, scl + 6f, mag * 1.1f) + Mathf.sin(vec.y*3 - Time.time, 50, 0.2f)

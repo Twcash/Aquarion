@@ -9,9 +9,10 @@ import mindustry.content.StatusEffects;
 import mindustry.gen.Sounds;
 import mindustry.type.Weather;
 import mindustry.type.weather.ParticleWeather;
+import mindustry.world.meta.Attribute;
 
 public class AquaWeathers {
-    public static Weather monsoon, blizzard, currents, sedimentDisturance, volcanicFallout, bioluminescentBlooms;
+    public static Weather monsoon, blizzard, currents, sedimentDisturance, volcanicFallout, bioluminescentBlooms, whiteFog;
     public static void load(){
         monsoon = new Monsoon("monsoon");
         blizzard = new Blizzard("blizzard");
@@ -116,6 +117,26 @@ public class AquaWeathers {
             soundVolOscScl = 1100f;
             soundVolMin = 0.02f;
             duration = 8 * Time.toMinutes;
+        }};
+        whiteFog = new ParticleWeather("fog"){{
+            duration = 5f * Time.toMinutes;
+            noiseLayers = 3;
+            noiseLayerSclM = 0.8f;
+            noiseLayerAlphaM = 0.7f;
+            noiseLayerSpeedM = 2f;
+            noiseLayerSclM = 0.6f;
+            baseSpeed = 0.05f;
+            color = Color.valueOf("D8D8D8");
+            noiseScale = 1100f;
+            noisePath = "fog";
+            drawParticles = false;
+            drawNoise = true;
+            useWindVector = false;
+            xspeed = 1f;
+            yspeed = 0.01f;
+            attrs.set(Attribute.light, -0.3f);
+            attrs.set(Attribute.water, 0.05f);
+            opacityMultiplier = 0.3f;
         }};
     }
 }
