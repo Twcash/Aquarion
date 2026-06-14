@@ -19,7 +19,7 @@ public class ModSettings {
         if (initialized) return;
         initialized = true;
 
-        Vars.ui.settings.addCategory("Aquarion", root -> {
+        Vars.ui.settings.addCategory("Aquarion", "aquarion-settings-icon", root -> {
             root.checkPref("onlyModMus", false);
             root.checkPref("betterland", false);
             root.checkPref("betterfine", false);
