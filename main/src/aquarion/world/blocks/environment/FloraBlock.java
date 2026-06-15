@@ -105,7 +105,7 @@ public class FloraBlock extends Block {
             float dst;
             float fadeStart = Math.max(this.size * this.size * 4, 20);
             float fadeEnd = 10f;
-            float fadeOpacity = 1 / 2f;
+            float fadeOpacity = ModSettings.getFloraFadePercent()/100f;
             float dstMulti = 1f;
             Vec2 mouse = Core.input.mouseWorld(Core.input.mouseX(), Core.input.mouseY());
             dst = Mathf.dst(mouse.x, mouse.y, tile.worldx(), tile.worldy());
