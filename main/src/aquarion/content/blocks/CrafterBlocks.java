@@ -1827,6 +1827,8 @@ public class CrafterBlocks {
             r.craftTime = 240f;
         });
         overwrite(Blocks.pyratiteMixer, (GenericCrafter r) ->{
+            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
+            r.consumeItems(ItemStack.with(coal, 2, lead, 4, sand, 4));
             r.outputItem = new ItemStack(Items.pyratite, 3);
             r.craftTime = 120;
         });

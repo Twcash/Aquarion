@@ -11,10 +11,14 @@
 
 ---
 
-An ambitious attempt to recreate **Tantros** in Mindustry, added a new solar system.
+This mod started as an ambitious attempt to recreate **Tantros** in Mindustry, it escalated to adding a new solar system and recreating Serpulo too. Erekir is planned to be integrated at a later point.
 ## <img src="main/assets-raw/sprites/blocks/defense/aluminum-wall.png" alt="Aquarion Banner" width="20"> Features
 
 * **A completely new solar system**
+  * Tantros with a unique enemy
+  * Serpulo with a completely new player tech tree
+  * shared tech tree across all planets
+
 ---
 
 ## <img src="main/assets-raw/sprites/blocks/logic/infomatic.png" alt="Aquarion Banner" width="30"> Information
@@ -23,17 +27,24 @@ An ambitious attempt to recreate **Tantros** in Mindustry, added a new solar sys
 > To ensure the best experience and avoid breaking your game, please keep the following in mind:
 
 * **Mod Conflicts:** The mod adds new blocks, units, and a completely different solar system, so there may be conflicts with other mods.
-* **Frequent Updates:** Updates are frequent but mostly small. **Remember to reinstall or update the mod regularly** to ensure all new content and fixes load properly.
-* **Work in Progress:** This mod is still heavily under development. If you encounter any bugs, balance issues, or crashes, please report them via [GitHub Issues](https://github.com/Twcash/Aquarion/issues).
+* ~~**Frequent Updates:** Updates are frequent but mostly small. **Remember to reinstall or update the mod regularly** to ensure all new content and fixes load properly.~~
+  * (that is a lie, updates are infrequent and can contany anything from a single bugfix to an entirely new planet)
+* **Work in Progress:** This mod is still heavily under development. If you encounter any bugs, balance issues, crashes or simply typos, please report them via [GitHub Issues](https://github.com/Twcash/Aquarion/issues) or on the [Discord](https://discord.gg/SbFhxYD797).
+  * you are also welcome to attempt to fix those issues yourself and make a PR for that
 
 ---
 
 ## <img src="main/assets-raw/sprites/blocks/core/core-pike.png" alt="Aquarion Banner" width="30"> Installation & Contribution
 
 ### How to Install
-1. In Mindustry, go to **Mods** -> **Browse Mods**.
-2. Search for `Aquarion` and click **Install**.
-3. Restart your game and enjoy the depths!
+1. Through the ingame mod browser
+   1. In Mindustry, go to **Mods** -> **Browse Mods**
+   2. Search for `Aquarion` and click **Install**
+   3. Restart your game
+2. Through Github releases
+   1. In Github, click the **Releases** text
+   2. Click the topmost (or whichever version you want, really) release
+   3. Download the Aquarion.jar
 
 ### Contributing
 We welcome community contributions! Whether you want to help with code, sprites, or translations, please read our [CONTRIBUTING.md](https://github.com/Twcash/Aquarion/blob/main/CONTRIBUTING.md) guide before submitting a Pull Request.
