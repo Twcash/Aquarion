@@ -20,6 +20,7 @@ public class ModSettings {
         initialized = true;
 
         Vars.ui.settings.addCategory("Aquarion", "aquarion-settings-icon", root -> {
+            root.checkPref("floraFade", true);
             root.checkPref("onlyModMus", false);
             root.checkPref("betterland", false);
             root.checkPref("betterfine", false);
@@ -88,6 +89,10 @@ public class ModSettings {
                 });
             }));
         });
+    }
+
+    public static boolean getFloraFade(){
+        return Core.settings.getBool("floraFade", true);
     }
 
     public static boolean getOnlyModMus(){
