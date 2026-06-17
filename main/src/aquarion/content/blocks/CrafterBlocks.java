@@ -44,6 +44,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
+import aquarion.world.blocks.*;
 
 import static aquarion.content.AquaAttributes.iron;
 import static aquarion.content.AquaAttributes.metamorphic;
@@ -64,7 +65,8 @@ public class CrafterBlocks {
             cupronickelAlloyer, brineMixer, ferricGrinder, SilicaOxidator, arcFurnace, heatChannel, convectionHeater, combustionHeater,
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
-            fumeFilter, ferroSiliconFoundry, magmaTap;
+            fumeFilter, ferroSiliconFoundry, magmaTap, powderoven;
+    public static Block filter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -1854,6 +1856,90 @@ public class CrafterBlocks {
             r.consumeItems(ItemStack.with(sporePod, 1));
             r.craftTime = 60;
         });
+
+        filter = new Filter("filter") {{
+            // Требования для постройки блока
+            requirements(Category.crafting, with(copper, 60));
+
+            // Параметры времени крафта, размера и емкости
+            craftTime = 60f; // 1 секунда (60 тиков)
+            size = 7;
+            itemCapacity = 20;
+            liquidCapacity = 120f;
+
+            // Потребление ресурсов: только энергия и вода
+            consumePower(0.5f); // Тратит 0.5 энергии в тик (30 единиц в секунду)
+            consumeLiquid(mindustry.content.Liquids.water, 1.7f); // 0.1 it`s 6
+            outputLiquidAmount = 102f;
+
+            results = new ItemStack[]{
+                    new ItemStack(Items.sand, 10),
+                    new ItemStack(AquaItems.powdercopper, 5),
+                    new ItemStack(AquaItems.powderlead, 3),
+                    new ItemStack(AquaItems.powdersilicon, 2),
+                    new ItemStack(AquaItems.powdernickel, 2)
+            };
+            drawer = new DrawMulti(
+                    // Возвращаем нижнюю часть и тень (раскомментируй, если файлы есть)
+                    new DrawBetterRegion("-shadow") {{ layer = 20f; drawIcon = false; }},
+                    new DrawRegion("-bottom"),
+
+                    // 1. Вода СВЕРХУ (Обрезаем нижнюю половину блока с помощью pad)
+                    // При размере size = 7, размер блока в пикселях = 7 * 8 = 56 пикселей.
+                    // padBottom отрезает текстуру снизу на 28 пикселей (ровно половина).
+                    new DrawLiquidTile(mindustry.content.Liquids.water, 2f) {{
+                        padBottom = 28f;
+                    }},
+
+                    // 2. Чистая вода СНИЗУ (Обрезаем верхнюю половину блока)
+                    // padTop отрезает текстуру сверху на 28 пикселей.
+                    new DrawLiquidTile(aquarion.content.AquaLiquids.clearwater, 2f) {{
+                        padTop = 28f;
+                    }},
+
+                    // Верхний спрайт самого фильтра (рисуется поверх жидкостей)
+                    new DrawDefault()
+            );
+        }};
+
+        powderoven = new powderoven("powder-oven") {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            requirements(Category.crafting, with(zinc, 150, silicon, 100));
+
+            size = 4;
+            craftTime = 60f;
+            itemCapacity = 10;
+            liquidCapacity = 50f;
+
+            // Настройки звука и эффектов
+            ambientSound = Sounds.loopSmelter;
+            ambientSoundVolume = 0.7f;
+
+            // Общие требования к энергии и жидкости
+            consumePower(2.5f);
+            consumeLiq(water, 0.2f);
+
+            // --- ТРЕБОВАНИЕ НАГРЕВА (ВХОД) ---
+            heatRequirement = 15f; // Нужно 15 единиц тепла
+            maxEfficiency = 1f;    // Избыток тепла НЕ будет ускорять блок
+
+            // --- РЕЦЕПТЫ ДЛЯ ПОРОШКОВ ---
+            addRecipe(powdercopper, 2, copper, 1); // 2 порошка меди -> 1 медь
+            addRecipe(powderlead, 2, lead, 1);       // 2 порошка свинца -> 1 свинец
+            addRecipe(powdersilicon, 2, silicon, 1);
+            addRecipe(powdernickel, 2, nickel, 1);
+
+            // Красивый Drawer, реагирующий на тепло и воду
+            drawer = new DrawMulti(
+                    new DrawBetterRegion("-shadow") {{ layer = shadow; drawIcon = false; }},
+                    new DrawRegion("-bottom"),
+                    new DrawDefault(),
+                    new DrawHeatInput(), // Покажет линии распределения тепла на карте
+                    new AquaHeatRegion("-heats") {{
+                        color = Color.valueOf("ff6060ff"); // Свечение нагрева
+                    }}
+            );
+        }};
     }
 
     public static void disableVanilla() {
