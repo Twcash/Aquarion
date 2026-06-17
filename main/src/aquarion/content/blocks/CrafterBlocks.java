@@ -1903,7 +1903,6 @@ public class CrafterBlocks {
         }};
 
         powderoven = new powderoven("powder-oven") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(zinc, 150, silicon, 100));
 
             size = 4;
