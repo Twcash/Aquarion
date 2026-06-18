@@ -436,7 +436,7 @@ public class PowerBlocks {
         }};
         pylon = new PowerPylon("pylon") {{
             requirements(Category.power, with(silicon, 15));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeErekir, fakeSerpulo, tantros2, qeraltar);
+            shownPlanets.addAll(fakeErekir, fakeSerpulo, tantros2, qeraltar);
             maxRange = 12;
             laserRange = 12;
             maxNodes = 9;
@@ -445,7 +445,7 @@ public class PowerBlocks {
         }};
         outlet = new PowerOutlet("outlet") {{
             requirements(Category.power, with(silicon, 10));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeErekir, fakeSerpulo, tantros2, qeraltar);
+            shownPlanets.addAll(fakeErekir, fakeSerpulo, tantros2, qeraltar);
             rotate = true;
             health = 150;
             rotateDraw = false;

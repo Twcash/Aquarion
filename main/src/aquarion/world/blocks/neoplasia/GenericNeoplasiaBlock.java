@@ -16,6 +16,7 @@ import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
 import mindustry.content.Items;
+import mindustry.content.Planets;
 import mindustry.entities.Units;
 import mindustry.gen.Building;
 import mindustry.gen.Teamc;
@@ -26,9 +27,11 @@ import mindustry.world.Tile;
 import mindustry.world.blocks.ConstructBlock;
 import mindustry.world.blocks.environment.Prop;
 
+import static aquarion.content.AquaPlanets.fakeErekir;
 import static aquarion.world.blocks.neoplasia.NeoplasiaGraph.*;
 import static mindustry.Vars.*;
 import static mindustry.content.Blocks.*;
+import static mindustry.world.meta.BuildVisibility.sandboxOnly;
 
 public class GenericNeoplasiaBlock extends Block {
     public static Seq<NeoplasiaBuild> activeNeoplasia = new Seq<>();
@@ -79,6 +82,7 @@ public class GenericNeoplasiaBlock extends Block {
         drawTeamOverlay = false;
         hasItems = true;
         itemCapacity = 2;
+        buildVisibility = sandboxOnly;
     }
 
     public boolean isProducing(Item item) {

@@ -35,7 +35,6 @@ public class DistributionBlocks {
     }
     public static void loadContent() {
         sealedConveyor = new SealedConveyor("sealed-conveyor") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(lead, 1));
             envEnabled = 4;
             siphonReplacement = LiquidBlocks.siphonJunction;
@@ -51,7 +50,6 @@ public class DistributionBlocks {
             envDisabled = Env.none;
         }};
         armoredSealedConveyor = new SealedConveyor("armored-sealed-conveyor") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(aluminum, 2));
             speed = 2;
             health = 75;
@@ -64,7 +62,6 @@ public class DistributionBlocks {
             envDisabled = Env.none;
         }};
         sealedRouter = new SealedRouter("sealed-router") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 10));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -84,7 +81,6 @@ public class DistributionBlocks {
             size = 1;
         }};
         sealedDistributor = new SealedRouter("sealed-distributor") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 50));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -96,7 +92,6 @@ public class DistributionBlocks {
             solid = true;
         }};
         massDistributor = new SealedRouter("mass-distributor") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 120));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
@@ -108,7 +103,6 @@ public class DistributionBlocks {
             solid = true;
         }};
         sealedJunction = new Junction("sealed-junction") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             capacity = 8;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
@@ -120,13 +114,11 @@ public class DistributionBlocks {
             envDisabled = Env.none;
         }};
         sealedUnloader = new DirectionalUnloader("sealed-unloader") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(metaglass, 40, silicon, 80));
             speed = 2f;
             allowCoreUnload = true;
         }};
         sealedSorter = new Sorter("sealed-sorter") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
@@ -135,7 +127,6 @@ public class DistributionBlocks {
 
         }};
         sealedInvertedSorter = new Sorter("sealed-inverted-sorter") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
@@ -144,7 +135,6 @@ public class DistributionBlocks {
             invert = true;
         }};
         sealedOverflow = new OverflowGate("sealed-overflow") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 5));
             invert = false;
             hasItems = true;
@@ -154,7 +144,6 @@ public class DistributionBlocks {
             envDisabled = Env.none;
         }};
         sealedUnderflow = new OverflowGate("sealed-underflow") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.distribution, with(silicon, 5));
             invert = true;
             hasItems = true;
@@ -165,7 +154,6 @@ public class DistributionBlocks {
         }};
         steelConveyor = new StackConveyor("steel-conveyor") {{
             requirements(Category.distribution, with(steel, 1, aluminum, 2));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             speed = 2f / 60f;
             itemCapacity = 150;
             drawDisabled = false;
@@ -176,7 +164,6 @@ public class DistributionBlocks {
         }};
         steelRouter = new StackRouter("steel-router"){{
             requirements(Category.distribution, with(steel, 15, aluminum, 20));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             underBullets = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;

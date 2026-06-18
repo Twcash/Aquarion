@@ -49,7 +49,6 @@ public class RefineryBlocks {
     public static void loadContent() {
         magmaDiffuser = new AquaGenericCrafter("magma-diffuser") {{
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(lead, 150, silicon, 80));
             size = 5;
             squareSprite = false;
@@ -147,7 +146,6 @@ public class RefineryBlocks {
             }}, new DrawRegion("-bottom"), new DrawLiquidTile(muriaticAcid, 5), new DrawRegion("-spinny", 0.8f, true), new DrawDefault(), new AquaDrawLiquidOutputs(), new DrawHeatInputBitmask("-heats"));
         }};
         bauxiteCentrifuge = new AquaGenericCrafter("bauxite-centrifuge") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(lead, 450, silicon, 600, copper, 300));
             craftTime = 60;
             consumeItemStack(new ItemStack(bauxite, 10));
@@ -187,7 +185,6 @@ public class RefineryBlocks {
             }});
         }};
         slagRefinementArray = new AquaGenericCrafter("slag-refinement-array") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(graphite, 900, silicon, 1200, metaglass, 1000));
             size = 7;
             consumePower(6f);
@@ -284,9 +281,7 @@ public class RefineryBlocks {
                 color = Color.valueOf("f5c5aa");
             }});
         }};
-        azuriteKiln = new AquaGenericCrafter("azurite-kiln") {
-            {
-                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+        azuriteKiln = new AquaGenericCrafter("azurite-kiln") {{
                 requirements(AquaCategories.refinery, with(silicon, 900, lead, 900, zinc, 250));
                 craftTime = 5 * 60f;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -332,7 +327,6 @@ public class RefineryBlocks {
             }
         };
         towaniteReductionVat = new AquaGenericCrafter("towanite-reduction-vat") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(copper, 150, silicon, 500, aluminum, 1000));
             size = 7;
             itemCapacity = 150;
@@ -363,7 +357,6 @@ public class RefineryBlocks {
             }}, new DrawDefault(), new DrawGlowRegion());
         }};
         galenaCrucible = new AquaGenericCrafter("galena-crucible") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(zinc, 500, silicon, 200, graphite, 120));
             size = 6;
             consume(new LiquidStack(muriaticAcid, 0.5f));
@@ -395,7 +388,6 @@ public class RefineryBlocks {
             }});
         }};
         fumeSeparator = new AquaGenericCrafter("fume-separator") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(silicon, 500, copper, 500, ferricMatter, 250));
             size = 6;
             rotate = true;
@@ -421,7 +413,6 @@ public class RefineryBlocks {
             }});
         }};
         scrapCentrifuge = new AquaGenericCrafter("scrap-centrifuge"){{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(silicon, 250, nickel, 200, copper, 100));
             consumeItemStack(new ItemStack(scrap, 10));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -434,7 +425,6 @@ public class RefineryBlocks {
         }};
         thermalCrackingUnit = new AquaGenericCrafter("thermal-cracking-unit") {{
             requirements(AquaCategories.refinery, with(copper, 250, silicon, 600, metaglass, 700));
-            shownPlanets.addAll(tantros2);
             heatRequirement = 30;
             maxEfficiency = 5;
             hasHeat = true;
@@ -467,7 +457,6 @@ public class RefineryBlocks {
         }};
         hazeCrackingUnit = new AquaGenericCrafter("haze-cracking-unit"){{
             requirements(AquaCategories.refinery, with( ferricMatter, 1500, copper, 2000, aluminum, 900));
-            shownPlanets.addAll(tantros2);
             craftTime = 2f*60f;
             size = 6;
             updateEffectChance = 0.08f;
@@ -483,7 +472,6 @@ public class RefineryBlocks {
         }};
         desulferizationAssembly = new AquaGenericCrafter("desulferization-assembly") {{
             requirements(AquaCategories.refinery, with(metaglass, 250, copper, 500, lead, 900, graphite, 450));
-            shownPlanets.addAll(tantros2);
             craftTime = 4 * 60f;
             heatRequirement = 45;
             hasHeat = true;
@@ -506,7 +494,6 @@ public class RefineryBlocks {
             }}, new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
         }};
         vacuumFreezer = new AquaGenericCrafter("vacuum-freezer") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(copper, 120, aluminum, 300));
             size = 6;
             squareSprite = false;
@@ -611,7 +598,6 @@ public class RefineryBlocks {
             }}, new AquaDrawLiquidOutputs());
         }};
         acuminiteDegredationArray = new AquaGenericCrafter("acuminite-degredation-array") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(copper, 550, aluminum, 700, silicon, 500));
             squareSprite = false;
             size = 8;
@@ -719,7 +705,6 @@ public class RefineryBlocks {
         }};
         atmosphericCentrifuge = new AquaGenericCrafter("atmospheric-centrifuge") {{
             liquidOutputDirections = new int[]{1, 2, 3};
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(metaglass, 150, copper, 255, ferricMatter, 150));
             size = 4;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -804,7 +789,6 @@ public class RefineryBlocks {
             drawer = new DrawMulti(new DrawDefault(), new DrawLiquidTile(water, 1), new DrawRegion("-top"), new AquaDrawLiquidOutputs());
         }};
         brineElectrolyzer = new AquaGenericCrafter("brine-electrolysis-manifold") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(aluminum, 1500, silicon, 3000, metaglass, 500, copper, 5000));
             size = 7;
             rotate = true;
@@ -865,7 +849,6 @@ public class RefineryBlocks {
             consumePower(1.25f);
             heatOutput = 60;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(ferricMatter, 250, silicon, 700, metaglass, 500));
             consumeLiquid(bioPulp, 1.25f);
             outputItem = new ItemStack(coal, 5);
@@ -891,7 +874,6 @@ public class RefineryBlocks {
             }});
         }};
         ultrafamicRefinery = new AquaGenericCrafter("ultramafic-refinery") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.refinery, with(metaglass, 500, silicon, 200, lead, 1500));
             size = 7;
             squareSprite = false;

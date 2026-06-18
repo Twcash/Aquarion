@@ -37,74 +37,67 @@ public class AquaItems {
         Items.pyratite.hidden = true;
         Items.sporePod.hidden = true;
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
-            hardness = 3;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            hardness = 3;
             cost = 1.1F;
             buildable = false;
         }};
         salt = new Item("salt", Color.valueOf("#ffffff")) {{
             buildable = false;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         nickel = new AquaItem("nickel", Color.valueOf("#c3b994")) {{
             hardness = 2;
             alwaysUnlocked = true;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             cost = 1.1f;
             magnetism = 1;
         }};
         minium = new AquaItem("minium", Color.valueOf("#ec5e33")) {{
             buildable = false;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         zinc = new Item("zinc", Color.valueOf("#a0b9af")) {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             hardness = 3;
             alwaysUnlocked = true;
         }};
         biotite = new Item("biotite", Color.valueOf("#2e3e43")) {{
             buildable = false;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         crystal = new Item("crystal", Color.valueOf("#d7e0e4")) {{
         }};
         pearl = new Item("pearl", Color.valueOf("#d7e0e4")) {{
         }};
         cupronickel = new AquaItem("cupronickel", Color.valueOf("#dfaf88")) {{
-            cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            cost = 1f;
             magnetism = 0.5f;
         }};
         brass = new AquaItem("brass", Color.valueOf("#bfa96d")) {{
-            cost = 1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            cost = 1f;
         }};
         polymer = new Item("polymer", Color.valueOf("#eaeadf")) {{
             cost = 1.3f;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         ferricMatter = new AquaItem("ferric-matter", Color.valueOf("#675b53")) {{
-            cost = 0.5f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            cost = 0.5f;
             magnetism = 1;
             hardness = 4;
         }};
         aluminum = new Item("aluminum", Color.valueOf("#7489a5")) {{
             cost = 0.3f;
-            flammability = 0.1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            flammability = 0.1f;
         }};
         ferrosilicon = new AquaItem("ferrosilicon", Color.valueOf("#98a1ab")) {{
-            cost = 0.5f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            cost = 0.5f;
             magnetism = 0.5f;
         }};
         azurite = new Item("azurite", Color.valueOf("#636acf")) {{
-            buildable = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
-
+            buildable = false;
         }};
         towanite = new Item("towanite", Color.valueOf("#faffcd")) {{
-            buildable = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            buildable = false;
         }};
         cuprite = new Item("cuprite", Color.valueOf("#97114d")) {{
-            buildable = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            buildable = false;
         }};
         brimstone = new Item("brimstone", Color.valueOf("#fafd81")) {{
-            cost = 0.6f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            cost = 0.6f;
             explosiveness = 0.5f;
             flammability = 0.7f;
             buildable = false;
@@ -112,38 +105,32 @@ public class AquaItems {
 
         galena = new Item("galena", Color.valueOf("d9cff2")) {{
             buildable = false;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         hexogen = new Item("hexogen", Color.valueOf("fff47a")) {{
-            explosiveness = 8f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            explosiveness = 8f;
             radioactivity = 0.2f;
             buildable = false;
         }};
         acuminite = new Item("acuminite", Color.valueOf("fff475")){{
             buildable = false;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         steel = new Item("steel", Color.valueOf("ffffff")){{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
         }};
         magnesiumPowder = new Item("magnesium-powder", Color.valueOf("ffffff")){{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             flammability = 0.4f;
             explosiveness = 0.8f;
             buildable = false;
         }};
         serpentine = new Item("serpentine", Color.valueOf("e7e58f")){{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             hardness = 3;
             buildable = false;
         }};
         pentlandite = new Item("pentlandite", Color.valueOf("9a948b")){{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             hardness = 2;
             buildable = false;
         }};
         chalkalloy = new Item("chalkalloy", Color.valueOf("#9dccba")) {{
-            cost = 1.1f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            cost = 1.1f;
         }};
         pitchblende = new AquaItem("pitchblende", Color.valueOf("#f1ffb2")) {{
             radioactivity = 2f;

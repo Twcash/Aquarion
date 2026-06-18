@@ -102,11 +102,6 @@ public class AquaLoader extends Mod {
         );
         
         Events.on(EventType.ClientLoadEvent.class, e -> {
-            Planets.erekir.accessible = false;
-            Planets.serpulo.accessible = false;
-            Planets.erekir.visible = false;
-            Planets.serpulo.visible = false;
-            Planets.sun.visible = false;
             aquarionIconLoader.loadIcons();
 
             if (Core.atlas.has("aquarion-icon-refinery")) Icon.icons.put("refinery", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-refinery")));

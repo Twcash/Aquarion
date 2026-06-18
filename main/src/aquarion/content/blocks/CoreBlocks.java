@@ -88,7 +88,6 @@ public class CoreBlocks {
             requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));
             itemCapacity = 900;
             coreMerge = true;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             squareSprite = false;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 3;
@@ -102,7 +101,6 @@ public class CoreBlocks {
             itemCapacity = 150;
             coreMerge = false;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             squareSprite = false;
             size = 2;
             researchCostMultiplier = 0.02f;
@@ -118,7 +116,6 @@ public class CoreBlocks {
             incinerateNonBuildable = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 4;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar, fakeErekir);
             unitCapModifier = 25;
             unitType = AquaUnitTypes.cull;
             unitTypes.add(AquaUnitTypes.cullButScorch);
@@ -138,7 +135,6 @@ public class CoreBlocks {
             incinerateNonBuildable = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 6;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar, fakeErekir);
             unitCapModifier = 45;
             unitType = AquaUnitTypes.cull;
             unitTypes.add(AquaUnitTypes.cullButScorch);
@@ -150,7 +146,6 @@ public class CoreBlocks {
             envDisabled = Env.none;
         }};
         buildCairn = new BuildTurret("build-cairn") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.effect, with(silicon, 120, copper, 50));
             size = 2;
             outlineRadius = 0;
@@ -162,7 +157,6 @@ public class CoreBlocks {
             consumePower(1.5f);
         }};
         constructionTower = new BuildTurret("construction-tower") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.effect, with(silicon, 700, polymer, 250, copper, 2000));
             size = 3;
             outlineRadius = 0;
@@ -176,7 +170,7 @@ public class CoreBlocks {
             consumePower(4);
         }};
         reconstruct = new BuildTurret("reconstruct") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.effect, with(silicon, 700));
             size = 2;
             outlineRadius = 3;
@@ -189,7 +183,6 @@ public class CoreBlocks {
         }};
         mendPyre = new RegenPylon("mend-pyre") {{
             requirements(Category.effect, with(lead, 55, silicon, 80));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 1;
             schematicPriority = 2;
             consumePower(0.75f);
@@ -205,7 +198,6 @@ public class CoreBlocks {
         }};
         mendPylon = new RegenPylon("mend-pylon") {{
             requirements(Category.effect, with(silicon, 60, aluminum, 40));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 2;
             schematicPriority = 7;
 
@@ -223,7 +215,6 @@ public class CoreBlocks {
         }};
         mendSubstation = new RegenPylon("mend-substation") {{
             requirements(Category.effect, with(silicon, 900, ferricMatter,240, polymer, 500));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 3;
             schematicPriority = 7;
             lightningDamage = 10;
@@ -254,7 +245,6 @@ public class CoreBlocks {
         }};
         buzzSaw = new ChainsawTurret("buzzsaw") {{
             requirements(Category.turret, with(silicon, 250, lead, 300));
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             size = 3;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumePower(4);

@@ -72,7 +72,6 @@ public class CrafterBlocks {
         disableVanilla();
 
         magmaTap = new AttributeCrafter("magma-tap") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(lead, 225, zinc, 120, silicon, 100));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             researchCost = with(lead,225, silicon, 100);
@@ -141,7 +140,6 @@ public class CrafterBlocks {
             }}, new DrawDefault(), new DrawHeatOutput());
         }};
         ferroSiliconFoundry = new AquaGenericCrafter("ferrosilicon-foundry") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(silicon, 900, copper, 500, ferricMatter, 700, graphite, 450));
             size = 6;
             squareSprite = false;
@@ -221,7 +219,6 @@ public class CrafterBlocks {
             }}, new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
         }};
         fumeFilter = new AttributeCrafter("fume-filter") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(copper, 250, silicon, 500, ferricMatter, 150));
             size = 6;
             squareSprite = false;
@@ -317,7 +314,6 @@ public class CrafterBlocks {
             }});
         }};
             brassMixingPot = new AquaGenericCrafter("brass-mixing-pot"){{
-                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with(silicon, 150, zinc, 200, copper, 100));
                 consumeItemStack(new ItemStack(copper, 1), new ItemStack(zinc, 1));
                 consumePower(2);
@@ -426,7 +422,6 @@ public class CrafterBlocks {
                 }}, new DrawDefault());
             }};
             ammoniaCompressor = new AquaGenericCrafter("ammonia-compressor"){{
-                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with(copper, 200, silicon, 150, metaglass, 120, polymer, 80));
                 size = 3;
                 squareSprite = false;
@@ -441,7 +436,6 @@ public class CrafterBlocks {
             }};
 
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor") {{
-                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(silicon, 200, lead, 350));
                 tier = 3;
                 itemCapacity = 50;
@@ -459,7 +453,6 @@ public class CrafterBlocks {
                 optionalBoostIntensity = 1f;
             }};
             beamBore = new ModifiedbeamDrill("beam-bore") {{
-                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(aluminum, 250, copper, 75, ferricMatter, 125));
                 tier = 4;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -473,7 +466,6 @@ public class CrafterBlocks {
                 optionalBoostIntensity = 1f;
             }};
             fumeMixer = new AquaGenericCrafter("fume-mixer") {{
-                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with(metaglass, 1200, copper, 2000, graphite, 900));
                 size = 6;
                 craftTime = 5 * 60f;
@@ -521,7 +513,6 @@ public class CrafterBlocks {
                 }});
             }};
             DrillDerrick = new GroundDrill("drill-derrick") {{
-                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(ferricMatter, 300, copper, 200, silicon, 650));
                 size = 5;
                 drillTime = 125;
@@ -543,7 +534,6 @@ public class CrafterBlocks {
                 }}, new DrawRegion("-top"));
             }};
             drillRig = new GroundDrill("drilling-rig") {{
-                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.production, with(steel, 550, polymer, 800, silicon, 700, metaglass, 500));
                 size = 8;
                 drillTime = 60;
@@ -597,7 +587,7 @@ public class CrafterBlocks {
                 liquidCapacity = 20;
             }};
         coolingTower = new HeatProducer("cooling-tower"){{
-            requirements(Category.crafting, with(silicon, 1500, copper, 2000, metaglass, 800, ferricMatter, 800));
+            requirements(AquaCategories.heat, with(silicon, 1500, copper, 2000, metaglass, 800, ferricMatter, 800));
             size = 8;
             consumePower(12);
             squareSprite = false;
@@ -652,7 +642,6 @@ public class CrafterBlocks {
         }};
         harvester = new GroundDrill("harvester") {{
             alwaysUnlocked = true;
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(nickel, 65, lead, 50, silicon, 90));
             size = 3;
             drillTime = 150;
@@ -712,7 +701,6 @@ public class CrafterBlocks {
             }});
         }};
         CentrifugalPump = new Pump("centrifugal-pump") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.liquid, with(copper, 120, metaglass, 50));
             size = 3;
             consumePower(0.75f);
@@ -747,7 +735,6 @@ public class CrafterBlocks {
             }});
         }};
         pumpAssembly = new Pump("pump-assembly") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.liquid, with(cupronickel, 500, ferricMatter, 250, metaglass, 250, graphite, 400));
             size = 6;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -796,7 +783,6 @@ public class CrafterBlocks {
             }});
         }};
         solarBoiler = new AquaGenericCrafter("solar-boiler") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(silicon, 1500, metaglass, 800, copper, 500));
             size = 4;
             envAttribute = Attribute.light;
@@ -814,7 +800,6 @@ public class CrafterBlocks {
             }}, new DrawRegion("-top"));
         }};
         SolidBoiler = new AquaGenericCrafter("solid-boiler") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(lead, 700, copper, 900, metaglass, 500, graphite, 600));
             size = 7;
             itemCapacity = 60;
@@ -963,7 +948,6 @@ public class CrafterBlocks {
         }};
 
         cupronickelAlloyer = new AquaGenericCrafter("cupronickel-alloying-crucible") {{
-                shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
                 requirements(Category.crafting, with(nickel, 700, copper, 400, graphite, 150));
                 consumePower(1.5f);
                 squareSprite = false;
@@ -1103,7 +1087,6 @@ public class CrafterBlocks {
                 }});
             }};
         AnnealingOven = new AquaGenericCrafter("metaglass-annealing-furnace") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(lead, 300, copper, 550));
             size = 5;
             itemCapacity = 60;
@@ -1447,7 +1430,7 @@ public class CrafterBlocks {
         }};
 
         atmosphericIntake = new AquaGenericCrafter("air-intake") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            shownPlanets.addAll(fakeSerpulo);
             requirements(Category.production, with(nickel, 50, silicon, 150));
             size = 2;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -1474,7 +1457,6 @@ public class CrafterBlocks {
 
 
         steelFoundry = new AquaGenericCrafter("blast-furnace") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(polymer, 900, ferrosilicon, 1200, graphite, 650, ferricMatter, 900, aluminum, 1200));
             size = 7;
             rotateDraw = false;
@@ -1537,7 +1519,6 @@ public class CrafterBlocks {
             }});
         }};
         pinDrill = new GroundDrill("pin-drill") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(tungsten, 40, beryllium, 50, silicon, 20));
             drillTime = 100;
             size = 1;
@@ -1553,7 +1534,6 @@ public class CrafterBlocks {
             }}, new DrawDefault(), new DrawPump("-bit"));
         }};
         brineMixer = new AquaGenericCrafter("brine-mixer") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.crafting, with(zinc, 200, metaglass, 350, graphite, 250));
             size = 5;
             itemCapacity = 750;
@@ -1610,7 +1590,6 @@ public class CrafterBlocks {
             }}, new DrawRegion("-bottom"), new DrawLiquidTile(bioPulp, 4), new DrawPump("-pump"), new DrawDefault());
         }};
         algalTerrace = new AttributeCrafter("algal-terrace") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(Category.production, with(metaglass, 1200, lead, 1200, ferricMatter, 500));
             size = 7;
             baseEfficiency = 0.5f;
@@ -1646,7 +1625,6 @@ public class CrafterBlocks {
 
 
         convectionHeater = new HeatProducer("convection-heater") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.heat, with(silicon, 150, copper, 150, graphite, 25));
             size = 3;
             squareSprite = false;
@@ -1666,7 +1644,6 @@ public class CrafterBlocks {
             }});
         }};
         coalHeater = new HeatProducer("solid-heater") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.heat, with(metaglass, 120, silicon, 300, copper, 400));
             size = 2;
             squareSprite = false;
@@ -1686,7 +1663,6 @@ public class CrafterBlocks {
             }});
         }};
         combustionHeater = new HeatProducer("combustion-heater") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.heat, with(metaglass, 400, copper, 500, polymer, 200));
             size = 4;
             squareSprite = false;
@@ -1713,7 +1689,6 @@ public class CrafterBlocks {
             }});
         }};
         heatChannel = new HotHeatConductor("heat-channel") {{
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             requirements(AquaCategories.heat, with(copper, 60));
             visualMaxHeat = 150;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -1741,6 +1716,7 @@ public class CrafterBlocks {
         }};
 
         defunctDrill = new Drill("defunct-drill"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.production, with(silicon, 250, lead, 100));
             size = 2;
             squareSprite = false;
@@ -1757,6 +1733,7 @@ public class CrafterBlocks {
             category = Category.production;
         }};
         mixingArray = new GenericCrafter("array-mixer"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.crafting, with(Items.copper, 65, Items.silicon, 60, chalkalloy, 1500));
             size = 4;
             hasLiquids = true;
@@ -1770,6 +1747,7 @@ public class CrafterBlocks {
         }};
 
         blastierDrill = new Drill("blastier-drill"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.production, with(Items.copper, 65, Items.silicon, 60, chalkalloy, 1500));
             size = 6;
             drillTime = 210;
@@ -1803,6 +1781,7 @@ public class CrafterBlocks {
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame());
         }};
         blastCompressor = new GenericCrafter("blast-compressor"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.crafting, with(copper, 60, lead, 45, silicon, 25));
             size = 3;
             consumeLiquid(oil, 1);

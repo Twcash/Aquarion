@@ -55,14 +55,6 @@ public class AquaPlanets {
                     Color.valueOf("d2e5ea")
             );
         }};
-//        ring1 = makeAsteroid("ring", fakeSerpulo, Blocks.ferricStoneWall, Blocks.carbonWall, -5, 0.4f, 9, 1f, gen -> {
-//            gen.min = 25;
-//            gen.max = 35;
-//            gen.carbonChance = 0.6f;
-//            gen.iceChance = 0f;
-//            gen.berylChance = 0.1f;
-//        });
-
         fakeErekir = new Planet("fakeErekir", citun, 1.5f, 3){{
             generator = new ErekirPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 5);

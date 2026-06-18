@@ -20,7 +20,7 @@ public class AquaLiquids {
         water.alwaysUnlocked = false;
 
         brine = new Liquid("brine", Color.valueOf("#b8c89f")) {{
-            coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            coolant = false;
             viscosity = 0.8f;
             explosiveness = 0.1f;
             effect = slow;
@@ -32,7 +32,6 @@ public class AquaLiquids {
             heatCapacity = 0.9f;
             boilPoint = -0.1f;
             gasColor = Color.valueOf("e35641");
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             effect = corroded;
         }};
         cryogen = new Liquid("cryogen", Color.valueOf("add2c3")) {{
@@ -41,39 +40,38 @@ public class AquaLiquids {
             heatCapacity = 0.85f;
             boilPoint = -0.1f;
             gasColor = Color.valueOf("e0fff3");
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             effect = cold;
         }};
         hydroxide = new Liquid("hydroxide", Color.valueOf("#a97abf")) {{
-            coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            coolant = false;
             flammability = 0.4f;
             effect = corroding;
             boilPoint = 0.8f;
             gasColor = Color.valueOf("b7a8b3");
         }};
         rareSludge = new Liquid("rare-earth-sludge", Color.valueOf("#696b4c")) {{
-            coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            coolant = false;
             viscosity = 0.94f;
             effect = muddy;
             canStayOn.addAll(water, petroleum, halideWater);
         }};
         oxygen = new Liquid("oxygen", Color.valueOf("#fdbda6")) {{
             explosiveness = 0.25f;
-            flammability = 0.5f;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            flammability = 0.5f;
             coolant = false;
             effect = corroding;
             gas = true;
         }};
         bioPulp = new Liquid("bio-pulp", Color.valueOf("#c7904f")){{
             coolant = false;
-            effect = wet;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            effect = wet;
             explosiveness = 0.1f;
             allDatabaseTabs = true;
             viscosity = 0.8f;
             flammability = 0.5f;
         }};
         magma = new Liquid("magma", Color.valueOf("d54040")){{
-            coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            coolant = false;
             flammability = 0.1f;
             temperature = 0.9f;
             allDatabaseTabs = true;
@@ -83,7 +81,7 @@ public class AquaLiquids {
         }};
         fumes = new AquaLiquid("fumes", Color.valueOf("83746b")){{
             lightColor = Color.valueOf("d68a7e").a(0.7f);
-            flammability = 1;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            flammability = 1;
             explosiveness = 0.4f;
             allDatabaseTabs = true;
             effect = corroding;
@@ -93,13 +91,13 @@ public class AquaLiquids {
             temperature = 1.01f;
         }};
         chlorine = new Liquid("chlorine", Color.valueOf("e1f7bc")){{
-            coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            coolant = false;
             effect = corroding;
             allDatabaseTabs = true;
             gas = true;
         }};
         fluorine = new Liquid("fluorine", Color.valueOf("c3eff2")){{
-            coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            coolant = false;
             effect = melting;
             flammability = 1.1f;
             allDatabaseTabs = true;

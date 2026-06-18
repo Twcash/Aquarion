@@ -13,7 +13,7 @@ public class AquaTemplates {
     public static class AquaItemTurretTemplate extends AquaItemTurret {
         public AquaItemTurretTemplate(String name) {
             super(name);
-            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            shownPlanets.addAll(fakeSerpulo,fakeErekir , tantros2, qeraltar);
             squareSprite = false;
             outlineColor = tantDarkestTone;
             destroyEffect = new MultiEffect(AquaFx.factoryDestroy, Fx.dynamicExplosion);
