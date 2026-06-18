@@ -916,7 +916,7 @@ public class AquaResearchDialog extends BaseDialog {
                         Lines.dashLine(node.x + offsetX, node.y + offsetY, child.x + offsetX, child.y + offsetY, divisions);
                     } else {
                         Lines.line(node.x + offsetX, node.y + offsetY, child.x + offsetX, child.y + offsetY);
-                        float progress = ((float)(System.nanoTime() / 16666666) % (60f * 4f)) / (60f * 4f);
+                        float progress = ((float)(System.nanoTime() / 5e7) % (60f * 4f)) / (60f * 4f);
                         float arrowX = Mathf.lerp(node.x + offsetX, child.x + offsetX, progress);
                         float arrowY = Mathf.lerp(node.y + offsetY, child.y + offsetY, progress);
                         float angle = Angles.angle(node.x + offsetX, node.y + offsetY, child.x + offsetX, child.y + offsetY);
