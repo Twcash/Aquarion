@@ -187,11 +187,11 @@ public class CoreBlocks {
             schematicPriority = 2;
             consumePower(0.75f);
             consumeItem(Items.silicon).boost();
-            range = 25;
+            range = 26;
             phaseRangeBoost = 3f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            phaseBoost = 2;
             healAmount = 250;
+            phaseBoost = 2;
             squareSprite = false;
             reload = 300;
             alwaysUnlocked = true;

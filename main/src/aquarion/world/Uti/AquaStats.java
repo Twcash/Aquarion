@@ -13,10 +13,7 @@ import mindustry.graphics.Pal;
 import mindustry.type.ItemStack;
 import mindustry.type.Liquid;
 import mindustry.ui.Styles;
-import mindustry.world.meta.Stat;
-import mindustry.world.meta.StatUnit;
-import mindustry.world.meta.StatValue;
-import mindustry.world.meta.StatValues;
+import mindustry.world.meta.*;
 
 import static mindustry.Vars.tilesize;
 import static mindustry.world.meta.StatValues.*;
@@ -24,6 +21,7 @@ import static mindustry.world.meta.StatValues.*;
 public class AquaStats {
     public static final Stat
             prodTime = new Stat("production-time"),
+            rawheal = new Stat("rawheal", StatCat.function),
             MaxFlow = new Stat("maxflow");
     public static StatValue heatBooster(float heatRequirement, float overheatScale, float baseEfficiency, float maxEfficiency, boolean flipHeat){
         return table -> {
