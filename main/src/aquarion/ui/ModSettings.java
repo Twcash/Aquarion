@@ -25,7 +25,7 @@ public class ModSettings {
             root.checkPref("onlyModMus", false);
             root.checkPref("betterland", false);
             root.checkPref("betterfine", false);
-            root.checkPref("richPrescense", true);
+            root.checkPref("richPresence", true);
             root.checkPref("showUpdates", true);
             root.checkPref("debugResearchRendering", false);
             root.checkPref("debugHitboxRendering", false);
@@ -113,7 +113,7 @@ public class ModSettings {
     }
 
     public static boolean getRichPresence(){
-        return Core.settings.getBool("richPrescense", true);
+        return Core.settings.getBool("richPresence", true);
     }
 
     public static boolean getShowUpdates(){
