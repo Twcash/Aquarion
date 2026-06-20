@@ -39,7 +39,7 @@ public class EnvironmentBlocks {
             ultrafamicBoulder;
     public static Block parzilSprig,
             CrasseCoral,stoneRock,largeStoneRock,hugeStoneRock,massiveStoneRock, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock,shaleChunk, largeShaleChunk;
-    public static Block varcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, clearWater, blueSandFLoor, blueSandWater, brecciaFloor, soil, fertileSoil,
+    public static Block varcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, clearWater, blueSandFLoor, blueSandWater, redSandFLoor, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, pinkSaltBoulder, algal_carpet, brine_liquid, lava, shallowSlag,shallowYellowstoneSlag, shallowLava,
@@ -50,7 +50,7 @@ public class EnvironmentBlocks {
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
     public static Block oreNickelWall, scorche, oreRadium, oreUranium, orePitchblende, nickelFloor,
             oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
-    public static Block towaniteCluster, azuriteLarge, blueSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
+    public static Block towaniteCluster, azuriteLarge, blueSandWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
              boricWall, arsenideWall, chertWall, metalWall3, metalWall4, metalWall5, metalWall6, metalWall7,
             chertOutcrop, pillarCoral, loteasCoral, songCoral,
              algalBloom, parzilPine, algalWall,
@@ -296,6 +296,11 @@ public class EnvironmentBlocks {
         blueSandFLoor = new Floor("blue-sand-floor", 3) {{
             itemDrop = Items.sand;
             playerUnmineable = true;
+        }};
+        redSandFLoor = new Floor("red-sand-floor", 3) {{
+            itemDrop = Items.sand;
+            playerUnmineable = true;
+            attributes.set(iron, 0.5f);
         }};
         blueSandWater = new Floor("blue-sand-floor-water", 3) {{
             liquidDrop = Liquids.water;
@@ -633,6 +638,9 @@ public class EnvironmentBlocks {
             variants = 2;
         }};
         blueSandWall = new StaticWall("blue-sand-wall") {{
+            variants = 2;
+        }};
+        redSandWall = new StaticWall("red-sand-wall") {{
             variants = 2;
         }};
         CrystalGalena = new TallBlock("galena-crystal") {{
