@@ -21,8 +21,15 @@ import static mindustry.world.meta.StatValues.*;
 public class AquaStats {
     public static final Stat
             prodTime = new Stat("production-time"),
-            rawheal = new Stat("rawheal", StatCat.function),
-            MaxFlow = new Stat("maxflow");
+            MaxFlow = new Stat("maxflow"),
+            healRange = new Stat("healRange", StatCat.function),
+            healCD = new Stat("healCD", StatCat.function),
+            rawHeal = new Stat("rawHeal", StatCat.function),
+            lightningRange = new Stat("lightningRange", StatCat.function),
+            lightningInaccuracy = new Stat("lightningInaccuracy", StatCat.function),
+            lightningReload = new Stat("lightningReload", StatCat.function),
+            lightningCount = new Stat("lightningCount", StatCat.function),
+            lightningDamage = new Stat("lightningDamage", StatCat.function);
     public static StatValue heatBooster(float heatRequirement, float overheatScale, float baseEfficiency, float maxEfficiency, boolean flipHeat){
         return table -> {
             float totalHeat = (maxEfficiency - 1f) * heatRequirement / overheatScale;

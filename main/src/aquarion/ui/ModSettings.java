@@ -22,6 +22,7 @@ public class ModSettings {
         Vars.ui.settings.addCategory("Aquarion", "aquarion-settings-icon", root -> {
             root.checkPref("floraFade", true);
             root.sliderPref("floraFadePercent", 50,0,100,5,s -> s + "%");
+            root.checkPref("evilMenderStats", true);
             root.checkPref("onlyModMus", false);
             root.checkPref("betterland", false);
             root.checkPref("betterfine", false);
@@ -100,6 +101,10 @@ public class ModSettings {
         return Core.settings.getInt("floraFadePercent", 50);
     }
 
+    public static boolean getEvilMenderStats(){
+        return Core.settings.getBool("evilMenderStats", true);
+    }
+
     public static boolean getOnlyModMus(){
         return Core.settings.getBool("onlyModMus", false);
     }
@@ -116,9 +121,7 @@ public class ModSettings {
         return Core.settings.getBool("richPresence", true);
     }
 
-    public static boolean getShowUpdates(){
-        return Core.settings.getBool("showUpdates", true);
-    }
+    public static boolean getShowUpdates(){return Core.settings.getBool("showUpdates", true);}
 
     public static boolean getDebugResearchRendering(){
         return Core.settings.getBool("debugResearchRendering", false);

@@ -1,5 +1,6 @@
 package aquarion.world.blocks.defense;
 
+import aquarion.ui.ModSettings;
 import aquarion.world.Uti.AquaStatUnits;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -80,8 +81,14 @@ public class RegenPylon extends MendProjector {
         stats.remove(Stat.repairTime);
         stats.remove(Stat.range);
         stats.add(Stat.range, range/4f, StatUnit.blocks);
-        stats.add(AquaStats.rawheal, healAmount, AquaStatUnits.health);
-        stats.add(Stat.cooldownTime, reload/60f, StatUnit.seconds);
+        stats.add(AquaStats.healCD, reload/60f, StatUnit.seconds);
+        stats.add(AquaStats.rawHeal, healAmount, AquaStatUnits.health);
+        if(ModSettings.getEvilMenderStats()) {
+            stats.add(AquaStats.lightningInaccuracy, lightningIncaccuracy, StatUnit.degrees);
+            stats.add(AquaStats.lightningReload, lightningReload / 60f, StatUnit.seconds);
+            stats.add(AquaStats.lightningCount, lightnings);
+            stats.add(AquaStats.lightningDamage, lightningDamage);
+        }
 
         Consume var2 = this.findConsumer((c) -> c instanceof ConsumeItems);
         if (var2 instanceof ConsumeItems) {
@@ -144,7 +151,7 @@ public class RegenPylon extends MendProjector {
                 this.consume();
             }
 
-            if(enemyClose && this.timer(zapTimer, lightningReload)){
+            if(enemyClose && this.timer(zapTimer, lightningReload/efficiency)){
                 Units.nearbyEnemies(team, x, y, range * 2, u -> {
                     if(u.dead || !u.isValid()) return;
                     for(int i = 1; i <= lightnings; i++) {
@@ -160,7 +167,7 @@ public class RegenPylon extends MendProjector {
                 });
             }
 
-            if(this.charge >= RegenPylon.this.reload / (Math.max(1, this.phaseHeat * phaseBoost))&& canHeal){
+            if(this.charge >= RegenPylon.this.reload / (Math.max(1, this.phaseHeat * phaseBoost)) && canHeal){
                 float realRange = RegenPylon.this.range / 2f
                         + this.phaseHeat * RegenPylon.this.phaseRangeBoost;
 
