@@ -39,7 +39,7 @@ public class EnvironmentBlocks {
             ultrafamicBoulder;
     public static Block parzilSprig,
             CrasseCoral,stoneRock,largeStoneRock,hugeStoneRock,massiveStoneRock, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock,shaleChunk, largeShaleChunk;
-    public static Block varcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, clearWater, blueSandFLoor, blueSandWater, redSandFLoor, brecciaFloor, soil, fertileSoil,
+    public static Block varcaudStalk,deadVarcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, clearWater, blueSandFLoor, blueSandWater, redSandFLoor, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, pinkSaltBoulder, algal_carpet, brine_liquid, lava, shallowSlag,shallowYellowstoneSlag, shallowLava,
@@ -771,6 +771,24 @@ public class EnvironmentBlocks {
             shadowLayer = Layer.blockOver;
             buildTime = 20 * 60f;
             shadowOffset = -8;
+        }};
+        deadVarcaudStalk = new FloraBlock("dead-varcaud-stalk") {{
+            shadowAlpha = 0.6f;
+            buildVisibility = sandboxOnly;
+            variants = 2;
+            rotationRand = 45;
+            size = 1;
+            breakable = false;
+            health = 3000;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            createRubble = false;
+            layer = Layer.power - 3;
+            shadowLayer = Layer.blockOver;
+            buildTime = 20 * 60f;
+            shadowOffset = -8;
+            forceDark = false;
         }};
         bramble = new FloraBlock("bramble") {{
             shadowAlpha = 0.6f;
