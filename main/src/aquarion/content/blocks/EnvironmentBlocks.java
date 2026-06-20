@@ -88,7 +88,7 @@ public class EnvironmentBlocks {
             liquidMultiplier = 0.5f;
             isLiquid = true;
             status = StatusEffects.burning;
-            attributes.set(Attribute.heat, 1.1f);
+            attributes.set(Attribute.heat, 0.8f);
             cacheLayer =  CacheLayer.slag;
             supportsOverlay = true;
             variants = 5;
@@ -100,7 +100,7 @@ public class EnvironmentBlocks {
             liquidMultiplier = 0.5f;
             isLiquid = true;
             status = StatusEffects.burning;
-            attributes.set(Attribute.heat, 1.1f);
+            attributes.set(Attribute.heat, 0.8f);
             cacheLayer =  CacheLayer.slag;
             supportsOverlay = true;
             variants = 3;
