@@ -39,7 +39,7 @@ public class EnvironmentBlocks {
             ultrafamicBoulder;
     public static Block parzilSprig,
             CrasseCoral,stoneRock,largeStoneRock,hugeStoneRock,massiveStoneRock, basaltRock, largeBasaltRock, hugeBasaltRock, massiveBasaltRock,shaleChunk, largeShaleChunk;
-    public static Block varcaudStalk,deadVarcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, clearWater, blueSandFLoor, blueSandWater, redSandFLoor, brecciaFloor, soil, fertileSoil,
+    public static Block varcaudStalk, deadVarcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, clearWater, blueSandFLoor, blueSandWater, redSandFLoor, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
             andesiteLayers, basaltSpikes, pinkSaltBoulder, algal_carpet, brine_liquid, lava, shallowSlag,shallowYellowstoneSlag, shallowLava,
@@ -49,7 +49,7 @@ public class EnvironmentBlocks {
             boricFloor, pinkSaltFloor, pinkSaltFlats, smoothPinkSaltFloor, pinkSaltWall, pinkSaltCrystals, boricFloorDense, tile, relBlossom, bramble, brulrFern,
             shaleVent, andesite, andesiteRubble, andesiteVent, basaltPlates, ultrafamicPlates,metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12;
     public static Block oreNickelWall, scorche, oreRadium, oreUranium, orePitchblende, nickelFloor,
-            oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
+            oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre, miniumOre, pentlanditeOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
              boricWall, arsenideWall, chertWall, metalWall3, metalWall4, metalWall5, metalWall6, metalWall7,
             chertOutcrop, feldsparOutcrop, pillarCoral, loteasCoral, songCoral,
@@ -335,14 +335,6 @@ public class EnvironmentBlocks {
         sparseSnow = new OverlayFloor("sparse-snow"){{
             variants = 3;
         }};
-
-        andesiteExtrusions = new TallBlock("andesite-extrusions") {{
-            variants = 2;
-            clipSize = 128f;
-            shadowAlpha = 0.5f;
-            shadowOffset = -2.5f;
-            attributes.set(metamorphic, 0.2f);
-        }};
         arsenideFloor = new Floor("arsenide-floor", 4) {{
         }};
         arsenideLayers = new Floor("arsenide-layers", 4) {{
@@ -539,6 +531,8 @@ public class EnvironmentBlocks {
         sporeMoss.attributes.set(fertility, 0.75f);
         basalt.attributes.set(metamorphic, 0.5f);
         darksand.attributes.set(metamorphic, 0.5f);
+        sandWall.attributes.set(Attribute.sand, 2f);
+        duneWall.attributes.set(Attribute.sand, 2f);
 
         leafLitter = new Floor("leaf-litter", 3) {{
         }};
@@ -574,6 +568,13 @@ public class EnvironmentBlocks {
         orePitchblende = new OreBlock("pitchblende-ore", pitchblende) {{
             variants = 3;
         }};
+        miniumOre = new OreBlock("minium-ore", minium) {{
+            variants = 3;
+        }};
+        pentlanditeOre = new OreBlock("pentlandite-ore", pentlandite) {{
+            variants = 3;
+        }};
+
         ultrafamicWall = new StaticWall("ultrafamic-wall") {{
             variants = 3;
         }};
@@ -590,6 +591,12 @@ public class EnvironmentBlocks {
             variants = 2;
             attributes.set(iron, 1.1f);
             hasShadow = false;
+        }};
+        andesiteExtrusions = new TallBlock("andesite-extrusions") {{
+            variants = 2;
+            attributes.set(metamorphic, 0.2f);
+            shadowAlpha = 0.6f;
+            shadowOffset = -2.5f;
         }};
         pinkSaltWall = new StaticWall("pink-salt-wall"){{
             variants = 2;
@@ -617,7 +624,6 @@ public class EnvironmentBlocks {
             itemDrop = cuprite;
         }};
         greenCoralWall = new StaticWall("green-coral-wall") {{
-
             variants = 3;
         }};
         blueCoralWall = new StaticWall("blue-coral-wall") {{
@@ -644,9 +650,11 @@ public class EnvironmentBlocks {
         }};
         blueSandWall = new StaticWall("blue-sand-wall") {{
             variants = 2;
+            attributes.set(Attribute.sand, 2f);
         }};
         redSandWall = new StaticWall("red-sand-wall") {{
             variants = 2;
+            attributes.set(Attribute.sand, 2f);
         }};
         CrystalGalena = new TallBlock("galena-crystal") {{
             variants = 2;
