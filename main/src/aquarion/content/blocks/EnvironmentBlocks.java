@@ -52,7 +52,7 @@ public class EnvironmentBlocks {
             oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre;
     public static Block towaniteCluster, azuriteLarge, blueSandWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,
              boricWall, arsenideWall, chertWall, metalWall3, metalWall4, metalWall5, metalWall6, metalWall7,
-            chertOutcrop, pillarCoral, loteasCoral, songCoral,
+            chertOutcrop, feldsparOutcrop, pillarCoral, loteasCoral, songCoral,
              algalBloom, parzilPine, algalWall,
             bloom, blueCoralWall, redCoralWall, greenCoralWall,
             feldsparWall, gabbroWall, andesiteExtrusions, CrystalGalena,
@@ -585,6 +585,11 @@ public class EnvironmentBlocks {
         feldsparWall = new StaticWall("feldspar-wall") {{
             variants = 3;
             attributes.set(iron, 1);
+        }};
+        feldsparOutcrop = new TallBlock("feldspar-outcrop") {{
+            variants = 2;
+            attributes.set(iron, 1.1f);
+            hasShadow = false;
         }};
         pinkSaltWall = new StaticWall("pink-salt-wall"){{
             variants = 2;
