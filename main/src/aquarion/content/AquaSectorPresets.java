@@ -59,12 +59,11 @@ public class AquaSectorPresets {
         twinPass = new SectorPreset("twinPass", fakeSerpulo, 597){{
             allDatabaseTabs = true;
             addStartingItems = true;
-            captureWave = 25;
+            captureWave = 20;
             alwaysUnlocked = false;
             difficulty = 4;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
-            startWaveTimeMultiplier = 3f;
         }};
         icyRiver = new SectorPreset("icy-river", fakeSerpulo, 596){{
             allDatabaseTabs = true;
