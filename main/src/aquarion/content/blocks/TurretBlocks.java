@@ -2972,5 +2972,6 @@ public class TurretBlocks {
             reload = 12f;
             envEnabled |= Env.space;
         }};
+
     }
 }
