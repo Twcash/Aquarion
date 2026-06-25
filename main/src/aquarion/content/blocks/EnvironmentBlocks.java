@@ -42,7 +42,7 @@ public class EnvironmentBlocks {
     public static Block varcaudStalk, deadVarcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, clearWater, blueSandFLoor, blueSandWater, redSandFLoor, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
-            andesiteLayers, basaltSpikes, pinkSaltBoulder, algal_carpet, brine_liquid, lava, shallowSlag,shallowYellowstoneSlag, shallowLava,
+            andesiteLayers, basaltSpikes, pinkSaltBoulder, algal_carpet, brine_liquid, lava, shallowSlag, shallowYellowstoneSlag, shallowLava,
             coral_floor,cupriteBoulder,cupriteWall,cupriteChunks, cupriteFloor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, petroleumFloor, petroleumSeep, geothermal_vent, rubble,
              metal13, metal14, metal15, metal16, roughFeldspar, glassFloor, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
@@ -121,10 +121,14 @@ public class EnvironmentBlocks {
         petroleumSeep = new Floor("petroleum-seep", 3){{
             liquidDrop = AquaLiquids.petroleum;
             liquidMultiplier = 0.25f;
+            speedMultiplier = 0.75f;
         }};
         petroleumFloor = new Floor("liquid-petroleum", 0){{
             liquidDrop = AquaLiquids.petroleum;
             cacheLayer = CacheLayer.tar;
+            isLiquid = true;
+            drownTime = 600f;
+            speedMultiplier = 0.1f;
         }};
         denseStone = new Floor("dense-stone", 8);
         stonePores = new Floor("stone-pores", 6);
