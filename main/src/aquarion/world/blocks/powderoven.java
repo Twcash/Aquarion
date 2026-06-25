@@ -18,8 +18,6 @@ import arc.scene.ui.layout.Table;
 public class powderoven extends AquaGenericCrafter {
     public float heatRequirement = 10f;
     public float maxEfficiency = 1f;
-
-    // Множитель скорости при максимальном разгоне водой (как в Drill)
     public float liquidBoostIntensity = 1.5f;
 
     public Seq<OvenRecipe> recipes = new Seq<>();
@@ -114,10 +112,8 @@ public class powderoven extends AquaGenericCrafter {
 
         @Override
         public void updateTile() {
-            // 1. Собираем тепло с соседних блоков
             heat = calculateHeat(sideHeat);
 
-            // Проверяем, есть ли ресурсы на любой из рецептов
             OvenRecipe currentRecipe = null;
             for (OvenRecipe r : recipes) {
                 if (items.get(r.inputItem) >= r.inputAmount && items.get(r.outputItem) + r.outputAmount <= itemCapacity) {
@@ -126,29 +122,21 @@ public class powderoven extends AquaGenericCrafter {
                 }
             }
 
-            // Проверяем базовую работоспособность (подведена ли энергия) через productionValid()
             boolean canWork = currentRecipe != null && this.productionValid() && heat >= heatRequirement - 0.01f;
 
-            // 2. Логика работы печи
             if (canWork) {
-                // Базовая эффективность 100%
                 efficiency = 1f;
 
-                // Если вода поставляется в бустер, игра рассчитывает optionalEfficiency.
-                // Плавно разгоняем скорость крафта от х1.0 до установленного максимума (как у бура)
                 if (optionalEfficiency > 0f) {
                     efficiency *= Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency);
                 }
 
-                // Наращиваем прогресс крафта с учетом ускорения
                 progress += edelta();
                 warmup = Mathf.approachDelta(warmup, warmupTarget(), 0.05f);
 
                 if (progress >= craftTime) {
-                    // Метод consume() автоматически сожрёт и энергию, и воду из бустера за этот цикл!
                     this.consume();
 
-                    // Проводим крафт рецепта
                     items.remove(currentRecipe.inputItem, currentRecipe.inputAmount);
                     items.add(currentRecipe.outputItem, currentRecipe.outputAmount);
 
@@ -159,12 +147,10 @@ public class powderoven extends AquaGenericCrafter {
                     }
                 }
             } else {
-                // Если печь стоит, нет ресурсов или нет тепла — плавно гасим её
                 efficiency = 0f;
                 warmup = Mathf.approachDelta(warmup, 0f, 0.05f);
             }
 
-            // Выгружаем готовые предметы на конвейеры
             customDumpOutputs();
         }
 
@@ -181,7 +167,6 @@ public class powderoven extends AquaGenericCrafter {
             super.draw();
         }
 
-        // --- Реализация интерфейса HeatConsumer ---
         @Override
         public float heatRequirement() {
             return heatRequirement;
