@@ -13,11 +13,9 @@ import arc.math.Mathf;
 import aquarion.content.AquaItems;
 
 public class Filter extends Separator {
-    // Сколько очищенной воды производить в секунду при 100% эффективности
     public float outputLiquidAmount = 6.0f;
 
-    // Строго зашитые шансы (веса) для логики выбора предметов:
-    private final int[] itemChances = {40, 18, 19, 20, 20};
+    private final int[] itemChances = {29, 17, 17, 17, 17};
     private final Item[] itemPool = {Items.sand, AquaItems.powdercopper, AquaItems.powderlead, AquaItems.powdersilicon, AquaItems.powdernickel};
 
     public Filter(String name) {
@@ -41,7 +39,6 @@ public class Filter extends Separator {
     public void setStats() {
         super.setStats();
 
-        // Показываем в описании чистое секундное производство воды
         stats.add(Stat.output, StatValues.liquid(AquaLiquids.clearwater, outputLiquidAmount, false));
     }
 
@@ -58,19 +55,16 @@ public class Filter extends Separator {
     public class FilterBuild extends SeparatorBuild {
         @Override
         public void updateTile() {
-            // Производство воды идет непрерывно, пока есть входящая эффективность (энергия/ресурсы)
             if (efficiency > 0) {
                 totalProgress += warmup * delta();
                 progress += getProgressIncrease(craftTime);
                 warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);
 
-                // Добавляем воду каждый кадр/тик. Делим на 60f, так как в секунде 60 тиков.
                 liquids.add(AquaLiquids.clearwater, (outputLiquidAmount / 60f) * edelta());
             } else {
                 warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);
             }
 
-            // Логика периодического выпадения предметов по завершению прогресса крафта
             if (progress >= 1f) {
                 progress %= 1f;
 
@@ -105,18 +99,15 @@ public class Filter extends Separator {
                 }
             }
 
-            // Выталкиваем непрерывно создающуюся жидкость в трубы
             if (liquids.get(AquaLiquids.clearwater) > 0) {
                 dumpLiquid(AquaLiquids.clearwater);
             }
 
-            // Выталкиваем твердые предметы
             if (timer(timerDump, dumpTime / timeScale)) {
                 dump();
             }
         }
 
-        // Логика системного индикатора из настроек графики игры (зеленый / красный)
         @Override
         public BlockStatus status() {
             if (efficiency > 0 && warmup > 0.5f) {

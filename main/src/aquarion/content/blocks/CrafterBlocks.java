@@ -1858,84 +1858,72 @@ public class CrafterBlocks {
         });
 
         filter = new Filter("filter") {{
-            // Требования для постройки блока
-            requirements(Category.crafting, with(copper, 60));
+            requirements(Category.crafting, with(copper, 350, silicon, 100, nickel, 150));
 
-            // Параметры времени крафта, размера и емкости
-            craftTime = 60f; // 1 секунда (60 тиков)
+            health = 200;
+            craftTime = 100f;
             size = 7;
             itemCapacity = 20;
             liquidCapacity = 120f;
 
-            // Потребление ресурсов: только энергия и вода
-            consumePower(0.5f); // Тратит 0.5 энергии в тик (30 единиц в секунду)
-            consumeLiquid(mindustry.content.Liquids.water, 1.7f); // 0.1 it`s 6
-            outputLiquidAmount = 102f;
+            consumePower(0.5f);
+            consumeLiquid(mindustry.content.Liquids.water, 8.3f);// 0.1 it`s 6
+            outputLiquidAmount = 170f;
 
             results = new ItemStack[]{
-                    new ItemStack(Items.sand, 10),
-                    new ItemStack(AquaItems.powdercopper, 5),
-                    new ItemStack(AquaItems.powderlead, 3),
-                    new ItemStack(AquaItems.powdersilicon, 2),
-                    new ItemStack(AquaItems.powdernickel, 2)
+                    new ItemStack(Items.sand, 13),
+                    new ItemStack(AquaItems.powdercopper, 12),
+                    new ItemStack(AquaItems.powderlead, 12),
+                    new ItemStack(AquaItems.powdersilicon, 12),
+                    new ItemStack(AquaItems.powdernickel, 12)
             };
             drawer = new DrawMulti(
-                    // Возвращаем нижнюю часть и тень (раскомментируй, если файлы есть)
-                    new DrawBetterRegion("-shadow") {{ layer = 20f; drawIcon = false; }},
-                    new DrawRegion("-bottom"),
+                    new DrawBetterRegion("-shadow") {{ layer = shadow; drawIcon = false; }},
 
-                    // 1. Вода СВЕРХУ (Обрезаем нижнюю половину блока с помощью pad)
-                    // При размере size = 7, размер блока в пикселях = 7 * 8 = 56 пикселей.
-                    // padBottom отрезает текстуру снизу на 28 пикселей (ровно половина).
+                    new DrawRegion("-underwater") {{
+                        layer = Layer.blockUnder;
+                    }},
+
                     new DrawLiquidTile(mindustry.content.Liquids.water, 2f) {{
                         padBottom = 28f;
                     }},
 
-                    // 2. Чистая вода СНИЗУ (Обрезаем верхнюю половину блока)
-                    // padTop отрезает текстуру сверху на 28 пикселей.
                     new DrawLiquidTile(aquarion.content.AquaLiquids.clearwater, 2f) {{
                         padTop = 28f;
                     }},
 
-                    // Верхний спрайт самого фильтра (рисуется поверх жидкостей)
                     new DrawDefault()
             );
         }};
 
         powderoven = new powderoven("powder-oven") {{
-            requirements(Category.crafting, with(zinc, 150, silicon, 100));
+            requirements(Category.crafting, with(copper, 100, lead, 150, silicon, 200));
 
+            health = 800;
             size = 4;
             craftTime = 60f;
             itemCapacity = 10;
-            liquidCapacity = 50f;
+            liquidCapacity = 1f;
 
-            // Настройки звука и эффектов
             ambientSound = Sounds.loopSmelter;
             ambientSoundVolume = 0.7f;
 
-            // Общие требования к энергии и жидкости
             consumePower(2.5f);
-            consumeLiq(water, 0.2f);
+            consumeLiquid(Liquids.water, 0.08f).boost();
 
-            // --- ТРЕБОВАНИЕ НАГРЕВА (ВХОД) ---
-            heatRequirement = 15f; // Нужно 15 единиц тепла
-            maxEfficiency = 1f;    // Избыток тепла НЕ будет ускорять блок
+            heatRequirement = 15f;
+            maxEfficiency = 1f;
 
-            // --- РЕЦЕПТЫ ДЛЯ ПОРОШКОВ ---
-            addRecipe(powdercopper, 2, copper, 1); // 2 порошка меди -> 1 медь
-            addRecipe(powderlead, 2, lead, 1);       // 2 порошка свинца -> 1 свинец
+            addRecipe(powdercopper, 2, copper, 1);
+            addRecipe(powderlead, 2, lead, 1);
             addRecipe(powdersilicon, 2, silicon, 1);
             addRecipe(powdernickel, 2, nickel, 1);
 
-            // Красивый Drawer, реагирующий на тепло и воду
             drawer = new DrawMulti(
-                    new DrawBetterRegion("-shadow") {{ layer = shadow; drawIcon = false; }},
-                    new DrawRegion("-bottom"),
                     new DrawDefault(),
-                    new DrawHeatInput(), // Покажет линии распределения тепла на карте
+                    new DrawHeatInput(),
                     new AquaHeatRegion("-heats") {{
-                        color = Color.valueOf("ff6060ff"); // Свечение нагрева
+                        color = Color.valueOf("ff6060ff");
                     }}
             );
         }};
