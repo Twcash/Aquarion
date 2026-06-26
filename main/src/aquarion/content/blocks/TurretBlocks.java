@@ -1578,7 +1578,7 @@ public class TurretBlocks {
                         width = 10f;
                         height = 16f;
                         trailLength = 12;
-                        lifetime = 40f;
+                        lifetime = 50f;
                         ammoMultiplier = 1;
                         shootEffect = AquaFx.shootLong;
                         smokeEffect = Fx.smoke;
@@ -2436,7 +2436,7 @@ public class TurretBlocks {
             scaledHealth = 250;
             consumeCoolant(0.3f);
             inaccuracy = 12;
-            shootSound = shootFuse;
+            shootSound = shootSalvo;
             soundPitchMax = 0.6f;
             soundPitchMin = 0.4f;
             ammo(
@@ -2450,24 +2450,82 @@ public class TurretBlocks {
                         fragVelocityMax = 1.1f;
                         fragVelocityMin = 1;
                         fragBullets = 4;
-                        fragBullet = new BasicBulletType(4, 30){{
+                        ammoMultiplier = 4;
+                        fragBullet = new BasicBulletType(5, 25){{
+                            trailEffect = Fx.disperseTrail;
+                            trailInterval = 4f;
+                            trailWidth = 1.5f;
+                            trailLength = 6;
+                            trailColor = Color.white;
+                            trailRotation = true;
+                            rotationOffset = 90f;
+                            sprite = "large-bomb-back";
                             width = height = 6;
                             velocityRnd = 0.1f;
-                            lifetime = 80;
+                            lifetime = 56;
                             splashDamage = 25;
                             splashDamageRadius = 16;
                             frontColor = Color.white;
                             backColor = hitColor = lightColor = Pal.gray;
                             collidesGround = false;
-                            ammoMultiplier = 5;
                         }};
                     }},
-                    cupronickel, new BasicBulletType(2.5f, 80){{
-                        width = height = 6;
-                        frontColor = Color.white;
+                    AquaItems.ferricMatter, new EmptyBulletType(){{
+                        instantDisappear = true;
+                        fragOffsetMin = 0;
+                        fragOffsetMax = 0;
+                        fragRandomSpread = 5f;
+                        fragLifeMin = 1;
+                        fragLifeMax = 1;
+                        fragVelocityMax = 1.1f;
+                        fragVelocityMin = 1;
+                        fragBullets = 2;
+                        ammoMultiplier = 6;
+                        fragBullet = new BasicBulletType(10f, 70){
+                            {
+                                trailEffect = Fx.disperseTrail;
+                                trailInterval = 2f;
+                                trailWidth = 1.1f;
+                                trailLength = 6;
+                                trailColor = frontColor = AquaPal.ferricMatter;
+                                trailRotation = true;
+                                rotationOffset = 90f;
+                                sprite = "large-bomb-back";
+                                width = height = 8;
+                                velocityRnd = 0.2f;
+                                lifetime = 28;
+                                backColor = hitColor = lightColor = AquaPal.cupronickel;
+                                collidesGround = false;
+                            }};
+                    }},
+                    plastanium, new EmptyBulletType(){{
+                        instantDisappear = true;
+                        fragOffsetMin = 0;
+                        fragOffsetMax = 0;
+                        fragRandomSpread = 15f;
+                        fragLifeMin = 1;
+                        fragLifeMax = 1;
+                        fragVelocityMax = 1.1f;
+                        fragVelocityMin = 1;
+                        fragBullets = 5;
                         ammoMultiplier = 3;
-                        backColor = hitColor = lightColor = Pal.gray;
-                        collidesGround = false;
+                        fragBullet = new BasicBulletType(6, 30){{
+                            trailEffect = Fx.disperseTrail;
+                            trailInterval = 2f;
+                            trailWidth = 1f;
+                            trailLength = 6;
+                            trailColor = frontColor = Pal.berylShot;
+                            trailRotation = true;
+                            rotationOffset = 90f;
+                            sprite = "large-bomb-back";
+                            width = height = 6;
+                            velocityRnd = 0.1f;
+                            lifetime = 47;
+                            splashDamage = 45;
+                            splashDamageRadius = 24;
+                            backColor = hitColor = lightColor = Pal.plastanium;
+                            collidesGround = false;
+                        }};
                     }}
             );
             drawer = new DrawTurret(){{
@@ -2484,25 +2542,24 @@ public class TurretBlocks {
             }};
         }};
         maelstrom = new LiquidTurret("maelstrom") {{
+            shoot.firstShotDelay = 20f;
             shoot.shotDelay = 2;
             shoot.shots = 5;
             ammoPerShot = 2;
             inaccuracy = 25;
             extinguish = false;
             liquidCapacity = 200;
-            reload = 2;
             outlineColor = tantDarkestTone;
             loopSound = Sounds.loopBio;
             loopSoundVolume = 0.09f;
-            shoot.firstShotDelay = 20;
-            warmupMaintainTime = 50;
-            shootWarmupSpeed = 0.07f;
-            minWarmup = 0.85f;
             range = 260;
             size = 3;
             squareSprite = false;
             shootSound = shootSap;
             targetGround = false;
+            warmupMaintainTime = 50;
+            shootWarmupSpeed = 0.07f;
+            minWarmup = 0.85f;
             requirements(Category.turret, with(AquaItems.brass, 250, copper, 100));
             ammo(
                     fumes, new MissileBulletType(7, 10) {{

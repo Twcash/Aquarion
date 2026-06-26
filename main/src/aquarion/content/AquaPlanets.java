@@ -60,7 +60,7 @@ public class AquaPlanets {
             meshLoader = () -> new HexMesh(this, 5);
             alwaysUnlocked = false;
             orbitOffset = 85;
-            orbitRadius = 60;
+            orbitRadius = 35;
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.3f;
             defaultEnv = Env.scorching | Env.terrestrial;

@@ -775,7 +775,7 @@ public class EnvironmentBlocks {
         varcaudStalk = new FloraBlock("varcaud-stalk") {{
             shadowAlpha = 0.6f;
             buildVisibility = sandboxOnly;
-            variants = 1;
+            variants = 2;
             rotationRand = 45;
             size = 3;
             breakable = false;
