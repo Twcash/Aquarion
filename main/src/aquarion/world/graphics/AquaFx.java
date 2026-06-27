@@ -27,7 +27,7 @@ import mindustry.gen.Tex;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
-import mindustry.world.Block;
+import mindustry.content.Fx;
 
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.lineAngle;
@@ -500,6 +500,23 @@ public class AquaFx {
             Fill.circle(e.x + x + rand.random(-4, 4), e.y + lift + y + rand.random(-4, 4), Interp.pow5In.apply(e.finpow()) * 9.5f + 0.4f);
         });
     }),
+            // bro, Fx suck, i have no clue what im doing
+            geysers = new MultiEffect(
+                    //literally stole smokePuff Fx from vanilla (i dont know how to adjust its color otherwise)
+                    new Effect(30.0F, (e) -> {
+                        Draw.color(87/255f,115/255f,200/255f);
+                        Angles.randLenVectors((long)e.id, 6, 4.0F + 30.0F * e.finpow(), (x, y) -> {
+                            Fill.circle(e.x + x, e.y + y, e.fout() * 3.0F);
+                            Fill.circle(e.x + x / 2.0F, e.y + y / 2.0F, e.fout());
+                        });
+                    }),
+                    //this one is also copy-pasted, again because idk how to adjust the color otherwise
+                    new Effect(70.0F, (e) -> {
+                        Draw.color(1, 1, 1);
+                        Draw.alpha(e.fout());
+                        Angles.randLenVectors((long)e.id, 3, 2.0F + e.finpow() * 11.0F, (x, y) -> Fill.circle(e.x + x, e.y + y, 0.6F + e.fin() * 5.0F));
+                    })
+            ),
             turbineGenerate = new Effect(180f, e -> {
                 color(Color.white, AquaPal.smoke.a(0.5f), Interp.pow2In.apply(e.fin()));
                 alpha(Interp.pow2In.apply(e.fout()));
