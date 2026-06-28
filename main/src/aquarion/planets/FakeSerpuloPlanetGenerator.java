@@ -3,6 +3,7 @@ package aquarion.planets;
 import aquarion.content.AquaWeathers;
 import aquarion.world.Uti.NewSimplex;
 import aquarion.world.type.AquaBlock;
+import arc.func.Boolf;
 import arc.graphics.Color;
 import arc.math.Angles;
 import arc.math.Mathf;
@@ -211,6 +212,21 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
     protected float noise(float x, float y, double octaves, double falloff, double scl, double mag){
         Vec3 v = sector.rect.project(x, y).scl(5f);
         return NewSimplex.voronoi3d(seed, octaves, falloff, 1f / scl, v.x, v.y, v.z) * (float)mag;
+    }
+
+    private boolean checkRadius(int x, int y, int radius, Boolf<Tile> pred){
+        for(int cx = -radius; cx <= radius; cx++){
+            for(int cy = -radius; cy <= radius; cy++){
+                if((cx) * (cx) + (cy) * (cy) <= radius * radius){
+                    int wx = cx + x, wy = cy + y;
+                    Tile tile = tiles.get(wx, wy);
+                    if(tile != null && pred.get(tile)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -429,21 +445,9 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
             int deepRadius = 3;
 
             if(floor.asFloor().isLiquid && floor.asFloor().shallow){
-
-                for(int cx = -deepRadius; cx <= deepRadius; cx++){
-                    for(int cy = -deepRadius; cy <= deepRadius; cy++){
-                        if((cx) * (cx) + (cy) * (cy) <= deepRadius * deepRadius){
-                            int wx = cx + x, wy = cy + y;
-
-                            Tile tile = tiles.get(wx, wy);
-                            if(tile != null && (!tile.floor().isLiquid || tile.block() != Blocks.air)){
-                                //found something solid, skip replacing anything
-                                return;
-                            }
-                        }
-                    }
+                if(checkRadius(x, y, deepRadius, tile -> !tile.floor().isLiquid || tile.block() != Blocks.air)){
+                    return;
                 }
-
                 floor = floor == Blocks.darksandTaintedWater ? Blocks.taintedWater : Blocks.water;
             }
         });
@@ -451,24 +455,11 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         if(naval){
             int deepRadius = 2;
 
-            //TODO code is very similar, but annoying to extract into a separate function
             pass((x, y) -> {
                 if(floor.asFloor().isLiquid && !floor.asFloor().isDeep() && !floor.asFloor().shallow){
-
-                    for(int cx = -deepRadius; cx <= deepRadius; cx++){
-                        for(int cy = -deepRadius; cy <= deepRadius; cy++){
-                            if((cx) * (cx) + (cy) * (cy) <= deepRadius * deepRadius){
-                                int wx = cx + x, wy = cy + y;
-
-                                Tile tile = tiles.get(wx, wy);
-                                if(tile != null && (tile.floor().shallow || !tile.floor().isLiquid)){
-                                    //found something shallow, skip replacing anything
-                                    return;
-                                }
-                            }
-                        }
+                    if(checkRadius(x, y, deepRadius, tile -> tile.floor().shallow || !tile.floor().isLiquid)){
+                        return;
                     }
-
                     floor = floor == Blocks.water ? Blocks.deepwater : Blocks.taintedWater;
                 }
             });
