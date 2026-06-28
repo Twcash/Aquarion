@@ -62,16 +62,18 @@ public class AquaStats {
                             } else {
                                 it.add(displayItem(stack.item, stack.amount, timePeriod, true)).pad(10f).padLeft(15f).left();
                             }
-                            for (ItemStack i : items) {
-                                it.add(Strings.autoFixed(i.amount / (craftTime / 60f), 20) + StatUnit.perSecond.localized()).left().color(Color.lightGray);
-                            }
+                            //for (ItemStack i : items) {
+                            //    it.add(Strings.autoFixed(i.amount / (craftTime / 60f), 20) + StatUnit.perSecond.localized()).left().color(Color.lightGray);
+                            //}
                         }
                     }).left();
 
                     b.table(bt -> {
                         bt.right().defaults().padRight(3).left();
-                        if(rangeBoost != 0) bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
-                        if(speedBoost != 0) bt.add("[lightgray]" + unit.replace("{0}", "[stat]" + Strings.autoFixed(speedBoost, 2) + "[lightgray]"));
+                        if(rangeBoost != 0)
+                            bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
+                        if(speedBoost != 0)
+                            bt.add("[lightgray]" + unit.replace("{0}", "[stat]" + Strings.autoFixed(speedBoost, 2)) + "[lightgray] speed");
                     }).right().top().grow().pad(10f).padRight(15f);
                 }).growX().pad(5).padBottom(-5).row();
             }).growX().colspan(table.getColumns());
@@ -108,21 +110,20 @@ public class AquaStats {
                             } else {
                                 it.add(displayItem(stack.item, stack.amount, timePeriod, true)).pad(10f).padLeft(15f).left();
                             }
-                            for (ItemStack i : items) {
-                                it.add(Strings.autoFixed(i.amount / (craftTime / 60f), 20) + StatUnit.perSecond.localized()).left().color(Color.lightGray);
-                            }
+                            //this was causing the consumption/second to be displayed twice
+                            //for (ItemStack i : items) {
+                            //    it.add(Strings.autoFixed(i.amount / (craftTime / 60f), 20) + StatUnit.perSecond.localized()).left().color(Color.lightGray);
+                            //}
                         }
                     }).left();
 
                     b.table(bt -> {
                         bt.right().defaults().padRight(3).left();
                         if(rangeBoost != 0)
-                            bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2)
-                                    + "[lightgray] " + StatUnit.blocks.localized()).row();
+                            bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
 
                         if(outputBoost != 0)
-                            bt.add("[lightgray]" + unit.replace("{0}",
-                                    "[stat]" + Strings.autoFixed(outputBoost, 2) + "[lightgray] output"));
+                            bt.add("[lightgray]" + unit.replace("{0}", "[stat]" + Strings.autoFixed(outputBoost, 2)) + "[lightgray] output");
                     }).right().top().grow().pad(10f).padRight(15f);
                 }).growX().pad(5).padBottom(-5).row();
             }).growX().colspan(table.getColumns());

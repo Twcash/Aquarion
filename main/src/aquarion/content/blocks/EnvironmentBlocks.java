@@ -42,7 +42,7 @@ public class EnvironmentBlocks {
     public static Block varcaudStalk, deadVarcaudStalk, qusGrass, kolFern, adreSprig, leafLitter, leafLitterDense, iceWater, clearWater, blueSandFLoor, blueSandWater, redSandFLoor, brecciaFloor, soil, fertileSoil,
             smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor,
             chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
-            andesiteLayers, basaltSpikes, pinkSaltBoulder, algal_carpet, brine_liquid, lava, shallowSlag, shallowYellowstoneSlag, shallowLava,
+            andesiteLayers, basaltSpikes, pinkSaltBoulder, algal_carpet, brine_liquid, lava, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava,
             coral_floor,cupriteBoulder,cupriteWall,cupriteChunks, cupriteFloor, feldspar_vent, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro_vent, gabbro, petroleumFloor, petroleumSeep, geothermal_vent, rubble,
              metal13, metal14, metal15, metal16, roughFeldspar, glassFloor, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor, brimstoneVent,
@@ -83,27 +83,34 @@ public class EnvironmentBlocks {
         }};
         shallowSlag = new Floor("shallow-slag") {{
             speedMultiplier = 0.1f;
-            variants = 0;
             liquidDrop = Liquids.slag;
             liquidMultiplier = 0.5f;
             isLiquid = true;
             status = StatusEffects.burning;
             attributes.set(Attribute.heat, 0.8f);
-            cacheLayer =  CacheLayer.slag;
-            supportsOverlay = true;
+            //cacheLayer =  CacheLayer.slag;
             variants = 5;
         }};
         shallowYellowstoneSlag = new Floor("shallow-yellowstone-slag") {{
             speedMultiplier = 0.1f;
-            variants = 0;
             liquidDrop = Liquids.slag;
             liquidMultiplier = 0.5f;
             isLiquid = true;
             status = StatusEffects.burning;
             attributes.set(Attribute.heat, 0.8f);
             cacheLayer =  CacheLayer.slag;
-            supportsOverlay = true;
             variants = 3;
+        }};
+        shallowSlagPlates = new AquaTiledFloor("shallow-slag-plates") {{
+            speedMultiplier = 0.1f;
+            tilingVariants = 2;
+            tilingSize = 4;
+            liquidDrop = Liquids.slag;
+            liquidMultiplier = 0.5f;
+            isLiquid = false;
+            status = StatusEffects.burning;
+            attributes.set(Attribute.heat, 0.8f);
+            //cacheLayer =  CacheLayer.slag;
         }};
         ultrafamicFloor = new Floor("ultrafamic-floor", 3) {{
             wall = ultrafamicWall;
@@ -171,13 +178,14 @@ public class EnvironmentBlocks {
         overwrite(crystallineVent, (SteamVent s) -> s.effect = AquaFx.vent1);
         overwrite(yellowStoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
         overwrite(redStoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
+        overwrite(slag, (Floor s) -> s.drawEdgeOut = s.drawEdgeIn = true);
 
-        feldspar_vent = new SteamVent("feldspar-vent") {{
+        feldspar_vent = new customVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
             variants = 2;
             parent = blendGroup = EnvironmentBlocks.feldspar;
             effectSpacing = 15f;
-            effect = AquaFx.vent1;
+            effect = AquaFx.geysers;
         }};
         Blocks.salt.itemDrop = salt;
         pinkSaltFlats = new  AquaTiledFloor("pink-salt-flats"){{
