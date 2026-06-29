@@ -1860,6 +1860,7 @@ public class CrafterBlocks {
         filter = new Filter("filter") {{
             requirements(Category.crafting, with(copper, 350, silicon, 100, nickel, 150));
 
+            buildTime = 2200f;
             health = 200;
             craftTime = 100f;
             size = 7;
@@ -1899,6 +1900,7 @@ public class CrafterBlocks {
         powderoven = new powderoven("powder-oven") {{
             requirements(Category.crafting, with(copper, 100, lead, 150, silicon, 200));
 
+            buildTime = 120f;
             health = 800;
             size = 4;
             craftTime = 60f;

@@ -177,6 +177,7 @@ public class AquaItems {
         }};
         powdersilicon = new Item("powder-silicon", Color.valueOf("#53565c")) {{
             shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            alwaysUnlocked = false;
             buildable = false;
         }};
         powdercopper = new Item("powder-copper", Color.valueOf("#d99d73")) {{
