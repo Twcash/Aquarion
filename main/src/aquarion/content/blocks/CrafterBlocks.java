@@ -1867,7 +1867,7 @@ public class CrafterBlocks {
             liquidCapacity = 120f;
 
             consumePower(0.5f);
-            consumeLiquid(mindustry.content.Liquids.water, 8.3f);// 0.1 it`s 6
+            consumeLiquid(mindustry.content.Liquids.water, 1.7f);// 0.1 it`s 6
             outputLiquidAmount = 170f;
 
             results = new ItemStack[]{
