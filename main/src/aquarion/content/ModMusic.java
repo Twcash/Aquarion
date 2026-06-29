@@ -85,7 +85,7 @@ public class ModMusic {
         musics.put("pipe-thoughts", new MusicInfo(none, "Pipe Thoughts", cas));
         musics.put("not-so-distant-now", new MusicInfo(none, "NOT SO DISTANT NOW", cas));
         musics.put("concussive", new MusicInfo(none, "Concussive", cas));
-        musics.put("mold", new MusicInfo(none, "mold", myt));
+        musics.put("mold", new MusicInfo(none, "Mold", myt));
         musics.put("assault", new MusicInfo(none, "Assault", myt));
         musics.put("quiet-processing", new MusicInfo(none, "Quiet Processing", ace));
         musics.put("scarred-skies", new MusicInfo(none, "Scarred Skies", ace));
@@ -95,6 +95,7 @@ public class ModMusic {
         musics.put("oh-the-horror", new MusicInfo(none, "Oh the horror", ace));
         musics.put("sinking", new MusicInfo(none, "Sinking", ace));
         musics.put("during-creation", new MusicInfo(none, "During Creation", nik));
+        musics.put("flying-fire", new MusicInfo(none, "Flying Fire", myt));
         //###########################################################################
         //######################## !!!HOW ADD MUSIC!!! ##############################
         //musics.put("filename", new MusicInfo("aquarion-iconname", "You Music Name", "Author"));
