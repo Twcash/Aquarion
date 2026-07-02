@@ -1865,11 +1865,11 @@ public class CrafterBlocks {
             craftTime = 100f;
             size = 7;
             itemCapacity = 20;
-            liquidCapacity = 120f;
+            liquidCapacity = 300f;
 
             consumePower(0.5f);
-            consumeLiquid(mindustry.content.Liquids.water, 1.7f);// 0.1 it`s 6
-            outputLiquidAmount = 170f;
+            consumeLiquid(mindustry.content.Liquids.water, 4.25f); // 0.1 it`s 6 water
+            outputLiquidAmount = 255f;
 
             results = new ItemStack[]{
                     new ItemStack(Items.sand, 13),
