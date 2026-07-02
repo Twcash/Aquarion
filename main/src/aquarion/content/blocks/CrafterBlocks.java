@@ -44,6 +44,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
+import aquarion.world.blocks.*;
 
 import static aquarion.content.AquaAttributes.iron;
 import static aquarion.content.AquaAttributes.metamorphic;
@@ -64,7 +65,8 @@ public class CrafterBlocks {
             cupronickelAlloyer, brineMixer, ferricGrinder, SilicaOxidator, arcFurnace, heatChannel, convectionHeater, combustionHeater,
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
-            fumeFilter, ferroSiliconFoundry, magmaTap;
+            fumeFilter, ferroSiliconFoundry, magmaTap, powderoven;
+    public static Block filter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -1854,6 +1856,79 @@ public class CrafterBlocks {
             r.consumeItems(ItemStack.with(sporePod, 1));
             r.craftTime = 60;
         });
+
+        filter = new Filter("filter") {{
+            requirements(Category.crafting, with(copper, 350, silicon, 100, nickel, 150));
+
+            buildTime = 2200f;
+            health = 200;
+            craftTime = 100f;
+            size = 7;
+            itemCapacity = 20;
+            liquidCapacity = 300f;
+
+            consumePower(0.5f);
+            consumeLiquid(mindustry.content.Liquids.water, 4.25f); // 0.1 it`s 6 water
+            outputLiquidAmount = 255f;
+
+            results = new ItemStack[]{
+                    new ItemStack(Items.sand, 13),
+                    new ItemStack(AquaItems.powdercopper, 12),
+                    new ItemStack(AquaItems.powderlead, 12),
+                    new ItemStack(AquaItems.powdersilicon, 12),
+                    new ItemStack(AquaItems.powdernickel, 12)
+            };
+            drawer = new DrawMulti(
+                    new DrawBetterRegion("-shadow") {{ layer = shadow; drawIcon = false; }},
+
+                    new DrawRegion("-underwater") {{
+                        layer = Layer.blockUnder;
+                    }},
+
+                    new DrawLiquidTile(mindustry.content.Liquids.water, 2f) {{
+                        padBottom = 28f;
+                    }},
+
+                    new DrawLiquidTile(aquarion.content.AquaLiquids.clearwater, 2f) {{
+                        padTop = 28f;
+                    }},
+
+                    new DrawDefault()
+            );
+        }};
+
+        powderoven = new powderoven("powder-oven") {{
+            requirements(Category.crafting, with(copper, 100, lead, 150, silicon, 200));
+
+            buildTime = 120f;
+            health = 800;
+            size = 4;
+            craftTime = 60f;
+            itemCapacity = 10;
+            liquidCapacity = 1f;
+
+            ambientSound = Sounds.loopSmelter;
+            ambientSoundVolume = 0.7f;
+
+            consumePower(2.5f);
+            consumeLiquid(Liquids.water, 0.08f).boost();
+
+            heatRequirement = 15f;
+            maxEfficiency = 1f;
+
+            addRecipe(powdercopper, 2, copper, 1);
+            addRecipe(powderlead, 2, lead, 1);
+            addRecipe(powdersilicon, 2, silicon, 1);
+            addRecipe(powdernickel, 2, nickel, 1);
+
+            drawer = new DrawMulti(
+                    new DrawDefault(),
+                    new DrawHeatInput(),
+                    new AquaHeatRegion("-heats") {{
+                        color = Color.valueOf("ff6060ff");
+                    }}
+            );
+        }};
     }
 
     public static void disableVanilla() {

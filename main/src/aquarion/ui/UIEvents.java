@@ -21,6 +21,13 @@ public class UIEvents {
         Timer.schedule(UIEvents::checkMusic, 1);
     }
 
+    private static String getValidIcon(String iconName) {
+        if (iconName == null || iconName.isEmpty() || !Core.atlas.has(iconName)) {
+            return ModMusic.DEFAULT_ICON;
+        }
+        return iconName;
+    }
+
     public static void checkMusic() {
         if (!musEnabled) {
             Log.err("Exiting checkMusic skill issue");
@@ -32,11 +39,15 @@ public class UIEvents {
             if (curMus != null && curMus != Musics.menu && curMus != Musics.launch && curMus != Musics.land && ModMusic.getCurMusic() != musLast) {
                 musLast = curMus;
                 String musS = musLast.toString();
-                String[] musS2 = musS.substring(13,musS.length()-4).split("/");
-                musS = musS2[musS2.length-1];
+                String[] musS2 = musS.substring(13, musS.length() - 4).split("/");
+                musS = musS2[musS2.length - 1];
                 if (ModMusic.musics.containsKey(musS)) {
                     ModMusic.MusicInfo musicInfo = ModMusic.musics.get(musS);
-                    ModUI.showBottomToast(Core.bundle.format("aquarion.music.now_playing", musicInfo.name, musicInfo.author));
+
+                    String finalIcon = getValidIcon(musicInfo.iconName);
+                    String message = Core.bundle.format("aquarion.music.now_playing", musicInfo.name, musicInfo.author);
+
+                    ModUI.showBottomToast(message, finalIcon);
                 }
             }
         }
@@ -54,9 +65,14 @@ public class UIEvents {
         musS = musS2[musS2.length - 1];
         if (ModMusic.musics.containsKey(musS)) {
             ModMusic.MusicInfo info = ModMusic.musics.get(musS);
-            ModUI.showBottomToast(Core.bundle.format("aquarion.music.now_playing", info.name, info.author));
+
+            String finalIcon = getValidIcon(info.iconName);
+            String message = Core.bundle.format("aquarion.music.now_playing", info.name, info.author);
+
+            ModUI.showBottomToast(message, finalIcon);
         } else {
-            ModUI.showBottomToast(Core.bundle.format("aquarion.music.now_playing_unknown", musS));
+            String message = Core.bundle.format("aquarion.music.now_playing_unknown", musS);
+            ModUI.showBottomToast(message, ModMusic.DEFAULT_ICON);
         }
     }
 

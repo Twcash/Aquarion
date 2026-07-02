@@ -36,12 +36,16 @@ public class ModMusic {
     public static Music realFine;
 
     public static Field currentMus;
+    //DON`T TOUCH IT`S ICON FOR ERROR OR NOT FOUND IMAGE
+    public static final String DEFAULT_ICON = "aquarion-error-may";
 
     public static class MusicInfo {
         public String name;
         public String author;
+        public String iconName;
 
-        MusicInfo(String name, String author) {
+        public MusicInfo(String iconName, String name, String author) {
+            this.iconName = iconName;
             this.name = name;
             this.author = author;
         }
@@ -52,51 +56,63 @@ public class ModMusic {
     public static String hyp = "HYPERIUM";
     public static String cas = "Twcash";
     public static String myt = "Mythril";
-    public static String ace = "Ace1020spawn";//I will not call you the "other" name
+    public static String ace = "Ace1020spawn";
     public static String nik = "NikolayKot";
+    //DON`T TOUCH THIS, IT IS FOR DEFAULT ICONS
+    public static String def = "aquarion-icon-mindustry";
+    public static String none = "aquarion-icon-none";
     public static ArrayMap<String, MusicInfo> musics = new ArrayMap<>();
 
     static {
-        musics.put("game1", new MusicInfo("Game 1", god));
-        musics.put("game2", new MusicInfo("Game 2", god));
-        musics.put("game3", new MusicInfo("Game 3", god));
-        musics.put("game4", new MusicInfo("Game 4", god));
-        musics.put("game5", new MusicInfo("Game 5", god));
-        musics.put("game6", new MusicInfo("Game 6", god));
-        musics.put("game7", new MusicInfo("Game 7", god));
-        musics.put("game8", new MusicInfo("Game 8", god));
-        musics.put("game9", new MusicInfo("Game 9", god));
-        musics.put("fine", new MusicInfo("Fine", god));
-        musics.put("boss1", new MusicInfo("Boss 1", god));
-        musics.put("boss2", new MusicInfo("Boss 2", god));
-        musics.put("underwaves", new MusicInfo("Underwaves", leo));
-        musics.put("bubblerine", new MusicInfo("Bubblerine", leo));
-        musics.put("che-go-boom", new MusicInfo("Che Go Boom", leo));
-        musics.put("acceptance", new MusicInfo("Acceptance", hyp));
-        musics.put("hero-brine", new MusicInfo("Hero brine", leo));
-        musics.put("pipe-thoughts", new MusicInfo("Pipe Thoughts", cas));
-        musics.put("not-so-distant-now", new MusicInfo("NOT SO DISTANT NOW", cas));
-        musics.put("concussive", new MusicInfo("Concussive", cas));
-        musics.put("mold", new MusicInfo("Mold", myt));
-        musics.put("quiet-processing", new MusicInfo("Quiet Processing", ace));
-        musics.put("scarred-skies", new MusicInfo("Scarred Skies", ace));
-        musics.put("exhasperation", new MusicInfo("Exasperation", ace));
-        musics.put("decaying-monuments", new MusicInfo("Decaying Monuments", ace));
-        musics.put("fih", new MusicInfo("Our intuition", ace));
-        musics.put("oh-the-horror", new MusicInfo("Oh the horror", ace));
-        musics.put("sinking", new MusicInfo("Sinking", ace));
-        musics.put("during-creation", new MusicInfo("During Creation", nik));
-        musics.put("flying-fire", new MusicInfo("Flying Fire", myt));
+        musics.put("game1", new MusicInfo(def, "Game 1", god));
+        musics.put("game2", new MusicInfo(def, "Game 2", god));
+        musics.put("game3", new MusicInfo(def, "Game 3", god));
+        musics.put("game4", new MusicInfo(def, "Game 4", god));
+        musics.put("game5", new MusicInfo(def, "Game 5", god));
+        musics.put("game6", new MusicInfo(def, "Game 6", god));
+        musics.put("game7", new MusicInfo(def, "Game 7", god));
+        musics.put("game8", new MusicInfo(def, "Game 8", god));
+        musics.put("game9", new MusicInfo(def, "Game 9", god));
+        musics.put("fine", new MusicInfo(def, "Fine", god));
+        musics.put("boss1", new MusicInfo(def, "Boss 1", god));
+        musics.put("boss2", new MusicInfo(def, "Boss 2", god));
 
-
-
-
+        musics.put("underwaves", new MusicInfo(none, "Underwaves", leo));
+        musics.put("bubblerine", new MusicInfo(none, "Bubblerine", leo));
+        musics.put("che-go-boom", new MusicInfo(none, "Che Go Boom", leo));
+        musics.put("acceptance", new MusicInfo(none, "Acceptance", hyp));
+        musics.put("hero-brine", new MusicInfo(none, "Hero brine", leo));
+        musics.put("pipe-thoughts", new MusicInfo(none, "Pipe Thoughts", cas));
+        musics.put("not-so-distant-now", new MusicInfo(none, "NOT SO DISTANT NOW", cas));
+        musics.put("concussive", new MusicInfo(none, "Concussive", cas));
+        musics.put("mold", new MusicInfo(none, "Mold", myt));
+        musics.put("assault", new MusicInfo(none, "Assault", myt));
+        musics.put("quiet-processing", new MusicInfo(none, "Quiet Processing", ace));
+        musics.put("scarred-skies", new MusicInfo(none, "Scarred Skies", ace));
+        musics.put("exhasperation", new MusicInfo(none, "Exasperation", ace));
+        musics.put("decaying-monuments", new MusicInfo(none, "Decaying Monuments", ace));
+        musics.put("fih", new MusicInfo(none, "Our intuition", ace));
+        musics.put("oh-the-horror", new MusicInfo(none, "Oh the horror", ace));
+        musics.put("sinking", new MusicInfo(none, "Sinking", ace));
+        musics.put("during-creation", new MusicInfo(none, "During Creation", nik));
+        musics.put("flying-fire", new MusicInfo(none, "Flying Fire", myt));
+        //###########################################################################
+        //######################## !!!HOW ADD MUSIC!!! ##############################
+        //musics.put("filename", new MusicInfo("aquarion-iconname", "You Music Name", "Author"));
+        //               |                          |
+        //         music file name         if you no icon, put none "(none, "You Music Name", "Author")"
+        //###########################################################################
+        //###########################################################################
     }
 
     // Don't change from outside I trust you by putting it in public
     public static boolean enabled = true;
 
     public static void load() {
+        origAmbientMusic = Vars.control.sound.ambientMusic.copy();
+        origDarkMusic = Vars.control.sound.darkMusic.copy();
+        origBossMusic = Vars.control.sound.bossMusic.copy();
+
         aquaAmbientMusic = loadMultiple(aquaAmbientList, "ambient");
         aquaDarkMusic = loadMultiple(aquaDarkList, "dark");
         aquaBossMusic = loadMultiple(aquaBossList, "boss");
@@ -108,34 +124,28 @@ public class ModMusic {
 
         updateFine();
         updateLand();
-
-        origAmbientMusic = Vars.control.sound.ambientMusic.copy();
-        origDarkMusic = Vars.control.sound.darkMusic.copy();
-        origBossMusic = Vars.control.sound.bossMusic.copy();
     }
 
     public static Seq<Music> loadMultiple(String[] filenames, String folder) {
         Seq<Music> result = new Seq<>();
-
         for (String filename : filenames) {
-            Music music = Vars.tree.loadMusic(folder + "/" + filename);
-            if (music != null) {
-                result.add(music);
-            } else {
-                Log.warn("Failed to load music: " + filename);
+            try {
+                Music music = Vars.tree.loadMusic(folder + "/" + filename);
+                if (music != null) {
+                    result.add(music);
+                } else {
+                    Log.warn("Failed to load music: " + filename);
+                }
+            } catch (Exception e) {
+                Log.err("Error loading music file: " + filename, e);
             }
         }
-
         return result;
     }
 
     public static void attach() {
         Events.on(WorldLoadEvent.class, e -> {
-            if (Vars.state.rules.planet.parent != null && Vars.state.rules.planet.parent.name.equals("aquarion-citun")) {
-                enableCustomMusic();
-            } else if (enabled) {
-                disableCustomMusic();
-            }
+            enableCustomMusic();
         });
 
         Events.on(StateChangeEvent.class, e -> {
@@ -155,18 +165,17 @@ public class ModMusic {
             Vars.control.sound.darkMusic = Seq.with(aquaDarkMusic).addAll(origDarkMusic);
             Vars.control.sound.bossMusic = Seq.with(aquaBossMusic).addAll(origBossMusic);
         } else {
-            Vars.control.sound.ambientMusic = Seq.with(aquaAmbientMusic);
-            Vars.control.sound.darkMusic = Seq.with(aquaDarkMusic);
-            Vars.control.sound.bossMusic = Seq.with(aquaBossMusic);
+            Vars.control.sound.ambientMusic = aquaAmbientMusic.isEmpty() ? Seq.with(origAmbientMusic) : Seq.with(aquaAmbientMusic);
+            Vars.control.sound.darkMusic = aquaDarkMusic.isEmpty() ? Seq.with(origDarkMusic) : Seq.with(aquaDarkMusic);
+            Vars.control.sound.bossMusic = aquaBossMusic.isEmpty() ? Seq.with(origBossMusic) : Seq.with(aquaBossMusic);
         }
-
         enabled = true;
     }
 
     public static void disableCustomMusic() {
-        Vars.control.sound.ambientMusic = Seq.with(origAmbientMusic);
-        Vars.control.sound.darkMusic = Seq.with(origDarkMusic);
-        Vars.control.sound.bossMusic = Seq.with(origBossMusic);
+        if (origAmbientMusic != null) Vars.control.sound.ambientMusic = Seq.with(origAmbientMusic);
+        if (origDarkMusic != null) Vars.control.sound.darkMusic = Seq.with(origDarkMusic);
+        if (origBossMusic != null) Vars.control.sound.bossMusic = Seq.with(origBossMusic);
         enabled = false;
     }
 
@@ -192,10 +201,16 @@ public class ModMusic {
     }
 
     public static void updateLand() {
-        Musics.land = ModSettings.getBetterLand() ? betterLand : realLand;
+        if (betterLand != null) {
+            Musics.land = ModSettings.getBetterLand() ? betterLand : realLand;
+        }
     }
     public static void updateFine() {
-        Musics.fine = ModSettings.getBetterFine() ? betterFine : realFine;
+        if (betterFine != null && ModSettings.getBetterFine()) {
+            Musics.fine = betterFine;
+        } else {
+            Musics.fine = realFine;
+        }
         Vars.control.sound.ambientMusic = Seq.with(Musics.game1, Musics.game3, Musics.game6, Musics.game8, Musics.game9, Musics.fine);
     }
 }

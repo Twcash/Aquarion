@@ -38,6 +38,7 @@ public class AquarionMod  implements Loadable{
         DefenseBlocks.loadContent();
         TurretBlocks.loadContent();
         CrafterBlocks.loadContent();
+        vannilaturret.loadContent();
         RefineryBlocks.loadContent();
         AquaMenuDialog.attach();
 ;       EnvironmentBlocks.shallowSlag.asFloor().blendGroup = Blocks.slag;

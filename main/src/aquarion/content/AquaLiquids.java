@@ -13,12 +13,19 @@ import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid ammonia, cryogen, vitriol, rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, oxygen, brine, helium, hydroxide;
+    public static Liquid ammonia, cryogen, vitriol, rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, oxygen, brine, helium, hydroxide, clearwater;
 
     public static void loadContent() {
 
         water.alwaysUnlocked = false;
 
+        clearwater = new Liquid("clear-water", Color.valueOf("#47a3d1")) {{
+            shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
+            canStayOn.addAll(water);
+            heatCapacity = 0.7f;
+            viscosity = 0.45f;
+            effect = wet;
+        }};
         brine = new Liquid("brine", Color.valueOf("#b8c89f")) {{
             coolant = false;shownPlanets.addAll(Planets.serpulo, Planets.erekir, fakeSerpulo, tantros2, qeraltar);
             viscosity = 0.8f;

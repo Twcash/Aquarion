@@ -350,6 +350,9 @@ public class TantrosTechTree {
                     });
             });
             nodeProduce(silicon, () -> {
+                nodeProduce(powdersilicon, Seq.with(
+                        new Objectives.Research(filter)
+                ), () -> {});
                 nodeProduce(zinc, () -> {
                     nodeProduce(biotite, () -> {
                         nodeProduce(ferricMatter, () -> {
@@ -370,8 +373,14 @@ public class TantrosTechTree {
                     nodeProduce(magma, () -> {});
                 });
                 nodeProduce(nickel, () -> {
+                    nodeProduce(powdernickel, Seq.with(
+                            new Objectives.Research(filter)
+                    ), () -> {});
                     nodeProduce(air, () -> {
                         nodeProduce(water, () -> {
+                            nodeProduce(clearwater,Seq.with(
+                                    new Objectives.Research(filter)
+                            ), () -> {});
                             nodeProduce(halideWater, () -> {
                                 nodeProduce(muriaticAcid, () -> {
                                     nodeProduce(hydroxide, () -> {});
@@ -393,6 +402,9 @@ public class TantrosTechTree {
                     nodeProduce(cupronickel, () -> {});
                 });
                 nodeProduce(copper, () -> {
+                    nodeProduce(powdercopper,Seq.with(
+                            new Objectives.Research(filter)
+                    ), () -> {});
                     nodeProduce(graphite, () -> {
                         nodeProduce(coal, () -> {
                             nodeProduce(sporePod, () -> {
@@ -404,6 +416,9 @@ public class TantrosTechTree {
                     nodeProduce(brass, () -> {});
                 });
                 nodeProduce(lead, () -> {
+                    nodeProduce(powderlead,Seq.with(
+                            new Objectives.Research(filter)
+                    ), () -> {});
                     nodeProduce(minium, () -> {
                         nodeProduce(vitriol, () -> {
                             nodeProduce(serpentine, () -> {
@@ -447,6 +462,18 @@ public class TantrosTechTree {
                 node(pumpAssembly);
             });
             node(harvester, () -> {
+                node(filter, Seq.with(
+                        new Objectives.SectorComplete(bay)
+                ), () -> {
+                    //node(powderoven, Seq.with(
+                    //        new Objectives.Produce(powdercopper),
+                    //        new Objectives.Produce(powderlead),
+                    //        new Objectives.Produce(powdersilicon),
+                    //        new Objectives.Produce(powdernickel)
+                    //), () -> {
+                    //
+                    //});
+                });
                 node(plasmaExtractor, () -> {
                     node(beamBore, () -> {});
                 });
