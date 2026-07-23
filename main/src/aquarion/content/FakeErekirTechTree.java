@@ -1,18 +1,16 @@
-package aqua.content;
+package aquarion.content;
 
-import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.game.Objectives.*;
-import mindustry.type.ItemStack;
 
 import static mindustry.content.TechTree.*;
 
 public class FakeErekirTechTree {
 
     public static void load() {
-        // Указываем корень древа технологий для кастомной планеты Fake Erekir
-        AquaPlanets.fakeErekir.techTree = nodeRoot("Erekir", Blocks.coreBastion, () -> {
+        // Привязываем древо к вашей планете из AquaPlanets
+        AquaPlanets.fakeErekir.techTree = nodeRoot("erekir", Blocks.coreBastion, () -> {
             
             // --- РЕСУРСЫ ---
             node(Items.beryllium, () -> {
@@ -31,7 +29,9 @@ public class FakeErekirTechTree {
                 node(Blocks.impactDrill, () -> {
                     node(Blocks.eruptionDrill, () -> {});
                 });
-                node(Blocks.biconvexdrive, () -> {});
+                node(Blocks.duct, () -> {
+                    node(Blocks.ductRouter, () -> {});
+                });
             });
 
             // --- ЭНЕРГЕТИКА ---
@@ -55,24 +55,12 @@ public class FakeErekirTechTree {
             // --- ТУРРЕЛИ / ЗАЩИТА ---
             node(Blocks.breach, () -> {
                 node(Blocks.diffuse, () -> {
-                    node(Blocks.sublime, () -> {});
+                    node(Blocks.sublimate, () -> {});
                 });
                 node(Blocks.titan, () -> {
                     node(Blocks.disperse, () -> {});
                 });
             });
-
-            // --- СЕКТОРА / КАРТЫ ---
-            // Пример добавления сектора с условиями (Objective)
-            nodeSector(SectorPresets.theOnset, () -> {
-                nodeSector(SectorPresets.aegis, Seq.with(
-                    new SectorComplete(SectorPresets.theOnset),
-                    new Research(Blocks.diffuse)
-                ), () -> {
-                    nodeSector(SectorPresets.lake, () -> {});
-                });
-            });
-
         });
     }
 }
