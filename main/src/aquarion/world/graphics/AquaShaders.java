@@ -41,6 +41,7 @@ public class AquaShaders {
 public static void init() {
 
     planet = new PlanetShader();
+    PlanetShadowMap.init();
     brine = new SurfaceShader("brine");
     lava = new SurfaceShader("lava");
     shallowSlag = new SurfaceShader("shallowSlag");
@@ -88,6 +89,7 @@ public static void init() {
             shallowSlag.dispose();
             neoplasiaBaseShader.dispose();
             neoplasiaPodShader.dispose();
+            PlanetShadowMap.dispose();
         }
     }
 

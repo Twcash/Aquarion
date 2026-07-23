@@ -3,6 +3,7 @@ package aquarion.content;
 import aquarion.content.blocks.CoreBlocks;
 import aquarion.planets.*;
 import aquarion.world.graphics.ObjMesh;
+import aquarion.world.graphics.ShadowMultiMesh;
 import arc.func.Cons;
 import arc.graphics.Color;
 import arc.math.*;
@@ -110,10 +111,10 @@ public class AquaPlanets {
         }};
         fakeSerpulo = new Planet("fakeSerp", citun, 1.2f, 4){{
             generator = new FakeSerpuloPlanetGenerator();
-            meshLoader = () -> new MultiMesh(
-                    new HexMesh(this, 6),
-                    new ObjMesh(this, "models/orbital-ring-destroyed.obj",1)
-            );
+            meshLoader = () -> {
+                ObjMesh ring = new ObjMesh(this, "models/orbital-ring-destroyed.obj", 1);
+                return new ShadowMultiMesh(this, ring, new HexMesh(this, 6));
+            };
             alwaysUnlocked = true;
             accessible = true;
             orbitRadius = 70;

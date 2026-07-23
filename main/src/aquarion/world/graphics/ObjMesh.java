@@ -25,6 +25,8 @@ public class ObjMesh extends PlanetMesh {
 
     public boolean emissive;
 
+    public Planet getPlanet() { return planet; }
+
     public ObjMesh(Planet planet, String objPath) {
         this(planet, objPath, 1f);
     }
@@ -354,12 +356,19 @@ public class ObjMesh extends PlanetMesh {
 
     @Override
     public void preRender(PlanetParams params) {
-        if (!(shader instanceof Shaders.PlanetShader)) return;
-        Shaders.PlanetShader s = (Shaders.PlanetShader) shader;
-        s.planet = planet;
-        s.emissive = emissive || (planet.generator != null && planet.generator.isEmissive());
-        s.lightDir.set(planet.solarSystem.position).sub(planet.position).rotate(arc.math.geom.Vec3.Y, planet.getRotation()).nor();
-        s.ambientColor.set(planet.solarSystem.lightColor);
+        if (shader instanceof Shaders.PlanetShader) {
+            Shaders.PlanetShader s = (Shaders.PlanetShader) shader;
+            s.planet = planet;
+            s.emissive = emissive || (planet.generator != null && planet.generator.isEmissive());
+            s.lightDir.set(planet.solarSystem.position).sub(planet.position).rotate(arc.math.geom.Vec3.Y, planet.getRotation()).nor();
+            s.ambientColor.set(planet.solarSystem.lightColor);
+        } else if (shader instanceof PlanetShadowMap.ShadowedPlanetShader) {
+            PlanetShadowMap.ShadowedPlanetShader s = (PlanetShadowMap.ShadowedPlanetShader) shader;
+            s.planet = planet;
+            s.emissive = emissive || (planet.generator != null && planet.generator.isEmissive());
+            s.lightDir.set(planet.solarSystem.position).sub(planet.position).nor();
+            s.ambientColor.set(planet.solarSystem.lightColor);
+        }
     }
 
     @Override
