@@ -3,8 +3,7 @@ package aquarion.content;
 import aquarion.world.map.AquaSectorPreset;
 import mindustry.type.SectorPreset;
 
-import static aquarion.content.AquaPlanets.fakeSerpulo;
-import static aquarion.content.AquaPlanets.tantros2;
+import static aquarion.content.AquaPlanets.*;
 
 public class AquaSectorPresets {
     public static SectorPreset  //tantros

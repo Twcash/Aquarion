@@ -17,6 +17,7 @@ import mindustry.type.*;
 import mindustry.world.Block;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.Env;
+import mindustry.content.Blocks;
 
 public class AquaPlanets {
     public static Planet
@@ -103,7 +104,7 @@ public class AquaPlanets {
             campaignRuleDefaults.rtsAI = false;
             allowCampaignRules = true;
             orbitSpacing = 6f;
-            defaultCore = CoreBlocks.corePike;
+            defaultCore = Blocks.coreBastion;
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
         }};
