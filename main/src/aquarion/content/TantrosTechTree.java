@@ -31,7 +31,7 @@ public class TantrosTechTree {
 
         for(Item item : Vars.content.items()) costMultipliers.put(item, 0.08f);
 
-        AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = AquaPlanets.fakeErekir.techTree = nodeRoot("RECOMPILE", corePike, () -> {
+        AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             context().researchCostMultipliers = costMultipliers;
             node(researchServer, () -> {
                 node(researchVoider, () -> {});
