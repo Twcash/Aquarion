@@ -75,10 +75,12 @@ public class DistributionBlocks {
             requirements(Category.distribution, with(silicon, 30, copper, 90, graphite, 50));
             size = 1;
             consumePower(3);
+            itemCapacity = 15;
         }};
         itemHopper = new ItemHopper("item-hopper"){{
             requirements(Category.distribution, with(graphite, 50, copper, 90, polymer, 35));
             size = 1;
+            itemCapacity = 30;
         }};
         sealedDistributor = new SealedRouter("sealed-distributor") {{
             requirements(Category.distribution, with(silicon, 50));

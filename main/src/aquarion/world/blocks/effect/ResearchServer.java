@@ -10,6 +10,8 @@ import mindustry.graphics.Pal;
 import mindustry.type.Item;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
 
 public class ResearchServer extends Block {
     public static final String SAVE_KEY = "aquarion-research";
@@ -23,6 +25,12 @@ public class ResearchServer extends Block {
         solid = true;
         update = true;
     }
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.add(Stat.itemCapacity, researchCapacity*60, StatUnit.items);
+    }
+
     @Override
     public void setBars() {
         super.setBars();

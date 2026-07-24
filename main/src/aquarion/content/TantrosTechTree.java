@@ -131,7 +131,8 @@ public class TantrosTechTree {
                             new Objectives.OnSector(icyRiver)
                     ), () -> {
                         node(turbineDynamo, Seq.with(
-                                new Objectives.Produce(haze)
+                                new Objectives.Produce(haze),
+                                new Objectives.SectorComplete(icyRiver)
                         ), () -> {
                             node(fumeEngine, Seq.with(
                                     new Objectives.Produce(fumes),
