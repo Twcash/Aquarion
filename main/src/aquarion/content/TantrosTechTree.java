@@ -385,7 +385,16 @@ public class TantrosTechTree {
                         nodeProduce(ferricMatter, () -> {
                             nodeProduce(fumes, () -> {});
                             nodeProduce(ferrosilicon, () -> {});
-                            nodeProduce(steel, () -> {});
+                            nodeProduce(steel, () -> {
+                                nodeProduce(compositeSteel, () -> {});
+                                nodeProduce(pitchblende, () -> {
+                                    nodeProduce(uranium, () -> {
+                                        nodeProduce(thorium, () -> {
+                                            nodeProduce(radium, () -> {});
+                                        });
+                                    });
+                                });
+                            });
                         });
                         nodeProduce(aluminum, () -> {});
                         nodeProduce(rareSludge, () -> {});
@@ -394,7 +403,9 @@ public class TantrosTechTree {
                         nodeProduce(bauxite, () -> {
                             nodeProduce(galena, () -> {});
                         });
-                        nodeProduce(towanite, () -> {});
+                        nodeProduce(towanite, () -> {
+                            nodeProduce(acuminite, () -> {});
+                        });
                         nodeProduce(cuprite, () -> {});
                     });
                     nodeProduce(magma, () -> {});
@@ -402,7 +413,6 @@ public class TantrosTechTree {
                 nodeProduce(nickel, () -> {
                     nodeProduce(air, () -> {
                         nodeProduce(water, () -> {
-                            nodeProduce(clearwater, () -> {});
                             nodeProduce(halideWater, () -> {
                                 nodeProduce(muriaticAcid, () -> {
                                     nodeProduce(hydroxide, () -> {});
@@ -413,7 +423,9 @@ public class TantrosTechTree {
                                     });
                                 });
                             });
-                            nodeProduce(haze, () -> {});
+                            nodeProduce(haze, () -> {
+                                nodeProduce(clearwater, () -> {});
+                            });
                             nodeProduce(oxygen, () -> {
                                 nodeProduce(hydrogen, () -> {});
                             });
@@ -440,7 +452,10 @@ public class TantrosTechTree {
                     nodeProduce(minium, () -> {
                         nodeProduce(vitriol, () -> {
                             nodeProduce(serpentine, () -> {
-                                nodeProduce(magnesiumPowder, () -> {});
+                                nodeProduce(magnesiumPowder, () -> {
+                                    nodeProduce(hexogen, () -> {});
+                                });
+                                nodeProduce(pentlandite, () -> {});
                             });
                         });
                     });
