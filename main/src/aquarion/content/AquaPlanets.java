@@ -105,7 +105,7 @@ public class AquaPlanets {
             campaignRuleDefaults.rtsAI = false;
             allowCampaignRules = true;
             orbitSpacing = 6f;
-            defaultCore = Blocks.coreBastion;
+            defaultCore = CoreBlocks.corePike;
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.2f;
         }};
