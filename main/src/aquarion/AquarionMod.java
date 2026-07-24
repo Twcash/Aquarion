@@ -54,7 +54,6 @@ public class AquarionMod  implements Loadable{
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
-        //FakeErekirTechTree.load();
 
     }
 

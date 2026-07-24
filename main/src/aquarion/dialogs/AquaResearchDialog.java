@@ -152,9 +152,7 @@ public class AquaResearchDialog extends BaseDialog {
     public AquaResearchDialog() {
         super("");
         Vars.ui.research.fill(t -> t.update(() -> {
-            if (Vars.ui.research.root.node == AquaPlanets.tantros2.techTree ||
-                    Vars.ui.research.root.node == AquaPlanets.fakeSerpulo.techTree ||
-                    Vars.ui.research.root.node == AquaPlanets.fakeErekir.techTree) {
+            if (Vars.ui.research.root.node == AquaPlanets.tantros2.techTree && Vars.ui.research.root.node == AquaPlanets.fakeSerpulo.techTree) {
                 Vars.ui.research.hide(Actions.fadeOut(0f));
                 ModEventHandler.techDialog.show();
             }
@@ -180,6 +178,7 @@ public class AquaResearchDialog extends BaseDialog {
         titleTable.clear();
         titleTable.top();
         titleTable.button(b -> {
+            //TODO custom icon here.
             b.imageDraw(() -> root.node.icon()).padRight(8).size(iconMed);
             b.add().growX();
             b.label(() -> root.node.localizedName()).color(Pal.heal);
@@ -188,15 +187,10 @@ public class AquaResearchDialog extends BaseDialog {
         }, () -> new BaseDialog("@techtree.select") {{
             cont.pane(t -> t.table(Tex.button, in -> {
                 in.defaults().width(300f).height(60f);
-
-                Seq<TechNode> availableRoots = new Seq<>(TechTree.roots);
-                if (AquaPlanets.fakeErekir.techTree != null && !availableRoots.contains(AquaPlanets.fakeErekir.techTree)) {
-                    availableRoots.add(AquaPlanets.fakeErekir.techTree);
-                }
-
-                for (TechNode node : availableRoots) {
+                for (TechNode node : TechTree.roots) {
                     if (node.requiresUnlock && !node.content.unlockedHost() && node != getPrefRoot()) continue;
 
+                    //TODO toggle
                     in.button(node.localizedName(), node.icon(), Styles.flatTogglet, iconMed, () -> {
                         if (node == lastNode) {
                             return;
@@ -541,6 +535,7 @@ public class AquaResearchDialog extends BaseDialog {
     }
 
     boolean selectable(TechNode node) {
+        //there's a desync here as far as sectors go, since the client doesn't know about that, but I'm not too concerned
         return node.content.unlockedHost() || !node.objectives.contains(i -> !i.complete());
     }
 
@@ -552,16 +547,34 @@ public class AquaResearchDialog extends BaseDialog {
         public final TechNode node;
         public boolean visible = true, selectable = true;
 
+        /**The angle of the leftmost border.*/
         public Vec2 leftBorderPos;
+
+        /**The angle of the rightmost border*/
         public Vec2 rightBorderPos;
+
+        /**The depth of this node in the tree. This is also the number of parents above this node.*/
         public int depth = 0;
+
+        /**The weight of this node and its subtree.*/
         public int weight = 1;
+
+        /**The total weight of this node's children.*/
         public int totalWeight = 1;
+
+        /**The number of leaves this node has.*/
         public int leaves = 1;
 
+        /**The angle of this node from the center of the tree in radians*/
         float radAngle = 0;
+
+        /**The angle of one border of this node to the other*/
         float angleWidth = 360;
+
+        /**The angle of the first border of this node from the center of the tree*/
         float startAngle = 0;
+
+        /**The angle of second border of this node from the center of the tree*/
         float endAngle = 360;
 
         public TechTreeNode(TechNode node, TechTreeNode parent) {
@@ -694,12 +707,14 @@ public class AquaResearchDialog extends BaseDialog {
 
             if (node.requirements.length == 0) return true;
 
+            //can spend when there's at least 1 item that can be spent (non complete)
             for (int i = 0; i < node.requirements.length; i++) {
                 if (node.finishedRequirements[i].amount < node.requirements[i].amount && items.has(node.requirements[i].item)) {
                     return true;
                 }
             }
 
+            //can always spend when locked
             return node.content.locked();
         }
 
@@ -715,6 +730,7 @@ public class AquaResearchDialog extends BaseDialog {
                 ItemStack req = node.requirements[i];
                 ItemStack completed = node.finishedRequirements[i];
 
+                //amount actually taken from inventory
                 int used = Math.max(Math.min(req.amount - completed.amount, items.get(req.item)), 0);
                 items.remove(req.item, used);
                 completed.amount += used;
@@ -724,6 +740,7 @@ public class AquaResearchDialog extends BaseDialog {
                     usedShine[req.item.id] = true;
                 }
 
+                //disable completion if the completed amount has not reached requirements
                 if (completed.amount < req.amount) {
                     complete = false;
                 }
@@ -735,6 +752,7 @@ public class AquaResearchDialog extends BaseDialog {
 
             node.save();
 
+            //??????
             Core.scene.act();
             rebuild(shine);
             itemDisplay.rebuild(items, usedShine);
@@ -744,6 +762,7 @@ public class AquaResearchDialog extends BaseDialog {
         void unlock(TechNode node) {
             node.content.unlock();
 
+            //unlock parent nodes in multiplayer.
             TechNode parent = node.parent;
             while (parent != null) {
                 parent.content.unlock();
@@ -763,6 +782,7 @@ public class AquaResearchDialog extends BaseDialog {
             rebuild(null);
         }
 
+        //pass an array of stack indexes that should shine here
         void rebuild(@Nullable boolean[] shine) {
             ImageButton button = hoverNode;
 
@@ -813,6 +833,7 @@ public class AquaResearchDialog extends BaseDialog {
                                 t.left();
                                 if (selectable) {
 
+                                    //check if there is any progress, add research progress text
                                     if (Structs.contains(node.finishedRequirements, s -> s.amount > 0)) {
                                         float sum = 0f, used = 0f;
                                         boolean shiny = false;
@@ -839,6 +860,7 @@ public class AquaResearchDialog extends BaseDialog {
                                         ItemStack req = node.requirements[i];
                                         ItemStack completed = node.finishedRequirements[i];
 
+                                        //skip finished stacks
                                         if (req.amount <= completed.amount && !debugShowRequirements) continue;
                                         boolean shiny = shine != null && shine[i];
 
@@ -893,7 +915,7 @@ public class AquaResearchDialog extends BaseDialog {
                         }
                     }
                     desc.row();
-                    desc.add().padTop(5);
+                    desc.add().padTop(5); //adjust this too for spacing between research req and the thingy above
                     desc.row();
 
                 }).pad(9);
@@ -934,6 +956,8 @@ public class AquaResearchDialog extends BaseDialog {
 
             Draw.z(0f);
 
+
+
             for(int i = 1; i <= maxDepth; i++){
                 float radius = computeRadiusAt(i);
                 float cx = panX + width / 2f;
@@ -943,6 +967,7 @@ public class AquaResearchDialog extends BaseDialog {
                 Lines.stroke(12f);
                 Lines.circle(cx, cy, radius);
 
+                // Dashed echo rings — apply parallax scaling
                 for(int e = 1; e <= 3; e++){
                     float parallax = 1f / (e + 1f);
                     float px = panX * parallax + width / 2f;
@@ -957,6 +982,7 @@ public class AquaResearchDialog extends BaseDialog {
             Draw.color();
             for (TechTreeNode node : nodes) {
                 if (!node.visible) continue;
+                //float radius = spacing * 4;
                 float cx = panX/3f + width / 2f;
                 float cy = panY/3f + height / 2f;
                 Draw.color(Pal.darkestGray.a(1f / (3 * 1.5f)));
