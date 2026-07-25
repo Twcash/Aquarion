@@ -144,7 +144,7 @@ public class AquaConsume extends Consume {
             } else if(e.consumer instanceof ConsumeItemFilter CIF){
                 Boolf<Item> filter = CIF.filter;
                 Object[] it; 
-                content.items().each(filter, item -> it.add(item));
+                Vars.content.items().each(filter, item -> it.add(item));
                 stats.add(stat, multiEntryTable(it,1,timePeriod, false));
             } //else if(e.consumer instanceof ConsumeItemEfficiency CIE){
                 //@Nullable ObjectFloatMap<Item> itemDurationMultipliers = CIE.itemDurationMultipliers;
