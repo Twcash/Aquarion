@@ -37,7 +37,6 @@ public class AquaItems {
     public static void load() {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
-        Items.pyratite.hidden = true;
         Items.sporePod.hidden = true;
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
             hardness = 3;
