@@ -1,5 +1,6 @@
 package aquarion.world.consumers;
-
+import arc.func.*;
+import arc.util.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Strings;
