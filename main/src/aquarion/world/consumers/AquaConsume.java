@@ -120,8 +120,8 @@ public class AquaConsume extends Consume {
         return prod;
     }
 
-    /** Adds custom formatted stat entries for each consumer in this group */
-    public void displayStats(Stats stats, float timePeriod){
+    @Override
+    public void display(Stats stats, float timePeriod){
         for(Entry e : entries){
             Stat stat = e.required ? Stat.input : Stat.booster;
             if(e.consumer instanceof ConsumeLiquid cl){
