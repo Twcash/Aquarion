@@ -1,10 +1,10 @@
 package aquarion.world.consumers;
+import mindustry.Vars;
 import arc.func.*;
 import arc.util.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Strings;
-import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.type.Item;
 import mindustry.type.ItemStack;
@@ -148,8 +148,8 @@ public class AquaConsume extends Consume {
                 Vars.content.items().each(filter, item -> it.add(item));
                 stats.add(stat, multiEntryTable(it,1,timePeriod, false));
             } //else if(e.consumer instanceof ConsumeItemEfficiency CIE){
-                //@Nullable ObjectFloatMap<Item> itemDurationMultipliers = CIE.itemDurationMultipliers;
-                //stats.add(Stat.booster, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));
+            //@Nullable ObjectFloatMap<Item> itemDurationMultipliers = CIE.itemDurationMultipliers;
+            //stats.add(Stat.booster, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));
             //}
         }
     }
@@ -159,7 +159,7 @@ public class AquaConsume extends Consume {
             table.table(Styles.grayPanel, b -> {
                 b.defaults().pad(5).left();
                 for(Object img : iconObjs){
-                b.add(displayItem((Item)img, (int) baseAmount, timePeriod, true)).pad(10f).left().row();
+                    b.add(displayItem((mindustry.type.Item)img, (int) baseAmount, timePeriod, true)).pad(10f).left().row();
                 }
                 b.add(booster ? "[accent]Booster" : "[gray]Required").pad(10f).padRight(15f).right();
             }).growX().pad(3).row();
@@ -171,9 +171,9 @@ public class AquaConsume extends Consume {
             table.table(Styles.grayPanel, b -> {
                 b.defaults().pad(5).left();
                 if(isLiquid){
-                    b.add(displayLiquid((Liquid)iconObj, baseAmount * mult * 60f, true)).pad(10f).left();
+                    b.add(displayLiquid((mindustry.type.Liquid)iconObj, baseAmount * mult * 60f, true)).pad(10f).left();
                 }else{
-                    b.add(displayItem((Item)iconObj, Math.round(baseAmount * mult), timePeriod, true)).pad(10f).left();
+                    b.add(displayItem((mindustry.type.Item)iconObj, Math.round(baseAmount * mult), timePeriod, true)).pad(10f).left();
                 }
                 if(mult != 1f){
                     b.add("[lightgray]" + "* " + Strings.autoFixed(mult, 2)).pad(10f).right();
