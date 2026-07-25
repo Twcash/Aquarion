@@ -1,5 +1,6 @@
 package aquarion.world.consumers;
-
+import arc.func.*;
+import arc.util.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Strings;
@@ -133,6 +134,9 @@ public class AquaConsume extends Consume {
                 for(ItemStack is : ci.items){
                     stats.add(stat, entryTable(is.item, is.amount, e.multiplier, timePeriod, !e.required, false));
                 }
+            } else if(e.consumer instanceof ConsumeItemFilter CIF){
+                Boolf<Item> filter = CIF.filter;
+                stats.add(Stat.input, StatValues.items(stats.timePeriod, filter));
             }
         }
     }
