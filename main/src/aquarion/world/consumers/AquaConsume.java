@@ -120,7 +120,6 @@ public class AquaConsume extends Consume {
         return prod;
     }
 
-    @Override
     public void display(Stats stats, float timePeriod){
         for(Entry e : entries){
             Stat stat = e.required ? Stat.input : Stat.booster;
