@@ -137,14 +137,14 @@ public class AquaConsume extends Consume {
                 Boolf<Item> filter = CIF.filter;
                 Object[] it; 
                 content.items().each(filter, item -> it.add(item));
-                stats.add(stat, multiEntryTable(it,1,timePeriod));
+                stats.add(stat, multiEntryTable(it,1,timePeriod, false));
             } //else if(e.consumer instanceof ConsumeItemEfficiency CIE){
                 //@Nullable ObjectFloatMap<Item> itemDurationMultipliers = CIE.itemDurationMultipliers;
                 //stats.add(Stat.booster, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));
             //}
         }
     }
-    private static StatValue multiEntryTable(Object[] iconObjs, float baseAmount, float timePeriod){
+    private static StatValue multiEntryTable(Object[] iconObjs, float baseAmount, float timePeriod, boolean booster){
         return table -> {
             table.row();
             table.table(Styles.grayPanel, b -> {
