@@ -137,7 +137,7 @@ public class AquaConsume extends Consume {
                 Boolf<Item> filter = CIF.filter;
                 Object[] it; 
                 content.items().each(filter, item -> it.add(item));
-                stats.add(stat, multiEntryTable(it,1,timePeriod);
+                stats.add(stat, multiEntryTable(it,1,timePeriod));
             } //else if(e.consumer instanceof ConsumeItemEfficiency CIE){
                 //@Nullable ObjectFloatMap<Item> itemDurationMultipliers = CIE.itemDurationMultipliers;
                 //stats.add(Stat.booster, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));
@@ -150,7 +150,7 @@ public class AquaConsume extends Consume {
             table.table(Styles.grayPanel, b -> {
                 b.defaults().pad(5).left();
                 for(Object img : iconObjs){
-                b.add(displayItem((mindustry.type.Item)img, baseAmount, timePeriod, true)).pad(10f).left();
+                b.add(displayItem((mindustry.type.Item)img, baseAmount, timePeriod, true)).pad(10f).left().row();
                 }
                 b.add(booster ? "[accent]Booster" : "[gray]Required").pad(10f).padRight(15f).right();
             }).growX().pad(3).row();
