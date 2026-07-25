@@ -36,8 +36,13 @@ jobs:
         run: |
           MOD_DISPLAY_NAME=$(jq -r '.displayName' mod.json)
           MOD_DISPLAY_NAME_CLEAN=$(echo "$MOD_DISPLAY_NAME" | tr -d ' ')
-          DEXED_JAR_NAME="${MOD_DISPLAY_NAME_CLEAN}.jar"
           ARTIFACT_NAME="${MOD_DISPLAY_NAME_CLEAN} (in a box)"
+
+          # Удаляем символ 'v' из начала версии, если он там есть (например, v3.0.0 -> 3.0.0)
+          CLEAN_VERSION=$(echo "${{ inputs.version }}" | sed 's/^v//')
+          
+          # Формируем новое имя файла: Aquarion-3.0.0.jar
+          DEXED_JAR_NAME="Aquarion-${CLEAN_VERSION}.jar"
 
           echo "dexed_jar_name=${DEXED_JAR_NAME}" >> $GITHUB_OUTPUT
           echo "artifact_name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
@@ -51,6 +56,13 @@ jobs:
           branch: ${{ github.ref_name }}
           name: ${{ steps.mod_info.outputs.artifact_name }}
           path: ./downloaded_artifact
+
+      - name: Rename file inside artifact folder
+        run: |
+          # Переименовываем любой скачанный .jar файл внутри папки под новое имя
+          cd ./downloaded_artifact
+          ORIGINAL_FILE=$(ls *.jar | head -n 1)
+          mv "$ORIGINAL_FILE" "${{ steps.mod_info.outputs.dexed_jar_name }}"
 
       - name: Create Tag
         run: |
