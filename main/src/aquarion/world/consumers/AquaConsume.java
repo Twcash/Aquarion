@@ -120,8 +120,7 @@ public class AquaConsume extends Consume {
         return prod;
     }
 
-    /** Adds custom formatted stat entries for each consumer in this group */
-    public void displayStats(Stats stats, float timePeriod){
+    public void display(Stats stats, float timePeriod){
         for(Entry e : entries){
             Stat stat = e.required ? Stat.input : Stat.booster;
             if(e.consumer instanceof ConsumeLiquid cl){
@@ -136,8 +135,11 @@ public class AquaConsume extends Consume {
                 }
             } else if(e.consumer instanceof ConsumeItemFilter CIF){
                 Boolf<Item> filter = CIF.filter;
-                stats.add(Stat.input, StatValues.items(stats.timePeriod, filter));
-            }
+                stats.add(Stat.booster, StatValues.items(stats.timePeriod, filter));
+            } //else if(e.consumer instanceof ConsumeItemEfficiency CIE){
+                //@Nullable ObjectFloatMap<Item> itemDurationMultipliers = CIE.itemDurationMultipliers;
+                //stats.add(Stat.booster, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));
+            //}
         }
     }
 
