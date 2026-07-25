@@ -135,14 +135,27 @@ public class AquaConsume extends Consume {
                 }
             } else if(e.consumer instanceof ConsumeItemFilter CIF){
                 Boolf<Item> filter = CIF.filter;
-                stats.add(Stat.booster, StatValues.items(stats.timePeriod, filter));
+                Object[] it; 
+                content.items().each(filter, item -> it.add(item));
+                stats.add(stat, multiEntryTable(it,1,timePeriod);
             } //else if(e.consumer instanceof ConsumeItemEfficiency CIE){
                 //@Nullable ObjectFloatMap<Item> itemDurationMultipliers = CIE.itemDurationMultipliers;
                 //stats.add(Stat.booster, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));
             //}
         }
     }
-
+    private static StatValue multiEntryTable(Object[] iconObjs, float baseAmount, float timePeriod){
+        return table -> {
+            table.row();
+            table.table(Styles.grayPanel, b -> {
+                b.defaults().pad(5).left();
+                for(Object img : iconObjs){
+                b.add(displayItem((mindustry.type.Item)img, baseAmount, timePeriod, true)).pad(10f).left();
+                }
+                b.add(booster ? "[accent]Booster" : "[gray]Required").pad(10f).padRight(15f).right();
+            }).growX().pad(3).row();
+        };
+    }
     private static StatValue entryTable(Object iconObj, float baseAmount, float mult, float timePeriod, boolean booster, boolean isLiquid){
         return table -> {
             table.row();
