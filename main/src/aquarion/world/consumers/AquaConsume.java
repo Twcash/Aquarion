@@ -19,7 +19,7 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
-import mindustry.world.meta.*
+import mindustry.world.meta.*;
 
 import static mindustry.world.meta.StatValues.*;
 
