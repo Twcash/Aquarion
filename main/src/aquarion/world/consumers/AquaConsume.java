@@ -144,8 +144,8 @@ public class AquaConsume extends Consume {
                 }
             } else if(e.consumer instanceof ConsumeItemFilter CIF){
                 Boolf<Item> filter = CIF.filter;
-                Object[] it;
-                Vars.content.items().each(filter, item -> it.add(item));
+                Seq<Object> ite = new Seq();
+                Vars.content.items().each(filter, item -> ite.add(item));
                 stats.add(stat, multiEntryTable(it,1,timePeriod, false));
             } //else if(e.consumer instanceof ConsumeItemEfficiency CIE){
             //@Nullable ObjectFloatMap<Item> itemDurationMultipliers = CIE.itemDurationMultipliers;
@@ -153,14 +153,14 @@ public class AquaConsume extends Consume {
             //}
         }
     }
-    private static StatValue multiEntryTable(Object[] iconObjs, float baseAmount, float timePeriod, boolean booster){
+    private static StatValue multiEntryTable(Seq<Object> iconObjs, int baseAmount, float timePeriod, boolean booster){
         return table -> {
             table.row();
             table.table(Styles.grayPanel, b -> {
                 b.defaults().pad(5).left();
-                for(Object img : iconObjs){
-                    b.add(displayItem((mindustry.type.Item)img, (int) baseAmount, timePeriod, true)).pad(10f).left().row();
-                }
+                iconObjs.forEach( img ->{
+                    b.add(displayItem((mindustry.type.Item)img, baseAmount, timePeriod, true)).pad(10f).left().row();
+                });
                 b.add(booster ? "[accent]Booster" : "[gray]Required").pad(10f).padRight(15f).right();
             }).growX().pad(3).row();
         };
