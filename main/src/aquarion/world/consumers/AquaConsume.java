@@ -158,8 +158,9 @@ public class AquaConsume extends Consume {
             table.row();
             table.table(Styles.grayPanel, b -> {
                 b.defaults().pad(5).left();
+
                 iconObjs.forEach( img ->{
-                    b.add(displayItem((mindustry.type.Item)img, baseAmount, timePeriod, true)).pad(2f).left().row();
+                    b.add(displayItem((mindustry.type.Item)img, baseAmount, timePeriod, true)).pad(2f).left().setWrap(true);
                 });
                 b.add(booster ? "[accent]Booster" : "[gray]Required").pad(10f).padRight(4f).right();
             }).growX().pad(3).row();
