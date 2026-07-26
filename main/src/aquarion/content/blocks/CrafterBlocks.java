@@ -811,7 +811,7 @@ public class CrafterBlocks {
             craftTime = 10f;
             liquidCapacity = 1000;
             consumeWrapped(new ConsumeItemFlammable(0.25f)).set(1f, true);
-            consumeWrapped(new ConsumeItemExplode(0.2f)).set(1f, true);
+            //consumeWrapped(new ConsumeItemExplode(0.2f)).set(1f, true);
             consume(new LiquidStack(water, 8.5f), new LiquidStack(air, 3.5f));
             outputLiquid = new LiquidStack(haze, 8.5f);
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
