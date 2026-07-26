@@ -3018,7 +3018,7 @@ public class TurretBlocks {
         }};
         finite = new PointDefenseTurret("finite"){{
             requirements(Category.turret, with(Items.silicon, 130, Items.thorium, 80, Items.phaseFabric, 40, Items.titanium, 40));
-
+            shownPlanets.add(Planets.serpulo);
             scaledHealth = 125;
             range = 90f;
             hasPower = true;

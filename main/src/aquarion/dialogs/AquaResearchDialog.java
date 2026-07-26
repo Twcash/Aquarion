@@ -392,7 +392,7 @@ public class AquaResearchDialog extends BaseDialog {
         //compute node placement angles
         for(int i = 0; i < node.children.length; i++){
             TechTreeNode child = node.children[i];
-            float weightRatio = (float) child.weight / node.totalWeight;
+            float weightRatio = (float) child.weight / (node.totalWeight-1);
             child.angleWidth = (node.endAngle - node.startAngle) * weightRatio;
             float angle = angleCursor + child.angleWidth / 2f;
             child.radAngle = angle * Mathf.degreesToRadians;

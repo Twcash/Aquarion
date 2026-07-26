@@ -31,11 +31,12 @@ public class AquaItems {
     public static Item nickel;
     public static Item bauxite;
     public static Item zinc;
+    public static Item compositeSteel;
+    public static Item libraryCard;
 
     public static void load() {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
-        Items.pyratite.hidden = true;
         Items.sporePod.hidden = true;
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
             hardness = 3;
@@ -117,6 +118,8 @@ public class AquaItems {
         }};
         steel = new Item("steel", Color.valueOf("ffffff")){{
         }};
+        compositeSteel = new Item("composite-steel", Color.valueOf("d3e0f2")){{
+        }};
         magnesiumPowder = new Item("magnesium-powder", Color.valueOf("ffffff")){{
             flammability = 0.4f;
             explosiveness = 0.8f;
@@ -132,6 +135,7 @@ public class AquaItems {
         }};
         chalkalloy = new Item("chalkalloy", Color.valueOf("#9dccba")) {{
             cost = 1.1f;
+            shownPlanets.add(Planets.serpulo);
         }};
         pitchblende = new AquaItem("pitchblende", Color.valueOf("#f1ffb2")) {{
             radioactivity = 2f;
@@ -160,6 +164,10 @@ public class AquaItems {
             biomass = true;
             flammability = 1.15f;
             buildable = false;
+        }};
+        libraryCard = new AquaItem("library-card", Color.valueOf("#60616b")) {{
+           cost = 0.01f;
+           buildable = true;
         }};
     }
 }
