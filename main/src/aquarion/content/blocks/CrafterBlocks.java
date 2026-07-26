@@ -60,7 +60,7 @@ public class CrafterBlocks {
             cupronickelAlloyer, brineMixer, ferricGrinder, SilicaOxidator, arcFurnace, heatChannel, convectionHeater, combustionHeater,
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
-            fumeFilter, ferroSiliconFoundry, magmaTap;
+            fumeFilter, ferroSiliconFoundry, magmaTap, cardReader;
     public static Block filter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -1887,6 +1887,15 @@ public class CrafterBlocks {
 
                     new DrawDefault()
             );
+        }};
+        cardReader = new GenericCrafter("card-reader"){{
+            requirements(Category.effect, with(libraryCard, 1));
+            size = 2;
+            itemCapacity = 1;
+            outputItem = new ItemStack(libraryCard, 1);
+            craftTime = 5*60;
+            solid = false;
+            buildVisibility = BuildVisibility.sandboxOnly;
         }};
     }
 

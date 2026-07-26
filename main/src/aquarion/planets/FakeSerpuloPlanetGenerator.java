@@ -207,7 +207,12 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         if(hasSpores){
             rules.weather.add(new Weather.WeatherEntry(Weathers.sporestorm));
         }
+        if(hasRain){
+            rules.weather.add(new Weather.WeatherEntry(Weathers.rain));
+            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.monsoon));
+        }
     }
+
     @Override
     protected float noise(float x, float y, double octaves, double falloff, double scl, double mag){
         Vec3 v = sector.rect.project(x, y).scl(5f);
