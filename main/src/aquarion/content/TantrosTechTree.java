@@ -258,7 +258,7 @@ public class TantrosTechTree {
                 ), () -> {
                             node(Ingress, Seq.with(
                                     new Objectives.Research(magmaDiffuser),
-                                    new Ovjectives.SectorComplete(blastedDockyards)
+                                    new Objectives.SectorComplete(blastedDockyards)
                             ), () -> {
                                 node(Torrent, Seq.with(
                                         new Objectives.Research(inlet),
