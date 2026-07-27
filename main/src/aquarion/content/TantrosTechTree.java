@@ -256,63 +256,6 @@ public class TantrosTechTree {
 
                         new Objectives.Research(point)
                 ), () -> {
-                            node(Ingress, Seq.with(
-                                    new Objectives.Research(magmaDiffuser),
-                                    new Objectives.SectorComplete(blastedDockyards)
-                            ), () -> {
-                                node(Torrent, Seq.with(
-                                        new Objectives.Research(inlet),
-                                        new Objectives.Research(plasmaExtractor)
-                                ), () -> {
-                                    node(FeldsparRavine, Seq.with(
-                                            new Objectives.SectorComplete(Torrent),
-                                            new Objectives.Research(biotiteLeachingVessel)
-                                    ), () -> {
-                                        node(CrystalCaverns, Seq.with(
-                                                new Objectives.Research(fumeEngine),
-                                                new Objectives.Research(armoredSealedConveyor),
-                                                new Objectives.Research(DrillDerrick),
-                                                new Objectives.Research(beamBore)
-                                        ), () -> {
-                                            node(Ecotone, Seq.with(
-                                                    new Objectives.SectorComplete(CrystalCaverns),
-                                                    new Objectives.Research(hydroxideReactor)
-                                            ), () -> {
-                                                node(brinePlateau, Seq.with(
-                                                        new Objectives.SectorComplete(Ecotone),
-                                                        new Objectives.Research(truncate),
-                                                        new Objectives.Research(hazeCrackingUnit)
-                                                ), () -> {
-                                                });
-                                            });
-                                            node(ripHold, Seq.with(
-                                                    new Objectives.SectorComplete(Ecotone)
-                                            ), () -> {
-                                            });
-                                        });
-                                        node(Grove, Seq.with(
-                                                new Objectives.Research(pugnate),
-                                                new Objectives.Research(vacuumFreezer),
-                                                new Objectives.Produce(aluminum)
-                                        ), () -> {
-                                            node(SubmergedCanyon, Seq.with(
-                                            ), () -> {
-                                                node(GalenaFringe, Seq.with(
-                                                        new Objectives.Research(galena),
-                                                        new Objectives.Research(galenaCrucible),
-                                                        new Objectives.Research(petroleumEngine)
-                                                ), () -> {
-                                                });
-                                                node(verdantShallows, Seq.with(
-                                                        new Objectives.Research(ultrafamicRefinery),
-                                                        new Objectives.Research(DrillDerrick)
-                                                ), () -> {
-                                                });
-                                            });
-                                        });
-                                    });
-                                });
-                            });
                             node(icyRiver, Seq.with(
                                     new Objectives.Research(SolidBoiler)
                             ), () -> {
@@ -341,6 +284,63 @@ public class TantrosTechTree {
 
                                         node(frigidShores, () -> {
                                             node(blastedDockyards, () -> {
+                                                node(Ingress, Seq.with(
+                                                        new Objectives.Research(magmaDiffuser),
+                                                        new Objectives.SectorComplete(blastedDockyards)
+                                                ), () -> {
+                                                    node(Torrent, Seq.with(
+                                                            new Objectives.Research(inlet),
+                                                            new Objectives.Research(plasmaExtractor)
+                                                    ), () -> {
+                                                        node(FeldsparRavine, Seq.with(
+                                                                new Objectives.SectorComplete(Torrent),
+                                                                new Objectives.Research(biotiteLeachingVessel)
+                                                        ), () -> {
+                                                            node(CrystalCaverns, Seq.with(
+                                                                    new Objectives.Research(fumeEngine),
+                                                                    new Objectives.Research(armoredSealedConveyor),
+                                                                    new Objectives.Research(DrillDerrick),
+                                                                    new Objectives.Research(beamBore)
+                                                            ), () -> {
+                                                                node(Ecotone, Seq.with(
+                                                                        new Objectives.SectorComplete(CrystalCaverns),
+                                                                        new Objectives.Research(hydroxideReactor)
+                                                                ), () -> {
+                                                                    node(brinePlateau, Seq.with(
+                                                                            new Objectives.SectorComplete(Ecotone),
+                                                                            new Objectives.Research(truncate),
+                                                                            new Objectives.Research(hazeCrackingUnit)
+                                                                    ), () -> {
+                                                                    });
+                                                                });
+                                                                node(ripHold, Seq.with(
+                                                                        new Objectives.SectorComplete(Ecotone)
+                                                                ), () -> {
+                                                                });
+                                                            });
+                                                            node(Grove, Seq.with(
+                                                                    new Objectives.Research(pugnate),
+                                                                    new Objectives.Research(vacuumFreezer),
+                                                                    new Objectives.Produce(aluminum)
+                                                            ), () -> {
+                                                                node(SubmergedCanyon, Seq.with(
+                                                                ), () -> {
+                                                                    node(GalenaFringe, Seq.with(
+                                                                            new Objectives.Research(galena),
+                                                                            new Objectives.Research(galenaCrucible),
+                                                                            new Objectives.Research(petroleumEngine)
+                                                                    ), () -> {
+                                                                    });
+                                                                    node(verdantShallows, Seq.with(
+                                                                            new Objectives.Research(ultrafamicRefinery),
+                                                                            new Objectives.Research(DrillDerrick)
+                                                                    ), () -> {
+                                                                    });
+                                                                });
+                                                            });
+                                                        });
+                                                    });
+                                                });
                                             });
                                         });
                                         node(erodedCanyon, Seq.with(
@@ -369,6 +369,7 @@ public class TantrosTechTree {
                                         });
                                     });
                                 });
+                                node(whitewoods, () -> {});
                             });
                         });
                 node(frozenLake, Seq.with(
