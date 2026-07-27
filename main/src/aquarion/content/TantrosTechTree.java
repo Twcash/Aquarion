@@ -511,7 +511,6 @@ public class TantrosTechTree {
             });
             node(atmosphericIntake, () -> {
                 node(magmaTap, Seq.with(
-                        new Objectives.SectorComplete(twinPass)
                 ), () -> {
                     node(inlet, Seq.with(
                             new Objectives.SectorComplete(Ingress)
@@ -522,7 +521,6 @@ public class TantrosTechTree {
                         ), () -> {});
                     });
                     node(magmaDiffuser, Seq.with(
-                            new Objectives.SectorComplete(twinPass)
                     ), () -> {
                         node(fumeFilter, () -> {
                             node(fumeSeparator, () -> {
