@@ -15,6 +15,8 @@ import mindustry.type.Planet;
 import mindustry.type.Sector;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
 
 import java.util.Arrays;
 
@@ -32,6 +34,12 @@ public class ResearchServer extends Block {
         solid = true;
         update = true;
     }
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.add(Stat.itemCapacity, researchCapacity*60, StatUnit.items);
+    }
+
     @Override
     public void setBars() {
         super.setBars();

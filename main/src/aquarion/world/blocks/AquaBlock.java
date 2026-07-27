@@ -110,7 +110,7 @@ public class AquaBlock extends Block {
         stats.add(Stat.maxEfficiency, (int)(maxEfficiency * 100f), StatUnit.percent);
         for(Consume c : consumers){
             if(c instanceof AquaConsume ac){
-                ac.displayStats(stats, stats.timePeriod);
+                ac.display(stats, stats.timePeriod);
             }
         }
     }

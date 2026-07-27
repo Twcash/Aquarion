@@ -18,6 +18,7 @@ import mindustry.type.*;
 import mindustry.world.Block;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.Env;
+import mindustry.content.Blocks;
 
 public class AquaPlanets {
     public static Planet

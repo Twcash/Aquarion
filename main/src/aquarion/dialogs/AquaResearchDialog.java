@@ -74,7 +74,7 @@ public class AquaResearchDialog extends BaseDialog {
 
     //temporary points
     public static Vec2 v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2(), v4 = new Vec2(), offset = new Vec2(),
-        v5 = new Vec2();
+            v5 = new Vec2();
 
     /**The spacings between depth layers. Used to align layers.*/
     public IntFloatMap spacings = new IntFloatMap();
@@ -392,7 +392,7 @@ public class AquaResearchDialog extends BaseDialog {
         //compute node placement angles
         for(int i = 0; i < node.children.length; i++){
             TechTreeNode child = node.children[i];
-            float weightRatio = (float) child.weight / node.totalWeight;
+            float weightRatio = (float) child.weight / (node.totalWeight-1);
             child.angleWidth = (node.endAngle - node.startAngle) * weightRatio;
             float angle = angleCursor + child.angleWidth / 2f;
             child.radAngle = angle * Mathf.degreesToRadians;
@@ -1009,7 +1009,7 @@ public class AquaResearchDialog extends BaseDialog {
                                 nodeRadius,
                                 nodeRadius + nodeSpacing,
                                 Mathf.ceil(Mathf.PI * (nodeRadius + nodeSpacing) / 500)
-                                );
+                        );
                     }
 
                     Draw.color(Color.red);

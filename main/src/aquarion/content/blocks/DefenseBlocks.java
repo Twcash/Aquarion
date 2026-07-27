@@ -8,12 +8,15 @@ import aquarion.world.blocks.defense.MissileBlock;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Color;
+import arc.graphics.g2d.Lines;
 import mindustry.ai.types.CommandAI;
 import mindustry.ai.types.FlyingAI;
 import mindustry.ai.types.MissileAI;
 import mindustry.content.Fx;
 import mindustry.content.Liquids;
 import mindustry.content.Planets;
+import mindustry.entities.Effect;
+import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.EmptyBulletType;
@@ -36,6 +39,8 @@ import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaPlanets.*;
+import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
@@ -413,6 +418,11 @@ public class DefenseBlocks {
             radius = 200;
             sides = 4;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            shieldBreakEffect = new Effect(40, e -> {
+                color(e.color);
+                stroke(3f * e.fout());
+                    Lines.poly(e.x, e.y, 4, 200, 0);
+            });
         }};
 
     }

@@ -1,5 +1,7 @@
 package aquarion.world.consumers;
-
+import mindustry.Vars;
+import arc.func.*;
+import arc.util.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Strings;
@@ -11,6 +13,14 @@ import mindustry.world.Block;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 import mindustry.type.LiquidStack;
+import arc.func.*;
+import arc.scene.ui.layout.*;
+import arc.util.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+import mindustry.world.*;
+import mindustry.world.meta.*;
 
 import static mindustry.world.meta.StatValues.*;
 
@@ -119,8 +129,7 @@ public class AquaConsume extends Consume {
         return prod;
     }
 
-    /** Adds custom formatted stat entries for each consumer in this group */
-    public void displayStats(Stats stats, float timePeriod){
+    public void display(Stats stats, float timePeriod){
         for(Entry e : entries){
             Stat stat = e.required ? Stat.input : Stat.booster;
             if(e.consumer instanceof ConsumeLiquid cl){
@@ -133,10 +142,30 @@ public class AquaConsume extends Consume {
                 for(ItemStack is : ci.items){
                     stats.add(stat, entryTable(is.item, is.amount, e.multiplier, timePeriod, !e.required, false));
                 }
-            }
+            } else if(e.consumer instanceof ConsumeItemFilter CIF){
+                Boolf<Item> filter = CIF.filter;
+                Seq<Object> ite = new Seq();
+                Vars.content.items().each(filter, item -> ite.addUnique(item));
+                stats.add(stat, multiEntryTable(ite,1,timePeriod, false));
+            } //else if(e.consumer instanceof ConsumeItemEfficiency CIE){
+            //@Nullable ObjectFloatMap<Item> itemDurationMultipliers = CIE.itemDurationMultipliers;
+            //stats.add(Stat.booster, StatValues.itemEffMultiplier(this::itemEfficiencyMultiplier, stats.timePeriod, filter, itemDurationMultipliers));
+            //}
         }
     }
+    private static StatValue multiEntryTable(Seq<Object> iconObjs, int baseAmount, float timePeriod, boolean booster){
+        return table -> {
+            table.row();
+            table.table(Styles.grayPanel, b -> {
+                b.defaults().pad(5).left();
 
+                iconObjs.forEach( img ->{
+                    b.add(displayItem((mindustry.type.Item)img, baseAmount, timePeriod, true)).pad(2f).left().Wrap();
+                });
+                b.add(booster ? "[accent]Booster" : "[gray]Required").pad(10f).padRight(4f).right();
+            }).growX().pad(3).row();
+        };
+    }
     private static StatValue entryTable(Object iconObj, float baseAmount, float mult, float timePeriod, boolean booster, boolean isLiquid){
         return table -> {
             table.row();

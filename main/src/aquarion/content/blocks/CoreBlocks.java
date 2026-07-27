@@ -35,6 +35,7 @@ import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.environment.OverlayFloor;
 import mindustry.world.blocks.logic.MessageBlock;
+import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.meta.BuildVisibility;
@@ -77,9 +78,11 @@ public class CoreBlocks {
         }};
         reception = new CoreBlock("reception"){{
             size = 2;
-            itemCapacity = 0;
+            itemCapacity = 1;
             unitType = AquaUnitTypes.visitor;
             solid = false;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            requirements(Category.effect, with(libraryCard, 1));
         }};
         bomb = new Bomb("improvised-explosive"){{
             requirements(Category.effect, with(polymer, 50, copper, 900));
