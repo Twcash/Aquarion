@@ -526,7 +526,10 @@ public class TantrosTechTree {
                     ), () -> {
                         node(fumeFilter, () -> {
                             node(fumeSeparator, () -> {
-                                node(fumeMixer, () -> {});
+                                node(fumeMixer, Seq.with(
+                                        new Objectives.Research(fumes)
+                                ), () -> {
+                                });
                             });
                             node(slagRefinementArray, Seq.with(
                                     new Objectives.Produce(slag)
