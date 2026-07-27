@@ -527,7 +527,7 @@ public class TantrosTechTree {
                         node(fumeFilter, () -> {
                             node(fumeSeparator, () -> {
                                 node(fumeMixer, Seq.with(
-                                   
+
                                 ), () -> {
                                 });
                             });

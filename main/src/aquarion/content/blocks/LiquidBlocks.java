@@ -47,7 +47,7 @@ public class LiquidBlocks {
             floating = true;
         }};
         siphonUnderflow = new LiquidUnderflow("siphon-underflow") {{
-            requirements(Category.liquid, with(silicon, 70));
+            requirements(Category.liquid, with(silicon, 35));
             invert = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
@@ -89,7 +89,7 @@ public class LiquidBlocks {
             willMelt = true;
         }};
         siphonJunction = new ModifiedLiquidJunction("siphon-junction") {{
-            requirements(Category.liquid, with(silicon, 70));
+            requirements(Category.liquid, with(silicon, 35));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
