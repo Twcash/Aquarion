@@ -484,7 +484,9 @@ public class TantrosTechTree {
                             node(siphonReservoir, () -> {});
                         });
                     });
-                    node(pipe, () -> {});
+                    node(pulseSiphon, () -> {
+                        node(pipe, () -> {});
+                    });
                 });
                 node(siphonBridge, () -> {
                     node(pulseSiphonBridge, () -> {});
