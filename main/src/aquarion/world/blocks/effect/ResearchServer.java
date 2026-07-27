@@ -2,14 +2,23 @@ package aquarion.world.blocks.effect;
 
 import arc.Core;
 import arc.files.Fi;
+import arc.func.Cons;
 import arc.graphics.g2d.TextureRegion;
+import arc.struct.ObjectFloatMap;
 import arc.struct.ObjectMap;
+import arc.util.Nullable;
 import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.graphics.Pal;
 import mindustry.type.Item;
+import mindustry.type.Planet;
+import mindustry.type.Sector;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
+
+import java.util.Arrays;
+
+import static mindustry.Vars.content;
 
 public class ResearchServer extends Block {
     public static final String SAVE_KEY = "aquarion-research";
@@ -80,7 +89,7 @@ public class ResearchServer extends Block {
                         if (kv.length == 2) {
                             int itemId = Integer.parseInt(kv[0]);
                             int amount = Integer.parseInt(kv[1]);
-                            Item item = Vars.content.item(itemId);
+                            Item item = content.item(itemId);
                             if (item != null && amount > 0) {
                                 items.put(item, amount);
                             }
@@ -146,6 +155,49 @@ public class ResearchServer extends Block {
         saveGlobalResearch();
     }
 
+    /** Read sector export rates (averaged by SectorInfo) and add to global research pool. Call periodically. */
+    public static void updateResearchFromExports() {
+        Planet planet = Vars.state.getPlanet();
+        if (planet == null) return;
+
+        boolean changed = false;
+        for (Sector sector : planet.sectors) {
+            if (!sector.hasBase()) continue;
+            int sectorId = sector.id;
+            sector.info.export.each((item, stat) -> {
+                if (stat.mean > 0) {
+                    int amount = Math.max(1, (int) stat.mean);
+                    ObjectMap<Item, Integer> sectorResearch = globalResearch.get(sectorId);
+                    if (sectorResearch == null) {
+                        sectorResearch = new ObjectMap<>();
+                        globalResearch.put(sectorId, sectorResearch);
+                    }
+                    sectorResearch.put(item, sectorResearch.get(item, 0) + amount);
+                }
+            });
+            if (sector.info.export.size > 0) changed = true;
+        }
+        if (changed) saveGlobalResearch();
+    }
+    public ObjectFloatMap<Item> importCooldownTimers = new ObjectFloatMap<>();
+    public @Nullable
+    static float[] importRateCache;
+    public static void refreshImportRates(Planet planet){
+        if(importRateCache == null || importRateCache.length !=  content.items().size){
+            importRateCache = new float[content.items().size];
+        }else{
+            Arrays.fill(importRateCache, 0f);
+        }
+        eachImport(planet, sector -> sector.info.export.each((item, stat) -> {
+            importRateCache[item.id] += stat.mean;
+        }));
+    }
+    public static void eachImport(Planet planet, Cons<Sector> cons){
+        for(Sector sector : planet.sectors){
+            Sector dest = sector.info.destination;
+            cons.get(sector);
+        }
+    }
     public class ResearchServerBuild extends Building {
         public int getSectorId() {
             if (Vars.state.isCampaign() && Vars.state.hasSector()) {
