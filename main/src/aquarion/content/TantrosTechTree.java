@@ -531,6 +531,7 @@ public class TantrosTechTree {
                                 node(glassPulverizer, () -> {});
                             });
                         });
+                        node(ultrafamicRefinery, () -> {});
                         node(towaniteReductionVat, () -> {
                             node(brassMixingPot, Seq.with(), () -> {});
                             node(algalTerrace, Seq.with(
@@ -551,8 +552,6 @@ public class TantrosTechTree {
                                 node(biotiteLeachingVessel, Seq.with(
                                         new Objectives.SectorComplete(Torrent)
                                 ), () -> {
-                                    node(ultrafamicRefinery, () -> {});
-
                                     node(bauxiteCentrifuge, () -> {});
                                 });
 
