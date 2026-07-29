@@ -531,35 +531,35 @@ public class TantrosTechTree {
                                 node(glassPulverizer, () -> {});
                             });
                         });
-                        node(azuriteKiln, Seq.with(
-                                new Objectives.SectorComplete(Ingress)
-                        ), () -> {
-                            node(galenaCrucible, () -> {});
-                            node(biotiteLeachingVessel, Seq.with(
-                                    new Objectives.SectorComplete(Torrent)
+                        node(towaniteReductionVat, () -> {
+                            node(brassMixingPot, Seq.with(), () -> {});
+                            node(algalTerrace, Seq.with(
+                                    new Objectives.SectorComplete(ripHold)
                             ), () -> {
-                                node(ultrafamicRefinery, () -> {});
-                                node(towaniteReductionVat, () -> {
-                                    node(algalTerrace, Seq.with(
-                                            new Objectives.SectorComplete(ripHold)
-                                    ), () -> {
-                                        node(gasifier, Seq.with(
-                                                new Objectives.Produce(bioPulp)
-                                        ), () -> {
-                                            node(coalLiquefactor, () -> {});
-                                        });
-                                        node(sporeProcessor, Seq.with(
-                                                new Objectives.SectorComplete(diseasedCleft)
-                                        ), () -> {});
-                                    });
+                                node(gasifier, Seq.with(
+                                        new Objectives.Produce(bioPulp)
+                                ), () -> {
+                                    node(coalLiquefactor, () -> {});
                                 });
-                                node(bauxiteCentrifuge, () -> {});
+                                node(sporeProcessor, Seq.with(
+                                        new Objectives.SectorComplete(diseasedCleft)
+                                ), () -> {});
                             });
-                            node(brassMixingPot, Seq.with(
+                            node(azuriteKiln, Seq.with(
+                            ), () -> {
+                                node(galenaCrucible, () -> {});
+                                node(biotiteLeachingVessel, Seq.with(
+                                        new Objectives.SectorComplete(Torrent)
+                                ), () -> {
+                                    node(ultrafamicRefinery, () -> {});
 
-                            ), () -> {});
+                                    node(bauxiteCentrifuge, () -> {});
+                                });
+
+                            });
                         });
-                    });
+                        });
+
                     node(thermalEvaporator, Seq.with(
                             new Objectives.SectorComplete(Ingress)
                     ), () -> {
