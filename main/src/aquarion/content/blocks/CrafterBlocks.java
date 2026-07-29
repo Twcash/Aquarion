@@ -7,6 +7,8 @@ import aquarion.content.AquaSounds;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
 import aquarion.world.blocks.production.Filter;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
+import aquarion.world.blocks.production.WallCrafter;
+import aquarion.content.blocks.EnvironmentBlocks;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
 import aquarion.world.drawers.*;
 import aquarion.world.drawers.DrawBlockParts;
@@ -62,6 +64,7 @@ public class CrafterBlocks {
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
             fumeFilter, ferroSiliconFoundry, magmaTap;
     public static Block filter;
+    public static Block wallCrafter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -1850,6 +1853,106 @@ public class CrafterBlocks {
             r.consumeItems(ItemStack.with(sporePod, 1));
             r.craftTime = 60;
         });
+
+        wallCrafter = new WallCrafter("wall-crafter") {{
+            requirements(Category.crafting, with(lead, 150, silicon, 200, copper, 100));
+            size = 4;
+            squareSprite = false;
+            liquidCapacity = 480f;
+            itemCapacity = 120;
+            scanSize = 4;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            consumePower(4f);
+            craftEffect = Fx.pulverizeRed;
+            updateEffect = Fx.pulverizeSmall;
+            updateEffectChance = 0.04f;
+
+            add(Blocks.duneWall, new WallCrafter.WallRecipe(
+                ItemStack.with(aluminum, 3, sand, 6, magnesiumPowder, 2),
+                LiquidStack.with(vitriol, 2f, haze, 3f),
+                120f
+            ));
+
+            add(Blocks.stoneWall, new WallCrafter.WallRecipe(
+                ItemStack.with(sand, 8, calcium, 3, magnesiumPowder, 2),
+                LiquidStack.with(haze, 4f),
+                120f
+            ));
+
+            add(EnvironmentBlocks.blueSandWall, new WallCrafter.WallRecipe(
+                ItemStack.with(sand, 12),
+                null,
+                60f
+            ));
+
+            add(Blocks.sandWall, new WallCrafter.WallRecipe(
+                ItemStack.with(sand, 12),
+                null,
+                60f
+            ));
+
+            add(EnvironmentBlocks.feldsparWall, new WallCrafter.WallRecipe(
+                ItemStack.with(calcium, 4, aluminum, 2, sand, 6),
+                LiquidStack.with(fumes, 3f),
+                120f
+            ));
+
+            add(EnvironmentBlocks.scrapWall, new WallCrafter.WallRecipe(
+                ItemStack.with(scrap, 8),
+                LiquidStack.with(water, 1f),
+                60f
+            ));
+
+            add(EnvironmentBlocks.defunctFramingCross, new WallCrafter.WallRecipe(
+                ItemStack.with(scrap, 8),
+                LiquidStack.with(water, 1f),
+                60f
+            ));
+
+            add(EnvironmentBlocks.metalWall1, new WallCrafter.WallRecipe(
+                ItemStack.with(scrap, 8),
+                LiquidStack.with(water, 1f),
+                60f
+            ));
+
+            add(EnvironmentBlocks.metalWalltwo, new WallCrafter.WallRecipe(
+                ItemStack.with(scrap, 8),
+                LiquidStack.with(water, 1f),
+                60f
+            ));
+
+            add(EnvironmentBlocks.metalWall3, new WallCrafter.WallRecipe(
+                ItemStack.with(scrap, 8),
+                LiquidStack.with(water, 1f),
+                60f
+            ));
+
+            add(EnvironmentBlocks.metalWall4, new WallCrafter.WallRecipe(
+                ItemStack.with(scrap, 8),
+                LiquidStack.with(water, 1f),
+                60f
+            ));
+
+            add(EnvironmentBlocks.metalWall5, new WallCrafter.WallRecipe(
+                ItemStack.with(scrap, 8),
+                LiquidStack.with(water, 1f),
+                60f
+            ));
+
+            add(EnvironmentBlocks.metalWall6, new WallCrafter.WallRecipe(
+                ItemStack.with(scrap, 8),
+                LiquidStack.with(water, 1f),
+                60f
+            ));
+
+            fallback(new WallCrafter.WallRecipe(
+                ItemStack.with(scrap, 8),
+                LiquidStack.with(water, 1f),
+                60f
+            ));
+
+            drawer = new DrawDefault();
+        }};
 
         filter = new Filter("filter") {{
             requirements(Category.crafting, with(copper, 350, silicon, 100, metaglass, 100, nickel, 150));

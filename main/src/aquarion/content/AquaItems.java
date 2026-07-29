@@ -9,7 +9,7 @@ import mindustry.type.Item;
 import static aquarion.content.AquaPlanets.*;
 
 public class AquaItems {
-    public static Item polymer, cuprite;
+    public static Item polymer, cuprite, calcium;
     public static Item serpentine;
     public static Item pentlandite;
     public static Item magnesiumPowder;
@@ -168,6 +168,9 @@ public class AquaItems {
         libraryCard = new AquaItem("library-card", Color.valueOf("#60616b")) {{
            cost = 0.01f;
            buildable = true;
+        }};
+        calcium = new Item("calcium", Color.valueOf("#f0f0d0")) {{
+            cost = 0.5f;
         }};
     }
 }
