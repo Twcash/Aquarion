@@ -452,7 +452,7 @@ public class CoreBlocks {
             researchCostMultiplier = 0;
         }};
         researchVoider = new ResearchVoider("translation-matrix") {{
-            requirements(Category.effect, with(silicon, 5000, nickel, 2000, copper, 7000, metaglass, 1000));
+            requirements(Category.effect, with(silicon, 1500, nickel, 900, copper, 1000, metaglass, 200));
             size = 5;
             buildVisibility = BuildVisibility.campaignOnly;
             processRate = 1f;
