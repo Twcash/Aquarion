@@ -7,6 +7,7 @@ import aquarion.world.graphics.AquaShaders;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
+import arc.util.Time;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.Fires;
@@ -44,7 +45,7 @@ public class Monsoon extends Weather {
         attrs.set(AquaAttributes.wind, 1f);
         statusDuration = 240;
         soundVol = 1;
-        
+        duration = 15 * Time.toMinutes;
         soundVolMin = 0.8f;
     }
 
