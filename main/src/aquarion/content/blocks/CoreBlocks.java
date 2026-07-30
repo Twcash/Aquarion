@@ -52,7 +52,7 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block bomb, toggler, splitter, channel, storageReader, merger, buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
-            coreEscarpment, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, researchServer, researchVoider;
+            coreEscarpment, server, laboratory, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, researchServer, researchVoider;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -461,6 +461,19 @@ public class CoreBlocks {
             squareSprite = false;
             alwaysUnlocked = true;
             researchCostMultiplier = 0;
+        }};
+        laboratory = new ResearchVoider("laboratory"){{
+            size = 5;
+            squareSprite = false;
+            destructible = false;
+            consumePower(5);
+            processRate = 2;
+            itemCapacity = 250;
+        }};
+        server = new ResearchServer("server"){{
+            size = 1;
+            researchCapacity = 20000;
+            destructible = false;
         }};
     }
 }
