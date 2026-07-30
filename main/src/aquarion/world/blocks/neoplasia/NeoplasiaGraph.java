@@ -88,7 +88,7 @@ public class NeoplasiaGraph {
 
     public static boolean isConnected(NeoplasiaBuild build) {
         if (gracePeriod) return true;
-        if (hearts.isEmpty()) return false;
+        if (hearts.isEmpty()) return true;
         return buildPulseIds.get(build, 0) == pulseId;
     }
 }

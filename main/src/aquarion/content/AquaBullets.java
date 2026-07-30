@@ -1,9 +1,11 @@
 package aquarion.content;
 
+import aquarion.content.blocks.CoreBlocks;
 import aquarion.world.entities.bullet.AOEBulletType;
 import aquarion.world.entities.bullet.AquaBulletType;
 import aquarion.world.entities.bullet.DumpItemBulletType;
 import aquarion.world.entities.bullet.GambleBulletType;
+import aquarion.world.entities.bullet.NeoplasmGlobBulletType;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.graphics.Renderer;
@@ -421,5 +423,20 @@ public class AquaBullets {
         shrinkY = 0.8f;
         frontColor = lightColor = hitColor = Color.white;
         backColor = trailColor = Color.valueOf("98a1ab");
+    }},
+    neoplasmGlob = new NeoplasmGlobBulletType(3f, 0){{
+        width = 8;
+        height = 8;
+        hitSize = 6;
+        shrinkY = 0;
+        shrinkX = 0;
+        lifetime = 120f;
+        drag = 0f;
+        blobAmount = 80f;
+        ammoMultiplier = 1;
+        scaleLife = true;
+        range = 100f;
+        frontColor = Color.valueOf("cf5a3b");
+        backColor = Color.valueOf("701e1e");
     }};
 }

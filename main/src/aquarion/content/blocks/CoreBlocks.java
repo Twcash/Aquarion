@@ -2,6 +2,7 @@ package aquarion.content.blocks;
 
 import aquarion.content.AquaItems;
 import aquarion.content.AquaUnitTypes;
+import aquarion.content.AquaBullets;
 import aquarion.world.blocks.core.AquaCoreBlock;
 import aquarion.world.blocks.core.Bomb;
 import aquarion.world.blocks.core.InfomaticBlock;
@@ -19,7 +20,9 @@ import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
 import aquarion.world.blocks.neoplasia.NeoplasmHeart;
 import aquarion.world.blocks.neoplasia.NeoplasiaGraph;
 import aquarion.world.blocks.neoplasia.NeoplasmTreeBase;
+import aquarion.world.blocks.neoplasia.NeoplasmTurret;
 import aquarion.world.blocks.neoplasia.NeoplasmVein;
+import aquarion.world.entities.bullet.NeoplasmGlobBulletType;
 import aquarion.world.blocks.neoplasia.NeoplasiaproductionBlock;
 import aquarion.world.content.AquaItem;
 import aquarion.world.graphics.AquaFx;
@@ -51,7 +54,7 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block bomb, toggler, splitter, channel, storageReader, merger, buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
-            coreEscarpment, laboratory, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, researchVoider;
+            coreEscarpment, laboratory, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell,             neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, neoplasmBlobber, researchVoider;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -385,6 +388,18 @@ public class CoreBlocks {
             size = 1;
             health = 500;
         }};
+        neoplasmBlobber = new NeoplasmTurret("neoplasm-blobber"){{
+            buildVisibility = BuildVisibility.sandboxOnly;
+            maxAmount = 500;
+            selfGrowRate = 0.02f;
+            baseSize = 16;
+            range = 100f;
+            reloadTime = 120f;
+            shootType = (NeoplasmGlobBulletType) AquaBullets.neoplasmGlob;
+            itemCost = ItemStack.with(crystal, 3);
+            colFrom = Color.valueOf("8B0000");
+            colTo = Color.valueOf("FF6347");
+        }};
         //Holy Jank...
         overwrite(OreSlurper, (NeoplasiaproductionBlock r) -> {
             r.oreUpgrade = (GenericNeoplasiaBlock) oreSlurperer;
@@ -413,6 +428,8 @@ public class CoreBlocks {
             r.empty2Upgrade = (GenericNeoplasiaBlock) vein;
             r.empty2UpgradeCost = 1000;
             r.buildVisibility = BuildVisibility.sandboxOnly;
+            r.emptyUpgrade = (GenericNeoplasiaBlock) neoplasmBlobber;
+            r.emptyUpgradeCost = 200;
         });
         GenericNeoplasiaBlock.veinBlock = (GenericNeoplasiaBlock) vein;
         GenericNeoplasiaBlock.itemProducers.put(crystal, (GenericNeoplasiaBlock) enzyme);
@@ -459,5 +476,6 @@ public class CoreBlocks {
             processRate = 2;
             itemCapacity = 250;
         }};
+        ((aquarion.world.entities.bullet.NeoplasmGlobBulletType) AquaBullets.neoplasmGlob).neoplasiaBlock = (aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock) neoplasiaMass;
     }
 }
