@@ -156,6 +156,7 @@ public class AquaPlanets {
             campaignRuleDefaults.hideSpawns = false;
             campaignRuleDefaults.rtsAI = false;
             allowCampaignRules = true;
+
         }};
         qeraltar = new Planet("qeraltar", citun, 0.9f, 2){{
             generator = new QeralterPlanetGen();

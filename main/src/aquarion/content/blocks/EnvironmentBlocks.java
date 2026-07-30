@@ -589,14 +589,12 @@ public class EnvironmentBlocks {
             autotile = true;
             drawEdgeIn = drawEdgeOut = false;
         }};
-        metalFloor1 = new Floor("metal-floor-1-tiled"){
+        metalFloor1 = new StaticWall("metal-floor-1-tiled"){
             {
                 autotile = true;
-                drawEdgeIn = drawEdgeOut = false;
             }};
-        metalFloor2 = new Floor("metal-floor-2-tiled"){{
+        metalFloor2 = new StaticWall("metal-floor-2-tiled"){{
                 autotile = true;
-                drawEdgeIn = drawEdgeOut = false;
         }};
         blueMetalFloor1 = new Floor("blue-metal-floor-1-tiled"){{
             autotile = true;
