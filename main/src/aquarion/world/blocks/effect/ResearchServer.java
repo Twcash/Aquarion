@@ -2,16 +2,25 @@ package aquarion.world.blocks.effect;
 
 import arc.Core;
 import arc.files.Fi;
+import arc.func.Cons;
 import arc.graphics.g2d.TextureRegion;
+import arc.struct.ObjectFloatMap;
 import arc.struct.ObjectMap;
+import arc.util.Nullable;
 import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.graphics.Pal;
 import mindustry.type.Item;
+import mindustry.type.Planet;
+import mindustry.type.Sector;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatUnit;
+
+import java.util.Arrays;
+
+import static mindustry.Vars.content;
 
 public class ResearchServer extends Block {
     public static final String SAVE_KEY = "aquarion-research";
@@ -19,16 +28,19 @@ public class ResearchServer extends Block {
     public int researchCapacity = 1000;
     /** Global research pool: sectorId -> (item -> amount). Persisted to file. */
     public static final ObjectMap<Integer, ObjectMap<Item, Integer>> globalResearch = new ObjectMap<>();
+    /** Maximum total research per sector. Set from researchCapacity when block configures. */
+    public static int maxResearchPerSector = 1000;
 
     public ResearchServer(String name) {
         super(name);
         solid = true;
         update = true;
+        maxResearchPerSector = researchCapacity;
     }
     @Override
     public void setStats() {
         super.setStats();
-        stats.add(Stat.itemCapacity, researchCapacity*60, StatUnit.items);
+        stats.add(Stat.itemCapacity, researchCapacity, StatUnit.items);
     }
 
     @Override
@@ -88,7 +100,7 @@ public class ResearchServer extends Block {
                         if (kv.length == 2) {
                             int itemId = Integer.parseInt(kv[0]);
                             int amount = Integer.parseInt(kv[1]);
-                            Item item = Vars.content.item(itemId);
+                            Item item = content.item(itemId);
                             if (item != null && amount > 0) {
                                 items.put(item, amount);
                             }
@@ -145,6 +157,11 @@ public class ResearchServer extends Block {
     }
 
     public static void addResearch(int sectorId, Item item, int amount) {
+        if (amount <= 0) return;
+        int currentTotal = getSectorResearchTotal(sectorId);
+        if (currentTotal >= maxResearchPerSector) return;
+        amount = Math.min(amount, maxResearchPerSector - currentTotal);
+
         ObjectMap<Item, Integer> sectorResearch = globalResearch.get(sectorId);
         if (sectorResearch == null) {
             sectorResearch = new ObjectMap<>();
@@ -154,6 +171,33 @@ public class ResearchServer extends Block {
         saveGlobalResearch();
     }
 
+    /** Read sector export rates (averaged by SectorInfo) and add to global research pool. Call periodically. */
+    public static void updateResearchFromExports() {
+        Planet planet = Vars.state.getPlanet();
+        if (planet == null) return;
+
+        boolean changed = false;
+        for (Sector sector : planet.sectors) {
+            if (!sector.hasBase()) continue;
+            int sectorId = sector.id;
+            sector.info.export.each((item, stat) -> {
+                if (stat.mean > 0 && getSectorResearchTotal(sectorId) < maxResearchPerSector) {
+                    int amount = Math.max(1, (int) stat.mean);
+                    int currentTotal = getSectorResearchTotal(sectorId);
+                    amount = Math.min(amount, maxResearchPerSector - currentTotal);
+                    if (amount <= 0) return;
+                    ObjectMap<Item, Integer> sectorResearch = globalResearch.get(sectorId);
+                    if (sectorResearch == null) {
+                        sectorResearch = new ObjectMap<>();
+                        globalResearch.put(sectorId, sectorResearch);
+                    }
+                    sectorResearch.put(item, sectorResearch.get(item, 0) + amount);
+                }
+            });
+            if (sector.info.export.size > 0) changed = true;
+        }
+        if (changed) saveGlobalResearch();
+    }
     public class ResearchServerBuild extends Building {
         public int getSectorId() {
             if (Vars.state.isCampaign() && Vars.state.hasSector()) {
@@ -168,7 +212,7 @@ public class ResearchServer extends Block {
 
         public float researchFill() {
             int total = researchTotal();
-            return total <= 0 ? 0f : Math.min(1f, (float) total / (((ResearchServer) block).researchCapacity * 50f));
+            return total <= 0 ? 0f : Math.min(1f, (float) total / maxResearchPerSector);
         }
     }
 }

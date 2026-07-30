@@ -43,23 +43,13 @@ public class ResearchVoider extends Block {
     public class ResearchVoiderBuild extends Building {
         public float processProg = 0f;
         public float warmup = 0f;
-        public long lastSavedTime = 0;
-        public boolean needsCatchUp = false;
-
-        public int getSectorId() {
-            if (Vars.state.isCampaign() && Vars.state.hasSector()) {
-                return Vars.state.getSector().id;
-            }
-            return 0;
-        }
 
         public void processBatch() {
             if (items.empty()) return;
-            int sectorId = getSectorId();
-            items.each((item, amount) -> {
-                        ResearchServer.addResearch(sectorId, item, amount);
-                    });
-            //TODO separate the blast stuff from the floating items so I can throw a crap ton of disintegrating items out
+            mindustry.type.Sector sector = Vars.state.getSector();
+            if (sector != null) {
+                items.each((item, amount) -> sector.info.handleItemExport(item, amount));
+            }
             AquaFx.vaporizeItem.at(x, y, 0, items.first());
             items.clear();
             processProg = 0f;
@@ -67,24 +57,6 @@ public class ResearchVoider extends Block {
 
         @Override
         public void updateTile() {
-            if (needsCatchUp) {
-                //Todo This is an awful setup. I don't know how to simulate blocks that are in another sector...
-                //I also suspect this will be increasingly laggy with the more voiders you make.
-                //Hope to god that isn't the case
-                needsCatchUp = false;
-                long now = System.currentTimeMillis();
-                if (lastSavedTime > 0 && now > lastSavedTime && !items.empty()) {
-                    long elapsedMs = now - lastSavedTime;
-                    long elapsedTicks = elapsedMs * 60L / 1000L;
-                    float totalProg = elapsedTicks * processRate;
-                    int batches = (int) (totalProg / processTime);
-                    for (int i = 0; i < batches && !items.empty(); i++) {
-                        processBatch();
-                    }
-                }
-                lastSavedTime = System.currentTimeMillis();
-            }
-
             if (efficiency <= 0f || items.empty()) {
                 warmup = Mathf.approachDelta(warmup, 0f, 0.02f);
                 return;
@@ -93,7 +65,6 @@ public class ResearchVoider extends Block {
             warmup = Mathf.approachDelta(warmup, 1f, 0.02f);
             processProg += edelta() * processRate;
             if (processProg >= processTime) {
-
                 processBatch();
             }
         }
@@ -105,7 +76,7 @@ public class ResearchVoider extends Block {
 
         @Override
         public byte version() {
-            return 2;
+            return 3;
         }
 
         @Override
@@ -113,7 +84,6 @@ public class ResearchVoider extends Block {
             super.write(write);
             write.f(processProg);
             write.f(warmup);
-            write.l(System.currentTimeMillis());
         }
 
         @Override
@@ -123,9 +93,8 @@ public class ResearchVoider extends Block {
                 processProg = read.f();
                 warmup = read.f();
             }
-            if (revision >= 2) {
-                lastSavedTime = read.l();
-                needsCatchUp = true;
+            if (revision == 2) {
+                read.l(); // skip old lastSavedTime for backwards compat
             }
         }
 

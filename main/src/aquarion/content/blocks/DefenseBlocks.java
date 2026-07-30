@@ -46,7 +46,7 @@ import static mindustry.type.ItemStack.with;
 
 public class DefenseBlocks {
     public static Block forceGenerator, meteor, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
-            cupronickelWall, hugeCupronickelWall, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
+            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
 
 
     public static void loadContent() {
@@ -284,13 +284,21 @@ public class DefenseBlocks {
             researchCostMultiplier = 0.25f;
         }};
         nickelBarricade = new AquaWall("nickel-barricade") {{
-            requirements(Category.defense, with(nickel, 400, silicon, 750, metaglass, 300));
+            requirements(Category.defense, with(nickel, 500, silicon, 1500, metaglass, 300, lead, 200));
             health = 500 * 25;
-            armor = 15;
+            armor = 10;
             size = 5;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.nickelDestroy);
+            researchCostMultiplier = 0.5f;
+        }};
+        cupronickelBarricade = new AquaWall("cupronickel-barricade"){{
+            requirements(Category.defense, with(cupronickel, 1000, metaglass, 500, silicon, 900));
+            health = 425 * 25;//Less efficient but higher armor
+            armor = 20;
+            size = 6;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.cuproDestroy);
             researchCostMultiplier = 0.5f;
         }};
         aluminumWall = new AquaWall("aluminum-wall") {{

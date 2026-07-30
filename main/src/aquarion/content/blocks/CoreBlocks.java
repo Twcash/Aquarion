@@ -442,17 +442,17 @@ public class CoreBlocks {
             squareSprite = false;
         }};
         researchServer = new ResearchServer("storage-drive") {{
-            requirements(Category.effect, with(silicon, 400, copper, 700, nickel, 900));
+            requirements(Category.effect, with(silicon, 800, copper, 500, nickel, 200));
             size = 2;
             buildVisibility = BuildVisibility.campaignOnly;
-            researchCapacity = 500;
-            itemCapacity = 500;
+            researchCapacity = 10000;
+            itemCapacity = 5000;
             squareSprite = false;
             alwaysUnlocked = true;
             researchCostMultiplier = 0;
         }};
         researchVoider = new ResearchVoider("translation-matrix") {{
-            requirements(Category.effect, with(silicon, 5000, nickel, 2000, copper, 7000, metaglass, 1000));
+            requirements(Category.effect, with(silicon, 1500, nickel, 900, copper, 1000, metaglass, 200));
             size = 5;
             buildVisibility = BuildVisibility.campaignOnly;
             processRate = 1f;

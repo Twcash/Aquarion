@@ -6,6 +6,7 @@ import aquarion.dialogs.AquaResearchDialog;
 import aquarion.ui.ModSettings;
 import aquarion.world.blocks.effect.ResearchServer;
 import arc.Events;
+import arc.util.Interval;
 import arc.util.Time;
 import mindustry.game.EventType;
 import arc.scene.ui.layout.*;
@@ -18,6 +19,7 @@ public class ModEventHandler {
     public static AquaResearchDialog techDialog;
     public static WidgetGroup hudGroup;
     public static float autoResearchTimer = 0f;
+    public static Interval timers = new Interval();
 
     public static void load(){
         techDialog = new AquaResearchDialog();
@@ -30,8 +32,14 @@ public class ModEventHandler {
         Events.on(EventType.MusicRegisterEvent.class, e -> ModMusic.load());
 
         Events.run(EventType.Trigger.update, () -> {
-            if (!AquaResearchDialog.autoResearch || net.client()) return;
+            if (net.client()) return;
             if (!state.isCampaign() || state.getSector() == null) return;
+
+            if (timers.get(60)) {
+                ResearchServer.updateResearchFromExports();
+            }
+
+            if (!AquaResearchDialog.autoResearch) return;
 
             autoResearchTimer += Time.delta;
             if (autoResearchTimer < 30f) return;
