@@ -124,8 +124,9 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                         heatRequirement, overheatScale, baseEfficiency, maxEfficiency, flipHeatScale
                 ));
             }
+        }if(maxEfficiency > 1) {
+            stats.add(Stat.maxEfficiency, (int) ((maxEfficiency + baseEfficiency) * 100f), StatUnit.percent);
         }
-        stats.add(Stat.maxEfficiency, (int)((maxEfficiency + baseEfficiency) * 100f), StatUnit.percent);
         if(boostersAffectOutput || boostAffectSpeedANDoutput) {
             // The dedicated output-multiplier bundles added below supersede the generic
             // per-consumer booster entries added by AquaBlock.setStats() (which would

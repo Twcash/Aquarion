@@ -103,8 +103,8 @@ public class TantrosTechTree {
                 ), () -> {
                     node(solder, () -> {});
                 });
-                node(pugnate, () -> {
-                    node(rampart, () -> {
+                node(rampart, () -> {
+                    node(pugnate, () -> {
                         node(raze, () -> {});
                         node(reave, () -> {});
                         node(shatter, () -> {});
@@ -538,11 +538,10 @@ public class TantrosTechTree {
                         node(azuriteKiln, Seq.with(
                                 new Objectives.SectorComplete(Ingress)
                         ), () -> {
-                            node(galenaCrucible, () -> {});
                             node(biotiteLeachingVessel, Seq.with(
                                     new Objectives.SectorComplete(Torrent)
                             ), () -> {
-                                node(ultrafamicRefinery, () -> {});
+                                node(galenaCrucible, () -> {});
                                 node(towaniteReductionVat, () -> {
                                     node(algalTerrace, Seq.with(
                                             new Objectives.SectorComplete(ripHold)
@@ -577,6 +576,7 @@ public class TantrosTechTree {
                     node(scrapCentrifuge, Seq.with(
                             new Objectives.OnSector(frozenLake)
                     ), () -> {
+                        node(ultrafamicRefinery, () -> {});
                         /*node(filter, Seq.with(
                                 new Objectives.SectorComplete(bay)
                         ), () -> {});*/

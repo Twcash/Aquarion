@@ -26,7 +26,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
-    public static Block payloadDistributor, itemHopper, itemYeeter, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
+    public static Block payloadDistributor, itemHopper, itemYeeter, tungstenYeeter, tungstenHopper, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
@@ -81,6 +81,18 @@ public class DistributionBlocks {
             requirements(Category.distribution, with(graphite, 50, copper, 90, polymer, 35));
             size = 1;
             itemCapacity = 30;
+        }};
+        tungstenYeeter = new ItemYeeter("tungsten-yeeter"){{
+            requirements(Category.distribution, with(silicon, 50, tungsten, 120, graphite, 80));
+            size = 1;
+            consumePower(3);
+            itemCapacity = 30;
+            drawArrow = false;
+        }};
+        tungstenHopper = new ItemHopper("tungsten-hopper"){{
+            requirements(Category.distribution, with(graphite, 60, beryllium, 140, tungsten, 70));
+            size = 2;
+            itemCapacity = 60;
         }};
         sealedDistributor = new SealedRouter("sealed-distributor") {{
             requirements(Category.distribution, with(silicon, 50));

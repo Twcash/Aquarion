@@ -62,9 +62,9 @@ public class EnvironmentBlocks {
     public static Block  tranticaOvergrownFloor, smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor, algal_carpet, coral_floor, cupriteFloor, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro, petroleumFloor, petroleumSeep, rubble, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor,
             boricFloor, pinkSaltFloor, pinkSaltFlats, smoothPinkSaltFloor, boricFloorDense, andesite, basaltPlates, ultrafamicPlates, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
-            andesiteLayers, basaltSpikes, basaltHolePlates, blueSandFLoor, redSandFLoor, brecciaFloor, soil, fertileSoil, nickelFloor, scrapFloor, andesiteRubble, qusGrass, clay, leafLitter, leafLitterDense, denseStone, stonePores, packedSnow;
+            andesiteLayers, basaltSpikes, basaltHolePlates, blueSandFLoor, redSandFloor, brecciaFloor, soil, fertileSoil, nickelFloor, scrapFloor, andesiteRubble, qusGrass, clay, leafLitter, leafLitterDense, denseStone, stonePores, packedSnow;
     //liquids
-    public static Block clearWaterFloor, blueSandWater, iceWater, brine_liquid, lava, shallowSlag2, wetRocks, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava;
+    public static Block clearWaterFloor, blueSandWater, iceWater, brine_liquid, lava, shallowSlag2, wetRocks, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava, deepHalidicWater;
     // ores
     public static Block oreNickelWall, oreRadium, oreUranium, orePitchblende, oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre, miniumOre, pentlanditeOre;
     //walls
@@ -179,6 +179,19 @@ public class EnvironmentBlocks {
             cacheLayer = AquaShaders.wetUnderLayer;
             drawEdgeIn = true;
             drawEdgeOut = false;
+        }};
+        deepHalidicWater = new Floor("deep-halidic-water") {{
+            isLiquid = true;
+            isDeep();
+            speedMultiplier = 0.5f;
+            variants = 0;
+            liquidDrop = AquaLiquids.halideWater;
+            liquidMultiplier = 1f;
+            drownTime = 600;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.5f;
+            supportsOverlay = true;
+
         }};
         ultrafamicFloor = new Floor("ultrafamic-floor", 3) {{
             wall = ultrafamicWall;
@@ -387,7 +400,7 @@ public class EnvironmentBlocks {
             itemDrop = Items.sand;
             playerUnmineable = true;
         }};
-        redSandFLoor = new Floor("red-sand-floor", 3) {{
+        redSandFloor = new Floor("red-sand-floor", 3) {{
             itemDrop = Items.sand;
             playerUnmineable = true;
             attributes.set(iron, 0.5f);

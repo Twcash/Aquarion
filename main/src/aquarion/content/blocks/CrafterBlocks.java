@@ -645,7 +645,7 @@ public class CrafterBlocks {
             consumePower(.125f);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(Liquids.water, 0.75f).boost();
-            consumeItems(new ItemStack(cupronickel, 2)).boost();
+            consumeItems(new ItemStack(graphite, 2)).boost();
             itemCapacity = 25;
             separateItemCapacity = true;
             ItemBoostUseTime = 6 * 60;
