@@ -6,7 +6,6 @@ import aquarion.world.blocks.core.AquaCoreBlock;
 import aquarion.world.blocks.core.Bomb;
 import aquarion.world.blocks.core.InfomaticBlock;
 import aquarion.world.blocks.core.OverclockProjector;
-import aquarion.world.blocks.effect.ResearchServer;
 import aquarion.world.blocks.effect.ResearchVoider;
 import aquarion.world.blocks.defense.ChainsawTurret;
 import aquarion.world.blocks.defense.RegenPylon;
@@ -52,7 +51,7 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block bomb, toggler, splitter, channel, storageReader, merger, buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
-            coreEscarpment, server, laboratory, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, researchServer, researchVoider;
+            coreEscarpment, laboratory, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, researchVoider;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -441,16 +440,6 @@ public class CoreBlocks {
             speedBoost = 2.0f;
             squareSprite = false;
         }};
-        researchServer = new ResearchServer("storage-drive") {{
-            requirements(Category.effect, with(silicon, 800, copper, 500, nickel, 200));
-            size = 2;
-            buildVisibility = BuildVisibility.campaignOnly;
-            researchCapacity = 10000;
-            itemCapacity = 5000;
-            squareSprite = false;
-            alwaysUnlocked = true;
-            researchCostMultiplier = 0;
-        }};
         researchVoider = new ResearchVoider("translation-matrix") {{
             requirements(Category.effect, with(silicon, 1500, nickel, 900, copper, 1000, metaglass, 200));
             size = 5;
@@ -469,11 +458,6 @@ public class CoreBlocks {
             consumePower(5);
             processRate = 2;
             itemCapacity = 250;
-        }};
-        server = new ResearchServer("server"){{
-            size = 1;
-            researchCapacity = 20000;
-            destructible = false;
         }};
     }
 }
