@@ -442,11 +442,11 @@ public class CoreBlocks {
             squareSprite = false;
         }};
         researchServer = new ResearchServer("storage-drive") {{
-            requirements(Category.effect, with(silicon, 400, copper, 700, nickel, 900));
+            requirements(Category.effect, with(silicon, 800, copper, 500, nickel, 200));
             size = 2;
             buildVisibility = BuildVisibility.campaignOnly;
-            researchCapacity = 500;
-            itemCapacity = 500;
+            researchCapacity = 10000;
+            itemCapacity = 5000;
             squareSprite = false;
             alwaysUnlocked = true;
             researchCostMultiplier = 0;

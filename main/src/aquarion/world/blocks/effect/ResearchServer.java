@@ -28,16 +28,19 @@ public class ResearchServer extends Block {
     public int researchCapacity = 1000;
     /** Global research pool: sectorId -> (item -> amount). Persisted to file. */
     public static final ObjectMap<Integer, ObjectMap<Item, Integer>> globalResearch = new ObjectMap<>();
+    /** Maximum total research per sector. Set from researchCapacity when block configures. */
+    public static int maxResearchPerSector = 1000;
 
     public ResearchServer(String name) {
         super(name);
         solid = true;
         update = true;
+        maxResearchPerSector = researchCapacity;
     }
     @Override
     public void setStats() {
         super.setStats();
-        stats.add(Stat.itemCapacity, researchCapacity*60, StatUnit.items);
+        stats.add(Stat.itemCapacity, researchCapacity, StatUnit.items);
     }
 
     @Override
@@ -154,6 +157,11 @@ public class ResearchServer extends Block {
     }
 
     public static void addResearch(int sectorId, Item item, int amount) {
+        if (amount <= 0) return;
+        int currentTotal = getSectorResearchTotal(sectorId);
+        if (currentTotal >= maxResearchPerSector) return;
+        amount = Math.min(amount, maxResearchPerSector - currentTotal);
+
         ObjectMap<Item, Integer> sectorResearch = globalResearch.get(sectorId);
         if (sectorResearch == null) {
             sectorResearch = new ObjectMap<>();
@@ -173,8 +181,11 @@ public class ResearchServer extends Block {
             if (!sector.hasBase()) continue;
             int sectorId = sector.id;
             sector.info.export.each((item, stat) -> {
-                if (stat.mean > 0) {
+                if (stat.mean > 0 && getSectorResearchTotal(sectorId) < maxResearchPerSector) {
                     int amount = Math.max(1, (int) stat.mean);
+                    int currentTotal = getSectorResearchTotal(sectorId);
+                    amount = Math.min(amount, maxResearchPerSector - currentTotal);
+                    if (amount <= 0) return;
                     ObjectMap<Item, Integer> sectorResearch = globalResearch.get(sectorId);
                     if (sectorResearch == null) {
                         sectorResearch = new ObjectMap<>();
@@ -186,25 +197,6 @@ public class ResearchServer extends Block {
             if (sector.info.export.size > 0) changed = true;
         }
         if (changed) saveGlobalResearch();
-    }
-    public ObjectFloatMap<Item> importCooldownTimers = new ObjectFloatMap<>();
-    public @Nullable
-    static float[] importRateCache;
-    public static void refreshImportRates(Planet planet){
-        if(importRateCache == null || importRateCache.length !=  content.items().size){
-            importRateCache = new float[content.items().size];
-        }else{
-            Arrays.fill(importRateCache, 0f);
-        }
-        eachImport(planet, sector -> sector.info.export.each((item, stat) -> {
-            importRateCache[item.id] += stat.mean;
-        }));
-    }
-    public static void eachImport(Planet planet, Cons<Sector> cons){
-        for(Sector sector : planet.sectors){
-            Sector dest = sector.info.destination;
-            cons.get(sector);
-        }
     }
     public class ResearchServerBuild extends Building {
         public int getSectorId() {
@@ -220,7 +212,7 @@ public class ResearchServer extends Block {
 
         public float researchFill() {
             int total = researchTotal();
-            return total <= 0 ? 0f : Math.min(1f, (float) total / (((ResearchServer) block).researchCapacity * 50f));
+            return total <= 0 ? 0f : Math.min(1f, (float) total / maxResearchPerSector);
         }
     }
 }
