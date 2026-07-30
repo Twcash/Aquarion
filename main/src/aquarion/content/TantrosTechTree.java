@@ -518,9 +518,7 @@ public class TantrosTechTree {
                                 new Objectives.SectorComplete(FeldsparRavine)
                         ), () -> {});
                     });
-                    node(magmaDiffuser, Seq.with(
-                            new Objectives.SectorComplete(twinPass)
-                    ), () -> {
+                    node(magmaDiffuser, () -> {
                         node(fumeFilter, () -> {
                             node(fumeSeparator, () -> {
                                 node(fumeMixer, () -> {});
