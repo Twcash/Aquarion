@@ -315,6 +315,16 @@ public class GenericNeoplasiaBlock extends Block {
 
             if(amount >= emptyUpgradeCost && !isOre(tile) && shouldEmptyUpgrade){
                 if(emptyUpgrade != null){
+                    if(emptyUpgrade.itemCost != null){
+                        for (ItemStack stack : emptyUpgrade.itemCost) {
+                            neededItems.add(stack.item);
+                            neededAmounts.put(stack.item, stack.amount);
+                        }
+                        if(!hasItemCost(emptyUpgrade.itemCost)){
+                            return;
+                        }
+                    }
+                    consumeItemCost(emptyUpgrade.itemCost);
                     upgradeTo(emptyUpgrade);
                 }
             }
