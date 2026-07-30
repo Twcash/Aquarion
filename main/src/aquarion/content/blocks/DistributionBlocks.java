@@ -88,6 +88,7 @@ public class DistributionBlocks {
             consumePower(3);
             itemCapacity = 30;
             drawArrow = false;
+            reload = 20f;
         }};
         tungstenHopper = new ItemHopper("tungsten-hopper"){{
             requirements(Category.distribution, with(graphite, 60, beryllium, 140, tungsten, 70));
