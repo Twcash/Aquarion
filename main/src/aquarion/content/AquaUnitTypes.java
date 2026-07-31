@@ -11,6 +11,8 @@ import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.type.AquaUnitType;
 import aquarion.world.AI.DroneAI;
 import aquarion.world.AI.GerbInfantryAI;
+import aquarion.world.AI.PopperAI;
+import aquarion.world.AI.SpewerAI;
 import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.entities.DroneSpawnerBulletType;
 import aquarion.world.entities.bullet.AquaBulletType;
@@ -75,7 +77,7 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}, serialize = false) DefunctUnitType endure;
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify;
 
-    public static UnitType visitor, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam, corpse;
+    public static UnitType visitor, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
     //core units and transport
 
     public static UnitType
@@ -3580,6 +3582,66 @@ public class AquaUnitTypes {
                     killShooter = true;
                     splashDamage = 250;
                 }};
+            }});
+        }};
+        popper = new UnitType("popper"){{
+            constructor = UnitEntity::create;
+            flying = true;
+            lowAltitude = true;
+            isEnemy = false;
+            playerControllable = false;
+            useUnitCap = false;
+            createWreck = false;
+            createScorch = false;
+            drawCell = false;
+            engineSize  =0;
+            targetPriority = -1;
+            controller = u -> new PopperAI();
+            parts.add(new RegionPart("-wing"){{
+                progress = p -> Mathf.absin(1f, 0.9f);
+                moveRot = -110;
+                rotation = -30;
+                x = -3;
+                y = -2;
+                mirror = true;
+            }});
+            hitSize = 9;
+            speed = 1.1f;
+            accel = 0.08f;
+            drag = 0.05f;
+            rotateSpeed = 3f;
+            outlineColor = Color.valueOf("0f1711");
+            health = 150;
+            armor = 1;
+            abilities.add(new DeathFxAbility(AquaFx.bonyDeathSmall));
+            abilities.add(new LiquidExplodeAbility(){{
+                liquid = Liquids.neoplasm;
+            }});
+        }};
+        spewer = new UnitType("spewer"){{
+            constructor = UnitEntity::create;
+            flying = true;
+            lowAltitude = true;
+            isEnemy = false;
+            playerControllable = false;
+            useUnitCap = false;
+            createWreck = false;
+            createScorch = false;
+            drawCell = false;
+            engineSize = 0;
+            targetPriority = -1;
+            controller = u -> new SpewerAI();
+            hitSize = 9;
+            speed = 0.35f;
+            accel = 0.08f;
+            drag = 0.05f;
+            rotateSpeed = 2f;
+            outlineColor = Color.valueOf("0f1711");
+            health = 350;
+            armor = 1;
+            abilities.add(new DeathFxAbility(AquaFx.bonyDeathSmall));
+            abilities.add(new LiquidExplodeAbility(){{
+                liquid = Liquids.neoplasm;
             }});
         }};
     }}

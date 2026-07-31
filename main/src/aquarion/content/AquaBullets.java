@@ -436,6 +436,8 @@ public class AquaBullets {
         ammoMultiplier = 1;
         scaleLife = true;
         range = 100f;
+        sprite = "circle-bullet";
+        hitEffect = despawnEffect = AquaFx.neoplasiaPlace;
         frontColor = Color.valueOf("cf5a3b");
         backColor = Color.valueOf("701e1e");
     }};

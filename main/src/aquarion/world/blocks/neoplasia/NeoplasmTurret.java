@@ -20,6 +20,27 @@ public class NeoplasmTurret extends GenericNeoplasiaBlock {
     public NeoplasmTurret(String name) {
         super(name);
     }
+    @Override
+    public boolean canUpgradeToThis(NeoplasiaBuild build) {
+        for (int dx = -10; dx <= 10; dx++) {
+            for (int dy = -10; dy <= 10; dy++) {
+                Tile t = world.tile(build.tile.x + dx, build.tile.y + dy);
+                if (t != null && t.build instanceof NeoplasmTurretBuild) {
+                    return false;
+                }
+            }
+        }
+        int emptyCount = 0;
+        for (int dx = -6; dx <= 6; dx++) {
+            for (int dy = -6; dy <= 6; dy++) {
+                Tile t = world.tile(build.tile.x + dx, build.tile.y + dy);
+                if (t != null && t.block() == Blocks.air && !t.floor().isDeep()) {
+                    emptyCount++;
+                }
+            }
+        }
+        return emptyCount >= 3;
+    }
 
     public class NeoplasmTurretBuild extends NeoplasiaBuild {
         float reloadTimer = 0f;

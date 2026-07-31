@@ -1,5 +1,6 @@
 package aquarion.world.blocks.neoplasia;
 
+import aquarion.world.entities.bullet.NeoplasmItemBulletType;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
 import arc.graphics.Color;
@@ -19,6 +20,7 @@ import arc.util.io.Writes;
 import mindustry.content.Blocks;
 import mindustry.entities.Units;
 import mindustry.gen.Building;
+import mindustry.gen.Bullet;
 import mindustry.gen.Teamc;
 import mindustry.type.Item;
 import mindustry.type.ItemStack;
@@ -39,6 +41,7 @@ public class GenericNeoplasiaBlock extends Block {
     public static ObjectMap<Item, GenericNeoplasiaBlock> itemProducers = new ObjectMap<>();
     public static GenericNeoplasiaBlock veinBlock;
     public static GenericNeoplasiaBlock treeBlock;
+    public static final NeoplasmItemBulletType itemBullet = new NeoplasmItemBulletType();
 
     public float wscl = 25f, wmag = 0.4f, wtscl = 1f, wmag2 = 1f;
     public float maxAmount = 1000f;
@@ -95,6 +98,10 @@ public class GenericNeoplasiaBlock extends Block {
         return output;
     }
 
+    public boolean canUpgradeToThis(NeoplasiaBuild build) {
+        return true;
+    }
+
     public boolean isProducing(Item item) {
         ItemStack o = getOutput();
         return o != null && o.item == item;
@@ -121,6 +128,9 @@ public class GenericNeoplasiaBlock extends Block {
         ObjectIntMap<Item> neededAmounts = new ObjectIntMap<>();
         float requestTimer = 0f;
         float itemTraffic = 0f;
+        ObjectMap<Item, Building> receivedFrom = new ObjectMap<>();
+        public int inFlight = 0;
+        final int maxFlights = 24;
 
 
         public boolean hasItemRoom(Item item) {
@@ -132,6 +142,9 @@ public class GenericNeoplasiaBlock extends Block {
         public void handleItem(Building source, Item item){
             if (hasItemRoom(item)) {
                 items.add(item, 1);
+            }
+            if (source != null) {
+                receivedFrom.put(item, source);
             }
             itemTraffic = Math.min(100f, itemTraffic + 1f);
         }
@@ -199,6 +212,8 @@ public class GenericNeoplasiaBlock extends Block {
         @Override
         public void updateTile() {
             if (tile == null) return;
+            neededItems.clear();
+            neededAmounts.clear();
             health = amount;
             maxHealth = amount;
             recentDamage = Math.max(0f, recentDamage - recentDamageDecay);
@@ -236,13 +251,11 @@ public class GenericNeoplasiaBlock extends Block {
             } else {
                 clogTimer = 0f;
             }
-            neededItems.clear();
-            neededAmounts.clear();
         }
 
         void trySpawnTree(boolean connected) {
             if (treeBlock == null || !connected || amount < maxAmount * 0.6f) return;
-            if (Mathf.chance(0.001f * delta())) {
+            if (Mathf.chance(0.02f * delta())) {
                 for (int dx = -3; dx <= 3; dx++) {
                     for (int dy = -3; dy <= 3; dy++) {
                         Tile other = world.tile(tile.x + dx, tile.y + dy);
@@ -251,6 +264,9 @@ public class GenericNeoplasiaBlock extends Block {
                             if (amount >= cost) {
                                 amount -= cost;
                                 other.setBlock(treeBlock, team);
+                                if (other.build instanceof NeoplasiaBuild nb) {
+                                    nb.amount = Math.min(cost, nb.block().maxAmount);
+                                }
                             }
                             return;
                         }
@@ -314,7 +330,7 @@ public class GenericNeoplasiaBlock extends Block {
             }
 
             if(amount >= emptyUpgradeCost && !isOre(tile) && shouldEmptyUpgrade){
-                if(emptyUpgrade != null){
+                if(emptyUpgrade != null && emptyUpgrade.canUpgradeToThis(this)){
                     if(emptyUpgrade.itemCost != null){
                         for (ItemStack stack : emptyUpgrade.itemCost) {
                             neededItems.add(stack.item);
@@ -407,8 +423,8 @@ public class GenericNeoplasiaBlock extends Block {
             if (origin == null) return null;
             int bestDir = -1;
             float bestScore = -999f;
-            for (int i = 0; i < 4; i++) {
-                Tile check = world.tile(origin.x + Geometry.d4[i].x, origin.y + Geometry.d4[i].y);
+            for (int i = 0; i < 8; i++) {
+                Tile check = world.tile(origin.x + Geometry.d8[i].x, origin.y + Geometry.d8[i].y);
                 if (check == null || check.solid() || check.floor().isDeep()) continue;
                 float score = 0f;
                 if (check.build == null) {
@@ -423,7 +439,7 @@ public class GenericNeoplasiaBlock extends Block {
                 }
             }
             if (bestDir == -1) return null;
-            return world.tile(origin.x + Geometry.d4[bestDir].x, origin.y + Geometry.d4[bestDir].y);
+            return world.tile(origin.x + Geometry.d8[bestDir].x, origin.y + Geometry.d8[bestDir].y);
         }
 
         void resetBurst() {
@@ -481,22 +497,27 @@ public class GenericNeoplasiaBlock extends Block {
                     }
                 }
                 if (item == null) break;
-                items.remove(item, 1);
-                boolean didPush = false;
+                Building target = null;
+                Building sender = receivedFrom.get(item);
                 for (Building neighbor : proximity) {
                     if (!(neighbor instanceof NeoplasiaBuild n)) continue;
+                    if (neighbor == sender) continue;
+                    if (n.items.get(item) > 0 && n.neededAmounts.get(item, 0) <= n.items.get(item)) continue;
                     if (!n.acceptItem(this, item)) continue;
-                    n.handleItem(this, item);
-                    didPush = true;
-                    pushed++;
+                    target = n;
                     break;
                 }
-                if (!didPush) {
-                    items.add(item, 1);
-                    break;
-                }
+                if (target == null || inFlight >= maxFlights) break;
+                items.remove(item, 1);
+                spawnItemFlight(item, target);
+                pushed++;
             }
             if (pushed > 0) clogTimer = 0f;
+        }
+
+        void spawnItemFlight(Item item, Building target) {
+            inFlight++;
+            itemBullet.create(this, team, x, y, Mathf.angle(target.x - x, target.y - y), 0f, 1f, 1f, new NeoplasmItemBulletType.Cargo(item, this, target));
         }
 
         // non-vein blobs push more per tick */
