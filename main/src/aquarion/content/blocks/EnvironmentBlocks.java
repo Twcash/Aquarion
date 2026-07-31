@@ -262,12 +262,12 @@ public class EnvironmentBlocks {
         overwrite(redStoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
         overwrite(shale, (Floor s) -> s.attributes.set(metamorphic, 1f));
 
-        feldspar_vent = new customVent("feldspar-vent") {{
+        feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
             variants = 2;
             parent = blendGroup = EnvironmentBlocks.feldspar;
             effectSpacing = 15f;
-            effect = AquaFx.geysers;
+            effect = AquaFx.vent1;
             attributes.set(iron, 0.8f);
         }};
         Blocks.salt.itemDrop = salt;
