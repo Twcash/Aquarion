@@ -16,6 +16,7 @@ import arc.math.Mathf;
 import arc.struct.Seq;
 import arc.util.Nullable;
 import arc.util.Time;
+import mindustry.Vars;
 import mindustry.graphics.Shaders;
 
 import static mindustry.Vars.tilesize;
@@ -88,5 +89,6 @@ public class Renderer {
                     buffer.blit(AquaShaders.neoplasiaBaseShader);
                 }
         );
+        AquaShaders.light.ambient = Vars.state.rules.ambientLight;
     }
 }

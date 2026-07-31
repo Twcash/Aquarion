@@ -26,7 +26,7 @@ import static mindustry.Vars.tree;
 
 public class AquaShaders {
     public static PlanetShader planet;
-
+    public static LightShader light;
     public static @Nullable SurfaceShader brine, petroleum, lava, shallowLava, shallowSlag, shadow, heat, glitch, neoplasiaBaseShader;
     public static @Nullable MonsoonShader monsoon;
     public static @Nullable PodShader neoplasiaPodShader;
@@ -77,6 +77,8 @@ public static void init() {
     CacheLayer.add(CacheLayer.normal.id,wetUnderLayer);
     CacheLayer.addLast(lavalLayer);
     CacheLayer.addLast(neoplasiaBaseLayer);
+    light = new LightShader();
+    Shaders.light = light;
 
 }
 
@@ -92,7 +94,19 @@ public static void init() {
             PlanetShadowMap.dispose();
         }
     }
+    public static class LightShader extends Shaders.LightShader {
 
+        public Color ambient = new Color(0.01f, 0.01f, 0.04f, 0.99f);
+
+        public LightShader(){
+            super();
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_ambient", ambient);
+        }
+    }
     public static class SurfaceShader extends Shader{
         Texture noiseTex;
 

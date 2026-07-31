@@ -407,7 +407,7 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                     Mathf.cos(vec.x * 3 + Time.time + 4f, wscl + 6f, wmag * 1.1f) + Mathf.sin(vec.y * 3 - Time.time * 0.5f, 50 * wtscl, 0.2f * wmag2)));
                 Draw.scl(1f);
 
-            Draw.z(Renderer.Layer.treeCanopy);
+            Draw.z(Renderer.Layer.blockOver);
             for (BranchNode branch : branches) {
                 float[] ep = branchEndpoints(branch);
                 float bx = ep[0], by = ep[1], tx = ep[2], ty = ep[3];
