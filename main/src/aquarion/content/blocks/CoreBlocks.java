@@ -24,6 +24,7 @@ import aquarion.world.blocks.neoplasia.NeoplasmTurret;
 import aquarion.world.blocks.neoplasia.NeoplasmVein;
 import aquarion.world.entities.bullet.NeoplasmGlobBulletType;
 import aquarion.world.blocks.neoplasia.NeoplasiaproductionBlock;
+import aquarion.world.AI.PopperAI;
 import aquarion.world.content.AquaItem;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
@@ -436,16 +437,24 @@ public class CoreBlocks {
         tree = new NeoplasmTreeBase("branching-sprout") {{
             requirements(Category.effect, with(silicon, 1));
             base = (GenericNeoplasiaBlock) neoplasiaMass;
-            maxAmount = 5000;
-            selfGrowRate = 0.5f;
+            maxAmount = 40000;
+            selfGrowRate = 2.5f;
             itemCapacity = 30;
             podCost = 100;
             branchCost = 200;
-            unitGrowTime = 10f;
+            unitGrowTime = 6f;
+            maxPodsPerBranch = 3;
             unitItemCost = new ItemStack[]{new ItemStack(crystal, 2)};
+            unitType = AquaUnitTypes.popper;
+            spewerType = AquaUnitTypes.spewer;
+            spewerChance = 0.3f;
+            maxSpewers = 24;
+            spewerItemCost = new ItemStack[]{new ItemStack(crystal, 2)};
             buildVisibility = BuildVisibility.sandboxOnly;
         }};
         GenericNeoplasiaBlock.treeBlock = (GenericNeoplasiaBlock) tree;
+        PopperAI.defaultBlobBlock = (GenericNeoplasiaBlock) neoplasiaMass;
+        PopperAI.defaultBlobItems = new ItemStack[]{new ItemStack(crystal, 1)};
         GenericNeoplasiaBlock.itemProducers.put(pearl, (GenericNeoplasiaBlock) petal);
         overClockProjector = new OverclockProjector("overclock-projector") {{
             requirements(Category.effect, with(silicon, 150, copper, 900, polymer, 100, metaglass, 200, ferricMatter, 250));

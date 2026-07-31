@@ -59,6 +59,15 @@ public class NeoplasiaproductionBlock extends GenericNeoplasiaBlock{
         public float prog = 0;
 
         @Override
+        void tryUpgrades() {
+            super.tryUpgrades();
+            if (input != null) {
+                neededItems.add(input.item);
+                neededAmounts.put(input.item, input.amount);
+            }
+        }
+
+        @Override
         public void updateTile(){
             if(shouldCraft && amount > craftCost){
                 prog += 1/craftTime*delta();
