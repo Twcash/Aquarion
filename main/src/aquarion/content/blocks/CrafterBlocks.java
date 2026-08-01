@@ -1998,6 +1998,7 @@ public class CrafterBlocks {
             outputItem = new ItemStack(libraryCard, 1);
             craftTime = 5*60;
             solid = false;
+            shownPlanets.add(delubrum);
             buildVisibility = BuildVisibility.sandboxOnly;
         }};
     }

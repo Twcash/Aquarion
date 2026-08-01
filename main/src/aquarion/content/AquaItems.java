@@ -170,6 +170,7 @@ public class AquaItems {
         libraryCard = new AquaItem("library-card", Color.valueOf("#60616b")) {{
            cost = 0.01f;
            buildable = true;
+           shownPlanets.add(delubrum);
         }};
         calcium = new Item("calcium", Color.valueOf("#f0f0d0")) {{
             cost = 0.5f;
