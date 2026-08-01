@@ -57,9 +57,8 @@ public class ModifiedLiquidBridge extends LiquidBridge {
                     //TODO !IMPORTANT! uses current(), which is 1) wrong for multi-liquid blocks and 2) causes unwanted reactions, e.g. hydrogen + slag in pump
                     //TODO these are incorrect effect positions
                     float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;
-
                     Liquid other = next.liquids.current();
-                    if(other.blockReactive && liquid.blockReactive){
+                    if(other.blockReactive && liquid.blockReactive && willMelt){
                         //TODO liquid reaction handler for extensibility
                         if((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f) && willMelt){
                             damageContinuous(liquid.temperature/100f);
@@ -68,7 +67,7 @@ public class ModifiedLiquidBridge extends LiquidBridge {
                                 Fx.steam.at(fx, fy);
                             }
 
-                        }else if((liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)){
+                        }else if((willMelt && liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f && willMelt)){
                             liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));
                             if(Mathf.chanceDelta(0.2f)){
                                 Fx.steam.at(fx, fy);
