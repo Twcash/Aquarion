@@ -99,14 +99,14 @@ public class ModifiedConduit extends Conduit {
                 } else if (!next.block.consumesLiquid(liquid) && next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f ) {
                     float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;
                     Liquid other = next.liquids.current();
-                    if (other.blockReactive && liquid.blockReactive) {
+                    if (willMelt && other.blockReactive && liquid.blockReactive) {
                         if ((other.flammability > 0.3f && liquid.temperature > 0.7f) || (liquid.flammability > 0.3f && other.temperature > 0.7f && !willMelt)) {
                             damageContinuous(liquid.temperature / 100f);
                             next.damageContinuous(liquid.temperature / 100f);
                             if (Mathf.chanceDelta(0.01)) {
                                 Fx.steam.at(fx, fy);
                             }
-                        } else if ((liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)) {
+                        } else if (willMelt && (liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)) {
                             liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));
                             if (Mathf.chanceDelta(0.2f)) {
                                 Fx.steam.at(fx, fy);
