@@ -541,16 +541,16 @@ public class TantrosTechTree {
                             ), () -> {
                                 node(galenaCrucible, () -> {});
                                 node(towaniteReductionVat, () -> {
-                                    node(algalTerrace, Seq.with(
-                                            new Objectives.SectorComplete(ripHold)
+                                    node(sporeProcessor, Seq.with(
+                                            new Objectives.SectorComplete(diseasedCleft)
                                     ), () -> {
                                         node(gasifier, Seq.with(
                                                 new Objectives.Produce(bioPulp)
                                         ), () -> {
                                             node(coalLiquefactor, () -> {});
                                         });
-                                        node(sporeProcessor, Seq.with(
-                                                new Objectives.SectorComplete(diseasedCleft)
+                                        node(algalTerrace, Seq.with(
+                                                new Objectives.SectorComplete(ripHold)
                                         ), () -> {});
                                     });
                                 });

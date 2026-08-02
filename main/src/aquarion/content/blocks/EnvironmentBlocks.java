@@ -462,6 +462,8 @@ public class EnvironmentBlocks {
         fertileSoil = new Floor("fertile-soil", 3) {{
             attributes.set(AquaAttributes.fertility, 1.5f);
         }};
+        overwrite(dirt, (Floor s) -> s.attributes.set(fertility, 0.25f));
+        overwrite(mud, (Floor s) -> s.attributes.set(fertility, 0.5f));
         plates1 = new Floor("plates"){{
             autotile = true;
             drawEdgeIn = drawEdgeOut = false;
