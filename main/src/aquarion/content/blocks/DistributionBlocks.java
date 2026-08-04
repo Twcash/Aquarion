@@ -19,6 +19,7 @@ import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.meta.Env;
+import mindustry.world.meta.Stat;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaPlanets.*;
@@ -119,11 +120,10 @@ public class DistributionBlocks {
         }};
         sealedJunction = new Junction("sealed-junction") {{
             requirements(Category.distribution, with(silicon, 15));
-            capacity = 8;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
-
-            speed = 10;
-            hasItems = true;
+            speed = 15;
+            displayedSpeed = 30;
+            capacity = 8;
             envEnabled |= Env.terrestrial | Env.underwater;
             ((SealedConveyor) sealedConveyor).junctionReplacement = this;
             envDisabled = Env.none;
