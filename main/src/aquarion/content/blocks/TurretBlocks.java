@@ -881,7 +881,7 @@ public class TurretBlocks {
                         status = burning;
                         explodeRange = 40;
                         collidesAir = false;
-                        collidesGround = false;
+                        collidesGround = true;
                         sprite = "aquarion-shell";
                         shrinkX = 0.35F;
                         shrinkY = 0.63F;
