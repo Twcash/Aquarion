@@ -201,11 +201,16 @@ public class GenericNeoplasiaBlock extends Block {
         }
 
         public void remove(NeoplasiaBuild build){
+            if (build.tile == null) return;
             int cx = chunkX(build.tile.x);
             int cy = chunkY(build.tile.y);
-            NeoplasiaGraph.NeoplasiaChunk chunk = chunks.get(chunkKey(cx,cy));
+            String key = chunkKey(cx, cy);
+            NeoplasiaGraph.NeoplasiaChunk chunk = chunks.get(key);
             if(chunk != null){
                 chunk.builds.remove(build);
+                if (chunk.builds.isEmpty()) {
+                    chunks.remove(key);
+                }
             }
         }
 
@@ -214,6 +219,7 @@ public class GenericNeoplasiaBlock extends Block {
             if (tile == null) return;
             neededItems.clear();
             neededAmounts.clear();
+            if (items.total() <= 0 && !receivedFrom.isEmpty()) receivedFrom.clear();
             health = amount;
             maxHealth = amount;
             recentDamage = Math.max(0f, recentDamage - recentDamageDecay);
@@ -278,7 +284,9 @@ public class GenericNeoplasiaBlock extends Block {
         @Override
         public void onRemoved() {
             super.onRemoved();
+            remove(this);
             NeoplasiaGraph.buildPulseIds.remove(this, 0);
+            activeNeoplasia.remove(this);
         }
         public GenericNeoplasiaBlock block(){
             return (GenericNeoplasiaBlock) this.block;
@@ -499,6 +507,10 @@ public class GenericNeoplasiaBlock extends Block {
                 if (item == null) break;
                 Building target = null;
                 Building sender = receivedFrom.get(item);
+                if (sender != null && !sender.isValid()) {
+                    receivedFrom.remove(item);
+                    sender = null;
+                }
                 for (Building neighbor : proximity) {
                     if (!(neighbor instanceof NeoplasiaBuild n)) continue;
                     if (neighbor == sender) continue;

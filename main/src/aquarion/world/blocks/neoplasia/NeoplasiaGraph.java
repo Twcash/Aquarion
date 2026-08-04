@@ -91,4 +91,14 @@ public class NeoplasiaGraph {
         if (hearts.isEmpty()) return true;
         return buildPulseIds.get(build, 0) == pulseId;
     }
+
+    public static void reset() {
+        hearts.clear();
+        buildPulseIds.clear();
+        chunks.clear();
+        activeNeoplasia.clear();
+        pulseId = 0;
+        pulseTimer = 0f;
+        gracePeriod = true;
+    }
 }
