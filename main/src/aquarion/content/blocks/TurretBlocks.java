@@ -540,7 +540,7 @@ public class TurretBlocks {
                         height = 14;
                         randomAngleOffset = 1;
                         frontColor = Color.white;
-                        backColor = trailColor = minium.color;
+                        backColor = trailColor = brimstone.color;
                         trailLength = 14;
                         lifeScaleRandMax = 1.1f;
                         lifeScaleRandMin = 0.9f;
@@ -569,7 +569,7 @@ public class TurretBlocks {
                         height = 14;
                         randomAngleOffset = 1;
                         frontColor = Color.white;
-                        backColor = trailColor = lead.color;
+                        backColor = trailColor = AquaItems.ferricMatter.color;
                         trailLength = 14;
                         lifeScaleRandMax = 1.1f;
                         lifeScaleRandMin = 0.9f;
@@ -1606,7 +1606,7 @@ public class TurretBlocks {
                         height = 18f;
                         trailLength = 10;
                         lifetime = 50f;
-                        ammoMultiplier = 4;
+                        ammoMultiplier = 1;
                         shootEffect = AquaFx.shootLong;
                         smokeEffect = Fx.smoke;
                         trailEffect = Fx.none;
