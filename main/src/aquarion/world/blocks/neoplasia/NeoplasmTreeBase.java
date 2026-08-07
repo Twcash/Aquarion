@@ -2,6 +2,7 @@ package aquarion.world.blocks.neoplasia;
 
 import aquarion.world.graphics.Renderer;
 import arc.Core;
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
@@ -9,6 +10,7 @@ import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Interp;
 import arc.math.Mathf;
+import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Time;
 import arc.util.io.Reads;
@@ -253,15 +255,20 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             }
         }
 
-        float[] leafPos(BranchNode branch, LeafPod pod) {
-            float[] ep = branchEndpoints(branch);
-            float bx = ep[0], by = ep[1], tx = ep[2], ty = ep[3];
+        float[] tmp4 = new float[4];
+        float[] tmp2 = new float[2];
+        final Cons<Vec2> wiggle = vec -> vec.add(
+            Mathf.sin(vec.y * 3 + Time.time * 0.4f, wscl, wmag) + Mathf.sin(vec.x * 3 - Time.time * 0.3f, 70 * wtscl, 0.8f * wmag2),
+            Mathf.cos(vec.x * 3 + Time.time + 4f, wscl + 6f, wmag * 1.1f) + Mathf.sin(vec.y * 3 - Time.time * 0.5f, 50 * wtscl, 0.2f * wmag2));
+
+        void leafPos(BranchNode branch, LeafPod pod, float[] out) {
+            branchEndpoints(branch, tmp4);
+            float bx = tmp4[0], by = tmp4[1], tx = tmp4[2], ty = tmp4[3];
             float alongX = bx + (tx - bx) * pod.position;
             float alongY = by + (ty - by) * pod.position;
             float sway = Mathf.sin(Time.time / 60f + pod.position * 10f + branch.phase) * 3f;
-            float px = alongX + sway;
-            float py = alongY + 3f + Math.abs(sway);
-            return new float[]{px, py};
+            out[0] = alongX + sway;
+            out[1] = alongY + 3f + Math.abs(sway);
         }
 
         void tickPods() {
@@ -276,8 +283,8 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                         pod.progress = 0f;
                         if (spawnSpewer(branch, pod)) continue;
                         consumeUnitCost(unitCost());
-                        float[] lp = leafPos(branch, pod);
-                        float px = lp[0], py = lp[1];
+                        leafPos(branch, pod, tmp2);
+                        float px = tmp2[0], py = tmp2[1];
                         float angle = Mathf.random(360f);
                         float dist = Mathf.random(2f, 6f);
                         unitType.spawn(team, px + Mathf.cosDeg(angle) * dist, py + Mathf.sinDeg(angle) * dist);
@@ -292,10 +299,10 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             ItemStack[] cost = spewerCost();
             if (!hasUnitCost(cost)) return false;
             consumeUnitCost(cost);
-            float[] lp = leafPos(branch, pod);
+            leafPos(branch, pod, tmp2);
             float angle = Mathf.random(360f);
             float dist = Mathf.random(2f, 6f);
-            spewerType.spawn(team, lp[0] + Mathf.cosDeg(angle) * dist, lp[1] + Mathf.sinDeg(angle) * dist);
+            spewerType.spawn(team, tmp2[0] + Mathf.cosDeg(angle) * dist, tmp2[1] + Mathf.sinDeg(angle) * dist);
             return true;
         }
 
@@ -333,14 +340,12 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             super.tryUpgrades();
             if (unitItemCost != null) {
                 for (ItemStack stack : unitItemCost) {
-                    neededItems.add(stack.item);
-                    neededAmounts.put(stack.item, stack.amount);
+                    needItem(stack.item, stack.amount);
                 }
             }
             if (spewerItemCost != null) {
                 for (ItemStack stack : spewerItemCost) {
-                    neededItems.add(stack.item);
-                    neededAmounts.put(stack.item, stack.amount);
+                    needItem(stack.item, stack.amount);
                 }
             }
         }
@@ -360,7 +365,7 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             }
         }
 
-        float[] branchEndpoints(BranchNode branch) {
+        void branchEndpoints(BranchNode branch, float[] out) {
             float sway = Mathf.sin(Time.time / 80f + branch.phase) * 4f;
             float a = branch.angle + sway;
             float bx, by;
@@ -375,9 +380,10 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                 by = y + Mathf.sinDeg(pa) * pl * parent.attachPos;
             }
             float len = branch.length * branchScale(branch);
-            float tx = bx + Mathf.cosDeg(a) * len;
-            float ty = by + Mathf.sinDeg(a) * len;
-            return new float[]{bx, by, tx, ty};
+            out[0] = bx;
+            out[1] = by;
+            out[2] = bx + Mathf.cosDeg(a) * len;
+            out[3] = by + Mathf.sinDeg(a) * len;
         }
 
         float branchScale(BranchNode branch) {
@@ -402,15 +408,13 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                 Draw.scl(scale);
                 Draw.z(Renderer.Layer.blockOver + 2);
                 Draw.color();
-                Draw.rectv(block.region, tile.worldx(), tile.worldy(), block.region.width * block.region.scl() * scale, block.region.height * block.region.scl() * scale, treeAngle, vec -> vec.add(
-                    Mathf.sin(vec.y * 3 + Time.time * 0.4f, wscl, wmag) + Mathf.sin(vec.x * 3 - Time.time * 0.3f, 70 * wtscl, 0.8f * wmag2),
-                    Mathf.cos(vec.x * 3 + Time.time + 4f, wscl + 6f, wmag * 1.1f) + Mathf.sin(vec.y * 3 - Time.time * 0.5f, 50 * wtscl, 0.2f * wmag2)));
+                Draw.rectv(block.region, tile.worldx(), tile.worldy(), block.region.width * block.region.scl() * scale, block.region.height * block.region.scl() * scale, treeAngle, wiggle);
                 Draw.scl(1f);
 
             Draw.z(Renderer.Layer.blockOver);
             for (BranchNode branch : branches) {
-                float[] ep = branchEndpoints(branch);
-                float bx = ep[0], by = ep[1], tx = ep[2], ty = ep[3];
+                branchEndpoints(branch, tmp4);
+                float bx = tmp4[0], by = tmp4[1], tx = tmp4[2], ty = tmp4[3];
                 float thick = branch.thickness * branchScale(branch);
                 float ang = Mathf.angle(tx - bx, ty - by);
                     Lines.stroke(thick * 5f);
@@ -432,8 +436,8 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                 for (LeafPod pod : branch.pods) {
 
                     if (pod.progress <= 0f) continue;
-                    float[] lp = leafPos(branch, pod);
-                    float px = lp[0], py = lp[1];
+                    leafPos(branch, pod, tmp2);
+                    float px = tmp2[0], py = tmp2[1];
                     float podProgress = Mathf.clamp(pod.progress / unitGrowTime);
                     float podSize = 2f + podProgress * 6f;
                     float podSway = Mathf.sin(Time.time / 45f + pod.position * 8f + branch.phase) * 6f;

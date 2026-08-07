@@ -1,7 +1,9 @@
 package aquarion.world.type;
 
+import aquarion.ui.AquaBarHelpers;
 import aquarion.world.Uti.AquaStats;
 import aquarion.world.blocks.environment.AquaFloor;
+import aquarion.world.consumers.AquaConsume;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -27,6 +29,7 @@ import mindustry.graphics.Pal;
 import mindustry.logic.LAccess;
 import mindustry.type.Item;
 import mindustry.type.Liquid;
+import mindustry.type.LiquidStack;
 import mindustry.ui.Bar;
 import mindustry.world.Tile;
 import mindustry.world.blocks.environment.Floor;
@@ -35,6 +38,8 @@ import mindustry.world.consumers.Consume;
 import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.consumers.ConsumeLiquidBase;
+import mindustry.world.consumers.ConsumeLiquidFilter;
+import mindustry.world.consumers.ConsumeLiquids;
 import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawMulti;
@@ -42,7 +47,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class GroundDrill extends AquaBlock {
+public class GroundDrill extends AquaBlock implements AquaBarHelpers.CustomBarHolder {
     public float hardnessDrillMultiplier = 50f;
     public float heatRequirement = 0f;
     public float overheatScale = 0.8f;
@@ -160,6 +165,33 @@ public class GroundDrill extends AquaBlock {
 
         addBar("drillspeed", (DrillBuild e) ->
                 new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.lastDrillSpeed * 60 * e.timeScale(), 2)), () -> Pal.ammo, () -> e.warmup));
+
+        //Booster bars, matching the factory UI.
+        for(Consume cons : consumers){
+            if(cons instanceof AquaConsume ac){
+                for(AquaConsume.Entry e : ac.entries){
+                    if(!e.required) addBoosterBars(e.consumer);
+                }
+            }else if(cons.booster){
+                addBoosterBars(cons);
+            }
+        }
+    }
+
+    /** Adds a liquid boost bar for a booster consumer, replacing any plain liquid bar added by the base block. */
+    protected void addBoosterBars(Consume cons){
+        if(cons instanceof ConsumeLiquid cl){
+            removeBar("liquid-" + cl.liquid.name);
+            addLiquidBoostBar(cl.liquid);
+        }else if(cons instanceof ConsumeLiquids cls){
+            for(LiquidStack ls : cls.liquids){
+                removeBar("liquid-" + ls.liquid.name);
+                addLiquidBoostBar(ls.liquid);
+            }
+        }else if(cons instanceof ConsumeLiquidFilter filt){
+            removeBar("liquid");
+            addLiquidBoostBar(filt::getConsumed);
+        }
     }
 
     public Item getDrop(Tile tile) {
@@ -196,11 +228,14 @@ public class GroundDrill extends AquaBlock {
         int i = 0;
         for (Item item : fake.returnItems) {
             if (item.hardness <= tier) {
+                float count = fake.returnCounts.get(item, 0);
+                float mult = fake.returnMultipliers.get(item, 1f);
+
                 Draw.color(Color.valueOf("002c80"));
                 Draw.color(Color.white);
                 float width = drawPlaceText(
                         Core.bundle.formatFloat("bar.drillspeed",
-                                60f / getDrillTime(item) * fake.returnCounts.get(item, 0), 2),
+                                60f / getDrillTime(item) * count, 2),
                         x, y + (int)(i * spacing), valid
                 );
                 Draw.color();
@@ -212,6 +247,13 @@ public class GroundDrill extends AquaBlock {
                 Draw.rect(item.fullIcon, dx, dy -1f, s, s);
                 Draw.reset();
                 Draw.rect(item.fullIcon, dx, dy, s, s);
+
+                if (mult != 1f) {
+                    i++;
+                    drawPlaceText(Core.bundle.format("bar.drillmultiplier",
+                            Strings.autoFixed(mult, 2), Strings.autoFixed(count, 1)),
+                            x, y + (int)(i * spacing), valid);
+                }
             } else {
                 Draw.color(Color.white);
                 drawPlaceText(Core.bundle.get("bar.drilltierreq"),
@@ -287,27 +329,39 @@ public class GroundDrill extends AquaBlock {
     protected void countOre(Tile tile, DrillBuild build) {
         build.returnItems.clear();
         build.returnCounts.clear();
+        build.returnMultipliers.clear();
 
         ObjectFloatMap<Item> oreCount = new ObjectFloatMap<>();
+        ObjectFloatMap<Item> multiplier = new ObjectFloatMap<>();
         Seq<Item> itemArray = new Seq<>();
         //Accounting for both overlays and floors is sorta a pain but it works.
         for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){
             if(other.block().isStatic()) continue;
             Floor floor = other.floor();
             Floor overlay = other.overlay();
-            if(overlay != null && overlay.itemDrop != null){
-                Item drop = overlay.itemDrop;
-                if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){
-                    //float mult = overlay instanceof AquaFloor af ? af.itemDropMultiplier : 1f;
-                    oreCount.increment(drop, 0f, 1);
+            Item overlayDrop = overlay != null ? overlay.itemDrop : null;
+            Item floorDrop = floor != null ? floor.itemDrop : null;
+            //Same drop on both overlay and floor: don't stack the multipliers, use the strongest once per tile.
+            if(overlayDrop != null && floorDrop != null && overlayDrop == floorDrop){
+                if(overlayDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(overlayDrop))){
+                    float mult = Math.max(dropMultiplier(overlay), dropMultiplier(floor));
+                    oreCount.increment(overlayDrop, 0f, mult);
+                    multiplier.put(overlayDrop, Math.max(multiplier.get(overlayDrop, 1f), mult));
                 }
-            }
-
-            if(floor != null && floor.itemDrop != null){
-                Item drop = floor.itemDrop;
-                if(drop.hardness <= tier && (blockedItems == null || !blockedItems.contains(drop))){
-                    float mult = floor instanceof AquaFloor af ? af.itemDropMultiplier : 1f;
-                    oreCount.increment(drop, 0f, mult);
+            }else{
+                if(overlayDrop != null){
+                    if(overlayDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(overlayDrop))){
+                        float mult = dropMultiplier(overlay);
+                        oreCount.increment(overlayDrop, 0f, mult);
+                        multiplier.put(overlayDrop, Math.max(multiplier.get(overlayDrop, 1f), mult));
+                    }
+                }
+                if(floorDrop != null){
+                    if(floorDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(floorDrop))){
+                        float mult = dropMultiplier(floor);
+                        oreCount.increment(floorDrop, 0f, mult);
+                        multiplier.put(floorDrop, Math.max(multiplier.get(floorDrop, 1f), mult));
+                    }
                 }
             }
         }
@@ -328,7 +382,13 @@ public class GroundDrill extends AquaBlock {
         for (Item item : itemArray) {
             build.returnItems.add(item);
             build.returnCounts.put(item, oreCount.get(item,0));
+            build.returnMultipliers.put(item, multiplier.get(item, 1f));
         }
+    }
+
+    /** The output multiplier for a floor/overlay with a drop. */
+    protected float dropMultiplier(Floor f){
+        return f instanceof AquaFloor af ? af.itemDropMultiplier : 1f;
     }
 
     public boolean canMine(Tile tile){
@@ -351,6 +411,7 @@ public class GroundDrill extends AquaBlock {
     public class DrillBuild extends Building implements HeatConsumer {
         public Seq<Item> returnItems = new Seq<>();
         public ObjectFloatMap<Item> returnCounts = new ObjectFloatMap<>();
+        public ObjectFloatMap<Item> returnMultipliers = new ObjectFloatMap<>();
         public ObjectFloatMap<Item> progresses = new ObjectFloatMap<>();
         public float progress;
         public float totalProgress;

@@ -382,13 +382,25 @@ public class CoreBlocks {
             shouldCraft = false;
             shouldEmptyUpgrade = false;
             base = (GenericNeoplasiaBlock) neoplasiaMass;
+            requiredTech = 1;
         }};
         heart = new NeoplasmHeart("neoplasm-heart") {{
             requirements(Category.effect, with(crystal, 9));
             buildVisibility = BuildVisibility.sandboxOnly;
             size = 1;
             health = 500;
+            baseSize = 14f;
+            maxAmount = 500f;
+            startMass = 25f;
+            selfGrowRate = 0.05f;
+            techStep = 100f;
+            techMax = 5;
+            heartCost = 150f;
+            colFrom = Color.valueOf("8B0000");
+            colTo = Color.valueOf("FF6347");
         }};
+        NeoplasiaGraph.heartBlock = (GenericNeoplasiaBlock) heart;
+        NeoplasiaGraph.heartCost = ((NeoplasmHeart) heart).heartCost;
         neoplasmBlobber = new NeoplasmTurret("neoplasm-blobber"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             maxAmount = 500;
@@ -400,6 +412,7 @@ public class CoreBlocks {
             itemCost = ItemStack.with(crystal, 3);
             colFrom = Color.valueOf("8B0000");
             colTo = Color.valueOf("FF6347");
+            requiredTech = 1;
         }};
         //Holy Jank...
         overwrite(OreSlurper, (NeoplasiaproductionBlock r) -> {
@@ -411,17 +424,20 @@ public class CoreBlocks {
             r.oreUpgrade = (GenericNeoplasiaBlock) oresplurpererer;
             r.base = (GenericNeoplasiaBlock) neoplasiaMass;
             r.buildVisibility = BuildVisibility.sandboxOnly;
+            r.requiredTech = 1;
         });
         overwrite(oresplurpererer, (NeoplasiaproductionBlock r) -> {
             r.oreUpgrade = null;
             r.base = (GenericNeoplasiaBlock) thicBlob;
             r.buildVisibility = BuildVisibility.sandboxOnly;
+            r.requiredTech = 2;
         });
         overwrite(callus, (DefensiveNeoplasiaBlock r) -> {
             r.oreUpgrade = null;
             //DamageUpgrade works in reverse here.
             r.damageUpgrade = (GenericNeoplasiaBlock) neoplasiaMass;
             r.buildVisibility = BuildVisibility.sandboxOnly;
+            r.requiredTech = 2;
         });
         overwrite(neoplasiaMass, (GenericNeoplasiaBlock r) -> {
             r.base = (GenericNeoplasiaBlock) neoplasiaMass;

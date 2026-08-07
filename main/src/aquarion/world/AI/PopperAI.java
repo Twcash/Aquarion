@@ -1,11 +1,13 @@
 package aquarion.world.AI;
 
 import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
+import arc.func.Cons;
 import arc.math.Mathf;
 import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.entities.Units;
 import mindustry.entities.units.AIController;
+import mindustry.gen.Unit;
 import mindustry.type.ItemStack;
 import mindustry.world.Tile;
 
@@ -51,23 +53,68 @@ public class PopperAI extends AIController {
     /** Seconds a popper may live before it must deposit; idle poppers despawn so they don't accumulate. */
     public float lifetime = 60f;
     public float lifetimeTimer;
+    /** Distance in world units from its spawn point a popper must travel before it can deposit. Prevents poppers from instantly self-destructing on a tile right next to the tree. */
+    public float minDepositDistance = 60f;
+    public float spawnX, spawnY;
+    public boolean hasSpawn;
+    final float[] steeringSum = new float[5];
+    final float[] pushVec = new float[2];
+    final Cons<Unit> separationScan = other -> {
+        if (other == unit) return;
+        float d = unit.dst(other);
+        if (d < 0.001f || d >= separationRadius + other.hitSize / 2f) return;
+        float w = (1f - d / (separationRadius + other.hitSize / 2f)) * separationForce;
+        steeringSum[0] += (unit.x - other.x) / d * w;
+        steeringSum[1] += (unit.y - other.y) / d * w;
+        steeringSum[2] += other.vel.x;
+        steeringSum[3] += other.vel.y;
+        steeringSum[4]++;
+    };
 
     public Tile target;
     public float timer = rescanTime;
     public float wanderAngle;
     public float wanderDist;
     public float wanderTimer;
+    public float lastX, lastY;
+    public float stuckTimer;
+    public float pushDisableTimer;
+    public boolean hasLastPos;
 
     @Override
     public void updateMovement() {
         if (unit == null || unit.dead()) return;
+        if (!hasSpawn) {
+            hasSpawn = true;
+            spawnX = unit.x;
+            spawnY = unit.y;
+        }
         lifetimeTimer += Time.delta;
         if (lifetimeTimer >= lifetime) {
             unit.kill();
             return;
         }
+        if (!hasLastPos) {
+            hasLastPos = true;
+            lastX = unit.x;
+            lastY = unit.y;
+        }
+        float moveDist = Mathf.dst(unit.x - lastX, unit.y - lastY);
+        lastX = unit.x;
+        lastY = unit.y;
+        if (moveDist < 0.15f) {
+            stuckTimer += Time.delta;
+        } else {
+            stuckTimer = 0f;
+        }
+        if (stuckTimer >= 60f) {
+            stuckTimer = 0f;
+            pushDisableTimer = 90f;
+            target = null;
+        }
+        if (pushDisableTimer > 0f) pushDisableTimer -= Time.delta;
         timer += Time.delta;
-        if (timer >= rescanTime) {
+        if (timer >= rescanTime && pushDisableTimer <= 0f) {
             timer = 0f;
             target = findTarget();
             if (target != null) lifetimeTimer = 0f;
@@ -79,19 +126,13 @@ public class PopperAI extends AIController {
                 wanderAngle = Mathf.random(360f);
                 wanderDist = Mathf.random(wanderRadius * 0.4f, wanderRadius);
             }
-            float[] sum = {0f, 0f, 0f, 0f, 0f};
-            Units.nearby(unit.x - separationRadius, unit.y - separationRadius, separationRadius * 2f, separationRadius * 2f, other -> {
-                if (other == unit) return;
-                float d = unit.dst(other);
-                if (d < 0.001f || d >= separationRadius + other.hitSize / 2f) return;
-                float w = (1f - d / (separationRadius + other.hitSize / 2f)) * separationForce;
-                sum[0] += (unit.x - other.x) / d * w;
-                sum[1] += (unit.y - other.y) / d * w;
-                sum[2] += other.vel.x;
-                sum[3] += other.vel.y;
-                sum[4]++;
-            });
-            float sx = sum[0], sy = sum[1], ax = sum[2], ay = sum[3], count = sum[4];
+            steeringSum[0] = 0f;
+            steeringSum[1] = 0f;
+            steeringSum[2] = 0f;
+            steeringSum[3] = 0f;
+            steeringSum[4] = 0f;
+            Units.nearby(unit.x - separationRadius, unit.y - separationRadius, separationRadius * 2f, separationRadius * 2f, separationScan);
+            float sx = steeringSum[0], sy = steeringSum[1], ax = steeringSum[2], ay = steeringSum[3], count = steeringSum[4];
             if (count > 0) {
                 ax = ax / count * alignmentForce;
                 ay = ay / count * alignmentForce;
@@ -109,9 +150,10 @@ public class PopperAI extends AIController {
             }
             bx *= boundaryForce;
             by *= boundaryForce;
-            float[] op = {0f, 0f};
-            obstaclePush(op);
-            Tmp.v1.set(unit.x + sx + ax + bx + op[0] + Mathf.cosDeg(wanderAngle) * wanderDist, unit.y + sy + ay + by + op[1] + Mathf.sinDeg(wanderAngle) * wanderDist);
+            pushVec[0] = 0f;
+            pushVec[1] = 0f;
+            if (pushDisableTimer <= 0f) obstaclePush(pushVec);
+            Tmp.v1.set(unit.x + sx + ax + bx + pushVec[0] + Mathf.cosDeg(wanderAngle) * wanderDist, unit.y + sy + ay + by + pushVec[1] + Mathf.sinDeg(wanderAngle) * wanderDist);
             moveTo(Tmp.v1, 0f);
             unit.lookAt(Tmp.v1);
             return;
@@ -123,12 +165,21 @@ public class PopperAI extends AIController {
             return;
         }
         moveTo(target, depositRange * 0.5f);
-        float[] op = {0f, 0f};
-        obstaclePush(op);
-        if (op[0] != 0f || op[1] != 0f) {
-            float fade = Mathf.clamp((unit.dst(target) - depositRange) / obstacleRadius, 0f, 1f);
-            vec.add(op[0] * fade, op[1] * fade).limit(unit.speed());
-            unit.movePref(vec);
+        if (pushDisableTimer <= 0f) {
+            pushVec[0] = 0f;
+            pushVec[1] = 0f;
+            obstaclePush(pushVec);
+            if (pushVec[0] != 0f || pushVec[1] != 0f) {
+                float fade = Mathf.clamp((unit.dst(target) - depositRange) / obstacleRadius, 0f, 1f);
+                float toX = target.worldx() - unit.x, toY = target.worldy() - unit.y;
+                float toLen = Mathf.len(toX, toY);
+                if (toLen > 0.001f) {
+                    float dx = toX / toLen, dy = toY / toLen;
+                    float side = (-dy * pushVec[0] + dx * pushVec[1]) * fade;
+                    vec.add(-dy * side, dx * side).limit(unit.speed());
+                    unit.movePref(vec);
+                }
+            }
         }
         unit.lookAt(target);
     }
@@ -167,6 +218,7 @@ public class PopperAI extends AIController {
                 Tile t = world.tile(unit.tileX() + dx, unit.tileY() + dy);
                 if (t == null || t.solid() || t.floor().isDeep()) continue;
                 if (t.build != null) continue;
+                if (Mathf.dst(t.worldx() - spawnX, t.worldy() - spawnY) < minDepositDistance) continue;
                 float d = unit.dst(t.worldx(), t.worldy());
                 if (t.overlay() != null && t.overlay().itemDrop != null) {
                     if (d < bestOreDst) {
@@ -184,6 +236,7 @@ public class PopperAI extends AIController {
 
     boolean deposit(Tile tile) {
         if (tile == null || tile.build != null) return false;
+        if (Mathf.dst(tile.worldx() - spawnX, tile.worldy() - spawnY) < minDepositDistance) return false;
         GenericNeoplasiaBlock block = blobBlock != null ? blobBlock : defaultBlobBlock;
         if (block == null) return false;
         tile.setBlock(block, unit.team);

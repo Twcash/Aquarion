@@ -2,11 +2,13 @@ package aquarion.world.blocks.neoplasia;
 
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.Renderer;
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.math.Interp;
 import arc.math.Mathf;
+import arc.math.geom.Vec2;
 import arc.util.Time;
 import mindustry.world.meta.BuildVisibility;
 
@@ -27,6 +29,10 @@ public class DefensiveNeoplasiaBlock extends GenericNeoplasiaBlock{
     public float reverseUpgradeThreshold = 10f;
     public float reverseUpgradeChance = 0.0003f;
     public class defensiveNeoplasiaBlockBuild extends NeoplasiaBuild {
+
+        final Cons<Vec2> wiggle = vec -> vec.add(
+            Mathf.sin(vec.y * 3 + Time.time, wscl, wmag) + Mathf.sin(vec.x * 3 - Time.time, 70 * wtscl, 0.8f * wmag2),
+            Mathf.cos(vec.x * 3 + Time.time + 8, wscl + 6f, wmag * 1.1f) + Mathf.sin(vec.y * 3 - Time.time, 50 * wtscl, 0.2f * wmag2));
 
         @Override
         public void created(){
@@ -78,9 +84,7 @@ public class DefensiveNeoplasiaBlock extends GenericNeoplasiaBlock{
             Draw.scl(scale);
             Draw.color();
             Draw.z(Renderer.Layer.blockOver + 2);
-            Draw.rectv(region, tile.worldx(), tile.worldy(), region.width * region.scl() * scale, region.height * region.scl() * scale, 0, vec -> vec.add(
-                    Mathf.sin(vec.y*3 + Time.time, wscl, wmag) + Mathf.sin(vec.x*3 - Time.time, 70 * wtscl, 0.8f * wmag2),
-                    Mathf.cos(vec.x*3 + Time.time + 8, wscl + 6f, wmag * 1.1f) + Mathf.sin(vec.y*3 - Time.time, 50 * wtscl, 0.2f * wmag2)));
+            Draw.rectv(region, tile.worldx(), tile.worldy(), region.width * region.scl() * scale, region.height * region.scl() * scale, 0, wiggle);
         }
     }
 }
