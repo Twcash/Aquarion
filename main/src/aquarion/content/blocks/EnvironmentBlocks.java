@@ -80,7 +80,7 @@ public class EnvironmentBlocks {
             itemDrop = sporePod;
         }};
         algal_carpet = new Floor("algal-carpet", 5) {{
-
+            attributes.set(fertility, 1.5f);
         }};
         rubble = new Floor("rubble"){{
             variants = 3;
@@ -736,7 +736,6 @@ public class EnvironmentBlocks {
 
         algalBloom = new StaticWall("algal-bloom") {{
             variants = 1;
-            attributes.set(fertility, 1.5f);
         }};
 
         feldsparWall = new StaticWall("feldspar-wall") {{
