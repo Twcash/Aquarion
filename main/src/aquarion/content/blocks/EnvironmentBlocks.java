@@ -112,6 +112,7 @@ public class EnvironmentBlocks {
             lightColor = Color.orange.cpy().a(0.38f);
             obstructsLight = true;
             forceDrawLight = true;
+            attributes.set(fertility, -5f);
         }};
         shallowYellowstoneSlag = new Floor("shallow-yellowstone-slag") {{
             speedMultiplier = 0.25f;
@@ -129,6 +130,7 @@ public class EnvironmentBlocks {
             variants = 3;
             drawEdgeOut = false;
             drawEdgeIn = true;
+            attributes.set(fertility, -5f);
         }};
         shallowSlagPlates = new AquaTiledFloor("shallow-slag-plates") {{
             speedMultiplier = 0.1f;
@@ -149,6 +151,7 @@ public class EnvironmentBlocks {
             forceDrawLight = true;
             drawEdgeOut = false;
             drawEdgeIn = true;
+            attributes.set(fertility, -5f);
         }};
         /*aquaslag = new Floor("aquaslag"){{
             drownTime = 230f;
@@ -202,14 +205,17 @@ public class EnvironmentBlocks {
         }};
         boricFloor = new Floor("boric-floor", 4) {{
             wall = boricWall;
+            attributes.set(fertility, -5f);
         }};
         boricFloorDense = new Floor("boric-floor-dense", 4) {{
             wall = boricWall;
+            attributes.set(fertility, -5f);
         }};
         petroleumSeep = new Floor("petroleum-seep", 3){{
             liquidDrop = AquaLiquids.petroleum;
             liquidMultiplier = 0.25f;
             speedMultiplier = 0.75f;
+            attributes.set(fertility, -5f);
         }};
         petroleumFloor = new Floor("liquid-petroleum", 0){{
             liquidDrop = AquaLiquids.petroleum;
@@ -261,6 +267,10 @@ public class EnvironmentBlocks {
         overwrite(yellowStoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
         overwrite(redStoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
         overwrite(shale, (Floor s) -> s.attributes.set(metamorphic, 1f));
+        overwrite(Blocks.salt, (Floor s) -> s.attributes.set(fertility, -5f));
+        overwrite(hotrock, (Floor s) -> s.attributes.set(fertility, -5f));
+        overwrite(magmarock, (Floor s) -> s.attributes.set(fertility, -5f));
+        overwrite(carbonStone, (Floor s) -> s.attributes.set(metamorphic, 1.5f));
 
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
@@ -271,16 +281,20 @@ public class EnvironmentBlocks {
             attributes.set(iron, 0.8f);
         }};
         Blocks.salt.itemDrop = salt;
+        saltWall.itemDrop = salt;
         pinkSaltFlats = new  AquaTiledFloor("pink-salt-flats"){{
             itemDrop = salt;
             tilingVariants = 1;
             tilingSize = 5;
+            attributes.set(fertility, -5f);
         }};
         pinkSaltFloor = new Floor("pink-salt", 3){{
             itemDrop = salt;
+            attributes.set(fertility, -5f);
         }};
         smoothPinkSaltFloor = new Floor("smooth-pink-salt", 8){{
             itemDrop = salt;
+            attributes.set(fertility, -5f);
         }};
         
         andesiteLayers = new Floor("andesite-layers", 4) {{
@@ -439,8 +453,10 @@ public class EnvironmentBlocks {
             variants = 3;
         }};
         arsenideFloor = new Floor("arsenide-floor", 4) {{
+            attributes.set(fertility, -5f);
         }};
         arsenideLayers = new Floor("arsenide-layers", 4) {{
+            attributes.set(fertility, -5f);
         }};
         chertFloor = new Floor("chert-floor", 4) {{
             attributes.set(metamorphic, 0.2f);
@@ -460,10 +476,11 @@ public class EnvironmentBlocks {
             attributes.set(AquaAttributes.fertility, 1f);
         }};
         fertileSoil = new Floor("fertile-soil", 3) {{
-            attributes.set(AquaAttributes.fertility, 1.5f);
+            attributes.set(AquaAttributes.fertility, 1.25f);
         }};
         overwrite(dirt, (Floor s) -> s.attributes.set(fertility, 0.25f));
-        overwrite(mud, (Floor s) -> s.attributes.set(fertility, 0.5f));
+        overwrite(mud, (Floor s) -> s.attributes.set(fertility, 0.75f));
+        overwrite(grass, (Floor s) -> s.attributes.set(fertility, 1f));
         plates1 = new Floor("plates"){{
             autotile = true;
             drawEdgeIn = drawEdgeOut = false;
@@ -664,14 +681,17 @@ public class EnvironmentBlocks {
             buildVisibility = BuildVisibility.sandboxOnly;
         }};
         sporeMoss.attributes.set(fertility, 0.75f);
+        moss.attributes.set(fertility, 0.5f);
         basalt.attributes.set(metamorphic, 0.5f);
         darksand.attributes.set(metamorphic, 0.5f);
         sandWall.attributes.set(Attribute.sand, 2f);
         duneWall.attributes.set(Attribute.sand, 2f);
 
         leafLitter = new Floor("leaf-litter", 3) {{
+            attributes.set(fertility,0.75f);
         }};
         leafLitterDense = new Floor("leaf-litter-dense", 3) {{
+            attributes.set(fertility,0.5f);
         }};
         oreBauxite = new OreBlock("ore-bauxite", AquaItems.bauxite);
         oreNickel = new OreBlock("ore-nickel", nickel);
@@ -716,6 +736,7 @@ public class EnvironmentBlocks {
 
         algalBloom = new StaticWall("algal-bloom") {{
             variants = 1;
+            attributes.set(fertility, 1.5f);
         }};
 
         feldsparWall = new StaticWall("feldspar-wall") {{
@@ -861,6 +882,7 @@ public class EnvironmentBlocks {
         }};
         crasindFloor = new Floor("crasind-floor") {{
             variants = 4;
+            attributes.set(fertility, 0.25f);
         }};
         tyrqPod = new FloraBlock("tyrq-pod") {{
             shadowAlpha = 0.7f;
@@ -1340,12 +1362,14 @@ public class EnvironmentBlocks {
             lightColor = Color.valueOf("f1563c45");
             lightRadius = 40;
             emitLight = true;
+            attributes.set(fertility, 0.5f);
         }};
         tranticaOvergrownFloor = new Floor("trantica-overgrowth-floor") {{
                 variants = 4;
             lightColor = Color.valueOf("f1563c45");
             lightRadius = 16;
             emitLight = true;
+            attributes.set(fertility, 0.5f);
             }};
         tranticaOvergrownWall = new StaticWall("trantica-overgrowth-wall") {{
             variants = 3;
