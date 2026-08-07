@@ -62,6 +62,8 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
 import static arc.math.Interp.*;
+import static mindustry.Vars.state;
+import static mindustry.Vars.tilesize;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
@@ -75,6 +77,7 @@ public class TurretBlocks {
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
+
     public static void loadContent() {
         point = new AquaTemplates.AquaItemTurretTemplate("point") {{
             requirements(Category.turret, with(silicon, 35f, lead, 30));
@@ -525,7 +528,8 @@ public class TurretBlocks {
                     minium, new BasicBulletType(6, 30){{
                         width = 9;
                         height = 14;
-                        randomAngleOffset = 1;
+                        randomAngleOffset = 5;
+                        reloadMultiplier = 2f;
                         frontColor = Color.white;
                         backColor = trailColor = minium.color;
                         trailLength = 14;
@@ -535,7 +539,7 @@ public class TurretBlocks {
                         smokeEffect = Fx.fireSmoke;
                         hitEffect = despawnEffect = AquaFx.hitBulletColor2;
                     }},
-                    brimstone, new BasicBulletType(12, 45){{
+                    brimstone, new BasicBulletType(12, 60){{
                         width = 9;
                         height = 14;
                         randomAngleOffset = 1;
@@ -1586,7 +1590,7 @@ public class TurretBlocks {
             shootY = 0;
             coolantMultiplier = 0.2f;
             ammo(
-                    lead, new BasicBulletType(6, 65, "bullet") {{
+                    lead, new BasicBulletType(6, 32, "bullet") {{
                         width = 10f;
                         height = 16f;
                         trailLength = 12;
@@ -1601,7 +1605,7 @@ public class TurretBlocks {
                         frontColor = lightColor = hitColor = Color.white;
                         backColor = trailColor = Color.valueOf("8d70ab");
                     }},
-                    AquaItems.ferricMatter, new BasicBulletType(6, 80, "bullet") {{
+                    AquaItems.ferricMatter, new BasicBulletType(6, 40, "bullet") {{
                         width = 10f;
                         height = 18f;
                         trailLength = 10;
@@ -1614,7 +1618,7 @@ public class TurretBlocks {
                         shrinkY = 0.8f;
                         frontColor = lightColor = hitColor = Color.white;
                         backColor = trailColor = AquaItems.ferricMatter.color;
-                        splashDamage = 40;
+                        splashDamage = 25;
                         splashDamageRadius = 8 * 3;
                         hitEffect = despawnEffect = new ExplosionEffect() {{
                             smoke = smokeLight;
@@ -1628,7 +1632,7 @@ public class TurretBlocks {
                             waveRad = 8;
                         }};
                     }},
-                    brass, new BasicBulletType(6, 50, "bullet") {{
+                    brass, new BasicBulletType(6, 25, "bullet") {{
                         width = 10f;
                         height = 18f;
                         trailLength = 10;
@@ -1966,7 +1970,6 @@ public class TurretBlocks {
                     AquaItems.towanite, new LaserBulletType() {{
                         length = 400;
                         damage = 350;
-                        lifetime = 120;
                         shootEffect = Fx.shootTitan;
                         smokeEffect = AquaFx.GyreShootSmoke;
                         hitEffect = Fx.blastExplosion;
@@ -1979,9 +1982,10 @@ public class TurretBlocks {
                     }},
                     acuminite, new LaserBulletType() {{
                         length = 250;
-                        damage = 300;
+                        damage = 180;
                         sideAngle = 45;
                         rangeChange = -150;
+                        reloadMultiplier = 2f;
                         shootEffect = Fx.shootTitan;
                         smokeEffect = AquaFx.GyreShootSmoke;
                         hitEffect = Fx.blastExplosion;
@@ -2572,6 +2576,7 @@ public class TurretBlocks {
             warmupMaintainTime = 50;
             shootWarmupSpeed = 0.07f;
             minWarmup = 0.85f;
+            trackingRange = 320;
             requirements(Category.turret, with(AquaItems.brass, 250, copper, 100));
             ammo(
                     fumes, new MissileBulletType(7, 10) {{

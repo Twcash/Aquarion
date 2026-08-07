@@ -1,16 +1,19 @@
 package aquarion.content;
 
 import aquarion.world.graphics.AquaFx;
+import arc.Events;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.entities.units.StatusEntry;
+import mindustry.game.EventType;
 import mindustry.gen.Unit;
 import mindustry.graphics.Pal;
 import mindustry.type.StatusEffect;
 
+import static mindustry.Vars.state;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaStatuses {
@@ -25,6 +28,15 @@ public class AquaStatuses {
             buildSpeedMultiplier = 0.8f;
             effect = AquaFx.cold;
             allDatabaseTabs = true;
+            transitionDamage = 15;
+            init(() -> {
+                affinity(blasted, (unit, result, time) -> {
+                    unit.damagePierce(transitionDamage);
+                    if(unit.team == state.rules.waveTeam){
+                        Events.fire(EventType.Trigger.blastFreeze);
+                    }
+                });
+            });
         }};
         flung = new AquaStatusEffect("flung"){{
             dragMultiplier = 0.1f;
