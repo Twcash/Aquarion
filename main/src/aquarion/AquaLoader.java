@@ -93,7 +93,7 @@ public class AquaLoader extends Mod {
     public AquaLoader(boolean tools){
         AquaLoader.tools = tools;
         Events.run(EventType.Trigger.draw, Renderer::draw);
-        //Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
+        Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
         Events.on(EventType.WorldLoadEvent.class, e -> NeoplasiaGraph.reset());
         ModEventHandler.init();
 

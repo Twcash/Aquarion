@@ -9,11 +9,13 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.TextureRegion;
+import arc.func.Cons;
 import arc.math.Angles;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.Rand;
 import arc.math.geom.Geometry;
+import arc.math.geom.Vec2;
 import arc.util.Time;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
@@ -58,12 +60,15 @@ public class NeoplasiaproductionBlock extends GenericNeoplasiaBlock{
     public class NeoplasiaProductionBlockBuild extends NeoplasiaBuild{
         public float prog = 0;
 
+        final Cons<Vec2> wiggle = vec -> vec.add(
+            Mathf.sin(vec.y * 3 + Time.time * Mathf.randomSeed(id, -0.1f, 1.3f), wscl, wmag) + Mathf.sin(vec.x * 3 - Time.time * Mathf.randomSeed(id, -0.1f, 1.2f), 70 * wtscl, 0.8f * wmag2),
+            Mathf.cos(vec.x * 3 + Time.time + 8 * Mathf.randomSeed(id, -0.1f, 1.2f), wscl + 6f, wmag * 1.1f) + Mathf.sin(vec.y * 3 - Time.time * Mathf.randomSeed(id, -0.1f, 1.2f), 50 * wtscl, 0.2f * wmag2));
+
         @Override
         void tryUpgrades() {
             super.tryUpgrades();
             if (input != null) {
-                neededItems.add(input.item);
-                neededAmounts.put(input.item, input.amount);
+                needItem(input.item, input.amount);
             }
         }
 
@@ -78,8 +83,7 @@ public class NeoplasiaproductionBlock extends GenericNeoplasiaBlock{
                         prog = 0;
                         amount -= craftCost;
                     } else if(items.get(input.item) < input.amount){
-                        neededItems.add(input.item);
-                        neededAmounts.put(input.item, input.amount);
+                        needItem(input.item, input.amount);
                         pullItems(input.item, input.amount);
                     }
                 } else{
@@ -104,9 +108,7 @@ public class NeoplasiaproductionBlock extends GenericNeoplasiaBlock{
             Draw.scl(scale);
             Draw.z(Renderer.Layer.blockOver + 2);
             Draw.color();
-            Draw.rectv(region, tile.worldx(), tile.worldy(), region.width * region.scl() * scale, region.height * region.scl() * scale, Mathf.randomSeed(id, -45, 45), vec -> vec.add(
-                    Mathf.sin(vec.y*3 + Time.time* Mathf.randomSeed(id, -0.1f, 1.3f), wscl, wmag) + Mathf.sin(vec.x*3 - Time.time * Mathf.randomSeed(id, -0.1f, 1.2f), 70 * wtscl, 0.8f * wmag2),
-                    Mathf.cos(vec.x*3 + Time.time + 8* Mathf.randomSeed(id, -0.1f, 1.2f), wscl + 6f, wmag * 1.1f) + Mathf.sin(vec.y*3 - Time.time* Mathf.randomSeed(id, -0.1f, 1.2f), 50 * wtscl, 0.2f * wmag2)));
+            Draw.rectv(region, tile.worldx(), tile.worldy(), region.width * region.scl() * scale, region.height * region.scl() * scale, Mathf.randomSeed(id, -45, 45), wiggle);
             Draw.z(Renderer.Layer.neoplasiaBase -0.2f);
             for(int i = 0; i < Mathf.randomSeed(this.id, 4, 6); i++){
                float rote = Mathf.randomSeed(this.id + i, 0, 360) + Mathf.sin(Time.time/5f, 1);

@@ -31,6 +31,7 @@ public class SpewerAI extends AIController {
     public float wanderAngle;
     public float wanderTimer;
     public float shootTimer;
+    final float[] pushVec = new float[2];
 
     @Override
     public void updateMovement() {
@@ -53,9 +54,10 @@ public class SpewerAI extends AIController {
         }
         bx *= boundaryForce;
         by *= boundaryForce;
-        float[] op = {0f, 0f};
-        obstaclePush(op);
-        Tmp.v1.set(unit.x + bx + op[0] + Mathf.cosDeg(wanderAngle) * wanderRadius, unit.y + by + op[1] + Mathf.sinDeg(wanderAngle) * wanderRadius);
+        pushVec[0] = 0f;
+        pushVec[1] = 0f;
+        obstaclePush(pushVec);
+        Tmp.v1.set(unit.x + bx + pushVec[0] + Mathf.cosDeg(wanderAngle) * wanderRadius, unit.y + by + pushVec[1] + Mathf.sinDeg(wanderAngle) * wanderRadius);
         moveTo(Tmp.v1, 0f);
         unit.lookAt(Tmp.v1);
 
