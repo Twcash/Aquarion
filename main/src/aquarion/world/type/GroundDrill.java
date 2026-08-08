@@ -295,28 +295,24 @@ public class GroundDrill extends AquaBlock implements AquaBarHelpers.CustomBarHo
                 f.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(f.itemDrop)) && (indexer.isBlockPresent(f) || state.isMenu())));
 
         stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);
-        if (baseEfficiency < 1 && heatRequirement != 0) {
-            if(hasHeat)  stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
-        } else {
-            if(hasHeat) stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, baseEfficiency, maxEfficiency, flipHeatScale));
-        }
         boolean hasItemBooster = itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems;
         boolean hasLiquidBooster = liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase;
         if(hasItemBooster || hasLiquidBooster){
             stats.remove(Stat.booster);
             if(hasHeat && baseEfficiency >= 1) stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, baseEfficiency, maxEfficiency, flipHeatScale));
         }
-        if (hasItemBooster) {
-            ConsumeItems coni = (ConsumeItems)findConsumer(f -> f instanceof ConsumeItems && f.booster);
-            stats.add(Stat.booster, AquaStats.itemBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, ItemBoostUseTime));
+        if(hasHeat && heatRequirement != 0f){
+            if(baseEfficiency <= 0){
+                stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
+            }else{
+                stats.add(Stat.booster, heatRequirement, StatUnit.heatUnits);
+            }
         }
-        if (hasLiquidBooster) {
-            ConsumeLiquidBase consBase = (ConsumeLiquidBase)findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster);
-            stats.add(Stat.booster,
-                    StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
-                            consBase.amount,
-                            liquidBoostIntensity, false, liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
-            );
+        stats.add(Stat.maxEfficiency, (int)(maxEfficiency * 100f), StatUnit.percent);
+        for(Consume c : consumers){
+            if(c instanceof AquaConsume ac){
+                ac.display(stats, stats.timePeriod);
+            }
         }
     }
 
