@@ -114,7 +114,8 @@ public class AquaBullets {
         smokeEffect = AquaFx.shootSmoke1;
         hitEffect = Fx.hitFlameSmall;
         despawnEffect = Fx.smokePuff;
-    }},voltShoot = new GambleBulletType( new float[]{0.99f, 0.01f}, new LightningBulletType(){{
+    }},
+    voltShoot = new GambleBulletType( new float[]{0.99f, 0.01f}, new LightningBulletType(){{
         damage = 4;
         lightningLength = 12;
         collidesAir = false;
@@ -197,7 +198,8 @@ public class AquaBullets {
         despawnEffect = hitEffect = AquaFx.hitBulletColor2;
         shootEffect = AquaFx.shootHori;
         smokeEffect = AquaFx.shootSmoke2;
-    }}, suffocateSand = new AquaBulletType(5f, 10, "aquarion-sand-clump"){{
+    }},
+    suffocateSand = new AquaBulletType(5f, 10, "aquarion-sand-clump"){{
         shootPattern = new ShootPattern(){{
             shots = 9;
         }};
@@ -215,7 +217,8 @@ public class AquaBullets {
         width = height = 8;
         layer = Renderer.Layer.flyingUnitLow + 0.1f;
         hitEffect = despawnEffect = new WrapEffect(Fx.breakProp, sand.color);
-    }}, suffocateLead = new AquaBulletType(4, 150, "aquarion-lead-slab"){{
+    }},
+    suffocateLead = new AquaBulletType(4, 150, "aquarion-lead-slab"){{
         scaleLife = true;
         hitSize = 18;
         knockback = 20;
@@ -231,7 +234,8 @@ public class AquaBullets {
         width = height = 16;
         ammoMultiplier = 1f;
         hitEffect = despawnEffect = new WrapEffect(Fx.breakProp, lead.color);
-    }},concussGraphite = new MissileBulletType(1.8f, 40){{
+    }},
+    concussGraphite = new MissileBulletType(1.8f, 40){{
         splashDamage = 90;
         splashDamageRadius = 48;
         weaveMag = 6;
@@ -245,7 +249,8 @@ public class AquaBullets {
         backColor = trailColor = lightColor = Pal.techBlue;
         frontColor = Color.white;
         despawnEffect = hitEffect = Fx.flakExplosionBig;
-    }},vectorCupronickel = new BasicBulletType(20, 60) {{
+    }},
+    vectorCupronickel = new BasicBulletType(20, 60) {{
         ammoMultiplier = 2;
         height = 15;
         width = 24;
@@ -259,7 +264,8 @@ public class AquaBullets {
         knockback = 8f;
         frontColor = AquaPal.redDecal1;
         backColor = AquaPal.redDecal1Dark;
-    }},vectorCopper = new BasicBulletType(15, 40) {{
+    }},
+    vectorCopper = new BasicBulletType(15, 40) {{
         ammoMultiplier = 2;
         height = 15;
         width = 24;
@@ -271,7 +277,8 @@ public class AquaBullets {
         hitEffect = despawnEffect = Fx.hitBulletBig;
         frontColor = AquaPal.redDecal1;
         backColor = AquaPal.redDecal1Dark;
-    }},vectorMetaglass = new BasicBulletType() {{
+    }},
+    vectorMetaglass = new BasicBulletType() {{
         damage = 45;
         ammoMultiplier = 3;
         height = 15;
@@ -295,7 +302,8 @@ public class AquaBullets {
             height = 7;
             lifetime = 15;
         }};
-    }},vectorSteel = new BasicBulletType() {{
+    }},
+    vectorSteel = new BasicBulletType() {{
         damage = 140;
         ammoMultiplier = 6;
         height = 30;
@@ -336,7 +344,8 @@ public class AquaBullets {
         frontColor =Color.white;
         backColor = trailColor = lightColor = hitColor = AquaItems.uranium.color;
         hitEffect = despawnEffect = AquaFx.uraniumExplosion;
-    }}, fomentLead =  new MissileBulletType(3f, 75, "bullet") {{
+    }},
+    fomentLead =  new MissileBulletType(3f, 75, "bullet") {{
         width = 10f;
         height = 16f;
         trailLength = 12;
@@ -355,7 +364,8 @@ public class AquaBullets {
         frontColor = lightColor = hitColor = Color.white;
         backColor = trailColor = Color.valueOf("8d70ab");
         hitEffect = despawnEffect = AquaFx.fomentHitColor;
-    }}, fomentFerric = new MissileBulletType(3.2f, 150, "bullet") {{
+    }},
+    fomentFerric = new MissileBulletType(3.2f, 150, "bullet") {{
         width = 9f;
         height = 15f;
         trailLength = 10;
@@ -379,7 +389,8 @@ public class AquaBullets {
         frontColor = lightColor = hitColor = Color.white;
         backColor = trailColor = Color.valueOf("8d706a");
         hitEffect = despawnEffect = AquaFx.fomentHitColor;
-    }},fomentBrass = new MissileBulletType(3.2f, 120, "bullet") {{
+    }},
+    fomentBrass = new MissileBulletType(3.2f, 120, "bullet") {{
         width = 9f;
         height = 15f;
         trailLength = 10;
@@ -400,7 +411,8 @@ public class AquaBullets {
         frontColor = lightColor = hitColor = Color.white;
         backColor = trailColor = Pal.accent;
         hitEffect = despawnEffect = AquaFx.fomentHitColor;
-    }}, fomentFerrosilicon = new MissileBulletType(7.5f, 190, "bullet") {{
+    }},
+    fomentFerrosilicon = new MissileBulletType(7.5f, 190, "bullet") {{
         width = 12f;
         height = 18f;
         rangeChange = 16;
@@ -424,6 +436,7 @@ public class AquaBullets {
         frontColor = lightColor = hitColor = Color.white;
         backColor = trailColor = Color.valueOf("98a1ab");
     }},
+
     neoplasmGlob = new NeoplasmGlobBulletType(3f, 0){{
         width = 8;
         height = 8;
