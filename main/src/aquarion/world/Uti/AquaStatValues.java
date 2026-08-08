@@ -9,8 +9,10 @@ import arc.scene.ui.layout.Cell;
 import arc.scene.ui.layout.Collapser;
 import arc.scene.ui.layout.Table;
 import arc.struct.ObjectMap;
+import arc.util.Nullable;
 import arc.util.Scaling;
 import arc.util.Strings;
+import mindustry.Vars;
 import mindustry.content.StatusEffects;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.bullet.BulletType;
@@ -26,14 +28,18 @@ import static mindustry.Vars.tilesize;
 import static mindustry.world.meta.StatValues.fixValue;
 import static mindustry.world.meta.StatValues.withTooltip;
 public class AquaStatValues {
+
+    public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType> map, String blockname){
+        return ammo(map, false, false, blockname);
+    }
     public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType> map){
-        return ammo(map, false, false);
+        return ammo(map, false, false, null);
     }
 
     public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType> map, boolean showUnit){
-        return ammo(map, false, showUnit);
+        return ammo(map, false, showUnit, null);
     }
-    public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit){
+    public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit, @Nullable String blockName){
         return table -> {
 
             table.row();
@@ -47,7 +53,7 @@ public class AquaStatValues {
                 BulletType type = map.get(t);
 
                 if(type.spawnUnit != null && type.spawnUnit.weapons.size > 0){
-                    ammo(ObjectMap.of(t, type.spawnUnit.weapons.first().bullet), nested, false).display(table);
+                    ammo(ObjectMap.of(t, type.spawnUnit.weapons.first().bullet), nested, false, blockName).display(table);
                     continue;
                 }
 
@@ -65,6 +71,20 @@ public class AquaStatValues {
                             }
                         });
                         bt.row();
+                    }
+                    if(blockName != null && t instanceof UnlockableContent){
+                        UnlockableContent content = (UnlockableContent) t;
+                        String key = "block." + blockName + "." + content.name + ".info";
+                        if(Core.bundle.has(key) && !Vars.headless){
+                            bt.table(desc -> {
+                                desc.image(Icon.info.getRegion()).size(20).color(Color.lightGray).scaling(Scaling.fit).padRight(8).padLeft(12);
+                                desc.add("[lightgray]" + Core.bundle.get(key));
+                            });
+
+                            bt.row();
+                            bt.add().height(10f);
+                            bt.row();
+                        }
                     }
                     if (type.statLiquidConsumed <= 0f && !compact && !Mathf.equal(type.ammoMultiplier, 1f) && type.displayAmmoMultiplier && (!(t instanceof Turret turret) || turret.displayAmmoMultiplier)) {
                         sep(bt, Core.bundle.format("bullet.multiplier", (int) type.ammoMultiplier));
@@ -98,7 +118,7 @@ public class AquaStatValues {
                                 gbt.row();
 
                                 Table sub = new Table();
-                                ammo(ObjectMap.of(t, gb), true, false).display(sub);
+                                ammo(ObjectMap.of(t, gb), true, false, blockName).display(sub);
                                 Collapser coll = new Collapser(sub, false);
                                 coll.setDuration(0.1f);
 
@@ -206,7 +226,7 @@ public class AquaStatValues {
                             bt.row();
 
                             Table ic = new Table();
-                            ammo(ObjectMap.of(t, type.intervalBullet), true, false).display(ic);
+                            ammo(ObjectMap.of(t, type.intervalBullet), true, false, blockName).display(ic);
                             Collapser coll = new Collapser(ic, true);
                             coll.setDuration(0.1f);
 
@@ -224,7 +244,7 @@ public class AquaStatValues {
                             bt.row();
 
                             Table fc = new Table();
-                            ammo(ObjectMap.of(t, type.fragBullet), true, false).display(fc);
+                            ammo(ObjectMap.of(t, type.fragBullet), true, false, blockName).display(fc);
                             Collapser coll = new Collapser(fc, true);
                             coll.setDuration(0.1f);
 

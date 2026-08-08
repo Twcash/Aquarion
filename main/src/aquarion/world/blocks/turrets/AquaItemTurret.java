@@ -27,7 +27,7 @@ public class AquaItemTurret extends ItemTurret implements AquaBarHelpers.CustomB
     public void setStats(){
         super.setStats();
         stats.remove(Stat.ammo);
-        stats.add(Stat.ammo, AquaStatValues.ammo(ammoTypes));
+        stats.add(Stat.ammo, AquaStatValues.ammo(ammoTypes, name));
     }
 
     @Override
