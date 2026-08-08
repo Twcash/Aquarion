@@ -28,6 +28,7 @@ public class AquarionMod  implements Loadable{
         AquaSounds.load();
         AquaItems.load();
         AquaAttributes.load();
+        DialogueStories.loadContent();
         EffectBlocks.loadContent();
         AquaWeathers.load();
         //actual content needs items liquids FX ect
