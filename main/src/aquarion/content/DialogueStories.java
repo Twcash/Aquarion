@@ -22,7 +22,7 @@ public class DialogueStories {
                         .option("@1.sc", "1sc", null, "subsystem-compassion")
                         .option("@1.sa", "1sa", null, "subsystem-architect"))
                 //1sa route
-                .add(new DialogueNode("1sa", "@a", "@1sa").next(null))z
+                .add(new DialogueNode("1sa", "@a", "@1sa").next(null))
                 //1sc route
                 .add(new DialogueNode("1sc", "@c", "@1sc").next("1.2sc"))
                 .add(new DialogueNode("1.2sc", "@t", "@1.2sc").next("1.21sc"))

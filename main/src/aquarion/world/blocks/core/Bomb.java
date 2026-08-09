@@ -77,13 +77,13 @@ public class Bomb extends Block {
                     }
 
                     if(!protectOverlay){
-                        if(other.overlay() != Blocks.air && !hadOre){
+                        if((other.overlay() != Blocks.air) && !hadOre && (other.overlay()!= Blocks.spawn)){
                             other.setOverlay(Blocks.air);
                         }
 
                         float edgeStart = (radius - 1f) * (radius - 1f);
                         if(EnvironmentBlocks.scorche != null && dst2 >= edgeStart && Mathf.chance(0.6f)){
-                            if(other.overlay() == Blocks.air || other.overlay().itemDrop == null){
+                            if((other.overlay() == Blocks.air || other.overlay().itemDrop == null)  && other.overlay() != Blocks.spawn){
                                 other.setOverlay(EnvironmentBlocks.scorche);
                             }
                         }
