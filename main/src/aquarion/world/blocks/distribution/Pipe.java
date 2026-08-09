@@ -1,15 +1,15 @@
 package aquarion.world.blocks.distribution;
 
+import aquarion.world.content.LiquidReactions;
+import aquarion.world.content.LiquidUtil;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.geom.Geometry;
 import arc.util.Eachable;
-import arc.util.Tmp;
 import mindustry.Vars;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
-import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.type.Liquid;
 import mindustry.world.Block;
@@ -113,17 +113,17 @@ public class Pipe extends LiquidRouter implements Autotiler {
         private final Set<Building> visited = new HashSet<>();
 
         public void equalizeLiquids() {
-            if (liquids.currentAmount() <= 0.01f) return;
+            if (LiquidUtil.total(liquids) <= 0.01f) return;
             visited.clear();
-            aggregateAndDistributeLiquids(this);
+            liquids.each((liquid, amount) -> {
+                if(amount > 0.001f) aggregateAndDistributeLiquids(this, liquid);
+            });
         }
 
-        private void aggregateAndDistributeLiquids(Building origin) {
+        private void aggregateAndDistributeLiquids(Building origin, Liquid liquidType) {
             queue.clear();
             queue.add(origin);
             visited.add(origin);
-            if(liquids.current() == null) return;
-            Liquid liquidType = liquids.current();
             float totalLiquid = 0f;
             float totalCapacity = 0f;
             Set<Building> eligibleBlocks = new HashSet<>();
@@ -172,9 +172,17 @@ public class Pipe extends LiquidRouter implements Autotiler {
 
         @Override
         public void updateTile() {
-            if (liquids.currentAmount() > 0.01f) {
+            //reactions between mixed liquids
+            LiquidReactions.react(self());
+
+            if (LiquidUtil.total(liquids) > 0.01f) {
                 equalizeLiquids();
             }
+        }
+
+        @Override
+        public boolean acceptLiquid(Building source, Liquid liquid){
+            return LiquidUtil.freeSpace(self()) > 0.01f;
         }
 
         public void handleLiquid(Building source, Liquid liquid, float amount) {
@@ -182,8 +190,8 @@ public class Pipe extends LiquidRouter implements Autotiler {
         }
 
         public void transferLiquid(Building next, float amount, Liquid liquid) {
-            float flow = Math.min(next.block.liquidCapacity - next.liquids.get(liquid), amount);
-            if (flow > 0) {
+            float flow = Math.min(LiquidUtil.freeSpace(next), amount);
+            if (flow > 0 && next.acceptLiquid(self(), liquid)) {
                 next.handleLiquid(self(), liquid, flow);
                 liquids.remove(liquid, flow);
             }
@@ -202,22 +210,22 @@ public class Pipe extends LiquidRouter implements Autotiler {
             index1 = blending[0];
             index2 = blending[1];
         }
-        public void drawUnderPipes(float x, float y, int index1, int index2, Liquid liquid, float fullness, boolean blending) {
+        public void drawUnderPipes(float x, float y, int index1, int index2, boolean blending) {
             Draw.rect(bottomRegion, x, y);
 
-            int frame = liquid.getAnimationFrame();
-            int gas = liquid.gas ? 1 : 0;
-            float ox = 0f, oy = 0f;
-            TextureRegion liquidr = index1 == 1 ? rotateRegions[index2][gas][frame] : Vars.renderer.fluidFrames[gas][frame];
-
-
-            Drawf.liquid(liquidr, x, y, fullness, liquid.color.write(Tmp.c1).a(1f));
+            if(LiquidUtil.total(liquids) > 0.0001f){
+                //draw every mixed liquid as a flat fill stacked over the previous one
+                LiquidUtil.drawOverlayedLiquid(fluid -> {
+                    int frame = fluid.getAnimationFrame();
+                    int gas = fluid.gas ? 1 : 0;
+                    return index1 == 1 ? rotateRegions[index2][gas][frame] : Vars.renderer.fluidFrames[gas][frame];
+                }, x, y, liquidCapacity, liquids);
+            }
 
             if(blending) {
                 Draw.rect(regions[3][4], x, y);
             } else {
                 Draw.rect(regions[index1][index2], x, y);
-
             }
         }
 
@@ -231,13 +239,12 @@ public class Pipe extends LiquidRouter implements Autotiler {
                     drawUnderPipes(
                             x + Geometry.d4x(j) * Vars.tilesize,
                             y + Geometry.d4y(j) * Vars.tilesize,
-                            0, i % 2,
-                            liquids.current(), liquids.currentAmount() / liquidCapacity, true
+                            0, i % 2, true
                     );
                 }
             }
             Draw.z(Layer.block);
-            drawUnderPipes(x, y, index1, index2, liquids.current(), liquids.currentAmount() / liquidCapacity, false);
+            drawUnderPipes(x, y, index1, index2, false);
         }
     }
 }

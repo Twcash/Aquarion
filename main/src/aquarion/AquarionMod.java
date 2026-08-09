@@ -25,6 +25,7 @@ public class AquarionMod  implements Loadable{
         //stuff that needs to be loaded first
         AquaStatuses.load();
         AquaLiquids.loadContent();
+        AquaReactions.load();
         AquaSounds.load();
         AquaItems.load();
         AquaAttributes.load();

@@ -24,12 +24,14 @@ import mindustry.ui.Fonts;
  * when dragged off-center. */
 public class DialogueChoiceBlock extends Element {
     public static final float gravity = 1500f, bounce = 0.35f, airFriction = 0.7f, rotFriction = 0.5f;
-    /** Friction applied while resting on the floor, so blocks stop instead of sliding on ice. */
-    public static final float groundFriction = 6f;
-    /** How much of the cursor's speed the block keeps, and the maximum throw speed / spin. */
-    public static final float throwPower = 0.4f, maxThrowSpeed = 550f, maxThrowRot = 2400f;
-    /** Hitbox is inset from the visual square by this much, so the click area is a bit smaller. */
-    public static final float hitInset = 10f;
+    /** Friction applied while resting on the floor, so boxes stop instead of sliding. */
+    public static final float groundFriction = 16f;
+    /** How fast a resting box turns to sit axis-aligned, in degrees per second. */
+    public static final float rotSnapSpeed = 540f;
+    /** How much of the cursor's speed the block keeps on release, and the maximum throw speed / spin. */
+    public static final float throwPower = 1f, maxThrowSpeed = 800f, maxThrowRot = 2400f;
+    /** Hitbox size matches the visible block exactly. */
+    public static final float hitInset = 0f;
 
     public final DialogueOption option;
     public boolean held, hovered, insideBox, settle;
@@ -95,8 +97,9 @@ public class DialogueChoiceBlock extends Element {
 
                 // cursor velocity, smoothed, becomes the block's throw on release
                 float ivx = (mx - lastMouseX) / dt, ivy = (my - lastMouseY) / dt;
-                vx = vx + (ivx * throwPower - vx) * 0.35f;
-                vy = vy + (ivy * throwPower - vy) * 0.35f;
+                float k = 1f - (float)Math.exp(-dt / 0.05f);
+                vx = Mathf.lerp(vx, ivx * throwPower, k);
+                vy = Mathf.lerp(vy, ivy * throwPower, k);
                 float spd = Mathf.len(vx, vy);
                 if(spd > maxThrowSpeed){
                     vx *= maxThrowSpeed / spd;
@@ -158,11 +161,12 @@ public class DialogueChoiceBlock extends Element {
         float floor = dialog.view.floorY;
         float w = dialog.view.getWidth();
 
-        // released inside the drop box: settle in place
+        // released inside the drop box: settle in place and straighten out
         if(insideBox && settle && !held){
             vx *= 0.8f;
             vy *= 0.8f;
             vrot *= 0.8f;
+            easeRotation(delta);
             return;
         }
 
@@ -178,8 +182,7 @@ public class DialogueChoiceBlock extends Element {
             // world-space extents of the rotated hitbox, so collisions respect rotation
             float inset = Scl.scl(hitInset);
             float hw = width / 2f - inset, hh = height / 2f - inset;
-            float c = Mathf.cosDeg(rot), s = Mathf.sinDeg(rot);
-            float extX = Math.abs(hw * c) + Math.abs(hh * s);
+            float s = Mathf.sinDeg(rot), c = Mathf.cosDeg(rot);
             float extY = Math.abs(hw * s) + Math.abs(hh * c);
 
             float cx = x + width / 2f, cy = y + height / 2f;
@@ -192,13 +195,25 @@ public class DialogueChoiceBlock extends Element {
                     vx *= 0.8f;
                 }else{
                     vy = 0f;
-                    // rest on the floor: strong friction so it stops, not slides
+                    // rest on the floor: strong friction so it stops instead of sliding
                     vx *= Math.max(0f, 1f - groundFriction * delta);
-                    vrot *= Math.max(0f, 1f - groundFriction * 0.6f * delta);
+                    vrot *= Math.max(0f, 1f - groundFriction * delta);
                     if(Math.abs(vx) < 3f) vx = 0f;
                     if(Math.abs(vrot) < 4f) vrot = 0f;
+                    // settle as a proper box: turn axis-aligned, keeping the bottom edge on the floor
+                    easeRotation(delta);
+                    s = Mathf.sinDeg(rot);
+                    c = Mathf.cosDeg(rot);
+                    y = floor + Math.abs(hw * s) + Math.abs(hh * c) - height / 2f;
                 }
             }
+
+            // extents may have changed after straightening on the floor
+            s = Mathf.sinDeg(rot);
+            c = Mathf.cosDeg(rot);
+            float extX = Math.abs(hw * c) + Math.abs(hh * s);
+            cx = x + width / 2f;
+
             if(cx - extX < 0f){
                 x = extX - width / 2f;
                 if(Math.abs(vx) > 40f){
@@ -217,6 +232,18 @@ public class DialogueChoiceBlock extends Element {
                 }
             }
         }
+    }
+
+    /** Turns the box toward the nearest axis-aligned orientation (multiples of 90 degrees). */
+    private void easeRotation(float delta){
+        float target = Mathf.round(rot / 90f) * 90f;
+        float step = rotSnapSpeed * delta;
+        if(Math.abs(target - rot) <= step){
+            rot = target;
+        }else{
+            rot += (float)Math.signum(target - rot) * step;
+        }
+        vrot = 0f;
     }
 
     @Override
