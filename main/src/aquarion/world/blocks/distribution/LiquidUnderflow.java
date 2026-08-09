@@ -1,5 +1,6 @@
 package aquarion.world.blocks.distribution;
 
+import aquarion.world.content.LiquidUtil;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
@@ -46,15 +47,24 @@ public class LiquidUnderflow extends LiquidBlock {
             return to != null && to.team == team && (
                     to instanceof ModifiedLiquidJunction.wtfBuild ||
                             to instanceof liqUnderBuild ||
-                            (to.acceptLiquid(this, liquid) && to.liquids.get(liquid) < to.block.liquidCapacity)
+                            (to.acceptLiquid(this, liquid) && LiquidUtil.freeSpace(to) > 0.01f)
             );
+        }
+
+        @Override
+        public Building getLiquidDestination(Building from, Liquid liquid){
+            //route straight through to the resolved target, so the underflow is never used as a passive buffer
+            Building to = getTileTarget(from, liquid);
+            return to != null ? to : this;
         }
 
         @Override
         public void handleLiquid(Building source, Liquid liquid, float amount){
             Building target = getTileTarget(source, liquid);
 
-            if(target != null) target.handleLiquid(this, liquid, amount);
+            if(target != null && target.acceptLiquid(this, liquid)){
+                target.handleLiquid(this, liquid, Math.min(amount, LiquidUtil.freeSpace(target)));
+            }
             if(liquid.temperature > 0.5f){
                 damageContinuous(liquid.temperature / 100f);
                 if(Mathf.chanceDelta(0.01f)){
@@ -75,7 +85,7 @@ public class LiquidUnderflow extends LiquidBlock {
             boolean canForward = to != null && to.team == team && !(fromInst && to.block.instantTransfer) && (
                     to instanceof ModifiedLiquidJunction.wtfBuild ||
                             to instanceof liqUnderBuild ||
-                            (to.acceptLiquid(this, liquid) && to.liquids.get(liquid) < to.block.liquidCapacity)
+                            (to.acceptLiquid(this, liquid) && LiquidUtil.freeSpace(to) > 0.01f)
             );
 
             if(!canForward || invert){
@@ -93,13 +103,13 @@ public class LiquidUnderflow extends LiquidBlock {
                 boolean ac = resolvedA != null && resolvedA.team == team && (
                         resolvedA instanceof ModifiedLiquidJunction.wtfBuild ||
                                 resolvedA instanceof liqUnderBuild ||
-                                (resolvedA.acceptLiquid(this, liquid) && resolvedA.liquids.get(liquid) < resolvedA.block.liquidCapacity)
+                                (resolvedA.acceptLiquid(this, liquid) && LiquidUtil.freeSpace(resolvedA) > 0.01f)
                 );
 
                 boolean bc = resolvedB != null && resolvedB.team == team && (
                         resolvedB instanceof ModifiedLiquidJunction.wtfBuild ||
                                 resolvedB instanceof liqUnderBuild ||
-                                (resolvedB.acceptLiquid(this, liquid) && resolvedB.liquids.get(liquid) < resolvedB.block.liquidCapacity)
+                                (resolvedB.acceptLiquid(this, liquid) && LiquidUtil.freeSpace(resolvedB) > 0.01f)
                 );
 
                 if(!ac && !bc){

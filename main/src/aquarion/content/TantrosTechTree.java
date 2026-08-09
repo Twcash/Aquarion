@@ -478,6 +478,7 @@ public class TantrosTechTree {
             node(siphon, () -> {
                 node(siphonRouter, () -> {
                     node(siphonUnderflow, () -> {});
+                    node(siphonSorter, () -> {});
                     node(siphonVessel, () -> {
                         node(pipeTank, () -> {
                             node(siphonGullet, () -> {});

@@ -20,7 +20,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class LiquidBlocks {
-    public static Block blastPump, siphonUnderflow, pipeTank,siphonGullet, siphonReservoir, siphonVessel, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon;
+    public static Block blastPump, siphonUnderflow, pipeTank,siphonGullet, siphonReservoir, siphonVessel, pipe, pipeBridge, electrumPump, pulseSiphonBridge, pulseSiphon, siphonBridge, siphonJunction, siphonRouter, siphon, siphonSorter;
 
     public static void loadContent() {
         Liquids.oil.explosiveness = 0.7f;
@@ -95,6 +95,13 @@ public class LiquidBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
             ((ModifiedConduit) siphon).junctionReplacement = this;
+        }};
+        siphonSorter = new SiphonSorter("siphon-sorter") {{
+            requirements(Category.liquid, with(silicon, 40));
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
+            health = 90;
         }};
         siphonVessel = new ModifiedLiquidRouter("siphon-vessel") {{
             requirements(Category.liquid, with(silicon, 150, metaglass, 50));

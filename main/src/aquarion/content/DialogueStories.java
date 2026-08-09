@@ -18,7 +18,7 @@ public class DialogueStories {
 
     private static DialogueTree start(){
         return new DialogueTree("1", "@1", "1s")
-                .add(new DialogueNode("1s", "@env", "@1.s").drawer(new DialogueRegion("snow-plain", 0, -10, 130)).drawer(new DialogueRegion("snow-pile", 0, 0, 150)).drawer(new DialogueRegion("storage-medium",0,1, 140))
+                .add(new DialogueNode("1s", "@env", "@1.s")
                         .option("@1.sc", "1sc", null, "subsystem-compassion")
                         .option("@1.sa", "1sa", null, "subsystem-architect"))
                 //1sa route
