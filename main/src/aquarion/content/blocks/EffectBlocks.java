@@ -1,6 +1,8 @@
 package aquarion.content.blocks;
 
+import aquarion.content.DialogueStories;
 import aquarion.world.blocks.core.OverdrivePylon;
+import aquarion.world.blocks.effect.StoryTellerBlock;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import mindustry.content.Fx;
@@ -22,6 +24,7 @@ import static mindustry.type.ItemStack.with;
 
 public class EffectBlocks {
     public static Block  lantern;
+    public static StoryTellerBlock storyteller;
 
     public static void loadContent() {
         lantern = new LightBlock("lantern") {{
@@ -34,6 +37,10 @@ public class EffectBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             consume(new ConsumeLiquidFlammable(0.1f, 2 / 60f));
+        }};
+
+        storyteller = new StoryTellerBlock("storyteller") {{
+            story = DialogueStories.all.first();
         }};
     }
 }
