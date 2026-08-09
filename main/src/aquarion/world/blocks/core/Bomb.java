@@ -122,6 +122,18 @@ public class Bomb extends Block {
                 return Blocks.charr.asFloor();
             }
 
+            if(tile.floor() == Blocks.rhyolite){
+                if(Mathf.chanceDelta(0.5f)){
+                    return Blocks.rhyoliteCrater.asFloor();
+                }
+            }
+
+            if(tile.floor() == Blocks.ferricStone){
+                if(Mathf.chanceDelta(0.5f)){
+                    return Blocks.ferricCraters.asFloor();
+                }
+            }
+
             if(tile.floor().itemDrop != null){
                 return tile.floor();
             }
