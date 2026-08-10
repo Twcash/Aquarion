@@ -1,11 +1,13 @@
 package aquarion.world.blocks.distribution;
 
+import aquarion.ui.LiquidBar;
 import aquarion.world.content.LiquidReactions;
 import aquarion.world.content.LiquidUtil;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.geom.Geometry;
+import arc.scene.ui.layout.Table;
 import arc.util.Eachable;
 import mindustry.Vars;
 import mindustry.entities.units.BuildPlan;
@@ -17,10 +19,6 @@ import mindustry.world.Tile;
 import mindustry.world.blocks.Autotiler;
 import mindustry.world.blocks.liquid.LiquidRouter;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
 public class Pipe extends LiquidRouter implements Autotiler {
     public TextureRegion[][][] topRegions;
     public TextureRegion[][] liquidRegions;
@@ -58,6 +56,12 @@ public class Pipe extends LiquidRouter implements Autotiler {
         canOverdrive = false;
         floating = true;
         liquidCapacity = 30;
+    }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+        removeBar("liquid");
     }
     @Override
     public boolean blends(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock){
@@ -109,65 +113,16 @@ public class Pipe extends LiquidRouter implements Autotiler {
     public class PipeBuild extends LiquidRouterBuild {
         public int tiling = 0, blending;
         public int index1, index2, underBlending;
-        public Queue<Building> queue = new LinkedList<>();
-        private final Set<Building> visited = new HashSet<>();
 
-        public void equalizeLiquids() {
-            if (LiquidUtil.total(liquids) <= 0.01f) return;
-            visited.clear();
+        @Override
+        public void displayBars(Table bars){
+            super.displayBars(bars);
             liquids.each((liquid, amount) -> {
-                if(amount > 0.001f) aggregateAndDistributeLiquids(this, liquid);
+                if(amount > 0.001f){
+                    bars.add(new LiquidBar(self(), liquid));
+                    bars.row();
+                }
             });
-        }
-
-        private void aggregateAndDistributeLiquids(Building origin, Liquid liquidType) {
-            queue.clear();
-            queue.add(origin);
-            visited.add(origin);
-            float totalLiquid = 0f;
-            float totalCapacity = 0f;
-            Set<Building> eligibleBlocks = new HashSet<>();
-
-            while (!queue.isEmpty()) {
-                Building current = queue.poll();
-
-                if (current.liquids == null || !current.acceptLiquid(origin, liquidType)) continue;
-
-                eligibleBlocks.add(current);
-                totalLiquid += current.liquids.get(liquidType);
-                totalCapacity += current.block.liquidCapacity;
-
-                for (int i = 0; i < 4; i++) {
-                    Building neighbor = current.nearby(i);
-
-                    if (neighbor == null || visited.contains(neighbor) || neighbor.team != team) continue;
-
-                    if ((neighbor.block.hasLiquids || neighbor.block.outputsLiquid)
-                            && neighbor.acceptLiquid(current, liquidType)
-                            && neighbor.relativeTo(current.tile) == (i + 2) % 4) {
-                        visited.add(neighbor);
-                        queue.add(neighbor);
-                    }
-                }
-            }
-
-            if (eligibleBlocks.isEmpty()) return;
-
-            float averageFraction = totalLiquid / totalCapacity;
-
-            for (Building block : eligibleBlocks) {
-                float targetAmount = averageFraction * block.block.liquidCapacity;
-                float currentAmount = block.liquids.get(liquidType);
-                float delta = targetAmount - currentAmount;
-
-                if (Math.abs(delta) > 0.01f) {
-                    if (delta > 0) {
-                        block.handleLiquid(self(), liquidType, delta);
-                    } else {
-                        block.liquids.remove(liquidType, -delta);
-                    }
-                }
-            }
         }
 
         @Override
@@ -175,23 +130,47 @@ public class Pipe extends LiquidRouter implements Autotiler {
             //reactions between mixed liquids
             LiquidReactions.react(self());
 
-            if (LiquidUtil.total(liquids) > 0.01f) {
-                equalizeLiquids();
+            if (LiquidUtil.total(liquids) > 0.001f) {
+                liquids.each((liquid, amount) -> {
+                    if (amount <= 0.0001f) return;
+
+                    //push every present liquid out to all connected neighbors using the conduit flow formula
+                    float remaining = liquids.get(liquid);
+                    for (int i = 0; i < 4 && remaining > 0.01f; i++) {
+                        Building next = nearby(i);
+                        if (next == null || next.team != team) continue;
+                        if (!next.block.hasLiquids && !next.block.outputsLiquid) continue;
+
+                        float flow = Math.min(remaining, LiquidUtil.flow(self(), liquid, next) * delta());
+                        if (flow > 0.01f && next.acceptLiquid(this, liquid)) {
+                            next.handleLiquid(this, liquid, flow);
+                            remaining -= flow;
+                        }
+                    }
+                    if (remaining < amount - 0.001f) {
+                        liquids.remove(liquid, amount - remaining);
+                    }
+                });
+                noSleep();
+            } else {
+                sleep();
             }
         }
 
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid){
+            noSleep();
             return LiquidUtil.freeSpace(self()) > 0.01f;
         }
 
         public void handleLiquid(Building source, Liquid liquid, float amount) {
+            noSleep();
             liquids.add(liquid, amount);
         }
 
         public void transferLiquid(Building next, float amount, Liquid liquid) {
-            float flow = Math.min(LiquidUtil.freeSpace(next), amount);
-            if (flow > 0 && next.acceptLiquid(self(), liquid)) {
+            float flow = Math.min(LiquidUtil.flow(self(), liquid, next) * delta(), amount);
+            if (flow > 0.01f && next.acceptLiquid(self(), liquid)) {
                 next.handleLiquid(self(), liquid, flow);
                 liquids.remove(liquid, flow);
             }

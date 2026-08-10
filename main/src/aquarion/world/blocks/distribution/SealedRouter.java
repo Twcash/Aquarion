@@ -30,6 +30,7 @@ public class SealedRouter extends Router {
         super(name);
         drawCached = false;
         drawDynamic = true;
+        unloadable = true;
     }
 
     @Override

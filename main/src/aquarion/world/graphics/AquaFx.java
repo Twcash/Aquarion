@@ -1416,6 +1416,17 @@ public class AquaFx {
                     });
                 }
             }).layer(Layer.blockOver+1),
+            liquidDump = new Effect(35f, 80f, e -> {
+                color(e.color.mul(1.002f));
+                float data;
+                if(e.data instanceof Float fg) data = fg;
+                else {
+                    data = 0;
+                }
+                randLenVectors(e.id, 3, e.finpow() * 10f, e.rotation, 12f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, 120f*data + Interp.pow2In.apply(e.fout()));
+                });
+            }).layer(Layer.blockUnder - 2),
             vaporizeItem = new Effect(140, 50, e -> {
                 Item item = (Item) e.data;
                 if(item == null) return;

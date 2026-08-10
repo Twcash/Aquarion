@@ -7,18 +7,23 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.scene.ui.Tooltip;
 import arc.scene.ui.layout.Table;
 import arc.util.Eachable;
 import arc.util.Nullable;
+import arc.util.Tmp;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Unit;
 import mindustry.type.Liquid;
+import mindustry.ui.Bar;
+import mindustry.ui.Styles;
 import mindustry.world.Tile;
 import mindustry.world.blocks.ItemSelection;
 import mindustry.world.blocks.liquid.LiquidBlock;
+import mindustry.world.modules.LiquidModule;
 
 import static mindustry.Vars.content;
 import static mindustry.Vars.headless;
@@ -28,10 +33,14 @@ import static mindustry.Vars.tilesize;
 /**
  * Liquid counterpart to the vanilla item Sorter: set a liquid to sort.
  * The configured liquid passes straight through, everything else is pushed out the sides.
+ * Has 4 independent side buffers (one per input direction), each with its own capacity;
+ * liquids on different sides never mix or react with each other.
  */
 public class SiphonSorter extends LiquidBlock{
     public TextureRegion cross;
     public boolean invert;
+    /** Liquid capacity of each of the 4 independent side buffers. */
+    public float sideLiquidCapacity = 30f;
 
     public SiphonSorter(String name){
         super(name);
@@ -52,7 +61,13 @@ public class SiphonSorter extends LiquidBlock{
     @Override
     public void load(){
         super.load();
-        cross = Core.atlas.find("cross-full");
+        cross = Core.atlas.find(name + "-cross", Core.atlas.find("cross-full"));
+    }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+        removeBar("liquid");
     }
 
     @Override
@@ -73,8 +88,56 @@ public class SiphonSorter extends LiquidBlock{
 
     public class SiphonSorterBuild extends LiquidBuild{
         public @Nullable Liquid sortLiquid;
-        /** direction (from source to this block) the liquid is travelling in; used to route buffered liquid. */
-        public int inputDir = 0;
+        public LiquidModule[] sides = new LiquidModule[4];
+
+        {
+            for(int i = 0; i < 4; i++){
+                sides[i] = new LiquidModule();
+            }
+        }
+
+        @Override
+        public void displayBars(Table bars){
+            super.displayBars(bars);
+            for(int i = 0; i < 4; i++){
+                final LiquidModule side = sides[i];
+                if(side == null || LiquidUtil.total(side) <= 0.001f) continue;
+
+                Bar bar = new Bar(
+                    () -> sideLabel(side),
+                    () -> LiquidUtil.mixedColor(side, Tmp.c1),
+                    () -> Mathf.clamp(LiquidUtil.total(side) / sideLiquidCapacity)
+                );
+                bar.addListener(new Tooltip(table -> {
+                    table.background(Styles.black6);
+                    table.margin(4f);
+                    table.label(() -> sideTooltip(side)).style(Styles.outlineLabel);
+                }));
+                bars.add(bar).row();
+            }
+        }
+
+        private CharSequence sideLabel(LiquidModule side){
+            StringBuilder sb = new StringBuilder();
+            side.each((liquid, amount) -> {
+                if(amount > 0.001f){
+                    if(sb.length() > 0) sb.append(" + ");
+                    sb.append(liquid.localizedName);
+                }
+            });
+            return sb.length() == 0 ? Core.bundle.get("bar.liquid") : sb;
+        }
+
+        private CharSequence sideTooltip(LiquidModule side){
+            StringBuilder sb = new StringBuilder();
+            side.each((liquid, amount) -> {
+                if(amount > 0.001f){
+                    if(sb.length() > 0) sb.append("\n");
+                    sb.append(liquid.localizedName).append(": ").append((int)amount).append("/").append((int)sideLiquidCapacity);
+                }
+            });
+            return sb.length() == 0 ? Core.bundle.get("bar.liquid") : sb;
+        }
 
         @Override
         public void configured(Unit player, Object value){
@@ -105,27 +168,37 @@ public class SiphonSorter extends LiquidBlock{
 
         @Override
         public void updateTile(){
-            //reactions between mixed liquids
-            LiquidReactions.react(self());
+            boolean any = false;
+            for(int i = 0; i < 4; i++){
+                final int dir = i;
+                LiquidModule side = sides[dir];
+                if(side == null || LiquidUtil.total(side) <= 0.001f) continue;
+                any = true;
 
-            if(LiquidUtil.total(liquids) > 0.001f){
-                noSleep();
+                //liquids on the same side react with each other, but never with other sides
+                LiquidReactions.react(side, self());
 
                 //the block the buffered liquid travelled in from, used for chain checks
-                Building source = nearby(Mathf.mod(inputDir + 2, 4));
+                Building source = nearby(dir);
+                if(source == null) continue;
 
-                liquids.each((liquid, amount) -> {
+                int travel = Mathf.mod(dir + 2, 4);
+                side.each((liquid, amount) -> {
                     if(amount <= 0.001f) return;
 
-                    Building target = source == null ? null : getTileTarget(liquid, source, false);
+                    Building target = getTileTarget(liquid, travel, source, false);
                     if(target != null && target.acceptLiquid(this, liquid)){
-                        float flow = Math.min(amount, LiquidUtil.freeSpace(target));
+                        float flow = Math.min(amount, LiquidUtil.flow(side, sideLiquidCapacity, this, target, liquid) * delta());
                         if(flow > 0.01f){
                             target.handleLiquid(this, liquid, flow);
-                            liquids.remove(liquid, flow);
+                            sides[dir].remove(liquid, flow);
                         }
                     }
                 });
+            }
+
+            if(any){
+                noSleep();
             }else{
                 sleep();
             }
@@ -140,37 +213,46 @@ public class SiphonSorter extends LiquidBlock{
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid){
             noSleep();
-            return LiquidUtil.freeSpace(self()) > 0.01f;
+            int dir = inputSide(source);
+            return enabled && sides[dir] != null && LiquidUtil.freeSpace(sides[dir], sideLiquidCapacity) > 0.01f;
         }
 
         @Override
         public void handleLiquid(Building source, Liquid liquid, float amount){
-            inputDir = source.relativeToEdge(tile);
-            if(inputDir == -1) inputDir = 0;
+            int input = inputSide(source);
+            if(sides[input] == null) sides[input] = new LiquidModule();
+            sides[input].add(liquid, amount);
 
-            Building target = getTileTarget(liquid, source, true);
+            int travel = Mathf.mod(input + 2, 4);
+            Building target = getTileTarget(liquid, travel, source, true);
             if(target != null && target.acceptLiquid(this, liquid)){
-                float flow = Math.min(amount, LiquidUtil.freeSpace(target));
+                float flow = Math.min(amount, LiquidUtil.flow(sides[input], sideLiquidCapacity, this, target, liquid) * delta());
                 if(flow > 0.01f){
                     target.handleLiquid(this, liquid, flow);
-                    amount -= flow;
+                    sides[input].remove(liquid, flow);
                 }
             }
+        }
 
-            //buffer any overflow until an output opens up
-            if(amount > 0.01f){
-                liquids.add(liquid, Math.min(amount, LiquidUtil.freeSpace(self())));
-            }
+        /** @return the physical side of this sorter that {@code source} is on. */
+        private int inputSide(Building source){
+            int travel = source.relativeToEdge(tile);
+            return travel == -1 ? 0 : Mathf.mod(travel + 2, 4);
+        }
+
+        /** Amount of free space on the side buffer facing {@code source}; what this sorter will actually store from {@code source}. */
+        public float freeSpaceFor(Building source){
+            if(source == null) return sideLiquidCapacity * 4f;
+            int dir = inputSide(source);
+            return sides[dir] == null ? sideLiquidCapacity : LiquidUtil.freeSpace(sides[dir], sideLiquidCapacity);
         }
 
         public boolean isSame(Building other){
             return other != null && other.block.instantTransfer;
         }
 
-        public Building getTileTarget(Liquid liquid, Building source, boolean flip){
+        public Building getTileTarget(Liquid liquid, int dir, Building source, boolean flip){
             if(source == null) return null;
-            int dir = source.relativeToEdge(tile);
-            if(dir == -1) return null;
             Building to;
 
             if(((liquid == sortLiquid) != invert) == enabled){
@@ -212,19 +294,27 @@ public class SiphonSorter extends LiquidBlock{
 
         @Override
         public byte version(){
-            return 1;
+            return 2;
         }
 
         @Override
         public void write(Writes write){
             super.write(write);
             write.s(sortLiquid == null ? -1 : sortLiquid.id);
+            for(int i = 0; i < 4; i++){
+                sides[i].write(write);
+            }
         }
 
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
             sortLiquid = content.liquid(read.s());
+            if(revision >= 2){
+                for(int i = 0; i < 4; i++){
+                    sides[i].read(read, false);
+                }
+            }
         }
     }
 }

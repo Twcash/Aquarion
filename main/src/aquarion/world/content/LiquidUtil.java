@@ -1,5 +1,7 @@
 package aquarion.world.content;
 
+import aquarion.world.blocks.distribution.ModifiedLiquidJunction;
+import aquarion.world.blocks.distribution.SiphonSorter;
 import arc.graphics.Color;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
@@ -19,6 +21,55 @@ public class LiquidUtil {
     public static float freeSpace(Building build){
         if(build == null || build.liquids == null) return 0f;
         return build.block.liquidCapacity - total(build.liquids);
+    }
+
+    /** Amount of free space left in a liquid module with the given capacity. */
+    public static float freeSpace(LiquidModule liquids, float capacity){
+        if(liquids == null) return 0f;
+        return capacity - total(liquids);
+    }
+
+    /**
+     * Conduit-style pressure flow between two storages, capped by the amount available
+     * in {@code from} and the free space of {@code to}. Returns a per-second rate; callers
+     * should scale it by {@code delta()}.
+     */
+    public static float flow(Building from, Liquid liquid, Building to){
+        return flow(from.liquids, from.block.liquidCapacity, from, to, liquid);
+    }
+
+    /**
+     * Conduit-style pressure flow out of a side buffer with its own {@code fromCapacity}
+     * into a building. Returns a per-second rate; callers should scale it by {@code delta()}.
+     */
+    public static float flow(LiquidModule from, float fromCapacity, Building fromBuild, Building to, Liquid liquid){
+        float levelHere = from.get(liquid) / fromCapacity;
+        float levelNext = to.liquids.get(liquid) / to.block.liquidCapacity;
+        float deltaLevel = Math.max(levelHere - levelNext, 0f) * 50;
+
+        float rho = 1f;
+        float viscosityFactor = Mathf.clamp(1f - liquid.viscosity * 0.5f, 0.2f, 1f);
+        float Cd = 0.8f;
+        float A = 1f;
+
+        float flow = Cd * A * Mathf.sqrt(2f * deltaLevel / rho) * viscosityFactor;
+        flow *= 10f;
+
+        flow = Math.min(flow, from.get(liquid));
+        flow = Math.min(flow, Math.max(freeSpaceFor(to, fromBuild), 0f));
+        return flow;
+    }
+
+    /** The amount of liquid {@code to} will actually store when {@code from} pushes into it, honoring per-side buffers. */
+    public static float freeSpaceFor(Building to, Building from){
+        if(to == null) return 0f;
+        if(to instanceof ModifiedLiquidJunction.wtfBuild j){
+            return j.freeSpaceFor(from);
+        }
+        if(to instanceof SiphonSorter.SiphonSorterBuild s){
+            return s.freeSpaceFor(from);
+        }
+        return to.block.liquidCapacity - total(to.liquids);
     }
 
     /** Provides the texture region to draw a liquid with. */
