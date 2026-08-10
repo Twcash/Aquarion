@@ -29,7 +29,12 @@ public class LiquidReactions {
 
     public static boolean react(Building build){
         if(build.liquids == null) return false;
-        LiquidModule liquids = build.liquids;
+        return react(build.liquids, build);
+    }
+
+    /** Runs reactions between the liquids stored in a single liquid module (e.g. one side of a junction). */
+    public static boolean react(LiquidModule liquids, Building build){
+        if(liquids == null) return false;
 
         Seq<Liquid> present = new Seq<>();
         liquids.each((liquid, amount) -> {

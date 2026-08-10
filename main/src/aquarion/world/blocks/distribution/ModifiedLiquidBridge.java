@@ -63,22 +63,8 @@ public class ModifiedLiquidBridge extends LiquidBridge {
             if(next == null) return 0;
 
             if(next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f){
-                float levelHere = liquids.get(liquid) / block.liquidCapacity;
-                float levelNext = next.liquids.get(liquid) / next.block.liquidCapacity;
-                float deltaLevel = Math.max(levelHere - levelNext, 0f) * 50;
-
-                float rho = 1f;
-                float viscosityFactor = Mathf.clamp(1f - liquid.viscosity * 0.5f, 0.2f, 1f);
-                float Cd = 0.8f;
-                float A = 1f;
-
-                float flow = Cd * A * Mathf.sqrt(2f * deltaLevel / rho) * viscosityFactor;
-
-                flow *= 10f;
-
-                flow = Math.min(flow, liquids.get(liquid));
-                flow = Math.min(flow, LiquidUtil.freeSpace(next));
-                if(flow > 0f && next.acceptLiquid(self(), liquid)){
+                float flow = LiquidUtil.flow(self(), liquid, next) * delta();
+                if(flow > 0.01f && next.acceptLiquid(self(), liquid)){
                     next.handleLiquid(self(), liquid, flow);
                     liquids.remove(liquid, flow);
                     return flow;

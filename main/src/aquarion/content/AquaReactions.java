@@ -60,7 +60,6 @@ public class AquaReactions {
             resultAmount = 1.5f;
             rate = 1f;
             effect = Fx.bubble;
-
             effectChance = 0.1f;
         }});
         LiquidReactions.register(new LiquidReaction(vitriol, hydroxide, halideWater) {{

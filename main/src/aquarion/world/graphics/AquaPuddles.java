@@ -42,8 +42,7 @@ public class AquaPuddles extends  Puddles{
     public static void deposit(Tile tile, Tile source, Liquid liquid, float amount, boolean initial, boolean cap){
         if(tile == null) return;
 
-        float ax = (tile.worldx() + source.worldx()) / 2f, ay = (tile.worldy() + source.worldy()) / 2f;
-
+        float ax = (tile.worldx() + source.worldx()) /2f, ay = (tile.worldy() + source.worldy()) / 2f;
         if(liquid.willBoil()){
             if(Mathf.chanceDelta(0.16f)){
                 liquid.vaporEffect.at(ax, ay, liquid.gasColor);
@@ -72,7 +71,7 @@ public class AquaPuddles extends  Puddles{
             reactPuddle(tile.floor().liquidDrop, liquid, amount, tile, ax, ay);
 
             Puddle p = get(tile);
-
+            AquaFx.liquidDump.at(source.worldx(), source.worldy(), source.build.rotation*90, liquid.color);
             if(initial && p != null && p.lastRipple <= Time.time - 40f){
                 Fx.ripple.at(ax, ay, 1f, tile.floor().liquidDrop.color);
 
@@ -97,9 +96,10 @@ public class AquaPuddles extends  Puddles{
             }
         }else if(p.liquid == liquid){
             p.accepting = Math.max(amount, p.accepting);
-
+            AquaFx.liquidDump.at(source.worldx(), source.worldy(), source.build.rotation*90, liquid.color);
             if(initial && p.lastRipple <= Time.time - 40f && p.amount >= maxLiquid / 2f){
                 Fx.ripple.at(ax, ay, 1f, p.liquid.color);
+
                 p.lastRipple = Time.time;
             }
         }else{

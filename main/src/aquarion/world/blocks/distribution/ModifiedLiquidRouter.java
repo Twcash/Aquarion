@@ -1,9 +1,11 @@
 package aquarion.world.blocks.distribution;
 
+import aquarion.ui.LiquidBar;
 import aquarion.world.content.LiquidReactions;
 import aquarion.world.content.LiquidUtil;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
+import arc.scene.ui.layout.Table;
 import mindustry.content.Fx;
 import mindustry.gen.Building;
 import mindustry.type.Liquid;
@@ -16,7 +18,23 @@ public class ModifiedLiquidRouter extends LiquidRouter {
         super(name);
     }
 
+    @Override
+    public void setBars(){
+        super.setBars();
+        removeBar("liquid");
+    }
+
     public class ughBuild extends LiquidRouterBuild {
+        @Override
+        public void displayBars(Table bars){
+            super.displayBars(bars);
+            liquids.each((liquid, amount) -> {
+                if(amount > 0.001f){
+                    bars.add(new LiquidBar(self(), liquid));
+                    bars.row();
+                }
+            });
+        }
         @Override
         public void updateTile() {
             //reactions between mixed liquids
@@ -46,7 +64,7 @@ public class ModifiedLiquidRouter extends LiquidRouter {
 
         @Override
         public void transferLiquid(Building next, float amount, Liquid liquid){
-            float flow = Math.min(LiquidUtil.freeSpace(next), amount);
+            float flow = Math.min(LiquidUtil.flow(self(), liquid, next) * delta(), amount);
             if(flow <= 0.01f) return;
             if(next.acceptLiquid(self(), liquid)){
                 next.handleLiquid(self(), liquid, flow);
