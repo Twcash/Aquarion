@@ -24,6 +24,7 @@ public class rokBlock extends Block {
         update = true;
         breakSound = Sounds.rockBreak;
         destroySound = Sounds.rockBreak;
+        drawTeamOverlay = false;
     }
 
     @Override

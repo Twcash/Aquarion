@@ -84,11 +84,10 @@ public class DistributionBlocks {
             itemCapacity = 30;
         }};
         tungstenYeeter = new ItemYeeter("tungsten-yeeter"){{
-            requirements(Category.distribution, with(silicon, 50, tungsten, 120, graphite, 80));
+            requirements(Category.distribution, with(tungsten, 120, graphite, 80));
             size = 1;
             consumePower(3);
             itemCapacity = 30;
-            drawArrow = false;
             reload = 20f;
         }};
         tungstenHopper = new ItemHopper("tungsten-hopper"){{
