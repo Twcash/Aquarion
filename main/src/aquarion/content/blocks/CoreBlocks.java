@@ -212,7 +212,6 @@ public class CoreBlocks {
             requirements(Category.effect, with(silicon, 60, aluminum, 40));
             size = 2;
             schematicPriority = 7;
-
             consumePower(0.125f);
             consumeLiquid(fumes, 0.05f);
             range = 35;
