@@ -574,7 +574,7 @@ public class AquaBullets {
         smokeEffect = AquaFx.shootSmoke3;
         trailEffect = AquaFx.thrashTrailSmoke;
         shootEffect = AquaFx.shootLudicrous;
-        trailColor = backColor = hitColor = lightColor = coal.color;
+        trailColor = backColor = hitColor = lightColor = Pal.coalBlack;
         despawnShake = 3;
         trailInterval = 2;
         despawnEffect = hitEffect = new MultiEffect(AquaFx.thrashExplosion,AquaFx.thrashExplodeSmoke);

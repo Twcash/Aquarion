@@ -284,7 +284,7 @@ public class DefenseBlocks {
             researchCostMultiplier = 0.25f;
         }};
         nickelBarricade = new AquaWall("nickel-barricade") {{
-            requirements(Category.defense, with(nickel, 500, silicon, 1500, metaglass, 300, lead, 200));
+            requirements(Category.defense, with(nickel, 500, silicon, 750, graphite, 300, lead, 200));
             health = 500 * 25;
             armor = 10;
             size = 5;

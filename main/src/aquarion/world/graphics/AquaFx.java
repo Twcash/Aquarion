@@ -638,7 +638,7 @@ public class AquaFx {
             }),
             thrashExplodeSmoke = new Effect(100f, e -> {
                 blend(Blending.normal);
-                color(Pal.lightishGray, Pal.darkerGray, e.fin());
+                color(e.color, Pal.darkerGray, e.fin());
                 randLenVectors(e.id, 15, e.finpow() * 44f, e.rotation,  (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 9f);
                 });
