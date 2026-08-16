@@ -25,11 +25,12 @@ import mindustry.world.meta.Env;
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaUnitTypes.*;
 import static mindustry.content.Items.*;
+import static mindustry.content.Liquids.hydrogen;
 import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block initializationBay, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple;
+    public static Block initializationBay, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -166,6 +167,15 @@ public class UnitBlocks {
             size = 3;
             consumePower(4);
             time = 30 * 60;
+            destroySound = AquaSounds.start;
+        }};
+        index = new UnitBlock("index-inactive") {{
+            requirements(Category.units, with(steel, 120, brass, 50, nickel, 350, silicon, 500));
+            unit = AquaUnitTypes.index;
+            size = 2;
+            consumePower(4);
+            consumeLiquid(hydrogen,4);
+            time = 60 * 60;
             destroySound = AquaSounds.start;
         }};
 //        castellan = new UnitBlock("castellan") {{

@@ -94,7 +94,7 @@ public class AquaPlanets {
                 r.placeRangeCheck = false;
                 r.hideSpawns = false;
                 r.coreDestroyClear = true;
-                r.coreIncinerates = true;
+                r.coreIncinerates = false;
                 r.fog = true;
                 r.staticFog = true;
                 r.onlyDepositCore = true;
@@ -145,7 +145,7 @@ public class AquaPlanets {
                 r.waveTeam = Team.crux;
                 r.placeRangeCheck = false;
                 r.hideSpawns = false;
-                r.coreIncinerates = true;
+                r.coreIncinerates = false;
                 r.coreDestroyClear = false;
                 r.fog = false;
                 r.staticFog = false;
@@ -233,6 +233,7 @@ public class AquaPlanets {
                 r.onlyDepositCore = true;
                 r.waveTeam = Team.green;
                 r.deconstructRefundMultiplier = 1.01f;
+                r.coreIncinerates = false;
             };
         }};
         coradum = new Planet("coradum", citun, 0.85f, 2){{

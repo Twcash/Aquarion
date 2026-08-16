@@ -1509,6 +1509,28 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
+        index = new UnitType("index") {{
+            flying = true;
+            flyingLayer = Layer.flyingUnitLow;
+            speed = 2f;
+            hitSize = 12;
+            fallSpeed = 0.01f;
+            health = 150;
+            armor = 0;
+            buildRange = 128;
+            buildSpeed = 0.1f;
+            wobble = false;
+            outlines = true;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            constructor = UnitEntity::create;
+            engineOffset = 8;
+            engineSize = 2f;
+            omniMovement = false;
+            /*setEnginesMirror(
+                    new UnitEngine(5, -6, 2f, -45f)
+            );*/
+        }};
         isop = new UnitType("isop") {{
             squareShape = true;
             omniMovement = false;

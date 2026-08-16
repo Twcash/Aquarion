@@ -1540,6 +1540,21 @@ public class AquaBullets {
             sparkColor = Color.white;
         }};
     }},
+    javelinTest = new BasicBulletType() {{
+        sprite = "aquarion-long-bullet-back";
+        backSprite = "aquarion-long-bullet-back";
+        trailEffect = Fx.disperseTrail;
+        trailInterval = 2f;
+        trailWidth = 1f;
+        trailLength = 4;
+        damage = 10;
+        splashDamage = 10;
+        speed = 15f;
+        lifetime = 24f;
+        pierce = true;
+        pierceCap = 2;
+        hitEffect = despawnEffect = Fx.shieldApply;
+    }},
     ensignLead = new RailBulletType() {{
         length = 155f;
         damage = 45f;
