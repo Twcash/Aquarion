@@ -1519,7 +1519,7 @@ public class AquaUnitTypes {
             armor = 0;
             buildRange = 128;
             buildSpeed = 0.1f;
-            wobble = false;
+            wobble = true;
             outlines = true;
             drawCell = false;
             outlineColor = AquaPal.tantDarkestTone;

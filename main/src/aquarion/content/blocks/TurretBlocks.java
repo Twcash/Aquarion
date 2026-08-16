@@ -536,8 +536,9 @@ public class TurretBlocks {
                 shoot.shots = 45;
                 ammoUseEffect = AquaFx.casing1;
                 shoot.shotDelay = 0;
-                consumeCoolant(4);
-                coolantMultiplier = 0.3f;
+                maxHeatEfficiency = 3f;
+                heatRequirement = 45f;
+                baseHeatEfficiency = 1f;
                 recoilTime = 80;
                 velocityRnd = 0.7f;
                 inaccuracy = 25;
@@ -1410,9 +1411,12 @@ public class TurretBlocks {
             ammoPerShot = 2;
             itemCapacity = 30;
             liquidCapacity = 150;
+            consumeCoolant(3);
+            coolantMultiplier = 0.15f;
             targetAir = true;
             targetGround = false;
-
+            shootSound = AquaSounds.javelinShot;
+            ammoPerShot = 3;
             ammo(
                     copper, javelinTest
             );

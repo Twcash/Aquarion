@@ -3,11 +3,14 @@ package aquarion.world.blocks.turrets;
 import aquarion.ui.AquaBarHelpers;
 import aquarion.world.Uti.AquaStatValues;
 import aquarion.world.entities.bullet.AquaBulletType;
+import arc.Core;
 import mindustry.core.World;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Fires;
 import mindustry.gen.Fire;
+import mindustry.graphics.Pal;
 import mindustry.type.LiquidStack;
+import mindustry.ui.Bar;
 import mindustry.world.Tile;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.consumers.Consume;
@@ -15,11 +18,13 @@ import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.consumers.ConsumeLiquidFilter;
 import mindustry.world.consumers.ConsumeLiquids;
 import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
 
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 public class AquaItemTurret extends ItemTurret implements AquaBarHelpers.CustomBarHolder {
     public boolean extinguish = false;
+    public float baseHeatEfficiency = 0; //base efficiency for heat turrets when not heated
     public AquaItemTurret(String name) {
         super(name);
     }
@@ -28,6 +33,9 @@ public class AquaItemTurret extends ItemTurret implements AquaBarHelpers.CustomB
         super.setStats();
         stats.remove(Stat.ammo);
         stats.add(Stat.ammo, AquaStatValues.ammo(ammoTypes, name));
+        stats.remove(Stat.maxEfficiency);
+        if(baseHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(baseHeatEfficiency*100f), StatUnit.percent);
+        if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)((maxHeatEfficiency) * 100f), StatUnit.percent);
     }
 
     @Override
@@ -58,6 +66,13 @@ public class AquaItemTurret extends ItemTurret implements AquaBarHelpers.CustomB
                     addLiquidBar(filt::getConsumed);
                 }
             }
+        }
+        if(heatRequirement > 0){
+            addBar("heat", (TurretBuild entity) ->
+                    new Bar(() ->
+                            Core.bundle.format("bar.heatpercent", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement + baseHeatEfficiency, maxHeatEfficiency) * 100)),
+                            () -> Pal.lightOrange,
+                            () -> entity.heatReq / heatRequirement));
         }
     }
     public class AquaItemTurretBuild extends ItemTurretBuild{
@@ -95,6 +110,20 @@ public class AquaItemTurret extends ItemTurret implements AquaBarHelpers.CustomB
             }
 
             super.findTarget();
+        }
+        @Override
+        public boolean canConsume(){
+            if(heatRequirement > 0 && heatReq <= 0f && baseHeatEfficiency <= 0){
+                    return false;
+            }
+            return super.canConsume();
+        }
+
+        @Override
+        public void updateEfficiencyMultiplier(){
+            if(heatRequirement > 0){
+                efficiency *= Math.min(Math.max(((heatReq / heatRequirement) + baseHeatEfficiency), (cheating() ? 1f : 0f)), maxHeatEfficiency);
+            }
         }
     }
 }
