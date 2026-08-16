@@ -170,7 +170,7 @@ public class UnitBlocks {
             destroySound = AquaSounds.start;
         }};
         index = new UnitBlock("index-inactive") {{
-            requirements(Category.units, with(steel, 120, brass, 50, nickel, 350, silicon, 500));
+            requirements(Category.units, with(ferrosilicon, 400, brass, 125, nickel, 350, silicon, 500));
             unit = AquaUnitTypes.index;
             size = 2;
             consumePower(4);

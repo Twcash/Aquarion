@@ -1396,9 +1396,9 @@ public class TurretBlocks {
             }};
         }};
         javelin = new ItemTurret("javelin") {{
-            requirements(Category.turret, with(polymer, 250, metaglass, 750, AquaItems.ferricMatter, 500, silicon, 400));
+            requirements(Category.turret, with(polymer, 250, graphite, 750, AquaItems.ferricMatter, 500, silicon, 400));
             shownPlanets.addAll(fakeSerpulo,fakeErekir,tantros2);
-            size = 3;
+            size = 4;
             shoot.shots = 4;
             shoot.shotDelay = 5f;
             shootCone = 10f;
