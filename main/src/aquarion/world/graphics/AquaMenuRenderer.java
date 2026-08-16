@@ -32,6 +32,14 @@ public class AquaMenuRenderer extends MenuRenderer {
         currentMenuBackground.render();
     }
 
+    @Override
+    public void dispose() {
+        if (currentMenuBackground instanceof MenuBackgroundSheet sheet) {
+            sheet.dispose();
+        }
+        super.dispose();
+    }
+
     public static class MenuProv {
         public String name;
         public MenuBackground menuBackground;
