@@ -12,6 +12,30 @@ import mindustry.world.blocks.liquid.LiquidBlock;
 import mindustry.world.modules.LiquidModule;
 
 public class LiquidUtil {
+
+    /**
+     * Transport throughput, in liquid units per second, per unit of buffer capacity.
+     * A block with capacity C therefore moves exactly {@code C * FLOW_RATE} units/second,
+     * which is the number shown in its "max flow" stat. Flow is a fixed rate, not a
+     * function of how full the source/destination are, so throughput is predictable.
+     */
+    public static final float FLOW_RATE = 30f;
+
+    /**
+     * A liquid block that declares its own throughput in units/second. Lets a block's transport
+     * speed be independent of its buffer size, so small-buffer blocks (junctions, sorters) don't
+     * throttle a faster line.
+     */
+    public interface Rated {
+        float flowRate();
+    }
+
+    /** Throughput in units/second for {@code block}: its declared rate, or {@code capacity * FLOW_RATE}. */
+    public static float rateOf(mindustry.world.Block block, float capacity){
+        if(block instanceof Rated r) return r.flowRate();
+        return capacity * FLOW_RATE;
+    }
+
     /** Total amount of liquid stored in a liquid module. */
     public static float total(LiquidModule liquids){
         return liquids == null ? 0f : liquids.sum((liquid, amount) -> amount);
@@ -30,32 +54,29 @@ public class LiquidUtil {
     }
 
     /**
-     * Conduit-style pressure flow between two storages, capped by the amount available
-     * in {@code from} and the free space of {@code to}. Returns a per-second rate; callers
-     * should scale it by {@code delta()}.
+     * Deterministic flow between two storages. Moves the source's declared throughput (see
+     * {@link Rated}) at a fixed rate, capped by the amount available in {@code from} and the free
+     * space of {@code to}. Returns a per-tick amount; callers scale it by {@code delta()}.
      */
     public static float flow(Building from, Liquid liquid, Building to){
         return flow(from.liquids, from.block.liquidCapacity, from, to, liquid);
     }
 
     /**
-     * Conduit-style pressure flow out of a side buffer with its own {@code fromCapacity}
-     * into a building. Returns a per-second rate; callers should scale it by {@code delta()}.
+     * Deterministic flow out of a side buffer into a building. The rate is the source block's
+     * declared throughput, not a function of the buffer size, so small side buffers don't throttle
+     * a faster line. Returns a per-tick amount; callers scale it by {@code delta()}.
      */
     public static float flow(LiquidModule from, float fromCapacity, Building fromBuild, Building to, Liquid liquid){
-        float levelHere = from.get(liquid) / fromCapacity;
-        float levelNext = to.liquids.get(liquid) / to.block.liquidCapacity;
-        float deltaLevel = Math.max(levelHere - levelNext, 0f) * 50;
+        float amount = from.get(liquid);
+        if(amount <= 0.0001f) return 0f;
 
-        float rho = 1f;
-        float viscosityFactor = Mathf.clamp(1f - liquid.viscosity * 0.5f, 0.2f, 1f);
-        float Cd = 0.8f;
-        float A = 1f;
+        //fixed, predictable throughput in units/tick (the block's rated units/second / 60).
+        //intentionally independent of liquid viscosity so actual flow matches the "max flow" stat.
+        float rate = fromBuild == null ? fromCapacity * FLOW_RATE : rateOf(fromBuild.block, fromCapacity);
+        float flow = rate / 60f;
 
-        float flow = Cd * A * Mathf.sqrt(2f * deltaLevel / rho) * viscosityFactor;
-        flow *= 10f;
-
-        flow = Math.min(flow, from.get(liquid));
+        flow = Math.min(flow, amount);
         flow = Math.min(flow, Math.max(freeSpaceFor(to, fromBuild), 0f));
         return flow;
     }

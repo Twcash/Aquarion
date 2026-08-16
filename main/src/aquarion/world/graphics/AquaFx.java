@@ -1424,7 +1424,7 @@ public class AquaFx {
                     data = 0;
                 }
                 randLenVectors(e.id, 3, e.finpow() * 10f, e.rotation, 12f, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, 120f*data + Interp.pow2In.apply(e.fout()));
+                    Fill.circle(e.x + x, e.y + y, 300f*data + Interp.pow2In.apply(e.fout()));
                 });
             }).layer(Layer.blockUnder - 2),
             vaporizeItem = new Effect(140, 50, e -> {

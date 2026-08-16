@@ -5,11 +5,16 @@ import aquarion.world.content.LiquidReactions;
 import aquarion.world.content.LiquidUtil;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPuddles;
+import aquarion.world.graphics.PipeBubble;
+import aquarion.world.graphics.PipeBubbles;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
+import arc.math.Rand;
 import arc.math.geom.Geometry;
 import arc.scene.ui.layout.Table;
+import arc.struct.Seq;
 import arc.util.Nullable;
+import arc.util.Time;
 import mindustry.content.Fx;
 import mindustry.gen.Building;
 import mindustry.graphics.Layer;
@@ -24,6 +29,8 @@ import static mindustry.Vars.renderer;
 import static mindustry.Vars.tilesize;
 
 public class ModifiedConduit extends Conduit {
+    public static final int maxBubbles = 6;
+    private static final Rand rand = new Rand();
     //copy of Conduit's package-private rotateOffsets, needed for the rotated liquid regions
     static final float rotatePad = 6, hpad = rotatePad / 2f / 4f;
     static final float[][] rotateOffsets = {{hpad, hpad}, {-hpad, hpad}, {-hpad, -hpad}, {hpad, -hpad}};
@@ -49,6 +56,9 @@ public class ModifiedConduit extends Conduit {
         removeBar("liquid");
     }
     public class ModifiedConduitBuild extends ConduitBuild {
+        public Seq<PipeBubble> bubbles = new Seq<>();
+        public float bubbleAccum;
+
         @Override
         public void displayBars(Table bars){
             super.displayBars(bars);
@@ -110,6 +120,9 @@ public class ModifiedConduit extends Conduit {
                 oy = ModifiedConduit.rotateOffsets[wrapRot][1];
             }
 
+            boolean main = slice == SliceMode.none;
+            if(main) Draw.z(Layer.block - 0.02f);
+
             if(LiquidUtil.total(liquids) > 0.0001f){
                 //draw every mixed liquid as a flat fill stacked over the previous one, not just the dominant liquid
                 float xscl = Draw.xscl, yscl = Draw.yscl;
@@ -119,6 +132,12 @@ public class ModifiedConduit extends Conduit {
                         : renderer.fluidFrames[fluid.gas ? 1 : 0][fluid.getAnimationFrame()], slice),
                     x + ox, y + oy, Mathf.clamp(smoothLiquid, 0f, 1f), liquids);
                 Draw.scl(xscl, yscl);
+            }
+
+            if(main){
+                Draw.z(Layer.block - 0.01f);
+                drawBubbles();
+                Draw.z(Layer.block);
             }
 
             Draw.rect(sliced(topRegions[bits], slice), x, y, rotation * 90f);
@@ -138,7 +157,9 @@ public class ModifiedConduit extends Conduit {
                     }
                 });
                 noSleep();
+                updateBubbles();
             } else {
+                bubbles.clear();
                 sleep();
             }
 
@@ -203,6 +224,50 @@ public class ModifiedConduit extends Conduit {
             float free = LiquidUtil.freeSpace(self());
             if(free <= 0.01f) return;
             liquids.add(liquid, Math.min(amount, free));
+
+            //bubbles only spawn where liquid enters from a non-pipe source; pipe-to-pipe
+            //flow is covered by the handoff in updateBubbles so bubbles stay continuous
+            if(!(source instanceof ModifiedConduitBuild || source instanceof Pipe.PipeBuild)){
+                bubbleAccum += amount;
+                if(bubbleAccum > liquidCapacity * 0.25f && bubbles.size < maxBubbles){
+                    bubbleAccum = 0f;
+                    int src = relativeTo(source.tile.x, source.tile.y);
+                    if(src < 0) src = (rotation + 2) % 4;
+                    bubbles.add(new PipeBubble(liquid, src, rotation, rand.range(PipeBubbles.spread), rand.random(0.7f, 1.2f)));
+                }
+            }
+        }
+
+        public void updateBubbles(){
+            for(int i = bubbles.size - 1; i >= 0; i--){
+                PipeBubble b = bubbles.get(i);
+                b.t += Time.delta * PipeBubbles.speed * Mathf.clamp(smoothLiquid, 0.05f, 1f);
+                if(b.t >= 1f){
+                    Building nb = nearby(rotation);
+                    if(nb != null && nb.acceptLiquid(this, b.liquid)){
+                        if(nb instanceof ModifiedConduitBuild c){
+                            c.receiveBubble(b.liquid, (rotation + 2) % 4, -b.lat, b.size);
+                        }else if(nb instanceof Pipe.PipeBuild p){
+                            p.receiveBubble(b.liquid, (rotation + 2) % 4, -b.lat, b.size);
+                        }
+                    }
+                    bubbles.remove(i);
+                }
+            }
+        }
+
+        public void receiveBubble(Liquid liquid, int src, float lat, float size){
+            if(bubbles.size >= maxBubbles) return;
+            bubbles.add(new PipeBubble(liquid, src, rotation, lat, size));
+        }
+
+        public void drawBubbles(){
+            if(bubbles.isEmpty()) return;
+            float half = tilesize / 2f;
+            for(PipeBubble b : bubbles){
+                PipeBubbles.drawBubble(b, x, y, Mathf.clamp(smoothLiquid, 0.05f, 1f), half);
+            }
+            Draw.color();
         }
 
         @Nullable
