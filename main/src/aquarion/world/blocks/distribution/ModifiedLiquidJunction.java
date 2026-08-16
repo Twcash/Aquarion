@@ -31,12 +31,19 @@ import mindustry.world.modules.LiquidModule;
  * Liquids within a single side react with each other, and the whole side drains to the
  * opposite output using the conduit flow formula.
  */
-public class ModifiedLiquidJunction extends LiquidJunction {
+public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil.Rated {
     public float speed = 2.1f;
     public int capacity = 6;
     public float displayedSpeed = 13f;
     /** Liquid capacity of each of the 4 independent side buffers. */
     public float sideLiquidCapacity = 30f;
+    /** Throughput in units/second; <= 0 falls back to {@code liquidCapacity * FLOW_RATE}. */
+    public float liquidSpeed = -1f;
+
+    @Override
+    public float flowRate(){
+        return liquidSpeed > 0 ? liquidSpeed : liquidCapacity * LiquidUtil.FLOW_RATE;
+    }
 
     public ModifiedLiquidJunction(String name) {
         super(name);

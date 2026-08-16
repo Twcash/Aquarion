@@ -102,6 +102,8 @@ public class LiquidBlocks {
             envDisabled = Env.none;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 90;
+            //match the fastest conduit so sorting never throttles the line
+            liquidSpeed = 3600f;
         }};
         siphonVessel = new ModifiedLiquidRouter("siphon-vessel") {{
             requirements(Category.liquid, with(silicon, 150, metaglass, 50));

@@ -105,6 +105,7 @@ public static void init() {
         @Override
         public void apply(){
             setUniformf("u_ambient", ambient);
+            setUniformf("u_texelsize", 4f / Core.graphics.getWidth(), 4f / Core.graphics.getHeight());
         }
     }
     public static class SurfaceShader extends Shader{

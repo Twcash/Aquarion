@@ -52,7 +52,7 @@ public class AquarionMod  implements Loadable{
         DistributionBlocks.loadContent();
         //keep these at the back
         AquaLoadouts.load();
-        //MenuReplacer.replaceMenu(ui.menufrag);
+        //the menu background is replaced in ModEventHandler on ClientLoadEvent
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();

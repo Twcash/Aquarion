@@ -36,11 +36,18 @@ import static mindustry.Vars.tilesize;
  * Has 4 independent side buffers (one per input direction), each with its own capacity;
  * liquids on different sides never mix or react with each other.
  */
-public class SiphonSorter extends LiquidBlock{
+public class SiphonSorter extends LiquidBlock implements LiquidUtil.Rated {
     public TextureRegion cross;
     public boolean invert;
     /** Liquid capacity of each of the 4 independent side buffers. */
     public float sideLiquidCapacity = 30f;
+    /** Throughput in units/second; <= 0 falls back to {@code liquidCapacity * FLOW_RATE}. */
+    public float liquidSpeed = -1f;
+
+    @Override
+    public float flowRate(){
+        return liquidSpeed > 0 ? liquidSpeed : liquidCapacity * LiquidUtil.FLOW_RATE;
+    }
 
     public SiphonSorter(String name){
         super(name);
