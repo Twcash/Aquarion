@@ -111,19 +111,24 @@ public class AquaItemTurret extends ItemTurret implements AquaBarHelpers.CustomB
 
             super.findTarget();
         }
-        @Override
-        public boolean canConsume(){
-            if(heatRequirement > 0 && heatReq <= 0f && baseHeatEfficiency <= 0){
-                    return false;
-            }
-            return super.canConsume();
-        }
 
         @Override
+        public boolean canConsume(){
+            //if baseHeatEfficiency is smaller or equal to one, do normal check for heat
+            if(baseHeatEfficiency <= 0) {
+                if (heatRequirement > 0 && heatReq <= 0f) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
         public void updateEfficiencyMultiplier(){
             if(heatRequirement > 0){
-                efficiency *= Math.min(Math.max(((heatReq / heatRequirement) + baseHeatEfficiency), (cheating() ? 1f : 0f)), maxHeatEfficiency);
+                efficiency *= Math.min(Math.max(heatReq / heatRequirement  + baseHeatEfficiency, cheating() ? 1f : 0f), maxHeatEfficiency);
             }
+
         }
     }
 }
