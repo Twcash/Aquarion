@@ -260,6 +260,33 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         if(outputLiquids != null) hasLiquids = true;
 
         super.init();
+
+        //AquaConsume wraps liquid consumers, which the vanilla capacity auto-compute can't see,
+        //so mod crafters would otherwise be stuck with the minimum 10-unit liquid buffer.
+        float maxConsume = 0f;
+        for(Consume c : consumers){
+            if(c instanceof AquaConsume ac){
+                for(AquaConsume.Entry e : ac.entries){
+                    if(e.consumer instanceof ConsumeLiquid cl){
+                        maxConsume = Math.max(maxConsume, cl.amount);
+                    }else if(e.consumer instanceof ConsumeLiquids cls){
+                        for(LiquidStack ls : cls.liquids){
+                            maxConsume = Math.max(maxConsume, ls.amount);
+                        }
+                    }
+                }
+            }else if(c instanceof ConsumeLiquidBase liq){
+                maxConsume = Math.max(maxConsume, liq.amount);
+            }else if(c instanceof ConsumeLiquids cls){
+                for(LiquidStack ls : cls.liquids){
+                    maxConsume = Math.max(maxConsume, ls.amount);
+                }
+            }
+        }
+        if(maxConsume > 0f){
+            liquidCapacity = Math.max(liquidCapacity, Mathf.round(10f * maxConsume));
+        }
+
         if(shareOutputLiquids){
             if (outputLiquids != null){
                 for (LiquidStack liquid : outputLiquids) {

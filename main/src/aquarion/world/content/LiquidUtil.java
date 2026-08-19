@@ -1,6 +1,9 @@
 package aquarion.world.content;
 
+import aquarion.world.blocks.distribution.ModifiedConduit;
 import aquarion.world.blocks.distribution.ModifiedLiquidJunction;
+import aquarion.world.blocks.distribution.ModifiedLiquidRouter;
+import aquarion.world.blocks.distribution.Pipe;
 import aquarion.world.blocks.distribution.SiphonSorter;
 import arc.graphics.Color;
 import arc.graphics.g2d.TextureRegion;
@@ -12,6 +15,19 @@ import mindustry.world.blocks.liquid.LiquidBlock;
 import mindustry.world.modules.LiquidModule;
 
 public class LiquidUtil {
+
+    /**
+     * @return whether {@code build} is one of the mod's custom liquid-transport blocks that
+     * use {@link #flow} instead of the vanilla transfer logic. Vanilla blocks (crafters, heaters,
+     * sections, etc.) should always be fed with the standard vanilla flow.
+     */
+    public static boolean isCustomLiquidBlock(Building build){
+        return build instanceof ModifiedConduit.ModifiedConduitBuild
+            || build instanceof Pipe.PipeBuild
+            || build instanceof ModifiedLiquidRouter.ughBuild
+            || build instanceof ModifiedLiquidJunction.wtfBuild
+            || build instanceof SiphonSorter.SiphonSorterBuild;
+    }
 
     /**
      * Transport throughput, in liquid units per second, per unit of buffer capacity.

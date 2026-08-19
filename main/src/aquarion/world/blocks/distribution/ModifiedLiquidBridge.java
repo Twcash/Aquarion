@@ -58,6 +58,11 @@ public class ModifiedLiquidBridge extends LiquidBridge {
         public float moveLiquid(Building next, Liquid liquid){
             if(next == null) return 0;
 
+            //vanilla blocks expect the standard vanilla transfer, not the custom fast flow
+            if(!LiquidUtil.isCustomLiquidBlock(next)){
+                return super.moveLiquid(next, liquid);
+            }
+
             next = next.getLiquidDestination(self(), liquid);
 
             if(next == null) return 0;

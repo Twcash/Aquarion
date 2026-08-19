@@ -194,6 +194,12 @@ public class ModifiedConduit extends Conduit {
         public float moveLiqNew(Building next, Liquid liquid) {
             if (next == null) return 0;
 
+            //vanilla blocks (crafters, heaters, vanilla conduits, ...) expect the standard vanilla
+            //transfer; only the mod's own liquid blocks use the custom fast flow
+            if(!LiquidUtil.isCustomLiquidBlock(next)){
+                return moveLiquid(next, liquid);
+            }
+
             next = next.getLiquidDestination(self(), liquid);
 
             if (next == null) return 0;
