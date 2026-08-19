@@ -295,11 +295,37 @@ public class GroundDrill extends AquaBlock implements AquaBarHelpers.CustomBarHo
                 f.itemDrop.hardness <= tier && (blockedItems == null || !blockedItems.contains(f.itemDrop)) && (indexer.isBlockPresent(f) || state.isMenu())));
 
         stats.add(Stat.drillSpeed, 60f / drillTime * size * size, StatUnit.itemsSecond);
-        boolean hasItemBooster = itemBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeItems && f.booster) instanceof ConsumeItems;
-        boolean hasLiquidBooster = liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase;
-        if(hasItemBooster || hasLiquidBooster){
+        if(itemBoostIntensity != 1 || liquidBoostIntensity != 1){
             stats.remove(Stat.booster);
             if(hasHeat && baseEfficiency >= 1) stats.add(Stat.booster, AquaStats.heatBooster(heatRequirement, overheatScale, baseEfficiency, maxEfficiency, flipHeatScale));
+
+            if(itemBoostIntensity != 1){
+                ConsumeItems coni = booster(ConsumeItems.class);
+                if(coni != null){
+                    stats.add(Stat.booster, AquaStats.itemOutputBoosters(
+                            "{0}" + StatUnit.multiplier.localized(),
+                            stats.timePeriod,
+                            itemBoostIntensity,
+                            0f,
+                            coni.items,
+                            ItemBoostUseTime
+                    ));
+                }
+            }
+            if(liquidBoostIntensity != 1){
+                ConsumeLiquidBase consBase = booster(ConsumeLiquidBase.class);
+                if(consBase != null){
+                    final ConsumeLiquidFilter filter = consBase instanceof ConsumeLiquidFilter f ? f : null;
+                    stats.add(Stat.booster,
+                            AquaStats.liquidOutputMultiplier(
+                                    liquid -> (filter != null ? filter.filter.get(liquid) : (consBase instanceof ConsumeLiquid cl && cl.liquid == liquid))
+                                            ? liquidBoostIntensity : 1f,
+                                    consBase.amount,
+                                    liquid -> filter != null ? filter.filter.get(liquid) : (consBase instanceof ConsumeLiquid cl && cl.liquid == liquid)
+                            )
+                    );
+                }
+            }
         }
         if(hasHeat && heatRequirement != 0f){
             if(baseEfficiency <= 0){
@@ -314,6 +340,20 @@ public class GroundDrill extends AquaBlock implements AquaBarHelpers.CustomBarHo
                 ac.display(stats, stats.timePeriod);
             }
         }
+    }
+
+    /** Finds a booster consumer by type, unwrapping AquaConsume if needed. */
+    private <T extends Consume> T booster(Class<T> type){
+        for(Consume c : consumers){
+            if(!c.booster) continue;
+            if(type.isInstance(c)) return type.cast(c);
+            if(c instanceof AquaConsume ac){
+                for(AquaConsume.Entry e : ac.entries){
+                    if(type.isInstance(e.consumer)) return type.cast(e.consumer);
+                }
+            }
+        }
+        return null;
     }
 
     @Override

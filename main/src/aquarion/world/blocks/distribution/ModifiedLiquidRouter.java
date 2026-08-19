@@ -64,6 +64,11 @@ public class ModifiedLiquidRouter extends LiquidRouter {
 
         @Override
         public void transferLiquid(Building next, float amount, Liquid liquid){
+            //vanilla blocks expect the standard vanilla transfer, not the custom fast flow
+            if(!LiquidUtil.isCustomLiquidBlock(next)){
+                super.transferLiquid(next, amount, liquid);
+                return;
+            }
             float flow = Math.min(LiquidUtil.flow(self(), liquid, next) * delta(), amount);
             if(flow <= 0.01f) return;
             if(next.acceptLiquid(self(), liquid)){
