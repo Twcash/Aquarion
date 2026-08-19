@@ -1127,6 +1127,9 @@ public class TurretBlocks {
             warmupMaintainTime = 250;
             ammoPerShot = 20;
             recoilTime = 90;
+            baseHeatEfficiency = 1f;
+            maxHeatEfficiency = 3f;
+            heatRequirement = 60f;
             ammo(
                     AquaItems.towanite, focusTowanite,
                     AquaItems.acuminite, focusAcuminite,
@@ -1405,14 +1408,14 @@ public class TurretBlocks {
             shootCone = 10f;
             rotateSpeed = 15f;
             reload = 30f;
-            inaccuracy = 5f;
+            inaccuracy = 2f;
             consumeAmmoOnce = true;
             range = 300f;
             ammoPerShot = 2;
             itemCapacity = 30;
             liquidCapacity = 150;
             consumeCoolant(3);
-            coolantMultiplier = 0.15f;
+            coolantMultiplier = 0.25f;
             targetAir = true;
             targetGround = false;
             shootSound = AquaSounds.javelinShot;

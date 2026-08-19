@@ -1549,6 +1549,7 @@ public class AquaBullets {
         trailLength = 4;
         damage = 10;
         splashDamage = 10;
+        splashDamageRadius = 16;
         speed = 15f;
         lifetime = 24f;
         pierce = true;
