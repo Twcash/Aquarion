@@ -141,7 +141,6 @@ public class AquaStats {
                         bt.right().defaults().padRight(3).left();
                         if(rangeBoost != 0)
                             bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
-
                         if(outputBoost != 0)
                             bt.add("[lightgray]" + unit.replace("{0}", "[stat]" + Strings.autoFixed(outputBoost, 2)) + "[lightgray] output");
                     }).right().top().grow().pad(10f).padRight(15f);
@@ -160,11 +159,10 @@ public class AquaStats {
             table.table(c -> {
                 for(Liquid liquid : Vars.content.liquids().select(l -> filter.get(l) && l.unlockedNow() && !l.isHidden())){
                     c.table(Styles.grayPanel, b -> {
+                        b.right().defaults().padRight(3).left();
                         b.add(displayLiquid(liquid, amount * 60, true)).pad(10f).left().grow();
-                        b.add(Core.bundle.format("stat.outputmultiplier",
-                                        Strings.autoFixed(outputMult.get(liquid) * 100f, 1)))
-                                .right().pad(10f).padRight(15f)
-                                .color(Pal.accent);
+                        b.add("[stat]" + Strings.autoFixed(outputMult.get(liquid), 2) + "x" + " " +"[lightgray] output")
+                                .right().pad(10f).padRight(15f);
                     }).growX().pad(5f).row();
                 }
             }).growX().colspan(table.getColumns()).row();

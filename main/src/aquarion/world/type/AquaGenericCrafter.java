@@ -145,12 +145,7 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                 ConsumeItems coni = findConsume(ConsumeItems.class);
                 if(coni != null){
                     stats.add(Stat.booster, AquaStats.itemOutputBoosters(
-                            "{0}" + StatUnit.multiplier.localized(),
-                            stats.timePeriod,
-                            itemBoostIntensity,
-                            0f,
-                            coni.items,
-                            ItemBoostUseTime
+                            "{0}" + StatUnit.multiplier.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, ItemBoostUseTime
                     ));
                 }
             }
