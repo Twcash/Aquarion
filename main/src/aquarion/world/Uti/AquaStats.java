@@ -50,6 +50,26 @@ public class AquaStats {
         };
 
     }
+    public static StatValue heatReq(float heatRequirement, float overheatScale, float maxEfficiency, boolean flipHeat){
+        return table -> {
+            float baseHeat = heatRequirement;
+            float totalHeat = (maxEfficiency - 1f) * heatRequirement / overheatScale;
+            table.row();
+
+            table.table(Styles.grayPanel, b -> {
+                b.defaults().pad(5).left();
+                b.add("[accent]Base Heat Requirement:[white] " + Strings.autoFixed(heatRequirement, 1) + " " +
+                        (flipHeat ? "[royal]" : "[red]") + Iconc.waves + "[]").row();
+                b.add("[accent]Max Heat:[white] " + Strings.autoFixed(totalHeat, 1) + " " +
+                        (flipHeat ? "[royal]" : "[red]") + Iconc.waves + "[]").row();
+                b.add("[accent]Max Efficiency:[white] " +
+                        Strings.autoFixed(maxEfficiency, 2) + StatUnit.timesSpeed.localized()).row();
+            }).growX().pad(10f);
+
+            table.row();
+        };
+
+    }
     public static StatValue itemBoosters(String unit, float timePeriod, float speedBoost, float rangeBoost, ItemStack[] items, float craftTime){
         return table -> {
             table.row();
