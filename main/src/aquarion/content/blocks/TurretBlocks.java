@@ -9,6 +9,8 @@ import aquarion.world.entities.bullet.AOEBulletType;
 import aquarion.world.entities.bullet.AquaLaserBulletType;
 import aquarion.world.entities.bullet.GambleBulletType;
 import aquarion.world.entities.parts.NewRegPart;
+import aquarion.world.entities.parts.PuckPart;
+import aquarion.world.entities.parts.PuckPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.func.Cons;
@@ -128,7 +130,7 @@ public class TurretBlocks {
             shoot.shotDelay = 1;
             shootType =  AquaBullets.voltShoot;
         }};
-        pelt = new AquaTemplates.AquaItemTurretTemplate("pelt") {{
+        pelt = new AquaTemplates.AquaItemTurretTemplate("pelt"){{
             requirements(Category.turret, with(lead, 85, nickel, 90f, silicon, 90, graphite, 60));
             health = 650;
             range = 190;
@@ -149,20 +151,35 @@ public class TurretBlocks {
                     lead, AquaBullets.peltLead,
                     nickel, AquaBullets.peltNickel,
                     cupronickel, AquaBullets.peltCupronickel
-
             );
             limitRange(1.15f);
             drawer = new AquaDrawTurret() {{
-                parts.add(new RegionPart("-boioioioing") {{
-                    x = -13 / 4f;
-                    moveRot = 360;
-                    progress = PartProgress.reload.curve(Interp.pow2In);
-                }}, new NewRegPart("-spike") {{
+                setAmmoParts(nickel,Seq.with( new NewRegPart("-spike-nickel"){{
                     moveX = 5;
                     progress = PartProgress.reload.curve(Interp.pow5In);
                     alphaTo = 0;
+                    under = true;
                     alpha = 1;
-                }}, new RegionPart("-top"), new RegionPart("-plate") {{
+                }}),lead,Seq.with(new NewRegPart("-spike-lead"){{
+                    moveX = 5;
+                    progress = PartProgress.reload.curve(Interp.pow5In);
+                    alphaTo = 0;
+                    under = true;
+                    alpha = 1;
+                }}),cupronickel,Seq.with(new NewRegPart("-spike-cupronickel"){{
+                    moveX = 5;
+                    progress = PartProgress.reload.curve(Interp.pow5In);
+                    alphaTo = 0;
+                    under = true;
+                    alpha = 1;
+                }}));
+                parts.add(new RegionPart("-boioioioing"){{
+                    x = -13 / 4f;
+                    under = true;
+                    moveRot = 360;
+                    progress = PartProgress.reload.curve(Interp.pow2In);
+                }});
+                parts.add(new RegionPart("-top"), new RegionPart("-plate"){{
                     moveY = 5;
                     progress = PartProgress.recoil;
                 }});
@@ -251,77 +268,14 @@ public class TurretBlocks {
                     uranium, AquaBullets.vectorUranium
             );
             shoot = new ShootBarrel() {{
-                barrels = new float[]{0, 6, 0, 0, -2, 0, 0, -11, 0, 0, -12, 0};
                 shots = 4;
                 shotDelay = 10;
             }};
-            drawer = new DrawTurret() {{
-                parts.addAll(new RegionPart("-puck") {{
-                    growProgress = PartProgress.recoil;
-                    progress = PartProgress.recoil;
-                    recoilIndex = 0;
-                    colorTo = new Color(1f, 1f, 1f, 0f);
-                    color = Color.white;
-                    y = 15 / 4f;
-                    growX = -1f;
-                    growY = -1f;
-                }}, new RegionPart("-puck") {{
-                    recoilIndex = 1;
-                    growProgress = PartProgress.recoil;
-                    progress = PartProgress.recoil;
-                    colorTo = new Color(1f, 1f, 1f, 0f);
-                    color = Color.white;
-                    growX = -1f;
-                    growY = -1f;
-                }}, new RegionPart("-puck") {{
-                    recoilIndex = 2;
-                    growProgress = PartProgress.recoil;
-                    progress = PartProgress.recoil;
-                    colorTo = new Color(1f, 1f, 1f, 0f);
-                    color = Color.white;
-                    y = -15 / 4f;
-                    growX = -1f;
-                    growY = -1f;
-                }}, new RegionPart("-puck") {{
-                    recoilIndex = 3;
-                    growProgress = PartProgress.recoil;
-                    progress = PartProgress.recoil;
-                    colorTo = new Color(1f, 1f, 1f, 0f);
-                    color = Color.white;
-                    y = -30 / 4f;
-                    growX = -1f;
-                    growY = -1f;
-                }});
-                for(int  i = 0; i < 4; i++){{
-                    int finalI = i;
-                    parts.add(new RegionPart("-yub"){{
-                        moveX = 3;
-                        y = (22/4f) * finalI;
-                        recoilIndex = 3-finalI;
-                        progress = PartProgress.recoil.curve(pow5In);
-                        moves.add(new PartMove(PartProgress.warmup, -1, 0, 0));
-                    }});
-                }};
-                parts.addAll( new RegionPart("-top"),new RegionPart("-shield-l"){{
-                    growX = -0.5f;
-                    growProgress = PartProgress.warmup.curve(Interp.pow5Out);
-                    progress = PartProgress.warmup.curve(Interp.pow5Out);
-                    moveX = -6/4f;
-                }},new RegionPart("-shield-l"){{
-                    growX = -0.5f;
-                    growProgress = PartProgress.warmup.curve(Interp.pow5Out);
-                    progress = PartProgress.warmup.curve(Interp.pow5Out);
-                    moveX = -8/4f;
-                }},new RegionPart("-shield-r"){{
-                    growX = -0.5f;
-                    growProgress = PartProgress.warmup.curve(Interp.pow5Out);
-                    progress = PartProgress.warmup.curve(Interp.pow5Out);
-                    moveX = 5/4f;
-                }},new RegionPart("-shield-r"){{
-                    growX = -0.5f;
-                    growProgress = PartProgress.warmup.curve(Interp.pow5Out);
-                    progress = PartProgress.warmup.curve(Interp.pow5Out);
-                    moveX = 6/4f;
+            drawer = new AquaDrawTurret() {{
+                parts.addAll(new NewRegPart("-hammer"){{
+                    moveY = -7;
+                    progress = PartProgress.recoil.curve(pow2In);
+                    under = true;
                 }});
             }};
             consumeCoolant(40 / 60f);
