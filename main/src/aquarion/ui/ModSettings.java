@@ -31,7 +31,7 @@ public class ModSettings {
             root.checkPref("debugResearchRendering", false);
             root.checkPref("debugHitboxRendering", false);
             root.checkPref("aquaMenuBattles", true);
-            
+
             for (Setting setting : root.getSettings()) {
                 if (setting instanceof CheckSetting) {
                     CheckSetting check = (CheckSetting) setting;
@@ -90,6 +90,24 @@ public class ModSettings {
                     toDelete.each(Saves.SaveSlot::delete);
 
                     Vars.ui.showInfoOnHidden(Core.bundle.get("settings.clearCampaign-closeConfirm"), () -> {
+                        Core.app.exit();
+                    });
+                });
+            }));
+            root.pref(new ButtonPref(Core.bundle.get("settings.clearAtlasCache", "Clear Atlas Cache"), Icon.refresh, () -> {
+                Vars.ui.showConfirm("@confirm", Core.bundle.get("settings.clearAtlasCache-confirm", "Are you sure you want to clear the graphics cache and restart the game?"), () -> {
+
+                    arc.files.Fi cacheDir = Core.settings.getDataDirectory().child("cache");
+                    arc.files.Fi tmpDir = Core.settings.getDataDirectory().child("tmp");
+
+                    if(cacheDir.exists()) {
+                        cacheDir.deleteDirectory();
+                    }
+                    if(tmpDir.exists()) {
+                        tmpDir.deleteDirectory();
+                    }
+
+                    Vars.ui.showInfoOnHidden(Core.bundle.get("settings.clearAtlasCache-done", "Cache cleared. Click OK to restart the game and apply changes."), () -> {
                         Core.app.exit();
                     });
                 });
