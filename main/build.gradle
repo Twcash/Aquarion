@@ -79,6 +79,22 @@ task dex(type: Jar){
 
     from zipTree(desktopJar)
     from zipTree(dexJar)
+
+    // Принудительно устанавливаем UTF-8 кодировку для файлов в JAR
+    manifest {
+        attributes("Manifest-Version": "1.0")
+    }
+
+    // Сохраняем бандлы без лишнего пересжатия
+    doLast {
+        // Заменяем сжатый bundle.properties на несжатый прямо в итоговом JAR
+        def finalJarPath = archiveFile.get().asFile.path
+        ant.zip(update: true, destfile: finalJarPath) {
+            fileset(dir: assetsDir) {
+                include name: "bundles/**"
+            }
+        }
+    }
 }
 
 class Fetcher{
