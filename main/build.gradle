@@ -55,58 +55,31 @@ task deploy(type: Jar){
         include 'mod.json'
         include 'icon.png'
     }
-
-    entryCompression = ZipEntryCompression.STORED
 }
 
-task dex {
+task dex(type: Jar){
+    archiveFileName.set "${modDisplayName}.jar"
     dependsOn deploy
 
     final def desktopJar = deploy.archiveFile.get().asFile
-    final def finalJar = new File(buildDir, "libs/${modDisplayName}.jar")
     final def dexJar = new File(dex.temporaryDir, 'Dexed.jar')
 
-    inputs.file(desktopJar)
-    outputs.file(finalJar)
-
-    doLast {
-        def command = ['d8', '--min-api', sdkAPI, '--output', dexJar.path, desktopJar.path]
-        final File[] files = configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList()
+    doFirst{
+        def command = ['d8', '--min-api', sdkAPI, '--output', dexJar, desktopJar]
+        final File[] files =
+                configurations.compileClasspath.asList() +
+                        configurations.runtimeClasspath.asList()
 
         for(def file : files) command += ['--classpath', file.path]
         command += ['--lib', file("$sdkRoot/platforms/android-$sdkVersion/android.jar")]
 
         if(OS.isWindows) command = ['cmd', '/c'] + command
-        def proc = command.execute(null, new File("$buildDir/libs"))
-        proc.waitForProcessOutput(System.out, System.err)
-
-        if(proc.exitValue() != 0){
-            throw new GradleException("d8 execution failed with exit code " + proc.exitValue())
-        }
-
-        copy {
-            from desktopJar
-            into finalJar.parentFile
-            rename { finalJar.name }
-        }
-
-        def dexTree = zipTree(dexJar)
-        def dexFile = dexTree.matching { include 'classes.dex' }.singleFile
-
-        ant.zip(update: true, destfile: finalJar.path) {
-            fileset(dir: dexFile.parentFile) {
-                include name: 'classes.dex'
-            }
-        }
-
-        ant.zip(update: true, destfile: finalJar.path) {
-            fileset(dir: assetsDir) {
-                include name: "bundles/**"
-            }
-        }
+        command.execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
     }
-}
 
+    from zipTree(desktopJar)
+    from zipTree(dexJar)
+}
 
 class Fetcher{
     UnsafeRunnable run
@@ -224,7 +197,6 @@ tasks.withType(Jar){
     exclude modName + '/fetched/**'
     exclude modName + '/entities/comp/**'
     exclude modName + '/entities/merge/**'
-    exclude 'sprites/vanilla/**'
 
-    entryCompression = ZipEntryCompression.STORED
+    exclude 'sprites/vanilla/**'
 }
