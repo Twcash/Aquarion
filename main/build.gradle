@@ -57,41 +57,46 @@ task deploy(type: Jar){
     }
 }
 
-task dex(type: Jar){
-    archiveFileName.set "${modDisplayName}.jar"
+task dex {
     dependsOn deploy
 
     final def desktopJar = deploy.archiveFile.get().asFile
+    final def finalJar = new File(buildDir, "libs/${modDisplayName}.jar")
     final def dexJar = new File(dex.temporaryDir, 'Dexed.jar')
 
-    doFirst{
-        def command = ['d8', '--min-api', sdkAPI, '--output', dexJar, desktopJar]
-        final File[] files =
-                configurations.compileClasspath.asList() +
-                        configurations.runtimeClasspath.asList()
+    inputs.file(desktopJar)
+    outputs.file(finalJar)
+
+    doLast {
+        // 1. Запускаем d8 для создания dex-файла из desktopJar
+        def command = ['d8', '--min-api', sdkAPI, '--output', dexJar.path, desktopJar.path]
+        final File[] files = configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList()
 
         for(def file : files) command += ['--classpath', file.path]
         command += ['--lib', file("$sdkRoot/platforms/android-$sdkVersion/android.jar")]
 
         if(OS.isWindows) command = ['cmd', '/c'] + command
-        command.execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
-    }
+        def proc = command.execute(null, new File("$buildDir/libs"))
+        proc.waitForProcessOutput(System.out, System.err)
 
-    from zipTree(desktopJar)
-    from zipTree(dexJar)
+        if(proc.exitValue() != 0){
+            throw new GradleException("d8 execution failed with exit code " + proc.exitValue())
+        }
 
-    // Принудительно устанавливаем UTF-8 кодировку для файлов в JAR
-    manifest {
-        attributes("Manifest-Version": "1.0")
-    }
+        // 2. Копируем исходный рабочий desktopJar (где картинки и бандлы не повреждены)
+        copy {
+            from desktopJar
+            into finalJar.parentFile
+            rename { finalJar.name }
+        }
 
-    // Сохраняем бандлы без лишнего пересжатия
-    doLast {
-        // Заменяем сжатый bundle.properties на несжатый прямо в итоговом JAR
-        def finalJarPath = archiveFile.get().asFile.path
-        ant.zip(update: true, destfile: finalJarPath) {
-            fileset(dir: assetsDir) {
-                include name: "bundles/**"
+        // 3. Вытаскиваем classes.dex из Dexed.jar и добавляем его в копию jar БЕЗ пересборки всего архива
+        def dexTree = zipTree(dexJar)
+        def dexFile = dexTree.matching { include 'classes.dex' }.singleFile
+
+        ant.zip(update: true, destfile: finalJar.path) {
+            fileset(dir: dexFile.parentFile) {
+                include name: 'classes.dex'
             }
         }
     }
