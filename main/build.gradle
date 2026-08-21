@@ -55,26 +55,52 @@ task deploy(type: Jar){
         include 'mod.json'
         include 'icon.png'
     }
-}
 
-task deploy(type: Jar){
-    dependsOn ':tools:proc', sourceSets.main.runtimeClasspath
-
-    archiveFileName.set "${modDisplayName}Desktop.jar"
-
-    from files(sourceSets.main.output.classesDirs)
-    from files(sourceSets.main.output.resourcesDir)
-    from configurations.runtimeClasspath.collect{ it.isDirectory() ? it : zipTree(it) }
-    from files(assetsDir){ exclude 'sprites/vanilla/**' }
-
-    from(rootDir){
-        include 'mod.json'
-        include 'icon.png'
-    }
-
-    // Сохраняем PNG и картинки без сжатия Zip, чтобы Android считывал их напрямую
     entryCompression = ZipEntryCompression.STORED
 }
+
+task dex {
+    dependsOn deploy
+
+    final def desktopJar = deploy.archiveFile.get().asFile
+    final def finalJar = new File(buildDir, "libs/${modDisplayName}.jar")
+    final def dexJar = new File(dex.temporaryDir, 'Dexed.jar')
+
+    inputs.file(desktopJar)
+    outputs.file(finalJar)
+
+    doLast {
+        def command = ['d8', '--min-api', sdkAPI, '--output', dexJar.path, desktopJar.path]
+        final File[] files = configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList()
+
+        for(def file : files) command += ['--classpath', file.path]
+        command += ['--lib', file("$sdkRoot/platforms/android-$sdkVersion/android.jar")]
+
+        if(OS.isWindows) command = ['cmd', '/c'] + command
+        def proc = command.execute(null, new File("$buildDir/libs"))
+        proc.waitForProcessOutput(System.out, System.err)
+
+        if(proc.exitValue() != 0){
+            throw new GradleException("d8 execution failed with exit code " + proc.exitValue())
+        }
+
+        copy {
+            from desktopJar
+            into finalJar.parentFile
+            rename { finalJar.name }
+        }
+
+        def dexTree = zipTree(dexJar)
+        def dexFile = dexTree.matching { include 'classes.dex' }.singleFile
+
+        ant.zip(update: true, destfile: finalJar.path) {
+            fileset(dir: dexFile.parentFile) {
+                include name: 'classes.dex'
+            }
+        }
+    }
+}
+
 
 class Fetcher{
     UnsafeRunnable run
