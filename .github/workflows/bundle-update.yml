@@ -1,8 +1,6 @@
 name: Update Bundles
 
-on:
-  push:
-    branches: [ "main", "master" ]
+on: [push, release]
   workflow_dispatch:
 
 env:
