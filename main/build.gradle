@@ -100,7 +100,7 @@ task dex {
         }
 
         ant.zip(update: true, destfile: finalJar.path) {
-            fileset(dir: assetsDir, compression: "stored") {
+            fileset(dir: assetsDir) {
                 include name: "bundles/**"
             }
         }
