@@ -98,6 +98,12 @@ task dex {
                 include name: 'classes.dex'
             }
         }
+
+        ant.zip(update: true, destfile: finalJar.path) {
+            fileset(dir: assetsDir, compression: "stored") {
+                include name: "bundles/**"
+            }
+        }
     }
 }
 

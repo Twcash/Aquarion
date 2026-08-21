@@ -1,12 +1,12 @@
 {
-"repo": "Twcash/Tantros-test",
+"repo": "Twcash/Aquarion",
 "name": "aquarion",
 "displayName": "Aquarion",
 "subtitle": "This mod adds a separate solar system.",
 "author": "twcash",
 "description": "A complete rewrite of the campaign. Currently in heavy development.",
 "version": "4.1.0.1",
-"minGameVersion": "159.6",
+"minGameVersion": "159.7",
 "hidden": false,
 "java": true,
 "main": "aquarion.AquaLoader"
