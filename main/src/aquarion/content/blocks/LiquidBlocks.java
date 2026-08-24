@@ -38,7 +38,7 @@ public class LiquidBlocks {
             floating = true;
         }};
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge") {{
-            requirements(Category.liquid, with(polymer, 30));
+            requirements(Category.liquid, with(polymer, 30, silicon, 30));
             willMelt = false;
             range = 6;
             hasPower = false;
@@ -69,7 +69,7 @@ public class LiquidBlocks {
         }};
         pulseSiphon = new ModifiedConduit("pulse-siphon") {{
             //but what if siligone? SOLVEDDD!
-            requirements(Category.liquid, with(polymer, 2, aluminum, 4));
+            requirements(Category.liquid, with(polymer, 2, silicon, 2));
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 120;
@@ -142,7 +142,7 @@ public class LiquidBlocks {
             envDisabled = Env.none;
         }};
         siphonReservoir = new ModifiedLiquidRouter("siphon-reservoir") {{
-            requirements(Category.liquid, with(aluminum, 50, polymer, 250));
+            requirements(Category.liquid, with(silicon, 1000, polymer, 250));
             liquidPadding = 3;
             squareSprite = false;
             liquidCapacity = 32000;
@@ -152,7 +152,7 @@ public class LiquidBlocks {
             envDisabled = Env.none;
         }};
         pipe = new Pipe("pipe") {{
-            requirements(Category.liquid, with(polymer, 2));
+            requirements(Category.liquid, with(polymer, 4, silicon, 4));
             liquidPressure = 10000;
             liquidCapacity = 100;
         }};
