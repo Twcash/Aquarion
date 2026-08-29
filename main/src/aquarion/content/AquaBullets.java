@@ -1540,22 +1540,83 @@ public class AquaBullets {
             sparkColor = Color.white;
         }};
     }},
-    javelinTest = new BasicBulletType() {{
+    javelinMetaglass = new BasicBulletType() {{
         sprite = "aquarion-long-bullet-back";
         backSprite = "aquarion-long-bullet-back";
+        trailColor = metaglass.color;
         trailEffect = Fx.disperseTrail;
         trailInterval = 2f;
         trailWidth = 1f;
         trailLength = 4;
-        damage = 10;
-        splashDamage = 10;
-        splashDamageRadius = 16;
-        speed = 15f;
-        lifetime = 24f;
-        pierce = true;
-        pierceCap = 2;
+        damage = 15;
+        splashDamage = 20;
+        splashDamageRadius = 24;
+        speed = 30f;
+        lifetime = 11f;
+        pierce = false;
         hitEffect = despawnEffect = Fx.shieldApply;
+        fragBullets = 5;
+        fragBullet = new BasicBulletType() {{
+            damage = 10f;
+            splashDamage = 15f;
+            splashDamageRadius = 12f;
+            speed = 5f;
+            lifetime = 12f;
+            sprite = "aquarion-long-bullet";
+        }};
     }},
+            javelinGraphite = new BasicBulletType() {{
+                sprite = "aquarion-long-bullet-back";
+                backSprite = "aquarion-long-bullet-back";
+                trailColor = graphite.color;
+                trailEffect = Fx.disperseTrail;
+                trailInterval = 2f;
+                trailWidth = 1f;
+                trailLength = 4;
+                damage = 30;
+                splashDamage = 10;
+                splashDamageRadius = 12;
+                speed = 30f;
+                lifetime = 11f;
+                pierce = false;
+                hitEffect = despawnEffect = Fx.shieldApply;
+                status = electrified;
+                statusDuration = 90f;
+            }},
+            javelinTungsten = new BasicBulletType() {{
+                sprite = "aquarion-long-bullet-back";
+                backSprite = "aquarion-long-bullet-back";
+                trailColor = tungsten.color;
+                trailEffect = Fx.disperseTrail;
+                trailInterval = 2f;
+                trailWidth = 1f;
+                trailLength = 4;
+                damage = 45;
+                speed = 30f;
+                lifetime = 11f;
+               armorMultiplier = 0.5f;
+               pierce = true;
+               pierceCap = 2;
+            }},
+            javelinPolymer = new BasicBulletType() {{
+                sprite = "aquarion-long-bullet-back";
+                backSprite = "aquarion-long-bullet-back";
+                trailColor = polymer.color;
+                trailEffect = Fx.disperseTrail;
+                trailInterval = 2f;
+                trailWidth = 1f;
+                trailLength = 4;
+                damage = 30;
+                splashDamage = 25;
+                splashDamageRadius = 16;
+                speed = 30f;
+                lifetime = 11f;
+                pierce = false;
+                hitEffect = despawnEffect = Fx.shieldApply;
+                homingDelay = 3f;
+                homingPower = 0.1f;
+                homingRange = 48;
+            }},
     ensignLead = new RailBulletType() {{
         length = 155f;
         damage = 45f;
