@@ -65,15 +65,15 @@ public class AquaMenuDialog extends BaseDialog {
         float navHeight = Vars.mobile ? 42f : 34f; // Больше высота на телефонах
 
         nav.button(Core.bundle.get("aquarion.menu.tab_links", "Links"), () -> updateContent("links"))
-           .height(Vars.mobile ? 150f : 160f).growX().padRight(4f)
+           .height(50f).growX().padRight(4f)
            .disabled(type.equals("links"));
 
         nav.button(Core.bundle.get("aquarion.menu.tab_credits", "Credits"), () -> updateContent("text"))
-           .height(Vars.mobile ? 150f : 160f).growX().padRight(4f)
+           .height(50f).growX().padRight(4f)
            .disabled(type.equals("text"));
 
         nav.button(Core.bundle.get("aquarion.menu.tab_changelog", "Changelog"), () -> updateContent("changelog"))
-           .height(Vars.mobile ? 150f : 160f).growX()
+           .height(50f).growX()
            .disabled(type.equals("changelog"));
 
         cont.add(nav).width(buttonWidth).padBottom(15f).row();
@@ -112,13 +112,13 @@ public class AquaMenuDialog extends BaseDialog {
 
             ScrollPane pane = new ScrollPane(inner);
             pane.setOverscroll(false, false);
-            cont.add(pane).width(Vars.mobile ? 460f : 420f).row();
+            cont.add(pane).width(400f).row();
 
             // ВНЕ СКРОЛЛА: Кнопка Open Releases и пагинация закреплены внизу
             Table bottomNav = new Table();
             bottomNav.button(Core.bundle.get("aquarion.menu.open_releases", "Open Releases on GitHub"), Icon.github, () -> {
                 Core.app.openURI(RELEASES_URL);
-            }).size(buttonWidth, Vars.mobile ? 40f : 34f).padTop(padSize).padBottom(padSize).row();
+            }).size(buttonWidth, Vars.mobile ? 40f : 34f).padTop(4f).padBottom(4f).row();
 
             Table paginationTable = new Table();
             float arrowSize = Vars.mobile ? 36f : 30f; // Увеличены стрелки на мобилках
@@ -286,7 +286,7 @@ public class AquaMenuDialog extends BaseDialog {
                 t.table(actions -> {
                     actions.right();
                     
-                    float actionBtnHeight = Vars.mobile ? 32f : 28f;
+                    float actionBtnHeight = Vars.mobile ? 48f : 48f;
 
                     // Кнопка Скачать
                     actions.button(Core.bundle.get("aquarion.menu.download_release", "Download"), Icon.download, () -> {
