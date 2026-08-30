@@ -184,7 +184,7 @@ public class AquaMenuDialog extends BaseDialog {
 
     private void addAuthorButton(Table table, String name, String descKey, String url, String texture, Drawable fallback, boolean hasProfile, float w, float h, float avatarSize, float pad) {
         table.button(b -> {
-            createRoundAvatar(b, texture, fallback, 120f);
+            createRoundAvatar(b, texture, fallback, avatarSize);
             b.add(name).left().padLeft(8f);
         }, () -> showAuthorInfo(name, Core.bundle.get(descKey), url, texture, fallback, hasProfile))
         .size(w, h).padBottom(pad).row();
@@ -312,8 +312,8 @@ public class AquaMenuDialog extends BaseDialog {
             t.left();
 
             Table leftTable = new Table();
-            createRoundAvatar(leftTable, textureName, fallbackIcon, 48f);
-            t.add(leftTable).top().padRight(10f);
+            createRoundAvatar(leftTable, textureName, fallbackIcon, 120f);
+            t.add(leftTable).top().padRight(15f);
 
             Table rightTable = new Table();
             rightTable.left();
