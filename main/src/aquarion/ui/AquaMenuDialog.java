@@ -57,7 +57,7 @@ public class AquaMenuDialog extends BaseDialog {
 
         float buttonWidth = Vars.mobile ? 410f : 40f;
         float buttonHeight = Vars.mobile ? 85f : 100f; // Увеличены на мобилках
-        float avatarSize = 32f;
+        float avatarSize = 127f;
         float padSize = 10f;
 
         // 1. Верхние вкладки (растягиваются по ширине, чтобы влезал переведенный текст)
