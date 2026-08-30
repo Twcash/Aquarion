@@ -1993,7 +1993,7 @@ public class CrafterBlocks {
         }};
         cardReader = new GenericCrafter("card-reader"){{
             requirements(Category.effect, with(libraryCard, 1));
-            size = 2;
+            size = 1;
             itemCapacity = 1;
             outputItem = new ItemStack(libraryCard, 1);
             craftTime = 5*60;

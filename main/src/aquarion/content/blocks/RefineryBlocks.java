@@ -290,7 +290,7 @@ public class RefineryBlocks {
                 hasPower = true;
                 consumeItemStack(new ItemStack(azurite, 15));
                 outputItem = new ItemStack(copper, 45);
-                consumeWrapped(new ConsumeLiquidAcidic(1, 0.5f)).set(1f, true);
+                consume(new ConsumeLiquidAcidic(1, 0.5f));
                 outputLiquid = new LiquidStack(hydroxide, 8.5f);
                 consumePower(4.5f);
                 liquidCapacity = 1500;

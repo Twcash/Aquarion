@@ -905,7 +905,8 @@ public class TurretBlocks {
             ammo(
                     lead, AquaBullets.fomentLead,
                     AquaItems.ferricMatter, AquaBullets.fomentFerric,
-                    ferrosilicon, AquaBullets.fomentFerrosilicon, brass, AquaBullets.fomentBrass);
+                    ferrosilicon, AquaBullets.fomentFerrosilicon,
+                    brass, AquaBullets.fomentBrass);
             requirements(Category.turret, with(lead, 90, AquaItems.zinc, 60f, silicon, 90));
             size = 3;
             range = 170;
@@ -1356,7 +1357,7 @@ public class TurretBlocks {
         javelin = new ItemTurret("javelin") {{
             requirements(Category.turret, with(polymer, 250, graphite, 750, AquaItems.ferricMatter, 500, silicon, 400));
             shownPlanets.addAll(fakeSerpulo,fakeErekir,tantros2);
-            size = 4;
+            size = 3;
             shoot.shots = 4;
             shoot.shotDelay = 5f;
             shootCone = 10f;
@@ -1364,7 +1365,7 @@ public class TurretBlocks {
             reload = 30f;
             inaccuracy = 2f;
             consumeAmmoOnce = true;
-            range = 300f;
+            range = 330f;
             ammoPerShot = 2;
             itemCapacity = 30;
             liquidCapacity = 150;
@@ -1373,9 +1374,13 @@ public class TurretBlocks {
             targetAir = true;
             targetGround = false;
             shootSound = AquaSounds.javelinShot;
+            outlineColor = tantDarkestTone;
             ammoPerShot = 3;
             ammo(
-                    copper, javelinTest
+                    metaglass, javelinMetaglass,
+                    graphite, javelinGraphite,
+                    tungsten, javelinTungsten,
+                    polymer, javelinPolymer
             );
         }};
         nostalgia = new PowerTurret("nostalgia"){{
