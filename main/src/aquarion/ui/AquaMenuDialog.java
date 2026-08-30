@@ -55,26 +55,28 @@ public class AquaMenuDialog extends BaseDialog {
     private void updateContent(String type) {
         cont.clear();
 
-        float buttonWidth = 360f;
-        float buttonHeight = 42f;
+        float buttonWidth = Vars.mobile ? 360f : 380f;
+        float buttonHeight = Vars.mobile ? 48f : 42f; // Увеличены на мобилках
         float avatarSize = 22f;
         float padSize = 4f;
 
-        // Порядок вкладок: Links -> Credits -> Changelog
+        // 1. Верхние вкладки (растягиваются по ширине, чтобы влезал переведенный текст)
         Table nav = new Table();
+        float navHeight = Vars.mobile ? 42f : 34f; // Больше высота на телефонах
+
         nav.button(Core.bundle.get("aquarion.menu.tab_links", "Links"), () -> updateContent("links"))
-           .size(100f, 32f)
+           .height(navHeight).growX().padRight(4f)
            .disabled(type.equals("links"));
 
         nav.button(Core.bundle.get("aquarion.menu.tab_credits", "Credits"), () -> updateContent("text"))
-           .size(100f, 32f)
+           .height(navHeight).growX().padRight(4f)
            .disabled(type.equals("text"));
 
         nav.button(Core.bundle.get("aquarion.menu.tab_changelog", "Changelog"), () -> updateContent("changelog"))
-           .size(100f, 32f)
+           .height(navHeight).growX()
            .disabled(type.equals("changelog"));
 
-        cont.add(nav).padBottom(padSize).row();
+        cont.add(nav).width(buttonWidth).padBottom(padSize).row();
 
         Table inner = new Table();
 
@@ -98,34 +100,48 @@ public class AquaMenuDialog extends BaseDialog {
             }, () -> Core.app.openURI("https://nullotte.github.io/MindustryModWiki/aquarion"))
             .size(buttonWidth, buttonHeight).padBottom(padSize).row();
 
+            ScrollPane pane = new ScrollPane(inner);
+            pane.setOverscroll(false, false);
+            cont.add(pane).width(400f).row();
+
         } else if (type.equals("changelog")) {
             changelogListTable = new Table();
             changelogListTable.top().left();
 
             inner.add(changelogListTable).growX().row();
 
-            inner.button(Core.bundle.get("aquarion.menu.open_releases", "Open Releases on GitHub"), Icon.github, () -> {
+            ScrollPane pane = new ScrollPane(inner);
+            pane.setOverscroll(false, false);
+            cont.add(pane).width(400f).row();
+
+            // ВНЕ СКРОЛЛА: Кнопка Open Releases и пагинация закреплены внизу
+            Table bottomNav = new Table();
+            bottomNav.button(Core.bundle.get("aquarion.menu.open_releases", "Open Releases on GitHub"), Icon.github, () -> {
                 Core.app.openURI(RELEASES_URL);
-            }).size(buttonWidth, 32f).padTop(padSize).padBottom(padSize).row();
+            }).size(buttonWidth, Vars.mobile ? 40f : 34f).padTop(padSize).padBottom(padSize).row();
 
             Table paginationTable = new Table();
+            float arrowSize = Vars.mobile ? 36f : 30f; // Увеличены стрелки на мобилках
+
             paginationTable.button(Icon.left, () -> {
                 if (page > 1 && !isLoading) {
                     page--;
                     fetchReleases();
                 }
-            }).size(30f).disabled(t -> page <= 1 || isLoading);
+            }).size(arrowSize).disabled(t -> page <= 1 || isLoading);
 
-            paginationTable.label(() -> String.valueOf(page)).fontScale(0.9f).padLeft(8f).padRight(8f);
+            paginationTable.label(() -> String.valueOf(page)).fontScale(1.1f).padLeft(12f).padRight(12f);
 
             paginationTable.button(Icon.right, () -> {
                 if (hasNextPage && !isLoading) {
                     page++;
                     fetchReleases();
                 }
-            }).size(30f).disabled(t -> !hasNextPage || isLoading);
+            }).size(arrowSize).disabled(t -> !hasNextPage || isLoading);
 
-            inner.add(paginationTable);
+            bottomNav.add(paginationTable);
+            cont.add(bottomNav).padTop(4f).row();
+
             fetchReleases();
 
         } else {
@@ -159,11 +175,11 @@ public class AquaMenuDialog extends BaseDialog {
             addAuthorButton(inner, "camelStyleUser", "aquarion.menu.desc_camelStyleUser", "https://github.com/camelStyleUser", "camelStyleUser", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
             addAuthorButton(inner, "Henan-CN-0921", "aquarion.menu.desc_Henan-CN-0921", "https://github.com/Henan-CN-0921", "Henan-CN-0921", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
             addAuthorButton(inner, "Norax", "aquarion.menu.desc_Norax", "https://github.com/Noraxx1", "Norax", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-        }
 
-        ScrollPane pane = new ScrollPane(inner);
-        pane.setOverscroll(false, false);
-        cont.add(pane).width(400f).row();
+            ScrollPane pane = new ScrollPane(inner);
+            pane.setOverscroll(false, false);
+            cont.add(pane).width(400f).row();
+        }
     }
 
     private void addAuthorButton(Table table, String name, String descKey, String url, String texture, Drawable fallback, boolean hasProfile, float w, float h, float avatarSize, float pad) {
@@ -233,17 +249,22 @@ public class AquaMenuDialog extends BaseDialog {
             String name = release.getString("name", tagName);
             String htmlUrl = release.getString("html_url", RELEASES_URL);
             int downloadCount = 0;
+            String downloadUrl = htmlUrl; // По умолчанию ведем на страницу релиза
 
-            if (release.has("assets")) {
+            if (release.has("assets") && release.get("assets").asArray().size > 0) {
+                Jval firstAsset = release.get("assets").asArray().first();
+                downloadUrl = firstAsset.getString("browser_download_url", htmlUrl);
+
                 for (Jval asset : release.get("assets").asArray()) {
                     downloadCount += asset.getInt("download_count", 0);
                 }
             }
 
             final int finalDownloadCount = downloadCount;
+            final String finalDownloadUrl = downloadUrl;
 
             changelogListTable.table(Styles.black5, t -> {
-                t.top().left().margin(6f);
+                t.top().left().margin(8f);
 
                 t.table(header -> {
                     header.left();
@@ -253,19 +274,33 @@ public class AquaMenuDialog extends BaseDialog {
 
                 t.table(stats -> {
                     stats.left();
-                    stats.image(Icon.download).size(12f).color(Color.gold);
+                    stats.image(Icon.download).size(14f).color(Color.gold);
                     stats.add("[gold] " + finalDownloadCount + "[white]").padLeft(4f);
                 }).padTop(2f).growX().row();
 
-                t.image().color(Color.gray).height(1f).growX().padTop(3f).padBottom(3f).row();
+                t.image().color(Color.gray).height(1f).growX().padTop(4f).padBottom(6f).row();
 
-                t.add(body).wrap().width(340f).left().padBottom(6f).row();
+                t.add(body).wrap().width(340f).left().padBottom(8f).row();
 
-                t.button(Core.bundle.get("aquarion.menu.open_release_tag", "View on GitHub"), Icon.export, () -> {
-                    Core.app.openURI(htmlUrl);
-                }).size(120f, 26f).right();
+                // Две кнопки внизу карточки: Download и View on GitHub
+                t.table(actions -> {
+                    actions.right();
+                    
+                    float actionBtnHeight = Vars.mobile ? 32f : 28f;
 
-            }).width(360f).padBottom(6f).row();
+                    // Кнопка Скачать
+                    actions.button(Core.bundle.get("aquarion.menu.download_release", "Download"), Icon.download, () -> {
+                        Core.app.openURI(finalDownloadUrl);
+                    }).height(actionBtnHeight).padRight(6f);
+
+                    // Кнопка GitHub
+                    actions.button(Core.bundle.get("aquarion.menu.open_release_tag", "View on GitHub"), Icon.export, () -> {
+                        Core.app.openURI(htmlUrl);
+                    }).height(actionBtnHeight);
+
+                }).growX().right();
+
+            }).width(360f).padBottom(8f).row();
         }
     }
 
