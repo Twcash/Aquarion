@@ -59,38 +59,45 @@ public class AquaMenuDialog extends BaseDialog {
     private void updateContent(String type) {
         cont.clear();
 
+        // Рассчитываем ширину и высоту динамически от размера экрана
+        float screenHeight = Core.graphics.getHeight();
+        
+        // В альбомном режиме отводим 55% высоты экрана, а в портретном/обычном — до 65%
+        float maxPaneHeight = Core.graphics.isPortrait() ? screenHeight * 0.65f : screenHeight * 0.55f;
+        
         float paneWidth = Vars.mobile ? 460f : 420f;
-        float paneHeight = Vars.mobile ? 350f : 650f;
+        float paneHeight = Math.min(maxPaneHeight, 600f); // ограничение максимума
+        
         float buttonWidth = Vars.mobile ? paneWidth - 50f : 380f;
-        float buttonHeight = Vars.mobile ? 85f : 100f;
+        float buttonHeight = Vars.mobile ? 75f : 85f;
         float navBtnWidth = Vars.mobile ? 100f : 120f;
 
-        // Вкладки навигации
+        // Вкладки навигации: Links -> Credits (Помощники) -> Changelog (Последняя)
         Table nav = new Table();
         nav.button(Core.bundle.get("aquarion.menu.tab_links", "Links"), () -> updateContent("links"))
-           .size(navBtnWidth, 50f)
+           .size(navBtnWidth, 45f)
            .disabled(type.equals("links"));
 
-        nav.button(Core.bundle.get("aquarion.menu.tab_changelog", "Changelog"), () -> updateContent("changelog"))
-           .size(navBtnWidth, 50f)
-           .disabled(type.equals("changelog"));
-
         nav.button(Core.bundle.get("aquarion.menu.tab_credits", "Credits"), () -> updateContent("text"))
-           .size(navBtnWidth, 50f)
+           .size(navBtnWidth, 45f)
            .disabled(type.equals("text"));
 
-        cont.add(nav).padBottom(15f).row();
+        nav.button(Core.bundle.get("aquarion.menu.tab_changelog", "Changelog"), () -> updateContent("changelog"))
+           .size(navBtnWidth, 45f)
+           .disabled(type.equals("changelog"));
+
+        cont.add(nav).padBottom(10f).row();
 
         Table body = new Table();
 
         if (type.equals("links")) {
-            body.pane(t -> {
+            var cell = body.pane(t -> {
                 t.center();
                 t.button(b -> {
                     createRoundAvatar(b, "github", Icon.github, 24f);
                     b.add(Core.bundle.get("aquarion.menu.link_github")).padLeft(10f);
                 }, () -> Core.app.openURI("https://github.com/" + GITHUB_REPO))
-                .size(buttonWidth, 60f)
+                .size(buttonWidth, 55f)
                 .padBottom(10f)
                 .row();
 
@@ -98,7 +105,7 @@ public class AquaMenuDialog extends BaseDialog {
                     createRoundAvatar(b, "discord", Icon.discord, 24f);
                     b.add(Core.bundle.get("aquarion.menu.link_discord")).padLeft(10f);
                 }, () -> Core.app.openURI("https://discord.gg/SbFhxYD797"))
-                .size(buttonWidth, 60f)
+                .size(buttonWidth, 55f)
                 .padBottom(10f)
                 .row();
 
@@ -106,17 +113,21 @@ public class AquaMenuDialog extends BaseDialog {
                     createRoundAvatar(b, "wiki", Icon.players, 24f);
                     b.add(Core.bundle.get("aquarion.menu.link_wiki")).padLeft(10f);
                 }, () -> Core.app.openURI("https://nullotte.github.io/MindustryModWiki/aquarion"))
-                .size(buttonWidth, 60f)
+                .size(buttonWidth, 55f)
                 .padBottom(10f)
                 .row();
-            }).size(paneWidth, Vars.mobile ? 230f : 250f);
+            }).size(paneWidth, Math.min(paneHeight, 220f));
+
+            if (cell.get() instanceof ScrollPane) {
+                ((ScrollPane)cell.get()).setFlickScroll(true);
+            }
 
         } else if (type.equals("changelog")) {
             Table changelogContainer = new Table();
             changelogListTable = new Table();
             changelogListTable.top().left();
 
-            var cell = changelogContainer.pane(changelogListTable).size(paneWidth, paneHeight - 100f);
+            var cell = changelogContainer.pane(changelogListTable).size(paneWidth, paneHeight - 80f);
             if (cell.get() instanceof ScrollPane) {
                 ((ScrollPane)cell.get()).setFlickScroll(true);
             }
@@ -125,7 +136,7 @@ public class AquaMenuDialog extends BaseDialog {
             // Кнопка перехода на внешнюю страницу всех релизов GitHub
             changelogContainer.button(Core.bundle.get("aquarion.menu.open_releases", "Open Releases on GitHub"), Icon.github, () -> {
                 Core.app.openURI(RELEASES_URL);
-            }).size(paneWidth - 20f, 40f).padTop(8f).padBottom(8f).row();
+            }).size(paneWidth - 20f, 36f).padTop(6f).padBottom(6f).row();
 
             // Элементы пагинации (переключение страниц)
             Table paginationTable = new Table();
@@ -134,7 +145,7 @@ public class AquaMenuDialog extends BaseDialog {
                     page--;
                     fetchReleases();
                 }
-            }).size(40f).disabled(t -> page <= 1 || isLoading);
+            }).size(36f).disabled(t -> page <= 1 || isLoading);
 
             paginationTable.label(() -> String.valueOf(page)).fontScale(1.1f).padLeft(10f).padRight(10f);
 
@@ -143,7 +154,7 @@ public class AquaMenuDialog extends BaseDialog {
                     page++;
                     fetchReleases();
                 }
-            }).size(40f).disabled(t -> !hasNextPage || isLoading);
+            }).size(36f).disabled(t -> !hasNextPage || isLoading);
 
             changelogContainer.add(paginationTable);
             body.add(changelogContainer);
@@ -152,6 +163,7 @@ public class AquaMenuDialog extends BaseDialog {
             fetchReleases();
 
         } else {
+            // Вкладка с помощниками (Credits)
             var cell = body.pane(t -> {
                 t.center();
 
@@ -167,7 +179,7 @@ public class AquaMenuDialog extends BaseDialog {
                     "Twcash",
                     Icon.admin,
                     true
-                )).size(buttonWidth, buttonHeight).padBottom(20f).row();
+                )).size(buttonWidth, buttonHeight).padBottom(15f).row();
 
                 t.add(Core.bundle.get("aquarion.menu.role_helpers")).color(Color.green).center().padBottom(10f).row();
 
@@ -479,13 +491,13 @@ public class AquaMenuDialog extends BaseDialog {
         authorDialog.addCloseButton();
 
         float dialogWidth = Vars.mobile ? 400f : 440f;
-        float dialogHeight = Vars.mobile ? 300f : 360f;
+        float dialogHeight = Math.min(Core.graphics.getHeight() * 0.6f, 320f);
 
         authorDialog.cont.pane(t -> {
             t.left();
 
             Table leftTable = new Table();
-            createRoundAvatar(leftTable, textureName, fallbackIcon, 120f);
+            createRoundAvatar(leftTable, textureName, fallbackIcon, 100f);
             t.add(leftTable).top().padRight(15f);
 
             Table rightTable = new Table();
@@ -502,7 +514,7 @@ public class AquaMenuDialog extends BaseDialog {
         if (hasProfile) {
             authorDialog.buttons.button(Core.bundle.get("aquarion.menu.open_profile"), () -> {
                 Core.app.openURI(profileUrl);
-            }).size(Vars.mobile ? 150f : 180f, 50f);
+            }).size(Vars.mobile ? 150f : 180f, 45f);
         }
 
         authorDialog.show();
