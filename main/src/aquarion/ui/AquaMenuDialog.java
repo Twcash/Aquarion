@@ -57,8 +57,8 @@ public class AquaMenuDialog extends BaseDialog {
 
         float buttonWidth = Vars.mobile ? 410f : 40f;
         float buttonHeight = Vars.mobile ? 85f : 100f; // Увеличены на мобилках
-        float avatarSize = 22f;
-        float padSize = 4f;
+        float avatarSize = 32f;
+        float padSize = 10f;
 
         // 1. Верхние вкладки (растягиваются по ширине, чтобы влезал переведенный текст)
         Table nav = new Table();
@@ -157,7 +157,7 @@ public class AquaMenuDialog extends BaseDialog {
                 "https://github.com/Twcash", "Twcash", Icon.admin, true
             )).size(buttonWidth, buttonHeight).padBottom(padSize).row();
 
-            inner.add(Core.bundle.get("aquarion.menu.role_helpers")).color(Color.green).center().padBottom(padSize).row();
+            inner.add(Core.bundle.get("aquarion.menu.role_helpers")).color(Color.green).center().padBottom(20).row();
 
             addAuthorButton(inner, "NikolayKot02", "aquarion.menu.desc_NikolayKot", "https://github.com/NikolayKot02", "nikolaykot", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
             addAuthorButton(inner, "OwO (Sentinel)", "aquarion.menu.desc_OwO", "https://github.com/SentinelDart919", "OwO", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
