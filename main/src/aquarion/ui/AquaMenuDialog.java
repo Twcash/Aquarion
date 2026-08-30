@@ -265,7 +265,9 @@ public class AquaMenuDialog extends BaseDialog {
             String body = release.getString("body", "");
             String name = release.getString("name", tagName);
             String htmlUrl = release.getString("html_url", RELEASES_URL);
-            int downloadCount = 0;
+            
+            // Считаем общее количество скачиваний до лямбда-выражений
+            int totalDownloads = 0;
             String downloadUrl = htmlUrl;
 
             if (release.has("assets") && release.get("assets").asArray().size > 0) {
@@ -273,11 +275,12 @@ public class AquaMenuDialog extends BaseDialog {
                 downloadUrl = firstAsset.getString("browser_download_url", htmlUrl);
 
                 for (Jval asset : release.get("assets").asArray()) {
-                    downloadCount += asset.getInt("download_count", 0);
+                    totalDownloads += asset.getInt("download_count", 0);
                 }
             }
 
             final String finalDownloadUrl = downloadUrl;
+            final int finalDownloadCount = totalDownloads; // Переменная для использования в лямбде
 
             changelogListTable.table(Styles.black5, t -> {
                 t.top().left().margin(10f);
@@ -291,7 +294,7 @@ public class AquaMenuDialog extends BaseDialog {
                 t.table(stats -> {
                     stats.left();
                     stats.image(Icon.download).size(16f).color(Color.gold);
-                    stats.add("[gold] " + downloadCount + "[white]").padLeft(4f);
+                    stats.add("[gold] " + finalDownloadCount + "[white]").padLeft(4f); // Используем finalDownloadCount
                 }).padTop(4f).growX().row();
 
                 t.image().color(Color.gray).height(1f).growX().padTop(6f).padBottom(8f).row();
