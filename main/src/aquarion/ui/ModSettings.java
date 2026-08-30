@@ -31,7 +31,7 @@ public class ModSettings {
             root.checkPref("debugResearchRendering", false);
             root.checkPref("debugHitboxRendering", false);
             root.checkPref("aquaMenuBattles", true);
-
+            
             for (Setting setting : root.getSettings()) {
                 if (setting instanceof CheckSetting) {
                     CheckSetting check = (CheckSetting) setting;
