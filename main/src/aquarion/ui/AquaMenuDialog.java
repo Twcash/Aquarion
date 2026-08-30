@@ -65,18 +65,18 @@ public class AquaMenuDialog extends BaseDialog {
         float navHeight = Vars.mobile ? 42f : 34f; // Больше высота на телефонах
 
         nav.button(Core.bundle.get("aquarion.menu.tab_links", "Links"), () -> updateContent("links"))
-           .height(navHeight).growX().padRight(4f)
+           .height(Vars.mobile ? 150f : 160f).growX().padRight(4f)
            .disabled(type.equals("links"));
 
         nav.button(Core.bundle.get("aquarion.menu.tab_credits", "Credits"), () -> updateContent("text"))
-           .height(navHeight).growX().padRight(4f)
+           .height(Vars.mobile ? 150f : 160f).growX().padRight(4f)
            .disabled(type.equals("text"));
 
         nav.button(Core.bundle.get("aquarion.menu.tab_changelog", "Changelog"), () -> updateContent("changelog"))
-           .height(navHeight).growX()
+           .height(Vars.mobile ? 150f : 160f).growX()
            .disabled(type.equals("changelog"));
 
-        cont.add(nav).width(buttonWidth).padBottom(padSize).row();
+        cont.add(nav).width(buttonWidth).padBottom(15f).row();
 
         Table inner = new Table();
 
@@ -102,7 +102,7 @@ public class AquaMenuDialog extends BaseDialog {
 
             ScrollPane pane = new ScrollPane(inner);
             pane.setOverscroll(false, false);
-            cont.add(pane).width(400f).row();
+            cont.add(pane).width(Vars.mobile ? 460f : 420f).row();
 
         } else if (type.equals("changelog")) {
             changelogListTable = new Table();
@@ -112,7 +112,7 @@ public class AquaMenuDialog extends BaseDialog {
 
             ScrollPane pane = new ScrollPane(inner);
             pane.setOverscroll(false, false);
-            cont.add(pane).width(400f).row();
+            cont.add(pane).width(Vars.mobile ? 460f : 420f).row();
 
             // ВНЕ СКРОЛЛА: Кнопка Open Releases и пагинация закреплены внизу
             Table bottomNav = new Table();
@@ -178,7 +178,7 @@ public class AquaMenuDialog extends BaseDialog {
 
             ScrollPane pane = new ScrollPane(inner);
             pane.setOverscroll(false, false);
-            cont.add(pane).width(400f).row();
+            cont.add(pane).width(Vars.mobile ? 460f : 420f).row();
         }
     }
 
