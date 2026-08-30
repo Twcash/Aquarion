@@ -60,6 +60,7 @@ public class AquaMenuDialog extends BaseDialog {
         float avatarSize = 22f;
         float padSize = 4f;
 
+        // Порядок вкладок: Links -> Credits -> Changelog
         Table nav = new Table();
         nav.button(Core.bundle.get("aquarion.menu.tab_links", "Links"), () -> updateContent("links"))
            .size(100f, 32f)
