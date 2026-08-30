@@ -17,14 +17,12 @@ import mindustry.gen.Icon;
 
 public class AquaMenuDialog extends BaseDialog {
 
-    // Переменные пагинации и состояния ченджлога
     private int page = 1;
     private final int perPage = 10;
     private Table changelogListTable;
     private boolean isLoading = false;
     private boolean hasNextPage = true;
 
-    // Ссылки на GitHub репозиторий Aquarion
     private static final String GITHUB_REPO = "Twcash/Aquarion";
     private static final String RELEASES_URL = "https://github.com/" + GITHUB_REPO + "/releases";
     private static final String GITHUB_API_URL = "https://api.github.com/repos/" + GITHUB_REPO + "/releases";
@@ -44,10 +42,8 @@ public class AquaMenuDialog extends BaseDialog {
         var region = Core.atlas.find(modPrefix + name);
 
         if (region != null && region.found()) {
-            Log.info("[Aquarion-UI] Successfully found texture in atlas: " + modPrefix + name);
             return new TextureRegionDrawable(region);
         } else {
-            Log.warn("[Aquarion-UI] Texture NOT found in atlas: " + modPrefix + name + ". Using fallback icon.");
             return fallback;
         }
     }
@@ -59,86 +55,68 @@ public class AquaMenuDialog extends BaseDialog {
     private void updateContent(String type) {
         cont.clear();
 
-        // Рассчитываем ширину и высоту динамически от размера экрана
-        float screenHeight = Core.graphics.getHeight();
-        
-        // В альбомном режиме отводим 55% высоты экрана, а в портретном/обычном — до 65%
-        float maxPaneHeight = Core.graphics.isPortrait() ? screenHeight * 0.65f : screenHeight * 0.55f;
-        
-        float paneWidth = Vars.mobile ? 460f : 420f;
-        float paneHeight = Math.min(maxPaneHeight, 600f); // ограничение максимума
-        
-        float buttonWidth = Vars.mobile ? paneWidth - 50f : 380f;
-        float buttonHeight = Vars.mobile ? 75f : 85f;
+        // Динамический расчет размеров под экран
+        float screenH = Core.graphics.getHeight();
+        boolean isPortrait = Core.graphics.isPortrait();
+
+        float paneWidth = Vars.mobile ? (isPortrait ? 440f : 520f) : 460f;
+        // В альбомном режиме ограничиваем высоту до 50% высоты экрана
+        float maxPaneHeight = isPortrait ? screenH * 0.65f : screenH * 0.52f;
+        float buttonWidth = paneWidth - 60f;
+        float buttonHeight = Vars.mobile ? 55f : 65f;
         float navBtnWidth = Vars.mobile ? 100f : 120f;
 
-        // Вкладки навигации: Links -> Credits (Помощники) -> Changelog (Последняя)
+        Table mainTable = new Table();
+
+        // 1. Верхние кнопки навигации (Links -> Credits -> Changelog)
         Table nav = new Table();
         nav.button(Core.bundle.get("aquarion.menu.tab_links", "Links"), () -> updateContent("links"))
-           .size(navBtnWidth, 45f)
+           .size(navBtnWidth, 40f)
            .disabled(type.equals("links"));
 
         nav.button(Core.bundle.get("aquarion.menu.tab_credits", "Credits"), () -> updateContent("text"))
-           .size(navBtnWidth, 45f)
+           .size(navBtnWidth, 40f)
            .disabled(type.equals("text"));
 
         nav.button(Core.bundle.get("aquarion.menu.tab_changelog", "Changelog"), () -> updateContent("changelog"))
-           .size(navBtnWidth, 45f)
+           .size(navBtnWidth, 40f)
            .disabled(type.equals("changelog"));
 
-        cont.add(nav).padBottom(10f).row();
+        mainTable.add(nav).padBottom(10f).row();
 
-        Table body = new Table();
+        // 2. Основное содержимое вкладок
+        Table contentTable = new Table();
 
         if (type.equals("links")) {
-            var cell = body.pane(t -> {
-                t.center();
-                t.button(b -> {
-                    createRoundAvatar(b, "github", Icon.github, 24f);
-                    b.add(Core.bundle.get("aquarion.menu.link_github")).padLeft(10f);
-                }, () -> Core.app.openURI("https://github.com/" + GITHUB_REPO))
-                .size(buttonWidth, 55f)
-                .padBottom(10f)
-                .row();
+            contentTable.center();
+            contentTable.button(b -> {
+                createRoundAvatar(b, "github", Icon.github, 24f);
+                b.add(Core.bundle.get("aquarion.menu.link_github")).padLeft(10f);
+            }, () -> Core.app.openURI("https://github.com/" + GITHUB_REPO))
+            .size(buttonWidth, 50f).padBottom(8f).row();
 
-                t.button(b -> {
-                    createRoundAvatar(b, "discord", Icon.discord, 24f);
-                    b.add(Core.bundle.get("aquarion.menu.link_discord")).padLeft(10f);
-                }, () -> Core.app.openURI("https://discord.gg/SbFhxYD797"))
-                .size(buttonWidth, 55f)
-                .padBottom(10f)
-                .row();
+            contentTable.button(b -> {
+                createRoundAvatar(b, "discord", Icon.discord, 24f);
+                b.add(Core.bundle.get("aquarion.menu.link_discord")).padLeft(10f);
+            }, () -> Core.app.openURI("https://discord.gg/SbFhxYD797"))
+            .size(buttonWidth, 50f).padBottom(8f).row();
 
-                t.button(b -> {
-                    createRoundAvatar(b, "wiki", Icon.players, 24f);
-                    b.add(Core.bundle.get("aquarion.menu.link_wiki")).padLeft(10f);
-                }, () -> Core.app.openURI("https://nullotte.github.io/MindustryModWiki/aquarion"))
-                .size(buttonWidth, 55f)
-                .padBottom(10f)
-                .row();
-            }).size(paneWidth, Math.min(paneHeight, 220f));
-
-            if (cell.get() instanceof ScrollPane) {
-                ((ScrollPane)cell.get()).setFlickScroll(true);
-            }
+            contentTable.button(b -> {
+                createRoundAvatar(b, "wiki", Icon.players, 24f);
+                b.add(Core.bundle.get("aquarion.menu.link_wiki")).padLeft(10f);
+            }, () -> Core.app.openURI("https://nullotte.github.io/MindustryModWiki/aquarion"))
+            .size(buttonWidth, 50f).padBottom(8f).row();
 
         } else if (type.equals("changelog")) {
-            Table changelogContainer = new Table();
             changelogListTable = new Table();
             changelogListTable.top().left();
 
-            var cell = changelogContainer.pane(changelogListTable).size(paneWidth, paneHeight - 80f);
-            if (cell.get() instanceof ScrollPane) {
-                ((ScrollPane)cell.get()).setFlickScroll(true);
-            }
-            changelogContainer.row();
+            contentTable.add(changelogListTable).growX().row();
 
-            // Кнопка перехода на внешнюю страницу всех релизов GitHub
-            changelogContainer.button(Core.bundle.get("aquarion.menu.open_releases", "Open Releases on GitHub"), Icon.github, () -> {
+            contentTable.button(Core.bundle.get("aquarion.menu.open_releases", "Open Releases on GitHub"), Icon.github, () -> {
                 Core.app.openURI(RELEASES_URL);
-            }).size(paneWidth - 20f, 36f).padTop(6f).padBottom(6f).row();
+            }).size(buttonWidth, 36f).padTop(8f).padBottom(8f).row();
 
-            // Элементы пагинации (переключение страниц)
             Table paginationTable = new Table();
             paginationTable.button(Icon.left, () -> {
                 if (page > 1 && !isLoading) {
@@ -156,242 +134,66 @@ public class AquaMenuDialog extends BaseDialog {
                 }
             }).size(36f).disabled(t -> !hasNextPage || isLoading);
 
-            changelogContainer.add(paginationTable);
-            body.add(changelogContainer);
-
-            // Загрузка списка релизов
+            contentTable.add(paginationTable);
             fetchReleases();
 
         } else {
             // Вкладка с помощниками (Credits)
-            var cell = body.pane(t -> {
-                t.center();
+            contentTable.center();
 
-                t.add(Core.bundle.get("aquarion.menu.role_creator")).color(Color.red).center().padBottom(10f).row();
+            contentTable.add(Core.bundle.get("aquarion.menu.role_creator")).color(Color.red).center().padBottom(6f).row();
 
-                t.button(b -> {
-                    createRoundAvatar(b, "Twcash", Icon.admin, 32f);
-                    b.add("Twcash").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Twcash",
-                    Core.bundle.get("aquarion.menu.desc_creator"),
-                    "https://github.com/Twcash",
-                    "Twcash",
-                    Icon.admin,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(15f).row();
+            contentTable.button(b -> {
+                createRoundAvatar(b, "Twcash", Icon.admin, 28f);
+                b.add("Twcash").left().padLeft(10f);
+            }, () -> showAuthorInfo(
+                "Twcash", Core.bundle.get("aquarion.menu.desc_creator"),
+                "https://github.com/Twcash", "Twcash", Icon.admin, true
+            )).size(buttonWidth, buttonHeight).padBottom(12f).row();
 
-                t.add(Core.bundle.get("aquarion.menu.role_helpers")).color(Color.green).center().padBottom(10f).row();
+            contentTable.add(Core.bundle.get("aquarion.menu.role_helpers")).color(Color.green).center().padBottom(6f).row();
 
-                t.button(b -> {
-                    createRoundAvatar(b, "nikolaykot", Icon.players, 32f);
-                    b.add("NikolayKot02").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "NikolayKot",
-                    Core.bundle.get("aquarion.menu.desc_NikolayKot"),
-                    "https://github.com/NikolayKot02",
-                    "nikolaykot",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "OwO", Icon.players, 32f);
-                    b.add("OwO (Sentinel)").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "OwO (Sentinel)",
-                    Core.bundle.get("aquarion.menu.desc_OwO"),
-                    "https://github.com/SentinelDart919",
-                    "OwO",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "Alecthe2nd", Icon.players, 32f);
-                    b.add("Alecthe2nd").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Alecthe2nd",
-                    Core.bundle.get("aquarion.menu.desc_Alecthe2nd"),
-                    "https://github.com/alecthe2nd",
-                    "Alecthe2nd",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "cupcakerouter", Icon.players, 32f);
-                    b.add("cupcakerouter").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "cupcakerouter",
-                    Core.bundle.get("aquarion.menu.desc_cupcakerouter"),
-                    "",
-                    "cupcakerouter",
-                    Icon.players,
-                    false
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "Vire", Icon.players, 32f);
-                    b.add("Vire").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Vire",
-                    Core.bundle.get("aquarion.menu.desc_Vire"),
-                    "https://github.com/VireVeonix",
-                    "Vire",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "ItsKirby", Icon.players, 32f);
-                    b.add("ItsKirby").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "ItsKirby",
-                    Core.bundle.get("aquarion.menu.desc_ItsKirby"),
-                    "https://github.com/ItsKirby69",
-                    "ItsKirby",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "thinkerdoodle", Icon.players, 32f);
-                    b.add("Plooey").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Plooey",
-                    Core.bundle.get("aquarion.menu.desc_Thinkerdoodle"),
-                    "https://github.com/BSp-2",
-                    "thinkerdoodle",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "Leo", Icon.players, 32f);
-                    b.add("Leo").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Leo",
-                    Core.bundle.get("aquarion.menu.desc_Leo"),
-                    "https://github.com/Leo-MathGuy",
-                    "Leo",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "Mythril", Icon.players, 32f);
-                    b.add("Mythril").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Mythril",
-                    Core.bundle.get("aquarion.menu.desc_Mythril"),
-                    "https://github.com/Mythril382",
-                    "Mythril",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "Andromeda-Galaxy29", Icon.players, 32f);
-                    b.add("Andromeda-Galaxy29").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Andromeda-Galaxy29",
-                    Core.bundle.get("aquarion.menu.desc_Andromeda-Galaxy29"),
-                    "https://github.com/Andromeda-Galaxy29",
-                    "Andromeda-Galaxy29",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "Sputnuc", Icon.players, 32f);
-                    b.add("Sputnuc").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Sputnuc",
-                    Core.bundle.get("aquarion.menu.desc_Sputnuc"),
-                    "https://github.com/Sputnuc",
-                    "Sputnuc",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "nullotte", Icon.players, 32f);
-                    b.add("nullotte").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "nullotte",
-                    Core.bundle.get("aquarion.menu.desc_nullotte"),
-                    "https://github.com/nullotte",
-                    "nullotte",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "kapzduke", Icon.players, 32f);
-                    b.add("kapzduke").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "kapzduke",
-                    Core.bundle.get("aquarion.menu.desc_kapzduke"),
-                    "https://github.com/kapzduke",
-                    "kapzduke",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "camelStyleUser", Icon.players, 32f);
-                    b.add("camelStyleUser").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "camelStyleUser",
-                    Core.bundle.get("aquarion.menu.desc_camelStyleUser"),
-                    "https://github.com/camelStyleUser",
-                    "camelStyleUser",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "Henan-CN-0921", Icon.players, 32f);
-                    b.add("Henan-CN-0921").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Henan-CN-0921",
-                    Core.bundle.get("aquarion.menu.desc_Henan-CN-0921"),
-                    "https://github.com/Henan-CN-0921",
-                    "Henan-CN-0921",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-                t.button(b -> {
-                    createRoundAvatar(b, "Norax", Icon.players, 32f);
-                    b.add("Norax").left().padLeft(15f);
-                }, () -> showAuthorInfo(
-                    "Norax",
-                    Core.bundle.get("aquarion.menu.desc_Norax"),
-                    "https://github.com/Noraxx1",
-                    "Norax",
-                    Icon.players,
-                    true
-                )).size(buttonWidth, buttonHeight).padBottom(10f).row();
-
-            }).size(paneWidth, paneHeight);
-
-            if (cell.get() instanceof ScrollPane) {
-                ((ScrollPane)cell.get()).setFlickScroll(true);
-            }
+            addAuthorButton(contentTable, "NikolayKot02", "aquarion.menu.desc_NikolayKot", "https://github.com/NikolayKot02", "nikolaykot", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "OwO (Sentinel)", "aquarion.menu.desc_OwO", "https://github.com/SentinelDart919", "OwO", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "Alecthe2nd", "aquarion.menu.desc_Alecthe2nd", "https://github.com/alecthe2nd", "Alecthe2nd", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "cupcakerouter", "aquarion.menu.desc_cupcakerouter", "", "cupcakerouter", Icon.players, false, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "Vire", "aquarion.menu.desc_Vire", "https://github.com/VireVeonix", "Vire", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "ItsKirby", "aquarion.menu.desc_ItsKirby", "https://github.com/ItsKirby69", "ItsKirby", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "Plooey", "aquarion.menu.desc_Thinkerdoodle", "https://github.com/BSp-2", "thinkerdoodle", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "Leo", "aquarion.menu.desc_Leo", "https://github.com/Leo-MathGuy", "Leo", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "Mythril", "aquarion.menu.desc_Mythril", "https://github.com/Mythril382", "Mythril", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "Andromeda-Galaxy29", "aquarion.menu.desc_Andromeda-Galaxy29", "https://github.com/Andromeda-Galaxy29", "Andromeda-Galaxy29", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "Sputnuc", "aquarion.menu.desc_Sputnuc", "https://github.com/Sputnuc", "Sputnuc", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "nullotte", "aquarion.menu.desc_nullotte", "https://github.com/nullotte", "nullotte", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "kapzduke", "aquarion.menu.desc_kapzduke", "https://github.com/kapzduke", "kapzduke", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "camelStyleUser", "aquarion.menu.desc_camelStyleUser", "https://github.com/camelStyleUser", "camelStyleUser", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "Henan-CN-0921", "aquarion.menu.desc_Henan-CN-0921", "https://github.com/Henan-CN-0921", "Henan-CN-0921", Icon.players, true, buttonWidth, buttonHeight);
+            addAuthorButton(contentTable, "Norax", "aquarion.menu.desc_Norax", "https://github.com/Noraxx1", "Norax", Icon.players, true, buttonWidth, buttonHeight);
         }
 
-        cont.add(body).row();
+        mainTable.add(contentTable).row();
+
+        // Помещаем весь интерфейс в фиксированный по высоте ScrollPane
+        var cell = cont.pane(mainTable).size(paneWidth, maxPaneHeight);
+        if (cell.get() instanceof ScrollPane) {
+            ((ScrollPane) cell.get()).setFlickScroll(true);
+        }
     }
 
-    // Загрузка списков релизов с GitHub API
+    private void addAuthorButton(Table table, String name, String descKey, String url, String texture, Drawable fallback, boolean hasProfile, float w, float h) {
+        table.button(b -> {
+            createRoundAvatar(b, texture, fallback, 28f);
+            b.add(name).left().padLeft(10f);
+        }, () -> showAuthorInfo(name, Core.bundle.get(descKey), url, texture, fallback, hasProfile))
+        .size(w, h).padBottom(8f).row();
+    }
+
     private void fetchReleases() {
         if (isLoading || changelogListTable == null) return;
         isLoading = true;
 
         changelogListTable.clear();
-        changelogListTable.add(Core.bundle.get("loading", "Loading...")).color(Color.lightGray).center().pad(20f).grow();
+        changelogListTable.add(Core.bundle.get("loading", "Loading...")).color(Color.lightGray).center().pad(15f).grow();
 
         String url = GITHUB_API_URL + "?page=" + page + "&per_page=" + perPage;
 
@@ -400,7 +202,7 @@ public class AquaMenuDialog extends BaseDialog {
             isLoading = false;
             Core.app.post(() -> {
                 changelogListTable.clear();
-                changelogListTable.add(Core.bundle.get("error.fetch-releases", "Failed to fetch releases.")).color(Color.scarlet).center().pad(20f).grow();
+                changelogListTable.add(Core.bundle.get("error.fetch-releases", "Failed to fetch releases.")).color(Color.scarlet).center().pad(15f).grow();
             });
         }).submit(res -> {
             try {
@@ -416,7 +218,7 @@ public class AquaMenuDialog extends BaseDialog {
                     isLoading = false;
                     Core.app.post(() -> {
                         changelogListTable.clear();
-                        changelogListTable.add(Core.bundle.get("error.invalid-response", "Invalid response.")).color(Color.scarlet).center().pad(20f).grow();
+                        changelogListTable.add(Core.bundle.get("error.invalid-response", "Invalid response.")).color(Color.scarlet).center().pad(15f).grow();
                     });
                 }
             } catch (Exception e) {
@@ -424,23 +226,22 @@ public class AquaMenuDialog extends BaseDialog {
                 isLoading = false;
                 Core.app.post(() -> {
                     changelogListTable.clear();
-                    changelogListTable.add(Core.bundle.get("error.parse-failed", "Parse failed.")).color(Color.scarlet).center().pad(20f).grow();
+                    changelogListTable.add(Core.bundle.get("error.parse-failed", "Parse failed.")).color(Color.scarlet).center().pad(15f).grow();
                 });
             }
         });
     }
 
-    // Построение UI с релизами
     private void rebuildChangelogList(Seq<Jval> releases) {
         changelogListTable.clear();
         changelogListTable.top().left();
 
         if (releases.size == 0) {
-            changelogListTable.add(Core.bundle.get("changelog.empty", "No releases found.")).color(Color.lightGray).center().pad(20f).grow();
+            changelogListTable.add(Core.bundle.get("changelog.empty", "No releases found.")).color(Color.lightGray).center().pad(15f).grow();
             return;
         }
 
-        float cardWidth = Vars.mobile ? 400f : 380f;
+        float cardWidth = Vars.mobile ? 380f : 360f;
 
         for (Jval release : releases) {
             String tagName = release.getString("tag_name", "Unknown");
@@ -458,7 +259,7 @@ public class AquaMenuDialog extends BaseDialog {
             final int finalDownloadCount = downloadCount;
 
             changelogListTable.table(Styles.black5, t -> {
-                t.top().left().margin(10f);
+                t.top().left().margin(8f);
 
                 t.table(header -> {
                     header.left();
@@ -468,21 +269,19 @@ public class AquaMenuDialog extends BaseDialog {
 
                 t.table(stats -> {
                     stats.left();
-                    stats.image(Icon.download).size(16f).color(Color.gold);
+                    stats.image(Icon.download).size(14f).color(Color.gold);
                     stats.add("[gold] " + finalDownloadCount + "[white]").padLeft(5f);
-                }).padTop(5f).growX().row();
+                }).padTop(4f).growX().row();
 
-                t.image().color(Color.gray).height(2f).growX().padTop(5f).padBottom(5f).row();
+                t.image().color(Color.gray).height(1f).growX().padTop(4f).padBottom(4f).row();
 
-                // Описание релиза
-                t.add(body).wrap().width(cardWidth - 20f).left().padBottom(10f).row();
+                t.add(body).wrap().width(cardWidth - 20f).left().padBottom(8f).row();
 
-                // Кнопка для перехода к конкретному релизу на GitHub
                 t.button(Core.bundle.get("aquarion.menu.open_release_tag", "View on GitHub"), Icon.export, () -> {
                     Core.app.openURI(htmlUrl);
-                }).size(160f, 36f).right();
+                }).size(150f, 32f).right();
 
-            }).width(cardWidth).padBottom(10f).row();
+            }).width(cardWidth).padBottom(8f).row();
         }
     }
 
@@ -490,22 +289,22 @@ public class AquaMenuDialog extends BaseDialog {
         BaseDialog authorDialog = new BaseDialog(name);
         authorDialog.addCloseButton();
 
-        float dialogWidth = Vars.mobile ? 400f : 440f;
-        float dialogHeight = Math.min(Core.graphics.getHeight() * 0.6f, 320f);
+        float dialogWidth = Vars.mobile ? 380f : 420f;
+        float dialogHeight = Math.min(Core.graphics.getHeight() * 0.55f, 300f);
 
         authorDialog.cont.pane(t -> {
             t.left();
 
             Table leftTable = new Table();
-            createRoundAvatar(leftTable, textureName, fallbackIcon, 100f);
-            t.add(leftTable).top().padRight(15f);
+            createRoundAvatar(leftTable, textureName, fallbackIcon, 80f);
+            t.add(leftTable).top().padRight(12f);
 
             Table rightTable = new Table();
             rightTable.left();
 
-            rightTable.add(name).left().fontScale(1.1f).row();
+            rightTable.add(name).left().fontScale(1.05f).row();
 
-            var label = rightTable.add(description).width(dialogWidth - 150f).wrap().padTop(10f).left().get();
+            var label = rightTable.add(description).width(dialogWidth - 130f).wrap().padTop(8f).left().get();
             label.setAlignment(arc.util.Align.left);
 
             t.add(rightTable).top().expandX().fillX();
@@ -514,7 +313,7 @@ public class AquaMenuDialog extends BaseDialog {
         if (hasProfile) {
             authorDialog.buttons.button(Core.bundle.get("aquarion.menu.open_profile"), () -> {
                 Core.app.openURI(profileUrl);
-            }).size(Vars.mobile ? 150f : 180f, 45f);
+            }).size(Vars.mobile ? 140f : 160f, 40f);
         }
 
         authorDialog.show();
