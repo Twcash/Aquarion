@@ -117,8 +117,8 @@ public class AquaMenuDialog extends BaseDialog {
             changelogListTable.top().left();
 
             var cell = changelogContainer.pane(changelogListTable).size(paneWidth, paneHeight - 100f);
-            if (cell.get() instanceof ScrollPane scrollPane) {
-                scrollPane.setFlickScroll(true);
+            if (cell.get() instanceof ScrollPane) {
+                ((ScrollPane)cell.get()).setFlickScroll(true);
             }
             changelogContainer.row();
 
