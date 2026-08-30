@@ -57,7 +57,7 @@ public class AquaMenuDialog extends BaseDialog {
 
         float buttonWidth = Vars.mobile ? 410f : 40f;
         float buttonHeight = Vars.mobile ? 85f : 100f; // Увеличены на мобилках
-        float avatarSize = 127f;
+        float avatarSize = 32f;
         float padSize = 10f;
 
         // 1. Верхние вкладки (растягиваются по ширине, чтобы влезал переведенный текст)
@@ -184,7 +184,7 @@ public class AquaMenuDialog extends BaseDialog {
 
     private void addAuthorButton(Table table, String name, String descKey, String url, String texture, Drawable fallback, boolean hasProfile, float w, float h, float avatarSize, float pad) {
         table.button(b -> {
-            createRoundAvatar(b, texture, fallback, avatarSize);
+            createRoundAvatar(b, texture, fallback, 120f);
             b.add(name).left().padLeft(8f);
         }, () -> showAuthorInfo(name, Core.bundle.get(descKey), url, texture, fallback, hasProfile))
         .size(w, h).padBottom(pad).row();
