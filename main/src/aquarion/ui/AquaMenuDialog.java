@@ -308,7 +308,7 @@ public class AquaMenuDialog extends BaseDialog {
 
                 }).growX().right();
 
-            }).width(360f).padBottom(4f).row();
+            }).width(380f).padBottom(4f).row();
         }
     }
 
