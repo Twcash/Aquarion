@@ -286,12 +286,12 @@ public class AquaMenuDialog extends BaseDialog {
                 t.table(actions -> {
                     actions.right();
                     
-                    float actionBtnHeight = Vars.mobile ? 48f : 48f;
+                    float actionBtnHeight = Vars.mobile ? 68f : 68f;
 
                     // Кнопка Скачать
                     actions.button(Core.bundle.get("aquarion.menu.download_release", "Download"), Icon.download, () -> {
                         Core.app.openURI(finalDownloadUrl);
-                    }).height(actionBtnHeight).padRight(6f);
+                    }).height(actionBtnHeight).padRight(8f);
 
                     // Кнопка GitHub
                     actions.button(Core.bundle.get("aquarion.menu.open_release_tag", "View on GitHub"), Icon.export, () -> {
@@ -307,29 +307,31 @@ public class AquaMenuDialog extends BaseDialog {
     private void showAuthorInfo(String name, String description, String profileUrl, String textureName, Drawable fallbackIcon, boolean hasProfile) {
         BaseDialog authorDialog = new BaseDialog(name);
         authorDialog.addCloseButton();
+        float dialogWidth1 = Vars.mobile ? 400f : 440f;
+        float dialogHeight2 = Vars.mobile ? 300f : 360f;
 
         authorDialog.cont.pane(t -> {
             t.left();
 
             Table leftTable = new Table();
-            createRoundAvatar(leftTable, textureName, fallbackIcon, 120f);
+            createRoundAvatar(leftTable, textureName, fallbackIcon, 140f);
             t.add(leftTable).top().padRight(15f);
 
             Table rightTable = new Table();
             rightTable.left();
 
-            rightTable.add(name).left().fontScale(1.0f).row();
+            rightTable.add(name).left().fontScale(1.1f).row();
 
-            var label = rightTable.add(description).width(260f).wrap().padTop(4f).left().get();
+            var label = rightTable.add(description).width(dialogWidth1 - 150f).wrap().padTop(10f).left().get();
             label.setAlignment(arc.util.Align.left);
 
             t.add(rightTable).top().expandX().fillX();
-        }).size(380f, 180f);
+        }).size(dialogWidth1, dialogHeight2);
 
         if (hasProfile) {
             authorDialog.buttons.button(Core.bundle.get("aquarion.menu.open_profile"), () -> {
                 Core.app.openURI(profileUrl);
-            }).size(150f, 34f);
+            }).size(Vars.mobile ? 150f : 180f, 50f);
         }
 
         authorDialog.show();
