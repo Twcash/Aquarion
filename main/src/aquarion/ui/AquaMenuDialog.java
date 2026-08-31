@@ -1,6 +1,7 @@
 package aquarion.ui;
 
 import arc.*;
+import arc.files.Fi;
 import arc.graphics.Color;
 import arc.scene.style.Drawable;
 import arc.scene.style.TextureRegionDrawable;
@@ -9,11 +10,19 @@ import arc.scene.ui.ScrollPane;
 import arc.struct.Seq;
 import arc.util.Http;
 import arc.util.Log;
+import arc.util.Threads;
 import arc.util.serialization.Jval;
 import mindustry.Vars;
+import mindustry.ui.Bar;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
 import mindustry.gen.Icon;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class AquaMenuDialog extends BaseDialog {
 
@@ -22,6 +31,10 @@ public class AquaMenuDialog extends BaseDialog {
     private Table changelogListTable;
     private boolean isLoading = false;
     private boolean hasNextPage = true;
+
+    private boolean isCancelled = false;
+    private float downloadProgress = 0f;
+    private String progressText = "";
 
     private static final String GITHUB_REPO = "Twcash/Aquarion";
     private static final String RELEASES_URL = "https://github.com/" + GITHUB_REPO + "/releases";
@@ -56,13 +69,11 @@ public class AquaMenuDialog extends BaseDialog {
         cont.clear();
 
         float buttonWidth = Vars.mobile ? 410f : 40f;
-        float buttonHeight = Vars.mobile ? 85f : 100f; // Увеличены на мобилках
+        float buttonHeight = Vars.mobile ? 85f : 100f;
         float avatarSize = 32f;
         float padSize = 10f;
 
-        // 1. Верхние вкладки (растягиваются по ширине, чтобы влезал переведенный текст)
         Table nav = new Table();
-        float navHeight = Vars.mobile ? 42f : 34f; // Больше высота на телефонах
 
         nav.button(Core.bundle.get("aquarion.menu.tab_links", "Links"), () -> updateContent("links"))
            .height(50f).growX().padRight(4f)
@@ -114,14 +125,13 @@ public class AquaMenuDialog extends BaseDialog {
             pane.setOverscroll(false, false);
             cont.add(pane).width(400f).row();
 
-            // ВНЕ СКРОЛЛА: Кнопка Open Releases и пагинация закреплены внизу
             Table bottomNav = new Table();
             bottomNav.button(Core.bundle.get("aquarion.menu.open_releases", "Open Releases on GitHub"), Icon.github, () -> {
                 Core.app.openURI(RELEASES_URL);
             }).size(buttonWidth, Vars.mobile ? 40f : 34f).padTop(4f).padBottom(4f).row();
 
             Table paginationTable = new Table();
-            float arrowSize = Vars.mobile ? 36f : 30f; // Увеличены стрелки на мобилках
+            float arrowSize = Vars.mobile ? 36f : 30f;
 
             paginationTable.button(Icon.left, () -> {
                 if (page > 1 && !isLoading) {
@@ -249,7 +259,7 @@ public class AquaMenuDialog extends BaseDialog {
             String name = release.getString("name", tagName);
             String htmlUrl = release.getString("html_url", RELEASES_URL);
             int downloadCount = 0;
-            String downloadUrl = htmlUrl; // По умолчанию ведем на страницу релиза
+            String downloadUrl = htmlUrl;
 
             if (release.has("assets") && release.get("assets").asArray().size > 0) {
                 Jval firstAsset = release.get("assets").asArray().first();
@@ -282,18 +292,15 @@ public class AquaMenuDialog extends BaseDialog {
 
                 t.add(body).wrap().width(340f).left().padBottom(8f).row();
 
-                // Две кнопки внизу карточки: Download и View on GitHub
                 t.table(actions -> {
                     actions.right();
                     
                     float actionBtnHeight = Vars.mobile ? 48f : 48f;
 
-                    // Кнопка Скачать
                     actions.button(Core.bundle.get("aquarion.menu.download_release", "Download"), Icon.download, () -> {
-                        Core.app.openURI(finalDownloadUrl);
+                        downloadAndInstall(finalDownloadUrl);
                     }).width(160f).height(actionBtnHeight).padRight(8f);
 
-                    // Кнопка GitHub
                     actions.button(Core.bundle.get("aquarion.menu.open_release_tag", "View on GitHub"), Icon.export, () -> {
                         Core.app.openURI(htmlUrl);
                     }).width(140f).height(actionBtnHeight);
@@ -302,6 +309,144 @@ public class AquaMenuDialog extends BaseDialog {
 
             }).width(360f).padBottom(8f).row();
         }
+    }
+
+    private void downloadAndInstall(String urlString) {
+        isCancelled = false;
+        downloadProgress = 0f;
+        progressText = "0%";
+
+        BaseDialog progressDialog = new BaseDialog(Core.bundle.get("aquarion.update.titledownl", "Downloading Update"));
+        progressDialog.cont.add(Core.bundle.get("aquarion.update.downloading_text", "Downloading, please wait...")).pad(10f).row();
+
+        Color startColor = Color.valueOf("#ff0000");
+        Color endColor = Color.valueOf("#ffd37f");
+        Color currentColor = new Color();
+
+        Bar progressBar = new Bar(
+                () -> progressText,
+                () -> currentColor.set(startColor).lerp(endColor, downloadProgress),
+                () -> downloadProgress
+        );
+
+        progressDialog.cont.add(progressBar).size(400f, 40f).pad(10f).row();
+
+        progressDialog.buttons.button(Core.bundle.get("aquarion.update.cancel", "Cancel"), () -> {
+            isCancelled = true;
+            progressDialog.hide();
+        }).size(150f, 60f).pad(10f);
+
+        progressDialog.show();
+
+        Threads.daemon(() -> {
+            HttpURLConnection connection = null;
+            InputStream input = null;
+            OutputStream output = null;
+
+            Fi tempFile = Core.files.local("cache/aquarion_tmp.jar");
+
+            try {
+                URL url = new URL(urlString);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("User-Agent", "Mindustry-Mod-Updater");
+                connection.setInstanceFollowRedirects(true);
+                connection.connect();
+
+                if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                    if (connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP ||
+                            connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM) {
+                        String newUrl = connection.getHeaderField("Location");
+                        connection.disconnect();
+                        url = new URL(newUrl);
+                        connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestProperty("User-Agent", "Mindustry-Mod-Updater");
+                        connection.connect();
+                    } else {
+                        throw new Exception("HTTP " + connection.getResponseCode());
+                    }
+                }
+
+                long fileLength = connection.getContentLengthLong();
+                input = new BufferedInputStream(connection.getInputStream());
+                output = tempFile.write(false);
+
+                byte[] data = new byte[4096];
+                long total = 0;
+                int count;
+
+                while ((count = input.read(data)) != -1) {
+                    if (isCancelled) break;
+                    total += count;
+
+                    if (fileLength > 0) {
+                        float progress = (float) total / fileLength;
+                        int percent = (int) (progress * 100);
+
+                        downloadProgress = progress;
+                        progressText = percent + "%";
+                    }
+                    output.write(data, 0, count);
+                }
+
+                output.close();
+                output = null;
+                input.close();
+                input = null;
+
+                if (!isCancelled) {
+                    Core.app.post(() -> {
+                        try {
+                            progressDialog.hide();
+
+                            mindustry.mod.Mods.LoadedMod oldMod = Vars.mods.getMod("aquarion");
+                            if (oldMod != null) {
+                                Vars.mods.removeMod(oldMod);
+                            }
+
+                            Vars.mods.importMod(tempFile);
+                            Vars.mods.reload();
+
+                            tempFile.delete();
+                            showSuccessDialog();
+                        } catch (Exception e) {
+                            Log.err("[AquarionUpdate] Import error", e);
+                            Vars.ui.showException(Core.bundle.get("aquarion.update.install_error", "Failed to install update"), e);
+                        }
+                    });
+                } else {
+                    tempFile.delete();
+                }
+
+            } catch (Exception e) {
+                Log.err("[AquarionUpdate] Error", e);
+                if (output != null) {
+                    try { output.close(); } catch (Exception ignored) {}
+                }
+                tempFile.delete();
+
+                if (!isCancelled) {
+                    Core.app.post(() -> {
+                        progressDialog.hide();
+                        Vars.ui.showException(Core.bundle.get("aquarion.update.install_error", "Failed to install update"), e);
+                    });
+                }
+            } finally {
+                try {
+                    if (input != null) input.close();
+                } catch (Exception ignored) {}
+                if (connection != null) connection.disconnect();
+            }
+        });
+    }
+
+    private void showSuccessDialog() {
+        BaseDialog successDialog = new BaseDialog(Core.bundle.get("aquarion.update.success_title", "Update Successful"));
+        String successMessage = Core.bundle.get("aquarion.update.success_text", "Update installed! Restart the game to apply changes.");
+        successDialog.cont.add(successMessage).pad(20).row();
+
+        successDialog.buttons.button(Core.bundle.get("aquarion.update.ok", "Ok"), Core.app::exit).size(150f, 60f);
+
+        successDialog.show();
     }
 
     private void showAuthorInfo(String name, String description, String profileUrl, String textureName, Drawable fallbackIcon, boolean hasProfile) {
