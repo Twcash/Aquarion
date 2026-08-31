@@ -68,7 +68,7 @@ public class AquaMenuDialog extends BaseDialog {
     private void updateContent(String type) {
         cont.clear();
 
-        float buttonWidth = Vars.mobile ? 410f : 40f;
+        float buttonWidth = Vars.mobile ? 410f : 410f;
         float buttonHeight = Vars.mobile ? 85f : 100f;
         float avatarSize = 32f;
         float padSize = 10f;
