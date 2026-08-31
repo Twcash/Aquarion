@@ -1,314 +1,307 @@
-package aquarion.ui;
+package aquarion;
 
 import arc.*;
 import arc.files.Fi;
-import arc.graphics.Color;
-import arc.scene.style.Drawable;
-import arc.scene.style.TextureRegionDrawable;
-import arc.scene.ui.layout.*;
-import arc.scene.ui.ScrollPane;
-import arc.struct.Seq;
-import arc.util.Http;
-import arc.util.Log;
-import arc.util.Threads;
-import arc.util.serialization.Jval;
+import arc.scene.event.Touchable;
+import arc.scene.ui.TextButton;
+import arc.scene.ui.layout.Table;
+import arc.util.*;
+import arc.util.serialization.*;
 import mindustry.Vars;
+import mindustry.core.Version;
+import mindustry.gen.Tex;
+import mindustry.mod.Mod;
 import mindustry.ui.Bar;
-import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
-import mindustry.gen.Icon;
+import arc.scene.ui.CheckBox;
+import arc.scene.ui.Tooltip;
+import arc.graphics.Color;
+import arc.graphics.Texture;
+import arc.graphics.g2d.TextureRegion;
+import arc.scene.ui.Image;
+import arc.scene.style.TextureRegionDrawable;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class AquaMenuDialog extends BaseDialog {
+public class AquaUpdate {
 
-    private int page = 1;
-    private final int perPage = 10;
-    private Table changelogListTable;
-    private boolean isLoading = false;
-    private boolean hasNextPage = true;
+    public static final String GITHUB_REPO = "Twcash/Aquarion";
 
+    private String currentVersion = "unknown";
     private boolean isCancelled = false;
+
     private float downloadProgress = 0f;
     private String progressText = "";
+    private String releaseNotes = "";
+    private int downloadCount = 0;
+    private Table disclaimerBanner;
 
-    private static final String GITHUB_REPO = "Twcash/Aquarion";
-    private static final String RELEASES_URL = "https://github.com/" + GITHUB_REPO + "/releases";
-    private static final String GITHUB_API_URL = "https://api.github.com/repos/" + GITHUB_REPO + "/releases";
-
-    public AquaMenuDialog() {
-        super(Core.bundle.get("aquarion.menu.title"));
-        setup();
-    }
-
-    private void setup() {
-        addCloseButton();
-        updateContent("links");
-    }
-
-    private Drawable getModIcon(String name, Drawable fallback) {
-        String modPrefix = "aquarion-";
-        var region = Core.atlas.find(modPrefix + name);
-
-        if (region != null && region.found()) {
-            return new TextureRegionDrawable(region);
-        } else {
-            return fallback;
+    public void check(Class<? extends Mod> mainClass) {
+        mindustry.mod.Mods.LoadedMod modContainer = Vars.mods.getMod(mainClass);
+        if (modContainer != null && modContainer.meta != null) {
+            currentVersion = modContainer.meta.version.trim();
         }
+
+        checkUpdates();
     }
 
-    private void createRoundAvatar(Table table, String textureName, Drawable fallback, float size) {
-        table.image(getModIcon(textureName, fallback)).size(size).scaling(arc.util.Scaling.fit);
-    }
-
-    private void updateContent(String type) {
-        cont.clear();
-
-        float buttonWidth = Vars.mobile ? 410f : 40f;
-        float buttonHeight = Vars.mobile ? 85f : 100f;
-        float avatarSize = 32f;
-        float padSize = 10f;
-
-        Table nav = new Table();
-
-        nav.button(Core.bundle.get("aquarion.menu.tab_links", "Links"), () -> updateContent("links"))
-           .height(50f).growX().padRight(4f)
-           .disabled(type.equals("links"));
-
-        nav.button(Core.bundle.get("aquarion.menu.tab_credits", "Credits"), () -> updateContent("text"))
-           .height(50f).growX().padRight(4f)
-           .disabled(type.equals("text"));
-
-        nav.button(Core.bundle.get("aquarion.menu.tab_changelog", "Changelog"), () -> updateContent("changelog"))
-           .height(50f).growX()
-           .disabled(type.equals("changelog"));
-
-        cont.add(nav).width(buttonWidth).padBottom(15f).row();
-
-        Table inner = new Table();
-
-        if (type.equals("links")) {
-            inner.center();
-            inner.button(b -> {
-                createRoundAvatar(b, "github", Icon.github, avatarSize);
-                b.add(Core.bundle.get("aquarion.menu.link_github")).padLeft(8f);
-            }, () -> Core.app.openURI("https://github.com/" + GITHUB_REPO))
-            .size(buttonWidth, buttonHeight).padBottom(padSize).row();
-
-            inner.button(b -> {
-                createRoundAvatar(b, "discord", Icon.discord, avatarSize);
-                b.add(Core.bundle.get("aquarion.menu.link_discord")).padLeft(8f);
-            }, () -> Core.app.openURI("https://discord.gg/SbFhxYD797"))
-            .size(buttonWidth, buttonHeight).padBottom(padSize).row();
-
-            inner.button(b -> {
-                createRoundAvatar(b, "wiki", Icon.players, avatarSize);
-                b.add(Core.bundle.get("aquarion.menu.link_wiki")).padLeft(8f);
-            }, () -> Core.app.openURI("https://nullotte.github.io/MindustryModWiki/aquarion"))
-            .size(buttonWidth, buttonHeight).padBottom(padSize).row();
-
-            ScrollPane pane = new ScrollPane(inner);
-            pane.setOverscroll(false, false);
-            cont.add(pane).width(Vars.mobile ? 460f : 420f).row();
-
-        } else if (type.equals("changelog")) {
-            changelogListTable = new Table();
-            changelogListTable.top().left();
-
-            inner.add(changelogListTable).growX().row();
-
-            ScrollPane pane = new ScrollPane(inner);
-            pane.setOverscroll(false, false);
-            cont.add(pane).width(400f).row();
-
-            Table bottomNav = new Table();
-            bottomNav.button(Core.bundle.get("aquarion.menu.open_releases", "Open Releases on GitHub"), Icon.github, () -> {
-                Core.app.openURI(RELEASES_URL);
-            }).size(buttonWidth, Vars.mobile ? 40f : 34f).padTop(4f).padBottom(4f).row();
-
-            Table paginationTable = new Table();
-            float arrowSize = Vars.mobile ? 36f : 30f;
-
-            paginationTable.button(Icon.left, () -> {
-                if (page > 1 && !isLoading) {
-                    page--;
-                    fetchReleases();
-                }
-            }).size(arrowSize).disabled(t -> page <= 1 || isLoading);
-
-            paginationTable.label(() -> String.valueOf(page)).fontScale(1.1f).padLeft(12f).padRight(12f);
-
-            paginationTable.button(Icon.right, () -> {
-                if (hasNextPage && !isLoading) {
-                    page++;
-                    fetchReleases();
-                }
-            }).size(arrowSize).disabled(t -> !hasNextPage || isLoading);
-
-            bottomNav.add(paginationTable);
-            cont.add(bottomNav).padTop(4f).row();
-
-            fetchReleases();
-
-        } else {
-            inner.center();
-
-            inner.add(Core.bundle.get("aquarion.menu.role_creator")).color(Color.red).center().padBottom(padSize).row();
-
-            inner.button(b -> {
-                createRoundAvatar(b, "Twcash", Icon.admin, avatarSize);
-                b.add("Twcash").left().padLeft(8f);
-            }, () -> showAuthorInfo(
-                "Twcash", Core.bundle.get("aquarion.menu.desc_creator"),
-                "https://github.com/Twcash", "Twcash", Icon.admin, true
-            )).size(buttonWidth, buttonHeight).padBottom(padSize).row();
-
-            inner.add(Core.bundle.get("aquarion.menu.role_helpers")).color(Color.green).center().padBottom(20).row();
-
-            addAuthorButton(inner, "NikolayKot02", "aquarion.menu.desc_NikolayKot", "https://github.com/NikolayKot02", "nikolaykot", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "OwO (Sentinel)", "aquarion.menu.desc_OwO", "https://github.com/SentinelDart919", "OwO", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "Alecthe2nd", "aquarion.menu.desc_Alecthe2nd", "https://github.com/alecthe2nd", "Alecthe2nd", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "cupcakerouter", "aquarion.menu.desc_cupcakerouter", "", "cupcakerouter", Icon.players, false, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "Vire", "aquarion.menu.desc_Vire", "https://github.com/VireVeonix", "Vire", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "ItsKirby", "aquarion.menu.desc_ItsKirby", "https://github.com/ItsKirby69", "ItsKirby", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "Plooey", "aquarion.menu.desc_Thinkerdoodle", "https://github.com/BSp-2", "thinkerdoodle", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "Leo", "aquarion.menu.desc_Leo", "https://github.com/Leo-MathGuy", "Leo", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "Mythril", "aquarion.menu.desc_Mythril", "https://github.com/Mythril382", "Mythril", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "Andromeda-Galaxy29", "aquarion.menu.desc_Andromeda-Galaxy29", "https://github.com/Andromeda-Galaxy29", "Andromeda-Galaxy29", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "Sputnuc", "aquarion.menu.desc_Sputnuc", "https://github.com/Sputnuc", "Sputnuc", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "nullotte", "aquarion.menu.desc_nullotte", "https://github.com/nullotte", "nullotte", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "kapzduke", "aquarion.menu.desc_kapzduke", "https://github.com/kapzduke", "kapzduke", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "camelStyleUser", "aquarion.menu.desc_camelStyleUser", "https://github.com/camelStyleUser", "camelStyleUser", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "Henan-CN-0921", "aquarion.menu.desc_Henan-CN-0921", "https://github.com/Henan-CN-0921", "Henan-CN-0921", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-            addAuthorButton(inner, "Norax", "aquarion.menu.desc_Norax", "https://github.com/Noraxx1", "Norax", Icon.players, true, buttonWidth, buttonHeight, avatarSize, padSize);
-
-            ScrollPane pane = new ScrollPane(inner);
-            pane.setOverscroll(false, false);
-            cont.add(pane).width(Vars.mobile ? 460f : 420f).row();
-        }
-    }
-
-    private void addAuthorButton(Table table, String name, String descKey, String url, String texture, Drawable fallback, boolean hasProfile, float w, float h, float avatarSize, float pad) {
-        table.button(b -> {
-            createRoundAvatar(b, texture, fallback, avatarSize);
-            b.add(name).left().padLeft(8f);
-        }, () -> showAuthorInfo(name, Core.bundle.get(descKey), url, texture, fallback, hasProfile))
-        .size(w, h).padBottom(pad).row();
-    }
-
-    private void fetchReleases() {
-        if (isLoading || changelogListTable == null) return;
-        isLoading = true;
-
-        changelogListTable.clear();
-        changelogListTable.add(Core.bundle.get("loading", "Loading...")).color(Color.lightGray).center().pad(10f).grow();
-
-        String url = GITHUB_API_URL + "?page=" + page + "&per_page=" + perPage;
-
-        Http.get(url).error(e -> {
-            Log.err("Failed to fetch Aquarion releases", e);
-            isLoading = false;
-            Core.app.post(() -> {
-                changelogListTable.clear();
-                changelogListTable.add(Core.bundle.get("error.fetch-releases", "Failed to fetch releases.")).color(Color.scarlet).center().pad(10f).grow();
-            });
-        }).submit(res -> {
+    private void checkUpdates() {
+        showDisclaimer();
+        Http.get("https://api.github.com/repos/" + GITHUB_REPO + "/releases/latest", response -> {
             try {
-                Jval json = Jval.read(res.getResultAsString());
-                if (json.isArray()) {
-                    Seq<Jval> releases = json.asArray();
-                    hasNextPage = releases.size >= perPage;
-                    Core.app.post(() -> {
-                        isLoading = false;
-                        rebuildChangelogList(releases);
-                    });
-                } else {
-                    isLoading = false;
-                    Core.app.post(() -> {
-                        changelogListTable.clear();
-                        changelogListTable.add(Core.bundle.get("error.invalid-response", "Invalid response.")).color(Color.scarlet).center().pad(10f).grow();
-                    });
+                Jval json = Jval.read(response.getResultAsString());
+                String remoteVersion = json.getString("tag_name", "").trim();
+                releaseNotes = json.getString("body", "");
+                if (remoteVersion.isEmpty() ||
+                        compareVersions(remoteVersion, currentVersion) <= 0) {
+                    return;
                 }
-            } catch (Exception e) {
-                Log.err("Failed to parse Aquarion releases", e);
-                isLoading = false;
-                Core.app.post(() -> {
-                    changelogListTable.clear();
-                    changelogListTable.add(Core.bundle.get("error.parse-failed", "Parse failed.")).color(Color.scarlet).center().pad(10f).grow();
+                Jval assets = json.get("assets");
+                if (assets == null || !assets.isArray() || assets.asArray().size == 0) {
+                    return;
+                }
+                String downloadUrl = null;
+                for (Jval asset : assets.asArray()) {
+                    String name = asset.getString("name", "");
+                    if (name.endsWith(".jar")) {
+                        downloadUrl = asset.getString("browser_download_url", null);
+                        downloadCount = asset.getInt("download_count", 0);
+                        break;
+                    }
+                }
+                if (downloadUrl == null) return;
+                final String finalUrl = downloadUrl;
+
+                // Fetch only mod.hjson (tiny file) instead of the whole JAR for compatibility check
+                String rawMetaUrl = "https://raw.githubusercontent.com/" + GITHUB_REPO + "/" + remoteVersion + "/mod.hjson";
+                Http.get(rawMetaUrl, metaResponse -> {
+                    boolean compatible = true;
+                    try {
+                        Jval meta = Jval.read(metaResponse.getResultAsString());
+                        String minGameVersion = meta.getString("minGameVersion", "");
+                        if (!minGameVersion.isEmpty()) {
+                            int required = Integer.parseInt(minGameVersion.trim());
+                            compatible = Version.build >= required;
+                        }
+                    } catch (Exception ignored) {
+                        // If meta parse fails, assume compatible
+                    }
+                    if (compatible) {
+                        Core.app.post(() -> showUpdateDialog(remoteVersion, finalUrl));
+                    } else {
+                        Log.info("[AquarionUpdate] Ignoring update - requires newer Mindustry version.");
+                    }
+                }, err -> {
+                    // If raw meta fetch fails (e.g. file not at expected path), show dialog anyway
+                    Log.info("[AquarionUpdate] Could not fetch remote mod.hjson, skipping compat check: " + err.getMessage());
+                    Core.app.post(() -> showUpdateDialog(remoteVersion, finalUrl));
                 });
+
+            } catch (Exception e) {
+                Log.err("[AquarionUpdate] Error", e);
             }
-        });
+        }, error -> Log.err("[AquarionUpdate] Network error: " + error.getMessage()));
     }
 
-    private void rebuildChangelogList(Seq<Jval> releases) {
-        changelogListTable.clear();
-        changelogListTable.top().left();
+    //This is so stupid. Too late to switch to whole numbers now...
+    private int compareVersions(String v1, String v2) {
+        try {
+            String[] a = v1.split("\\.");
+            String[] b = v2.split("\\.");
 
-        if (releases.size == 0) {
-            changelogListTable.add(Core.bundle.get("changelog.empty", "No releases found.")).color(Color.lightGray).center().pad(10f).grow();
+            int max = Math.max(a.length, b.length);
+
+            for (int i = 0; i < max; i++) {
+                int n1 = i < a.length ? Integer.parseInt(a[i]) : 0;
+                int n2 = i < b.length ? Integer.parseInt(b[i]) : 0;
+
+                if (n1 > n2) return 1;
+                if (n1 < n2) return -1;
+            }
+
+            return 0;
+        } catch (Exception e) {
+            Log.err("[AquarionUpdate] Failed version compare", e);
+            return v1.equals(v2) ? 0 : -1;
+        }
+    }
+
+    private void showDisclaimer() {
+        if (!Vars.state.isMenu()) return;
+        if (Core.settings.getBool("aquarion.disclaimer.dismissed", false)) {
             return;
         }
 
-        for (Jval release : releases) {
-            String tagName = release.getString("tag_name", "Unknown");
-            String body = release.getString("body", "");
-            String name = release.getString("name", tagName);
-            String htmlUrl = release.getString("html_url", RELEASES_URL);
-            int downloadCount = 0;
-            String downloadUrl = htmlUrl;
-
-            if (release.has("assets") && release.get("assets").asArray().size > 0) {
-                Jval firstAsset = release.get("assets").asArray().first();
-                downloadUrl = firstAsset.getString("browser_download_url", htmlUrl);
-
-                for (Jval asset : release.get("assets").asArray()) {
-                    downloadCount += asset.getInt("download_count", 0);
-                }
-            }
-
-            final int finalDownloadCount = downloadCount;
-            final String finalDownloadUrl = downloadUrl;
-
-            changelogListTable.table(Styles.black5, t -> {
-                t.top().left().margin(8f);
-
-                t.table(header -> {
-                    header.left();
-                    header.add("[accent]" + name + "[white]").style(Styles.defaultLabel).growX().left();
-                    header.add("[lightgray]" + tagName + "[white]").padLeft(8f);
-                }).growX().row();
-
-                t.table(stats -> {
-                    stats.left();
-                    stats.image(Icon.download).size(14f).color(Color.gold);
-                    stats.add("[gold] " + finalDownloadCount + "[white]").padLeft(4f);
-                }).padTop(2f).growX().row();
-
-                t.image().color(Color.gray).height(1f).growX().padTop(4f).padBottom(6f).row();
-
-                t.add(body).wrap().width(340f).left().padBottom(8f).row();
-
-                t.table(actions -> {
-                    actions.right();
-                    
-                    float actionBtnHeight = Vars.mobile ? 48f : 48f;
-
-                    actions.button(Core.bundle.get("aquarion.menu.download_release", "Download"), Icon.download, () -> {
-                        downloadAndInstall(finalDownloadUrl);
-                    }).width(160f).height(actionBtnHeight).padRight(8f);
-
-                    actions.button(Core.bundle.get("aquarion.menu.open_release_tag", "View on GitHub"), Icon.export, () -> {
-                        Core.app.openURI(htmlUrl);
-                    }).width(140f).height(actionBtnHeight);
-
-                }).growX().right();
-
-            }).width(360f).padBottom(8f).row();
+        if (disclaimerBanner != null) {
+            disclaimerBanner.remove();
         }
+
+        disclaimerBanner = new Table(Tex.pane2);
+        disclaimerBanner.touchable = Touchable.enabled;
+        disclaimerBanner.margin(12f);
+
+        String disclaimerTitle = Core.bundle.get("aquarion.disclaimer.title");
+        String disclaimerText = Core.bundle.get("aquarion.disclaimer.text");
+
+        Table header = new Table();
+        header.add(disclaimerTitle)
+                .fontScale(1.2f)
+                .left()
+                .growX();
+
+        TextButton close = new TextButton(Core.bundle.get("aquarion.disclaimer.close"));
+        close.clicked(() -> {
+            Core.settings.put("aquarion.disclaimer.dismissed", true);
+            Core.settings.manualSave();
+            disclaimerBanner.remove();
+            disclaimerBanner = null;
+        });
+
+        header.add(close).size(40f, 40f).right();
+
+        disclaimerBanner.add(header).growX().row();
+        disclaimerBanner.add(disclaimerText)
+                .wrap()
+                .width(500f)
+                .left();
+
+        Core.scene.add(disclaimerBanner);
+
+        disclaimerBanner.pack();
+
+        disclaimerBanner.setPosition(
+                (Core.graphics.getWidth() - disclaimerBanner.getWidth()) / 2f,
+                Core.graphics.getHeight() - disclaimerBanner.getHeight() -150f
+        );
+
+        disclaimerBanner.update(() -> {
+            if (!Vars.state.isMenu()) {
+                disclaimerBanner.remove();
+                disclaimerBanner = null;
+            }
+        });
+    }
+    private void showUpdateDialog(String newVersion, String downloadUrl) {
+        BaseDialog dialog = new BaseDialog(Core.bundle.get("aquarion.update.title"));
+
+        String headerText = Core.bundle.get("aquarion.update.header");
+        dialog.cont.label(() -> headerText).padBottom(25f).row();
+
+        String message = Core.bundle.format("aquarion.update.message", currentVersion, newVersion);
+        dialog.cont.add(message).padBottom(4f).row();
+
+        String downloadsText = Core.bundle.format("aquarion.update.downloads", downloadCount);
+        dialog.cont.add(downloadsText).color(Color.lightGray).fontScale(0.85f).padBottom(20f).row();
+
+        CheckBox checkBox = new CheckBox(Core.bundle.get("settings.showUpdates"));
+        checkBox.setChecked(true);
+
+        checkBox.changed(() -> {
+            Core.settings.put("showUpdates", checkBox.isChecked());
+            Core.settings.manualSave();
+        });
+
+        dialog.cont.add(checkBox).padBottom(5f).row();
+
+        if (Vars.mobile) {
+            dialog.cont.add(Core.bundle.get("aquarion.update.hint_settings"))
+                    .color(Color.lightGray)
+                    .fontScale(0.85f)
+                    .wrap()
+                    .width(400f)
+                    .padBottom(15f)
+                    .row();
+        } else {
+            checkBox.addListener(new Tooltip(t -> {
+                t.background(mindustry.gen.Tex.button)
+                        .add(Core.bundle.get("aquarion.update.hint_settings"))
+                        .wrap()
+                        .width(400f)
+                        .pad(8f);
+            }));
+            checkBox.getCell(checkBox.getLabel()).padBottom(15f);
+            dialog.cont.row();
+        }
+
+        dialog.buttons.button(Core.bundle.get("aquarion.update.download"), () -> {
+            dialog.hide();
+            downloadAndInstall(downloadUrl);
+        }).size(160f, 60f);
+
+        dialog.buttons.button(Core.bundle.get("aquarion.update.changelog"), this::showChangelogDialog).size(160f, 60f);
+
+        dialog.buttons.button(Core.bundle.get("aquarion.update.cancel"), dialog::hide).size(130f, 60f);
+        dialog.show();
+    }
+
+    private String fixGithubImageUrl(String url) {
+        if (url == null) return null;
+        if (url.contains("github.com") && url.contains("user-attachments/assets")) {
+            return url.replace("github.com", "raw.githubusercontent.com").replace("/user-attachments/assets/", "/main/user-attachments/assets/");
+        }
+        return url;
+    }
+
+    private String parseImageUrl(String markdown) {
+        if (markdown == null || markdown.isEmpty()) return null;
+
+        Pattern htmlTagPattern = Pattern.compile("<img[^>]+src\\s*=\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher htmlMatcher = htmlTagPattern.matcher(markdown);
+        if (htmlMatcher.find()) {
+            return fixGithubImageUrl(htmlMatcher.group(1).trim());
+        }
+
+        Pattern mdTagPattern = Pattern.compile("!\\[[^]]*]\\(([^)]+)\\)");
+        Matcher mdMatcher = mdTagPattern.matcher(markdown);
+        if (mdMatcher.find()) {
+            return fixGithubImageUrl(mdMatcher.group(1).trim().split(" ")[0]);
+        }
+
+        return null;
+    }
+
+    private void showChangelogDialog() {
+        BaseDialog logDialog = new BaseDialog(Core.bundle.get("aquarion.update.changelog"));
+        String imageUrl = parseImageUrl(releaseNotes);
+
+        logDialog.cont.pane(table -> {
+            if (imageUrl != null) {
+                Http.get(imageUrl, imgResponse -> {
+                    byte[] bytes = imgResponse.getResult();
+                    Core.app.post(() -> {
+                        try {
+                            Texture texture = new Texture(new arc.graphics.Pixmap(bytes));
+                            Image image = new Image(new TextureRegionDrawable(new TextureRegion(texture)));
+
+                            float maxW = Vars.mobile ? Core.graphics.getWidth() * 0.65f : 400f;
+                            float maxH = Vars.mobile ? Core.graphics.getHeight() * 0.25f : 240f;
+
+                            table.add(image).maxWidth(maxW).maxHeight(maxH).scaling(arc.util.Scaling.fit).padBottom(15f).row();
+                            table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+                        } catch (Exception e) {
+                            Log.err("[AquarionUpdate] Failed to load changelog image", e);
+                            table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+                        }
+                    });
+                }, imgError -> {
+                    Log.err("[AquarionUpdate] Failed to download changelog image: " + imgError.getMessage());
+                    Core.app.post(() -> table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f));
+                });
+            } else {
+                table.add(releaseNotes.isEmpty() ? "No description provided." : releaseNotes).left().wrap().width(400f);
+            }
+        }).size(450f, 320f).pad(10f).row();
+
+        logDialog.buttons.button(Core.bundle.get("aquarion.update.open_link"),
+                () -> Core.app.openURI("https://github.com/" + GITHUB_REPO + "/releases/latest")).size(180f, 60f);
+
+        logDialog.buttons.button(Core.bundle.get("aquarion.update.back"), logDialog::hide).size(150f, 60f);
+        logDialog.show();
     }
 
     private void downloadAndInstall(String urlString) {
@@ -316,8 +309,8 @@ public class AquaMenuDialog extends BaseDialog {
         downloadProgress = 0f;
         progressText = "0%";
 
-        BaseDialog progressDialog = new BaseDialog(Core.bundle.get("aquarion.update.titledownl", "Downloading Update"));
-        progressDialog.cont.add(Core.bundle.get("aquarion.update.downloading_text", "Downloading, please wait...")).pad(10f).row();
+        BaseDialog progressDialog = new BaseDialog(Core.bundle.get("aquarion.update.titledownl"));
+        progressDialog.cont.add(Core.bundle.get("aquarion.update.downloading_text")).pad(10f).row();
 
         Color startColor = Color.valueOf("#ff0000");
         Color endColor = Color.valueOf("#ffd37f");
@@ -331,7 +324,7 @@ public class AquaMenuDialog extends BaseDialog {
 
         progressDialog.cont.add(progressBar).size(400f, 40f).pad(10f).row();
 
-        progressDialog.buttons.button(Core.bundle.get("aquarion.update.cancel", "Cancel"), () -> {
+        progressDialog.buttons.button(Core.bundle.get("aquarion.update.cancel"), () -> {
             isCancelled = true;
             progressDialog.hide();
         }).size(150f, 60f).pad(10f);
@@ -341,9 +334,9 @@ public class AquaMenuDialog extends BaseDialog {
         Threads.daemon(() -> {
             HttpURLConnection connection = null;
             InputStream input = null;
-            OutputStream output = null;
 
             Fi tempFile = Core.files.local("cache/aquarion_tmp.jar");
+            java.io.OutputStream output = null;
 
             try {
                 URL url = new URL(urlString);
@@ -398,7 +391,7 @@ public class AquaMenuDialog extends BaseDialog {
                         try {
                             progressDialog.hide();
 
-                            mindustry.mod.Mods.LoadedMod oldMod = Vars.mods.getMod("aquarion");
+                            mindustry.mod.Mods.LoadedMod oldMod = Vars.mods.getMod(AquaLoader.class);
                             if (oldMod != null) {
                                 Vars.mods.removeMod(oldMod);
                             }
@@ -410,7 +403,7 @@ public class AquaMenuDialog extends BaseDialog {
                             showSuccessDialog();
                         } catch (Exception e) {
                             Log.err("[AquarionUpdate] Import error", e);
-                            Vars.ui.showException(Core.bundle.get("aquarion.update.install_error", "Failed to install update"), e);
+                            Vars.ui.showException(Core.bundle.get("aquarion.update.install_error"), e);
                         }
                     });
                 } else {
@@ -427,7 +420,7 @@ public class AquaMenuDialog extends BaseDialog {
                 if (!isCancelled) {
                     Core.app.post(() -> {
                         progressDialog.hide();
-                        Vars.ui.showException(Core.bundle.get("aquarion.update.install_error", "Failed to install update"), e);
+                        Vars.ui.showException(Core.bundle.get("aquarion.update.install_error"), e);
                     });
                 }
             } finally {
@@ -440,53 +433,12 @@ public class AquaMenuDialog extends BaseDialog {
     }
 
     private void showSuccessDialog() {
-        BaseDialog successDialog = new BaseDialog(Core.bundle.get("aquarion.update.success_title", "Update Successful"));
-        String successMessage = Core.bundle.get("aquarion.update.success_text", "Update installed! Restart the game to apply changes.");
+        BaseDialog successDialog = new BaseDialog(Core.bundle.get("aquarion.update.success_title"));
+        String successMessage = Core.bundle.get("aquarion.update.success_text");
         successDialog.cont.add(successMessage).pad(20).row();
 
-        successDialog.buttons.button(Core.bundle.get("aquarion.update.ok", "Ok"), Core.app::exit).size(150f, 60f);
+        successDialog.buttons.button(Core.bundle.get("aquarion.update.ok"), Core.app::exit).size(150f, 60f);
 
         successDialog.show();
-    }
-
-    private void showAuthorInfo(String name, String description, String profileUrl, String textureName, Drawable fallbackIcon, boolean hasProfile) {
-        BaseDialog authorDialog = new BaseDialog(name);
-        authorDialog.addCloseButton();
-        float dialogWidth1 = Vars.mobile ? 400f : 440f;
-        float dialogHeight2 = Vars.mobile ? 300f : 360f;
-
-        authorDialog.cont.pane(t -> {
-            t.left();
-
-            Table leftTable = new Table();
-            createRoundAvatar(leftTable, textureName, fallbackIcon, 140f);
-            t.add(leftTable).top().padRight(15f);
-
-            Table rightTable = new Table();
-            rightTable.left();
-
-            rightTable.add(name).left().fontScale(1.1f).row();
-
-            var label = rightTable.add(description).width(dialogWidth1 - 150f).wrap().padTop(10f).left().get();
-            label.setAlignment(arc.util.Align.left);
-
-            t.add(rightTable).top().expandX().fillX();
-        }).size(dialogWidth1, dialogHeight2);
-
-        if (hasProfile) {
-            authorDialog.buttons.button(Core.bundle.get("aquarion.menu.open_profile"), () -> {
-                Core.app.openURI(profileUrl);
-            }).size(Vars.mobile ? 150f : 180f, 50f);
-        }
-
-        authorDialog.show();
-    }
-
-    public static void attach() {
-        Events.on(mindustry.game.EventType.ClientLoadEvent.class, e -> {
-            Vars.ui.menufrag.addButton(Core.bundle.get("aquarion.menu.button_main"), Icon.info, () -> {
-                new AquaMenuDialog().show();
-            });
-        });
     }
 }
