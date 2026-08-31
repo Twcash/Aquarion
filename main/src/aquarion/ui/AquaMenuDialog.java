@@ -74,7 +74,6 @@ public class AquaMenuDialog extends BaseDialog {
         float padSize = 10f;
 
         Table nav = new Table();
-        float navHeight = Vars.mobile ? 42f : 34f;
 
         nav.button(Core.bundle.get("aquarion.menu.tab_links", "Links"), () -> updateContent("links"))
            .height(50f).growX().padRight(4f)
@@ -273,6 +272,7 @@ public class AquaMenuDialog extends BaseDialog {
 
             final int finalDownloadCount = downloadCount;
             final String finalDownloadUrl = downloadUrl;
+            final String finalTagName = tagName;
 
             changelogListTable.table(Styles.black5, t -> {
                 t.top().left().margin(8f);
@@ -280,7 +280,7 @@ public class AquaMenuDialog extends BaseDialog {
                 t.table(header -> {
                     header.left();
                     header.add("[accent]" + name + "[white]").style(Styles.defaultLabel).growX().left();
-                    header.add("[lightgray]" + tagName + "[white]").padLeft(8f);
+                    header.add("[lightgray]" + finalTagName + "[white]").padLeft(8f);
                 }).growX().row();
 
                 t.table(stats -> {
@@ -299,7 +299,7 @@ public class AquaMenuDialog extends BaseDialog {
                     float actionBtnHeight = Vars.mobile ? 48f : 48f;
 
                     actions.button(Core.bundle.get("aquarion.menu.download_release", "Download"), Icon.download, () -> {
-                        downloadAndInstall(finalDownloadUrl);
+                        downloadAndInstall(finalDownloadUrl, finalTagName);
                     }).width(160f).height(actionBtnHeight).padRight(8f);
 
                     actions.button(Core.bundle.get("aquarion.menu.open_release_tag", "View on GitHub"), Icon.export, () -> {
@@ -312,13 +312,16 @@ public class AquaMenuDialog extends BaseDialog {
         }
     }
 
-    private void downloadAndInstall(String urlString) {
+    private void downloadAndInstall(String urlString, String version) {
         isCancelled = false;
         downloadProgress = 0f;
         progressText = "0%";
 
-        BaseDialog progressDialog = new BaseDialog(Core.bundle.get("aquarion.update.titledownl", "Downloading Update"));
-        progressDialog.cont.add(Core.bundle.get("aquarion.update.downloading_text", "Downloading, please wait...")).pad(10f).row();
+        String dialogTitle = Core.bundle.format("aquarion.changelog.titledownl", version);
+        BaseDialog progressDialog = new BaseDialog(dialogTitle);
+        
+        String downloadingText = Core.bundle.format("aquarion.changelog.downloading_text", version);
+        progressDialog.cont.add(downloadingText).pad(10f).row();
 
         Color startColor = Color.valueOf("#ff0000");
         Color endColor = Color.valueOf("#ffd37f");
@@ -332,7 +335,7 @@ public class AquaMenuDialog extends BaseDialog {
 
         progressDialog.cont.add(progressBar).size(400f, 40f).pad(10f).row();
 
-        progressDialog.buttons.button(Core.bundle.get("aquarion.update.cancel", "Cancel"), () -> {
+        progressDialog.buttons.button(Core.bundle.get("aquarion.changelog.cancel", "Cancel"), () -> {
             isCancelled = true;
             progressDialog.hide();
         }).size(150f, 60f).pad(10f);
@@ -408,10 +411,10 @@ public class AquaMenuDialog extends BaseDialog {
                             Vars.mods.reload();
 
                             tempFile.delete();
-                            showSuccessDialog();
+                            showSuccessDialog(version);
                         } catch (Exception e) {
                             Log.err("[AquarionUpdate] Import error", e);
-                            Vars.ui.showException(Core.bundle.get("aquarion.update.install_error", "Failed to install update"), e);
+                            Vars.ui.showException(Core.bundle.format("aquarion.changelog.install_error", version), e);
                         }
                     });
                 } else {
@@ -428,7 +431,7 @@ public class AquaMenuDialog extends BaseDialog {
                 if (!isCancelled) {
                     Core.app.post(() -> {
                         progressDialog.hide();
-                        Vars.ui.showException(Core.bundle.get("aquarion.update.install_error", "Failed to install update"), e);
+                        Vars.ui.showException(Core.bundle.format("aquarion.changelog.install_error", version), e);
                     });
                 }
             } finally {
@@ -440,12 +443,12 @@ public class AquaMenuDialog extends BaseDialog {
         });
     }
 
-    private void showSuccessDialog() {
-        BaseDialog successDialog = new BaseDialog(Core.bundle.get("aquarion.update.success_title", "Update Successful"));
-        String successMessage = Core.bundle.get("aquarion.update.success_text", "Update installed! Restart the game to apply changes.");
+    private void showSuccessDialog(String version) {
+        BaseDialog successDialog = new BaseDialog(Core.bundle.format("aquarion.changelog.success_title", version));
+        String successMessage = Core.bundle.format("aquarion.changelog.success_text", version);
         successDialog.cont.add(successMessage).pad(20).row();
 
-        successDialog.buttons.button(Core.bundle.get("aquarion.update.ok", "Ok"), Core.app::exit).size(150f, 60f);
+        successDialog.buttons.button(Core.bundle.get("aquarion.changelog.ok", "Ok"), Core.app::exit).size(150f, 60f);
 
         successDialog.show();
     }
