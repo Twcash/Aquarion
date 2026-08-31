@@ -489,21 +489,23 @@ public class Annotations{
      * Will throw an {@link IllegalArgumentException} if this annotation is used outside a {@link TextureRegion TextureRegion} field whose enclosing class is
      * an instance of {@link mindustry.ctype.MappableContent MappableContent}.
      */
+    //Copy-pasted from vanilla
     @Target(ElementType.FIELD)
     @Retention(RetentionPolicy.SOURCE)
     public @interface Load{
         /**
-         * Name used by the region
-         */
+         * The region name to load. Variables can be used:
+         * "@" -> block name
+         * "@size" -> block size
+         * "#" "#1" "#2" -> index number, for arrays
+         * */
         String value();
-        /**
-         * Array lengths. One value for each dimension
-         */
+        /** 1D Array length, if applicable.  */
+        int length() default 1;
+        /** 2D array lengths. */
         int[] lengths() default {};
-        /**
-         * Name used by the region if {@link #value()} returns error
-         */
-        String fallBack() default "error";
+        /** Fallback string used to replace "@" (the block name) if the region isn't found. */
+        String fallback() default "error";
     }
     /**
      * Ensures that the ContentRegionRegistry is generated.
