@@ -291,7 +291,7 @@ public class AquaMenuDialog extends BaseDialog {
                     // Кнопка Скачать
                     actions.button(Core.bundle.get("aquarion.menu.download_release", "Download"), Icon.download, () -> {
                         Core.app.openURI(finalDownloadUrl);
-                    }).width(140f).height(actionBtnHeight).padRight(8f);
+                    }).width(150f).height(actionBtnHeight).padRight(8f);
 
                     // Кнопка GitHub
                     actions.button(Core.bundle.get("aquarion.menu.open_release_tag", "View on GitHub"), Icon.export, () -> {
