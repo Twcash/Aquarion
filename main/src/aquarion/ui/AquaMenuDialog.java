@@ -286,7 +286,7 @@ public class AquaMenuDialog extends BaseDialog {
                 t.table(actions -> {
                     actions.right();
                     
-                    float actionBtnHeight = Vars.mobile ? 68f : 68f;
+                    float actionBtnHeight = Vars.mobile ? 48f : 48f;
 
                     // Кнопка Скачать
                     actions.button(Core.bundle.get("aquarion.menu.download_release", "Download"), Icon.download, () -> {
@@ -300,7 +300,7 @@ public class AquaMenuDialog extends BaseDialog {
 
                 }).growX().right();
 
-            }).width(360f).padBottom(8f).row();
+            }).width(380f).padBottom(8f).row();
         }
     }
 
