@@ -217,6 +217,8 @@ public class MenuBackgroundSheet extends MenuBackground {
             }
             //scrub any living entities from the save - keep the terrain and structures
             clearAll();
+            //...but drop non-core structures too, so stray walls/reactors don't eat bullets early
+            scrubArenaBuildings();
             Log.info("Loaded menu battleground map: @", map.name());
             return true;
         } catch (Throwable e) {
@@ -283,6 +285,15 @@ public class MenuBackgroundSheet extends MenuBackground {
     private void capSpawns() {
         if (spawns.size > 4) {
             spawns.truncate(4);
+        }
+    }
+
+    /** Removes non-core buildings from an arena map - stray walls/reactors soak up bullets. */
+    private void scrubArenaBuildings() {
+        for (Building b : Groups.build.copy()) {
+            if (!(b.block instanceof CoreBlock)) {
+                b.remove();
+            }
         }
     }
 
@@ -389,9 +400,11 @@ public class MenuBackgroundSheet extends MenuBackground {
         runCommander();
 
         Groups.updatePooling();
-        Groups.unit.updatePhysics();
         Groups.unit.update();
+        //soft separation teleports units, and bullets query the team unit trees - rebuild them
+        //afterwards so bullets don't hit stale unit positions and end prematurely
         separateUnits();
+        state.teams.updateTeamStats();
         Groups.bullet.updatePhysics();
         Groups.bullet.update();
         Groups.bullet.collide();
@@ -593,7 +606,7 @@ public class MenuBackgroundSheet extends MenuBackground {
         }
 
         //point the game camera at the whole map and render it with the normal world pipeline
-        float scaling = Math.max(Core.graphics.getWidth() / camW, Core.graphics.getHeight() / camH);
+        float scaling = Math.max(Core.graphics.getWidth() * camW, Core.graphics.getHeight() * camH);
         Core.camera.position.set(camX, camY);
         Core.camera.resize(Core.graphics.getWidth() / scaling, Core.graphics.getHeight() / scaling);
         Core.camera.update();
