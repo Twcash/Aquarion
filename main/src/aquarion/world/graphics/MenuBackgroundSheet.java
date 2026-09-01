@@ -2,6 +2,7 @@ package aquarion.world.graphics;
 
 import aquarion.AquaLoader;
 import aquarion.content.AquaUnitTypes;
+import aquarion.world.AI.MenuCommandAI;
 import arc.Core;
 import arc.Events;
 import arc.files.Fi;
@@ -13,18 +14,15 @@ import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.struct.IntSeq;
 import arc.struct.Seq;
+import arc.util.Interval;
 import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.Time;
 import arc.util.Tmp;
 import arc.util.noise.Simplex;
-import mindustry.ai.Astar;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
-import mindustry.core.World;
 import mindustry.entities.Units;
-import mindustry.entities.units.AIController;
-import mindustry.entities.units.WeaponMount;
 import mindustry.game.EventType;
 import mindustry.game.Team;
 import mindustry.game.Teams.TeamData;
@@ -38,7 +36,6 @@ import mindustry.gen.Fire;
 import mindustry.gen.Groups;
 import mindustry.gen.Player;
 import mindustry.gen.Puddle;
-import mindustry.gen.Teamc;
 import mindustry.gen.Unit;
 import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
@@ -66,10 +63,12 @@ public class MenuBackgroundSheet extends MenuBackground {
 
     private int width = mobile ? 60 : 84, height = mobile ? 40 : 50;
     private float time = 0f;
+    /** Cadence for the squad commander, mirroring RtsAI's periodic squad reassignment. */
+    private final Interval commanderTimer = new Interval(1);
 
     private boolean battles = true;
     private int presetIndex = -1;
-
+    public boolean dark = false;
     /** Map-based spawn anchors - one per fighting team. */
     private final Seq<Vec2> spawns = new Seq<>();
     private boolean hasMapSpawns = false;
@@ -141,9 +140,7 @@ public class MenuBackgroundSheet extends MenuBackground {
 
     private void generateWorld() {
         player.team(sharded);
-        //50/50 day or night
-        ambient = Mathf.chance(0.5f) ? Color.valueOf("fff2dd") : Color.valueOf("6b6b8c");
-        Log.info("Menu battleground lighting: @", ambient);
+        dark = Mathf.chance(0.5f);
         setupRules();
 
         hasMapSpawns = false;
@@ -153,7 +150,6 @@ public class MenuBackgroundSheet extends MenuBackground {
             height = world.height();
             setupMapSpawns();
         } else {
-            generateProcedural();
             width = world.width();
             height = world.height();
         }
@@ -168,8 +164,8 @@ public class MenuBackgroundSheet extends MenuBackground {
         //be permissive with environment so no unit is env-killed on spawn
         state.rules.env = Env.any;
         //render a normal lit world (day or night)
-        state.rules.lighting = true;
-        state.rules.ambientLight = ambient;
+        state.rules.lighting = dark;
+        state.rules.ambientLight =  new Color(0.01f, 0.01f, 0.04f, 0.99f);
         //no waves / spawn knockback on the battleground
         state.rules.waves = false;
         state.rules.attackMode = false;
@@ -184,7 +180,6 @@ public class MenuBackgroundSheet extends MenuBackground {
         //navigate segment by segment - ZipFi.child("a/b") does not resolve multi-segment paths
         Fi dir = loaded.root.child("maps").child("menus");
         if (!dir.exists() || !dir.isDirectory()) {
-            Log.warn("No maps in mod assets/maps/menus; using procedural terrain.");
             return null;
         }
 
@@ -299,74 +294,6 @@ public class MenuBackgroundSheet extends MenuBackground {
         camH = height * tilesize;
     }
 
-    private void generateProcedural() {
-        world.setGenerating(true);
-
-        Tiles tiles = world.resize(width, height);
-
-        //seeded terrain so every session gets a slightly different battlefield
-        int seed = Mathf.rand.nextInt(100000);
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                Tile tile;
-                tiles.set(x, y, (tile = new CachedTile()));
-                tile.x = (short)x;
-                tile.y = (short)y;
-
-                //border walls keep the battle contained
-                if (x == 0 || y == 0 || x == width - 1 || y == height - 1) {
-                    tile.setFloor(Blocks.metalFloor.asFloor());
-                    tile.setBlock(Blocks.darkMetal);
-                    continue;
-                }
-
-                //meandering river connecting both sides. shallow water only - drownTime is 0, so nothing drowns
-                if (Math.abs(y - riverY(x)) <= 3f) {
-                    tile.setFloor(Blocks.water.asFloor());
-                    continue;
-                }
-
-                //natural terrain
-                Block floor = Blocks.stone;
-                if (Simplex.noise2d(seed, 3, 0.5f, 1 / 25.0, x, y) > 0.4f) {
-                    floor = Blocks.moss;
-                }
-                if (Simplex.noise2d(seed + 1, 3, 0.5f, 1 / 35.0, x, y) > 0.65f) {
-                    floor = Blocks.sand;
-                }
-                if (Simplex.noise2d(seed + 2, 3, 0.5f, 1 / 22.0, x, y) > 0.75f) {
-                    floor = Blocks.craters;
-                }
-                if (Simplex.noise2d(seed + 3, 3, 0.5f, 1 / 18.0, x, y) > 0.85f) {
-                    floor = Blocks.charr;
-                }
-
-                tile.setFloor(floor.asFloor());
-
-                //scattered ore veins for visual variety
-                if (Simplex.noise2d(seed + 4, 2, 0.5f, 1 / 18.0, x, y) > 0.7f) {
-                    tile.setOverlay(Blocks.oreCopper);
-                } else if (Simplex.noise2d(seed + 5, 2, 0.5f, 1 / 20.0, x, y) > 0.72f) {
-                    tile.setOverlay(Blocks.oreLead);
-                }
-            }
-        }
-        world.setGenerating(false);
-
-        //rebuild the real renderer's caches for this menu world (no WorldLoadEvent fires here)
-        renderer.blocks.reload();
-        renderer.blocks.floor.reload();
-    }
-
-    /**
-     * River centerline in tile y-coordinates. The meander is gentle enough that the straight line
-     * between the two spawn columns stays inside the (6-tile-wide) water band, so naval units can
-     * always traverse from one team to the other.
-     */
-    private float riverY(float tileX) {
-        return height / 2f + Mathf.sin(tileX * 0.25f) * 1.5f;
-    }
 
     private void spawnUnits() {
         presetIndex = -1;
@@ -384,7 +311,7 @@ public class MenuBackgroundSheet extends MenuBackground {
     }
 
     private void spawnBattle(BattlePreset preset) {
-        Seq<Vec2> anchors = hasMapSpawns ? spawns : proceduralAnchors();
+        Seq<Vec2> anchors = spawns;
         pickTeams(anchors.size);
         for (int i = 0; i < anchors.size; i++) {
             Vec2 anchor = anchors.get(i);
@@ -392,20 +319,7 @@ public class MenuBackgroundSheet extends MenuBackground {
         }
     }
 
-    /** The two procedural spawn points on the river banks. */
-    private Seq<Vec2> proceduralAnchors() {
-        Seq<Vec2> out = new Seq<>();
-        float blueX = width / 4f;
-        float cruxX = width * 3f / 4f;
-        out.add(new Vec2(blueX * tilesize, (riverY(blueX) + 4f) * tilesize));
-        out.add(new Vec2(cruxX * tilesize, (riverY(cruxX) - 4f) * tilesize));
-        return out;
-    }
 
-    /**
-     * Splits the preset's unit waves across the teams. With exactly two teams, team 0 gets the
-     * "blue" squad and team 1 the "crux" squad; with more teams the waves are distributed round-robin.
-     */
     private Seq<UnitWave> squadFor(BattlePreset preset, int index, int count) {
         if (count <= 2) {
             return index == 0 ? preset.blue : preset.crux;
@@ -440,7 +354,6 @@ public class MenuBackgroundSheet extends MenuBackground {
             teams.add(Team.blue);
             teams.add(Team.crux);
         }
-        Log.info("Menu battle teams: @", teams.toString(", "));
     }
 
     private void spawnWave(Seq<UnitWave> waves, Team team, float centerX, float centerY) {
@@ -453,10 +366,13 @@ public class MenuBackgroundSheet extends MenuBackground {
                     float dx = ((index % 3) - 1) * 2f * tilesize;
                     float dy = (index / 3) * 2f * tilesize - tilesize;
                     float x = centerX + dx;
-                    //naval units must start in the water, so drop them onto the procedural river centerline
-                    float y = (naval && !hasMapSpawns) ? riverY(x / tilesize) * tilesize : centerY + dy;
+                    float y = centerY + dy;
+                    MenuCommandAI command = new MenuCommandAI();
                     Unit unit = wave.type.spawn(team, x, y);
-                    unit.controller(new MenuBattleAI());
+                    unit.controller(command);
+                    Unit enemy = Units.closestEnemy(team, x, y, Float.MAX_VALUE,
+                        e -> !e.dead() && e.checkTarget(wave.type.targetAir, wave.type.targetGround));
+                    if (enemy != null) command.commandTarget(enemy);
                     Fx.spawn.at(unit.x(), unit.y());
                     index++;
                 }
@@ -470,6 +386,7 @@ public class MenuBackgroundSheet extends MenuBackground {
     private void simulate() {
         //rebuild team spatial trees so unit AI can find enemies
         state.teams.updateTeamStats();
+        runCommander();
 
         Groups.updatePooling();
         Groups.unit.updatePhysics();
@@ -520,11 +437,51 @@ public class MenuBackgroundSheet extends MenuBackground {
                 if (d2 < rs * rs && d2 > 0.001f) {
                     float push = (rs - Mathf.sqrt(d2)) * 0.5f;
                     Tmp.v1.set(b.x - a.x, b.y - a.y).setLength(push);
-                    a.x -= Tmp.v1.x;
-                    a.y -= Tmp.v1.y;
-                    b.x += Tmp.v1.x;
-                    b.y += Tmp.v1.y;
+                    //only nudge where the unit can actually stand - shoving units into walls embeds them in solid tiles
+                    //and the game reacts by killing grounded units that end up on impassable ground
+                    float ax = a.x - Tmp.v1.x, ay = a.y - Tmp.v1.y;
+                    float bx = b.x + Tmp.v1.x, by = b.y + Tmp.v1.y;
+                    if (canOccupy(a, ax, ay)) {
+                        a.x = ax;
+                        a.y = ay;
+                    }
+                    if (canOccupy(b, bx, by)) {
+                        b.x = bx;
+                        b.y = by;
+                    }
                 }
+            }
+        }
+    }
+
+    /** Whether the unit can sit at this spot without being embedded in a wall or drowning. */
+    private boolean canOccupy(Unit u, float x, float y) {
+        if (u.isFlying()) return true;
+        Tile t = world.tileWorld(x, y);
+        if (t == null) return false;
+        return u.type.naval ? t.floor().isLiquid : !t.solid() && !t.floor().isDeep();
+    }
+
+    /**
+     * Squad commander in the spirit of vanilla RtsAI. The game never commands these units (no cores,
+     * turret/factory flags or damage events in a raw arena), so every idle battle unit is told to hunt the
+     * nearest enemy it can engage. commandTarget() hands the actual pathing and combat off to the unit's
+     * MenuCommandAI - the same CommandAI contract RtsAI relies on.
+     */
+    private void runCommander() {
+        if (!commanderTimer.get(20f)) return;
+
+        for (Unit u : Groups.unit) {
+            if (u.dead()) continue;
+            if (!(u.controller() instanceof MenuCommandAI ai)) continue;
+
+            //already hunting a valid target - don't re-command and risk target thrash
+            if (ai.attackTarget != null && !Units.invalidateTarget(ai.attackTarget, u.team, u.x, u.y)) continue;
+
+            Unit enemy = Units.closestEnemy(u.team, u.x, u.y, Float.MAX_VALUE,
+                e -> !e.dead() && e.checkTarget(u.type.targetAir, u.type.targetGround));
+            if (enemy != null) {
+                ai.commandTarget(enemy);
             }
         }
     }
@@ -594,7 +551,7 @@ public class MenuBackgroundSheet extends MenuBackground {
         boolean any = false, allMenu = true;
         for (Unit u : Groups.unit) {
             any = true;
-            if (!(u.controller() instanceof MenuBattleAI)) {
+            if (!(u.controller() instanceof MenuCommandAI)) {
                 allMenu = false;
                 break;
             }
@@ -681,23 +638,18 @@ public class MenuBackgroundSheet extends MenuBackground {
 
         Draw.sort(true);
 
-        //floors, edges and animated water shader
         Draw.draw(Layer.floor, renderer.blocks.floor::drawFloor);
-        //wall shadows and the walls themselves
         Draw.draw(Layer.block - 1, renderer.blocks::drawShadows);
         Draw.draw(Layer.block - 0.09f, () -> {
             renderer.blocks.floor.beginDraw();
             renderer.blocks.floor.drawLayer(CacheLayer.walls);
         });
-        //dynamic lighting
-        if (state.rules.lighting && renderer.drawLight) {
+        if (state.rules.lighting && renderer.drawLight && dark) {
             Draw.draw(Layer.light, renderer.lights::draw);
         }
-        //map darkness
         if (enableDarkness) {
             Draw.draw(Layer.darkness, renderer.blocks::drawDarkness);
         }
-        //bloom
         if (renderer.bloom != null) {
             renderer.bloom.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
             renderer.bloom.setBloomIntensity(settings.getInt("bloomintensity", 6) / 4f + 1f);
@@ -706,7 +658,6 @@ public class MenuBackgroundSheet extends MenuBackground {
             Draw.draw(Layer.effect + 0.02f, renderer.bloom::render);
         }
 
-        //blocks/buildings, then all entities (units, bullets, effects)
         renderer.blocks.drawBlocks();
         Groups.draw.each(d -> {
             if (!(d instanceof Player)) {
@@ -721,99 +672,12 @@ public class MenuBackgroundSheet extends MenuBackground {
         Draw.proj(prev);
     }
 
-    /** Nothing to clean up - all GPU resources are owned by the game renderer. */
     public void dispose() {
     }
 
     /**
-     * Battler that moves directly when the path is clear, and uses synchronous A* pathfinding
-     * (works in the menu, unlike the game's flowfield pathfinding which only runs while playing).
+     * A single group of units of one type to spawn for a team.
      */
-    public static class MenuBattleAI extends AIController {
-        private Seq<Tile> path;
-        private float pathTimer;
-
-        @Override
-        public Teamc findMainTarget(float x, float y, float range, boolean air, boolean ground){
-            //weapon range never reaches the opposite spawn, so search the whole arena for the closest enemy
-            //that this unit's type flags AND at least one controllable weapon can actually engage
-            return Units.closestTarget(unit.team, x, y, Float.MAX_VALUE,
-                u -> u.checkTarget(air, ground) && canHit(u), t -> true);
-        }
-
-        private boolean canHit(Unit other){
-            for(WeaponMount mount : unit.mounts()){
-                if(mount.weapon.aiControllable && !mount.weapon.noAttack &&
-                other.checkTarget(mount.weapon.bullet.collidesAir, mount.weapon.bullet.collidesGround)){
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        @Override
-        public void updateMovement(){
-            if (!(target instanceof Unit enemy) || !enemy.isValid() || !unit.hasWeapons()) return;
-
-            float range = Math.max(unit.type.range, 8f);
-            //bombers keep flying over the target; everyone else holds at weapon range
-            float circle = unit.type.autoDropBombs ? 0f : Math.max(range * 0.6f, 10f);
-            if (unit.dst(enemy) <= circle) return; //in range, hold
-
-            Tile from = unit.tileOn();
-            Tile goal = enemy.tileOn();
-            if (from == null || goal == null) return;
-
-            //direct path clear? just move straight
-            if (raycastClear(unit.x, unit.y, enemy.x, enemy.y)){
-                vec.set(enemy.x - unit.x, enemy.y - unit.y).setLength(unit.speed());
-                unit.movePref(vec);
-                path = null;
-            }else{
-                //recompute the path occasionally (copy it - Astar reuses a shared static seq)
-                if (path == null || pathTimer <= 0f){
-                    path = Astar.pathfind(from.x, from.y, goal.x, goal.y, tile -> 1f, this::passable).copy();
-                    pathTimer = 45f;
-                }
-                pathTimer -= Time.delta;
-
-                if (path != null && !path.isEmpty()){
-                    if (unit.dst(enemy) <= circle) return;
-                    //drop waypoints we've already reached
-                    while (!path.isEmpty() && unit.within(path.first(), tilesize * 0.6f)){
-                        path.remove(0);
-                    }
-                    if (!path.isEmpty()){
-                        Tile next = path.first();
-                        vec.set(next.worldx() - unit.x, next.worldy() - unit.y).setLength(unit.speed());
-                        unit.movePref(vec);
-                    }
-                }
-            }
-            faceTarget();
-        }
-
-        private boolean raycastClear(float x1, float y1, float x2, float y2){
-            boolean[] clear = {true};
-            World.raycastEachWorld(x1, y1, x2, y2, (x, y) -> {
-                Tile tile = world.tile(x, y);
-                if (tile == null || !passable(tile)){
-                    clear[0] = false;
-                    return true;
-                }
-                return false;
-            });
-            return clear[0];
-        }
-
-        /** Air units pass over everything; ground units avoid walls and deep liquid; naval units ignore depth. */
-        private boolean passable(Tile tile){
-            if (!unit.isGrounded()) return true;
-            return !tile.solid() && (unit.type.naval || !tile.floor().isDeep());
-        }
-    }
-
-    /** A single group of units of one type to spawn for a team. */
     public static class UnitWave {
         public final UnitType type;
         public final int count;
