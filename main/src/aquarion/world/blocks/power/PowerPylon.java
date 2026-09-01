@@ -8,6 +8,7 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Angles;
+import arc.math.Mat;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
 import arc.math.geom.Vec2;
@@ -16,6 +17,8 @@ import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Time;
+import arc.util.Tmp;
+import aquarion.world.graphics.WaterReflections;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.Team;
 import mindustry.gen.Building;
@@ -309,6 +312,12 @@ public class PowerPylon extends PowerNode {
 
             Draw.z(Layer.power);
 
+            Mat saved = null; // ñ
+            if(WaterReflections.captureReflections){
+                saved = new Mat().set(Draw.trans());
+                Draw.trans(Tmp.m2.setToTranslation(0f, -2f * WaterReflections.reflectionGroundGap));
+            }
+
             for(int i = 0; i < power.links.size; i++){
                 Draw.alpha(laserOpacity);
                 Building link = world.build(power.links.get(i));
@@ -340,6 +349,7 @@ public class PowerPylon extends PowerNode {
             }
 
             Draw.reset();
+            if(saved != null) Draw.trans(saved);
         }
 
         protected boolean linked(Building other){

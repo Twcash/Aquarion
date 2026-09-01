@@ -31,6 +31,7 @@ public class AquaShaders {
     public static @Nullable MonsoonShader monsoon;
     public static @Nullable PodShader neoplasiaPodShader;
     public static @Nullable deflectorShader deflectorShield;
+    public static WaterReflectShader waterReflect;
     public static CacheLayer.ShaderLayer lavalLayer, slavaLayer, petroleumLayer, sslagLayer, brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer, sslagLayer2,
             wetUnderLayer;
     public static Fi file(String name){
@@ -50,6 +51,9 @@ public static void init() {
     neoplasiaBaseShader = new SurfaceShader("neoplasiaBase");
     neoplasiaPodShader = new PodShader("neoplasiaPods");
 
+    waterReflect = new WaterReflectShader();
+    ((CacheLayer.ShaderLayer)CacheLayer.water).shader = waterReflect;
+
     shadow = new SurfaceShader("shadow");
     heat = new SurfaceShader("heat");
     monsoon = new MonsoonShader();
@@ -62,7 +66,7 @@ public static void init() {
     brineLayer = new CacheLayer.ShaderLayer(brine);
     sslagLayer = new CacheLayer.ShaderLayer(shallowSlag);
     sslagLayer2 = new LiquidUnderFloorLayer(Shaders.slag, Color.valueOf("ff8142"), "molten-slag");
-    wetUnderLayer = new LiquidUnderFloorLayer(Shaders.water, Color.valueOf("4d5ca4"), "deep-water");
+    wetUnderLayer = new LiquidUnderFloorLayer(waterReflect, Color.valueOf("4d5ca4"), "deep-water");
     slavaLayer = new CacheLayer.ShaderLayer(shallowLava);
     lavalLayer = new CacheLayer.ShaderLayer(lava);
     heatLayer = new CacheLayer.ShaderLayer(heat);
@@ -89,6 +93,7 @@ public static void init() {
             petroleum.dispose();
             shallowLava.dispose();
             shallowSlag.dispose();
+            waterReflect.dispose();
             neoplasiaBaseShader.dispose();
             neoplasiaPodShader.dispose();
             PlanetShadowMap.dispose();
@@ -389,6 +394,22 @@ public static void init() {
             setUniformf("u_camdir", camDir);
             setUniformf("u_campos", renderer.planets.cam.position);
             setUniformf("u_emissive", emissive ? 1f : 0f);
+        }
+    }
+    public static class WaterReflectShader extends SurfaceShader {
+        public WaterReflectShader() {
+            super("water");
+        }
+        //see https://en.wikipedia.org/wiki/Reflection_(mathematics) if you don't know how the hell reflections works
+        @Override
+        public void apply() {
+            super.apply();
+            if (WaterReflections.buffer != null) {
+                WaterReflections.buffer.getTexture().bind(1);
+                setUniformi("u_reflection", 1);
+                setUniformf("u_refTint", WaterReflections.refTint.r, WaterReflections.refTint.g, WaterReflections.refTint.b, 0.42f);
+                setUniformf("u_refOpacity", 0.9f);
+            }
         }
     }
     public static class MonsoonShader extends SurfaceShader {
