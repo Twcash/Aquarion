@@ -1,5 +1,6 @@
 package aquarion.world.blocks.effect;
 
+import aquarion.annotations.Annotations;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -22,7 +23,7 @@ import mindustry.world.Block;
 public class ResearchVoider extends Block {
     public float processRate = 1f;
     public float processTime = 600;
-    public TextureRegion softGlowRegion;
+    public @Annotations.Load("circle-shadow") TextureRegion softGlowRegion;
     Rand rand = new Rand();
 
     public ResearchVoider(String name) {
@@ -32,12 +33,6 @@ public class ResearchVoider extends Block {
         update = true;
         hasPower = true;
         solid = true;
-    }
-
-    @Override
-    public void load() {
-        super.load();
-        softGlowRegion = Core.atlas.find("circle-shadow");
     }
 
     public class ResearchVoiderBuild extends Building {

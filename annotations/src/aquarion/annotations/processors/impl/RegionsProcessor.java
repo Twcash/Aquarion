@@ -101,7 +101,7 @@ public class RegionsProcessor extends BaseProcessor{
 							depth.toString(),
 							cName(Core.class),
 							parse(annotation.value()),
-							parse(annotation.fallBack())
+							parse(annotation.fallback())
 					);
 
 					for(int i = 0; i < annotation.lengths().length; i++){

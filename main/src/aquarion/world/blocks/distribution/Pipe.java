@@ -1,5 +1,6 @@
 package aquarion.world.blocks.distribution;
 
+import aquarion.annotations.Annotations;
 import aquarion.ui.LiquidBar;
 import aquarion.world.content.LiquidReactions;
 import aquarion.world.content.LiquidUtil;
@@ -29,8 +30,7 @@ public class Pipe extends LiquidRouter implements Autotiler {
     public static final int maxBubbles = 6;
     private static final Rand rand = new Rand();
     public TextureRegion[][][] topRegions;
-    public TextureRegion[][] liquidRegions;
-    public TextureRegion bottomRegion;
+    public @Annotations.Load("@-bottom") TextureRegion bottomRegion;
     //I think this is the second time I've ever just blatantly stole from a mod
     public static final int[][] blendIndices = {
             //Labeled these bc there's no way I'm remembering this
@@ -95,8 +95,6 @@ public class Pipe extends LiquidRouter implements Autotiler {
         for(int i = 0; i < blendIndices.length; i++){
             regions[blendIndices[i][0]][blendIndices[i][1]] = Core.atlas.find(name + "-top-" + (i + 1));
         }
-        bottomRegion = Core.atlas.find(name + "-bottom");
-
         topRegions = new TextureRegion[4][2][Liquid.animationFrames];
 
         rotateRegions = new TextureRegion[4][2][Liquid.animationFrames];
