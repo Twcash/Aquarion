@@ -33,8 +33,11 @@ public class GerbInfantryAI extends GroundAI {
 
     float decisionTimer = Mathf.random(120f);
     float recentDamage = 0f;
-    /** Per-unit lean so squadmates don't all pick the same play. */
-    final float personality = Mathf.random(0.3f, 0.7f);
+    /** Per-unit personality (higher = bolder, lower = skittish). */
+    final float personality = Mathf.random(0.2f, 0.8f);
+    /** Frames since the unit last took a hit; drives "under fire" reactions. */
+    float stimulusTimer = 0f;
+    float lastHealth = 0f;
 
     float tacticTime = 0f;
     static final float decisionInterval = 60f;
@@ -44,11 +47,9 @@ public class GerbInfantryAI extends GroundAI {
     /** How close units must be to share one squad decision. */
     static final float squadRadius = tilesize * 32f;
 
-    enum Tactic { ADVANCE, RETREAT, REGROUP, FLANK, HOLD, COWER }
+    enum Tactic { ADVANCE, RETREAT, REGROUP, FLANK, HOLD, COWER, COVER }
     Tactic tactic = Tactic.ADVANCE;
     Tactic lastTactic = null;
-    /** The squad's shared call, set by the squad leader and copied by everyone else. */
-    Tactic squadCall = Tactic.ADVANCE;
 
     float flankAngle = 0f;
     /** This unit's personal approach lane, re-rolled at the start of each route. */
@@ -89,27 +90,15 @@ public class GerbInfantryAI extends GroundAI {
         tacticTime += Time.delta;
         soundTimer += Time.delta;
 
-        //squad-based decisions: the nearest lowest-id member calls it for the whole squad
-        Unit leader = squadLeader();
-        boolean leading = leader == unit;
-
-        if (leading) {
-            decisionTimer += Time.delta;
-            if (decisionTimer >= decisionInterval) {
-                decideTactic(core);
-                squadCall = tactic;
-                decisionTimer = 0f;
-            }
-        } else {
-            //squadmates follow the shared call instead of rolling their own
-            if (leader != null && leader.controller() instanceof GerbInfantryAI lai) {
-                tactic = lai.squadCall;
-            }
+        //individual decisions: every unit reacts to its own surroundings, staggered so they don't act in sync
+        decisionTimer += Time.delta;
+        if (decisionTimer >= decisionInterval + Mathf.random(-15f, 15f)) {
+            decideTactic(core);
             decisionTimer = 0f;
         }
 
-        //only the squad leader announces a call change
-        if (leading && tactic != lastTactic) {
+        //announce own call changes
+        if (tactic != lastTactic) {
             playTacticSound(tactic);
             lastTactic = tactic;
         }
@@ -117,7 +106,6 @@ public class GerbInfantryAI extends GroundAI {
         //Speaking
         maybeGroupChatter();
 
-        //TODO Possibly more variety/variance on existing ones...
         switch (tactic) {
             case ADVANCE -> doAdvance(core);
             case RETREAT -> doRetreat();
@@ -125,6 +113,7 @@ public class GerbInfantryAI extends GroundAI {
             case FLANK -> doFlank(core);
             case HOLD -> doHold();
             case COWER -> doCower();
+            case COVER -> doCover();
         }
 
         handleStuck(stuckThreshold);
@@ -283,6 +272,11 @@ public class GerbInfantryAI extends GroundAI {
         if (enemy != null) {
             unit.lookAt(enemy);
             engage(enemy);
+            //under fire: break contact aim with a short sidestep
+            if (stimulusTimer > 0f && unit.vel().len() < 2f) {
+                Tmp.v1.set(enemy).add(Tmp.v2.trns(unit.angleTo(enemy) + 90f * (unit.id % 2 == 0 ? 1 : -1), unit.range() * 0.5f));
+                pathMoveTo(Tmp.v1, unit.range() * 0.3f, false);
+            }
         } else {
             Building block = Vars.indexer.findEnemyTile(unit.team, unit.x, unit.y, unit.range(), b -> b.block != null && b.team != unit.team);
             if (block != null && block.isValid()) {
@@ -294,6 +288,66 @@ public class GerbInfantryAI extends GroundAI {
                 pathfind(Pathfinder.fieldCore, true, stuckTime > 20f);
             }
         }
+    }
+
+    /** Takes cover behind the nearest solid wall on the far side from the threat. */
+    void doCover() {
+        Unit threat = Units.closestEnemy(unit.team, unit.x, unit.y, 200f, u -> true);
+        float away = threat == null ? unit.rotation + 180f : unit.angleTo(threat) + 180f;
+
+        Tile best = null;
+        float bestD = Float.MAX_VALUE;
+        int cx = unit.tileX(), cy = unit.tileY();
+
+        for (int dx = -6; dx <= 6; dx++) {
+            for (int dy = -6; dy <= 6; dy++) {
+                Tile t = world.tile(cx + dx, cy + dy);
+                if (t == null || !t.solid()) continue;
+                //only walls that sit between us and the threat
+                float ang = unit.angleTo(t.worldx(), t.worldy());
+                if (Math.abs(Angles.angleDist(ang, away)) > 100f) continue;
+                float d = dx * dx + dy * dy;
+                if (d < bestD) {
+                    bestD = d;
+                    best = t;
+                }
+            }
+        }
+
+        if (best != null) {
+            //hide just behind the wall, opposite the threat
+            if (threat != null) {
+                float behind = Angles.angle(best.worldx() - threat.x, best.worldy() - threat.y);
+                Tmp.v1.set(best.worldx(), best.worldy())
+                    .add(Angles.trnsx(behind, tilesize * 1.5f), Angles.trnsy(behind, tilesize * 1.5f));
+            } else {
+                Tmp.v1.set(best.worldx(), best.worldy() - tilesize * 2f);
+            }
+            pathMoveTo(Tmp.v1, tilesize, false);
+            if (threat != null && unit.within(threat, unit.range())) {
+                engage(threat);
+            }
+        } else {
+            //nothing to hide behind - just pull back a step
+            doRetreat();
+        }
+    }
+
+    /** Whether a solid wall sits between this unit and the nearest threat. */
+    boolean hasCoverNearby() {
+        Unit threat = Units.closestEnemy(unit.team, unit.x, unit.y, 160f, u -> true);
+        float away = threat == null ? unit.rotation + 180f : unit.angleTo(threat) + 180f;
+        int cx = unit.tileX(), cy = unit.tileY();
+
+        for (int dx = -4; dx <= 4; dx++) {
+            for (int dy = -4; dy <= 4; dy++) {
+                Tile t = world.tile(cx + dx, cy + dy);
+                if (t == null || !t.solid()) continue;
+                float ang = unit.angleTo(t.worldx(), t.worldy());
+                if (Math.abs(Angles.angleDist(ang, away)) < 105f) return true;
+            }
+        }
+        return false;
     }
 
     void doCower() {
@@ -320,38 +374,56 @@ public class GerbInfantryAI extends GroundAI {
 
     void decideTactic(Building core) {
         float hp = unit.healthf();
-        int allies = Groups.unit.count(u -> u.team == unit.team && u.within(unit, 100f));
-        int enemies = Groups.unit.count(u -> u.team != unit.team && u.within(unit, 120f));
+        int allies = Groups.unit.count(u -> u.team == unit.team && !u.dead() && u.within(unit, 100f));
+        int enemies = Groups.unit.count(u -> u.team != unit.team && !u.dead() && u.within(unit, 120f));
+        int closeEnemies = Groups.unit.count(u -> u.team != unit.team && !u.dead() && u.within(unit, 40f));
+        boolean hit = stimulusTimer > 0f;
+        boolean turretWall = heavyDefenseAhead();
+        float bold = personality, timid = 1f - personality;
 
-        float retreatChance = 0f, regroupChance = 0f, flankChance = 0f, holdChance = 0f, cowerChance = 0.05f;
+        float coverChance = 0f, retreatChance = 0f, flankChance = 0f, holdChance = 0f, cowerChance = 0f;
 
-        //personal lean so the whole squad doesn't do the exact same thing at once
-        flankChance += (personality - 0.5f) * 0.5f;
-        regroupChance += Mathf.random(-0.15f, 0.15f);
-        cowerChance += Mathf.random(-0.05f, 0.05f);
+        //stimulus: catching fire and hurt, with a wall nearby -> duck behind it
+        if (hit && hp < 0.8f && hasCoverNearby()) {
+            coverChance += 0.5f + timid * 0.35f;
+            if (hp < 0.45f) coverChance += 0.25f;
+        }
 
-        if (hp < 0.4f) retreatChance += 0.5f;
-        if (recentDamage > 30f) retreatChance += 0.3f;
-        if (enemies > allies * 2) retreatChance += 0.3f;
+        //stimulus: badly hurt -> fall back and let tougher allies take point
+        if (hit && hp < 0.38f) {
+            retreatChance += 0.5f + timid * 0.4f;
+        }
+        if (closeEnemies > allies + 1 && hp < 0.6f) {
+            retreatChance += 0.25f;
+        }
 
-        if (allies >= 3 && enemies > 1) regroupChance += 0.4f;
-        if (allies >= 4 && enemies <= allies) flankChance += 0.3f;
-        if (core != null && unit.within(core, unit.range() / 1.3f)) holdChance += 0.4f;
+        //map: a wall of turrets ahead -> swing around it
+        if (turretWall) {
+            flankChance += 0.45f + bold * 0.3f;
+            if (hp < 0.6f) flankChance += 0.2f;
+        }
 
-        //big turret line ahead - prefer to go around it
-        if (heavyDefenseAhead()) flankChance += 0.7f;
+        //stimulus: enemy in range -> fight from this position
+        boolean inContact = (core != null && unit.within(core, unit.range() * 1.15f)) || closeEnemies > 0;
+        if (inContact) {
+            holdChance += 0.55f;
+            if (bold > 0.6f) holdChance += 0.3f;
+            else if (timid > 0.6f && hit) retreatChance += 0.25f;
+            if (enemies <= allies && hit) holdChance += 0.2f;
+        }
 
-        if (hp < 0.5f) cowerChance += 0.2f;
-        if (recentDamage > 20f) cowerChance += 0.15f;
-        if (Groups.unit.contains(u -> u.team == unit.team && u.maxHealth > unit.maxHealth * 1.5f && u.within(unit, 80f)))
-            cowerChance += 0.2f;
+        //stimulus: scared and protected -> cower behind the heavy
+        Unit threat = Units.closestEnemy(unit.team, unit.x, unit.y, 160f, u -> true);
+        if (hp < 0.65f && findStrongerAlly(threat) != null) {
+            cowerChance += 0.25f + timid * 0.15f;
+        }
 
         float roll = Mathf.random();
-        if (roll < retreatChance) tactic = Tactic.RETREAT;
-        else if (roll < retreatChance + regroupChance) tactic = Tactic.REGROUP;
-        else if (roll < retreatChance + regroupChance + flankChance) tactic = Tactic.FLANK;
-        else if (roll < retreatChance + regroupChance + flankChance + holdChance) tactic = Tactic.HOLD;
-        else if (roll < retreatChance + regroupChance + flankChance + holdChance + cowerChance) tactic = Tactic.COWER;
+        if (roll < coverChance) tactic = Tactic.COVER;
+        else if (roll < coverChance + retreatChance) tactic = Tactic.RETREAT;
+        else if (roll < coverChance + retreatChance + flankChance) tactic = Tactic.FLANK;
+        else if (roll < coverChance + retreatChance + flankChance + holdChance) tactic = Tactic.HOLD;
+        else if (roll < coverChance + retreatChance + flankChance + holdChance + cowerChance) tactic = Tactic.COWER;
         else tactic = Tactic.ADVANCE;
 
         tacticTime = 0f;
@@ -401,6 +473,13 @@ public class GerbInfantryAI extends GroundAI {
         float dmg = unit.maxHealth - unit.health;
         if (dmg > recentDamage) recentDamage = dmg;
         recentDamage *= 0.98f;
+
+        //stimulus: remember that we just took a hit (stays hot for ~2 seconds)
+        if (unit.health < lastHealth) {
+            stimulusTimer = 120f;
+        }
+        lastHealth = unit.health;
+        if (stimulusTimer > 0f) stimulusTimer -= Time.delta;
     }
 
     /**
@@ -578,6 +657,7 @@ public class GerbInfantryAI extends GroundAI {
             case FLANK -> AquaSounds.hold.at(unit.x, unit.y,1-Mathf.random(0,.3f), 0.4f-Mathf.random(0,.3f));
             case HOLD -> AquaSounds.hold.at(unit.x, unit.y,1-Mathf.random(0,.3f), .4f-Mathf.random(0,.3f));
             case COWER -> AquaSounds.retreat.at(unit.x, unit.y, 1-Mathf.random(0,.3f),0.4f-Mathf.random(0,.3f));
+            case COVER -> AquaSounds.hold.at(unit.x, unit.y,1-Mathf.random(0,.3f), .4f-Mathf.random(0,.3f));
         }
     }
 
