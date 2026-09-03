@@ -1306,6 +1306,28 @@ public class AquaFx {
                 blend();
                 Draw.reset();
             }).layer(Layer.groundUnit - 0.1f),
+            mtruckDeath = new Effect(  120f, e -> {
+                TextureRegion reg = Core.atlas.find("aquarion-medium-truck-corpse");
+                float fadeStart = 0.8f;
+                float alpha;
+
+                if (e.fin() < fadeStart) {
+                    alpha = 1f;
+                } else {
+                    alpha = 1f - (e.fin() - fadeStart) / (1f - fadeStart);
+                }
+
+                color(e.color, Interp.pow10Out.apply(e.fin()));
+                rand.setSeed(e.id);
+                Draw.xscl = (Mathf.randomSeed(e.id, (int)(0), (int)(0)) == 1) ? 1 : -1;
+                Draw.rect(reg, e.x, e.y, e.rotation+180);
+                color(e.color, Interp.pow10Out.apply(e.fin()));
+                Draw.alpha(-alpha);
+                color(e.color, Color.valueOf("f9ffe7"), Interp.pow10In.apply(e.fin()));
+                Draw.rect(reg, e.x, e.y, e.rotation+180);
+                blend();
+                Draw.reset();
+            }).layer(Layer.groundUnit - 0.1f),
             ltruckExplosion = new Effect(65, e->{
                 color(Color.white, Pal.techBlue, e.fin());
                 alpha(e.fout());

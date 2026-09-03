@@ -81,7 +81,7 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}, serialize = false) DefunctUnitType endure;
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify;
     public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
-    public static UnitType visitor, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
+    public static UnitType visitor, mediumTruck, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
     public static UnitType engineer;
     //core units and transport
 
@@ -2928,6 +2928,11 @@ public class AquaUnitTypes {
             armor = 5f;
             drawCell = false;
             deathExplosionEffect = new SeqEffect(AquaFx.ltruckDeath);
+            //https://twcash.github.io/Tread-Slicer/
+            treadRects = new Rect[] {
+                    new Rect(14f, -30f, 18, 18),
+                    new Rect(14f, 18f, 18, 17)
+            };
             weapons.add(new Weapon("aquarion-gerb-light-autocannon"){{
                 rotate = true;
                 x = 0;
@@ -2955,6 +2960,67 @@ public class AquaUnitTypes {
                     width = 8;
                     pierceCap = 2;
                     pierceBuilding = true;
+                    hitEffect = Fx.hitBulletBig;
+                    height = 14;
+                }};
+            }});
+        }};
+        mediumTruck = new TankUnitType("medium-truck"){{
+            constructor = TankUnit::create;
+            speed = 0.45f;
+            rotateSpeed = 0.9f;
+            outlineColor = Color.valueOf("1b241e");
+            crushFragile = true;
+            crushDamage = 1f;
+            health = 1200;
+            armor = 8f;
+            drawCell = false;
+            deathExplosionEffect = new SeqEffect(AquaFx.mtruckDeath);
+            //https://twcash.github.io/Tread-Slicer/
+            treadRects = new Rect[] {
+                    new Rect(26f, -59.5f, 22, 36),
+                    new Rect(24f, 31.5f, 24, 23)
+            };
+            weapons.add(new Weapon("aquarion-medium-truck-turret"){{
+                rotate = true;
+                x = 0;
+                y = 0;
+                mirror = false;
+                reload = 20;
+                shoot = new ShootAlternate(64/4f);
+                shootY = 84f/2f/4f;
+                recoil = 1;
+                inaccuracy = 4;
+                recoilTime = 30;
+                recoils = 2;
+                rotateSpeed = 0.8f;
+                shadow = 4;
+                shootSound = Sounds.shootTank;
+                parts.addAll(new RegionPart("-barrel"){{
+                    under = true;
+                    recoilIndex = 0;
+                    moveY = -4;
+                    heatProgress = PartProgress.recoil;
+                    progress = PartProgress.recoil.curve(Interp.pow2In);
+                }},new RegionPart("-barrel2"){{
+                    under = true;
+                    recoilIndex = 1;
+                    moveY = -4;
+                    heatProgress = PartProgress.recoil;
+                    progress = PartProgress.recoil.curve(Interp.pow2In);
+                }});
+                bullet = new BasicBulletType(8, 70){{
+                    lifetime = 20;
+                    shootEffect = Fx.shootBigColor;
+                    smokeEffect = Fx.shootBigSmoke;
+                    frontColor = Color.white;
+                    backColor = trailColor = Pal.gray;
+                    homingPower = 0.01f;
+                    splashDamage = 30;
+                    splashDamageRadius = 24;
+                    trailLength = 14;
+                    trailWidth = 2;
+                    width = 8;
                     hitEffect = Fx.hitBulletBig;
                     height = 14;
                 }};
