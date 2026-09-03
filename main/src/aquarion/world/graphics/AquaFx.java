@@ -1326,20 +1326,6 @@ public class AquaFx {
                 Draw.rect(reg, e.x, e.y, e.rotation+180);
                 Draw.reset();
             }).layer(Layer.scorch - 0.1f),
-            ltruckExplosion = new Effect(65, e->{
-                color(Color.white, Pal.techBlue, e.fin());
-                alpha(e.fout());
-                randLenVectors(e.id, 12, 7+Interp.circleOut.apply(e.finpow()) * 20, 0 + e.rotation, 180, (x, y) -> {
-                    Fill.circle(e.x + x - 27 / 4f, e.y + y - 66 / 4f, 4.5f * e.fin());
-                });
-            }),
-            shootPoint = new Effect(30f, e -> {
-                color(Pal.lighterOrange, Color.valueOf("1f1c19"), Color.valueOf("0f0d0b"), e.fin());
-
-                randLenVectors(e.id, 9, e.finpow() * 14f, e.rotation, 44f, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 4.5f);
-                });
-            }),
             shootSmoke1 = new Effect(30f, e -> {
                 color(Pal.lighterOrange, Color.valueOf("1f1c19"), Color.valueOf("0f0d0b"), e.fin());
 
