@@ -606,9 +606,10 @@ public class MenuBackgroundSheet extends MenuBackground {
         }
 
         //point the game camera at the whole map and render it with the normal world pipeline
-        float scaling = Math.max(Core.graphics.getWidth() * camW, Core.graphics.getHeight() * camH);
         Core.camera.position.set(camX, camY);
-        Core.camera.resize(Core.graphics.getWidth() / scaling, Core.graphics.getHeight() / scaling);
+        float aspect = Core.graphics.getWidth() > 0 && Core.graphics.getHeight() > 0
+            ? (float)Core.graphics.getWidth() / Core.graphics.getHeight() : 1f;
+        Core.camera.resize(Math.max(camW, camH * aspect), Math.max(camH, camW / aspect));
         Core.camera.update();
 
         renderWorld();

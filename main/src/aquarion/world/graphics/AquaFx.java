@@ -1262,6 +1262,28 @@ public class AquaFx {
                 Draw.alpha(1f);
                 Draw.reset();
             }).layer(Layer.groundUnit - 1f),
+            droppod = new Effect(  240f, e -> {
+                TextureRegion reg = Core.atlas.find("aquarion-drop-pod-vanguard");
+                float fadeStart = 0.8f;
+                float alpha;
+
+                if (e.fin() < fadeStart) {
+                    alpha = 1f;
+                } else {
+                    alpha = 1f - (e.fin() - fadeStart) / (1f - fadeStart);
+                }
+
+                color(e.color, Interp.pow10Out.apply(e.fin()));
+                rand.setSeed(e.id);
+                Draw.xscl = (Mathf.randomSeed(e.id, (int)(0), (int)(0)) == 1) ? 1 : -1;
+                Draw.rect(reg, e.x, e.y, e.rotation+180);
+                color(e.color, Interp.pow10Out.apply(e.fin()));
+                Draw.alpha(-alpha);
+                color(e.color, Color.valueOf("f9ffe7"), Interp.pow10In.apply(e.fin()));
+                Draw.rect(reg, e.x, e.y, e.rotation+180);
+                blend();
+                Draw.reset();
+            }).layer(Layer.legUnit + 0.1f),
             ltruckDeath = new Effect(  120f, e -> {
                 TextureRegion reg = Core.atlas.find("aquarion-gerb-ltruck-corpse");
                 float fadeStart = 0.8f;
@@ -1279,7 +1301,6 @@ public class AquaFx {
                 Draw.rect(reg, e.x, e.y, e.rotation+180);
                 color(e.color, Interp.pow10Out.apply(e.fin()));
                 Draw.alpha(-alpha);
-                blend(Blending.additive);
                 color(e.color, Color.valueOf("f9ffe7"), Interp.pow10In.apply(e.fin()));
                 Draw.rect(reg, e.x, e.y, e.rotation+180);
                 blend();

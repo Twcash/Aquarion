@@ -2,6 +2,7 @@ package aquarion.content;
 
 //import aquarion.gen.AquaLegsUnit;
 import aquarion.annotations.Annotations;
+import aquarion.gen.DropShipc;
 import aquarion.gen.FlyingDialogueUnitc;
 import aquarion.gen.JetUnitc;
 import aquarion.gen.DialogueUnitc;
@@ -10,6 +11,7 @@ import aquarion.units.abilities.DamageStateEffectAbility;
 import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.type.AquaUnitType;
 import aquarion.world.AI.DroneAI;
+import aquarion.world.AI.GerbEngineerAI;
 import aquarion.world.AI.GerbInfantryAI;
 import aquarion.world.AI.PopperAI;
 import aquarion.world.AI.SpewerAI;
@@ -21,10 +23,12 @@ import aquarion.world.entities.parts.EnginePart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.units.newTankUnitType;
+import arc.Core;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Rect;
@@ -76,8 +80,9 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, JetUnitc.class}, serialize = false) UnitType martyr;
     public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}, serialize = false) DefunctUnitType endure;
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify;
-
-    public static UnitType visitor, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
+    public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
+    public static UnitType visitor, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
+    public static UnitType engineer;
     //core units and transport
 
     public static UnitType
@@ -2699,6 +2704,30 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
+        engineer = new UnitType("engineer"){
+            {
+                constructor = LegsUnit::create;
+                legCount = 4;
+                legLength = 9;
+                legMinLength = 0.9f;
+                legMaxLength = 1.1f;
+                legContinuousMove = true;
+                legExtension = 1;
+                legGroupSize = 2;
+                legPairOffset = 1;
+                legMoveSpace = 1.1f;
+                speed = 1.0f;
+                rotateSpeed = 4f;
+                health = 600;
+                armor = 2;
+                outlineColor = Color.valueOf("1b241e");
+                drawCell = false;
+                itemCapacity = 50;
+                buildSpeed = 0.2f;
+                buildRange = 120;
+                aiController = GerbEngineerAI::new;
+            }
+        };
         concussor = new UnitType("gerb-concussor"){{
             constructor = LegsUnit::create;
             legCount = 6;
@@ -3112,6 +3141,181 @@ public class AquaUnitTypes {
                         height = 14;
                     }};
                 }});
+        }};
+        triumph = new AquaUnitType("triumph"){{
+            hitSize = 30;
+            lowAltitude = true;
+            drawCell = false;
+            flying = true;
+            speed = 0.6f;
+            armor = 10;
+            outlineColor = Color.valueOf("1b241e");
+            strafePenalty = 0.2f;
+            accel = 0.09f;
+            drag = 0.06f;
+            rotateSpeed = 0.8f;
+            constructor = UnitEntity::create;
+            health = 12000;
+            rotateMoveFirst = true;
+            weapons.addAll(new Weapon("aquarion-gerb-autocannon"){
+                {
+                    rotate = true;
+                    x = 75/4f;
+                    y = -75/4f;
+                    mirror = true;
+                    reload = 60;
+                    recoil = 3;
+                    recoilTime = 30;
+                    rotationLimit = 90;
+                    rotateSpeed = 0.9f;
+                    shootStatus = StatusEffects.slow;
+                    shootStatusDuration = 50;
+                    shootSound = Sounds.shootTank;
+                    bullet = new BasicBulletType(8, 80) {{
+                        lifetime = 20;
+                        shootEffect = Fx.shootBigColor;
+                        smokeEffect = Fx.shootBigSmoke;
+                        frontColor = Color.white;
+                        backColor = trailColor = Pal.gray;
+                        homingPower = 0.01f;
+                        splashDamage = 25;
+                        splashDamageRadius = 24;
+                        trailLength = 14;
+                        trailWidth = 2;
+                        width = 8;
+                        pierceCap = 2;
+                        pierceBuilding = true;
+                        hitEffect = Fx.hitBulletBig;
+                        height = 14;
+                    }};
+                }},new Weapon("aquarion-gerb-autocannon"){
+                {
+                    rotate = true;
+                    x = 41/4f;
+                    mirror = true;
+                    reload = 60;
+                    recoil = 3;
+                    recoilTime = 30;
+                    rotationLimit = 90;
+                    rotateSpeed = 0.9f;
+                    shootStatus = StatusEffects.slow;
+                    shootStatusDuration = 50;
+                    shootSound = Sounds.shootTank;
+                    bullet = new BasicBulletType(8, 80) {{
+                        lifetime = 20;
+                        shootEffect = Fx.shootBigColor;
+                        smokeEffect = Fx.shootBigSmoke;
+                        frontColor = Color.white;
+                        backColor = trailColor = Pal.gray;
+                        homingPower = 0.01f;
+                        splashDamage = 25;
+                        splashDamageRadius = 24;
+                        trailLength = 14;
+                        trailWidth = 2;
+                        width = 8;
+                        pierceCap = 2;
+                        pierceBuilding = true;
+                        hitEffect = Fx.hitBulletBig;
+                        height = 14;
+                    }};
+                }},new Weapon("aquarion-gerb-medium-autocannon"){
+                {
+                    rotate = true;
+                    x = 0;
+                    y = -90/4f;
+                    mirror = false;
+                    reload = 60;
+                    recoil = 3;
+                    recoilTime = 30;
+                    rotationLimit = 90;
+                    rotateSpeed = 0.7f;
+                    shootStatus = StatusEffects.slow;
+                    shootStatusDuration = 90;
+                    shootSound = Sounds.shootTank;
+                    bullet = new BasicBulletType(6, 120) {{
+                        lifetime = 30;
+                        shootEffect = Fx.shootBigColor;
+                        smokeEffect = Fx.shootBigSmoke;
+                        frontColor = Color.white;
+                        backColor = trailColor = Pal.gray;
+                        homingPower = 0.01f;
+                        splashDamage = 50;
+                        splashDamageRadius = 32;
+                        trailLength = 14;
+                        trailWidth = 3;
+                        width = 12;
+                        pierceCap = 2;
+                        pierceBuilding = true;
+                        hitEffect = Fx.hitBulletBig;
+                        height = 20;
+                    }};
+                }});
+        }};
+        vanguard = new AquaUnitType("vanguard"){{
+            rotateSpeed = 3.2f;
+            hitSize = 44;
+            lowAltitude = true;
+            drawCell = false;
+            flying = true;
+            rotateMoveFirst = true;
+            engineColor = Pal.techBlue;
+            engineOffset = (float) 413 /2/4f;
+            setEnginesMirror(new UnitEngine(){{
+                x = 202f/2f/4f;
+                y = -380f/2f/4f;
+                radius = 4;
+                rotation = -90;
+            }},new UnitEngine(){{
+                x = 202f/2f/4f;
+                y = -220f/2f/4f;
+                radius = 4;
+                rotation = 90;
+            }});
+            engineSize = 6;
+            dropCrew = new UnitType[]{infantry, infantry, infantry, infantry,infantry, infantry, infantry, infantry,infantry, infantry, infantry, infantry, concussor, concussor, lightTruck, lightTruck, breaker};
+            landDamage = 700;
+            landRange = 40;
+            speed = 0.33f;
+            outlineColor = Color.valueOf("1b241e");
+            strafePenalty = 0.2f;
+            accel = 0.08f;
+            drag = 0.06f;
+            rotateSpeed = 0.8f;
+            constructor = UnitEntity::create;
+            health = 7000;
+            weapons.addAll(
+                    new Weapon("aquarion-gerb-autocannon"){
+                        {
+                            rotate = true;
+                            x = 102/4f;
+                            y = 20/4f;
+                            mirror = true;
+                            reload = 60;
+                            recoil = 3;
+                            recoilTime = 30;
+                            rotateSpeed = 0.9f;
+                            layerOffset = 2;
+                            shootStatus = StatusEffects.slow;
+                            shootStatusDuration = 50;
+                            shootSound = Sounds.shootTank;
+                            bullet = new BasicBulletType(8, 80) {{
+                                lifetime = 20;
+                                shootEffect = Fx.shootBigColor;
+                                smokeEffect = Fx.shootBigSmoke;
+                                frontColor = Color.white;
+                                backColor = trailColor = Pal.gray;
+                                homingPower = 0.01f;
+                                splashDamage = 25;
+                                splashDamageRadius = 24;
+                                trailLength = 14;
+                                trailWidth = 2;
+                                width = 8;
+                                pierceCap = 2;
+                                pierceBuilding = true;
+                                hitEffect = Fx.hitBulletBig;
+                                height = 14;
+                            }};
+                        }});
         }};
         recoil = new ErekirUnitType("recoil"){{
             constructor = UnitEntity::create;
@@ -3584,6 +3788,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
+
         popper = new UnitType("popper"){{
             constructor = UnitEntity::create;
             flying = true;
