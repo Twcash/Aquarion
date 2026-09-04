@@ -1849,10 +1849,11 @@ public class AquaUnitTypes {
                         spawnUnit = new MissileUnitType("parasphendale-missile") {{
                             speed = 6f;
                             maxRange = 15f;
-                            health = 200;
+                            health = 350;
                             engineLayer = Layer.effect;
                             homingDelay = 10f;
                             lowAltitude = true;
+                            loopSound = Sounds.loopMissileTrail;
                             engineSize = 3f;
                             loopSoundVolume = 0.1f;
                             weapons.add(new Weapon() {{
@@ -1860,22 +1861,23 @@ public class AquaUnitTypes {
                                 mirror = false;
                                 reload = 1f;
                                 shootOnDeath = true;
-                                bullet = new ExplosionBulletType(600, 85f) {{
+                                shootSound = Sounds.explosionMissile;
+                                bullet = new ExplosionBulletType(650, 95f) {{
                                     collidesAir = true;
                                     shootEffect = new ExplosionEffect() {{
-                                        lifetime = 50f;
-                                        waveStroke = 5f;
-                                        waveLife = 8f;
+                                        lifetime = 120f;
+                                        waveStroke = 9f;
+                                        waveLife = 30f;
                                         waveColor = Color.white;
                                         sparkColor = smokeColor = Color.valueOf("ff81a8");
-                                        waveRad = 40f;
-                                        smokeSize = 4f;
-                                        smokes = 7;
-                                        smokeSizeBase = 0f;
-                                        sparks = 10;
-                                        sparkRad = 40f;
-                                        sparkLen = 6f;
-                                        sparkStroke = 2f;
+                                        waveRad = 80f;
+                                        smokeSize = 8f;
+                                        smokes = 12;
+                                        smokeSizeBase = 4f;
+                                        sparks = 20;
+                                        sparkRad = 80f;
+                                        sparkLen = 9f;
+                                        sparkStroke = 4f;
                                     }};
                                 }};
                             }});
@@ -3917,24 +3919,7 @@ public class AquaUnitTypes {
             health = 250000;
             armor = 20;
             mechLegColor = outlineColor = Color.valueOf("24252d");
-            weapons.addAll(new Weapon("aquarion-knight-sword"){{
-                this.layerOffset = -.00012f;
-                x = -395f/2f/4f;
-                y = 90/4f/2f;
-                mirror = false;
-                rotate =true;
-                rotationLimit = 45;
-                recoil = -5f;
-                reload = 120f;
-                bullet = new EmptyBulletType(){{
-                    this.recoil = -50;
-                }};
-                parts.add(new ShaderPart(){{
-                    layerOffset = 0.001f;
-                    suffix = "-t";
-                    shader = AquaShaders.knight1;
-                }});
-            }},new Weapon("aquarion-knight-weapon"){{
+            weapons.addAll(new Weapon("aquarion-knight-weapon"){{
                 layerOffset = -0.00001f;
                 continuous = true;
                 recoil = 5;
@@ -3946,7 +3931,7 @@ public class AquaUnitTypes {
                 shoot.shotDelay = 1;
                 reload = 240;
                 shootY = 290f/2f/4f;
-                mirror = false;
+                mirror = true;
                 x = 395f/4f/2f;
                 y = 80/4f/2f;
                 shootSound = Sounds.shootConquer;

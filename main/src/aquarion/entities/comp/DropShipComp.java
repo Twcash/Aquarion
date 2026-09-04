@@ -17,8 +17,7 @@ import mindustry.type.UnitType;
 abstract class DropShipComp implements Unitc, Posc, ElevationMovec {
     //Do not use the standard UnitType with this component
     @Annotations.Import UnitType type;
-
-    @Annotations.Import float x, y, elevation, speedMultiplier;
+    @Annotations.Import float x, y, elevation, speedMultiplier, health, maxHealth;
     boolean didDrop = false;
     @Override
     public void update(){
@@ -28,7 +27,7 @@ abstract class DropShipComp implements Unitc, Posc, ElevationMovec {
             speedMultiplier = Mathf.approachDelta(speedMultiplier, 1f, 0.1f);
         }
         if(!onSolid() && !didDrop){
-            if(within(closestEnemyCore(), 300)) {
+            if(within(closestEnemyCore(), 300) || health <= maxHealth/2) {
                 elevation = Mathf.approachDelta(elevation, 0.1f, 0.005f);
                 speedMultiplier = Mathf.approachDelta(speedMultiplier, 0.1f, 0.01f);
                 if(elevation <= .2) {
