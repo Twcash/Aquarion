@@ -31,7 +31,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block initializationBay, concussorPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index;
+    public static Block initializationBay, concussorPad, infantryPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index;
 
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
