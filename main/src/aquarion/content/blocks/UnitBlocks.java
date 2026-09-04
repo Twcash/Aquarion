@@ -5,6 +5,7 @@ import aquarion.content.AquaSounds;
 import aquarion.content.AquaStatuses;
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.payload.InitializationBay;
+import aquarion.world.blocks.units.InfantryLandingPad;
 import aquarion.world.blocks.units.UnitBlock;
 import aquarion.world.blocks.units.UnitBlockStatusApplierThingWhat;
 import aquarion.world.graphics.AquaFx;
@@ -30,13 +31,31 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block initializationBay, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index;
+    public static Block initializationBay, concussorPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index;
+
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
 
     public static void loadContent() {
+        infantryPad = new InfantryLandingPad("infantry-landing-pad"){{
+            requirements(Category.units, with());
+            buildTime = 600;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            alwaysUnlocked = true;
+            spawnInterval = 15;
+            size = 5;
+        }};
+        concussorPad = new InfantryLandingPad("concussor-landing-pad"){{
+            requirements(Category.units, with());
+            buildTime = 600;
+            unitType = AquaUnitTypes.concussor;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            alwaysUnlocked = true;
+            spawnInterval = 20;
+            size = 5;
+        }};
         initializationBay = new InitializationBay("initialization-bay"){{
             requirements(Category.units, with(polymer, 500, ferricMatter, 300, silicon, 1500));
             buildVisibility = BuildVisibility.sandboxOnly;
@@ -162,11 +181,11 @@ public class UnitBlocks {
             destroySound = AquaSounds.start4;
         }};
         shatter = new UnitBlock("shatter-inactive") {{
-            requirements(Category.units, with(graphite, 120, metaglass, 250));
+            requirements(Category.units, with(graphite, 120, metaglass, 150, polymer, 50, silicon, 100));
             unit = AquaUnitTypes.shatter;
             size = 3;
-            consumePower(4);
-            time = 30 * 60;
+            consumePower(6);
+            time = 25 * 60;
             destroySound = AquaSounds.start;
         }};
         index = new UnitBlock("index-inactive") {{

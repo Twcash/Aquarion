@@ -1,5 +1,6 @@
 package aquarion.world.entities.parts;
 
+import arc.graphics.gl.Shader;
 import arc.math.Mathf;
 import arc.util.Log;
 import mindustry.entities.part.DrawPart;
@@ -10,9 +11,12 @@ public abstract class AquaPart {
 
     public static class AquaParams {
         public int team;
+        public Unit unit;
         public float fVel, bVel, lVel, rVel;
 
         public AquaParams set(Unit unit) {
+            this.unit = unit;
+            this.team = unit.team.id;
             float max = unit.type.speed;
             float v = unit.vel().len() / max;
 

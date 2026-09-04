@@ -5,6 +5,7 @@ import arc.files.Fi;
 import arc.graphics.Color;
 import arc.graphics.Pixmap;
 import arc.graphics.Texture;
+import arc.graphics.g2d.TextureRegion;
 import arc.graphics.gl.FrameBuffer;
 import arc.graphics.gl.Shader;
 import arc.math.geom.Vec3;
@@ -28,6 +29,7 @@ public class AquaShaders {
     public static PlanetShader planet;
     public static LightShader light;
     public static @Nullable SurfaceShader brine, petroleum, lava, shallowLava, shallowSlag, shadow, heat, glitch, neoplasiaBaseShader;
+    public static @Nullable PartRegionShader knight1;
     public static @Nullable MonsoonShader monsoon;
     public static @Nullable PodShader neoplasiaPodShader;
     public static @Nullable deflectorShader deflectorShield;
@@ -43,12 +45,12 @@ public static void init() {
     planet = new PlanetShader();
     PlanetShadowMap.init();
     brine = new SurfaceShader("brine");
+    knight1 = new PartRegionShader("knight1");
     lava = new SurfaceShader("lava");
     shallowSlag = new SurfaceShader("shallowSlag");
     shallowLava = new SurfaceShader("shallowLava");
     petroleum = new SurfaceShader("petroleum");
     neoplasiaBaseShader = new SurfaceShader("neoplasiaBase");
-    neoplasiaPodShader = new PodShader("neoplasiaPods");
 
     shadow = new SurfaceShader("shadow");
     heat = new SurfaceShader("heat");
@@ -91,6 +93,7 @@ public static void init() {
             shallowSlag.dispose();
             neoplasiaBaseShader.dispose();
             neoplasiaPodShader.dispose();
+            knight1.dispose();
             PlanetShadowMap.dispose();
         }
     }
@@ -173,6 +176,61 @@ public static void init() {
             }
         }
     }
+    public static class regionShader extends Shaders.LoadShader {
+        public float progress;
+        //Alpha changes the opacity of *everything*, while the provided batch color only changes the outline
+        public float alpha = 1f;
+        public TextureRegion region = new TextureRegion();
+        public float time;
+
+        public regionShader(){
+            super("blockbuild", "default");
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_time", time);
+            setUniformf("u_alpha", alpha);
+            if(region.texture == null){
+                setUniformf("u_uv", 0f, 0f);
+                setUniformf("u_uv2", 1f, 1f);
+                setUniformf("u_texsize", 1, 1);
+            }else{
+                setUniformf("u_uv", region.u, region.v);
+                setUniformf("u_uv2", region.u2, region.v2);
+                setUniformf("u_texsize", region.texture.width, region.texture.height);
+            }
+        }
+    }
+
+    public static class PartRegionShader extends Shaders.LoadShader {
+        public TextureRegion region = new TextureRegion();
+        public float time;
+        public float fade = 1f;
+
+        public PartRegionShader(String frag){
+            super(frag, "default");
+        }
+
+        public PartRegionShader setRegion(TextureRegion region){
+            this.region = region;
+            return this;
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_time", time);
+            setUniformf("u_fade", fade);
+            if(region.texture == null){
+                setUniformf("u_region", 0f, 0f, 1f, 1f);
+                setUniformf("u_regionSize", 1f, 1f);
+            }else{
+                setUniformf("u_region", region.u, region.v, region.u2, region.v2);
+                setUniformf("u_regionSize", region.width, region.height);
+            }
+        }
+    }
+
     public static class PodShader extends Shader {
         Texture noiseTex;
 
