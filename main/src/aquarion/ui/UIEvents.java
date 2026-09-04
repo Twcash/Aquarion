@@ -14,6 +14,7 @@ import mindustry.gen.Musics;
 public class UIEvents {
     private static Music musLast = null;
     public static boolean musEnabled = true;
+    public static boolean showingMusicInfo = false;
 
     public static final KeyBind showMusicBind = KeyBind.add("aquarion_show_music", KeyCode.f3, "Aquarion");
 
@@ -54,10 +55,20 @@ public class UIEvents {
         Timer.schedule(UIEvents::checkMusic, 1);
     }
 
-    public static void showCurrentMusic() {
+    public static void showCurrentMusic(){
+        showCurrentMusic(false);
+    }
+
+    public static void showCurrentMusic(boolean isKeyPressed) {
+        float delay = (isKeyPressed ? 0.5f : 0f);
+        if(isKeyPressed){
+            if(showingMusicInfo) return;
+            showingMusicInfo = true;
+            Timer.schedule(() -> showingMusicInfo = false, 4f + delay);
+        }
         Music curMus = ModMusic.getCurMusic();
         if (curMus == null) {
-            ModUI.showBottomToast(Core.bundle.get("aquarion.music.nothing"));
+            ModUI.showBottomToast(Core.bundle.get("aquarion.music.nothing"), null, 0f);
             return;
         }
         String musS = curMus.toString();
@@ -69,10 +80,10 @@ public class UIEvents {
             String finalIcon = getValidIcon(info.iconName);
             String message = Core.bundle.format("aquarion.music.now_playing", info.name, info.author);
 
-            ModUI.showBottomToast(message, finalIcon);
+            ModUI.showBottomToast(message, finalIcon, delay);
         } else {
             String message = Core.bundle.format("aquarion.music.now_playing_unknown", musS);
-            ModUI.showBottomToast(message, ModMusic.DEFAULT_ICON);
+            ModUI.showBottomToast(message, ModMusic.DEFAULT_ICON, delay);
         }
     }
 
@@ -82,7 +93,7 @@ public class UIEvents {
         if (!Vars.mobile) {
             arc.Events.run(mindustry.game.EventType.Trigger.update, () -> {
                 if (Core.input.keyTap(showMusicBind)) {
-                    showCurrentMusic();
+                    showCurrentMusic(true);
                 }
             });
         }
@@ -96,7 +107,7 @@ public class UIEvents {
                     b.add(Core.bundle.get("aquarion.music.button")).wrap().width(120f).center().labelAlign(arc.util.Align.center);
                 }, () -> {
                     Vars.ui.paused.hide();
-                    showCurrentMusic();
+                    showCurrentMusic(true);
                 }).size(140f).pad(4f);
             });
         }
