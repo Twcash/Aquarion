@@ -431,6 +431,11 @@ public class DefenseBlocks {
                 stroke(3f * e.fout());
                     Lines.poly(e.x, e.y, 4, 200, 0);
             });
+            //forceShrinkEffect = new Effect(40, e -> {
+            //                color(e.color);
+            //                stroke(3f * e.fout());
+            //                Lines.poly(e.x, e.y, 4, 200, 0);
+            //            });
         }};
 
     }
