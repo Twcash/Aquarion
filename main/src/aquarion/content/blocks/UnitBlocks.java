@@ -179,11 +179,11 @@ public class UnitBlocks {
             destroySound = AquaSounds.start4;
         }};
         shatter = new UnitBlock("shatter-inactive") {{
-            requirements(Category.units, with(graphite, 120, metaglass, 250));
+            requirements(Category.units, with(graphite, 120, metaglass, 150, polymer, 50, silicon, 100));
             unit = AquaUnitTypes.shatter;
             size = 3;
-            consumePower(4);
-            time = 30 * 60;
+            consumePower(6);
+            time = 25 * 60;
             destroySound = AquaSounds.start;
         }};
 //        castellan = new UnitBlock("castellan") {{

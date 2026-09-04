@@ -4,6 +4,7 @@ import aquarion.annotations.Annotations;
 import aquarion.gen.DropShipc;
 import aquarion.world.entities.parts.AquaPart;
 import aquarion.world.graphics.AquaFx;
+import aquarion.world.graphics.Renderer;
 import arc.Core;
 import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
@@ -35,12 +36,14 @@ public class AquaUnitType extends UnitType {
 
     @Override
     public void draw(Unit unit){
-        if(parts.size > 0) AquaPart.aquaParams.set(unit);
+        AquaPart.aquaParams.set(unit);
 
         super.draw(unit);
         if(unit instanceof DropShipc drop && !drop.didDrop()){
             applyColor(unit);
+            Draw.z(lowAltitude ? Renderer.Layer.flyingUnitLow : Renderer.Layer.flyingUnit);
             Draw.rect(dropPod, unit.x, unit.y, unit.rotation-90);
+            drawWeapons(unit);
         }
     }
 }

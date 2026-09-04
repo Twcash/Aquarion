@@ -24,8 +24,8 @@ abstract class DropShipComp implements Unitc, Posc, ElevationMovec {
     public void update(){
         if(didDrop){
             //fly back up to cruise altitude after the drop
-            elevation = Mathf.approachDelta(elevation, 0.9f, 0.05f);
-            speedMultiplier = Mathf.approachDelta(speedMultiplier, 1f, 0.05f);
+            elevation = Mathf.approachDelta(elevation, 0.9f, 0.005f);
+            speedMultiplier = Mathf.approachDelta(speedMultiplier, 1f, 0.1f);
         }
         if(!onSolid() && !didDrop){
             if(within(closestEnemyCore(), 300)) {
