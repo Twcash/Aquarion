@@ -51,7 +51,6 @@ public static void init() {
     shallowLava = new SurfaceShader("shallowLava");
     petroleum = new SurfaceShader("petroleum");
     neoplasiaBaseShader = new SurfaceShader("neoplasiaBase");
-    neoplasiaPodShader = new PodShader("neoplasiaPods");
 
     shadow = new SurfaceShader("shadow");
     heat = new SurfaceShader("heat");
@@ -207,6 +206,7 @@ public static void init() {
     public static class PartRegionShader extends Shaders.LoadShader {
         public TextureRegion region = new TextureRegion();
         public float time;
+        public float fade = 1f;
 
         public PartRegionShader(String frag){
             super(frag, "default");
@@ -220,6 +220,7 @@ public static void init() {
         @Override
         public void apply(){
             setUniformf("u_time", time);
+            setUniformf("u_fade", fade);
             if(region.texture == null){
                 setUniformf("u_region", 0f, 0f, 1f, 1f);
                 setUniformf("u_regionSize", 1f, 1f);

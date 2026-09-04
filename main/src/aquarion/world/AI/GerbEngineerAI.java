@@ -274,7 +274,6 @@ public class GerbEngineerAI extends GroundAI {
         }
     }
 
-    /** Searches a square ring around the outpost anchor for any open, walkable spot. */
     Tile anywhereNear(Block block){
         int sx = World.toTile(site.x), sy = World.toTile(site.y);
         Tile best = null;
@@ -381,11 +380,6 @@ public class GerbEngineerAI extends GroundAI {
             if(u.id() < unit.id) n++;
         }
         return n % Math.max(blueprint(currentDifficulty()).size, 1);
-    }
-
-    void moveTo(float x, float y, float radius){
-        Tmp.v2.set(x, y);
-        pathMoveTo(Tmp.v2, radius);
     }
 
     /** Pathfinds to a destination instead of beelining, and faces the direction of travel. */

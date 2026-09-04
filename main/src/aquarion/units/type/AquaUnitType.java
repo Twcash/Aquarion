@@ -20,9 +20,7 @@ import mindustry.type.UnitType;
 import mindustry.world.meta.Env;
 
 public class AquaUnitType extends UnitType {
-    //For the drop pod class
-    public UnitType[] dropCrew;
-
+    //Drop pod drop effect.
     public Effect dropEffect = AquaFx.droppod;
 
 
