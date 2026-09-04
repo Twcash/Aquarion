@@ -7,6 +7,7 @@ import aquarion.world.blocks.distribution.SealedRouter;
 import aquarion.world.blocks.payload.*;
 import aquarion.world.blocks.production.DelayIncinerator;
 import aquarion.world.graphics.AquaFx;
+import aquarion.world.graphics.WaterReflections;
 import arc.func.Cons;
 import mindustry.Vars;
 import mindustry.content.Blocks;
@@ -196,5 +197,7 @@ public class DistributionBlocks {
             requirements(Category.units, with(polymer, 30));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
         }};
+        //this can be used as example if you want to edit stuff from reflections on specific blocks
+        WaterReflections.set(itemYeeter, 1f, 0.3f, true);
     }
 }
