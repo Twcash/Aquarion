@@ -465,8 +465,8 @@ public static void init() {
             if (WaterReflections.buffer != null) {
                 WaterReflections.buffer.getTexture().bind(1);
                 setUniformi("u_reflection", 1);
-                setUniformf("u_refTint", WaterReflections.refTint.r, WaterReflections.refTint.g, WaterReflections.refTint.b, 0.42f);
-                setUniformf("u_refOpacity", 0.9f);
+                setUniformf("u_refTint", WaterReflections.refTint.r, WaterReflections.refTint.g, WaterReflections.refTint.b, WaterReflections.refTintAmount);
+                setUniformf("u_refOpacity", WaterReflections.refOpacity);
             }
         }
     }

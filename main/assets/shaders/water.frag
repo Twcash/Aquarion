@@ -26,9 +26,9 @@ void main(){
     vec4 sampled = texture2D(u_texture, c + offs);
     vec3 color = sampled.rgb * vec3(0.9, 0.9, 1);
 
-    //reflection sourced from the capture buffer, washed toward the tint and faded by opacity.
+    //reflection sourced from the capture buffer, washed toward the water floor's color and faded by opacity.
     vec4 refl = texture2D(u_reflection, c + offs);
-    vec3 tinted = mix(refl.rgb, u_refTint.rgb, u_refTint.a * refl.a);
+    vec3 tinted = mix(refl.rgb, sampled.rgb, u_refTint.a * refl.a);
     color = mix(color, tinted, refl.a * u_refOpacity);
 
     float tester = mod((coords.x + coords.y*1.1 + sin(stime / 8.0 + coords.x/5.0 - coords.y/100.0)*2.0) +
