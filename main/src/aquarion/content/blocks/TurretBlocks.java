@@ -2976,7 +2976,7 @@ public class TurretBlocks {
             reload = 12f;
             envEnabled |= Env.space;
         }};
-        reconstitution = new RepairTurret("reconsitution"){{
+        reconstitution = new RepairTurret("reconstitution"){{
             requirements(Category.units, with(Items.silicon, 130, Items.thorium, 80, Items.phaseFabric, 40, Items.titanium, 40));
             size = 4;
             scaledHealth = 400;
@@ -2990,6 +2990,5 @@ public class TurretBlocks {
             acceptCoolant = true;
             ambientSoundVolume = 1.8f;
         }};
-
     }
 }

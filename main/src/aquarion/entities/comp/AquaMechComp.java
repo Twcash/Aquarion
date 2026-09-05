@@ -1,37 +1,45 @@
 package aquarion.entities.comp;
 
 import aquarion.annotations.Annotations.*;
-import aquarion.gen.AquaMechc;
-import arc.math.Mathf;
-import mindustry.gen.ElevationMovec;
-import mindustry.gen.Healthc;
-import mindustry.gen.Posc;
+import arc.math.Angles;
+import arc.math.geom.Vec2;
+import arc.util.Time;
+import arc.util.Tmp;
+import mindustry.gen.Mechc;
 import mindustry.gen.Unitc;
 import mindustry.type.UnitType;
+
+/**
+ * Custom mech behavior merged on top of the vanilla MechComp to make large mechs read as humanoid bipeds.
+ * The hip pivots with the body when turning in place and steps into turns decisively while walking,
+ * instead of planting the feet stiffly like the vanilla mech base does.
+ */
 @EntityComponent
-abstract class AquaMechComp implements Unitc, Posc, Healthc, AquaMechc, ElevationMovec {
-    @Import float x, y, hitSize;
+abstract class AquaMechComp implements Unitc, Mechc {
+    @Import
+    float rotation, baseRotation;
     @Import
     UnitType type;
 
-    @SyncField(false) @SyncLocal
-    float baseRotation;
-    transient float walkTime, walkExtension;
-    transient private boolean walked;
+    /** Degrees per tick the hip pivots toward the body rotation while standing still and turning. */
+    protected float idleTurnSpeed = 3f;
+    /** Multiplier on the type's rotateSpeed for how decisively the hip steps into a turn while walking. */
+    protected float turnSpeedMultiplier = 2f;
 
-    public float walkExtend(float offset, boolean scaled){
-        // cycle advances based on walkTime + stride length
-        float cycle = walkTime / type.mechStride;
+    @Override
+    public void update() {
+        if (!moving()) {
+            baseRotation = Angles.moveToward(baseRotation, rotation, idleTurnSpeed * Time.delta);
+        }
+    }
 
-        // sine-based step: smooth oscillation
-        float step = Mathf.sin((cycle + offset) * Mathf.PI2);
+    @Override
+    @Replace(1)
+    public void rotateMove(Vec2 vec) {
+        moveAt(Tmp.v2.trns(baseRotation, vec.len()));
 
-        if(scaled){
-            // -1..1 normalized stride
-            return step;
-        }else{
-            // scale stride to actual stride length
-            return step * type.mechStride;
+        if (!vec.isZero()) {
+            baseRotation = Angles.moveToward(baseRotation, vec.angle(), type.rotateSpeed * turnSpeedMultiplier * Math.max(Time.delta, 1));
         }
     }
 }

@@ -2,6 +2,7 @@ package aquarion.content;
 
 //import aquarion.gen.AquaLegsUnit;
 import aquarion.annotations.Annotations;
+import aquarion.gen.AquaMechc;
 import aquarion.gen.DropShipc;
 import aquarion.gen.FlyingDialogueUnitc;
 import aquarion.gen.JetUnitc;
@@ -44,6 +45,7 @@ import mindustry.entities.pattern.ShootBarrel;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
+import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 import mindustry.type.unit.ErekirUnitType;
@@ -72,7 +74,7 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
     public static UnitType visitor, mediumTruck, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
     public static UnitType engineer;
-    public static UnitType knight;
+    public static @Annotations.EntityDef(value = {Unitc.class, AquaMechc.class}) UnitType knight;
     //core units and transport
 
     public static UnitType
@@ -3905,16 +3907,19 @@ public class AquaUnitTypes {
             }});
         }};
         knight = new AquaUnitType("knight"){{
-            constructor = MechUnit::create;
             controller = u -> new CheckpointAI();
             hitSize = 450f/2f/4f;
             speed = 0.2f;
-            mechFrontSway = 1.2f;
+            mechStride = 8f;
+            mechFrontSway = 1.6f;
             shadowElevation = 1;
-            mechSideSway = 1.4f;
+            mechSideSway = 2.5f;
             baseRotateSpeed = 0.9f;
             mechStepParticles = true;
-            groundLayer = Layer.legUnit;
+            immunities.add(StatusEffects.wet);
+            stepSound = AquaSounds.knightStep;
+            stepSoundVolume = 1;
+            groundLayer = Layer.power + 1;
             forceMultiTarget = true;
             rotateSpeed = 0.8f;
             health = 250000;
