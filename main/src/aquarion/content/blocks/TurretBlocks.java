@@ -37,6 +37,7 @@ import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.units.RepairTurret;
 import mindustry.world.draw.DrawTurret;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
@@ -64,7 +65,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class TurretBlocks {
-    public static Block aftershock, suffocate,concuss, volt, grace, perforate, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
+    public static Block aftershock, reconstitution, suffocate,concuss, volt, grace, perforate, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
             blaze, ensign, hack;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -2963,7 +2964,7 @@ public class TurretBlocks {
             }};
         }};
         finite = new PointDefenseTurret("finite"){{
-            requirements(Category.turret, with(Items.silicon, 130, Items.thorium, 80, Items.phaseFabric, 40, Items.titanium, 40));
+            requirements(Category.turret, with(Items.silicon, 90, copper, 40, plastanium, 40, Items.graphite, 40));
             shownPlanets.add(Planets.serpulo);
             scaledHealth = 125;
             range = 90f;
@@ -2974,6 +2975,20 @@ public class TurretBlocks {
             bulletDamage = 10f;
             reload = 12f;
             envEnabled |= Env.space;
+        }};
+        reconstitution = new RepairTurret("reconsitution"){{
+            requirements(Category.units, with(Items.silicon, 130, Items.thorium, 80, Items.phaseFabric, 40, Items.titanium, 40));
+            size = 4;
+            scaledHealth = 400;
+            powerUse = 10;
+            repairRadius = 300;
+            repairSpeed = 8f;
+            beamWidth = 1.1f;
+            pulseRadius = 6.1f;
+            coolantUse = 0.16f;
+            coolantMultiplier = 1.6f;
+            acceptCoolant = true;
+            ambientSoundVolume = 1.8f;
         }};
 
     }

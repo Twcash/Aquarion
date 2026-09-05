@@ -7,6 +7,7 @@ import aquarion.ui.IconLoader;
 import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
+import aquarion.world.blocks.environment.CheckpointBlock;
 import aquarion.world.blocks.neoplasia.NeoplasiaGraph;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
@@ -95,6 +96,7 @@ public class AquaLoader extends Mod {
         Events.run(EventType.Trigger.draw, Renderer::draw);
         Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
         Events.on(EventType.WorldLoadEvent.class, e -> NeoplasiaGraph.reset());
+        Events.on(EventType.WorldLoadEvent.class, e -> CheckpointBlock.rebuildCheckpoints());
         ModEventHandler.init();
 
         Events.on(EventType.FileTreeInitEvent.class, e ->

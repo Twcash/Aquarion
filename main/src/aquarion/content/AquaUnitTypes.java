@@ -3906,6 +3906,7 @@ public class AquaUnitTypes {
         }};
         knight = new AquaUnitType("knight"){{
             constructor = MechUnit::create;
+            controller = u -> new CheckpointAI();
             hitSize = 450f/2f/4f;
             speed = 0.2f;
             mechFrontSway = 1.2f;
@@ -3913,6 +3914,7 @@ public class AquaUnitTypes {
             mechSideSway = 1.4f;
             baseRotateSpeed = 0.9f;
             mechStepParticles = true;
+            groundLayer = Layer.legUnit;
             forceMultiTarget = true;
             rotateSpeed = 0.8f;
             health = 250000;
