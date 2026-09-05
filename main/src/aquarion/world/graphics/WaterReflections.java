@@ -144,9 +144,6 @@ public class WaterReflections {
         if(c != null) return c;
 
         ReflectConfig d = new ReflectConfig();
-        if(block.group == BlockGroup.turrets){
-            d.reflectionFlip = false;
-        }
         if(block.group == BlockGroup.transportation || block.group == BlockGroup.liquids){
             d.reflectYdisplace = 0.3f;
         }
