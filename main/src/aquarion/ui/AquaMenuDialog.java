@@ -68,7 +68,7 @@ public class AquaMenuDialog extends BaseDialog {
     private void updateContent(String type) {
         cont.clear();
 
-        float buttonWidth = Vars.mobile ? 410f : 410f;
+        float buttonWidth = Vars.mobile ? 410f : 380f;
         float buttonHeight = Vars.mobile ? 85f : 100f;
         float avatarSize = 32f;
         float padSize = 10f;
@@ -123,12 +123,12 @@ public class AquaMenuDialog extends BaseDialog {
 
             ScrollPane pane = new ScrollPane(inner);
             pane.setOverscroll(false, false);
-            cont.add(pane).width(400f).row();
+            cont.add(pane).width(Vars.mobile ? 400f : 800f).row();
 
             Table bottomNav = new Table();
             bottomNav.button(Core.bundle.get("aquarion.menu.open_releases", "Open Releases on GitHub"), Icon.github, () -> {
                 Core.app.openURI(RELEASES_URL);
-            }).size(buttonWidth, Vars.mobile ? 40f : 34f).padTop(4f).padBottom(4f).row();
+            }).size(buttonWidth, Vars.mobile ? 40f : 60f).padTop(4f).padBottom(4f).row();
 
             Table paginationTable = new Table();
             float arrowSize = Vars.mobile ? 36f : 30f;
@@ -308,7 +308,7 @@ public class AquaMenuDialog extends BaseDialog {
 
                 }).growX().right();
 
-            }).width(370f).padBottom(4f).row();
+            }).width(Vars.mobile ? 370f : 780f).padBottom(4f).row();
         }
     }
 
