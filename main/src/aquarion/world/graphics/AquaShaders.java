@@ -68,7 +68,7 @@ public static void init() {
     brineLayer = new CacheLayer.ShaderLayer(brine);
     sslagLayer = new CacheLayer.ShaderLayer(shallowSlag);
     sslagLayer2 = new LiquidUnderFloorLayer(Shaders.slag, Color.valueOf("ff8142"), "molten-slag");
-    wetUnderLayer = new LiquidUnderFloorLayer(waterReflect, Color.valueOf("4d5ca4"), "deep-water");
+    wetUnderLayer = new LiquidUnderFloorLayer(waterReflect, Color.valueOf("596ab8"), "deep-water");
     slavaLayer = new CacheLayer.ShaderLayer(shallowLava);
     lavalLayer = new CacheLayer.ShaderLayer(lava);
     heatLayer = new CacheLayer.ShaderLayer(heat);
