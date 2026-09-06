@@ -77,9 +77,6 @@ public class GenericNeoplasiaBlock extends Block {
 
     public Color colFrom = Color.valueOf("701e1e");
     public Color colTo = Color.valueOf("cf5a3b");
-
-    public float oreUpgradeCost = 300;
-
     public int requiredTech = 0;
 
     public float damageUpgradeCost = 10;
