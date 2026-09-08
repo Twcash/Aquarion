@@ -12,6 +12,7 @@ import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.type.AquaUnitType;
 import aquarion.world.AI.*;
 import aquarion.world.abilities.LightningFieldAbility;
+import aquarion.world.content.AquaLiquid;
 import aquarion.world.entities.DroneSpawnerBulletType;
 import aquarion.world.entities.bullet.TentacleBulletType;
 import aquarion.world.entities.parts.EnginePart;
@@ -3924,6 +3925,7 @@ public class AquaUnitTypes {
             baseRotateSpeed = 0.9f;
             mechStepParticles = true;
             immunities.add(StatusEffects.wet);
+            immunities.add(StatusEffects.burning);
             stepSound = AquaSounds.knightStep;
             stepSoundVolume = 1;
             groundLayer = Layer.power + 1;
@@ -3939,8 +3941,7 @@ public class AquaUnitTypes {
                 moveRot = 80;
                 weaponIndex = 0;
                 layerOffset = -.0001f;
-                progress = PartProgress.charge.clamp();
-                moves.add(new PartMove(PartProgress.recoil, 4,  67 / 4f, 100));
+                progress = PartProgress.recoil.clamp();
             }}, new RegionPart("-fang") {{
                 moveX = -63 / 4f;
                 xScl = -1;
@@ -3950,46 +3951,43 @@ public class AquaUnitTypes {
                 moveRot = -80;
                 weaponIndex = 0;
                 layerOffset = -.0001f;
-                progress = PartProgress.charge.clamp();
-                moves.add(new PartMove(PartProgress.recoil, -4,  67 / 4f, -100));
+                progress = PartProgress.recoil.clamp();
             }});
             mechLegColor = outlineColor = Color.valueOf("24252d");
             weapons.addAll(new Weapon() {
                 {
                     shootStatus = StatusEffects.unmoving;
                     shootStatusDuration = 40;
-                    shootSound = Sounds.beamPlasma;
-                    initialShootSound = Sounds.shootBeamPlasma;
-                    chargeSound = Sounds.chargeVela;
                     recoil = 0;
-                    shoot.firstShotDelay = Fx.greenLaserChargeSmall.lifetime - 1f;
+                    shoot.shots = 100;
+                    shoot.shotDelay = 1;
                     parentizeEffects = true;
                     shootY = 258f / 4f / 2f;
+                    minWarmup = 0.9f;
+                    shootWarmupSpeed = 0.01f;
                     x = 0;
                     y = 0;
-                    continuous = true;
                     mirror = false;
                     top = false;
                     cooldownTime = 200f;
                     reload = 600;
-                    shake = 4f;
-                    bullet = new ContinuousLaserBulletType() {{
-                        damage = 70f;
-                        length = 200;
-                        hitEffect = Fx.hitMeltdown;
-                        drawSize = 420f;
+                    shake = 6f;
+                    inaccuracy = 20;
+                    bullet = new FireBulletType(15,20){{
+                        hitEffect = Fx.fireHit;
+                        smokeEffect = Fx.fireSmoke;
+                        trailEffect = Fx.fireballsmoke;
+                        trailInterval = 2f;
+                        pierce = true;
+                        makeFire = true;
                         lifetime = 200;
-                        shake = 3f;
-                        width = 12;
-                        despawnEffect = Fx.smokeCloud;
-                        smokeEffect = Fx.none;
-
-                        chargeEffect = Fx.greenLaserChargeSmall;
-
-                        incendChance = 0.2f;
-                        incendSpread = 5f;
-                        incendAmount = 3;
-                        colors = new Color[]{Pal.accentBack.cpy().a(.2f), Pal.accent.cpy().a(.5f), Pal.accent.cpy().mul(1.2f), Color.white};
+                        despawnHit = true;
+                        puddleLiquid = AquaLiquids.petroleum;
+                        pierce = true;
+                        pierceBuilding = true;
+                        pierceArmor = true;
+                        pierceCap = 5;
+                        puddleAmount = 10;
                     }};
                 }
             }, new Weapon("aquarion-knight-weapon") {{
