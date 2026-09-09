@@ -94,9 +94,9 @@ public class LiquidBlocks {
             envDisabled = Env.none;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
-            //match the regular siphon's capacity so junctions never throttle the line
             sideLiquidCapacity = 80;
             ((ModifiedConduit) siphon).junctionReplacement = this;
+            ((ModifiedConduit) pulseSiphon).junctionReplacement = this;
         }};
         siphonSorter = new SiphonSorter("siphon-sorter") {{
             requirements(Category.liquid, with(silicon, 40));
