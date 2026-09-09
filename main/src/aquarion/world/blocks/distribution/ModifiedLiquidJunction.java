@@ -55,6 +55,14 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
         noUpdateDisabled = true;
         liquidCapacity = sideLiquidCapacity * 4f;
     }
+
+    @Override
+    public void init(){
+        //recompute here so the sideLiquidCapacity assigned by content is accounted for
+        liquidCapacity = sideLiquidCapacity * 4f;
+        super.init();
+    }
+
     @Override
     public void setStats(){
         super.setStats();
@@ -155,7 +163,7 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
                 any = true;
 
                 //liquids on the same side react with each other, but never with other sides
-                LiquidReactions.react(side, self());
+                LiquidReactions.react(side, self(), sideLiquidCapacity);
 
                 //push this side's liquid out the opposite side using the conduit flow formula
                 side.each((liquid, amount) -> {
@@ -169,7 +177,12 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
                     }
 
                     Building target = nearby(Mathf.mod(dir + 2, 4));
-                    if(target != null && target.team == team && target.acceptLiquid(this, liquid)){
+                    if(target == null) return;
+
+                    //resolve through gates so flow is measured against what the output can actually hold
+                    target = target.getLiquidDestination(this, liquid);
+
+                    if(target != null && target != this && target.team == team && target.acceptLiquid(this, liquid)){
                         float flow = Math.min(amount, LiquidUtil.flow(sides[dir], sideLiquidCapacity, this, target, liquid) * delta());
                         if(flow > 0.01f){
                             target.handleLiquid(this, liquid, flow);
@@ -189,19 +202,26 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid){
             noSleep();
+            if(source != null && source.team != team) return false;
             int dir = inputSide(source);
             return enabled && sides[dir] != null && LiquidUtil.freeSpace(sides[dir], sideLiquidCapacity) > 0.01f;
         }
 
         @Override
         public void handleLiquid(Building source, Liquid liquid, float amount){
+            noSleep();
             int dir = inputSide(source);
-            if(sides[dir] == null) sides[dir] = new LiquidModule();
-            sides[dir].add(liquid, amount);
+            LiquidModule side = sides[dir];
+            if(side == null) side = sides[dir] = new LiquidModule();
+
+            //never store more than the side buffer holds, no matter how much the source claims to send
+            float free = LiquidUtil.freeSpace(side, sideLiquidCapacity);
+            if(free > 0f) side.add(liquid, Math.min(amount, free));
         }
 
         /** @return the physical side of this junction that {@code source} is on. */
         private int inputSide(Building source){
+            if(source == null) return 0;
             int travel = source.relativeToEdge(tile);
             return travel == -1 ? 0 : Mathf.mod(travel + 2, 4);
         }

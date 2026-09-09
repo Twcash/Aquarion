@@ -58,6 +58,7 @@ public class LiquidUnderflow extends LiquidBlock {
 
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid){
+            if(source == null || source.team != team) return false;
             return acceptLiquid(source, liquid, newVisited());
         }
 
@@ -70,7 +71,19 @@ public class LiquidUnderflow extends LiquidBlock {
         private boolean accepts(Building to, Liquid liquid, Set<Building> visited){
             if(to == null || to == this || to.team != team) return false;
             if(to instanceof liqUnderBuild u) return u.acceptLiquid(this, liquid, visited);
-            return to.acceptLiquid(this, liquid) && LiquidUtil.freeSpaceFor(to, this) > 0.01f;
+            return to.acceptLiquid(this, liquid) && LiquidUtil.freeSpaceFor(to, this, liquid) > 0.01f;
+        }
+
+        /**
+         * Free space at this gate's resolved output. Gates never store liquid, so reporting their
+         * own capacity would let pushers send more than the network can hold, deleting the excess.
+         */
+        public float freeSpaceFor(Building source, Liquid liquid){
+            if(source == null || liquid == null) return 0f;
+            Building target = getTileTarget(source, liquid, newVisited());
+            //unresolved (looping) chains report no space so nothing is pushed into them
+            if(target == null || target instanceof liqUnderBuild) return 0f;
+            return LiquidUtil.freeSpaceFor(target, this, liquid);
         }
 
         @Override
@@ -100,11 +113,15 @@ public class LiquidUnderflow extends LiquidBlock {
 
             Building target = getTileTarget(source, liquid, visited);
 
-            if(target != null && target != this && (target instanceof liqUnderBuild u ? u.acceptLiquid(this, liquid, visited) : target.acceptLiquid(this, liquid))){
-                if(target instanceof liqUnderBuild v){
-                    v.forwardLiquid(this, liquid, Math.min(amount, LiquidUtil.freeSpace(target)), visited);
-                }else{
-                    target.handleLiquid(this, liquid, Math.min(amount, LiquidUtil.freeSpace(target)));
+            if(target != null && target != this && target.team == team && (target instanceof liqUnderBuild u ? u.acceptLiquid(this, liquid, visited) : target.acceptLiquid(this, liquid))){
+                //only forward what the resolved output can actually hold, so nothing is deleted mid-chain
+                float moved = Math.min(amount, Math.max(LiquidUtil.freeSpaceFor(target, this, liquid), 0f));
+                if(moved > 0.0001f){
+                    if(target instanceof liqUnderBuild v){
+                        v.forwardLiquid(this, liquid, moved, visited);
+                    }else{
+                        target.handleLiquid(this, liquid, moved);
+                    }
                 }
             }
             if(liquid.temperature > 0.5f){
@@ -120,7 +137,7 @@ public class LiquidUnderflow extends LiquidBlock {
         }
 
         private Building getTileTarget(Building source, Liquid liquid, Set<Building> visited){
-            if(!enabled) return null;
+            if(!enabled || source == null) return null;
 
             int from = relativeToEdge(source.tile);
             if(from == -1) return null;

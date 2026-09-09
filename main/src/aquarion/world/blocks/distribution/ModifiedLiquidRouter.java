@@ -59,11 +59,20 @@ public class ModifiedLiquidRouter extends LiquidRouter {
 
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid){
-            return LiquidUtil.freeSpace(self()) > 0.01f;
+            return (source == null || source.team == team) && LiquidUtil.freeSpace(self()) > 0.01f;
+        }
+
+        @Override
+        public void handleLiquid(Building source, Liquid liquid, float amount){
+            //never store more than the tank holds, no matter how much the source claims to send
+            float free = LiquidUtil.freeSpace(self());
+            if(free > 0f) liquids.add(liquid, Math.min(amount, free));
         }
 
         @Override
         public void transferLiquid(Building next, float amount, Liquid liquid){
+            if(next == null || next.team != team) return;
+
             //vanilla blocks expect the standard vanilla transfer, not the custom fast flow
             if(!LiquidUtil.isCustomLiquidBlock(next)){
                 super.transferLiquid(next, amount, liquid);

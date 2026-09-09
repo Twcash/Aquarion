@@ -183,18 +183,18 @@ public class SiphonSorter extends LiquidBlock implements LiquidUtil.Rated {
                 any = true;
 
                 //liquids on the same side react with each other, but never with other sides
-                LiquidReactions.react(side, self());
+                LiquidReactions.react(side, self(), sideLiquidCapacity);
 
-                //the block the buffered liquid travelled in from, used for chain checks
+                //the block the buffered liquid travelled in from, used for chain checks;
+                //may be null (input removed) - buffered liquid must still be able to drain
                 Building source = nearby(dir);
-                if(source == null) continue;
 
                 int travel = Mathf.mod(dir + 2, 4);
                 side.each((liquid, amount) -> {
                     if(amount <= 0.001f) return;
 
                     Building target = getTileTarget(liquid, travel, source, false);
-                    if(target != null && target.acceptLiquid(this, liquid)){
+                    if(target != null && target != this && target.team == team && target.acceptLiquid(this, liquid)){
                         float flow = Math.min(amount, LiquidUtil.flow(side, sideLiquidCapacity, this, target, liquid) * delta());
                         if(flow > 0.01f){
                             target.handleLiquid(this, liquid, flow);
@@ -220,20 +220,30 @@ public class SiphonSorter extends LiquidBlock implements LiquidUtil.Rated {
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid){
             noSleep();
+            if(source != null && source.team != team) return false;
             int dir = inputSide(source);
             return enabled && sides[dir] != null && LiquidUtil.freeSpace(sides[dir], sideLiquidCapacity) > 0.01f;
         }
 
         @Override
         public void handleLiquid(Building source, Liquid liquid, float amount){
+            noSleep();
             int input = inputSide(source);
-            if(sides[input] == null) sides[input] = new LiquidModule();
-            sides[input].add(liquid, amount);
+            LiquidModule side = sides[input];
+            if(side == null) side = sides[input] = new LiquidModule();
+
+            //never store more than the side buffer holds, no matter how much the source claims to send
+            float free = LiquidUtil.freeSpace(side, sideLiquidCapacity);
+            float stored = Math.min(amount, Math.max(free, 0f));
+            if(stored <= 0.0001f) return;
+            side.add(liquid, stored);
+
+            if(!enabled) return;
 
             int travel = Mathf.mod(input + 2, 4);
             Building target = getTileTarget(liquid, travel, source, true);
-            if(target != null && target.acceptLiquid(this, liquid)){
-                float flow = Math.min(amount, LiquidUtil.flow(sides[input], sideLiquidCapacity, this, target, liquid) * delta());
+            if(target != null && target != this && target.team == team && target.acceptLiquid(this, liquid)){
+                float flow = Math.min(stored, LiquidUtil.flow(sides[input], sideLiquidCapacity, this, target, liquid) * delta());
                 if(flow > 0.01f){
                     target.handleLiquid(this, liquid, flow);
                     sides[input].remove(liquid, flow);
@@ -243,6 +253,7 @@ public class SiphonSorter extends LiquidBlock implements LiquidUtil.Rated {
 
         /** @return the physical side of this sorter that {@code source} is on. */
         private int inputSide(Building source){
+            if(source == null) return 0;
             int travel = source.relativeToEdge(tile);
             return travel == -1 ? 0 : Mathf.mod(travel + 2, 4);
         }
@@ -259,20 +270,22 @@ public class SiphonSorter extends LiquidBlock implements LiquidUtil.Rated {
         }
 
         public Building getTileTarget(Liquid liquid, int dir, Building source, boolean flip){
-            if(source == null) return null;
+            //a disabled sorter holds its buffered liquid instead of routing it anywhere
+            if(!enabled) return null;
             Building to;
+            boolean srcInst = source != null && source.block.instantTransfer;
 
-            if(((liquid == sortLiquid) != invert) == enabled){
+            if((liquid == sortLiquid) != invert){
                 //prevent 3-chains
-                if(isSame(source) && isSame(nearby(dir))){
+                if(srcInst && isSame(nearby(dir))){
                     return null;
                 }
                 to = nearby(dir);
             }else{
                 Building a = nearby(Mathf.mod(dir - 1, 4));
                 Building b = nearby(Mathf.mod(dir + 1, 4));
-                boolean ac = a != null && !(a.block.instantTransfer && source.block.instantTransfer) && a.acceptLiquid(this, liquid);
-                boolean bc = b != null && !(b.block.instantTransfer && source.block.instantTransfer) && b.acceptLiquid(this, liquid);
+                boolean ac = a != null && a.team == team && !(a.block.instantTransfer && srcInst) && a.acceptLiquid(this, liquid);
+                boolean bc = b != null && b.team == team && !(b.block.instantTransfer && srcInst) && b.acceptLiquid(this, liquid);
 
                 if(ac && !bc){
                     to = a;

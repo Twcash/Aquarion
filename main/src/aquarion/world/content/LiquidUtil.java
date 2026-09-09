@@ -1,5 +1,7 @@
 package aquarion.world.content;
 
+import aquarion.world.MultiBlockLib.LinkBlock;
+import aquarion.world.blocks.distribution.LiquidUnderflow;
 import aquarion.world.blocks.distribution.ModifiedConduit;
 import aquarion.world.blocks.distribution.ModifiedLiquidJunction;
 import aquarion.world.blocks.distribution.ModifiedLiquidRouter;
@@ -26,6 +28,17 @@ public class LiquidUtil {
             || build instanceof Pipe.PipeBuild
             || build instanceof ModifiedLiquidRouter.ughBuild
             || build instanceof ModifiedLiquidJunction.wtfBuild
+            || build instanceof LiquidUnderflow.liqUnderBuild
+            || build instanceof SiphonSorter.SiphonSorterBuild;
+    }
+
+    /**
+     * @return whether {@code build} stores liquid in independent per-side buffers instead of
+     * its main liquid module. Such blocks must always be queried through {@link #freeSpaceFor},
+     * since their main module says nothing about how much they can actually accept.
+     */
+    public static boolean isSideBuffered(Building build){
+        return build instanceof ModifiedLiquidJunction.wtfBuild
             || build instanceof SiphonSorter.SiphonSorterBuild;
     }
 
@@ -93,12 +106,22 @@ public class LiquidUtil {
         float flow = rate / 60f;
 
         flow = Math.min(flow, amount);
-        flow = Math.min(flow, Math.max(freeSpaceFor(to, fromBuild), 0f));
+        flow = Math.min(flow, Math.max(freeSpaceFor(to, fromBuild, liquid), 0f));
         return flow;
     }
 
     /** The amount of liquid {@code to} will actually store when {@code from} pushes into it, honoring per-side buffers. */
     public static float freeSpaceFor(Building to, Building from){
+        return freeSpaceFor(to, from, null);
+    }
+
+    /**
+     * The amount of {@code liquid} that {@code to} will actually store when {@code from} pushes
+     * into it. Honors per-side buffers (junctions, sorters) and resolves underflow gates to the
+     * free space of whatever is on the other side, so pushers never send more than the network
+     * can hold (which would silently delete the excess).
+     */
+    public static float freeSpaceFor(Building to, Building from, Liquid liquid){
         if(to == null) return 0f;
         if(to instanceof ModifiedLiquidJunction.wtfBuild j){
             return j.freeSpaceFor(from);
@@ -106,7 +129,26 @@ public class LiquidUtil {
         if(to instanceof SiphonSorter.SiphonSorterBuild s){
             return s.freeSpaceFor(from);
         }
-        return to.block.liquidCapacity - total(to.liquids);
+        if(to instanceof LiquidUnderflow.liqUnderBuild u){
+            //gates store nothing themselves; without a liquid the chain can't be resolved, so report no space
+            return liquid == null ? 0f : u.freeSpaceFor(from, liquid);
+        }
+        if(to instanceof LinkBlock.LinkBuild lb){
+            //link tiles share the main multi-block's storage and declare no capacity of their own
+            return lb.linkBuild == null ? 0f : freeSpaceFor(lb.linkBuild, from, liquid);
+        }
+        if(to.liquids == null) return 0f;
+        //the mod's own transport blocks mix liquids in one shared buffer, so their real limit is the total free space
+        if(isCustomLiquidBlock(to)){
+            return to.block.liquidCapacity - total(to.liquids);
+        }
+        //vanilla-style blocks (crafters, heaters, vanilla conduits, ...) account storage per liquid:
+        //each liquid may fill up to the capacity, which is also what vanilla moveLiquid/transferLiquid
+        //measure against. Using the total here would stop e.g. a junction-fed heater half full
+        //whenever it holds more than one liquid.
+        return liquid == null
+            ? to.block.liquidCapacity - total(to.liquids)
+            : to.block.liquidCapacity - to.liquids.get(liquid);
     }
 
     /** Provides the texture region to draw a liquid with. */

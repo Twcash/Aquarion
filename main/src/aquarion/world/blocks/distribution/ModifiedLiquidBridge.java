@@ -55,6 +55,13 @@ public class ModifiedLiquidBridge extends LiquidBridge {
                     && checkAccept(source, world.tile(link));
         }
 
+        @Override
+        public void handleLiquid(Building source, Liquid liquid, float amount){
+            //never store more than the bridge end holds, no matter how much the source claims to send
+            float free = LiquidUtil.freeSpace(self());
+            if(free > 0f) liquids.add(liquid, Math.min(amount, free));
+        }
+
         public float moveLiquid(Building next, Liquid liquid){
             if(next == null) return 0;
 
