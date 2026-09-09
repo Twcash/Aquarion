@@ -169,12 +169,14 @@ public class Pipe extends LiquidRouter implements Autotiler {
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid){
             noSleep();
-            return LiquidUtil.freeSpace(self()) > 0.01f;
+            return (source == null || source.team == team) && LiquidUtil.freeSpace(self()) > 0.01f;
         }
 
         public void handleLiquid(Building source, Liquid liquid, float amount) {
             noSleep();
-            liquids.add(liquid, amount);
+            //never store more than the pipe holds, no matter how much the source claims to send
+            float free = LiquidUtil.freeSpace(self());
+            if(free > 0f) liquids.add(liquid, Math.min(amount, free));
         }
 
 

@@ -31,7 +31,6 @@ import static mindustry.Vars.tilesize;
 public class ModifiedConduit extends Conduit {
     public static final int maxBubbles = 6;
     private static final Rand rand = new Rand();
-    //copy of Conduit's package-private rotateOffsets, needed for the rotated liquid regions
     static final float rotatePad = 6, hpad = rotatePad / 2f / 4f;
     static final float[][] rotateOffsets = {{hpad, hpad}, {-hpad, hpad}, {-hpad, -hpad}, {hpad, -hpad}};
     @Override
@@ -45,7 +44,6 @@ public class ModifiedConduit extends Conduit {
     @Override
     public void setStats(){
         super.setStats();
-
         //have to add a custom calculated speed, since the actual movement speed is apparently not linear
         stats.add(MaxFlow, liquidCapacity*60/2, StatUnit.liquidUnits);
     }
@@ -81,10 +79,7 @@ public class ModifiedConduit extends Conduit {
 
         public void draw(boolean under){
             int r = this.rotation;
-
             if(under) Draw.color(botColor);
-
-            //draw extra conduits facing this one for tiling purposes
             Draw.z(Layer.blockUnder);
             for(int i = 0; i < 4; i++){
                 if((blending & (1 << i)) != 0){
@@ -124,7 +119,6 @@ public class ModifiedConduit extends Conduit {
             if(main) Draw.z(Layer.block - 0.02f);
 
             if(LiquidUtil.total(liquids) > 0.0001f){
-                //draw every mixed liquid as a flat fill stacked over the previous one, not just the dominant liquid
                 float xscl = Draw.xscl, yscl = Draw.yscl;
                 Draw.scl(1f, 1f);
                 LiquidUtil.drawOverlayed(fluid -> sliced(bits == 1 && padCorners
@@ -146,10 +140,7 @@ public class ModifiedConduit extends Conduit {
         @Override
         public void updateTile() {
             smoothLiquid = Mathf.lerpDelta(smoothLiquid, LiquidUtil.total(liquids) / liquidCapacity, 0.05f);
-
-            //reactions between mixed liquids
             LiquidReactions.react(self());
-
             if (LiquidUtil.total(liquids) > 0.0001f) {
                 liquids.each((liquid, amount) -> {
                     if (amount > 0.0001f) {
@@ -221,7 +212,8 @@ public class ModifiedConduit extends Conduit {
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid){
             noSleep();
-            return LiquidUtil.freeSpace(self()) > 0.01f
+            return (source == null || source == this || source.team == team)
+                    && LiquidUtil.freeSpace(self()) > 0.01f
                     && (tile == null || source == this || (source.relativeTo(tile.x, tile.y) + 2) % 4 != rotation);
         }
 

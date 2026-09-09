@@ -29,11 +29,20 @@ public class LiquidReactions {
 
     public static boolean react(Building build){
         if(build.liquids == null) return false;
-        return react(build.liquids, build);
+        return react(build.liquids, build, build.block.liquidCapacity);
     }
 
     /** Runs reactions between the liquids stored in a single liquid module (e.g. one side of a junction). */
     public static boolean react(LiquidModule liquids, Building build){
+        return react(liquids, build, build == null ? Float.MAX_VALUE : build.block.liquidCapacity);
+    }
+
+    /**
+     * Runs reactions between the liquids stored in a single liquid module with the given
+     * capacity, so blocks with per-side buffers (junctions, sorters) react per side and
+     * products can never push the module over its real capacity.
+     */
+    public static boolean react(LiquidModule liquids, Building build, float capacity){
         if(liquids == null) return false;
 
         Seq<Liquid> present = new Seq<>();
@@ -46,7 +55,7 @@ public class LiquidReactions {
         for(int i = 0; i < present.size; i++){
             for(int j = i + 1; j < present.size; j++){
                 LiquidReaction r = find(present.get(i), present.get(j));
-                if(r != null && apply(liquids, build, r)){
+                if(r != null && apply(liquids, build, r, capacity)){
                     reacted = true;
                 }
             }
@@ -77,13 +86,27 @@ public class LiquidReactions {
 
             float step = r.rate * Time.delta;
             float consume = Math.min(step, Math.min(amtMoving / scaleMoving, amtOther / scaleOther));
+
+            Building dest = null;
+            if(r.result != null && r.resultAmount > 0f){
+                dest = boundaryDest(source, next);
+                if(dest.liquids == null) return;
+
+                //limit the reaction to what the destination can hold, so it never exceeds its capacity
+                float scaleDest = dest == source ? scaleMoving : scaleOther;
+                float net = r.resultAmount - scaleDest;
+                if(net > 0f){
+                    float headroom = Math.max(LiquidUtil.freeSpace(dest), 0f);
+                    consume = Math.min(consume, headroom / net);
+                }
+            }
+
             if(consume <= 0.001f) return;
 
             source.liquids.remove(moving, consume * scaleMoving);
             next.liquids.remove(other, consume * scaleOther);
 
-            if(r.result != null && r.resultAmount > 0f){
-                Building dest = LiquidUtil.freeSpace(next) > LiquidUtil.freeSpace(source) ? next : source;
+            if(dest != null){
                 dest.liquids.add(r.result, consume * r.resultAmount);
             }
 
@@ -98,13 +121,37 @@ public class LiquidReactions {
         });
     }
 
-    private static boolean apply(LiquidModule liquids, Building build, LiquidReaction r){
+    /**
+     * Where a boundary reaction's product goes. Side-buffered blocks (junctions, sorters) keep
+     * their main liquid module unused, so product stored there would be stuck forever; they are
+     * never picked as the destination.
+     */
+    private static Building boundaryDest(Building source, Building next){
+        boolean nextBuffered = LiquidUtil.isSideBuffered(next);
+        boolean sourceBuffered = LiquidUtil.isSideBuffered(source);
+        if(nextBuffered && !sourceBuffered) return source;
+        if(sourceBuffered && !nextBuffered) return next;
+        return LiquidUtil.freeSpace(next) > LiquidUtil.freeSpace(source) ? next : source;
+    }
+
+    private static boolean apply(LiquidModule liquids, Building build, LiquidReaction r, float capacity){
         float amtA = liquids.get(r.a);
         float amtB = liquids.get(r.b);
         if(amtA <= 0.01f || amtB <= 0.01f) return false;
 
         float step = r.rate * Time.delta;
         float consume = Math.min(step, Math.min(amtA / r.aAmount, amtB / r.bAmount));
+
+        //reactions that produce more than they consume stall while the container is full,
+        //so they can never push it over capacity
+        if(r.result != null && r.resultAmount > 0f){
+            float net = r.resultAmount - (r.aAmount + r.bAmount);
+            if(net > 0f){
+                float headroom = Math.max(capacity - LiquidUtil.total(liquids), 0f);
+                consume = Math.min(consume, headroom / net);
+            }
+        }
+
         if(consume <= 0.001f) return false;
 
         liquids.remove(r.a, consume * r.aAmount);
