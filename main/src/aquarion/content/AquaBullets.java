@@ -645,22 +645,19 @@ public class AquaBullets {
         shrinkInterp = Interp.pow2Out;
         despawnSound = explosion;
     }},
-    thrashSporePod = new FlakBulletType(18f, 120f) {{
+    thrashSporePod = new FlakBulletType(18f, 110f) {{
         smokeEffect = AquaFx.shootSmoke3;
         shootEffect = AquaFx.shootLudicrous;
         trailEffect = AquaFx.trailSmoke1;
         trailColor = backColor = hitColor = lightColor = sporePod.color;
+        reloadMultiplier = 1.2f;
         despawnShake = 7;
         trailInterval = 1;
         despawnEffect = hitEffect = new MultiEffect(AquaFx.thrashExplosion,AquaFx.thrashExplodeSmoke);
-        splashDamage = 380f;
+        splashDamage = 330f;
         splashDamageRadius = 40f;
         drag = 0.013f;
-        makeFire = true;
         status = burning;
-        incendChance = 1;
-        incendAmount = 3;
-        incendSpread = 8*5f;
         sprite = "aquarion-shell";
         explodeRange = 25;
         collidesGround = true;
@@ -1097,6 +1094,8 @@ public class AquaBullets {
         backColor = trailColor = AquaItems.ferricMatter.color;
         splashDamage = 25;
         splashDamageRadius = 8 * 3;
+        pierce = true;
+        pierceCap = 1;
         hitEffect = despawnEffect = new ExplosionEffect() {{
             smoke = smokeLight;
             sparks = 12;
@@ -1548,6 +1547,7 @@ public class AquaBullets {
         trailInterval = 2f;
         trailWidth = 1f;
         trailLength = 4;
+        trailRotation = true;
         damage = 15;
         splashDamage = 20;
         splashDamageRadius = 24;
@@ -1573,6 +1573,7 @@ public class AquaBullets {
                 trailInterval = 2f;
                 trailWidth = 1f;
                 trailLength = 4;
+                trailRotation = true;
                 damage = 30;
                 splashDamage = 10;
                 splashDamageRadius = 12;
@@ -1591,6 +1592,7 @@ public class AquaBullets {
                 trailInterval = 2f;
                 trailWidth = 1f;
                 trailLength = 4;
+                trailRotation = true;
                 damage = 45;
                 speed = 30f;
                 lifetime = 11f;
@@ -1606,6 +1608,7 @@ public class AquaBullets {
                 trailInterval = 2f;
                 trailWidth = 1f;
                 trailLength = 4;
+                trailRotation = true;
                 damage = 30;
                 splashDamage = 25;
                 splashDamageRadius = 16;

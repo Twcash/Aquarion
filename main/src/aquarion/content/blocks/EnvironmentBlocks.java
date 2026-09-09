@@ -26,6 +26,7 @@ import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
+import org.w3c.dom.Attr;
 
 import static aquarion.content.AquaAttributes.*;
 import static aquarion.content.AquaItems.salt;
@@ -535,6 +536,7 @@ public class EnvironmentBlocks {
             emitLight = true;
             lightColor = Pal.turretHeat.cpy().a(0.9f);
             attributes.set(Attribute.heat, 1.25f);
+            attributes.set(fertility, -5f);
             status = StatusEffects.melting;
             statusDuration = 10;
 //            effect = AquaFx.heatEngineGenerate;
