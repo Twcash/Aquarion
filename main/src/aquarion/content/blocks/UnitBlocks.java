@@ -5,6 +5,7 @@ import aquarion.content.AquaSounds;
 import aquarion.content.AquaStatuses;
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.payload.InitializationBay;
+import aquarion.world.blocks.units.DefunctBeacon;
 import aquarion.world.blocks.units.InfantryLandingPad;
 import aquarion.world.blocks.units.UnitBlock;
 import aquarion.world.blocks.units.UnitBlockStatusApplierThingWhat;
@@ -30,7 +31,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block initializationBay, concussorPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
+    public static Block defunctBeacon1, initializationBay, concussorPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -194,7 +195,14 @@ public class UnitBlocks {
 //            destroySound = AquaSounds.start4;
 //            buildVisibility = BuildVisibility.hidden;
 //        }};
-
+        defunctBeacon1 = new DefunctBeacon("defunct-beacon-small"){{
+            buildVisibility = BuildVisibility.sandboxOnly;
+            size = 2;
+            squareSprite = false;
+            consumePower(4f);
+            units.addAll(vilify,vilify,vilify,vilify);
+            spawnRange = 24;
+        }};
         overwrite(Blocks.groundFactory, (UnitFactory r) -> {
             r.plans.remove(2);
             r.plans.addAll(

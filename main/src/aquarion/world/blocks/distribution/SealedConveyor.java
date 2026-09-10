@@ -53,7 +53,6 @@ public class SealedConveyor extends Duct implements Autotiler{
     @Override
     public void init(){
         super.init();
-
         if(siphonReplacement == null) siphonReplacement = LiquidBlocks.siphonJunction;
     }
 

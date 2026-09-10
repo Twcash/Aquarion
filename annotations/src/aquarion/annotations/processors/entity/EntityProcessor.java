@@ -293,6 +293,14 @@ public class EntityProcessor extends BaseProcessor{
                         }
                 );
 
+                //since v159 units live in Groups.unit only, not Groups.all: SaveVersion.writeWorldEntities
+                //writes Groups.all (filtered by serialize()) and then Groups.unit as a separate pass.
+                //a unit that is also in "all" gets written to the save twice, and every load then spawns
+                //a duplicate (the second copy's id is reassigned), doubling the unit on each reload.
+                if(defGroups.contains("unit") && !defGroups.contains("player")){
+                    defGroups.remove("all");
+                }
+
                 if(!typeIsBase && baseClass != null && name.equals(baseName(baseClassType))){
                     name += "Entity";
                 }
