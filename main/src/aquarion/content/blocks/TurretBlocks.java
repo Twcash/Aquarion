@@ -2902,6 +2902,7 @@ public class TurretBlocks {
             );
         });
         nostalgia = new PowerTurret("nostalgia"){{
+            destroyEffect = AquaFx.factoryDestroyDefunct;
             requirements(Category.turret, with(silicon, 300));
             size = 2;
             category = Category.turret;
@@ -2932,6 +2933,7 @@ public class TurretBlocks {
         }};
         memorial = new PowerTurret("memorial"){{
             requirements(Category.turret, with(silicon, 2000, metaglass, 150, graphite, 250));
+            destroyEffect = AquaFx.factoryDestroyDefunct;
             size = 3;
             category = Category.turret;
             buildVisibility = BuildVisibility.sandboxOnly;

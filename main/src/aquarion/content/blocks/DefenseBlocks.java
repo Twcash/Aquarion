@@ -403,6 +403,7 @@ public class DefenseBlocks {
         smallDefunctWall = new Wall("defunct-wall-small"){{
             requirements(Category.defense, ItemStack.with(lead, 10, silicon, 15));
             size = 1;
+            destroyEffect = AquaFx.factoryDestroyDefunct;
             health = 250;
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.defense;
@@ -411,6 +412,7 @@ public class DefenseBlocks {
             requirements(Category.defense, ItemStack.mult(smallDefunctWall.requirements, 4));
             size = 2;
             health = 1000;
+            destroyEffect = AquaFx.factoryDestroyDefunct;
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.defense;
         }};
