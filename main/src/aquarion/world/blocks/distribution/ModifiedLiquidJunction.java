@@ -18,7 +18,10 @@ import mindustry.type.Item;
 import mindustry.type.Liquid;
 import mindustry.ui.Bar;
 import mindustry.ui.Styles;
+import mindustry.world.Block;
 import mindustry.world.Tile;
+import mindustry.world.blocks.distribution.Conveyor;
+import mindustry.world.blocks.distribution.Duct;
 import mindustry.world.blocks.distribution.Router;
 import mindustry.world.blocks.liquid.LiquidJunction;
 import mindustry.world.meta.Stat;
@@ -82,6 +85,17 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
     public boolean outputsItems(){
         return true;
     }
+
+    /**
+     * Allow placing this junction on item conveyors/ducts (like vanilla duct junctions): it takes
+     * over the tile but passes their items straight through, so both lines keep working and a
+     * siphon line can cross a conveyor with a single junction instead of a bridge pair.
+     */
+    @Override
+    public boolean canReplace(Block other){
+        return super.canReplace(other) || (other.replaceable && (other instanceof Conveyor || other instanceof Duct));
+    }
+
     public class wtfBuild extends LiquidJunctionBuild{
         public Item lastItem;
         public Tile lastInput;

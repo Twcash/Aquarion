@@ -191,6 +191,8 @@ public class RefineryBlocks {
             itemCapacity = 300;
             liquidCapacity = 900;
             updateEffect = Fx.ventSteam;
+            ambientSound = AquaSounds.machine6;
+            ambientSoundVolume = 0.09f;
             updateEffectChance = 0.01f;
             squareSprite = false;
             craftTime = 600;
@@ -427,6 +429,8 @@ public class RefineryBlocks {
             requirements(AquaCategories.refinery, with(copper, 250, silicon, 600, metaglass, 700));
             heatRequirement = 30;
             maxEfficiency = 5;
+            ambientSound = AquaSounds.machine6;
+            ambientSoundVolume = 0.06f;
             hasHeat = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             craftTime = 2.5f * 60f;
@@ -475,6 +479,8 @@ public class RefineryBlocks {
             craftTime = 4 * 60f;
             heatRequirement = 45;
             hasHeat = true;
+            ambientSound = AquaSounds.machine8;
+            ambientSoundVolume = 0.07f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             maxEfficiency = 2;
             craftEffect = Fx.reactorsmoke;

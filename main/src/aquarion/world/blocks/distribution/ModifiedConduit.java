@@ -7,21 +7,28 @@ import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPuddles;
 import aquarion.world.graphics.PipeBubble;
 import aquarion.world.graphics.PipeBubbles;
+import arc.func.Boolf;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.math.Rand;
 import arc.math.geom.Geometry;
+import arc.math.geom.Point2;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
 import arc.util.Nullable;
 import arc.util.Time;
 import mindustry.content.Fx;
+import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.graphics.Layer;
 import mindustry.type.Liquid;
+import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.Autotiler.SliceMode;
+import mindustry.world.blocks.distribution.Conveyor;
+import mindustry.world.blocks.distribution.Duct;
 import mindustry.world.blocks.liquid.Conduit;
+import mindustry.world.blocks.liquid.LiquidJunction;
 import mindustry.world.meta.StatUnit;
 
 import static aquarion.world.Uti.AquaStats.MaxFlow;
@@ -53,6 +60,30 @@ public class ModifiedConduit extends Conduit {
         super.setBars();
         removeBar("liquid");
     }
+
+    @Override
+    public Block getReplacement(BuildPlan req, Seq<BuildPlan> plans){
+        if(junctionReplacement == null) return this;
+
+        Boolf<Point2> cont = p -> plans.contains(o -> o.x == req.x + p.x && o.y == req.y + p.y && (req.block instanceof Conduit || req.block instanceof LiquidJunction));
+
+        //the line must continue on both sides of this tile for it to be a crossing
+        if(!cont.get(Geometry.d4(req.rotation)) || !cont.get(Geometry.d4(req.rotation - 2))) return this;
+        if(req.tile() == null || req.tile().build == null) return this;
+
+        Block on = req.tile().block();
+        boolean perpendicular = Mathf.mod(req.tile().build.rotation - req.rotation, 2) == 1;
+
+        //crossing an existing perpendicular conduit line, same as vanilla
+        if(on instanceof Conduit && perpendicular) return junctionReplacement;
+
+        //crossing a perpendicular conveyor/duct: put a single junction on the crossing tile
+        //(it passes their items straight through) instead of bridging over it
+        if((on instanceof Conveyor || on instanceof Duct) && perpendicular) return junctionReplacement;
+
+        return this;
+    }
+
     public class ModifiedConduitBuild extends ConduitBuild {
         public Seq<PipeBubble> bubbles = new Seq<>();
         public float bubbleAccum;

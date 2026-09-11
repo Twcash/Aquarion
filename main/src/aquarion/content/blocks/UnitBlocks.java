@@ -5,6 +5,7 @@ import aquarion.content.AquaSounds;
 import aquarion.content.AquaStatuses;
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.payload.InitializationBay;
+import aquarion.world.blocks.units.DefunctBeacon;
 import aquarion.world.blocks.units.InfantryLandingPad;
 import aquarion.world.blocks.units.UnitBlock;
 import aquarion.world.blocks.units.UnitBlockStatusApplierThingWhat;
@@ -26,13 +27,11 @@ import mindustry.world.meta.Env;
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaUnitTypes.*;
 import static mindustry.content.Items.*;
-import static mindustry.content.Liquids.hydrogen;
 import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block initializationBay, concussorPad, infantryPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index;
-
+    public static Block defunctBeacon1, initializationBay, concussorPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -188,15 +187,6 @@ public class UnitBlocks {
             time = 25 * 60;
             destroySound = AquaSounds.start;
         }};
-        index = new UnitBlock("index-inactive") {{
-            requirements(Category.units, with(ferrosilicon, 400, brass, 125, nickel, 350, silicon, 500));
-            unit = AquaUnitTypes.index;
-            size = 2;
-            consumePower(4);
-            consumeLiquid(hydrogen,4);
-            time = 60 * 60;
-            destroySound = AquaSounds.start;
-        }};
 //        castellan = new UnitBlock("castellan") {{
 //            requirements(Category.units, with(cupronickel, 400, ferrosilicon, 100, aluminum, 60));
 //            unit = AquaUnitTypes.castellan;
@@ -205,7 +195,14 @@ public class UnitBlocks {
 //            destroySound = AquaSounds.start4;
 //            buildVisibility = BuildVisibility.hidden;
 //        }};
-
+        defunctBeacon1 = new DefunctBeacon("defunct-beacon-small"){{
+            buildVisibility = BuildVisibility.sandboxOnly;
+            size = 2;
+            squareSprite = false;
+            consumePower(4f);
+            units.addAll(vilify,vilify,vilify,vilify);
+            spawnRange = 24;
+        }};
         overwrite(Blocks.groundFactory, (UnitFactory r) -> {
             r.plans.remove(2);
             r.plans.addAll(

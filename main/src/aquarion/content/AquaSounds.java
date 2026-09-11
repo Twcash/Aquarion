@@ -8,6 +8,19 @@ import mindustry.Vars;
 
 public class AquaSounds {
     public static Sound
+            fan1 = new Sound(),
+            machine1 =new Sound(),
+            machine2 =new Sound(),
+            machine3 =new Sound(),
+            machine4 = new Sound(),
+            machine5 = new Sound(),
+            machine6 = new Sound(),
+            machine7 = new Sound(),
+            machine8 = new Sound(),
+            machine9 = new Sound(),
+            engine1 = new Sound(),
+            researchLabloop = new Sound(),
+            researchLabVoid = new Sound(),
             shootMissileHuge = new Sound(),
             knightStep = new Sound(),
             shootGrace = new Sound(),
@@ -62,6 +75,19 @@ public class AquaSounds {
         start5 = loadSound("start5");
         derrick = loadSound("derrick");
         thunder = loadSound("thunder");
+        machine1 = loadSound("machine1");
+        machine2 = loadSound("machine2");
+        machine3 = loadSound("machine3");
+        machine4 =  loadSound("machine4");
+        machine5 =  loadSound("machine5");
+        machine6 =  loadSound("machine6");
+        machine7 =  loadSound("machine7");
+        machine8 =  loadSound("machine8");
+        machine9 =  loadSound("machine9");
+        engine1 =  loadSound("engine1");
+        fan1 =  loadSound("fan1");
+        researchLabloop =  loadSound("ResearchLabLoop");
+        researchLabVoid =  loadSound("researchLabVoid");
 
         //waterRumble = loadSound("waterRumble");
         //waterAir = loadSound("waterAir");

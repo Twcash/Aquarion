@@ -43,6 +43,7 @@ import mindustry.entities.part.HoverPart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootBarrel;
+import mindustry.entities.units.AIController;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
@@ -2644,15 +2645,22 @@ public class AquaUnitTypes {
             }});
         }};
         vilify = new DefunctUnitType("vilify") {{
-            hitSize = 16;
+            hitSize = 8;
             speed = 2.2f;
-            health = 580;
+            health = 700;
+            useUnitCap = false;
+            targetGround = true;
+            targetAir = false;
+            aiController = FlyingDefunctAI::new;
+            controller = u -> new FlyingDefunctAI();
             flying = true;
             accel = 0.06f;
             drag = 0.04f;
             flying = true;
             lowAltitude = false;
-            engineOffset = 3f;
+            engineOffset = 5f;
+            engineSize = 4;
+            circleTarget = true;
             spawnLines = new String[]{"@vilifySpawn1", "@vilifySpawn2", "@vilifySpawn3", "@vilifySpawn4", "@vilifySpawn5"};
             hurtLines = new String[]{"@vilifyHurt1", "@vilifyHurt2", "@vilifyHurt3", "@vilifyHurt4", "@vilifyHurt5"};
             deathLines = new String[]{"@vilifyDeath1", "@vilifyDeath2", "@vilifyDeath3", "@vilifyDeath4", "@vilifyDeath5"};
@@ -2672,7 +2680,7 @@ public class AquaUnitTypes {
                 alternate = false;
                 y = 0.25f;
                 shootY = 16 / 4f;
-                bullet = new BombBulletType(3f, 40) {{
+                bullet = new BombBulletType(40f, 40) {{
                     lifetime = 25;
                     collidesGround = true;
                     collidesAir = true;
@@ -3939,6 +3947,7 @@ public class AquaUnitTypes {
         }};
         knight = new AquaUnitType("knight") {{
             controller = u -> new CheckpointAI();
+            this.aiController = CheckpointAI::new;
             hitSize = 450f / 2f / 4f;
             speed = 0.2f;
             mechFrontSway = 1.6f;

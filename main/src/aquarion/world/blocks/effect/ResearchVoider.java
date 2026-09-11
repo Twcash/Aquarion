@@ -2,6 +2,7 @@ package aquarion.world.blocks.effect;
 
 import aquarion.annotations.Annotations;
 import arc.Core;
+import arc.audio.Sound;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
@@ -22,6 +23,7 @@ import mindustry.world.Block;
 
 public class ResearchVoider extends Block {
     public float processRate = 1f;
+    public Sound researchSound;
     public float processTime = 600;
     public @Annotations.Load("circle-shadow") TextureRegion softGlowRegion;
     Rand rand = new Rand();
@@ -61,6 +63,7 @@ public class ResearchVoider extends Block {
             processProg += edelta() * processRate;
             if (processProg >= processTime) {
                 processBatch();
+                researchSound.at(this);
             }
         }
 
