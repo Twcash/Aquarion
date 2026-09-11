@@ -307,7 +307,7 @@ public class PowerBlocks {
         }};
         petroleumEngine = new ConsumeGenerator("petroleum-engine") {
             {
-                requirements(Category.power, with(polymer, 2000, aluminum, 1500, ferrosilicon, 1200, metaglass, 6000));
+                requirements(Category.power, with(polymer, 1500, aluminum, 2000, ferrosilicon, 400, metaglass, 2000, silicon, 2500));
                 size = 8;
                 squareSprite = false;
                 insulated = true;

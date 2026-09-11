@@ -44,7 +44,7 @@ public class AquaLoader extends Mod {
     public static final Seq<Block> mirrorList = new Seq<>();
     public static Block block;
 
-    public static final int maxsize = 4;
+    public static final int maxsize = 8;
     public static LinkBlock[] linkEntity, linkEntityLiquid;
     public static PlaceholderBlock[] placeholderEntity;
 
