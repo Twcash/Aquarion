@@ -62,7 +62,7 @@ public class CrafterBlocks {
             cupronickelAlloyer, brineMixer, ferricGrinder, SilicaOxidator, arcFurnace, heatChannel, convectionHeater, combustionHeater,
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
-            fumeFilter, ferroSiliconFoundry, magmaTap;
+            fumeFilter, ferroSiliconFoundry, magmaTap, cardReader;
     public static Block filter;
     public static Block wallCrafter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -446,7 +446,7 @@ public class CrafterBlocks {
                 size = 4;
                 range = 8;
                 consume(new ConsumeLiquidAcidic(1, 0.125f));
-                consumeLiquid(ammonia, 0.5f).boost();
+                consumeLiquid(ammonia, 8/60f).boost();
                 liquidBoostIntensity = 3f;
                 heatColor = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
@@ -650,7 +650,7 @@ public class CrafterBlocks {
             consumePower(.125f);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(Liquids.water, 0.75f).boost();
-            consumeItems(new ItemStack(cupronickel, 2)).boost();
+            consumeItems(new ItemStack(graphite, 2)).boost();
             itemCapacity = 25;
             separateItemCapacity = true;
             ItemBoostUseTime = 6 * 60;
@@ -1975,9 +1975,8 @@ public class CrafterBlocks {
             size = 7;
             itemCapacity = 20;
             liquidCapacity = 300f;
-
             consumePower(2.0f);
-            consumeLiquid(mindustry.content.Liquids.water, 4.25f); // 0.1 it`s 6 water
+            consume(new LiquidStack(water, 4.25f));
             outputLiquidAmount = 255f;
 
             results = new ItemStack[]{
@@ -2002,6 +2001,16 @@ public class CrafterBlocks {
 
                     new DrawDefault()
             );
+        }};
+        cardReader = new GenericCrafter("card-reader"){{
+            requirements(Category.effect, with(libraryCard, 1));
+            size = 1;
+            itemCapacity = 1;
+            outputItem = new ItemStack(libraryCard, 1);
+            craftTime = 5*60;
+            solid = false;
+            shownPlanets.add(delubrum);
+            buildVisibility = BuildVisibility.sandboxOnly;
         }};
     }
 

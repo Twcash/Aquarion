@@ -30,8 +30,10 @@ import aquarion.world.content.AquaItem;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
 import arc.graphics.Color;
+import arc.graphics.g2d.Lines;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
+import mindustry.entities.Effect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
@@ -52,6 +54,8 @@ import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.fumes;
 import static aquarion.content.AquaLiquids.haze;
 import static aquarion.content.AquaPlanets.*;
+import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.nitrogen;
 import static mindustry.type.ItemStack.with;
@@ -242,7 +246,6 @@ public class CoreBlocks {
             requirements(Category.effect, with(silicon, 60, aluminum, 40));
             size = 2;
             schematicPriority = 7;
-
             consumePower(0.125f);
             consumeLiquid(fumes, 0.05f);
             range = 35;
@@ -284,6 +287,16 @@ public class CoreBlocks {
             consumeLiquid(haze, 3.5f);
             consumePower(4);
             radius = 120;
+            shieldBreakEffect = new Effect(40, e -> {
+                color(e.color);
+                stroke(3f * e.fout());
+                Lines.poly(e.x, e.y, 4, 200, 0);
+            });
+            //forceShrinkEffect = new Effect(40, e -> {
+            //                color(e.color);
+            //                stroke(3f * e.fout());
+            //                Lines.poly(e.x, e.y, 4, 200, 0);
+            //            });
         }};
         buzzSaw = new ChainsawTurret("buzzsaw") {{
             requirements(Category.turret, with(silicon, 250, lead, 300));

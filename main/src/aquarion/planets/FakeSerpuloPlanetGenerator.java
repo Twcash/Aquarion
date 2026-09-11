@@ -1,6 +1,7 @@
 package aquarion.planets;
 
 import aquarion.content.AquaWeathers;
+import aquarion.content.blocks.EnvironmentBlocks;
 import aquarion.world.Uti.NewSimplex;
 import aquarion.world.type.AquaBlock;
 import arc.func.Boolf;
@@ -17,6 +18,7 @@ import arc.util.Structs;
 import arc.util.Tmp;
 import arc.util.noise.Ridged;
 import arc.util.noise.Simplex;
+import mindustry.Vars;
 import mindustry.ai.Astar;
 import mindustry.ai.BaseRegistry.BasePart;
 import mindustry.content.Blocks;
@@ -193,8 +195,9 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
 
         boolean hasSnow = floors.length > 0 && (floors[0].name.contains("ice") || floors[0].name.contains("snow"));
         boolean hasRain = floors.length > 0 && !hasSnow && content.contains(Liquids.water) && !floors[0].name.contains("sand");
-        boolean hasDesert = floors.length > 0 && !hasSnow && !hasRain && floors[0] == Blocks.sand;
+        boolean hasDesert = floors.length > 0 && !hasSnow && !hasRain && (floors[0] == Blocks.sand || floors[0] == redSandFloor);
         boolean hasSpores = floors.length > 0 && (floors[0].name.contains("spore") || floors[0].name.contains("moss") || floors[0].name.contains("tainted"));
+        boolean hasAurora = state.rules.ambientLight.a < 0.75 && hasSnow;
 
         if(hasSnow){
             rules.weather.add(new Weather.WeatherEntry(AquaWeathers.blizzard));
@@ -207,7 +210,16 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         if(hasSpores){
             rules.weather.add(new Weather.WeatherEntry(Weathers.sporestorm));
         }
+        if(hasRain){
+            rules.weather.add(new Weather.WeatherEntry(Weathers.rain));
+            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.monsoon));
+            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.whiteFog));
+        }
+        if(hasAurora){
+            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.bioluminescentBlooms));
+        }
     }
+
     @Override
     protected float noise(float x, float y, double octaves, double falloff, double scl, double mag){
         Vec3 v = sector.rect.project(x, y).scl(5f);

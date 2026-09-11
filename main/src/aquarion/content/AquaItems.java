@@ -38,6 +38,8 @@ public class AquaItems {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
         Items.sporePod.hidden = true;
+        Items.blastCompound.hidden = true;
+        Items.pyratite.hidden = true;
         bauxite = new Item("bauxite", Color.valueOf("#895841")) {{
             hardness = 3;
             cost = 1.1F;
@@ -168,6 +170,7 @@ public class AquaItems {
         libraryCard = new AquaItem("library-card", Color.valueOf("#60616b")) {{
            cost = 0.01f;
            buildable = true;
+           shownPlanets.add(delubrum);
         }};
         calcium = new Item("calcium", Color.valueOf("#f0f0d0")) {{
             cost = 0.5f;

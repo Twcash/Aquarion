@@ -20,6 +20,7 @@ import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.meta.Env;
+import mindustry.world.meta.Stat;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaPlanets.*;
@@ -27,7 +28,7 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DistributionBlocks {
-    public static Block payloadDistributor, itemHopper, itemYeeter, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
+    public static Block payloadDistributor, itemHopper, itemYeeter, tungstenYeeter, tungstenHopper, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block cargoDepot, cargoDock;
@@ -83,6 +84,18 @@ public class DistributionBlocks {
             size = 1;
             itemCapacity = 30;
         }};
+        tungstenYeeter = new ItemYeeter("tungsten-yeeter"){{
+            requirements(Category.distribution, with(tungsten, 120, graphite, 80));
+            size = 1;
+            consumePower(3);
+            itemCapacity = 30;
+            reload = 20f;
+        }};
+        tungstenHopper = new ItemHopper("tungsten-hopper"){{
+            requirements(Category.distribution, with(graphite, 60, beryllium, 140, tungsten, 70));
+            size = 2;
+            itemCapacity = 60;
+        }};
         sealedDistributor = new SealedRouter("sealed-distributor") {{
             requirements(Category.distribution, with(silicon, 50));
             envEnabled |= Env.terrestrial | Env.underwater;
@@ -107,11 +120,10 @@ public class DistributionBlocks {
         }};
         sealedJunction = new Junction("sealed-junction") {{
             requirements(Category.distribution, with(silicon, 15));
-            capacity = 8;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
-
-            speed = 10;
-            hasItems = true;
+            speed = 15;
+            displayedSpeed = 30;
+            capacity = 8;
             envEnabled |= Env.terrestrial | Env.underwater;
             ((SealedConveyor) sealedConveyor).junctionReplacement = this;
             envDisabled = Env.none;

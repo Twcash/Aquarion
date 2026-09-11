@@ -104,6 +104,7 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
     public void setStats(){
         stats.timePeriod = craftTime;
         super.setStats();
+        stats.remove(Stat.maxEfficiency);
 
         if((hasItems && itemCapacity > 0) || outputItems != null){
             stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
@@ -118,14 +119,17 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         if(hasHeat){
             //Why would it be negative? Idk...
             if(baseEfficiency <= 0){
-                stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
+                stats.add(Stat.input, AquaStats.heatReq(
+                        heatRequirement, overheatScale, maxEfficiency, flipHeatScale
+                ));
             }else{
                 stats.add(Stat.booster, AquaStats.heatBooster(
-                        heatRequirement, overheatScale, baseEfficiency, maxEfficiency, flipHeatScale
+                        heatRequirement, overheatScale, baseEfficiency, maxEfficiency+baseEfficiency, flipHeatScale
                 ));
             }
+        }if(maxEfficiency > 1) {
+            stats.add(Stat.maxEfficiency, (int) ((maxEfficiency + baseEfficiency) * 100f), StatUnit.percent);
         }
-        stats.add(Stat.maxEfficiency, (int)((maxEfficiency + baseEfficiency) * 100f), StatUnit.percent);
         if(boostersAffectOutput || boostAffectSpeedANDoutput) {
             // The dedicated output-multiplier bundles added below supersede the generic
             // per-consumer booster entries added by AquaBlock.setStats() (which would
@@ -141,24 +145,20 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                 ConsumeItems coni = findConsume(ConsumeItems.class);
                 if(coni != null){
                     stats.add(Stat.booster, AquaStats.itemOutputBoosters(
-                            "{0}" + StatUnit.multiplier.localized(),
-                            stats.timePeriod,
-                            itemBoostIntensity,
-                            0f,
-                            coni.items,
-                            ItemBoostUseTime
+                            "{0}" + StatUnit.multiplier.localized(), stats.timePeriod, itemBoostIntensity, 0f, coni.items, ItemBoostUseTime
                     ));
                 }
             }
             if (liquidBoostIntensity != 1){
                 ConsumeLiquidBase consBase = findConsume(ConsumeLiquidBase.class);
                 if(consBase != null){
+                    final ConsumeLiquidFilter filter = consBase instanceof ConsumeLiquidFilter f ? f : null;
                     stats.add(Stat.booster,
                             AquaStats.liquidOutputMultiplier(
-                                    liquid -> (consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid)
+                                    liquid -> (filter != null ? filter.filter.get(liquid) : (consBase instanceof ConsumeLiquid cl && cl.liquid == liquid))
                                             ? liquidBoostIntensity : 1f,
                                     consBase.amount,
-                                    liquid -> consBase instanceof ConsumeLiquid && ((ConsumeLiquid) consBase).liquid == liquid
+                                    liquid -> filter != null ? filter.filter.get(liquid) : (consBase instanceof ConsumeLiquid cl && cl.liquid == liquid)
                             )
                     );
                 }

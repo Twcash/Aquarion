@@ -60,6 +60,7 @@ public class FloraBlock extends Block {
         update = true;
         customShadow = true;
         noUpdateDisabled = true;
+        drawTeamOverlay = false;
     }
     @Override
     public void load() {

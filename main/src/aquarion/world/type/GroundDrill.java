@@ -303,12 +303,7 @@ public class GroundDrill extends AquaBlock implements AquaBarHelpers.CustomBarHo
                 ConsumeItems coni = booster(ConsumeItems.class);
                 if(coni != null){
                     stats.add(Stat.booster, AquaStats.itemOutputBoosters(
-                            "{0}" + StatUnit.multiplier.localized(),
-                            stats.timePeriod,
-                            itemBoostIntensity,
-                            0f,
-                            coni.items,
-                            ItemBoostUseTime
+                            "{0}" + StatUnit.multiplier.localized(), drillTime, itemBoostIntensity, 0f, coni.items, ItemBoostUseTime
                     ));
                 }
             }
@@ -337,7 +332,7 @@ public class GroundDrill extends AquaBlock implements AquaBarHelpers.CustomBarHo
         stats.add(Stat.maxEfficiency, (int)(maxEfficiency * 100f), StatUnit.percent);
         for(Consume c : consumers){
             if(c instanceof AquaConsume ac){
-                ac.display(stats, stats.timePeriod);
+                ac.display(stats, drillTime);
             }
         }
     }

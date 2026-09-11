@@ -14,8 +14,11 @@ public class ModUI {
         showBottomToast(text, null);
     }
 
-    public static void showBottomToast(String text, String iconName) {
-        float dur = 1f;
+    public static void showBottomToast(String text, String iconName){
+        showBottomToast(text, iconName, 0.5f);
+    }
+    
+    public static void showBottomToast(String text, String iconName, float delay) {
 
         Table t = new Table(Styles.black3);
         t.touchable = Touchable.disabled;
@@ -29,10 +32,10 @@ public class ModUI {
 
         t.actions(
                 Actions.moveToAligned(Core.graphics.getWidth()/2f, -40, Align.center),
-                Actions.delay(0.5f),
-                Actions.moveToAligned(Core.graphics.getWidth()/2f, 30, Align.center, dur, Interp.pow2),
+                Actions.delay(delay),
+                Actions.moveToAligned(Core.graphics.getWidth()/2f, 30, Align.center, 1f, Interp.pow2),
                 Actions.delay(2f),
-                Actions.moveToAligned(Core.graphics.getWidth()/2f, -40, Align.center, dur, Interp.pow2),
+                Actions.moveToAligned(Core.graphics.getWidth()/2f, -40, Align.center, 1f, Interp.pow2),
                 Actions.remove()
         );
 

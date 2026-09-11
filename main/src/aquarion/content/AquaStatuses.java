@@ -1,16 +1,19 @@
 package aquarion.content;
 
 import aquarion.world.graphics.AquaFx;
+import arc.Events;
 import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.content.Fx;
 import mindustry.content.StatusEffects;
 import mindustry.entities.units.StatusEntry;
+import mindustry.game.EventType;
 import mindustry.gen.Unit;
 import mindustry.graphics.Pal;
 import mindustry.type.StatusEffect;
 
+import static mindustry.Vars.state;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaStatuses {
@@ -25,6 +28,15 @@ public class AquaStatuses {
             buildSpeedMultiplier = 0.8f;
             effect = AquaFx.cold;
             allDatabaseTabs = true;
+            transitionDamage = 15;
+            init(() -> {
+                affinity(blasted, (unit, result, time) -> {
+                    unit.damagePierce(transitionDamage);
+                    if(unit.team == state.rules.waveTeam){
+                        Events.fire(EventType.Trigger.blastFreeze);
+                    }
+                });
+            });
         }};
         flung = new AquaStatusEffect("flung"){{
             dragMultiplier = 0.1f;
@@ -38,7 +50,7 @@ public class AquaStatuses {
             dragMultiplier = 1.3f;
             show = true;
             color = Pal.accent;
-            outline = true;
+            outline = false;
             speedMultiplier = 0.8f;
             permanent = true;
             healthMultiplier = 1.1f;
@@ -50,7 +62,7 @@ public class AquaStatuses {
             show = true;
             color = Pal.accent;
             permanent = true;
-            outline = true;
+            outline = false;
             effect = Fx.none;
             healthMultiplier = 0.9f;
         }};
@@ -59,7 +71,7 @@ public class AquaStatuses {
             color = Pal.accent;
             speedMultiplier = 1.3f;
             show = true;
-            outline = true;
+            outline = false;
             permanent = true;
             dragMultiplier = 0.9f;
             effect = Fx.none;
@@ -69,7 +81,7 @@ public class AquaStatuses {
             color = Pal.accent;
             healthMultiplier = 1.8f;
             permanent = true;
-            outline = true;
+            outline = false;
             dragMultiplier = 1.1f;
             show = true;
             reloadMultiplier = 0.8f;
@@ -79,7 +91,7 @@ public class AquaStatuses {
             damage = 0.167f;
             effect = AquaFx.ionizing;
             transitionDamage = 8f;
-
+            outline = false;
             init(() -> {
                 opposite(wet, freezing);
                 affinity(melting, (unit, result, time) -> {
@@ -95,6 +107,7 @@ public class AquaStatuses {
             speedMultiplier = 0.6f;
             healthMultiplier = 0.8f;
             reloadMultiplier = 0.6f;
+            outline = false;
         }};
         corroding = new StatusEffect("corroding"){{
             color = Color.valueOf("ffab84");
@@ -105,6 +118,7 @@ public class AquaStatuses {
             healthMultiplier = 0.8f;
             damageMultiplier = 1.1f;
             reloadMultiplier = 0.7f;
+            outline = false;
         }};
     }
     public static class AquaStatusEffect extends StatusEffect{

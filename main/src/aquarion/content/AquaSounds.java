@@ -51,7 +51,8 @@ public class AquaSounds {
             //compressDrill = new Sound(),
             //compressDrillImpact = new Sound(),
             refine = new Sound(),
-            electricExplosion = new Sound();
+            electricExplosion = new Sound(),
+                    javelinShot = new Sound();
 
     public static void load(){
         shootMissileHuge = loadSound("shootMissileHuge");
@@ -99,6 +100,7 @@ public class AquaSounds {
         //compressDrill = loadSound("compressDrill");
         //compressDrillImpact = loadSound("compressDrillImpact");
         refine = loadSound("refine");
+        javelinShot = loadSound("javelinShot");
     }
 
     private static Sound loadSound(String soundName){

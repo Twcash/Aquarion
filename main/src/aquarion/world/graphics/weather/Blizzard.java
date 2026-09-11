@@ -72,6 +72,7 @@ public class Blizzard extends ParticleWeather {
         noiseLayerColorM = 0.96f;
         noisePath = "noiseAlpha";
         noiseColor = Color.valueOf("d8f1ff");
+        duration = 5 * Time.toMinutes;
     }
     @Override
     public void init(){
