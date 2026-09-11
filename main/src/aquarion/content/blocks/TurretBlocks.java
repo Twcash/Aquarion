@@ -642,6 +642,35 @@ public class TurretBlocks {
             }};
             limitRange(1.1f);
         }};
+                javelin = new ItemTurret("javelin") {{
+            requirements(Category.turret, with(polymer, 250, graphite, 750, AquaItems.ferricMatter, 500, silicon, 400));
+            shownPlanets.addAll(fakeSerpulo,fakeErekir,tantros2);
+            size = 3;
+            shoot.shots = 4;
+            shoot.shotDelay = 5f;
+            shootCone = 10f;
+            rotateSpeed = 15f;
+            reload = 30f;
+            inaccuracy = 2f;
+            consumeAmmoOnce = true;
+            range = 330f;
+            ammoPerShot = 2;
+            itemCapacity = 30;
+            liquidCapacity = 150;
+            consumeCoolant(3);
+            coolantMultiplier = 0.25f;
+            targetAir = true;
+            targetGround = false;
+            shootSound = AquaSounds.javelinShot;
+            outlineColor = tantDarkestTone;
+            ammoPerShot = 3;
+            ammo(
+                    metaglass, javelinMetaglass,
+                    graphite, javelinGraphite,
+                    tungsten, javelinTungsten,
+                    polymer, javelinPolymer
+            );
+        }};
         flagellate = new AquaTemplates.AquaItemTurretTemplate("flagellate") {{
             requirements(Category.turret, with(steel, 2500, cupronickel, 1200, ferrosilicon, 2000, metaglass, 4000, nickel, 8000));
             size = 7;
@@ -1346,35 +1375,6 @@ public class TurretBlocks {
                     }});
                 }
             }};
-        }};
-        javelin = new ItemTurret("javelin") {{
-            requirements(Category.turret, with(polymer, 250, graphite, 750, AquaItems.ferricMatter, 500, silicon, 400));
-            shownPlanets.addAll(fakeSerpulo,fakeErekir,tantros2);
-            size = 3;
-            shoot.shots = 4;
-            shoot.shotDelay = 5f;
-            shootCone = 10f;
-            rotateSpeed = 15f;
-            reload = 30f;
-            inaccuracy = 2f;
-            consumeAmmoOnce = true;
-            range = 330f;
-            ammoPerShot = 2;
-            itemCapacity = 30;
-            liquidCapacity = 150;
-            consumeCoolant(3);
-            coolantMultiplier = 0.25f;
-            targetAir = true;
-            targetGround = false;
-            shootSound = AquaSounds.javelinShot;
-            outlineColor = tantDarkestTone;
-            ammoPerShot = 3;
-            ammo(
-                    metaglass, javelinMetaglass,
-                    graphite, javelinGraphite,
-                    tungsten, javelinTungsten,
-                    polymer, javelinPolymer
-            );
         }};
         nostalgia = new PowerTurret("nostalgia"){{
             destroyEffect = AquaFx.factoryDestroyDefunct;
