@@ -45,8 +45,11 @@ public class ResearchVoider extends Block {
             if (items.empty()) return;
             mindustry.type.Sector sector = Vars.state.getSector();
             if (sector != null) {
-                items.each((item, amount) -> sector.info.handleItemExport(item, amount));
-            }
+                items.each((item, amount) -> {
+                    sector.info.handleItemExport(item, amount);
+                    ResearchServer.addResearch(sector.id, item, amount);
+                });
+            };
             AquaFx.vaporizeItem.at(x, y, 0, items.first());
             items.clear();
             processProg = 0f;
