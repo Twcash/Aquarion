@@ -39,6 +39,9 @@ import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.environment.OverlayFloor;
 import mindustry.world.blocks.logic.MessageBlock;
 import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.world.blocks.sandbox.ItemSource;
+import mindustry.world.blocks.sandbox.LiquidSource;
+import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.meta.BuildVisibility;
@@ -54,7 +57,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class CoreBlocks {
-    public static Block bomb, toggler, splitter, channel, storageReader, merger, buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
+    public static Block bomb, dPowerSource, dItemSource, dLiquidSource, speaker, toggler, splitter, channel, storageReader, merger, buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
             coreEscarpment, laboratory, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell,             neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, neoplasmBlobber, researchVoider;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -64,12 +67,38 @@ public class CoreBlocks {
     public static void loadContent() {
         infomatic = new InfomaticBlock("infomatic"){{
             requirements(Category.logic, with(silicon, 10));
+            canOverdrive = false;
             size = 1;
+        }};
+        speaker = new InfomaticBlock("speaker"){{
+            requirements(Category.logic, BuildVisibility.worldProcessorOnly, with());
+            size = 1;
+            privileged = true;
+            targetable = false;
+        }};
+        dPowerSource = new PowerSource("defunct-power-source"){{
+            requirements(Category.logic, BuildVisibility.worldProcessorOnly, with());
+            size = 1;
+            privileged = true;
+            targetable = false;
+        }};
+        dLiquidSource = new LiquidSource("defunct-liquid-source"){{
+            requirements(Category.logic, BuildVisibility.worldProcessorOnly, with());
+            size = 1;
+            privileged = true;
+            targetable = false;
+        }};
+        dItemSource = new ItemSource("defunct-item-source"){{
+            requirements(Category.logic, BuildVisibility.worldProcessorOnly, with());
+            size = 1;
+            privileged = true;
+            targetable = false;
         }};
         toggler = new toggler("toggler"){{
             requirements(Category.logic, with(silicon, 10, graphite, 5));
             size = 1;
         }};
+
         splitter = new BinarySplitter("splitter"){{
             requirements(Category.logic, with(silicon, 15, graphite, 10));
         }};
