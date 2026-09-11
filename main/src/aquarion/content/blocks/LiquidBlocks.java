@@ -65,6 +65,7 @@ public class LiquidBlocks {
             leaks = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+
             alwaysUnlocked = true;
         }};
         pulseSiphon = new ModifiedConduit("pulse-siphon") {{
