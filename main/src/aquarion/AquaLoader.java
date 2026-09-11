@@ -30,6 +30,7 @@ import java.lang.reflect.Modifier;
 
 import static arc.Core.app;
 import static mindustry.Vars.headless;
+import static mindustry.Vars.mods;
 
 @LoadRegs("error")
 @EnsureLoad

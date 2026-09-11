@@ -645,6 +645,8 @@ public class CrafterBlocks {
             size = 3;
             drillTime = 150;
             liquidBoostIntensity = 1.25f;
+            ambientSound = AquaSounds.machine4;
+            ambientSoundVolume = 0.08f;
             consumePower(.125f);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(Liquids.water, 0.75f).boost();
@@ -702,6 +704,8 @@ public class CrafterBlocks {
         CentrifugalPump = new Pump("centrifugal-pump") {{
             requirements(Category.liquid, with(copper, 120, metaglass, 50));
             size = 3;
+            ambientSound = AquaSounds.machine2;
+            ambientSoundVolume = 0.07f;
             consumePower(0.75f);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             squareSprite = false;
@@ -804,6 +808,8 @@ public class CrafterBlocks {
             requirements(Category.crafting, with(lead, 700, copper, 900, metaglass, 500, graphite, 600));
             size = 7;
             itemCapacity = 60;
+            ambientSoundVolume = 0.09f;
+            ambientSound = AquaSounds.machine9;
             squareSprite = false;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             updateEffect = Fx.steam;
@@ -953,6 +959,8 @@ public class CrafterBlocks {
                 consumePower(1.5f);
                 squareSprite = false;
                 size = 4;
+                ambientSound = AquaSounds.machine3;
+                ambientSoundVolume = 0.07f;
                 baseEfficiency = 1;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 heatRequirement = 30;
@@ -1215,6 +1223,8 @@ public class CrafterBlocks {
             size = 4;
             liquidCapacity = 400;
             squareSprite = false;
+            ambientSound = AquaSounds.machine6;
+            ambientSoundVolume = 0.1f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             itemCapacity = 60;
             outputItem = new ItemStack(polymer, 40);
@@ -1257,6 +1267,8 @@ public class CrafterBlocks {
             squareSprite = false;
             itemCapacity = 60;
             liquidCapacity = 200;
+            ambientSound = AquaSounds.machine8;
+            ambientSoundVolume = 0.05f;
             craftTime = 150;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeItemStack(new ItemStack(silicon, 20));
@@ -1442,7 +1454,7 @@ public class CrafterBlocks {
             consumePower(.25f);
             envDisabled = Env.underwater | Env.space;
             outputLiquid = new LiquidStack(air, 1);
-            ambientSound = Sounds.windHowl;
+            ambientSound = AquaSounds.fan1;
             ambientSoundVolume = 0.02f;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
                 layer = shadow;

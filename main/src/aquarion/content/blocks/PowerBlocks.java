@@ -117,6 +117,8 @@ public class PowerBlocks {
             liquidCapacity = 20;
             powerProduction = 1.5f;
             conductivePower = false;
+            ambientSound = AquaSounds.machine5;
+            ambientSoundVolume = 0.02f;
             insulated = true;
             size = 2;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -206,6 +208,8 @@ public class PowerBlocks {
             effectChance = 0.09f;
             generateEffect = AquaFx.turbineGenerate;
             generateEffectRange = 12 / 4f;
+            ambientSound = AquaSounds.machine7;
+            ambientSoundVolume = 0.12f;
             liquidCapacity = 2000;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             insulated = true;
@@ -309,6 +313,8 @@ public class PowerBlocks {
                 insulated = true;
                 liquidCapacity = 3000;
                 warmupSpeed = 0.002f;
+                ambientSound = AquaSounds.engine1;
+                ambientSoundVolume = 0.1f;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumeLiquids(LiquidStack.with(petroleum, 24, oxygen, 12));
                 outputLiquid = new LiquidStack(water, 12);

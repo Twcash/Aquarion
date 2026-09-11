@@ -1,6 +1,7 @@
 package aquarion.content.blocks;
 
 import aquarion.content.AquaItems;
+import aquarion.content.AquaSounds;
 import aquarion.content.AquaUnitTypes;
 import aquarion.content.AquaBullets;
 import aquarion.world.blocks.core.AquaCoreBlock;
@@ -517,6 +518,8 @@ public class CoreBlocks {
             buildVisibility = BuildVisibility.campaignOnly;
             processRate = 1f;
             itemCapacity = 500;
+            ambientSound = AquaSounds.researchLabloop;
+            researchSound = AquaSounds.researchLabVoid;
             consumePower(10f);
             squareSprite = false;
             alwaysUnlocked = true;
@@ -525,6 +528,8 @@ public class CoreBlocks {
         laboratory = new ResearchVoider("laboratory"){{
             size = 5;
             squareSprite = false;
+            ambientSound = AquaSounds.researchLabloop;
+            researchSound = AquaSounds.researchLabVoid;
             destructible = false;
             consumePower(5);
             processRate = 2;
