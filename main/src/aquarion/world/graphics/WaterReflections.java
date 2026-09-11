@@ -1,6 +1,7 @@
 package aquarion.world.graphics;
 
 import arc.Core;
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.graphics.Pixmap.Format;
 import arc.graphics.g2d.Draw;
@@ -9,6 +10,7 @@ import arc.math.Mat;
 import arc.struct.ObjectMap;
 import arc.util.Log;
 import arc.util.Tmp;
+import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.gen.Drawc;
 import mindustry.gen.EffectStatec;
@@ -16,14 +18,16 @@ import mindustry.gen.Groups;
 import mindustry.gen.Unit;
 import mindustry.type.UnitType;
 import mindustry.world.Block;
+import mindustry.world.Tile;
 import mindustry.world.meta.BlockGroup;
 
 import static mindustry.Vars.tilesize;
 
 public class WaterReflections {
-    //todo twacsh your beloved block shadows looks ugly on the reflections i hope you read this and take care of your shadows, thx u, with love Sentinel/OwO
 
     public static FrameBuffer buffer;
+
+    public static boolean disabled;
 
     public static boolean captureReflections = false;
 
@@ -41,7 +45,7 @@ public class WaterReflections {
     private static int reflectErrors;
 
     public static void captureScreen(){
-        if(Core.graphics.getWidth() <= 0 || Core.graphics.getHeight() <= 0) return;
+        if(disabled || Core.graphics.getWidth() <= 0 || Core.graphics.getHeight() <= 0) return;
 
         if(buffer == null){
             buffer = new FrameBuffer(Format.rgba8888, Core.graphics.getWidth(), Core.graphics.getHeight(), false);
@@ -60,9 +64,9 @@ public class WaterReflections {
         captureReflections = true;
         try{
             Draw.reset();
+            Draw.z(0);
 
-            Groups.build.each(b -> Math.abs(b.tile.drawx() - cx) <= halfW + margin && Math.abs(b.tile.drawy() - cy) <= halfH + margin,
-                WaterReflections::drawReflected);
+            forEachBuildIn(cx, cy, halfW, halfH, margin, WaterReflections::drawReflected);
 
             Groups.unit.each(u -> !u.dead() && Math.abs(u.x() - cx) <= halfW + margin && Math.abs(u.y() - cy) <= halfH + margin,
                 WaterReflections::drawReflectedUnit);
@@ -77,9 +81,24 @@ public class WaterReflections {
             captureReflections = false;
             Draw.flush();
             Draw.reset();
+            Draw.z(0);
             Draw.trans(baseline);
             buffer.end();
             Draw.sort(true);
+        }
+    }
+    private static void forEachBuildIn(float cx, float cy, float halfW, float halfH, float margin, Cons<Building> cons){
+        if(Vars.world == null || Vars.world.tiles == null) return;
+        int x0 = Math.max(0, (int)Math.floor((cx - halfW - margin) / tilesize));
+        int x1 = Math.min(Vars.world.width() - 1, (int)Math.floor((cx + halfW + margin) / tilesize));
+        int y0 = Math.max(0, (int)Math.floor((cy - halfH - margin) / tilesize));
+        int y1 = Math.min(Vars.world.height() - 1, (int)Math.floor((cy + halfH + margin) / tilesize));
+        for(int x = x0; x <= x1; x++){
+            for(int y = y0; y <= y1; y++){
+                Tile tile = Vars.world.tile(x, y);
+                Building b = tile.build;
+                if(b != null && b.tile == tile) cons.get(b);
+            }
         }
     }
 
@@ -87,6 +106,7 @@ public class WaterReflections {
         try{
             Draw.flush();
             Draw.reset();
+            Draw.z(0);
             Block block = b.block;
             float ax = b.x();
             float base = b.tile.drawy() - block.size * tilesize / 2f;
@@ -96,7 +116,7 @@ public class WaterReflections {
 
             Tmp.m1.setToTranslation(ax, base).scale(c.reflectXdisplace, yScl).translate(-ax, -base);
             Draw.trans(Tmp.m1);
-            b.drawCached(); // todo cached draws still no working
+            b.drawCached();
         }catch(Throwable t){
             if(reflectErrors++ < 5) Log.err("[reflect] block draw failed", t);//i hope this ends as useless code and not exception happens
         }
@@ -106,6 +126,7 @@ public class WaterReflections {
         try{
             Draw.flush();
             Draw.reset();
+            Draw.z(0);
             float gap = reflectionGroundGap + (reflectionFlyerGap - reflectionGroundGap) * u.elevation();
 
             UnitType type = u.type;
@@ -116,7 +137,13 @@ public class WaterReflections {
                 type.shadowElevation = -1f;
                 type.drawSoftShadow = false;
                 u.elevation(0f);
-                Draw.trans(Tmp.m1.setToTranslation(0f, -2f * gap));
+
+                ReflectConfig c = configForUnit(type);
+                float yScl = c.reflectionFlip ? -c.reflectYdisplace : c.reflectYdisplace;
+                Tmp.m1.setToTranslation(u.x(), u.y() - 2f * gap)
+                     .scale(c.reflectXdisplace, yScl)
+                     .translate(-u.x(), -u.y());
+                Draw.trans(Tmp.m1);
                 u.draw();
             }finally{
                 u.elevation(unitElev);
@@ -132,6 +159,7 @@ public class WaterReflections {
         try{
             Draw.flush();
             Draw.reset();
+            Draw.z(0);
             Draw.trans(Tmp.m1.setToTranslation(0f, -2f * reflectionGroundGap));
             e.draw();
         }catch(Throwable t){
@@ -150,6 +178,12 @@ public class WaterReflections {
         return d;
     }
 
+    private static ReflectConfig configForUnit(UnitType type){
+        ReflectConfig d = new ReflectConfig();
+        d.reflectionFlip = false;
+        return d;
+    }
+
     public static void set(Block block, float xdisplace, float ydisplace, boolean flip){
         ReflectConfig c = config.get(block);
         if(c == null) config.put(block, c = new ReflectConfig());
@@ -158,9 +192,21 @@ public class WaterReflections {
         c.reflectionFlip = flip;
     }
 
-    private static class ReflectConfig {
-        float reflectXdisplace = 1f;
-        float reflectYdisplace = 0.75f;
-        boolean reflectionFlip = true;
+    public static class ReflectConfig {
+        public float reflectXdisplace = 1f;
+        public float reflectYdisplace = 0.75f;
+        public boolean reflectionFlip = true;
+
+        public ReflectConfig(){}
+
+        public ReflectConfig(float x, float y, boolean flip){
+            this.reflectXdisplace = x;
+            this.reflectYdisplace = y;
+            this.reflectionFlip = flip;
+        }
+
+        public ReflectConfig copy(){
+            return new ReflectConfig(reflectXdisplace, reflectYdisplace, reflectionFlip);
+        }
     }
 }
