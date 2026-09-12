@@ -48,7 +48,7 @@ public class DrawWheel extends DrawBlock {
         if (layer > 0) Draw.z(layer);
 
 
-        float rot = build.totalProgress() * rotationSpeed;
+        float rot = (build.totalProgress() * build.warmup()) * rotationSpeed;
 
         for (int i = 0; i < sideCount; i++) {
             float mod1 = Mathf.mod(rot + 360f / sideCount * i, 360f);

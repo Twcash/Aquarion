@@ -2,17 +2,15 @@ package aquarion.content;
 
 //import aquarion.gen.AquaLegsUnit;
 import aquarion.annotations.Annotations;
-import aquarion.gen.AquaMechc;
-import aquarion.gen.DropShipc;
-import aquarion.gen.FlyingDialogueUnitc;
-import aquarion.gen.JetUnitc;
-import aquarion.gen.DialogueUnitc;
+import aquarion.gen.*;
+import aquarion.units.AquaLegUnitType;
 import aquarion.units.DefunctUnitType;
 import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.type.AquaUnitType;
 import aquarion.world.AI.*;
 import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.content.AquaLiquid;
+import aquarion.world.entities.AquaLegConfig;
 import aquarion.world.entities.DroneSpawnerBulletType;
 import aquarion.world.entities.bullet.TentacleBulletType;
 import aquarion.world.entities.parts.EnginePart;
@@ -23,6 +21,7 @@ import aquarion.world.graphics.AquaShaders;
 import aquarion.world.units.newTankUnitType;
 import arc.graphics.Blending;
 import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
 import arc.math.Interp;
 import arc.math.Mathf;
@@ -74,6 +73,7 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}, serialize = false) DefunctUnitType endure;
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify;
     public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
+    public static @Annotations.EntityDef(value ={Unitc.class,  AquaLegsc.class}, serialize = false) AquaLegUnitType regality, rally, timmy;
     public static UnitType visitor, mediumTruck, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
     public static UnitType engineer;
     public static @Annotations.EntityDef(value = {Unitc.class, AquaMechc.class}) UnitType knight;
@@ -810,6 +810,22 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
+        regality = new AquaLegUnitType("regality"){{
+            health = 1280;
+            armor = 6;
+            hitSize = 8*3f;
+            speed = 1.2f;
+            drawCell = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            legLengthScl = 1;
+            legMoveSpace = 3f;
+            legBaseUnder = true;
+            groundLayer = Layer.legUnit+1;
+            legSequence.addAll(
+                    new AquaLegConfig(60/4f/2f, -40/2f/4f, -0, 14),
+                    new AquaLegConfig(-60/2f/4f, -40/2f/4f, 0, 14)
+            );
+        }};
         pillage = new AquaUnitType("pillage") {{
             constructor = LegsUnit::create;
             speed = 0.34f;
@@ -1380,28 +1396,28 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-//        rally = new AquaLegUnitType("rally"){{
-//            hitSize = 4*8;
-//            speed = 0.6f;
-//            health = 1700;
-//            armor = 5;
-//            omniMovement = false;
-//            drawCell = false;
-//            stepShake = 0.1f;
-//            legMoveSpace = 1.4f;
-//            legContinuousMove = true;
-        //    envDisabled = Env.space;
-//            lockLegBase = true;
-//            legMinLength = 0.25f;
-//            groundLayer = Layer.legUnit+1;
-//            outlineColor = AquaPal.tantDarkestTone;
-//            legSequence.addAll(
-//                    new AquaLegConfig(4, 4, -22.5f, 11){{suffix = "-front";legExtension = 5;}},
-//                    new AquaLegConfig(-6, 6, 22.5f, 11){{suffix = "-front";legExtension = 5;}},
-//                    new AquaLegConfig(-10, -5, 110, 8){{legExtension = 5;}},
-//                    new AquaLegConfig(10, -5, -110, 8){{legExtension = 5;}}
-//            );
-//        }};
+        rally = new AquaLegUnitType("rally"){{
+            hitSize = 4*8;
+            speed = 0.6f;
+            health = 1700;
+            armor = 5;
+            omniMovement = false;
+            drawCell = false;
+            stepShake = 0.1f;
+            legMoveSpace = 1.4f;
+            legContinuousMove = true;
+            envDisabled = Env.space;
+            lockLegBase = true;
+            legMinLength = 0.25f;
+            groundLayer = Layer.legUnit+1;
+            outlineColor = AquaPal.tantDarkestTone;
+            legSequence.addAll(
+                    new AquaLegConfig(4, 4, -22.5f, 11){{suffix = "-front";legExtension = 5;}},
+                    new AquaLegConfig(-6, 6, 22.5f, 11){{suffix = "-front";legExtension = 5;}},
+                    new AquaLegConfig(-10, -5, 110, 8){{legExtension = 5;}},
+                    new AquaLegConfig(10, -5, -110, 8){{legExtension = 5;}}
+            );
+        }};
 //        retaliate = new newTankUnitType("retaliate") {{
 //            constructor = TankUnit::create;
 //            speed = 0.45f;
@@ -4104,5 +4120,38 @@ public class AquaUnitTypes {
                     hitEffect = AquaFx.hitBulletColor2;
                 }};
             }});
+        }};
+        timmy = new AquaLegUnitType("lilTimmy"){{
+            hitSize = 2;
+            health = 1;
+            armor = -999;
+            speed = 2;
+            useUnitCap = false;
+            drawCell = false;
+            omniMovement = false;
+            stepSound = Sounds.stepMud;
+            deathSound = AquaSounds.death;
+            loopSound = AquaSounds.breath;
+            weapons.add(new Weapon(){{
+                rotate = false;
+                reload = 60;
+                shootSound = AquaSounds.atak;
+                rotate = false;
+                bullet = new EmptyBulletType(){{
+                    despawnEffect = hitEffect = Fx.none;
+                    damage = 1;
+                    splashDamage = 1;
+                    splashDamageRadius = 8;
+                    collidesAir = collidesGround = true;
+                }};
+            }});
+            legBaseUnder = true;
+            legMoveSpace = 2;
+            legSequence.addAll(
+                    new AquaLegConfig(30/2/4f, 20/2/4f, 12, 10){{suffix = "-arm";legExtension = 1;}},
+                    new AquaLegConfig(-30/2/4f, 20/2/4f, -12, 10){{suffix = "-arm";legExtension =1;}},
+                    new AquaLegConfig(-16/4/2, -66/4/2f, 170, 12){{legExtension = 1;}},
+                    new AquaLegConfig(16/4/2, -66/4/2f, -170, 12){{legExtension = 1;}}
+            );
         }};
     }}

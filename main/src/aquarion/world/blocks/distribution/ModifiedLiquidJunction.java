@@ -205,12 +205,6 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
                     }
                 });
             }
-
-            if(any){
-                noSleep();
-            }else{
-                sleep();
-            }
         }
 
         @Override

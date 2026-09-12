@@ -43,6 +43,10 @@ public class AquaLegUnitType extends UnitType {
     @Override
     public void draw(Unit unit){
         super.draw(unit);
+        drawLegs(unit);
+    }
+    @Override
+    public void drawLegs(Unit unit){
         if(!(unit instanceof AquaLegsc unite)) return;
         applyColor(unit);
         Tmp.c3.set(Draw.getMixColor());
@@ -113,10 +117,7 @@ public class AquaLegUnitType extends UnitType {
         if(baseRegion.found()){
             Draw.rect(baseRegion, unit.x, unit.y, rotation - 90);
         }
-
-        Draw.reset();
     }
-
 
 
 

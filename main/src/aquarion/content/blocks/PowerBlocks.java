@@ -1,12 +1,15 @@
 package aquarion.content.blocks;
 
 import aquarion.content.AquaCategories;
+import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
 import aquarion.world.blocks.power.*;
+import aquarion.world.content.AquaLiquid;
 import aquarion.world.drawers.*;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
 import arc.graphics.Color;
+import arc.struct.Seq;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.Items;
@@ -307,7 +310,7 @@ public class PowerBlocks {
         }};
         petroleumEngine = new ConsumeGenerator("petroleum-engine") {
             {
-                requirements(Category.power, with(polymer, 2000, aluminum, 1500, ferrosilicon, 1200, metaglass, 6000));
+                requirements(Category.power, with(polymer, 1500, aluminum, 2000, ferrosilicon, 400, metaglass, 2000, silicon, 2500));
                 size = 8;
                 squareSprite = false;
                 insulated = true;
@@ -331,22 +334,75 @@ public class PowerBlocks {
                         Fx.steam,
                         Fx.mineSmall
                 );
-                DrawBlock[] draws = new DrawBlock[5];
-                draws[0] = new DrawDefault();
-
+                float[][] spots = new float[][]{
+                        {-160f/2f/4f, 96/2f/4f},{-160f/2f/4f, -96/2f/4f},
+                        {160f/2f/4f, 96/2f/4f},{160f/2f/4f, -96/2f/4f},
+                        {-60f/2f/4f, 96/2f/4f},{-60f/2f/4f, -96/2f/4f},
+                        {60f/2f/4f, 96/2f/4f},{60f/2f/4f, -96/2f/4f}
+                };
+                Seq<DrawBlock> draws = new Seq<DrawBlock>();
+                draws.add(new DrawDefault());
+                for(int i = 0; i < 8; i++){{
+                    int f = i;
+                    draws.add(new DrawSoftParticles(){{
+                        x = spots[f][0];
+                        y = spots[f][1];
+                        alpha = 0.35f;
+                        particleRad = 7f;
+                        particleSize = 9f;
+                        particleLife = 40f;
+                        particles = 27;
+                    }});
+                }};
                 for (int i = 0; i < 4; i++) {
                     int f = i;
-                    draws[i + 1] = new DrawPistons() {{
+                    draws.add(new DrawPistonsNew() {{
                         sides = 2;
                         suffix = "-piston" + (f+1);
+                        drawIcon = f == 0;
                         sinOffset = (f*10f);
                         angleOffset=90;
                         sinMag = 4.5f;
                         sinScl = 1f;
                         sideOffset = 1;
-                    }};
+                    }});
                 }
-                drawer = new DrawMulti(draws[0],draws[1],draws[2],draws[3],draws[4], new DrawRegion("-top"));
+                draws.add(new DrawWheel() {{
+                width = 23 / 4f;
+                height = 256 / 4f;
+                rotationSpeed = 3f;
+                suffix = "-tick";
+                x = 210/2f / 4f;
+                wheelColors = new Color[]{
+                        //I should set this as a Pallete or smth
+                        Color.valueOf("8da6ab"),
+                        Color.valueOf("333f4b"),
+                        Color.valueOf("0f151b")
+                 };
+                }});
+                draws.add(new DrawRegion("-top"));
+                draws.add(new DrawLiquidTile(petroleum){{
+                    padTop = 32/4f;
+                    padBottom = 196f/4f;
+                    padRight = 102/4f;
+                    padLeft = 56/4f;
+                }});
+                draws.add(new DrawLiquidTile(water){{
+                    padTop = 93/4f;
+                    padBottom = 97/4f;
+                    padRight = 18/4f;
+                    padLeft = 216/4f;
+                }});
+                draws.add(new DrawRegion("-topper"));
+                draws.add(new DrawGlowRegion() {{
+                    glowIntensity = 0.7f;
+                    glowScale = 9;
+                    alpha = 0.7f;
+                    color = Color.valueOf("f5c5aa");
+                }});
+                drawer = new DrawMulti(){{
+                    drawers = draws.toArray(DrawBlock.class);
+                }};
             }};
         fumeEngine = new ConsumeGenerator("fume-engine") {{
 

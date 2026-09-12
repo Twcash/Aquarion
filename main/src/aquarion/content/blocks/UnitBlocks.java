@@ -5,12 +5,10 @@ import aquarion.content.AquaSounds;
 import aquarion.content.AquaStatuses;
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.payload.InitializationBay;
-import aquarion.world.blocks.units.DefunctBeacon;
-import aquarion.world.blocks.units.InfantryLandingPad;
-import aquarion.world.blocks.units.UnitBlock;
-import aquarion.world.blocks.units.UnitBlockStatusApplierThingWhat;
+import aquarion.world.blocks.units.*;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
+import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
@@ -18,6 +16,7 @@ import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.RadialEffect;
 import mindustry.type.*;
 import mindustry.world.Block;
+import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.consumers.ConsumeItems;
@@ -31,7 +30,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block defunctBeacon1, initializationBay, concussorPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
+    public static Block defunctBeacon1,regality, reinforcedFraming, armnamentMounting, initializationBay, concussorPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -87,6 +86,32 @@ public class UnitBlocks {
             consumePower(10);
             size =5;
         }};
+        reinforcedFraming = new Wall("reinforced-framing"){{
+            requirements(Category.units, with(lead, 90, cupronickel, 90));
+            size = 1;
+            health = 300;
+        }};
+        armnamentMounting = new Wall("armnament-mounting"){{
+            requirements(Category.units, with(silicon, 50, graphite, 100, copper, 200));
+            size = 1;
+            health = 400;
+        }};
+        regality = new AssembleUnitBlock("regality-core"){{
+            requirements(Category.units, with(silicon, 80, metaglass, 30, lead, 50, graphite, 40));
+            unit = AquaUnitTypes.regality;
+            size = 3;
+            startsound = AquaSounds.start7;
+            time = 20 * 60;
+            reqs.putAll(new float[]{2,-1}, reinforcedFraming,
+                    new float[]{2,0},reinforcedFraming,
+                    new float[]{2,1}, reinforcedFraming,
+                    new float[]{-2,-1},armnamentMounting,
+                    new float[]{-2,0}, armnamentMounting,
+                    new float[]{-2,1}, armnamentMounting,
+                    new float[]{-2,2}, armnamentMounting);
+            consumePower(6);
+        }};
+
         bulwark = new UnitBlock("bulwark-inactive") {{
             requirements(Category.units, with(silicon, 80, metaglass, 30, lead, 50, graphite, 40));
             unit = AquaUnitTypes.bulwark;
