@@ -31,7 +31,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block defunctBeacon1,regality, reinforcedFraming, armnamentMounting, initializationBay, concussorPad, statusApplier ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
+    public static Block defunctBeacon1,regality, reinforcedFraming, armnamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -112,7 +112,14 @@ public class UnitBlocks {
                     new float[]{-2,2}, armnamentMounting);
             consumePower(6);
         }};
-
+        mite = new UnitBlock("mite-inactive"){{
+            requirements(Category.units, with(silicon, 50, copper, 45));
+            unit = AquaUnitTypes.mite;
+            size = 1;
+            time = 10 * 60;
+            destroySound = AquaSounds.start;
+            consumePower(0.25f);
+        }};
         bulwark = new UnitBlock("bulwark-inactive") {{
             requirements(Category.units, with(silicon, 80, metaglass, 30, lead, 50, graphite, 40));
             unit = AquaUnitTypes.bulwark;

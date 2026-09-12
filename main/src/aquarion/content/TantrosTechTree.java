@@ -88,40 +88,52 @@ public class TantrosTechTree {
                     });
                 });
             });
-            node(bulwark, Seq.with(
-                    new Objectives.OnSector(floodPlains),
-                    new Objectives.Research(pelt)
-            ), () -> {
-                node(crest, () -> {
-                    node(unitByte, () -> {
-                        node(index, () -> {});
-                    });
-                    node(soar, () -> {});
-                });
-                node(weld, Seq.with(
-                        new Objectives.OnSector(diseasedCleft)
+            node(mite, ()->{
+                node(bulwark, Seq.with(
+                        new Objectives.OnSector(floodPlains),
+                        new Objectives.Research(pelt)
                 ), () -> {
-                    node(solder, () -> {});
-                });
-                node(rampart, () -> {
-                    node(pugnate, () -> {
-                        node(raze, () -> {});
-                        node(reave, () -> {});
-                        node(shatter, () -> {});
+                    node(crest, () -> {
+                        node(unitByte, () -> {
+                            node(index, () -> {
+                            });
+                        });
+                        node(soar, () -> {
+                        });
                     });
-                    node(pillage, Seq.with(
-                            new Objectives.SectorComplete(mountainsideComplex)
+                    node(weld, Seq.with(
+                            new Objectives.OnSector(diseasedCleft)
                     ), () -> {
-                        node(meteor, () -> {
-                            node(vesta, () -> {});
+                        node(solder, () -> {
                         });
                     });
-                    node(payloadPad, () -> {
-                        node(payloadDisplacer, () -> {});
-                        node(initializationBay, () -> {
-                            node(statusApplier, () -> {});
+                    node(rampart, () -> {
+                        node(pugnate, () -> {
+                            node(raze, () -> {
+                            });
+                            node(reave, () -> {
+                            });
+                            node(shatter, () -> {
+                            });
                         });
-                        node(payloadDistributor, () -> {});
+                        node(pillage, Seq.with(
+                                new Objectives.SectorComplete(mountainsideComplex)
+                        ), () -> {
+                            node(meteor, () -> {
+                                node(vesta, () -> {
+                                });
+                            });
+                        });
+                        node(payloadPad, () -> {
+                            node(payloadDisplacer, () -> {
+                            });
+                            node(initializationBay, () -> {
+                                node(statusApplier, () -> {
+                                });
+                            });
+                            node(payloadDistributor, () -> {
+                            });
+                        });
                     });
                 });
             });
