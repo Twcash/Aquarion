@@ -116,12 +116,6 @@ public final class Tools{
                 PropertiesUtils.load(map, iconfile.reader(256));
             }
 
-            ObjectMap<String, String> nameToKey = new ObjectMap<>();
-            map.each((key, val) -> {
-                String[] parts = val.split("\\|");
-                if(parts.length > 0) nameToKey.put(parts[0], key);
-            });
-
             Seq<UnlockableContent> cont = Seq.withArrays(content.blocks(), content.items(), content.liquids(), content.units(), content.statusEffects());
             cont.removeAll(c -> c.minfo.mod != mod || c instanceof ConstructBlock || c == Blocks.air || (c instanceof UnitType t && t.internal));
 
@@ -144,6 +138,43 @@ public final class Tools{
                 extraIcons.sort();
             }
 
+            boolean changed = false;
+
+            //drop entries whose codepoint sits in the vanilla icon range: vanilla icons occupy the
+            //top of the private-use area, so registering over them replaces vanilla glyphs in-game
+            for(String key : map.keys().toSeq()){
+                int code;
+                try{
+                    code = Integer.parseInt(key);
+                }catch(NumberFormatException e){
+                    code = Integer.MAX_VALUE; //unparseable keys are junk; drop them too
+                }
+
+                if(code > 0xEB00){
+                    map.remove(key);
+                    changed = true;
+                }
+            }
+
+            //drop stale entries whose content no longer exists
+            ObjectSet<String> validNames = new ObjectSet<>();
+            for(UnlockableContent c : cont) validNames.add(c.name);
+            for(String icon : extraIcons) validNames.add(meta.name + "-" + icon);
+
+            for(String key : map.keys().toSeq()){
+                String[] parts = map.get(key).split("\\|");
+                if(parts.length < 1 || !validNames.contains(parts[0])){
+                    map.remove(key);
+                    changed = true;
+                }
+            }
+
+            ObjectMap<String, String> nameToKey = new ObjectMap<>();
+            map.each((key, val) -> {
+                String[] parts = val.split("\\|");
+                if(parts.length > 0) nameToKey.put(parts[0], key);
+            });
+
             int minid = 0xEB00;
             for(String key : map.keys()){
                 try{
@@ -152,7 +183,6 @@ public final class Tools{
                 }
             }
 
-            boolean changed = false;
             for(UnlockableContent c : cont){
                 String newValue = c.name + "|" + texname(c);
                 String key = nameToKey.get(c.name);

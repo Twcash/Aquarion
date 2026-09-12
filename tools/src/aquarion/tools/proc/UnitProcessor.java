@@ -275,7 +275,22 @@ public class UnitProcessor implements Processor{
                 if(fullIconPixmap != null){
                     String uiIconName = type.name + "-ui";
                     if(!atlas.has(uiIconName)){
-                        GenRegion uiRegion = new GenRegion(uiIconName, fullIconPixmap.copy());
+                        //cap at 64px (keeping aspect): ui icons are merged into the single-page font
+                        //atlas at runtime, and full-size unit icons overflow that page, which
+                        //corrupts every icon in the game
+                        Pixmap full = fullIconPixmap;
+                        int max = Math.max(full.width, full.height);
+                        Pixmap iconPix;
+                        if(max > 64){
+                            float scl2 = 64f / max;
+                            int w = Math.max(1, Math.round(full.width * scl2)), h = Math.max(1, Math.round(full.height * scl2));
+                            iconPix = new Pixmap(w, h);
+                            iconPix.draw(full, 0, 0, full.width, full.height, 0, 0, w, h, true, true);
+                        }else{
+                            iconPix = full.copy();
+                        }
+
+                        GenRegion uiRegion = new GenRegion(uiIconName, iconPix);
                         uiRegion.relativePath = "ui";
                         uiRegion.save(true);
                     }

@@ -183,7 +183,9 @@ public class BlockProcessor implements Processor{
                     String uiIconName = block.name + "-ui";
                     Log.debug("generating block icon " + block.name);
                     if(!atlas.has(uiIconName)){
-                        int size = Math.min(image.width, 128);
+                        //cap at 64px: ui icons are merged into the single-page font atlas at runtime,
+                        //and oversized icons overflow that page, which corrupts every icon in the game
+                        int size = Math.min(image.width, 64);
                         Pixmap scaled = new Pixmap(size, size);
                         //TODO bad linear scaling
                         scaled.draw(image, 0, 0, image.width, image.height, 0, 0, size, size, true, true);

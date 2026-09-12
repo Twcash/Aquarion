@@ -4131,27 +4131,29 @@ public class AquaUnitTypes {
             omniMovement = false;
             stepSound = Sounds.stepMud;
             deathSound = AquaSounds.death;
+            faceTarget = true;
             loopSound = AquaSounds.breath;
             weapons.add(new Weapon(){{
                 rotate = false;
                 reload = 60;
+                range = 10;
                 shootSound = AquaSounds.atak;
                 rotate = false;
                 bullet = new EmptyBulletType(){{
-                    despawnEffect = hitEffect = Fx.none;
+                    shootEffect = smokeEffect = despawnEffect = hitEffect = Fx.none;
                     damage = 1;
                     splashDamage = 1;
-                    splashDamageRadius = 8;
+                    splashDamageRadius = 18;
                     collidesAir = collidesGround = true;
                 }};
             }});
             legBaseUnder = true;
             legMoveSpace = 2;
             legSequence.addAll(
-                    new AquaLegConfig(30/2/4f, 20/2/4f, 12, 10){{suffix = "-arm";legExtension = 1;}},
-                    new AquaLegConfig(-30/2/4f, 20/2/4f, -12, 10){{suffix = "-arm";legExtension =1;}},
-                    new AquaLegConfig(-16/4/2, -66/4/2f, 170, 12){{legExtension = 1;}},
-                    new AquaLegConfig(16/4/2, -66/4/2f, -170, 12){{legExtension = 1;}}
+                    new AquaLegConfig(30/2f/4f, 20/2f/4f, 12, 10){{suffix = "-arm";legExtension = 1;}},
+                    new AquaLegConfig(-30/2f/4f, 20/2f/4f, -12, 10){{suffix = "-arm";legExtension =1;}},
+                    new AquaLegConfig(-16/4f/2f, -66/4f/2f, 170, 12){{legExtension = 1;}},
+                    new AquaLegConfig(16/4f/2f, -66/4f/2f, -170, 12){{legExtension = 1;}}
             );
         }};
     }}
