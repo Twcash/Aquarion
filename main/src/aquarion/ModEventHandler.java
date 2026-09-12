@@ -38,7 +38,7 @@ public class ModEventHandler {
         Events.on(EventType.ClientLoadEvent.class, e -> ResearchServer.loadGlobalResearch());
         Events.on(EventType.ClientLoadEvent.class, e -> StoryProgress.load());
         //swap the vanilla menu background for the preset battle arena once the UI is built
-        Events.on(EventType.ClientLoadEvent.class, e -> MenuReplacer.replaceMenu(ui.menufrag));
+        //Events.on(EventType.ClientLoadEvent.class, e -> MenuReplacer.replaceMenu(ui.menufrag));
         // a reset means a new world or a fresh save is about to be read; clear stale per-save state
         Events.on(EventType.ResetEvent.class, e -> StoryProgress.load());
         Events.on(EventType.MusicRegisterEvent.class, e -> ModMusic.load());

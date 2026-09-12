@@ -26,7 +26,7 @@ public class MenuReplacer {
         if (!hooked) {
             hooked = true;
             //a real map is about to load; scrub the menu sim so it can't leak into a real game
-            Events.on(WorldLoadBeginEvent.class, e -> MenuBackgroundSheet.clearAll());
+            //Events.on(WorldLoadBeginEvent.class, e -> MenuBackgroundSheet.clearAll());
             //the arena itself is (re)built lazily in MenuBackgroundSheet.updateAndRender, which
             //also skips the map editor so it can never clobber a map being edited.
         }
