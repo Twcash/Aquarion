@@ -8,6 +8,9 @@ import mindustry.Vars;
 
 public class AquaSounds {
     public static Sound
+            death = new Sound(),
+            atak = new Sound(),
+            breath = new Sound(),
             fan1 = new Sound(),
             machine1 =new Sound(),
             machine2 =new Sound(),
@@ -38,6 +41,7 @@ public class AquaSounds {
             //start3 = new Sound(),
             start4 = new Sound(),
             start5 = new Sound(),
+            start7 = new Sound(),
             waterRumble = new Sound(),
                     shootAftershock = new Sound(),
             waterAir = new Sound(),
@@ -69,6 +73,7 @@ public class AquaSounds {
         vectorShot = loadSound("vectorShot");
         start = loadSound("start");
         start2 = loadSound("start2");
+        start7 = loadSound("start7");
         shootAftershock = loadSound("shootAftershock");
         //start3 = loadSound("start3");
         start4 = loadSound("start4");
@@ -86,6 +91,9 @@ public class AquaSounds {
         machine9 =  loadSound("machine9");
         engine1 =  loadSound("engine1");
         fan1 =  loadSound("fan1");
+        breath = loadSound("breath");
+        death = loadSound("death");
+        atak = loadSound("atak");
         researchLabloop =  loadSound("ResearchLabLoop");
         researchLabVoid =  loadSound("researchLabVoid");
 
