@@ -204,6 +204,10 @@ public class AssetsProcessor extends BaseProcessor{
                     .addStatement("String contentName = valueParts[0]")
                     .addStatement("String textureName = valueParts[1]")
                     .addStatement("$T region = $T.atlas.find(textureName)", cName(TextureRegion.class), cName(Core.class))
+                    //font glyphs sample the shared font/UI atlas page; an icon living on any other
+                    //texture would register UVs into the wrong page and draw garbage over other icons
+                    .beginControlFlow("if(region == null || region.texture != $T.def.getRegion().texture) continue;", cName(Fonts.class))
+                    .endControlFlow()
                     .addStatement("$T.registerIcon(contentName, textureName, codePoint, region)", cName(Fonts.class))
                     .addStatement("$T iconFont = $T.icon", cName(Font.class), cName(Fonts.class))
                     .addStatement("int size = (int)(iconFont.getData().lineHeight / iconFont.getData().scaleY)")
@@ -218,8 +222,9 @@ public class AssetsProcessor extends BaseProcessor{
                     .addStatement("glyph.v = region.v2")
                     .addStatement("glyph.u2 = region.u2")
                     .addStatement("glyph.v2 = region.v")
-                    .addStatement("glyph.xoffset = 0")
-                    .addStatement("glyph.yoffset = -size")
+                    //same centering as vanilla Fonts.registerIcon, so mod icons sit exactly like vanilla ones
+                    .addStatement("glyph.xoffset = (size - glyph.width) / 2")
+                    .addStatement("glyph.yoffset = (size - glyph.height) / 2 - size")
                     .addStatement("glyph.xadvance = size")
                     .addStatement("glyph.kerning = null")
                     .addStatement("glyph.fixedWidth = true")
