@@ -220,6 +220,15 @@ public class UnitBlocks {
 //            destroySound = AquaSounds.start4;
 //            buildVisibility = BuildVisibility.hidden;
 //        }};
+                index = new UnitBlock("index-inactive") {{
+            requirements(Category.units, with(steel, 120, brass, 50, nickel, 350, silicon, 500));
+            unit = AquaUnitTypes.index;
+            size = 2;
+            consumePower(4);
+            consumeLiquid(hydrogen,4);
+            time = 60 * 60;
+            destroySound = AquaSounds.start;
+        }};
         defunctBeacon1 = new DefunctBeacon("defunct-beacon-small"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             size = 2;
