@@ -93,7 +93,9 @@ public class TantrosTechTree {
                     new Objectives.Research(pelt)
             ), () -> {
                 node(crest, () -> {
-                    node(unitByte, () -> {});
+                    node(unitByte, () -> {
+                        node(index, () -> {});
+                    });
                     node(soar, () -> {});
                 });
                 node(weld, Seq.with(
@@ -202,6 +204,7 @@ public class TantrosTechTree {
                             node(thrash, Seq.with(
                                     new Objectives.SectorComplete(bay)
                             ), () -> {
+                                node(javelin, () -> {});
                                 node(truncate, Seq.with(
                                         new Objectives.SectorComplete(erodedCanyon)
                                 ), () -> {});
