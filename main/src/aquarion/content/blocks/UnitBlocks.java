@@ -222,7 +222,7 @@ public class UnitBlocks {
 //            buildVisibility = BuildVisibility.hidden;
 //        }};
         index = new UnitBlock("index-inactive") {{
-            requirements(Category.units, with(steel, 120, brass, 50, nickel, 350, silicon, 500));
+            requirements(Category.units, with(ferrosilicon, 250, brass, 150, cupronickel, 350, silicon, 500));
             unit = AquaUnitTypes.index;
             size = 2;
             consumePower(4);
