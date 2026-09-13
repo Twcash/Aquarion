@@ -55,8 +55,12 @@ public class AquaLightning {
     private static void createBranch(@Nullable Bullet hitter, BulletType hitCreate, Team team, Color color, float damage,
                                      float x, float y, float rotation, int length, Seq<Vec2> lines) {
         for (int i = 0; i < length / 2; i++) {
-            hitCreate.create(null, team, x, y, rotation, damage * (hitter == null ? 1f : hitter.damageMultiplier()), 1f, 1f, hitter);
-            Vec2 nextPoint = new Vec2(x + Mathf.range(3f), y + Mathf.range(3f));
+            //damage bullets are server-authoritative; the branch walk itself is
+            //seeded and deterministic, so clients still draw identical lightning
+            if(!net.client()){
+                hitCreate.create(null, team, x, y, rotation, damage * (hitter == null ? 1f : hitter.damageMultiplier()), 1f, 1f, hitter);
+            }
+            Vec2 nextPoint = new Vec2(x + random.range(3f), y + random.range(3f));
             lines.add(nextPoint);
 
             // Check collision with insulated tiles

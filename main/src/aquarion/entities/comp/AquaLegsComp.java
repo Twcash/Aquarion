@@ -194,11 +194,14 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                         }
 
                         if (type.legSplashDamage > 0 && !disarmed) {
-                            Damage.damage(team, l.base.x, l.base.y, type.legSplashRange, type.legSplashDamage * Vars.state.rules.unitDamage(team), false, true);
+                            //leg step damage is server-authoritative; clients mirror the walk cycle only
+                            if(!Vars.net.client()){
+                                Damage.damage(team, l.base.x, l.base.y, type.legSplashRange, type.legSplashDamage * Vars.state.rules.unitDamage(team), false, true);
 
-                            var tile = Vars.world.tileWorld(l.base.x, l.base.y);
-                            if (tile != null && tile.block().unitMoveBreakable) {
-                                ConstructBlock.deconstructFinish(tile, tile.block(), self());
+                                var tile = Vars.world.tileWorld(l.base.x, l.base.y);
+                                if (tile != null && tile.block().unitMoveBreakable) {
+                                    ConstructBlock.deconstructFinish(tile, tile.block(), self());
+                                }
                             }
                         }
                     }

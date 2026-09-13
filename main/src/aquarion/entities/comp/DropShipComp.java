@@ -36,13 +36,16 @@ abstract class DropShipComp implements Unitc, Posc, ElevationMovec, Payloadc {
                 speedMultiplier = Mathf.approachDelta(speedMultiplier, 0.1f, 0.01f);
                 if(elevation <= .2) {
                     if (type instanceof AquaUnitType typee) {
-                        if(typee.landDamage > 0) {
-                            Damage.damage(team(), x, y, typee.landRange, typee.landDamage);
+                        //landing damage and payload drops are server-authoritative
+                        if(!Vars.net.client()){
+                            if(typee.landDamage > 0) {
+                                Damage.damage(team(), x, y, typee.landRange, typee.landDamage);
+                            }
+                            do {
+                                dropLastPayload();
+                            }while(!payloads.isEmpty());
                         }
                         typee.dropEffect.at(x,y, rotation()-90);
-                        do {
-                            dropLastPayload();
-                        }while(!payloads.isEmpty());
                         didDrop = true;
                     }
                 }
