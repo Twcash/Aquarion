@@ -57,12 +57,13 @@ public class GambleBulletType extends BasicBulletType {
         return max;
     }
 
-    private BulletType pickBullet() {
+    private BulletType pickBullet(int seed) {
         if (bullets.length == 0) return this; // fallback
 
         float total = 0f;
         for (float f : bias) total += f;
-        float rand = Mathf.random(total);
+        //deterministic pick so server and clients choose the same bullet
+        float rand = Mathf.randomSeed(seed, 0f, total);
 
         float cumulative = 0f;
         for (int i = 0; i < bullets.length; i++) {
@@ -82,7 +83,7 @@ public class GambleBulletType extends BasicBulletType {
         angle += angleOffset;
         Bullet last = null;
 
-        BulletType chosen = pickBullet();
+        BulletType chosen = pickBullet((int)(x * 13f + y * 29f + angle * 7f + damage * 3f));
         speed = chosen.speed;//Surely there will be no repercussions for this.
 
         last = chosen.create(owner, shooter, team, x, y, angle, damage, velocityScl, lifetimeScl, data, mover, aimX, aimY, target);

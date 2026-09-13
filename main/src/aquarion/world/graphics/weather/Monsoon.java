@@ -49,6 +49,38 @@ public class Monsoon extends Weather {
         soundVolMin = 0.8f;
     }
 
+    private int lightningCounter = 0;
+    private float lightningTimer = 0f;
+
+    @Override
+    public void update(WeatherState state){
+        float intensity = state.intensity;
+
+        //deterministic lightning: seeded by the synced weather state id, so clients
+        //draw the exact same strikes while the server handles the damage
+        lightningTimer += Time.delta;
+        float interval = 1f / Math.max(0.0001f, lightningChance * intensity);
+        if(lightningTimer >= interval){
+            lightningTimer = 0f;
+            lightningCounter++;
+            long seed = state.id * 7L + lightningCounter;
+            float x = Mathf.randomSeed(seed, 0f, Vars.world.unitWidth());
+            float y = Mathf.randomSeed(seed + 1, 0f, Vars.world.unitHeight());
+            float size = Mathf.randomSeed(seed + 2, 15f, 50f);
+            Color lightningColor = Color.valueOf("bef8ff").cpy();
+            lightningColor.a = Mathf.randomSeed(seed + 3, 0.4f, 1f); // vary alpha
+
+            Fx.lightning.at(x, y, size);
+            AquaSounds.thunder.at(x, y, Mathf.randomSeed(seed + 4, 0.8f, 0.95f), Mathf.randomSeed(seed + 5, 0.6f, 1f));
+            AquaLightning.create(Team.derelict, lightningColor, size, x, y, Mathf.randomSeed(seed + 6, 0f, 360f), (int)Mathf.randomSeed(seed + 7, 15f, 50f));
+        }
+
+        //extinguishing fires is a world state change - only the server does it
+        if(!Vars.net.client()){
+            extinguishFires(state);
+        }
+    }
+
     @Override
     public void load() {
         super.load();
@@ -60,25 +92,6 @@ public class Monsoon extends Weather {
     @Override
     public void drawOver(WeatherState state) {
         drawRain(sizeMin, sizeMax, xspeed, yspeed, density, state.intensity, stroke, color);
-
-        if (!Vars.state.isPaused()) {
-            // Random lightning strikes with varying size
-            if (Mathf.chanceDelta(lightningChance * state.intensity)) {
-                float x = Core.camera.position.x + Mathf.range(Vars.world.width() * 4f);
-                float y = Core.camera.position.y + Mathf.range(Vars.world.height() * 4f);
-                float size = Mathf.random(15f, 50f);
-                Color lightningColor = Color.valueOf("bef8ff").cpy();
-                lightningColor.a = Mathf.random(0.4f, 1f); // vary alpha
-
-                Fx.lightning.at(x, y, size);
-                AquaSounds.thunder.at(x, y, Mathf.random(0.8f, 0.95f), Mathf.random(0.6f, 1f));
-                AquaLightning.create(Team.derelict, lightningColor, size, x, y, Mathf.random(360f), (int) Mathf.random(15f, 50f));
-            }
-
-            // Randomly extinguish fires across the map
-            extinguishFires(state);
-        }
-
         drawMist(state);
     }
 

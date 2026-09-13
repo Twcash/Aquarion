@@ -29,6 +29,7 @@ public class Blizzard extends ParticleWeather {
     public float hitChance = 0.4f;
     public float effectInterval = 6f;
     private float effectTimer = 0f;
+    private int effectSeedCounter = 0;
 
     public float targetBlueTint = 0.08f;
 
@@ -118,27 +119,33 @@ public class Blizzard extends ParticleWeather {
         float travel = 40f; // distance snow travels
 
         for(int i = 0; i < tileCount; i++){
+            //deterministic picks: the weather state id is synced, so server and clients agree
+            effectSeedCounter++;
+            long seed = state.id * 131L + effectSeedCounter;
             Tile tile = Vars.world.tile(
-                    Mathf.random(Vars.world.width() - 1),
-                    Mathf.random(Vars.world.height() - 1)
+                    Mathf.randomSeed(seed, 0, Vars.world.width() - 1),
+                    Mathf.randomSeed(seed + 101, 0, Vars.world.height() - 1)
             );
 
             if(tile == null || tile.block() == Blocks.air) continue;
-            if(!Mathf.chance(hitChance * intensity)) continue;
+            if(!(Mathf.randomSeed(seed + 202) < hitChance * intensity)) continue;
 
             Building build = tile.build;
             if(build == null) continue;
 
-            float ex = build.x + Mathf.range(build.block.size * 8f / 2f);
-            float ey = build.y + Mathf.range(build.block.size * 8f / 2f);
+            float ex = build.x + Mathf.randomSeedRange(seed + 303, build.block.size * 8f / 2f);
+            float ey = build.y + Mathf.randomSeedRange(seed + 404, build.block.size * 8f / 2f);
 
             // spawn upwind (upper-left if wind points bottom-right)
             float sx = ex - dirx * travel;
             float sy = ey - diry * travel;
 
-            Bullets.fireball.absorbable = true;
-            Call.createBullet(bul, Team.derelict, sx, sy, Mathf.angle(dirx, diry), bul.damage, 1, bul.lifetime);
-            Bullets.fireball.absorbable = false;
+            //only the server creates bullets; clients mirror the visuals locally
+            if(!Vars.net.client()){
+                Bullets.fireball.absorbable = true;
+                Call.createBullet(bul, Team.derelict, sx, sy, Mathf.angle(dirx, diry), bul.damage, 1, bul.lifetime);
+                Bullets.fireball.absorbable = false;
+            }
 
             hitEffect.at(ex, ey, color);
         }

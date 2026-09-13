@@ -12,6 +12,7 @@ import mindustry.world.Block;
 import mindustry.world.meta.BlockGroup;
 import mindustry.world.meta.Env;
 
+import static mindustry.Vars.net;
 import static mindustry.Vars.tilesize;
 
 /**
@@ -45,11 +46,14 @@ public class InfantryLandingPad extends Block {
             float x = b.x + Angles.trnsx(ang, r);
             float y = b.y + Angles.trnsy(ang, r);
 
-            Unit u = unitType.spawn(b.team, x, y);
-            if(u != null){
-                u.rotation = b.rotdeg();
-                Fx.spawn.at(x, y, 0, b.team.color);
+            //units are only spawned on the server; clients receive them through entity sync
+            if(!net.client()){
+                Unit u = unitType.spawn(b.team, x, y);
+                if(u != null){
+                    u.rotation = b.rotdeg();
+                }
             }
+            Fx.spawn.at(x, y, 0, b.team.color);
         }
     }
 

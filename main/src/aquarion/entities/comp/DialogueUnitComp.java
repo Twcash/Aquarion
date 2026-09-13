@@ -6,6 +6,7 @@ import aquarion.annotations.Annotations.*;
 import aquarion.gen.DialogueUnitc;
 import aquarion.units.DefunctUnitType;
 import arc.*;
+import arc.func.Cons;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -43,6 +44,7 @@ abstract class DialogueUnitComp implements Unitc, DialogueUnitc, Legsc{
     transient String currentDialogue;
     transient float dialogueTime;
     transient float lastHealth;
+    transient Cons<EventType.SectorCaptureEvent> captureListener;
     @Import transient UnitType type;
     @Import transient  boolean dead, wasPlayer ;
     @Import transient Team team;
@@ -66,11 +68,13 @@ abstract class DialogueUnitComp implements Unitc, DialogueUnitc, Legsc{
 
     @Override
     public void update(){
-        Events.on(EventType.SectorCaptureEvent.class, t ->{
-            if(type instanceof DefunctUnitType f){
-                say(random(f.victorLines), 500f);
-            }
-        });
+        if(captureListener == null){
+            Events.on(EventType.SectorCaptureEvent.class, captureListener = t ->{
+                if(type instanceof DefunctUnitType f){
+                    say(random(f.victorLines), 500f);
+                }
+            });
+        }
         if(health < maxHealth / 2f && dialogueTime <= 0 && !dead){
             if(health < maxHealth / 4f){
                 if(type instanceof DefunctUnitType t){

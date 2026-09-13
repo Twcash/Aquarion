@@ -8,6 +8,7 @@ import mindustry.game.Team;
 import mindustry.world.blocks.environment.SteamVent;
 import arc.math.Mathf;
 
+import static mindustry.Vars.net;
 import static mindustry.Vars.tilesize;
 
 public class customVent extends SteamVent {
@@ -25,20 +26,27 @@ public class customVent extends SteamVent {
 
     @Override
     public void renderUpdate(UpdateRenderState state){
-        if((state.data += Time.delta) >= Mathf.random(minEffectSpacing, maxEffectSpacing) || state.data < 0) { /* vent goes off after a random time between min and max spacing */
+        //deterministic per-tile timing so every client shows the same eruption
+        float spacing = Mathf.randomSeed(state.tile.pos() * 13L, minEffectSpacing, maxEffectSpacing);
+        if((state.data += Time.delta) >= spacing || state.data < 0) { /* vent goes off after a random time between min and max spacing */
             if(state.data < 0) {
                 if (state.tile.nearby(-1, -1) != null && state.tile.nearby(-1, -1).block() == Blocks.air) {/* if state.data is smaller than 0 do the effect stuff, else set it to random negative number between min and max duration */
                     effect.at(state.tile.x * tilesize - tilesize, state.tile.y * tilesize - tilesize, effectColor);
-                    Damage.tileDamage(Team.derelict, state.tile.x -1, state.tile.y -1, splashDamageRadius/8f, splashDamage/60f);
+                    //damage must never be applied from client-only render code
+                    if(!net.client()){
+                        Damage.tileDamage(Team.derelict, state.tile.x -1, state.tile.y -1, splashDamageRadius/8f, splashDamage/60f);
+                    }
                     state.data += Time.delta;
                 }
                 else {
-                    Damage.tileDamage(Team.derelict, state.tile.x -1, state.tile.y -1, splashDamageRadius/8f, 2*splashDamage/60f);
+                    if(!net.client()){
+                        Damage.tileDamage(Team.derelict, state.tile.x -1, state.tile.y -1, splashDamageRadius/8f, 2*splashDamage/60f);
+                    }
                     state.data += Time.delta;
                 }
             }
             else {
-                state.data = -Mathf.random(minEffectDuration, maxEffectDuration);
+                state.data = -Mathf.randomSeed(state.tile.pos() * 17L, minEffectDuration, maxEffectDuration);
             }
         }
     }
