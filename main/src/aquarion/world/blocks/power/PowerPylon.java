@@ -43,15 +43,13 @@ public class PowerPylon extends PowerNode {
     protected static BuildPlan otherReq;
     protected static int returnInt = 0;
     protected final static ObjectSet<PowerGraph> graphs = new ObjectSet<>();
-    /** The maximum range of all power nodes on the map */
     protected static float maxRange;
     public TextureRegion cable;
     public TextureRegion cableEnd;
     public TextureRegion glow;
     public TextureRegion glowBase;
     public int maxNodes = 3;
-    public boolean autolink = true, drawRange = true, sameBlockConnection = false;
-    //Power line thickness.
+    public boolean autolink = true, sameBlockConnection = false;
     public float thickness = 5.5f;
     @Override
     public void load(){
@@ -101,16 +99,12 @@ public class PowerPylon extends PowerNode {
             Building other = world.build(value);
             boolean contains = power.links.contains(value), valid = other != null && other.power != null;
             if(contains){
-                //unlink
                 power.links.removeValue(value);
                 if(valid) other.power.links.removeValue(entity.pos());
                 PowerGraph newgraph = new PowerGraph();
-                //reflow from this point, covering all tiles on this side
                 newgraph.reflow(entity);
                 if(valid && other.power.graph != newgraph){
-                    //create new graph for other end
                     PowerGraph og = new PowerGraph();
-                    //reflow from other end
                     og.reflow(other);
                 }
             }else if(linkValid(entity, other) && valid && power.links.size < maxNodes){
@@ -126,11 +120,9 @@ public class PowerPylon extends PowerNode {
         });
         config(Point2[].class, (tile, value) -> {
             IntSeq old = new IntSeq(tile.power.links);
-            //clear old
             for(int i = 0; i < old.size; i++){
                 configurations.get(Integer.class).get(tile, old.get(i));
             }
-            //set new
             for(Point2 p : value){
                 configurations.get(Integer.class).get(tile, Point2.pack(p.x + tile.tileX(), p.y + tile.tileY()));
             }
@@ -366,9 +358,18 @@ public class PowerPylon extends PowerNode {
         }
         @Override
         public void updateTile(){
+            //auto-linking is server-authoritative; running it on clients would send a
+            //configure packet per candidate per tick and trip the server's packet-spam kick
+            if(net.client()) return;
+
+            //only rescan after the world changed, never every tick
             if(lastChange == world.tileChanges) return;
+            lastChange = world.tileChanges;
+
             super.updateTile();
-            if(this.power.links.size > maxNodes) return;
+
+            if(this.power.links.size >= maxNodes) return;
+
             getPotentialLinks(tile, team, other -> {
                 if(!power.links.contains(other.pos()) && other.power != null){
                     if(other.power.graph != this.power.graph){
