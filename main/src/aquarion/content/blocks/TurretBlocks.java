@@ -663,6 +663,8 @@ public class TurretBlocks {
             targetGround = false;
             shootSound = AquaSounds.javelinShot;
             outlineColor = tantDarkestTone;
+            targetAir = true;
+            targetGround = false;
             ammoPerShot = 3;
             ammo(
                     metaglass, javelinMetaglass,

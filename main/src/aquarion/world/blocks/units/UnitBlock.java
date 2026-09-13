@@ -318,24 +318,28 @@ public class UnitBlock extends Block {
                 totProgress = progress/time;
             }
             if(progress >= time ){
-                mindustry.gen.Unit b = unit.create(team);
-                if(b.isCommandable()){
-                    if(commandPos != null){
-                        b.command().commandPosition(commandPos);
+                progress %= time;
+                if(!net.client()){
+                    mindustry.gen.Unit b = unit.create(team);
+                    if(b.isCommandable()){
+                        if(commandPos != null){
+                            b.command().commandPosition(commandPos);
+                        }
+                        //this already checks if it is a valid command for the unit type
+                        b.command().command(command == null && b.type.defaultCommand != null ? b.type.defaultCommand : command);
                     }
-                    //this already checks if it is a valid command for the unit type
-                    b.command().command(command == null && b.type.defaultCommand != null ? b.type.defaultCommand : command);
+                    b.set(x, y);
+                    b.rotation = rotdeg()+90;
+                    for(StatusEffect effect : effects) {
+                        b.apply(effect);
+                    }
+                    b.add();
+                    kill();
                 }
-                b.set(x + Mathf.range(0.001f), y + Mathf.range(0.001f));
-                b.rotation = rotdeg()+90;
+
                 Effect.shake(2f, 3f, this);
                 Fx.producesmoke.at(this);
                 AquaFx.boing.at(this.x, this.y, 0, block);
-                for(StatusEffect effect : effects) {
-                    b.apply(effect);
-                }
-                b.add();
-                kill();
             }
         }
         @Override

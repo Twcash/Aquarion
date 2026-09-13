@@ -4,6 +4,8 @@ import arc.Core;
 import arc.Events;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.gen.Unit;
@@ -120,6 +122,18 @@ public class QeralterUnitFactory extends UnitFactory {
             }else{
                 progress = 0f;
             }
+        }
+
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            write.i(spawnedUnits);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            spawnedUnits = read.i();
         }
     }
 }
