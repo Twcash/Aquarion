@@ -31,7 +31,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block defunctBeacon1,regality, reinforcedFraming, armnamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
+    public static Block defunctBeacon1,regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -92,7 +92,7 @@ public class UnitBlocks {
             size = 1;
             health = 300;
         }};
-        armnamentMounting = new Wall("armnament-mounting"){{
+        armamentMounting = new Wall("armnament-mounting"){{
             requirements(Category.units, with(silicon, 50, graphite, 100, copper, 200));
             size = 1;
             health = 400;
@@ -106,10 +106,10 @@ public class UnitBlocks {
             reqs.putAll(new float[]{2,-1}, reinforcedFraming,
                     new float[]{2,0},reinforcedFraming,
                     new float[]{2,1}, reinforcedFraming,
-                    new float[]{-2,-1},armnamentMounting,
-                    new float[]{-2,0}, armnamentMounting,
-                    new float[]{-2,1}, armnamentMounting,
-                    new float[]{-2,2}, armnamentMounting);
+                    new float[]{-2,-1},armamentMounting,
+                    new float[]{-2,0}, armamentMounting,
+                    new float[]{-2,1}, armamentMounting,
+                    new float[]{-2,2}, armamentMounting);
             consumePower(6);
         }};
         mite = new UnitBlock("mite-inactive"){{

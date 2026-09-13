@@ -84,7 +84,7 @@ public class AquaUnitTypes {
 
     public static UnitType
         //Sharded units
-            weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit;
+            weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit, apothecary;
         public static  UnitType  cull, cullButScorch;
     public static void loadContent() {
         visitor = new UnitType("visitor") {{
@@ -1543,6 +1543,29 @@ public class AquaUnitTypes {
             /*setEnginesMirror(
                     new UnitEngine(5, -6, 2f, -45f)
             );*/
+        }};
+        apothecary = new UnitType("apothecary") {{
+            flying = true;
+            flyingLayer = Layer.flyingUnitLow;
+            speed = 0.9f;
+            hitSize = 28f;
+            fallSpeed = 0.04f;
+            health = 550;
+            armor = 6;
+            wobble = true;
+            outlines = true;
+            outlineColor = AquaPal.tantDarkestTone;
+            constructor = UnitEntity::create;
+            drawCell = false;
+            abilities.add(new RepairFieldAbility(){{
+                amount = 5f;
+                reload = 30f;
+                range = 50f;
+                sameTypeHealMult = 0.1f;
+            }});
+            setEnginesMirror(
+                    new UnitEngine(35, -42, 2f, -45f)
+            );
         }};
         isop = new UnitType("isop") {{
             squareShape = true;
@@ -4123,6 +4146,8 @@ public class AquaUnitTypes {
             }});
         }};
         timmy = new AquaLegUnitType("lilTimmy"){{
+            hidden = true;
+            hideDatabase = true;
             hitSize = 2;
             health = 1;
             armor = -999;
