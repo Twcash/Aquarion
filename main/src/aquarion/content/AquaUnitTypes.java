@@ -5,6 +5,7 @@ import aquarion.annotations.Annotations;
 import aquarion.gen.*;
 import aquarion.units.AquaLegUnitType;
 import aquarion.units.DefunctUnitType;
+import aquarion.units.MultiLegSegmentUnit;
 import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.type.AquaUnitType;
 import aquarion.world.AI.*;
@@ -26,6 +27,7 @@ import arc.graphics.g2d.Fill;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Rect;
+import arc.util.Tmp;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
 import mindustry.ai.types.FlyingFollowAI;
@@ -74,6 +76,7 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify;
     public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
     public static @Annotations.EntityDef(value ={Unitc.class,  AquaLegsc.class}, serialize = false) AquaLegUnitType regality, rally, timmy;
+    public static MultiLegSegmentUnit mite;
     public static UnitType visitor, mediumTruck, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
     public static UnitType engineer;
     public static @Annotations.EntityDef(value = {Unitc.class, AquaMechc.class}) UnitType knight;
@@ -320,39 +323,6 @@ public class AquaUnitTypes {
 //            drawBuildBeam = true;
 //            rotateSpeed = 360;
 //            flying = true;
-//        }};
-//        mite = new UnitType("mite") {{
-//            constructor = UnitEntity::create;
-//            flying = true;
-//            speed = 0.65f;
-//            useUnitCap = false;
-//            isEnemy = false;
-//            outlineColor = AquaPal.tantDarkestTone;
-//            canAttack = false;
-//            mineSpeed = 3.5f;
-//            itemCapacity = 20;
-//            rotateSpeed = 5;
-//            rotateMoveFirst = true;
-//            mineTier = 2;
-//            drag = 0.06f;
-//            accel = 0.12f;
-//            mineFloor = true;
-//            mineWalls = false;
-//            logicControllable = false;
-//            playerControllable = false;
-//            mineRange = 60;
-//            mineItems = Seq.with(electrum, Items.lead, Items.titanium);
-//            hidden = true;
-//            allowedInPayloads = false;
-//            controller = u -> new MinerAI();
-//            defaultCommand = UnitCommand.mineCommand;
-//            range = 60;
-//            engineSize = 0;
-//            lowAltitude = true;
-//            health = 45;
-//            hitSize = 9;
-//            armor = 2;
-//
 //        }};
 //        weep = new MultiLegSegmentUnit("weep") {{
 //            constructor = LegsUnit::create;
@@ -736,6 +706,37 @@ public class AquaUnitTypes {
 //                    }}, 10f, .4f) {{
 //                    }});
 //        }};
+        mite = new MultiLegSegmentUnit("mite"){{
+            constructor = LegsUnit::create;
+            hitSize = 4;
+            speed = 0.9f;
+            legMoveSpace =1.6f;
+            legSegments = 1;
+            legContinuousMove = lockLegBase = true;
+            drawCell = false;
+            legLength = 4;
+            legBaseOffset = 2.5f;
+            faceTarget = true;
+            legCount = 4;
+            mechStepParticles = false;
+            outlineColor = AquaPal.tantDarkestTone;
+            legGroupSize = 2;
+            weapons.add(new Weapon("mite-weapon"){{
+                x = 0;
+                y = 0;
+                reload = 90;
+                rotate = false;
+                cooldownTime = 120;
+                recoil = 0;
+                bullet = new LaserBoltBulletType(4, 25){{
+                    frontColor = backColor = AquaPal.redDecal1;
+                    hitEffect = despawnEffect = AquaFx.hitBulletColor1;
+                    shootEffect = Fx.shootSmallColor;
+                    smokeEffect = AquaFx.shootSmoke1;
+                    lifetime = 30;
+                }};
+            }});
+        }};
         bulwark = new AquaUnitType("bulwark") {{
             constructor = MechUnit::create;
             speed = 0.45f;

@@ -117,7 +117,7 @@ public class MultiLegSegmentUnit extends UnitType {
                 Vec2 midPosition = Tmp.v1.set(segmentA.position).add(segmentB.position).scl(0.5f);
 
                 float segmentDistance = segmentA.position.dst(segmentB.position);
-                float lineStroke = Math.min(segmentDistance / segmentLength, 1f); // Adjust stroke based on distance
+                float lineStroke = segmentSprite.width/4f; // Adjust stroke based on distance
                 if (segmentOutline.found()) {
                     Draw.rect(segmentOutline, midPosition.x, midPosition.y, angle);
                 }

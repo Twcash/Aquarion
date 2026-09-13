@@ -34,6 +34,7 @@ import static arc.graphics.g2d.Draw.xscl;
 
 public class AquaLegUnitType extends UnitType {
     public Seq<AquaLegConfig> legSequence = new Seq();
+    public float maxLegLength, minLegLength;
     private static final Vec2 legOffset = new Vec2();
     public AquaLegUnitType(String name) {
         super(name);
