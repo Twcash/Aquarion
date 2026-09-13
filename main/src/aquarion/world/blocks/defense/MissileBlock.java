@@ -192,7 +192,7 @@ public class MissileBlock extends Block implements MultiBlock {
             Building targetBuilding = findEnemyBuilding(range);
             Unit targetUnit = findEnemyUnit(range);
 
-            if ((targetBuilding != null || targetUnit != null) && progress >= time) {
+            if ((targetBuilding != null || targetUnit != null) && progress >= time && !net.client() ) {
                 float targetX = x;
                 float targetY = y;
 

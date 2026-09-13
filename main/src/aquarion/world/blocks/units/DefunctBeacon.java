@@ -23,6 +23,8 @@ import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.world.Block;
 
+import static mindustry.Vars.net;
+
 public class DefunctBeacon extends Block {
 
     public Seq<UnitType> units = new Seq<>();
@@ -59,12 +61,19 @@ public class DefunctBeacon extends Block {
             if(progress >= 600){
                 burstEffect.at(x,y);
                 progress = 0;
-                for(UnitType type : units){
-                    Unit unit = type.create(this.team);
-                    unit.set(x+ Mathf.range(spawnRange),y+ Mathf.range(spawnRange));
-                    unit.rotation = rotation;
-                    spawnEffect.at(unit.x,unit.y, unit.rotation, unit.type);
-                    unit.add();
+                //units are spawned server-side only; positions are deterministic so
+                //the client-side spawn effects mirror the server
+                for(int i = 0; i < units.size; i++){
+                    UnitType type = units.get(i);
+                    float sx = x + Mathf.randomSeed(tile.pos() * 3L + i * 3L, -spawnRange, spawnRange);
+                    float sy = y + Mathf.randomSeed(tile.pos() * 3L + i * 3L + 1, -spawnRange, spawnRange);
+                    if(!net.client()){
+                        Unit unit = type.create(this.team);
+                        unit.set(sx, sy);
+                        unit.rotation = rotation;
+                        unit.add();
+                    }
+                    spawnEffect.at(sx, sy, rotation, type);
                 }
             }
         }

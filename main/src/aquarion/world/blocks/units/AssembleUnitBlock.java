@@ -360,33 +360,40 @@ public class AssembleUnitBlock extends Block {
                 totProgress = progress/time;
             }
             if(progress >= time ){
-                mindustry.gen.Unit b = unit.create(team);
-                if(b.isCommandable()){
-                    if(commandPos != null){
-                        b.command().commandPosition(commandPos);
+                progress %= time;
+
+                //unit creation and block destruction are server-authoritative;
+                //clients would otherwise spawn phantom units and send destroy packets
+                if(!net.client()){
+                    mindustry.gen.Unit b = unit.create(team);
+                    if(b.isCommandable()){
+                        if(commandPos != null){
+                            b.command().commandPosition(commandPos);
+                        }
+                        //this already checks if it is a valid command for the unit type
+                        b.command().command(command == null && b.type.defaultCommand != null ? b.type.defaultCommand : command);
                     }
-                    //this already checks if it is a valid command for the unit type
-                    b.command().command(command == null && b.type.defaultCommand != null ? b.type.defaultCommand : command);
+                    b.set(x, y);
+                    b.rotation = rotdeg()+90;
+                    for(StatusEffect effect : effects) {
+                        b.apply(effect);
+                    }
+                    b.add();
+                    reqs.forEach((requirement) ->{
+                        Tmp.v1.set(requirement.key[0],requirement.key[1]);
+                        Tmp.v1.rotate(rotation*90-90);
+                        Tile tile = world.tiles.getc(Mathf.round(this.tileX()+Tmp.v1.x), Mathf.round(this.tileY()+Tmp.v1.y));
+                        if(tile != null && tile.build != null){
+                            tile.build.kill();
+                        }
+                    });
+                    kill();
                 }
-                b.set(x + Mathf.range(0.001f), y + Mathf.range(0.001f));
-                b.rotation = rotdeg()+90;
+
                 Effect.shake(2f, 3f, this);
                 Fx.producesmoke.at(this);
                 AquaFx.boing.at(this.x, this.y, 0, block);
-                for(StatusEffect effect : effects) {
-                    b.apply(effect);
-                }
-                b.add();
-                reqs.forEach((requirement) ->{
-                    Tmp.v1.set(requirement.key[0],requirement.key[1]);
-                    Tmp.v1.rotate(rotation*90-90);
-                    Tile tile = world.tiles.getc(Mathf.round(this.tileX()+Tmp.v1.x), Mathf.round(this.tileY()+Tmp.v1.y));
-                    if(tile != null && tile.build != null){
-                        tile.build.kill();
-                    }
-                });
                 startsound.at(this);
-                kill();
             }
         }
         @Override
