@@ -117,6 +117,9 @@ public class GenericNeoplasiaBlock extends Block {
         float burstCooldown = 0f;
         int currentBurstLength = 0;
         int burstDir = -1;
+        int burstCount = 0;
+        int treeRolls = 0;
+        int damageRolls = 0;
         public float amount = 0f;
         public float recentDamage = 0f;
         float spawnTime = 0f;
@@ -285,7 +288,8 @@ public class GenericNeoplasiaBlock extends Block {
 
         void trySpawnTree(boolean connected) {
             if (treeBlock == null || !connected || amount < maxAmount * 0.6f) return;
-            if (Mathf.chance(0.02f * delta())) {
+            treeRolls++;
+            if (Mathf.randomSeed(tile.pos() * 17L + treeRolls, 0f, 1f) < 0.02f * delta()) {
                 for (int dx = -3; dx <= 3; dx++) {
                     for (int dy = -3; dy <= 3; dy++) {
                         Tile other = world.tile(tile.x + dx, tile.y + dy);
@@ -378,7 +382,8 @@ public class GenericNeoplasiaBlock extends Block {
             }
 
             float chance = recentDamage * upgradeDamageScale;
-            if(amount >= damageUpgradeCost && Mathf.chanceDelta(chance) && damageUpgrade != null && NeoplasiaGraph.techLevel() >= damageUpgrade.requiredTech){
+            damageRolls++;
+            if(amount >= damageUpgradeCost && Mathf.randomSeed(tile.pos() * 23L + damageRolls, 0f, 1f) < chance * delta() && damageUpgrade != null && NeoplasiaGraph.techLevel() >= damageUpgrade.requiredTech){
                 upgradeTo(damageUpgrade);
             }
         }
@@ -400,7 +405,8 @@ public class GenericNeoplasiaBlock extends Block {
                 burstTile = tile;
                 burstStep = 0;
                 burstTimer = 0f;
-                currentBurstLength = 1 + (int) (Mathf.pow(Mathf.random(), 0.6f) * burstLength);
+                burstCount++;
+                currentBurstLength = 1 + (int) (Mathf.pow(Mathf.randomSeed(tile.pos() * 11L + burstCount, 0f, 1f), 0.6f) * burstLength);
                 burstDir = 0;
             }
             burstTimer += delta();
@@ -458,7 +464,7 @@ public class GenericNeoplasiaBlock extends Block {
                     if (check.overlay() != null && check.overlay().itemDrop != null) score += 13f;
                 }
                 if (check.build instanceof NeoplasiaBuild) score += 1.5f;
-                score += Mathf.random(0.5f);
+                score += Mathf.randomSeed(origin.pos() * 8L + i, 0f, 0.5f);
                 if (score > bestScore) {
                     bestScore = score;
                     bestDir = i;

@@ -29,6 +29,7 @@ public class DefensiveNeoplasiaBlock extends GenericNeoplasiaBlock{
     public float reverseUpgradeThreshold = 10f;
     public float reverseUpgradeChance = 0.0003f;
     public class defensiveNeoplasiaBlockBuild extends NeoplasiaBuild {
+        int reverseRolls = 0;
 
         final Cons<Vec2> wiggle = vec -> vec.add(
             Mathf.sin(vec.y * 3 + Time.time, wscl, wmag) + Mathf.sin(vec.x * 3 - Time.time, 70 * wtscl, 0.8f * wmag2),
@@ -64,8 +65,8 @@ public class DefensiveNeoplasiaBlock extends GenericNeoplasiaBlock{
             burstSpread();
             damageNearby();
             if(damageUpgrade != null && recentDamage <= reverseUpgradeThreshold){
-
-                if(Mathf.chanceDelta(reverseUpgradeChance)){
+                reverseRolls++;
+                if(Mathf.randomSeed(tile.pos() * 29L + reverseRolls, 0f, 1f) < reverseUpgradeChance * delta()){
                     AquaFx.neoplasiaPlace.at(x, y);
                     this.tile.setBlock(damageUpgrade, this.team);
                     return;

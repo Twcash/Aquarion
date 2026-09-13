@@ -22,6 +22,7 @@ import mindustry.gen.Unit;
 import mindustry.game.Team;
 import mindustry.type.ItemStack;
 import mindustry.type.UnitType;
+import mindustry.Vars;
 import mindustry.world.Tile;
 import mindustry.world.meta.Env;
 
@@ -182,12 +183,13 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             while (countBranches(0) < targetL0 && amount >= branchCost * 2f) {
                 amount -= branchCost * 2f;
                 int idx = countBranches(0);
+                long seed = tile.pos() * 31L + idx * 7L;
                 float base = treeAngle + 360f / maxBranchesByLevel[0] * idx;
-                float spread = 20f + Mathf.random(10f);
-                float len = branchLengthByLevel[0] * (0.7f + Mathf.random(0.6f));
-                float thick = branchThicknessByLevel[0] * (0.8f + Mathf.random(0.4f));
-                branches.add(new BranchNode(0, base - spread, len, thick, Mathf.random(360f), 0f, -1));
-                branches.add(new BranchNode(0, base + spread, len, thick, Mathf.random(360f), 0f, -1));
+                float spread = 20f + Mathf.randomSeed(seed, 0f, 10f);
+                float len = branchLengthByLevel[0] * (0.7f + Mathf.randomSeed(seed + 1, 0f, 0.6f));
+                float thick = branchThicknessByLevel[0] * (0.8f + Mathf.randomSeed(seed + 2, 0f, 0.4f));
+                branches.add(new BranchNode(0, base - spread, len, thick, Mathf.randomSeed(seed + 3, 0f, 360f), 0f, -1));
+                branches.add(new BranchNode(0, base + spread, len, thick, Mathf.randomSeed(seed + 4, 0f, 360f), 0f, -1));
             }
             if (s > 0.35f) {
                 for (int i = 0; i < branches.size; i++) {
@@ -197,13 +199,14 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                     int haveL1 = countChildren(i);
                     while (haveL1 < targetL1 && amount >= branchCost * 3f) {
                         amount -= branchCost * 3f;
-                        float spread = 25f + Mathf.random(15f);
-                        float base = p.angle + Mathf.random(-10f, 10f);
-                        float len = branchLengthByLevel[1] * (0.6f + Mathf.random(0.8f));
-                        float thick = branchThicknessByLevel[1] * (0.7f + Mathf.random(0.6f));
-                        float pos = 0.3f + Mathf.random(0.4f);
-                        branches.add(new BranchNode(1, base - spread, len, thick, Mathf.random(360f), pos, i));
-                        branches.add(new BranchNode(1, base + spread, len, thick, Mathf.random(360f), pos, i));
+                        long seed = tile.pos() * 31L + 1000L + i * 7L + haveL1 * 3L;
+                        float spread = 25f + Mathf.randomSeed(seed, 0f, 15f);
+                        float base = p.angle + Mathf.randomSeed(seed + 1, -10f, 10f);
+                        float len = branchLengthByLevel[1] * (0.6f + Mathf.randomSeed(seed + 2, 0f, 0.8f));
+                        float thick = branchThicknessByLevel[1] * (0.7f + Mathf.randomSeed(seed + 3, 0f, 0.6f));
+                        float pos = 0.3f + Mathf.randomSeed(seed + 4, 0f, 0.4f);
+                        branches.add(new BranchNode(1, base - spread, len, thick, Mathf.randomSeed(seed + 5, 0f, 360f), pos, i));
+                        branches.add(new BranchNode(1, base + spread, len, thick, Mathf.randomSeed(seed + 6, 0f, 360f), pos, i));
                         haveL1 += 2;
                     }
                 }
@@ -217,13 +220,14 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                     int haveL2 = countChildren(i);
                     while (haveL2 < targetL2 && amount >= branchCost * 4f) {
                         amount -= branchCost * 4f;
-                        float spread = 20f + Mathf.random(20f);
-                        float base = p.angle + Mathf.random(-10f, 10f);
-                        float len = branchLengthByLevel[2] * (0.5f + Mathf.random(1f));
-                        float thick = branchThicknessByLevel[2] * (0.6f + Mathf.random(0.8f));
-                        float pos = 0.5f + Mathf.random(0.4f);
-                        branches.add(new BranchNode(2, base - spread, len, thick, Mathf.random(360f), pos, i));
-                        branches.add(new BranchNode(2, base + spread, len, thick, Mathf.random(360f), pos, i));
+                        long seed = tile.pos() * 31L + 2000L + i * 7L + haveL2 * 3L;
+                        float spread = 20f + Mathf.randomSeed(seed, 0f, 20f);
+                        float base = p.angle + Mathf.randomSeed(seed + 1, -10f, 10f);
+                        float len = branchLengthByLevel[2] * (0.5f + Mathf.randomSeed(seed + 2, 0f, 1f));
+                        float thick = branchThicknessByLevel[2] * (0.6f + Mathf.randomSeed(seed + 3, 0f, 0.8f));
+                        float pos = 0.5f + Mathf.randomSeed(seed + 4, 0f, 0.4f);
+                        branches.add(new BranchNode(2, base - spread, len, thick, Mathf.randomSeed(seed + 5, 0f, 360f), pos, i));
+                        branches.add(new BranchNode(2, base + spread, len, thick, Mathf.randomSeed(seed + 6, 0f, 360f), pos, i));
                         haveL2 += 2;
                     }
                 }
@@ -243,13 +247,15 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
         }
 
         void managePods() {
-            for (BranchNode branch : branches) {
+            for (int bi = 0; bi < branches.size; bi++) {
+                BranchNode branch = branches.get(bi);
                 while (branch.pods.size < maxPodsPerBranch && amount >= podCost) {
                     amount -= podCost;
+                    long seed = tile.pos() * 13L + bi * 7L + branch.pods.size * 3L;
                     LeafPod pod = new LeafPod();
-                    pod.position = 0.2f + Mathf.random(0.7f);
+                    pod.position = 0.2f + Mathf.randomSeed(seed, 0f, 0.7f);
                     pod.progress = 0f;
-                    pod.side = Mathf.randomBoolean() ? 1 : -1;
+                    pod.side = Mathf.randomSeed(seed + 1, 0, 1) == 0 ? -1 : 1;
                     branch.pods.add(pod);
                 }
             }
@@ -281,6 +287,9 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                     pod.progress += Time.delta;
                     if (pod.progress >= unitGrowTime) {
                         pod.progress = 0f;
+                        //unit spawning and cost consumption are server-authoritative;
+                        //clients mirror the pod cycle locally so visuals stay in sync
+                        if (Vars.net.client()) continue;
                         if (spawnSpewer(branch, pod)) continue;
                         consumeUnitCost(unitCost());
                         leafPos(branch, pod, tmp2);

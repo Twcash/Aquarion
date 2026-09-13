@@ -31,9 +31,11 @@ public UnitType drone = UnitTypes.flare;
             @Nullable Entityc owner, @Nullable Entityc shooter, Team team, float x, float y, float angle, float damage, float velocityScl,
             float lifetimeScl, Object data, @Nullable Mover mover, float aimX, float aimY, @Nullable Teamc target
     ){
-        angle += angleOffset + Mathf.range(randomAngleOffset);
+        //deterministic seed so server and clients roll identical values
+        int seed = (int)(x * 13f + y * 29f + angle * 7f + velocityScl * 31f);
+        angle += angleOffset + Mathf.randomSeedRange(seed, randomAngleOffset);
 
-        if(!Mathf.chance(createChance)) return null;
+        if(!(Mathf.randomSeed(seed + 1) < createChance)) return null;
         if(ignoreSpawnAngle) angle = 0;
         if(spawnUnit != null){
             //don't spawn units clientside!
@@ -80,11 +82,11 @@ public UnitType drone = UnitTypes.flare;
         bullet.aimX = aimX;
         bullet.aimY = aimY;
 
-        bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.random(velocityScaleRandMin, velocityScaleRandMax) : 1f));
+        bullet.initVel(angle, speed * velocityScl * (velocityScaleRandMin != 1f || velocityScaleRandMax != 1f ? Mathf.randomSeed(seed + 2, velocityScaleRandMin, velocityScaleRandMax) : 1f));
         bullet.set(x, y);
         bullet.lastX = x;
         bullet.lastY = y;
-        bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.random(lifeScaleRandMin, lifeScaleRandMax) : 1f);
+        bullet.lifetime = lifetime * lifetimeScl * (lifeScaleRandMin != 1f || lifeScaleRandMax != 1f ? Mathf.randomSeed(seed + 3, lifeScaleRandMin, lifeScaleRandMax) : 1f);
         bullet.data = data;
         bullet.hitSize = hitSize;
         bullet.mover = mover;

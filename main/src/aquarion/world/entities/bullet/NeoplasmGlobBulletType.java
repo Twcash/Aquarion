@@ -28,6 +28,8 @@ public class NeoplasmGlobBulletType extends BasicBulletType {
 
     protected void placeOrFeed(Bullet b) {
         if (neoplasiaBlock == null) return;
+        //tile placement is server-authoritative; clients receive the block through entity sync
+        if (Vars.net.client()) return;
         var tile = Vars.world.tileWorld(b.x, b.y);
         if (tile == null || tile.solid() || tile.floor().isDeep()) return;
         if (tile.build instanceof GenericNeoplasiaBlock.NeoplasiaBuild nb && nb.team == b.team) {
