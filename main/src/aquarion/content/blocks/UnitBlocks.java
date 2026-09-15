@@ -6,6 +6,7 @@ import aquarion.content.AquaStatuses;
 import aquarion.content.AquaUnitTypes;
 import aquarion.world.blocks.payload.InitializationBay;
 import aquarion.world.blocks.units.*;
+import aquarion.world.content.AquaLiquid;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
 import arc.struct.ObjectMap;
@@ -31,7 +32,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block defunctBeacon1,regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
+    public static Block defunctBeacon1,regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad, apothecary;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -171,15 +172,6 @@ public class UnitBlocks {
             consumePower(2);
             consumeLiquid(oil, 0.25f);
         }};
-        unitByte = new UnitBlock("byte-inactive") {{
-            requirements(Category.units, with(silicon, 120, metaglass, 90, copper, 40));
-            unit = AquaUnitTypes.byteUnit;
-            size = 2;
-            time = 7 * 60;
-            destroySound = AquaSounds.start5;
-            consumePower(1.5f);
-            consumeLiquid(oil, 0.125f);
-        }};
         reave = new UnitBlock("reave-inactive") {{
             requirements(Category.units, with(polymer, 80, graphite, 120, ferricMatter, 150));
             unit = AquaUnitTypes.reave;
@@ -228,6 +220,15 @@ public class UnitBlocks {
 //            destroySound = AquaSounds.start4;
 //            buildVisibility = BuildVisibility.hidden;
 //        }};
+        unitByte = new UnitBlock("byte-inactive") {{
+            requirements(Category.units, with(silicon, 120, metaglass, 90, copper, 40));
+            unit = AquaUnitTypes.byteUnit;
+            size = 2;
+            time = 7 * 60;
+            destroySound = AquaSounds.start5;
+            consumePower(1.5f);
+            consumeLiquid(oil, 0.125f);
+        }};
         index = new UnitBlock("index-inactive") {{
             requirements(Category.units, with(ferrosilicon, 250, brass, 150, cupronickel, 350, silicon, 500));
             unit = AquaUnitTypes.index;
@@ -236,6 +237,15 @@ public class UnitBlocks {
             consumeLiquid(hydrogen,4);
             time = 60 * 60;
             destroySound = AquaSounds.start;
+        }};
+        apothecary = new UnitBlock("apothecary-inactive") {{
+            requirements(Category.units, with(silicon, 750, polymer, 525, copper, 1250, graphite, 250, metaglass, 50));
+            unit = AquaUnitTypes.apothecary;
+            size = 3;
+            consumePower(6);
+            time = 60*90;
+            destroySound = AquaSounds.start5;
+            consumeLiquid(AquaLiquids.ammonia, 1.2f);
         }};
         defunctBeacon1 = new DefunctBeacon("defunct-beacon-small"){{
             buildVisibility = BuildVisibility.sandboxOnly;

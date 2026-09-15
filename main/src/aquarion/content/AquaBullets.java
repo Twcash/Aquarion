@@ -1544,7 +1544,7 @@ public class AquaBullets {
         backSprite = "aquarion-long-bullet-back";
         trailColor = metaglass.color;
         trailEffect = Fx.disperseTrail;
-        trailInterval = 2f;
+        trailInterval = 1f;
         trailWidth = 1f;
         trailLength = 4;
         trailRotation = true;
@@ -1570,7 +1570,7 @@ public class AquaBullets {
                 backSprite = "aquarion-long-bullet-back";
                 trailColor = graphite.color;
                 trailEffect = Fx.disperseTrail;
-                trailInterval = 2f;
+                trailInterval = 1f;
                 trailWidth = 1f;
                 trailLength = 4;
                 trailRotation = true;
@@ -1589,11 +1589,12 @@ public class AquaBullets {
                 backSprite = "aquarion-long-bullet-back";
                 trailColor = tungsten.color;
                 trailEffect = Fx.disperseTrail;
-                trailInterval = 2f;
+                reloadMultiplier = 0.9f;
+                trailInterval = 1f;
                 trailWidth = 1f;
                 trailLength = 4;
                 trailRotation = true;
-                damage = 45;
+                damage = 50;
                 speed = 30f;
                 lifetime = 11f;
                armorMultiplier = 0.5f;
@@ -1605,7 +1606,7 @@ public class AquaBullets {
                 backSprite = "aquarion-long-bullet-back";
                 trailColor = polymer.color;
                 trailEffect = Fx.disperseTrail;
-                trailInterval = 2f;
+                trailInterval = 1f;
                 trailWidth = 1f;
                 trailLength = 4;
                 trailRotation = true;
