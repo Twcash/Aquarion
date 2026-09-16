@@ -935,7 +935,7 @@ public class AquaResearchDialog extends BaseDialog {
             });
             if (node.content.description != null && node.content.inlineDescription && selectable) {
                 infoTable.row();
-                infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).maxWidth(node.content.displayDescription().length() > 20 ? 270f : 0f).growX()).left();
+                infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).maxWidth(infoTable.getMinWidth())).left();
             }
 
             addChild(infoTable);
