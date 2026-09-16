@@ -239,7 +239,7 @@ public class UnitBlocks {
             destroySound = AquaSounds.start;
         }};
         apothecary = new UnitBlock("apothecary-inactive") {{
-            requirements(Category.units, with(silicon, 750, polymer, 525, copper, 1250, graphite, 250, metaglass, 50));
+            requirements(Category.units, with(silicon, 750, polymer, 325, copper, 1250, graphite, 250, metaglass, 50));
             unit = AquaUnitTypes.apothecary;
             size = 3;
             consumePower(6);

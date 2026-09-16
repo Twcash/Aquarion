@@ -30,6 +30,8 @@ public class AquaSectorPresets {
         }};
         ruinedRepository = new SectorPreset("ruined-repository", AquaPlanets.delubrum,0){{
             outline = false;
+            addStartingItems = false;
+
         }};
         frigidShores = new SectorPreset("frigidShores", fakeSerpulo, 467){{
             allDatabaseTabs = true;

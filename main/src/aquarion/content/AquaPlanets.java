@@ -186,6 +186,7 @@ public class AquaPlanets {
             defaultCore = CoreBlocks.reception;
             allowLaunchLoadout = false;
             allowLaunchToNumbered = false;
+            allowLaunchSchematics = false;
             ruleSetter = r -> {
                 r.infiniteResources = true;
                 r.buildSpeedMultiplier = 0;

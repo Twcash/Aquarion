@@ -95,8 +95,8 @@ public class TantrosTechTree {
                 ), () -> {
                     node(crest, () -> {
                         node(unitByte, () -> {
-                            node(index, () -> {
-                            });
+                            node(index, () -> {});
+                            node(apothecary, () -> {});
                         });
                         node(soar, () -> {
                         });
@@ -187,7 +187,7 @@ public class TantrosTechTree {
                         new Objectives.OnSector(Ingress)
                 ), () -> {
                     node(buzzSaw, Seq.with(
-                            new Objectives.OnSector(Torrent)
+                            new Objectives.SectorComplete(icyRiver)
                     ), () -> {});
                     node(redact, () -> {
                         node(maelstrom, () -> {});
@@ -263,7 +263,9 @@ public class TantrosTechTree {
                         new Objectives.OnSector(icyRiver)
                 ), () -> {});
             });
-            node(resurgence, () -> {
+            node(resurgence, Seq.with(
+                    new Objectives.Research(silicon)
+            ), () -> {
                 node(twinPass, Seq.with(
                         new Objectives.Research(cupronickelAlloyer),
 
