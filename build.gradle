@@ -120,13 +120,15 @@ tasks.register('install', DefaultTask){
         String customPath = mindustryPathProp.getOrNull()
 
         // If the JAR is from a stale build, force a clean rebuild
-        def jarEntries = new java.util.jar.JarFile(jarFile).entries()
         boolean hasMainClass = false
-        while(jarEntries.hasMoreElements()){
-            def entry = jarEntries.nextElement()
-            if(entry.name == "${modName.replaceAll('-', '')}/AquaLoader.class".toString()){
-                hasMainClass = true
-                break
+        new java.util.jar.JarFile(jarFile).withCloseable{ jar ->
+            def jarEntries = jar.entries()
+            while(jarEntries.hasMoreElements()){
+                def entry = jarEntries.nextElement()
+                if(entry.name == "${modName.replaceAll('-', '')}/AquaLoader.class".toString()){
+                    hasMainClass = true
+                    break
+                }
             }
         }
         if(!hasMainClass){
