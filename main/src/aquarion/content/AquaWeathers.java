@@ -12,7 +12,7 @@ import mindustry.type.weather.ParticleWeather;
 import mindustry.world.meta.Attribute;
 
 public class AquaWeathers {
-    public static Weather monsoon, blizzard, currents, sedimentDisturance, volcanicFallout, bioluminescentBlooms, whiteFog;
+    public static Weather monsoon, blizzard, currents, sedimentDisturance, volcanicFallout, bioluminescentBlooms, whiteFog, aurora;
     public static void load(){
         monsoon = new Monsoon("monsoon");
         blizzard = new Blizzard("blizzard");
@@ -137,6 +137,31 @@ public class AquaWeathers {
             attrs.set(Attribute.light, -0.3f);
             attrs.set(Attribute.water, 0.05f);
             opacityMultiplier = 0.3f;
+        }};
+        aurora = new ParticleWeather("bioluminescent-blooms"){{
+            color =   Color.valueOf("currents");
+            noiseColor = Color.valueOf("63f0b2");
+            color = Color.valueOf("48fff0");
+            noisePath = "fog";
+            noiseLayers = 3;
+            noiseLayerAlphaM = 0.1f;
+            noiseLayerSpeedM = 0.9f;
+            noiseLayerSclM = 0.6f;
+            noiseScale = 3000;
+            xspeed = 1f;
+            yspeed = 0.01f;
+            drawNoise = true;
+            opacityMultiplier = 2f;
+            statusGround = false;
+            useWindVector = true;
+            hidden = false;
+            sizeMax = 700;
+            sizeMin = 10;
+            minAlpha = 0.05f;
+            maxAlpha = 0.1f;
+            density = 90000;
+            baseSpeed = 0.5f;
+            duration = 2 * Time.toMinutes;
         }};
     }
 }
