@@ -138,7 +138,7 @@ public class AquaWeathers {
             attrs.set(Attribute.water, 0.05f);
             opacityMultiplier = 0.3f;
         }};
-        aurora = new ParticleWeather("bioluminescent-blooms"){{
+        aurora = new ParticleWeather("aurora"){{
             color =   Color.valueOf("currents");
             noiseColor = Color.valueOf("63f0b2");
             color = Color.valueOf("48fff0");
