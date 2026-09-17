@@ -97,7 +97,7 @@ public static void init() {
             shallowSlag.dispose();
             waterReflect.dispose();
             neoplasiaBaseShader.dispose();
-            neoplasiaPodShader.dispose();
+            //neoplasiaPodShader.dispose();
             knight1.dispose();
             PlanetShadowMap.dispose();
         }

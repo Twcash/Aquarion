@@ -47,7 +47,7 @@ public class EnvironmentBlocks {
     //metal walls
     public static Block metalWall3, metalWall4, metalWall5, metalWall6, metalWall7, metalWall1, metalWalltwo;
     //defunct stuff
-    public static Block scrapWall, defunctFramingCross, smallDefunctRadarTower, defunctFlooring, crasindFloor,
+    public static Block scrapWall, defunctFramingCross, smallDefunctRadarTower, defunctFlooring, crasindFloor, loam, siltyLoam, sandyClayLoam, loamySand, clayLoam, silt, sandyLoam, sandyClay, siltyClayLoam, siltyClay,
             CrasseCoral;
     //deconstructible plants and rocks and stuff (except defunct stuff)
     public static Block relBlossom, bramble, brulrFern, largeTranticaBush, tyrqPod, bigTyrqPod, scrap1,scrap2,scrap3, varcaudStalk, deadVarcaudStalk, stoneRock, largeStoneRock, hugeStoneRock, massiveStoneRock, basaltRock, largeBasaltRock,
@@ -229,6 +229,16 @@ public class EnvironmentBlocks {
         denseStone = new Floor("dense-stone", 8);
         stonePores = new Floor("stone-pores", 6);
         clay = new Floor("clay", 4);
+        clayLoam = new Floor("clay-loam", 3);
+        siltyClay = new Floor("silty-clay", 3);
+        sandyClay = new Floor("sandy-clay", 3);
+        sandyLoam = new Floor("sandy-loam", 3);
+        siltyClayLoam = new Floor("silty-clay-loam", 3);
+        sandyClayLoam = new Floor("sandy-clay-loam", 3);
+        loamySand = new Floor("loamy-sand", 3);
+        siltyLoam = new Floor("silty-loam", 3);
+        silt = new Floor("silt", 3);
+        loam = new Floor("loam", 3);
 
         nickelFloor = new AquaFloor("nickel-floor", 3) {{
           itemDrop = AquaItems.nickel;
