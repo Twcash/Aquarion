@@ -179,7 +179,7 @@ public class AquaPlanetGenerator extends PlanetGenerator {
         if(underwater){
             rules.weather.add(new Weather.WeatherEntry(AquaWeathers.sedimentDisturance));
             rules.weather.add(new Weather.WeatherEntry(AquaWeathers.currents));
-            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.bioluminescentBlooms));
+            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.aurora));
         }
         if(hasSnow){
             rules.weather.add(new Weather.WeatherEntry(Weathers.snow));

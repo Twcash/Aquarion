@@ -197,7 +197,8 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         boolean hasRain = floors.length > 0 && !hasSnow && content.contains(Liquids.water) && !floors[0].name.contains("sand");
         boolean hasDesert = floors.length > 0 && !hasSnow && !hasRain && (floors[0] == Blocks.sand || floors[0] == redSandFloor);
         boolean hasSpores = floors.length > 0 && (floors[0].name.contains("spore") || floors[0].name.contains("moss") || floors[0].name.contains("tainted"));
-        boolean hasAurora = state.rules.ambientLight.a < 0.75 && hasSnow;
+        //auroras only occur near the poles
+        boolean polar = Math.abs(sector.tile.v.y) >= 0.75f;
 
         if(hasSnow){
             rules.weather.add(new Weather.WeatherEntry(AquaWeathers.blizzard));
@@ -215,8 +216,8 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
             rules.weather.add(new Weather.WeatherEntry(AquaWeathers.monsoon));
             rules.weather.add(new Weather.WeatherEntry(AquaWeathers.whiteFog));
         }
-        if(hasAurora){
-            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.bioluminescentBlooms));
+        if(polar){
+            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.aurora));
         }
     }
 
