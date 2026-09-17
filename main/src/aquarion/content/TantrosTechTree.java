@@ -260,7 +260,7 @@ public class TantrosTechTree {
                     new Objectives.OnSector(resurgence)
             ), () -> {
                 node(ruinedRepository, Seq.with(
-                        new Objectives.OnSector(icyRiver)
+                        new Objectives.SectorComplete(twinPass)
                 ), () -> {});
             });
             node(resurgence, Seq.with(
