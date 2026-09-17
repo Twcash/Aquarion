@@ -118,7 +118,7 @@ public class CoreBlocks {
             itemCapacity = 1;
             unitType = AquaUnitTypes.visitor;
             solid = false;
-            buildVisibility = BuildVisibility.sandboxOnly;
+            //buildVisibility = BuildVisibility.sandboxOnly;
             requirements(Category.effect, with(libraryCard, 1));
         }};
         bomb = new Bomb("improvised-explosive"){{
