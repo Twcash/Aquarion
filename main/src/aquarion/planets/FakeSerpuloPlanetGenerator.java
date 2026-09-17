@@ -216,7 +216,7 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
             rules.weather.add(new Weather.WeatherEntry(AquaWeathers.whiteFog));
         }
         if(hasAurora){
-            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.bioluminescentBlooms));
+            rules.weather.add(new Weather.WeatherEntry(AquaWeathers.aurora));
         }
     }
 
