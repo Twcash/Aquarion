@@ -77,7 +77,6 @@ public class AssembleUnitBlock extends Block {
         saveConfig = true;
         update = true;
         ambientSound = AquaSounds.derrick;
-        canPickup = false;
         rotate = true;
         hasShadow = false;
         createRubble = false;
@@ -307,11 +306,11 @@ public class AssembleUnitBlock extends Block {
             }
 
             if(commandPos != null){
-                if(out.length() > 0) out.append(",");
+                if(!out.isEmpty()) out.append(",");
                 out.append("pos=").append(commandPos.x).append(":").append(commandPos.y);
             }
 
-            return out.length() == 0 ? null : out.toString();
+            return out.isEmpty() ? null : out.toString();
         }
 
         @Override
