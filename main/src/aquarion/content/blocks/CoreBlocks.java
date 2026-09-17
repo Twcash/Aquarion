@@ -62,7 +62,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class CoreBlocks {
-    public static Block bomb, dPowerSource, dItemSource, dLiquidSource, speaker, toggler, splitter, channel, storageReader, merger, buzzSaw, reception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
+    public static Block bomb, dPowerSource, dItemSource, dLiquidSource, speaker, toggler, splitter, channel, storageReader, merger, buzzSaw, coreReception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
             coreEscarpment, laboratory, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell,             neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, neoplasmBlobber, researchVoider;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -113,13 +113,19 @@ public class CoreBlocks {
         storageReader = new StorageReader("storage-reader"){{
             requirements(Category.logic, with(silicon, 20, graphite, 10));
         }};
-        reception = new CoreBlock("reception"){{
-            size = 2;
-            itemCapacity = 1;
-            unitType = AquaUnitTypes.visitor;
-            solid = false;
-            buildVisibility = BuildVisibility.sandboxOnly;
+        coreReception = new CoreBlock("reception"){{
             requirements(Category.effect, with(libraryCard, 1));
+            squareSprite = false;
+            health = 2500;
+            itemCapacity = 1;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            size = 2;
+            unitType = AquaUnitTypes.visitor;
+            alwaysUnlocked = true;
+            hasItems = true;
+            hasColor = true;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
         }};
         bomb = new Bomb("improvised-explosive"){{
             requirements(Category.effect, with(polymer, 50, copper, 900));

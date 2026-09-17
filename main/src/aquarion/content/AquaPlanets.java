@@ -183,7 +183,7 @@ public class AquaPlanets {
             accessible = true;
             atmosphereRadIn = 0.09f;
             alwaysUnlocked = true;
-            defaultCore = CoreBlocks.reception;
+            defaultCore = CoreBlocks.coreReception;
             allowLaunchToNumbered = false;
             ruleSetter = r -> {
                 r.infiniteResources = true;
