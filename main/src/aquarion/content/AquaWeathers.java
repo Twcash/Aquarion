@@ -1,6 +1,7 @@
 package aquarion.content;
 
 import aquarion.world.graphics.weather.AquaParticleWeather;
+import aquarion.world.graphics.weather.Aurora;
 import aquarion.world.graphics.weather.Blizzard;
 import aquarion.world.graphics.weather.Monsoon;
 import arc.graphics.Color;
@@ -16,8 +17,7 @@ public class AquaWeathers {
     public static void load(){
         monsoon = new Monsoon("monsoon");
         blizzard = new Blizzard("blizzard");
-        bioluminescentBlooms = new ParticleWeather("bioluminescent-blooms"){{
-            color =   Color.valueOf("currents");
+        aurora = new Aurora("aurora"){{
             noiseColor = Color.valueOf("63f0b2");
             color = Color.valueOf("48fff0");
             noisePath = "fog";
@@ -138,7 +138,7 @@ public class AquaWeathers {
             attrs.set(Attribute.water, 0.05f);
             opacityMultiplier = 0.3f;
         }};
-        aurora = new ParticleWeather("aurora"){{
+        bioluminescentBlooms = new ParticleWeather("bioluminescent-blooms"){{
             color =   Color.valueOf("currents");
             noiseColor = Color.valueOf("63f0b2");
             color = Color.valueOf("48fff0");
@@ -161,7 +161,7 @@ public class AquaWeathers {
             maxAlpha = 0.1f;
             density = 90000;
             baseSpeed = 0.5f;
-            duration = 2 * Time.toMinutes;
+            duration = 4 * Time.toMinutes;
         }};
     }
 }
