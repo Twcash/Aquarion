@@ -1,5 +1,6 @@
 import arc.files.Fi
 import groovy.json.JsonSlurper
+import org.gradle.process.ExecOperations
 
 def modJson = new File(rootDir, 'mod.json')
 def modInfo = new JsonSlurper().parseText(modJson.text)
@@ -216,14 +217,16 @@ tasks.register('installClient', DefaultTask){
     }
 }
 
-tasks.register('runClient', DefaultTask){
-    dependsOn 'installClient', 'install'
+abstract class RunClientTask extends DefaultTask {
+    @Inject
+    abstract ExecOperations getExecOperations()
 
-    final def mindustryPathProp = project.providers.gradleProperty('mindustryPath')
-    final def mindustryVersionProp = project.providers.gradleProperty('mindustryVersion')
-    final def defaultMinPath = new File(project.projectDir, "run").absolutePath
+    @TaskAction
+    void run() {
+        def mindustryPathProp = project.providers.gradleProperty('mindustryPath')
+        def mindustryVersionProp = project.providers.gradleProperty('mindustryVersion')
+        def defaultMinPath = new File(project.projectDir, "run").absolutePath
 
-    doLast{
         String customPath = mindustryPathProp.getOrNull()
         def mindustryPath = customPath && !customPath.trim().isEmpty()
                 ? Fi.get(customPath)
@@ -236,19 +239,24 @@ tasks.register('runClient', DefaultTask){
         def clientFile = mindustryPath.child("client-${clientVersion}.jar")
         if(isSteam) clientFile = mindustryPath.child("Mindustry.exe")
 
-        logger.lifecycle("> Starting Mindustry.")
+        project.logger.lifecycle("> Starting Mindustry.")
 
-        if(isSteam)
-            exec{
+        if(isSteam) {
+            execOperations.exec {
                 environment "MINDUSTRY_DATA_DIR", mindustrySaves.absolutePath()
                 environment "DEVELOPMENT", "true"
                 commandLine clientFile.path()
             }
-        else
-            exec{
+        } else {
+            execOperations.exec {
                 environment "MINDUSTRY_DATA_DIR", mindustrySaves.absolutePath()
                 environment "DEVELOPMENT", "true"
                 commandLine 'java', '-jar', clientFile.path(), "-debug"
             }
+        }
     }
+}
+
+tasks.register('runClient', RunClientTask) {
+    dependsOn 'installClient', 'install'
 }
