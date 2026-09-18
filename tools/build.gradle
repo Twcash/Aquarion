@@ -1,9 +1,15 @@
-sourceSets.main{
-    java.srcDirs = ['src/']
+plugins {
+    id 'java'
 }
 
-sourceCompatibility = 17
-targetCompatibility = 17
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+sourceSets.main {
+    java.srcDirs = ['src/']
+}
 
 import arc.files.Fi
 import arc.func.Func2
@@ -13,7 +19,7 @@ import arc.struct.OrderedMap
 import arc.struct.Seq
 import arc.util.io.PropertiesUtils
 
-dependencies{
+dependencies {
     implementation project(':main')
     compileOnly project(':annotations')
     annotationProcessor project(':annotations')
@@ -21,32 +27,35 @@ dependencies{
     implementation "com.github.Anuken.Mindustry:core:$mindustryVersion"
 }
 
-task proc{
+task proc(type: JavaExec) {
     dependsOn classes
     inputs.dir(project.file(spritesRawDir)).withPathSensitivity(PathSensitivity.RELATIVE)
     inputs.files(configurations.runtimeClasspath)
     outputs.dir(project.file(spritesDir))
-    outputs.cacheIf{ true }
+    outputs.cacheIf { true }
 
-    doLast{
-        delete{ delete spritesDir }
+    workingDir = assetsDir
+    mainClass.set(rootProject.ext.modName.replaceAll("-", "") + '.tools.Tools')
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperty 'currentModName', modName
+
+    doFirst {
+        delete { delete spritesDir }
         spritesDir.mkdirs()
 
-        copy{
+        copy {
             from spritesRawDir
             into spritesDir
         }
-
-        javaexec{
-            workingDir = assetsDir
-            main = rootProject.ext.modName.replaceAll("-", "") + '.tools.Tools'
-            classpath = sourceSets.main.runtimeClasspath
-            systemProperty 'currentModName', modName
-        }
     }
 }
-tasks.register('updateBundles'){
-    doLast{
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs += ['-Xlint:-processing']
+}
+
+tasks.register('updateBundles') {
+    doLast {
 
         def bundlesDir = new File(rootProject.projectDir, "main/assets/bundles")
         def baseFile = new File(bundlesDir, "bundle.properties")
@@ -54,21 +63,21 @@ tasks.register('updateBundles'){
         def uniEscape = { String string ->
             StringBuilder outBuffer = new StringBuilder()
             int len = string.length()
-            for(int i = 0; i < len; i++){
+            for (int i = 0; i < len; i++) {
                 char ch = string.charAt(i)
-                if((ch > 61) && (ch < 127)){
+                if ((ch > 61) && (ch < 127)) {
                     outBuffer.append(ch == (char) '\\' ? "\\\\" : ch)
                     continue
                 }
 
-                if(ch >= 0xE000 && ch <= 0xF8FF){
+                if (ch >= 0xE000 && ch <= 0xF8FF) {
                     String hex = Integer.toHexString((int) ch)
                     outBuffer.append("\\u")
-                    for(int j = 0; j < 4 - hex.length(); j++){
+                    for (int j = 0; j < 4 - hex.length(); j++) {
                         outBuffer.append('0')
                     }
                     outBuffer.append(hex)
-                }else{
+                } else {
                     outBuffer.append(ch)
                 }
             }
@@ -83,20 +92,20 @@ tasks.register('updateBundles'){
         var lines = Fi.get(baseFile.path).reader().readLines()
 
         int offset = 0
-        for(int i = 0; i < lines.size(); i++){
+        for (int i = 0; i < lines.size(); i++) {
             var line = lines.get(i)
-            if(i > 0 && lines.get(i - 1).endsWith("\\")) offset++
-            else if(line.isEmpty() || line.startsWith("#")){
+            if (i > 0 && lines.get(i - 1).endsWith("\\")) offset++
+            else if (line.isEmpty() || line.startsWith("#")) {
                 commentAndBlankLines.put(i - offset, line)
             }
         }
 
         Fi.get(bundlesDir.path).walk(child -> {
 
-            if(child.name() == "bundle.properties" ||
-               child.name() == "global.properties") return
+            if (child.name() == "bundle.properties" ||
+                    child.name() == "global.properties") return
 
-            if(project.hasProperty("bundle") && child.name() != project.property("bundle")) return
+            if (project.hasProperty("bundle") && child.name() != project.property("bundle")) return
 
 
             OrderedMap<String, String> other = new OrderedMap<>()
@@ -106,28 +115,28 @@ tasks.register('updateBundles'){
             PropertiesUtils.load(other, child.reader())
 
             // remove unused
-            for(String key : other.orderedKeys()){
-                if(!base.containsKey(key)){
+            for (String key : other.orderedKeys()) {
+                if (!base.containsKey(key)) {
                     removals.add(key)
                 }
             }
 
-            for(String s : removals){
+            for (String s : removals) {
                 other.remove(s)
             }
 
             // add missing
             int added = 0
-            for(String key : base.orderedKeys()){
-                if(other.get(key) == null || other.get(key).trim().isEmpty()){
+            for (String key : base.orderedKeys()) {
+                if (other.get(key) == null || other.get(key).trim().isEmpty()) {
                     other.put(key, base.get(key))
                     added++
                 }
             }
 
             Func2<String, String, String> processor = (key, value) ->
-                (key + " =" + (value.trim().isEmpty() ? "" : " ") + uniEscape(value))
-                .replace("\n", "\\n") + "\n"
+                    (key + " =" + (value.trim().isEmpty() ? "" : " ") + uniEscape(value))
+                            .replace("\n", "\\n") + "\n"
 
             Fi output = child.sibling(child.name())
             output.parent().mkdirs()
@@ -136,12 +145,12 @@ tasks.register('updateBundles'){
             StringBuilder result = new StringBuilder()
             int i = 0
 
-            for(String key : base.orderedKeys()){
-                while(commentAndBlankLines.containsKey(i++)){
+            for (String key : base.orderedKeys()) {
+                while (commentAndBlankLines.containsKey(i++)) {
                     result.append(commentAndBlankLines.get(i - 1)).append("\n")
                 }
 
-                if(other.get(key) == null) continue
+                if (other.get(key) == null) continue
 
                 result.append(processor.get(key, other.get(key)))
                 other.remove(key)
