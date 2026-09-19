@@ -37,6 +37,33 @@ public class AquaBlock extends Block {
         ac.entries.first().required = true;
         return consume(ac);
     }
+    public AquaConsume consumeOr(
+            AquaConsume cons1,
+            float cons1Multi,
+            AquaConsume cons2,
+            float cons2Multi
+    ){
+        AquaConsume ac = new AquaConsume();
+
+        for(AquaConsume.Entry e : cons1.entries){
+            AquaConsume.Entry entry = new AquaConsume.Entry(e.consumer, cons1Multi);
+            entry.required = true;
+            e.consumer.multiplier = b -> cons1Multi;
+            ac.entries.add(entry);
+        }
+
+        for(AquaConsume.Entry e : cons2.entries){
+            AquaConsume.Entry entry = new AquaConsume.Entry(e.consumer, cons2Multi);
+            entry.required = true;
+            e.consumer.multiplier = b -> cons2Multi;
+            ac.entries.add(entry);
+        }
+
+        ac.separateEntries = true;
+        ac.preferLast = true;
+
+        return consume(ac);
+    }
     public AquaConsume consumeBoost(Liquid liquid, float amount, float multiplier){
         AquaConsume ac = new AquaConsume(new ConsumeLiquid(liquid, amount)).set(multiplier, false);
         ac.booster = true;
@@ -151,22 +178,43 @@ public class AquaBlock extends Block {
         }
 
         @Override
-        public float efficiencyScale() {
+        public float efficiencyScale(){
             if(!hasHeat || heatRequirement == 0f) return 1f;
 
             float eff;
             float over = Math.max(heat - heatRequirement, 0f);
 
             if(flipHeatScale){
-                eff = -Math.min((heat / -heatRequirement) + over / -heatRequirement * overheatScale, maxEfficiency);
-                if(eff > 1) eff = Math.min(((eff - 1) * overheatScale) + 1, maxEfficiency);
+                eff = -Math.min(
+                        (heat / -heatRequirement) +
+                                over / -heatRequirement * overheatScale,
+                        maxEfficiency
+                );
+
+                if(eff > 1){
+                    eff = Math.min(((eff - 1) * overheatScale) + 1, maxEfficiency);
+                }
             }else{
-                eff = Math.min(Mathf.clamp(heat / heatRequirement) + over / heatRequirement * overheatScale, maxEfficiency) + baseEfficiency;
+                eff = Math.min(
+                        Mathf.clamp(heat / heatRequirement) +
+                                over / heatRequirement * overheatScale,
+                        maxEfficiency
+                ) + baseEfficiency;
             }
 
-            return Math.max(eff, 0f);
+            return Math.max(eff, 0f) * consumeOutputMultiplier(null);
         }
+        public float consumeOutputMultiplier(Building build){
+            float multiplier = 1f;
 
+            for(Consume consume : consumers){
+                if(consume instanceof AquaConsume ac && ac.separateEntries){
+                    multiplier *= ac.outputMultiplier(build);
+                }
+            }
+
+            return multiplier;
+        }
         @Override
         public float heatRequirement() {
             return hasHeat ? heatRequirement : 0f;

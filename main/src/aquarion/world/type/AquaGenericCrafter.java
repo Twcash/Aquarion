@@ -432,10 +432,11 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                 if(outputLiquids != null) {
                     float inc = getProgressIncrease(1f);
                     float boost = boostersAffectOutput ||boostAffectSpeedANDoutput ? totalBoost : 1f;
+                    float outMulti = consumeOutputMultiplier(this);
 
                     for (LiquidStack output : outputLiquids) {
                         handleLiquid(this, output.liquid,
-                                Math.min(output.amount * boost * inc, liquidCapacity - liquids.get(output.liquid)));
+                                Math.min(output.amount * boost * outMulti * inc, liquidCapacity - liquids.get(output.liquid)));
                     }
                 }
 
@@ -493,10 +494,11 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                     Mathf.lerp(1f, itemBoostIntensity, itemEff());
 
             if(outputItems != null){
+                float outMulti = consumeOutputMultiplier(this);
                 for(ItemStack output : outputItems){
                     int boostAmount = output.amount;
                     if(boostersAffectOutput || boostAffectSpeedANDoutput){
-                        boostAmount = Math.round(output.amount * totalBoost);
+                        boostAmount = Math.round(output.amount * totalBoost * outMulti);
                     }
 
                     for(int i = 0; i < boostAmount; i++){
@@ -604,6 +606,15 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
             }
 
             return Math.max(eff, 0f);
+        }
+        public float consumeOutputMultiplier(Building build){
+            float multiplier = 1f;
+            for(Consume consume : consumers){
+                if(consume instanceof aquarion.world.consumers.AquaConsume ac && ac.separateEntries){
+                    multiplier *= ac.outputMultiplier(build);
+                }
+            }
+            return multiplier;
         }
         @Override
         public float heatRequirement() {

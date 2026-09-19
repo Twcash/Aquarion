@@ -1,20 +1,20 @@
 package aquarion.world.AI;
 
-import aquarion.world.blocks.environment.DefunctCheckpointBlock;
+import aquarion.world.blocks.environment.CheckpointBlock;
 import arc.struct.Seq;
 import arc.util.Tmp;
-import mindustry.ai.types.FlyingAI;
+import mindustry.ai.types.GroundAI;
 import mindustry.entities.Units;
 import mindustry.gen.Teamc;
 import mindustry.gen.Unit;
 import mindustry.world.Tile;
 
 /**
- * Defunct flying unit behavior: follows the numbered defunct air checkpoints in
- * ascending order, looping after the last one. When a map has no defunct air
+ * Defunct ground unit behavior: follows the numbered ground checkpoints in
+ * ascending order, looping after the last one. When a map has no ground
  * checkpoints, attacks the nearest enemy anywhere on the map instead.
  */
-public class FlyingDefunctAI extends FlyingAI {
+public class GroundDefunctAI extends GroundAI {
     private static final float mapRange = 1000000f;
 
     /** Distance in world units at which a checkpoint counts as reached. */
@@ -33,9 +33,9 @@ public class FlyingDefunctAI extends FlyingAI {
 
     @Override
     public void updateMovement(){
-        Seq<Tile> points = DefunctCheckpointBlock.checkpoints;
+        Seq<Tile> points = CheckpointBlock.checkpoints;
         if(points.isEmpty()){
-            //no air route on this map: hunt the nearest enemy
+            //no ground route on this map: hunt the nearest enemy
             super.updateMovement();
             return;
         }

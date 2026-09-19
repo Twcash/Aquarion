@@ -2629,6 +2629,8 @@ public class AquaUnitTypes {
             }
         };
         endure = new DefunctUnitType("endure") {{
+            aiController = GroundDefunctAI::new;
+            controller = u -> new GroundDefunctAI();
             legCount = 4;
             legLength = 9;
             legMaxLength = 1.2f;

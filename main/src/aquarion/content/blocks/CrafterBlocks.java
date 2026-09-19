@@ -62,7 +62,7 @@ public class CrafterBlocks {
             cupronickelAlloyer, brineMixer, ferricGrinder, SilicaOxidator, arcFurnace, heatChannel, convectionHeater, combustionHeater,
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
-            fumeFilter, ferroSiliconFoundry, magmaTap, cardReader;
+            fumeFilter, ferroSiliconFoundry, magmaTap, cardReader, cryogenConditioner;
     public static Block filter;
     public static Block wallCrafter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -123,6 +123,25 @@ public class CrafterBlocks {
             craftTime = 240;
             outputItem = new ItemStack(salt, 1);
             outputLiquid = new LiquidStack(muriaticAcid, 3.5f);
+        }};
+        cryogenConditioner = new HeatProducer("cryogen-conditioner"){{
+            requirements(AquaCategories.heat, with(copper, 1500, metaglass, 900, cupronickel, 1000, silicon, 900));
+            heatOutput = 40;
+            size = 3;
+            consumeLiquids(LiquidStack.with(ammonia, 1.2f, air, 12));
+            liquidCapacity = 2000;
+            consumePower(4);
+            explosivenessScale = 2;
+            baseExplosiveness = 2;
+            squareSprite = false;
+            rotate = true;
+            rotateDraw = false;
+            rotateDrawEditor = false;
+            outputLiquid = new LiquidStack(cryogen, 12);
+            drawer = new DrawMulti(/*new DrawBetterRegion("-shadow") {{
+                layer = shadow;
+                drawIcon = false;
+            }}*/ new DrawDefault(), new DrawHeatOutput());
         }};
         nuetralizationChamber = new HeatProducer("nuetralization-vessel"){{
             requirements(AquaCategories.heat, with(copper, 150, zinc, 250, silicon, 500));

@@ -2,8 +2,10 @@ package aquarion.content.blocks;
 
 import aquarion.content.AquaCategories;
 import aquarion.content.AquaItems;
+import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
 import aquarion.world.blocks.AquaBlock;
+import aquarion.world.consumers.AquaConsume;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
 import aquarion.world.drawers.*;
 import aquarion.world.graphics.AquaFx;
@@ -26,6 +28,7 @@ import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.heat.HeatProducer;
+import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.draw.*;
 
 import static aquarion.content.AquaItems.*;
@@ -715,11 +718,12 @@ public class RefineryBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             rotateDraw = false;
             consumePower(3f);
-
+            squareSprite = false;
             rotate = true;
             regionRotated1 = 1;
             liquidCapacity = 400;
-            consumeLiq(air, 4f);
+            consumeOr(new AquaConsume(new ConsumeLiquid(AquaLiquids.air, 4f)), 1,
+                    new AquaConsume(new ConsumeLiquid(cryogen, 6f)), 3f);
             outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 2f, nitrogen, 1.75f);
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{

@@ -99,6 +99,7 @@ public class AquaLoader extends Mod {
         Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
         Events.on(EventType.WorldLoadEvent.class, e -> NeoplasiaGraph.reset());
         Events.on(EventType.WorldLoadEvent.class, e -> CheckpointBlock.rebuildCheckpoints());
+        Events.on(EventType.WorldLoadEvent.class, e -> aquarion.world.blocks.environment.DefunctCheckpointBlock.rebuildCheckpoints());
         ModEventHandler.init();
 
         Events.on(EventType.FileTreeInitEvent.class, e ->
