@@ -44,11 +44,14 @@ abstract class DialogueUnitComp implements Unitc, DialogueUnitc, Legsc{
     transient String currentDialogue;
     transient float dialogueTime;
     transient float lastHealth;
+    transient float idleTimer = -1f;
+    transient float nearTimer = 0f;
     transient Cons<EventType.SectorCaptureEvent> captureListener;
     @Import transient UnitType type;
     @Import transient  boolean dead, wasPlayer ;
     @Import transient Team team;
     @SyncLocal float wound = 240;
+    @SyncLocal boolean specialSaid = false;
     @Import transient Seq<Ability> abilities;
     @Import transient Seq<WeaponMount> mounts;
     @Import transient float x, y, hitSize, health, maxHealth, rotation, speedMultiplier, drag;
@@ -63,7 +66,22 @@ abstract class DialogueUnitComp implements Unitc, DialogueUnitc, Legsc{
     }
     @Override
     public void add(){
-        if(type instanceof DefunctUnitType t) say(random(t.spawnLines), 120f);
+        if(type instanceof DefunctUnitType t){
+            say(random(t.spawnLines), 120f);
+            if(t.idleLines != null && t.idleLines.length > 0){
+                idleTimer = Mathf.random(t.idleMinInterval, t.idleMaxInterval);
+            }
+            //sector-specific line; only plays the first time this unit spawns there, never on save reload
+            if(!specialSaid && t.specialLines != null && t.specialLines.length > 0 && onSector(t.specialSector)){
+                say(random(t.specialLines), 500f);
+                specialSaid = true;
+            }
+        }
+    }
+
+    public boolean onSector(String presetName){
+        Sector sector = state.getSector();
+        return presetName != null && sector != null && sector.preset != null && sector.preset.name.equals(presetName);
     }
 
     @Override
@@ -84,6 +102,23 @@ abstract class DialogueUnitComp implements Unitc, DialogueUnitc, Legsc{
                 if(type instanceof DefunctUnitType t){
                     say(random(t.hurtLines), 240f);
                 }
+            }
+        }
+        //react when the player unit is nearby; respects the cooldown and never talks over other lines
+        if(!dead && health > 0 && type instanceof DefunctUnitType t && t.nearLines != null && t.nearLines.length > 0){
+            if(nearTimer > 0) nearTimer -= Time.delta;
+            Unit playerUnit = player == null ? null : player.unit();
+            if(nearTimer <= 0 && dialogueTime <= 0 && playerUnit != null && playerUnit.isValid() && within(playerUnit, t.nearRange)){
+                say(random(t.nearLines), 240f);
+                nearTimer = t.nearCooldown;
+            }
+        }
+        //idle chatter at random intervals; never talks over other lines or while dead
+        if(!dead && health > 0 && idleTimer >= 0 && dialogueTime <= 0){
+            idleTimer -= Time.delta;
+            if(idleTimer <= 0 && type instanceof DefunctUnitType t){
+                say(random(t.idleLines), 240f);
+                idleTimer = Mathf.random(t.idleMinInterval, t.idleMaxInterval);
             }
         }
         if(dead || health <= 0){

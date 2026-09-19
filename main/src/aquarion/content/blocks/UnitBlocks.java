@@ -4,6 +4,7 @@ import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
 import aquarion.content.AquaStatuses;
 import aquarion.content.AquaUnitTypes;
+import aquarion.units.type.AquaUnitType;
 import aquarion.world.blocks.payload.InitializationBay;
 import aquarion.world.blocks.units.*;
 import aquarion.world.graphics.AquaFx;
@@ -31,13 +32,22 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block defunctBeacon1,regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
+    public static Block defunctBeacon1, maintainerInactive ,regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
 
     public static void loadContent() {
+        maintainerInactive = new DefunctUnitBlock("maintainer-inactive"){{
+            buildVisibility = BuildVisibility.sandboxOnly;
+            time = 90;
+            consumePower(0.5f);
+            unit = maintainer;
+            beepSound = AquaSounds.distressBeep;
+            beepInterval = 240;
+            ambientSoundVolume = 1f;
+        }};
         infantryPad = new InfantryLandingPad("infantry-landing-pad"){{
             requirements(Category.units, with());
             buildTime = 600;
