@@ -8,6 +8,7 @@ import mindustry.Vars;
 
 public class AquaSounds {
     public static Sound
+            distressBeep = new Sound(),
             death = new Sound(),
             atak = new Sound(),
             breath = new Sound(),
@@ -96,6 +97,7 @@ public class AquaSounds {
         atak = loadSound("atak");
         researchLabloop =  loadSound("ResearchLabLoop");
         researchLabVoid =  loadSound("researchLabVoid");
+        distressBeep = loadSound("DefunctDistressBeep");
 
         //waterRumble = loadSound("waterRumble");
         //waterAir = loadSound("waterAir");

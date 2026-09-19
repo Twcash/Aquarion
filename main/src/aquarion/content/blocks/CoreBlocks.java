@@ -1,9 +1,6 @@
 package aquarion.content.blocks;
 
-import aquarion.content.AquaItems;
-import aquarion.content.AquaSounds;
-import aquarion.content.AquaUnitTypes;
-import aquarion.content.AquaBullets;
+import aquarion.content.*;
 import aquarion.world.blocks.core.AquaCoreBlock;
 import aquarion.world.blocks.core.Bomb;
 import aquarion.world.blocks.core.InfomaticBlock;

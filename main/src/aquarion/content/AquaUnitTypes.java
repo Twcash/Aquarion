@@ -73,7 +73,7 @@ public class AquaUnitTypes {
     public static UnitType cog, tenon, assembly, fabricant;
     public static @Annotations.EntityDef(value = {Unitc.class, JetUnitc.class}, serialize = false) UnitType martyr;
     public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}, serialize = false) DefunctUnitType endure;
-    public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify;
+    public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify, maintainer;
     public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
     public static @Annotations.EntityDef(value ={Unitc.class,  AquaLegsc.class}, serialize = false) AquaLegUnitType regality, rally, timmy;
     public static MultiLegSegmentUnit mite;
@@ -2683,6 +2683,30 @@ public class AquaUnitTypes {
                     }};
                 }};
             }});
+        }};
+        maintainer = new DefunctUnitType("maintainer"){{
+            aiController = DeconstructAI::new;
+            controller = u -> new DeconstructAI();
+            hitSize = 6;
+            health = 400;
+            speed = 1.6f;
+            isEnemy = false;
+            buildRange = 100;
+            buildSpeed = 2f;
+            engineOffset = 2;
+            engineSize = 2;
+            flying = true;
+            lowAltitude = false;
+            specialSector = "aquarion-resurgence";
+            specialLines = new String[]{"@maintainer-resurgence"};
+            spawnLines = new String[]{"@maintainerSpawn1", "@maintainerSpawn2", "@maintainerSpawn3", "@maintainerSpawn4", "@maintainerSpawn5"};
+            nearLines = new String[]{"@maintainerPlayer1","@maintainerPlayer2","@maintainerPlayer3","@maintainerPlayer4","@maintainerPlayer5"};
+            idleLines = new String[]{"@maintainerIdle1", "@maintainerIdle2", "@maintainerIdle3", "@maintainerIdle4", "@maintainerIdle5"};
+            hurtLines = new String[]{"@maintainerHurt1", "@maintainerHurt2", "@maintainerHurt3", "@maintainerHurt4", "@maintainerHurt5"};
+            deathLines = new String[]{"@maintainerDeath1", "@maintainerDeath2", "@maintainerDeath3", "@maintainerDeath4", "@maintainerDeath5"};
+            victorLines = new String[]{"@maintainerWin1", "@maintainerWin2", "@maintainerWin3", "@maintainerWin4", "@maintainerWin5"};
+            outlineColor = Color.valueOf("2d2e37");
+            drawCell = false;
         }};
         vilify = new DefunctUnitType("vilify") {{
             hitSize = 8;

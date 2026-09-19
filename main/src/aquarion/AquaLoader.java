@@ -2,6 +2,7 @@ package aquarion;
 
 import arc.scene.style.TextureRegionDrawable;
 import aquarion.content.AquaCategories;
+import aquarion.content.AquaFactions;
 import aquarion.ui.AquaStyles;
 import aquarion.ui.IconLoader;
 import aquarion.ui.ModSettings;
@@ -136,6 +137,7 @@ public class AquaLoader extends Mod {
             AquaStyles.load();
             ModEventHandler.load();
             ModSettings.init();
+            AquaFactions.init();
         }
     }
 

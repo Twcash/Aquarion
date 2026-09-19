@@ -135,7 +135,7 @@ public class AquaPlanets {
             orbitSpacing = 6f;
             defaultCore = CoreBlocks.corePike;
             allowLaunchLoadout = true;
-            clearSectorOnLose = false;
+            clearSectorOnLose = true;
             allowLaunchToNumbered = false;
             //for future me
             //Vars.content.planet("aquarion-fakeSerp").allowLaunchToNumbered = true

@@ -56,6 +56,8 @@ public class AquarionMod  implements Loadable{
         AquaPlanets.loadContent();
         AquaSectorPresets.load();
         TantrosTechTree.load();
+        //faction tags need all blocks loaded first
+        AquaFactions.loadContent();
 
     }
 

@@ -31,6 +31,7 @@ public class ModSettings {
             root.checkPref("debugResearchRendering", false);
             root.checkPref("debugHitboxRendering", false);
             root.checkPref("aquaMenuBattles", true);
+            root.checkPref("blockFactionVisibility", true);
             
             for (Setting setting : root.getSettings()) {
                 if (setting instanceof CheckSetting) {
@@ -133,5 +134,9 @@ public class ModSettings {
 
     public static boolean getDebugHitboxRendering(){
         return Core.settings.getBool("debugHitboxRendering", false);
+    }
+
+    public static boolean getBlockFactionVisibility(){
+        return Core.settings.getBool("blockFactionVisibility", true);
     }
 }
