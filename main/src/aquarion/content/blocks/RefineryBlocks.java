@@ -24,6 +24,7 @@ import mindustry.entities.effect.RadialEffect;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
 import mindustry.type.Category;
+import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
@@ -47,7 +48,7 @@ import static mindustry.type.ItemStack.with;
 
 public class RefineryBlocks {
     public static Block magmaDiffuser, biotiteLeachingVessel, bauxiteCentrifuge, slagRefinementArray, azuriteKiln, towaniteReductionVat, galenaCrucible, fumeSeparator, scrapCentrifuge,
-    thermalCrackingUnit, hazeCrackingUnit, vacuumFreezer, acuminiteDegredationArray, atmosphericCentrifuge, electrolysisVat, brineElectrolyzer, gasifier, ultrafamicRefinery,desulferizationAssembly;
+    thermalCrackingUnit, hazeCrackingUnit, vacuumFreezer, haliteRefinery, acuminiteDegredationArray, atmosphericCentrifuge, electrolysisVat, brineElectrolyzer, gasifier, ultrafamicRefinery,desulferizationAssembly;
 
     public static void loadContent() {
         magmaDiffuser = new AquaGenericCrafter("magma-diffuser") {{
@@ -722,7 +723,8 @@ public class RefineryBlocks {
             rotate = true;
             regionRotated1 = 1;
             liquidCapacity = 400;
-            consumeOr(new AquaConsume(new ConsumeLiquid(AquaLiquids.air, 4f)), 1,
+            consumeOr(
+                    new AquaConsume(new ConsumeLiquid(AquaLiquids.air, 4f)), 1,
                     new AquaConsume(new ConsumeLiquid(cryogen, 6f)), 3f);
             outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 2f, nitrogen, 1.75f);
             squareSprite = false;
@@ -796,6 +798,21 @@ public class RefineryBlocks {
             rotateDraw = false;
             craftEffect = Fx.steamCoolSmoke;
             drawer = new DrawMulti(new DrawDefault(), new DrawLiquidTile(water, 1), new DrawRegion("-top"), new AquaDrawLiquidOutputs());
+        }};
+        haliteRefinery = new AquaGenericCrafter("halite-refinery"){{
+            requirements(AquaCategories.refinery, with(metaglass, 600, silicon, 550, copper,1200, graphite, 250));
+            size = 3;
+            squareSprite = false;
+            itemCapacity = 30;
+            liquidCapacity = 600;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            consume(halite, 10);
+            outputItems = new ItemStack[]{new ItemStack(potassium, 5), new ItemStack(salt, 5)};
+            rotateDrawEditor = rotate = rotateDraw = false;
+            craftTime = 60*5;
+            consumePower(4);
+            consumeLiq(water, 4.25f);
+            outputLiquid = new LiquidStack(haze, 4.25f);
         }};
         brineElectrolyzer = new AquaGenericCrafter("brine-electrolysis-manifold") {{
             requirements(AquaCategories.refinery, with(aluminum, 1500, silicon, 3000, metaglass, 500, copper, 5000));

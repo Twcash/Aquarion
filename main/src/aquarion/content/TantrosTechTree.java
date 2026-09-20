@@ -95,8 +95,8 @@ public class TantrosTechTree {
                 ), () -> {
                     node(crest, () -> {
                         node(unitByte, () -> {
-                            node(index, () -> {});
-                            node(apothecary, () -> {});
+                            node(index, () -> {
+                            });
                         });
                         node(soar, () -> {
                         });
@@ -183,12 +183,13 @@ public class TantrosTechTree {
                 });
             });
             node(point, () -> {
+                node(buzzSaw, Seq.with(
+                        new Objectives.OnSector(icyRiver)
+                ), () -> {});
                 node(Foment, Seq.with(
-                        new Objectives.OnSector(Ingress)
+                        new Objectives.OnSector(blastedDockyards)
                 ), () -> {
-                    node(buzzSaw, Seq.with(
-                            new Objectives.SectorComplete(icyRiver)
-                    ), () -> {});
+
                     node(redact, () -> {
                         node(maelstrom, () -> {});
                         node(dislocate, () -> {
@@ -260,12 +261,10 @@ public class TantrosTechTree {
                     new Objectives.OnSector(resurgence)
             ), () -> {
                 node(ruinedRepository, Seq.with(
-                        new Objectives.SectorComplete(twinPass)
+                        new Objectives.OnSector(icyRiver)
                 ), () -> {});
             });
-            node(resurgence, Seq.with(
-                    new Objectives.Research(silicon)
-            ), () -> {
+            node(resurgence, () -> {
                 node(twinPass, Seq.with(
                         new Objectives.Research(cupronickelAlloyer),
 
@@ -527,6 +526,7 @@ public class TantrosTechTree {
                 ), () -> {});
             });
             node(atmosphericIntake, () -> {
+                node(cryogenConditioner);
                 node(magmaTap, Seq.with(
                 ), () -> {
                     node(inlet, Seq.with(
@@ -633,6 +633,7 @@ public class TantrosTechTree {
                         node(electrolysisVat, Seq.with(
                                 new Objectives.Produce(water)
                         ), () -> {
+                            node(haliteRefinery);
                             node(brineElectrolyzer, Seq.with(
                                     new Objectives.Produce(brine)
                             ), () -> {

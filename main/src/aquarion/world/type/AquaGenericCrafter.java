@@ -53,7 +53,8 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
     public @Nullable LiquidStack[] outputLiquids;
     /** Liquid output directions, specified in the same order as outputLiquids. Use -1 to dump in every direction. Rotations are relative to block. */
     public int[] liquidOutputDirections = {-1};
-
+    /** If efficiency > 1 then this starts to output **/
+    public ItemStack boostOutputItem;
     /** if true, crafters with multiple liquid outputs will dump excess when there's still space for at least one liquid type */
     public boolean dumpExtraLiquid = true;
     public boolean ignoreLiquidFullness = false;
@@ -296,6 +297,9 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                 liquidFilter[outputLiquid.liquid.id] = true;
             }
         }
+        if(boostOutputItem != null){
+            itemFilter[boostOutputItem.item.id] = true;
+        }
     }
 
     @Override
@@ -492,7 +496,16 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
 
             float totalBoost = Mathf.lerp(1f, liquidBoostIntensity, liquidEff()) *
                     Mathf.lerp(1f, itemBoostIntensity, itemEff());
-
+            if(boostOutputItem != null && efficiency > 1.0){
+                float outMulti = consumeOutputMultiplier(this);
+                int boostAmount = boostOutputItem.amount;
+                if(boostersAffectOutput || boostAffectSpeedANDoutput){
+                    boostAmount = Math.round(boostOutputItem.amount * totalBoost * outMulti);
+                    for(int i = 0; i < boostAmount; i++){
+                        offload(boostOutputItem.item);
+                    }
+                }
+            }
             if(outputItems != null){
                 float outMulti = consumeOutputMultiplier(this);
                 for(ItemStack output : outputItems){
