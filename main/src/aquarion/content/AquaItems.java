@@ -31,6 +31,8 @@ public class AquaItems {
     public static Item nickel;
     public static Item bauxite;
     public static Item zinc;
+    public static Item halite;
+    public static Item potassium;
     public static Item compositeSteel;
     public static Item libraryCard;
 
@@ -115,6 +117,7 @@ public class AquaItems {
             radioactivity = 0.2f;
             buildable = false;
         }};
+
         acuminite = new Item("acuminite", Color.valueOf("fff475")){{
             buildable = false;
         }};
@@ -174,6 +177,14 @@ public class AquaItems {
         }};
         calcium = new Item("calcium", Color.valueOf("#f0f0d0")) {{
             cost = 0.5f;
+        }};
+        potassium = new Item("potassium", Color.valueOf("dedfe2")){{
+            buildable = false;
+            explosiveness = 1.3f;
+            flammability = 1.2f;
+        }};
+        halite = new Item("halite", Color.valueOf("78b8fb")){{
+            buildable = false;
         }};
     }
 }

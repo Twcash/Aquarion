@@ -183,12 +183,13 @@ public class TantrosTechTree {
                 });
             });
             node(point, () -> {
+                node(buzzSaw, Seq.with(
+                        new Objectives.OnSector(icyRiver)
+                ), () -> {});
                 node(Foment, Seq.with(
-                        new Objectives.OnSector(Ingress)
+                        new Objectives.OnSector(blastedDockyards)
                 ), () -> {
-                    node(buzzSaw, Seq.with(
-                            new Objectives.OnSector(Torrent)
-                    ), () -> {});
+
                     node(redact, () -> {
                         node(maelstrom, () -> {});
                         node(dislocate, () -> {
@@ -525,6 +526,7 @@ public class TantrosTechTree {
                 ), () -> {});
             });
             node(atmosphericIntake, () -> {
+                node(cryogenConditioner);
                 node(magmaTap, Seq.with(
                 ), () -> {
                     node(inlet, Seq.with(
@@ -631,6 +633,7 @@ public class TantrosTechTree {
                         node(electrolysisVat, Seq.with(
                                 new Objectives.Produce(water)
                         ), () -> {
+                            node(haliteRefinery);
                             node(brineElectrolyzer, Seq.with(
                                     new Objectives.Produce(brine)
                             ), () -> {

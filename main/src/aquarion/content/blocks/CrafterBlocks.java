@@ -125,11 +125,12 @@ public class CrafterBlocks {
             outputLiquid = new LiquidStack(muriaticAcid, 3.5f);
         }};
         cryogenConditioner = new HeatProducer("cryogen-conditioner"){{
-            requirements(AquaCategories.heat, with(copper, 1500, metaglass, 900, cupronickel, 1000, silicon, 900));
+            requirements(AquaCategories.heat, with(copper, 500, metaglass, 300, cupronickel, 250, silicon, 600));
             heatOutput = 40;
             size = 3;
             consumeLiquids(LiquidStack.with(ammonia, 1.2f, air, 12));
             liquidCapacity = 2000;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumePower(4);
             explosivenessScale = 2;
             baseExplosiveness = 2;
@@ -441,7 +442,7 @@ public class CrafterBlocks {
                 }}, new DrawDefault());
             }};
             ammoniaCompressor = new AquaGenericCrafter("ammonia-compressor"){{
-                requirements(Category.crafting, with(copper, 200, silicon, 150, metaglass, 120, polymer, 80));
+                requirements(Category.crafting, with(copper, 200, silicon, 150, metaglass, 120));
                 size = 3;
                 squareSprite = false;
                 liquidCapacity = 150;
@@ -663,18 +664,19 @@ public class CrafterBlocks {
             requirements(Category.production, with(nickel, 65, lead, 50, silicon, 90));
             size = 3;
             drillTime = 150;
-            liquidBoostIntensity = 1.25f;
+
             ambientSound = AquaSounds.machine4;
             ambientSoundVolume = 0.08f;
             consumePower(.125f);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(Liquids.water, 0.75f).boost();
-            consumeItems(new ItemStack(graphite, 2)).boost();
+            consumeItems(new ItemStack(graphite, 4)).boost();
             itemCapacity = 25;
             separateItemCapacity = true;
             ItemBoostUseTime = 6 * 60;
             liquidCapacity = 200;
-            itemBoostIntensity = 1.2f;
+            liquidBoostIntensity = 1.25f;
+            itemBoostIntensity = 1.4f;
             tier = 2;
             squareSprite = false;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
@@ -1886,21 +1888,21 @@ public class CrafterBlocks {
         });
 
         wallCrafter = new WallCrafter("wall-crafter") {{
-            requirements(Category.crafting, with(lead, 150, silicon, 200, copper, 100));
+            requirements(Category.crafting, with(metaglass, 500, silicon, 250, copper, 600));
             size = 4;
             squareSprite = false;
             liquidCapacity = 480f;
             itemCapacity = 120;
             scanSize = 4;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            consumePower(4f);
+            consumePower(6f);
             craftEffect = Fx.pulverizeRed;
             updateEffect = Fx.pulverizeSmall;
             updateEffectChance = 0.04f;
 
             add(Blocks.duneWall, new WallCrafter.WallRecipe(
-                ItemStack.with(aluminum, 3, sand, 6, magnesiumPowder, 2),
-                LiquidStack.with(vitriol, 2f, haze, 3f),
+                ItemStack.with(sand, 12),
+                LiquidStack.with(water, 0.5),
                 120f
             ));
 
@@ -1912,72 +1914,24 @@ public class CrafterBlocks {
 
             add(EnvironmentBlocks.blueSandWall, new WallCrafter.WallRecipe(
                 ItemStack.with(sand, 12),
-                null,
+                    LiquidStack.with(water, 0.5),
                 60f
             ));
 
             add(Blocks.sandWall, new WallCrafter.WallRecipe(
                 ItemStack.with(sand, 12),
-                null,
+                    LiquidStack.with(water, 0.5),
                 60f
             ));
-
-            add(EnvironmentBlocks.feldsparWall, new WallCrafter.WallRecipe(
-                ItemStack.with(calcium, 4, aluminum, 2, sand, 6),
-                LiquidStack.with(fumes, 3f),
-                120f
-            ));
-
             add(EnvironmentBlocks.scrapWall, new WallCrafter.WallRecipe(
-                ItemStack.with(scrap, 8),
-                LiquidStack.with(water, 1f),
-                60f
+                    ItemStack.with(scrap, 12),
+                    LiquidStack.with(water, 0.5),
+                    60f
             ));
 
-            add(EnvironmentBlocks.defunctFramingCross, new WallCrafter.WallRecipe(
-                ItemStack.with(scrap, 8),
-                LiquidStack.with(water, 1f),
-                60f
-            ));
-
-            add(EnvironmentBlocks.metalWall1, new WallCrafter.WallRecipe(
-                ItemStack.with(scrap, 8),
-                LiquidStack.with(water, 1f),
-                60f
-            ));
-
-            add(EnvironmentBlocks.metalWalltwo, new WallCrafter.WallRecipe(
-                ItemStack.with(scrap, 8),
-                LiquidStack.with(water, 1f),
-                60f
-            ));
-
-            add(EnvironmentBlocks.metalWall3, new WallCrafter.WallRecipe(
-                ItemStack.with(scrap, 8),
-                LiquidStack.with(water, 1f),
-                60f
-            ));
-
-            add(EnvironmentBlocks.metalWall4, new WallCrafter.WallRecipe(
-                ItemStack.with(scrap, 8),
-                LiquidStack.with(water, 1f),
-                60f
-            ));
-
-            add(EnvironmentBlocks.metalWall5, new WallCrafter.WallRecipe(
-                ItemStack.with(scrap, 8),
-                LiquidStack.with(water, 1f),
-                60f
-            ));
-
-            add(EnvironmentBlocks.metalWall6, new WallCrafter.WallRecipe(
-                ItemStack.with(scrap, 8),
-                LiquidStack.with(water, 1f),
-                60f
-            ));
 
             fallback(new WallCrafter.WallRecipe(
-                ItemStack.with(scrap, 8),
+                ItemStack.with(sand, 1),
                 LiquidStack.with(water, 1f),
                 60f
             ));
