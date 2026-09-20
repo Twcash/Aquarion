@@ -18,6 +18,7 @@ public class AquaItems {
     public static Item chalkalloy, crystal, pearl;
     public static Item acuminite;
     public static Item hexogen;
+    public static Item concrete;
     public static Item galena;
     public static Item biotite;
     public static Item towanite;
@@ -185,6 +186,9 @@ public class AquaItems {
         }};
         halite = new Item("halite", Color.valueOf("78b8fb")){{
             buildable = false;
+        }};
+        concrete = new Item("concrete", Color.valueOf("5c6a7a")){{
+            cost = 1.2f;
         }};
     }
 }

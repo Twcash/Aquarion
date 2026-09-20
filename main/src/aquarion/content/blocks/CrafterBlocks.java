@@ -62,7 +62,7 @@ public class CrafterBlocks {
             cupronickelAlloyer, brineMixer, ferricGrinder, SilicaOxidator, arcFurnace, heatChannel, convectionHeater, combustionHeater,
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
-            fumeFilter, ferroSiliconFoundry, magmaTap, cardReader, cryogenConditioner;
+            fumeFilter, ferroSiliconFoundry, magmaTap, cardReader, cryogenConditioner, rotaryKiln;
     public static Block filter;
     public static Block wallCrafter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -1551,6 +1551,18 @@ public class CrafterBlocks {
                 blending = Blending.additive;
                 phaseOffset = 30;
             }});
+        }};
+        rotaryKiln = new AquaGenericCrafter("rotary-kiln"){{
+            requirements(Category.crafting, with(silicon, 900, copper, 900, graphite, 900));
+            size = 8;
+            squareSprite = false;
+            consumePower(6);
+            consumeLiquids(LiquidStack.with(water, 5, air, 18));
+            consumeItemStack(new ItemStack(sand, 40), new ItemStack(calcium, 10), new ItemStack(potassium, 10));
+            outputItem = new ItemStack(concrete, 10);
+            craftTime = 300;
+            liquidCapacity = 2000;
+            itemCapacity = 200;
         }};
         pinDrill = new GroundDrill("pin-drill") {{
             requirements(Category.production, with(tungsten, 40, beryllium, 50, silicon, 20));
