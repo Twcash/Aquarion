@@ -48,7 +48,8 @@ public class CheckpointBlock extends OverlayFloor {
         checkpoints.clear();
         if (world == null || world.tiles == null) return;
         for (Tile tile : world.tiles) {
-            if (tile.overlay() instanceof CheckpointBlock) {
+            //exact class match so specialized checkpoint types keep their own list
+            if (tile.overlay() != null && tile.overlay().getClass() == CheckpointBlock.class) {
                 checkpoints.add(tile);
             }
         }
@@ -62,6 +63,10 @@ public class CheckpointBlock extends OverlayFloor {
         drawNumber(tile);
     }
 
+    protected Color numberColor() {
+        return Color.valueOf("24252d");
+    }
+
     protected void drawNumber(Tile tile) {
         String text = Integer.toString(tile.extraData);
         int digits = text.length();
@@ -71,7 +76,7 @@ public class CheckpointBlock extends OverlayFloor {
         float x0 = tile.worldx() - totalWidth / 2f;
         float yTop = tile.worldy() + 2.5f * pix;
 
-        Draw.color(Color.valueOf("24252d"));
+        Draw.color(numberColor());
         for (int i = 0; i < digits; i++) {
             byte[] glyph = digitGlyphs[text.charAt(i) - '0'];
             for (int row = 0; row < 5; row++) {
