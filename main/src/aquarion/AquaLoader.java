@@ -5,6 +5,7 @@ import aquarion.content.AquaCategories;
 import aquarion.content.AquaFactions;
 import aquarion.ui.AquaStyles;
 import aquarion.ui.IconLoader; // <--- Используем существующий IconLoader
+import aquarion.gen.*;
 import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
@@ -31,6 +32,7 @@ import java.lang.reflect.Modifier;
 import static arc.Core.app;
 import static mindustry.Vars.headless;
 import static mindustry.Vars.mods;
+
 
 @LoadRegs("error")
 @EnsureLoad
@@ -109,8 +111,7 @@ public class AquaLoader extends Mod {
         );
 
         Events.on(EventType.ClientLoadEvent.class, e -> {
-            // Заменено с aquarionIconLoader на зарегистрированный IconLoader
-            IconLoader.loadIcons();
+            aquarionIconLoader.loadIcons();
 
             if (Core.atlas.has("aquarion-icon-refinery")) Icon.icons.put("refinery", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-refinery")));
             if (Core.atlas.has("aquarion-icon-heat")) Icon.icons.put("heat", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-heat")));
@@ -122,11 +123,10 @@ public class AquaLoader extends Mod {
 
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
-                // Закомментировано/исправлено, если генератор пакета aquarion.gen ещё не отработал
-                // aquarion.gen.Regions.load();
+                Regions.load();
                 Vars.content.each(content -> {
                     if (isTemplate(content) && content instanceof MappableContent mContent) {
-                        // aquarion.gen.aquarionContentRegionRegistry.load(mContent);
+                        aquarionContentRegionRegistry.load(mContent);
                     }
                 });
             }
@@ -153,7 +153,7 @@ public class AquaLoader extends Mod {
         AquaCategories.init();
         AquarionMod.loadContent();
         AquaLoader.postLoad();
-        // aquarion.gen.aquarionEntityMapping.init();
+        aquarionEntityMapping.init();
     }
 
     public static Mods.LoadedMod mod(){
