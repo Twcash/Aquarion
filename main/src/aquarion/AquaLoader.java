@@ -24,7 +24,9 @@ import mindustry.game.EventType;
 import mindustry.gen.Icon;
 import mindustry.mod.*;
 import aquarion.annotations.Annotations.*;
+import aquarion.gen.*;
 import mindustry.world.Block;
+import aquarion.ui.AquaCampaignSelect;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -42,7 +44,7 @@ public class AquaLoader extends Mod {
     public AquaLoader(){
         this(false);
     }
-
+    
     public static final Seq<Block> mirrorList = new Seq<>();
     public static Block block;
 
@@ -109,7 +111,7 @@ public class AquaLoader extends Mod {
         Events.on(EventType.DisposeEvent.class, e ->
                 AquaShaders.dispose()
         );
-
+        
         Events.on(EventType.ClientLoadEvent.class, e -> {
             aquarionIconLoader.loadIcons();
 
@@ -140,6 +142,8 @@ public class AquaLoader extends Mod {
             ModEventHandler.load();
             ModSettings.init();
             AquaFactions.init();
+            AquaCampaignSelect.init();
+            Core.settings.put("campaignselect", true);
         }
     }
 
