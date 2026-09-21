@@ -1,5 +1,6 @@
 package aquarion.entities.comp;
 import aquarion.annotations.Annotations;
+import aquarion.gen.*;
 import aquarion.units.AquaLegUnitType;
 import aquarion.world.entities.AquaLeg;
 import aquarion.world.entities.AquaLegConfig;
