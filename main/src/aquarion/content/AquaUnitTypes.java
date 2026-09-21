@@ -815,7 +815,7 @@ public class AquaUnitTypes {
             health = 1280;
             armor = 6;
             hitSize = 8*3f;
-            speed = 1.2f;
+            speed = 0.55f;
             drawCell = false;
             outlineColor = AquaPal.tantDarkestTone;
             legLengthScl = 1;
@@ -1547,8 +1547,8 @@ public class AquaUnitTypes {
         apothecary = new UnitType("apothecary") {{
             flying = true;
             flyingLayer = Layer.flyingUnitLow;
-            speed = 0.9f;
-            hitSize = 28f;
+            speed = 0.8f;
+            hitSize = 24f;
             fallSpeed = 0.04f;
             health = 550;
             armor = 6;
@@ -1558,13 +1558,13 @@ public class AquaUnitTypes {
             constructor = UnitEntity::create;
             drawCell = false;
             abilities.add(new RepairFieldAbility(){{
-                amount = 5f;
+                amount = 15f;
                 reload = 30f;
                 range = 50f;
                 sameTypeHealMult = 0.1f;
             }});
             setEnginesMirror(
-                    new UnitEngine(35, -42, 2f, -45f)
+                    new UnitEngine(8.5f, -11, 2f, -90f)
             );
         }};
         isop = new UnitType("isop") {{

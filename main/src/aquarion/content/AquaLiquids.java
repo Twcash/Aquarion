@@ -17,8 +17,6 @@ public class AquaLiquids {
 
     public static void loadContent() {
 
-        water.alwaysUnlocked = false;
-
         clearwater = new Liquid("clear-water", Color.valueOf("#47a3d1")) {{
             canStayOn.addAll(water);
             heatCapacity = 0.7f;
@@ -145,6 +143,7 @@ public class AquaLiquids {
             effect = concussed;
             allDatabaseTabs = true;
             heatCapacity = 0.05f;
+            alwaysUnlocked = true;
         }};
         halideWater = new Liquid("halide-water", Color.valueOf("a3a7be")){{
             heatCapacity = 0.15f;
