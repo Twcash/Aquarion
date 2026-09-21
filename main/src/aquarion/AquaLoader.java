@@ -4,7 +4,6 @@ import arc.scene.style.TextureRegionDrawable;
 import aquarion.content.AquaCategories;
 import aquarion.content.AquaFactions;
 import aquarion.ui.AquaStyles;
-import aquarion.ui.IconLoader;
 import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
@@ -15,9 +14,7 @@ import aquarion.world.graphics.Renderer;
 import arc.*;
 import arc.struct.Seq;
 import arc.util.ArcRuntimeException;
-import arc.util.Log;
 import mindustry.Vars;
-import mindustry.content.Planets;
 import mindustry.ctype.*;
 import mindustry.game.EventType;
 import mindustry.gen.Icon;
@@ -31,7 +28,6 @@ import java.lang.reflect.Modifier;
 
 import static arc.Core.app;
 import static mindustry.Vars.headless;
-import static mindustry.Vars.mods;
 
 @LoadRegs("error")
 @EnsureLoad

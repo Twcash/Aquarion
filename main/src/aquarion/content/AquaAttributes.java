@@ -9,7 +9,8 @@ public class AquaAttributes {
             gallium,
     metamorphic,
     chromium,
-    wind;
+    wind,
+    dolomite;
 
     public static void load() {
         bauxite = Attribute.add("bauxite");
@@ -19,5 +20,6 @@ public class AquaAttributes {
         iron = Attribute.add("iron");
         fertility = Attribute.add("fertility");
         wind = Attribute.add("wind");
+        dolomite = Attribute.add("dolomite");
     }
 }

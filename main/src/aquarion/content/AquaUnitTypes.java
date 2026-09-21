@@ -2702,8 +2702,8 @@ public class AquaUnitTypes {
             specialSector = "aquarion-resurgence";
             specialLines = new String[]{"@maintainer-resurgence"};
             spawnLines = new String[]{"@maintainerSpawn1", "@maintainerSpawn2", "@maintainerSpawn3", "@maintainerSpawn4", "@maintainerSpawn5"};
-            nearLines = new String[]{"@maintainerPlayer1","@maintainerPlayer2","@maintainerPlayer3","@maintainerPlayer4","@maintainerPlayer5"};
-            idleLines = new String[]{"@maintainerIdle1", "@maintainerIdle2", "@maintainerIdle3", "@maintainerIdle4", "@maintainerIdle5"};
+            nearLines = new String[]{"@maintainerPlayer1","@maintainerPlayer2","@maintainerPlayer3","@maintainerPlayer4","@maintainerPlayer5","@maintainerPlayer6","@maintainerPlayer7","@maintainerPlayer8","@maintainerPlayer9","@maintainerPlayer10"};
+            idleLines = new String[]{"@maintainerIdle1", "@maintainerIdle2", "@maintainerIdle3", "@maintainerIdle4", "@maintainerIdle5","@maintainerIdle6","@maintainerIdle7","@maintainerIdle8","@maintainerIdle9","@maintainerIdle10"};
             hurtLines = new String[]{"@maintainerHurt1", "@maintainerHurt2", "@maintainerHurt3", "@maintainerHurt4", "@maintainerHurt5"};
             deathLines = new String[]{"@maintainerDeath1", "@maintainerDeath2", "@maintainerDeath3", "@maintainerDeath4", "@maintainerDeath5"};
             victorLines = new String[]{"@maintainerWin1", "@maintainerWin2", "@maintainerWin3", "@maintainerWin4", "@maintainerWin5"};

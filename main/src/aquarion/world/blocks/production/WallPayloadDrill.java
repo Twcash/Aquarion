@@ -30,6 +30,7 @@ public class WallPayloadDrill extends PayloadBlock {
     public ObjectMap<Attribute, Block> attributeBlockMap = new ObjectMap<>();
     public float buildSpeed = 0.4f;
     public TextureRegion side1, side2;
+    public float buildTime = 300;
 
     public void load(Block block) {
         super.load();
@@ -157,13 +158,13 @@ public class WallPayloadDrill extends PayloadBlock {
 
             ObjectMap<Attribute, Float> attributeTotals = new ObjectMap<>();
             float efficiency = calculateEfficiency(tileX(), tileY(), rotation, attributeTotals);
-            float effectiveBuildSpeed = buildSpeed * efficiency;
-            progress += effectiveBuildSpeed * edelta();
+
+            progress +=   edelta();
             boolean produce = efficiency > 0 && payload == null;
-            if (produce && progress >= recipe.buildTime) {
+            if (produce && progress >= buildTime) {
                 payload = new BuildPayload(recipe, team);
                 recipe.placeEffect.at(x, y, (float) recipe.size / tilesize);
-                progress %= recipe.buildTime;
+                progress = 0;
             }
             heat = Mathf.lerpDelta(heat, 1f, 0.15f);
             time += heat * delta();

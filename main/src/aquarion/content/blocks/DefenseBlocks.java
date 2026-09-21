@@ -5,6 +5,7 @@ import aquarion.world.MultiBlockLib.drawrr.DrawRegionCenterSymmetry;
 import aquarion.world.MultiBlockLib.drawrr.DrawRegionRotated;
 import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.blocks.defense.MissileBlock;
+import aquarion.world.blocks.payload.ReagentMix;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Color;
@@ -46,10 +47,20 @@ import static mindustry.type.ItemStack.with;
 
 public class DefenseBlocks {
     public static Block forceGenerator, meteor, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
-            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
+            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade
+    //I have no clue where to put these so I'll put them here
+    ,dolomiteReagentMix, sandClump;
 
 
     public static void loadContent() {
+        dolomiteReagentMix = new ReagentMix("dolomite-mixture"){{
+            size = 2;
+            containing.add(new ItemStack(sand, 15), new ItemStack(calcium, 5), new ItemStack(magnesiumPowder, 5));
+        }};
+        sandClump = new ReagentMix("sand-clump"){{
+            size = 2;
+            containing.add(new ItemStack(sand, 45));
+        }};
         meteor = new MissileBlock("meteor"){{
             requirements(Category.turret, with(copper, 90, lead, 60, graphite, 90));
             size = 1;

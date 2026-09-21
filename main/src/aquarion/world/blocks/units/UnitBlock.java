@@ -163,13 +163,10 @@ public class UnitBlock extends Block {
         if(unit.sample instanceof Payloadc){
             stats.add(Stat.payloadCapacity, StatValues.squared(Mathf.sqrt(unit.payloadCapacity / (tilesize * tilesize)), StatUnit.blocks));
         }
-
         mindustry.type.ItemStack[] reqs = unit.getFirstRequirements();
-
         if(unit.weapons.any()){
             stats.add(Stat.weapons, StatValues.weapons(unit, unit.weapons));
         }
-
         if(unit.immunities.size > 0){
             Seq<StatusEffect> imm = unit.immunities.toSeq().sort();
             //it's redundant to list wet for naval units
@@ -183,7 +180,6 @@ public class UnitBlock extends Block {
     public void setBars(){
         super.setBars();
         addBar("progress", (UnitBlockBuild e) -> new Bar("bar.progress", Pal.ammo, e::totalProgress));
-
         addBar("units", (UnitBlockBuild e) ->
                 new Bar(
                         () -> unit == null ? "[lightgray]" + Iconc.cancel :

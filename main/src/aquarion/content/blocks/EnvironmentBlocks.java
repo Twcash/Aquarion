@@ -280,6 +280,7 @@ public class EnvironmentBlocks {
         overwrite(redStoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
         overwrite(shale, (Floor s) -> s.attributes.set(metamorphic, 1f));
         overwrite(Blocks.salt, (Floor s) -> s.attributes.set(fertility, -5f));
+        overwrite(stoneWall, (StaticWall s) -> s.attributes.set(dolomite, 1f));
         overwrite(hotrock, (Floor s) -> s.attributes.set(fertility, -5f));
         overwrite(magmarock, (Floor s) -> s.attributes.set(fertility, -5f));
         overwrite(carbonStone, (Floor s) -> s.attributes.set(metamorphic, 1.5f));
