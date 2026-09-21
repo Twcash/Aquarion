@@ -4,7 +4,7 @@ import arc.scene.style.TextureRegionDrawable;
 import aquarion.content.AquaCategories;
 import aquarion.content.AquaFactions;
 import aquarion.ui.AquaStyles;
-import aquarion.ui.IconLoader; // <--- Используем существующий IconLoader
+import aquarion.ui.IconLoader;
 import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
@@ -109,7 +109,6 @@ public class AquaLoader extends Mod {
         );
 
         Events.on(EventType.ClientLoadEvent.class, e -> {
-            // Заменено с aquarionIconLoader на зарегистрированный IconLoader
             IconLoader.loadIcons();
 
             if (Core.atlas.has("aquarion-icon-refinery")) Icon.icons.put("refinery", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-refinery")));
@@ -122,7 +121,6 @@ public class AquaLoader extends Mod {
 
         Events.on(EventType.ContentInitEvent.class, e -> {
             if(!headless){
-                // Закомментировано/исправлено, если генератор пакета aquarion.gen ещё не отработал
                 // aquarion.gen.Regions.load();
                 Vars.content.each(content -> {
                     if (isTemplate(content) && content instanceof MappableContent mContent) {
