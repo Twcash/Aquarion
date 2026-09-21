@@ -1554,7 +1554,7 @@ public class CrafterBlocks {
         }};
         rotaryKiln = new AquaGenericCrafter("rotary-kiln"){{
             requirements(Category.crafting, with(silicon, 900, copper, 900, graphite, 900));
-            size = 8;
+            size = 6;
             squareSprite = false;
             consumePower(6);
             consumeLiquids(LiquidStack.with(water, 5, air, 18));
