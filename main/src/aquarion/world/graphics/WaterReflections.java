@@ -16,6 +16,7 @@ import mindustry.gen.Drawc;
 import mindustry.gen.EffectStatec;
 import mindustry.gen.Groups;
 import mindustry.gen.Unit;
+import mindustry.type.Category;
 import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.Tile;
@@ -112,9 +113,19 @@ public class WaterReflections {
             float base = b.tile.drawy() - block.size * tilesize / 2f;
 
             ReflectConfig c = configFor(block);
-            float yScl = c.reflectionFlip ? -c.reflectYdisplace : c.reflectYdisplace;
+            float s = c.reflectYdisplace;
+            float h = block.size * tilesize;
 
-            Tmp.m1.setToTranslation(ax, base).scale(c.reflectXdisplace, yScl).translate(-ax, -base);
+            if(c.reflectionFlip){
+                Tmp.m1.setToTranslation(ax, base).scale(c.reflectXdisplace, -s).translate(-ax, -base);
+            }else{
+                Tmp.m1.setToTranslation(ax, base - s * h).scale(c.reflectXdisplace, s).translate(-ax, -base);
+            }
+            if(c.rotationDeg != 0f || c.positionX != 0f || c.positionY != 0f){
+                float cy = b.tile.drawy();
+                Tmp.m2.setToTranslation(ax + c.positionX, cy + c.positionY).rotate(c.rotationDeg).translate(-ax, -cy);
+                Tmp.m1.mulLeft(Tmp.m2);
+            }
             Draw.trans(Tmp.m1);
             b.drawCached();
         }catch(Throwable t){
@@ -143,6 +154,10 @@ public class WaterReflections {
                 Tmp.m1.setToTranslation(u.x(), u.y() - 2f * gap)
                      .scale(c.reflectXdisplace, yScl)
                      .translate(-u.x(), -u.y());
+                if(c.rotationDeg != 0f || c.positionX != 0f || c.positionY != 0f){
+                    Tmp.m2.setToTranslation(u.x() + c.positionX, u.y() - 2f * gap + c.positionY).rotate(c.rotationDeg).translate(-u.x(), -(u.y() - 2f * gap));
+                    Tmp.m1.mulLeft(Tmp.m2);
+                }
                 Draw.trans(Tmp.m1);
                 u.draw();
             }finally{
@@ -168,45 +183,80 @@ public class WaterReflections {
     }
 
     private static ReflectConfig configFor(Block block){
+        ReflectConfig base = defaultConfigFor(block);
         ReflectConfig c = config.get(block);
-        if(c != null) return c;
+        return c != null ? mergeDefault(c, base) : base;
+    }
 
+    private static ReflectConfig configForUnit(UnitType type){
+        return defaultForUnits();
+    }
+
+    private static ReflectConfig defaultConfigFor(Block block){
         ReflectConfig d = new ReflectConfig();
         if(block.group == BlockGroup.transportation || block.group == BlockGroup.liquids){
             d.reflectYdisplace = 0.3f;
         }
+        if(block.category == Category.turret){
+            d.reflectionFlip = false;
+        }
         return d;
     }
 
-    private static ReflectConfig configForUnit(UnitType type){
+    private static ReflectConfig defaultForUnits(){
         ReflectConfig d = new ReflectConfig();
         d.reflectionFlip = false;
         return d;
     }
 
+    private static ReflectConfig mergeDefault(ReflectConfig partial, ReflectConfig base){
+        ReflectConfig out = base.copy();
+        ReflectConfig gen = new ReflectConfig();
+        if(partial.reflectXdisplace != gen.reflectXdisplace) out.reflectXdisplace = partial.reflectXdisplace;
+        if(partial.reflectYdisplace != gen.reflectYdisplace) out.reflectYdisplace = partial.reflectYdisplace;
+        if(partial.reflectionFlip != gen.reflectionFlip) out.reflectionFlip = partial.reflectionFlip;
+        if(partial.rotationDeg != gen.rotationDeg) out.rotationDeg = partial.rotationDeg;
+        if(partial.positionX != gen.positionX) out.positionX = partial.positionX;
+        if(partial.positionY != gen.positionY) out.positionY = partial.positionY;
+        return out;
+    }
+
     public static void set(Block block, float xdisplace, float ydisplace, boolean flip){
+        set(block, xdisplace, ydisplace, flip, 0f, 0f, 0f);
+    }
+
+    public static void set(Block block, float xdisplace, float ydisplace, boolean flip, float rotationDeg, float positionX, float positionY){
         ReflectConfig c = config.get(block);
         if(c == null) config.put(block, c = new ReflectConfig());
         c.reflectXdisplace = xdisplace;
         c.reflectYdisplace = ydisplace;
         c.reflectionFlip = flip;
+        c.rotationDeg = rotationDeg;
+        c.positionX = positionX;
+        c.positionY = positionY;
     }
 
     public static class ReflectConfig {
         public float reflectXdisplace = 1f;
         public float reflectYdisplace = 0.75f;
         public boolean reflectionFlip = true;
+        public float rotationDeg = 0f;
+        public float positionX = 0f;
+        public float positionY = 0f;
 
         public ReflectConfig(){}
 
-        public ReflectConfig(float x, float y, boolean flip){
+        public ReflectConfig(float x, float y, boolean flip, float rot, float posX, float posY){
             this.reflectXdisplace = x;
             this.reflectYdisplace = y;
             this.reflectionFlip = flip;
+            this.rotationDeg = rot;
+            this.positionX = posX;
+            this.positionY = posY;
         }
 
         public ReflectConfig copy(){
-            return new ReflectConfig(reflectXdisplace, reflectYdisplace, reflectionFlip);
+            return new ReflectConfig(reflectXdisplace, reflectYdisplace, reflectionFlip, rotationDeg, positionX, positionY);
         }
     }
 }
