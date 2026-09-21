@@ -14,8 +14,31 @@ import mindustry.world.meta.Attribute;
 
 public class AquaWeathers {
     public static Weather monsoon, blizzard, currents, sedimentDisturance, volcanicFallout, bioluminescentBlooms, whiteFog, aurora;
+    public static Weather monsoon, thunderstorm, blizzard, currents, sedimentDisturance, volcanicFallout, aurora, whiteFog;
     public static void load(){
-        monsoon = new Monsoon("monsoon");
+        monsoon = new Monsoon("monsoon"){{
+            particleDensity = 16000f;
+            sizeMax = 6f;
+            sizeMin = 1.4f;
+            speed = 11f;
+            particleColor  = Color.valueOf("6a889e");
+            particleRegion = "particle";
+        }};
+        thunderstorm = new Monsoon("thunderstorm"){{
+            particleDensity = 24000;
+            density = 300;
+            lightningChance = 0.05f;
+            stormColor = Color.valueOf("2c2e2f");
+            sizeMax = 6f;
+            sizeMin = 1.4f;
+            speed = 20;
+            maxLightningLength = 100;
+            minLightningLength = 20;
+            maxLightningSize = 50;
+            minLightningSize = 5;
+            particleColor  = Color.valueOf("6a889e");
+            particleRegion = "particle";
+        }};
         blizzard = new Blizzard("blizzard");
         aurora = new Aurora("aurora"){{
             noiseColor = Color.valueOf("63f0b2");
