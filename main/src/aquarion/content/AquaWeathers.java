@@ -13,7 +13,8 @@ import mindustry.type.weather.ParticleWeather;
 import mindustry.world.meta.Attribute;
 
 public class AquaWeathers {
-    public static Weather monsoon, blizzard, currents, sedimentDisturance, volcanicFallout, bioluminescentBlooms, whiteFog, aurora, thunderstorm;
+    public static Weather monsoon, blizzard, currents, sedimentDisturance, volcanicFallout, bioluminescentBlooms, whiteFog, aurora;
+    public static Weather monsoon, thunderstorm, blizzard, currents, sedimentDisturance, volcanicFallout, aurora, whiteFog;
     public static void load(){
         monsoon = new Monsoon("monsoon"){{
             particleDensity = 16000f;

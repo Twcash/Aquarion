@@ -4,7 +4,7 @@ package aquarion.entities.comp;
 import aquarion.annotations.Annotations;
 import aquarion.annotations.Annotations.*;
 
-//import aquarion.gen.FlyingDialogueUnitc;
+import aquarion.gen.FlyingDialogueUnitc;
 import aquarion.units.DefunctUnitType;
 import arc.*;
 import arc.func.Cons;
@@ -27,7 +27,7 @@ import mindustry.ui.*;
 import static mindustry.Vars.*;
 
 @Annotations.EntityComponent
-abstract class FlyingDialogueUnitComp implements Unitc{
+abstract class FlyingDialogueUnitComp implements Unitc, FlyingDialogueUnitc{
     transient String currentDialogue;
     transient float dialogueTime;
     transient float lastHealth;

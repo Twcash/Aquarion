@@ -3,7 +3,7 @@ package aquarion.entities.comp;
 import aquarion.annotations.Annotations;
 import aquarion.annotations.Annotations.*;
 
-//import aquarion.gen.DialogueUnitc;
+import aquarion.gen.DialogueUnitc;
 import aquarion.units.DefunctUnitType;
 import arc.*;
 import arc.func.Cons;
@@ -40,7 +40,7 @@ import static mindustry.Vars.*;
 import static mindustry.logic.GlobalVars.*;
 
 @Annotations.EntityComponent
-abstract class DialogueUnitComp implements Unitc, Legsc{
+abstract class DialogueUnitComp implements Unitc, DialogueUnitc, Legsc{
     transient String currentDialogue;
     transient float dialogueTime;
     transient float lastHealth;
