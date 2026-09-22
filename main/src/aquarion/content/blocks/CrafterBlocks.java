@@ -1291,6 +1291,9 @@ public class CrafterBlocks {
             ambientSound = AquaSounds.machine8;
             ambientSoundVolume = 0.05f;
             craftTime = 150;
+            makesHeat = true;
+            heatOutput = 3;
+            rotate = false;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeItemStack(new ItemStack(silicon, 20));
             consumeLiq(oxygen, 40/60f);
