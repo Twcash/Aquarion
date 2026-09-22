@@ -143,7 +143,7 @@ public class AquaLoader extends Mod {
             ModSettings.init();
             AquaFactions.init();
             //AquaCampaignSelect.init(); //its kinda cooked rn
-            Core.settings.put("campaignselect", true);
+            //Core.settings.put("campaignselect", true);
         }
     }
 
