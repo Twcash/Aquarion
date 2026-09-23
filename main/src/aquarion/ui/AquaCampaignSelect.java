@@ -30,7 +30,6 @@ public class AquaCampaignSelect {
 
     private static final String AQUA_CAMPAIGN_KEY = "aqua-campaign-selected";
     
-    // Кэш текстур для предотвращения утечек видеопамяти
     private static final ObjectMap<String, TextureRegion> textureCache = new ObjectMap<>();
 
     public static void init() {
@@ -66,30 +65,23 @@ public class AquaCampaignSelect {
         ButtonGroup<arc.scene.ui.Button> group = new ButtonGroup<>();
         group.setMinCheckCount(0);
 
-        // Проверка: запущено ли на мобильном телефоне или в вертикальном режиме
         boolean isMobile = Core.graphics.isPortrait() || Vars.mobile;
         float buttonSize = isMobile ? 150f : 300f;
 
         if (isMobile) {
-            // [ТЕЛЕФОН]
-            // Верхний ряд: Серпуло и Эрекир
             addPlanetButton(diag, Planets.serpulo, selected, group, buttonSize, 1);
             addPlanetButton(diag, Planets.erekir, selected, group, buttonSize, 1);
             diag.cont.row();
 
-            // Нижний ряд: Фейк Серпуло СНИЗУ ПОСЕРЕДИНЕ (colspan = 2 центрирует кнопку под ними)
             addPlanetButton(diag, AquaPlanets.fakeSerpulo, selected, group, buttonSize, 2);
             diag.cont.row();
         } else {
-            // [ПК]
-            // Все 3 кнопки в один ряд
             addPlanetButton(diag, Planets.serpulo, selected, group, buttonSize, 1);
             addPlanetButton(diag, Planets.erekir, selected, group, buttonSize, 1);
             addPlanetButton(diag, AquaPlanets.fakeSerpulo, selected, group, buttonSize, 1);
             diag.cont.row();
         }
 
-        // Блок описания выбранной кампании
         diag.cont.label(() -> {
                     if (selected[0] == null) return Core.bundle.get("campaign.none", "Выберите кампанию");
 
@@ -131,9 +123,6 @@ public class AquaCampaignSelect {
         diag.show();
     }
 
-    /**
-     * Создает кнопку планеты с поддержкой colspan для выравнивания
-     */
     private static void addPlanetButton(BaseDialog diag, Planet planet, Planet[] selected, ButtonGroup<arc.scene.ui.Button> group, float buttonSize, int colSpan) {
         TextureRegion tex = getPlanetTexture(planet);
 
@@ -155,11 +144,6 @@ public class AquaCampaignSelect {
         }
     }
 
-    /**
-     * Загружает текстуру планеты:
-     * - Для Fake Serpulo: ищет в папке мода (assets-raw/planets/fakesrpulo и вариациях)
-     * - Для Serpulo и Erekir: загружает из ванильного Mindustry (Core.atlas / Core.files)
-     */
     private static TextureRegion getPlanetTexture(Planet planet) {
         if (planet == null) return Core.atlas.find("clear");
 
@@ -169,17 +153,14 @@ public class AquaCampaignSelect {
 
         TextureRegion region = null;
 
-        // 1. Если это Fake Serpulo (модовая планета)
         if (planet == AquaPlanets.fakeSerpulo || (planet.name != null && planet.name.toLowerCase().contains("fake"))) {
             region = loadModPlanetTexture("fakesrpulo", "fakeserpulo", planet.name);
         }
 
-        // 2. Для ванильных планет Mindustry (Serpulo, Erekir) или как запасной вариант
         if (region == null) {
             region = loadVanillaOrAtlasTexture(planet);
         }
 
-        // Запасной fallback
         if (region == null) {
             region = Core.atlas.find("clear");
         }
@@ -188,10 +169,6 @@ public class AquaCampaignSelect {
         return region;
     }
 
-    /**
-     * Поиск картинки фейк-серпуло в ассетах мода:
-     * Проверяет assets-raw/planets/, assets/planets/, sprites/planets/ и Core.atlas
-     */
     private static TextureRegion loadModPlanetTexture(String... candidateNames) {
         Mods.LoadedMod loadedMod = Vars.mods.getMod("aquarion");
         if (loadedMod == null) {
@@ -215,7 +192,6 @@ public class AquaCampaignSelect {
 
         String[] extensions = {".png", ".PNG", ".jpg", ""};
 
-        // 1. Поиск напрямую в корневом каталоге мода (Fi)
         if (loadedMod != null && loadedMod.root != null) {
             Fi root = loadedMod.root;
 
@@ -238,7 +214,6 @@ public class AquaCampaignSelect {
                         }
                     }
 
-                    // Поиск файла без учета регистра (например fakesrpulo.png или FakeSrpulo.png)
                     if (dir.isDirectory()) {
                         for (Fi f : dir.list()) {
                             for (String name : candidateNames) {
@@ -259,7 +234,6 @@ public class AquaCampaignSelect {
             }
         }
 
-        // 2. Поиск через виртуальное дерево файлов Mindustry (Vars.tree) и Core.files.internal
         for (String folder : folderPrefixes) {
             for (String name : candidateNames) {
                 for (String ext : extensions) {
@@ -288,7 +262,6 @@ public class AquaCampaignSelect {
             }
         }
 
-        // 3. Поиск в Core.atlas (если спрайт упакован атласером)
         for (String name : candidateNames) {
             String[] atlasKeys = {
                 "aquarion-" + name,
@@ -310,20 +283,17 @@ public class AquaCampaignSelect {
         return null;
     }
 
-    /**
-     * Поиск картинок для ванильных планет Mindustry (Serpulo, Erekir)
-     */
     private static TextureRegion loadVanillaOrAtlasTexture(Planet planet) {
         String pName = planet.name;
 
         String[] possibleAtlasNames = {
-            pName,                             // "serpulo", "erekir"
-            "planet-" + pName,                 // "planet-serpulo", "planet-erekir"
-            "planets-" + pName,                // "planets-serpulo", "planets-erekir"
-            "planets/" + pName,                // "planets/serpulo", "planets/erekir"
-            pName + "-preview",                // "serpulo-preview"
-            pName + "-banner",                 // "serpulo-banner"
-            "campaign-" + pName,               // "campaign-serpulo"
+            pName,
+            "planet-" + pName,
+            "planets-" + pName,
+            "planets/" + pName,
+            pName + "-preview",
+            pName + "-banner",
+            "campaign-" + pName,
             "planet-" + pName + "-preview",
             "planet-" + pName + "-banner"
         };
