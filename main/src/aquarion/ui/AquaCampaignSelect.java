@@ -1,11 +1,15 @@
 package aquarion.ui;
 
+import aquarion.AquaLoader;
 import aquarion.content.AquaPlanets;
 import arc.Core;
+import arc.files.Fi;
+import arc.graphics.Texture;
 import arc.graphics.g2d.TextureRegion;
 import arc.scene.ui.ButtonGroup;
 import arc.scene.ui.Dialog;
 import arc.scene.style.TextureRegionDrawable;
+import arc.struct.ObjectMap;
 import arc.util.Align;
 import arc.util.Log;
 import arc.util.Scaling;
@@ -13,6 +17,7 @@ import mindustry.Vars;
 import mindustry.content.Planets;
 import mindustry.gen.Icon;
 import mindustry.graphics.Pal;
+import mindustry.mod.Mods;
 import mindustry.type.Planet;
 import mindustry.ui.Styles;
 import mindustry.ui.dialogs.BaseDialog;
@@ -24,6 +29,8 @@ public class AquaCampaignSelect {
     private static boolean active = false;
 
     private static final String AQUA_CAMPAIGN_KEY = "aqua-campaign-selected";
+    
+    private static final ObjectMap<String, TextureRegion> textureCache = new ObjectMap<>();
 
     public static void init() {
         if (Vars.headless || ui == null || ui.planet == null) return;
@@ -58,22 +65,22 @@ public class AquaCampaignSelect {
         ButtonGroup<arc.scene.ui.Button> group = new ButtonGroup<>();
         group.setMinCheckCount(0);
 
-        Planet[] choices = {Planets.serpulo, Planets.erekir, AquaPlanets.fakeSerpulo};
+        boolean isMobile = Core.graphics.isPortrait() || Vars.mobile;
+        float buttonSize = isMobile ? 150f : 300f;
 
-        for (Planet planet : choices) {
-            TextureRegion tex = getPlanetTexture(planet);
+        if (isMobile) {
+            addPlanetButton(diag, Planets.serpulo, selected, group, buttonSize, 1);
+            addPlanetButton(diag, Planets.erekir, selected, group, buttonSize, 1);
+            diag.cont.row();
 
-            diag.cont.button(b -> {
-                        b.top();
-                        b.add(planet.localizedName).color(Pal.accent).style(Styles.outlineLabel);
-                        b.row();
-                        b.image(new TextureRegionDrawable(tex)).grow().scaling(Scaling.fit);
-                    }, Styles.togglet, () -> selected[0] = planet)
-                    .size(Core.graphics.isPortrait() || Vars.mobile ? 220f : 320f)
-                    .group(group);
+            addPlanetButton(diag, AquaPlanets.fakeSerpulo, selected, group, buttonSize, 2);
+            diag.cont.row();
+        } else {
+            addPlanetButton(diag, Planets.serpulo, selected, group, buttonSize, 1);
+            addPlanetButton(diag, Planets.erekir, selected, group, buttonSize, 1);
+            addPlanetButton(diag, AquaPlanets.fakeSerpulo, selected, group, buttonSize, 1);
+            diag.cont.row();
         }
-
-        diag.cont.row();
 
         diag.cont.label(() -> {
                     if (selected[0] == null) return Core.bundle.get("campaign.none", "Выберите кампанию");
@@ -92,15 +99,17 @@ public class AquaCampaignSelect {
                 })
                 .labelAlign(Align.center)
                 .style(Styles.outlineLabel)
-                .width(440f)
+                .width(isMobile ? 320f : 460f)
                 .wrap()
-                .colspan(choices.length);
+                .colspan(isMobile ? 2 : 3);
 
         diag.buttons.button("@ok", Icon.ok, () -> {
             if (selected[0] != null) {
                 ui.planet.state.planet = selected[0];
-                ui.planet.lookAt(selected[0].getStartSector());
-                ui.planet.selectSector(selected[0].getStartSector());
+                if (selected[0].getStartSector() != null) {
+                    ui.planet.lookAt(selected[0].getStartSector());
+                    ui.planet.selectSector(selected[0].getStartSector());
+                }
 
                 Core.settings.put(AQUA_CAMPAIGN_KEY, true);
                 Core.settings.put("campaignselect", true);
@@ -114,23 +123,227 @@ public class AquaCampaignSelect {
         diag.show();
     }
 
+    private static void addPlanetButton(BaseDialog diag, Planet planet, Planet[] selected, ButtonGroup<arc.scene.ui.Button> group, float buttonSize, int colSpan) {
+        TextureRegion tex = getPlanetTexture(planet);
+
+        var cell = diag.cont.button(b -> {
+            b.top();
+            b.add(planet.localizedName).color(Pal.accent).style(Styles.outlineLabel);
+            b.row();
+            if (tex != null) {
+                b.image(new TextureRegionDrawable(tex)).grow().scaling(Scaling.fit);
+            } else {
+                b.image(Core.atlas.find("clear")).grow().scaling(Scaling.fit);
+            }
+        }, Styles.togglet, () -> selected[0] = planet)
+        .size(buttonSize)
+        .group(group);
+
+        if (colSpan > 1) {
+            cell.colspan(colSpan);
+        }
+    }
+
     private static TextureRegion getPlanetTexture(Planet planet) {
+        if (planet == null) return Core.atlas.find("clear");
+
+        if (textureCache.containsKey(planet.name)) {
+            return textureCache.get(planet.name);
+        }
+
+        TextureRegion region = null;
+
+        if (planet == AquaPlanets.fakeSerpulo || (planet.name != null && planet.name.toLowerCase().contains("fake"))) {
+            region = loadModPlanetTexture("fakesrpulo", "fakeserpulo", planet.name);
+        }
+
+        if (region == null) {
+            region = loadVanillaOrAtlasTexture(planet);
+        }
+
+        if (region == null) {
+            region = Core.atlas.find("clear");
+        }
+
+        textureCache.put(planet.name, region);
+        return region;
+    }
+
+    private static TextureRegion loadModPlanetTexture(String... candidateNames) {
+        Mods.LoadedMod loadedMod = Vars.mods.getMod("aquarion");
+        if (loadedMod == null) {
+            loadedMod = Vars.mods.getMod(AquaLoader.class);
+        }
+        if (loadedMod == null) {
+            loadedMod = AquaLoader.mod();
+        }
+
+        String[] folderPrefixes = {
+            "assets-raw/planets/",
+            "assets-raw/sprites/planets/",
+            "assets-raw/",
+            "assets/planets/",
+            "assets/sprites/planets/",
+            "assets/",
+            "sprites/planets/",
+            "planets/",
+            "sprites/"
+        };
+
+        String[] extensions = {".png", ".PNG", ".jpg", ""};
+
+        if (loadedMod != null && loadedMod.root != null) {
+            Fi root = loadedMod.root;
+
+            for (String folder : folderPrefixes) {
+                Fi dir = root.child(folder);
+                if (dir.exists()) {
+                    for (String name : candidateNames) {
+                        for (String ext : extensions) {
+                            Fi file = root.child(folder + name + ext);
+                            if (file.exists() && !file.isDirectory()) {
+                                try {
+                                    Texture tex = new Texture(file);
+                                    tex.setFilter(Texture.TextureFilter.linear);
+                                    Log.info("[AquaCampaignSelect] Успешно загружен ассет мода: " + file.path());
+                                    return new TextureRegion(tex);
+                                } catch (Throwable t) {
+                                    Log.err("[AquaCampaignSelect] Ошибка загрузки текстуры: " + file, t);
+                                }
+                            }
+                        }
+                    }
+
+                    if (dir.isDirectory()) {
+                        for (Fi f : dir.list()) {
+                            for (String name : candidateNames) {
+                                if (f.nameWithoutExtension().equalsIgnoreCase(name)) {
+                                    try {
+                                        Texture tex = new Texture(f);
+                                        tex.setFilter(Texture.TextureFilter.linear);
+                                        Log.info("[AquaCampaignSelect] Загружен ассет по регистру: " + f.path());
+                                        return new TextureRegion(tex);
+                                    } catch (Throwable t) {
+                                        Log.err("[AquaCampaignSelect] Ошибка: " + f, t);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (String folder : folderPrefixes) {
+            for (String name : candidateNames) {
+                for (String ext : extensions) {
+                    String relPath = folder + name + ext;
+
+                    if (Vars.tree != null) {
+                        Fi treeFile = Vars.tree.get(relPath);
+                        if (treeFile != null && treeFile.exists() && !treeFile.isDirectory()) {
+                            try {
+                                Texture tex = new Texture(treeFile);
+                                tex.setFilter(Texture.TextureFilter.linear);
+                                return new TextureRegion(tex);
+                            } catch (Throwable ignored) {}
+                        }
+                    }
+
+                    Fi internalFile = Core.files.internal(relPath);
+                    if (internalFile.exists() && !internalFile.isDirectory()) {
+                        try {
+                            Texture tex = new Texture(internalFile);
+                            tex.setFilter(Texture.TextureFilter.linear);
+                            return new TextureRegion(tex);
+                        } catch (Throwable ignored) {}
+                    }
+                }
+            }
+        }
+
+        for (String name : candidateNames) {
+            String[] atlasKeys = {
+                "aquarion-" + name,
+                "aquarion-planet-" + name,
+                "planet-" + name,
+                "planets-" + name,
+                "planets/" + name,
+                name
+            };
+
+            for (String key : atlasKeys) {
+                if (Core.atlas.has(key)) {
+                    TextureRegion reg = Core.atlas.find(key);
+                    if (reg != null && reg.found()) return reg;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static TextureRegion loadVanillaOrAtlasTexture(Planet planet) {
+        String pName = planet.name;
+
+        String[] possibleAtlasNames = {
+            pName,
+            "planet-" + pName,
+            "planets-" + pName,
+            "planets/" + pName,
+            pName + "-preview",
+            pName + "-banner",
+            "campaign-" + pName,
+            "planet-" + pName + "-preview",
+            "planet-" + pName + "-banner"
+        };
+
+        for (String key : possibleAtlasNames) {
+            if (Core.atlas.has(key)) {
+                TextureRegion reg = Core.atlas.find(key);
+                if (reg != null && reg.found()) {
+                    return reg;
+                }
+            }
+        }
+
         if (planet.uiIcon != null && planet.uiIcon.found()) {
             return planet.uiIcon;
         }
-
-        if (Core.atlas.has("planet-" + planet.name)) {
-            return Core.atlas.find("planet-" + planet.name);
+        if (planet.fullIcon != null && planet.fullIcon.found()) {
+            return planet.fullIcon;
         }
 
-        if (Core.atlas.has("planets/" + planet.name)) {
-            return Core.atlas.find("planets/" + planet.name);
+        String[] internalPaths = {
+            "sprites/planets/" + pName + ".png",
+            "planets/" + pName + ".png",
+            "sprites/ui/planet-" + pName + ".png",
+            "sprites/ui/" + pName + ".png",
+            "sprites/" + pName + ".png"
+        };
+
+        for (String path : internalPaths) {
+            if (Vars.tree != null) {
+                Fi fi = Vars.tree.get(path);
+                if (fi != null && fi.exists() && !fi.isDirectory()) {
+                    try {
+                        Texture tex = new Texture(fi);
+                        tex.setFilter(Texture.TextureFilter.linear);
+                        return new TextureRegion(tex);
+                    } catch (Throwable ignored) {}
+                }
+            }
+
+            Fi fi = Core.files.internal(path);
+            if (fi.exists() && !fi.isDirectory()) {
+                try {
+                    Texture tex = new Texture(fi);
+                    tex.setFilter(Texture.TextureFilter.linear);
+                    return new TextureRegion(tex);
+                } catch (Throwable ignored) {}
+            }
         }
 
-        if (Planets.serpulo != null && Planets.serpulo.uiIcon != null) {
-            return Planets.serpulo.uiIcon;
-        }
-
-        return Core.atlas.find("clear");
+        return null;
     }
 }
