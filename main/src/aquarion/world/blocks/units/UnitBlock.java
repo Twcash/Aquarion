@@ -277,7 +277,7 @@ public class UnitBlock extends Block {
             }
 
             if(commandPos != null){
-                if(!out.isEmpty()) out.append(",");
+                if(out.length() > 0) out.append(",");
                 out.append("pos=").append(commandPos.x).append(":").append(commandPos.y);
             }
 
