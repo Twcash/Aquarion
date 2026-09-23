@@ -68,7 +68,11 @@ public class AquaCampaignSelect {
         boolean isMobile = Core.graphics.isPortrait() || Vars.mobile;
         float buttonSize = isMobile ? 150f : 300f;
 
-        if (isMobile) {
+
+        addPlanetButton(diag, AquaPlanets.fakeSerpulo, selected, group, buttonSize, 1);
+        addPlanetButton(diag, AquaPlanets.delubrum, selected, group, buttonSize, 1);
+        diag.cont.row();
+        /*if (isMobile) {
             addPlanetButton(diag, Planets.serpulo, selected, group, buttonSize, 1);
             addPlanetButton(diag, Planets.erekir, selected, group, buttonSize, 1);
             diag.cont.row();
@@ -80,7 +84,7 @@ public class AquaCampaignSelect {
             addPlanetButton(diag, Planets.erekir, selected, group, buttonSize, 1);
             addPlanetButton(diag, AquaPlanets.fakeSerpulo, selected, group, buttonSize, 1);
             diag.cont.row();
-        }
+        }*/
 
         diag.cont.label(() -> {
                     if (selected[0] == null) return Core.bundle.get("campaign.none", "Выберите кампанию");
@@ -93,6 +97,10 @@ public class AquaCampaignSelect {
 
                     if (Core.bundle.has("campaign.aquarion-fakeSerpulo") && selected[0] == AquaPlanets.fakeSerpulo) {
                         return Core.bundle.get("campaign.aquarion-fakeSerpulo");
+                    }
+
+                    if (Core.bundle.has("campaign.aquarion-delubrum") && selected[0] == AquaPlanets.delubrum) {
+                        return Core.bundle.get("campaign.aquarion-delubrum");
                     }
 
                     return selected[0].description != null ? selected[0].description : selected[0].localizedName;
