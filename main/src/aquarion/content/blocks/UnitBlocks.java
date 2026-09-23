@@ -103,7 +103,7 @@ public class UnitBlocks {
             size = 1;
             health = 300;
         }};
-        armamentMounting = new Wall("armnament-mounting"){{
+        armamentMounting = new Wall("armament-mounting"){{
             requirements(Category.units, with(silicon, 50, graphite, 100, copper, 200));
             size = 1;
             health = 400;
