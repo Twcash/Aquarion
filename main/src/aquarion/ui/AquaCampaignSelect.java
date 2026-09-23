@@ -29,8 +29,8 @@ public class AquaCampaignSelect {
     private static boolean active = false;
 
     private static final String AQUA_CAMPAIGN_KEY = "aqua-campaign-selected";
-
-    // Кэш текстур, чтобы избежать утечек видеопамяти и просадок FPS
+    
+    // Кэш текстур для предотвращения утечек видеопамяти
     private static final ObjectMap<String, TextureRegion> textureCache = new ObjectMap<>();
 
     public static void init() {
@@ -66,27 +66,30 @@ public class AquaCampaignSelect {
         ButtonGroup<arc.scene.ui.Button> group = new ButtonGroup<>();
         group.setMinCheckCount(0);
 
-        Planet[] choices = {Planets.serpulo, Planets.erekir, AquaPlanets.fakeSerpulo};
+        // Проверка: запущено ли на мобильном телефоне или в вертикальном режиме
+        boolean isMobile = Core.graphics.isPortrait() || Vars.mobile;
+        float buttonSize = isMobile ? 150f : 300f;
 
-        for (Planet planet : choices) {
-            TextureRegion tex = getPlanetTexture(planet);
+        if (isMobile) {
+            // [ТЕЛЕФОН]
+            // Верхний ряд: Серпуло и Эрекир
+            addPlanetButton(diag, Planets.serpulo, selected, group, buttonSize, 1);
+            addPlanetButton(diag, Planets.erekir, selected, group, buttonSize, 1);
+            diag.cont.row();
 
-            diag.cont.button(b -> {
-                        b.top();
-                        b.add(planet.localizedName).color(Pal.accent).style(Styles.outlineLabel);
-                        b.row();
-                        if (tex != null) {
-                            b.image(new TextureRegionDrawable(tex)).grow().scaling(Scaling.fit);
-                        } else {
-                            b.image(Core.atlas.find("clear")).grow().scaling(Scaling.fit);
-                        }
-                    }, Styles.togglet, () -> selected[0] = planet)
-                    .size(Core.graphics.isPortrait() || Vars.mobile ? 220f : 320f)
-                    .group(group);
+            // Нижний ряд: Фейк Серпуло СНИЗУ ПОСЕРЕДИНЕ (colspan = 2 центрирует кнопку под ними)
+            addPlanetButton(diag, AquaPlanets.fakeSerpulo, selected, group, buttonSize, 2);
+            diag.cont.row();
+        } else {
+            // [ПК]
+            // Все 3 кнопки в один ряд
+            addPlanetButton(diag, Planets.serpulo, selected, group, buttonSize, 1);
+            addPlanetButton(diag, Planets.erekir, selected, group, buttonSize, 1);
+            addPlanetButton(diag, AquaPlanets.fakeSerpulo, selected, group, buttonSize, 1);
+            diag.cont.row();
         }
 
-        diag.cont.row();
-
+        // Блок описания выбранной кампании
         diag.cont.label(() -> {
                     if (selected[0] == null) return Core.bundle.get("campaign.none", "Выберите кампанию");
 
@@ -104,9 +107,9 @@ public class AquaCampaignSelect {
                 })
                 .labelAlign(Align.center)
                 .style(Styles.outlineLabel)
-                .width(440f)
+                .width(isMobile ? 320f : 460f)
                 .wrap()
-                .colspan(choices.length);
+                .colspan(isMobile ? 2 : 3);
 
         diag.buttons.button("@ok", Icon.ok, () -> {
             if (selected[0] != null) {
@@ -129,9 +132,33 @@ public class AquaCampaignSelect {
     }
 
     /**
-     * Возвращает текстуру для планеты:
-     * - Для фейк-серпуло: загружает картинку из мода (assets-raw/planets/fakesrpulo.png)
-     * - Для Serpulo и Erekir: берет из ресурсов Mindustry
+     * Создает кнопку планеты с поддержкой colspan для выравнивания
+     */
+    private static void addPlanetButton(BaseDialog diag, Planet planet, Planet[] selected, ButtonGroup<arc.scene.ui.Button> group, float buttonSize, int colSpan) {
+        TextureRegion tex = getPlanetTexture(planet);
+
+        var cell = diag.cont.button(b -> {
+            b.top();
+            b.add(planet.localizedName).color(Pal.accent).style(Styles.outlineLabel);
+            b.row();
+            if (tex != null) {
+                b.image(new TextureRegionDrawable(tex)).grow().scaling(Scaling.fit);
+            } else {
+                b.image(Core.atlas.find("clear")).grow().scaling(Scaling.fit);
+            }
+        }, Styles.togglet, () -> selected[0] = planet)
+        .size(buttonSize)
+        .group(group);
+
+        if (colSpan > 1) {
+            cell.colspan(colSpan);
+        }
+    }
+
+    /**
+     * Загружает текстуру планеты:
+     * - Для Fake Serpulo: ищет в папке мода (assets-raw/planets/fakesrpulo и вариациях)
+     * - Для Serpulo и Erekir: загружает из ванильного Mindustry (Core.atlas / Core.files)
      */
     private static TextureRegion getPlanetTexture(Planet planet) {
         if (planet == null) return Core.atlas.find("clear");
@@ -142,12 +169,12 @@ public class AquaCampaignSelect {
 
         TextureRegion region = null;
 
-        // 1. Если это Fake Serpulo (планета мода)
+        // 1. Если это Fake Serpulo (модовая планета)
         if (planet == AquaPlanets.fakeSerpulo || (planet.name != null && planet.name.toLowerCase().contains("fake"))) {
             region = loadModPlanetTexture("fakesrpulo", "fakeserpulo", planet.name);
         }
 
-        // 2. Для ванильных планет (Серпуло, Эрекир)
+        // 2. Для ванильных планет Mindustry (Serpulo, Erekir) или как запасной вариант
         if (region == null) {
             region = loadVanillaOrAtlasTexture(planet);
         }
@@ -162,7 +189,8 @@ public class AquaCampaignSelect {
     }
 
     /**
-     * Ищет и загружает текстуру fakesrpulo напрямую из файлов мода (assets-raw/planets/ и вариации)
+     * Поиск картинки фейк-серпуло в ассетах мода:
+     * Проверяет assets-raw/planets/, assets/planets/, sprites/planets/ и Core.atlas
      */
     private static TextureRegion loadModPlanetTexture(String... candidateNames) {
         Mods.LoadedMod loadedMod = Vars.mods.getMod("aquarion");
@@ -187,7 +215,7 @@ public class AquaCampaignSelect {
 
         String[] extensions = {".png", ".PNG", ".jpg", ""};
 
-        // 1. Поиск напрямую в файлах загруженного мода
+        // 1. Поиск напрямую в корневом каталоге мода (Fi)
         if (loadedMod != null && loadedMod.root != null) {
             Fi root = loadedMod.root;
 
@@ -201,7 +229,7 @@ public class AquaCampaignSelect {
                                 try {
                                     Texture tex = new Texture(file);
                                     tex.setFilter(Texture.TextureFilter.linear);
-                                    Log.info("[AquaCampaignSelect] Загружена картинка из мода: " + file.path());
+                                    Log.info("[AquaCampaignSelect] Успешно загружен ассет мода: " + file.path());
                                     return new TextureRegion(tex);
                                 } catch (Throwable t) {
                                     Log.err("[AquaCampaignSelect] Ошибка загрузки текстуры: " + file, t);
@@ -210,7 +238,7 @@ public class AquaCampaignSelect {
                         }
                     }
 
-                    // Поиск без учета регистра букв (например FakeSrpulo.png или fakesrpulo.png)
+                    // Поиск файла без учета регистра (например fakesrpulo.png или FakeSrpulo.png)
                     if (dir.isDirectory()) {
                         for (Fi f : dir.list()) {
                             for (String name : candidateNames) {
@@ -218,10 +246,10 @@ public class AquaCampaignSelect {
                                     try {
                                         Texture tex = new Texture(f);
                                         tex.setFilter(Texture.TextureFilter.linear);
-                                        Log.info("[AquaCampaignSelect] Найдена текстура: " + f.path());
+                                        Log.info("[AquaCampaignSelect] Загружен ассет по регистру: " + f.path());
                                         return new TextureRegion(tex);
                                     } catch (Throwable t) {
-                                        Log.err("[AquaCampaignSelect] Ошибка загрузки: " + f, t);
+                                        Log.err("[AquaCampaignSelect] Ошибка: " + f, t);
                                     }
                                 }
                             }
@@ -231,7 +259,7 @@ public class AquaCampaignSelect {
             }
         }
 
-        // 2. Поиск через виртуальное дерево ресурсов игры (Vars.tree / Core.files)
+        // 2. Поиск через виртуальное дерево файлов Mindustry (Vars.tree) и Core.files.internal
         for (String folder : folderPrefixes) {
             for (String name : candidateNames) {
                 for (String ext : extensions) {
@@ -260,7 +288,7 @@ public class AquaCampaignSelect {
             }
         }
 
-        // 3. Проверка атласа (на случай если спрайт был скомпилирован)
+        // 3. Поиск в Core.atlas (если спрайт упакован атласером)
         for (String name : candidateNames) {
             String[] atlasKeys = {
                 "aquarion-" + name,
@@ -283,12 +311,11 @@ public class AquaCampaignSelect {
     }
 
     /**
-     * Поиск картинок ванильных планет Mindustry (Serpulo, Erekir)
+     * Поиск картинок для ванильных планет Mindustry (Serpulo, Erekir)
      */
     private static TextureRegion loadVanillaOrAtlasTexture(Planet planet) {
         String pName = planet.name;
 
-        // 1. Поиск по всем возможным названиям в атласе Mindustry
         String[] possibleAtlasNames = {
             pName,                             // "serpulo", "erekir"
             "planet-" + pName,                 // "planet-serpulo", "planet-erekir"
@@ -310,7 +337,6 @@ public class AquaCampaignSelect {
             }
         }
 
-        // 2. Иконка объекта Planet
         if (planet.uiIcon != null && planet.uiIcon.found()) {
             return planet.uiIcon;
         }
@@ -318,7 +344,6 @@ public class AquaCampaignSelect {
             return planet.fullIcon;
         }
 
-        // 3. Внутренние файлы Mindustry
         String[] internalPaths = {
             "sprites/planets/" + pName + ".png",
             "planets/" + pName + ".png",
