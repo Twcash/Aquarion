@@ -281,7 +281,8 @@ public class UnitBlock extends Block {
                 out.append("pos=").append(commandPos.x).append(":").append(commandPos.y);
             }
 
-            return out.isEmpty() ? null : out.toString();
+            //return out.isEmpty() ? null : out.toString();
+            return null;
         }
 
         @Override
