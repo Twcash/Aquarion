@@ -211,7 +211,7 @@ public class TantrosTechTree {
                         node(sentry, () -> {});
                     });
                     node(vector, Seq.with(
-                            new Objectives.SectorComplete(twinPass)
+                            new Objectives.OnSector(twinPass)
                     ), () -> {
                         node(grace, () -> {
                             node(thrash, Seq.with(
