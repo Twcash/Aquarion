@@ -296,11 +296,11 @@ public class CoreBlocks {
                 stroke(3f * e.fout());
                 Lines.poly(e.x, e.y, 4, 200, 0);
             });
-            //forceShrinkEffect = new Effect(40, e -> {
-            //                color(e.color);
-            //                stroke(3f * e.fout());
-            //                Lines.poly(e.x, e.y, 4, 200, 0);
-            //            });
+            forceShrinkEffect = new Effect(40, e -> {
+                            color(e.color);
+                            stroke(3f * e.fout());
+                            Lines.poly(e.x, e.y, 32, 40-e.time, 0);
+                        });
         }};
         buzzSaw = new ChainsawTurret("buzzsaw") {{
             requirements(Category.turret, with(silicon, 250, lead, 300));

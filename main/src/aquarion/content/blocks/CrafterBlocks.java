@@ -1257,7 +1257,7 @@ public class CrafterBlocks {
             maxEfficiency = 4;
             boostersAffectOutput = true;
             consumePower(4);
-            consume(new LiquidStack(petroleum, 4), new LiquidStack(oxygen, 11));
+            consume(new LiquidStack(petroleum, 4), new LiquidStack(oxygen, 8));
             consumeBoost(haze, 8.5f, 1f);
             liquidBoostIntensity = 1.2f;
             drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
