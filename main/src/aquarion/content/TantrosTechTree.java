@@ -95,8 +95,8 @@ public class TantrosTechTree {
                 ), () -> {
                     node(crest, () -> {
                         node(unitByte, () -> {
-                            node(index, () -> {
-                            });
+                            node(index, () -> {});
+                            node(apothecary, () -> {});
                         });
                         node(soar, () -> {
                         });
@@ -420,7 +420,9 @@ public class TantrosTechTree {
                             nodeProduce(galena, () -> {});
                         });
                         nodeProduce(towanite, () -> {
-                            nodeProduce(acuminite, () -> {});
+                            nodeProduce(acuminite, () -> {
+                                nodeProduce(halite, () -> {});
+                            });
                         });
                         nodeProduce(cuprite, () -> {});
                     });
@@ -487,8 +489,13 @@ public class TantrosTechTree {
                     });
                 });
                 nodeProduce(sand, () -> {
-                    nodeProduce(scrap, () -> {});
-                    nodeProduce(slag, () -> {});
+                    nodeProduce(calcium, () -> {
+                        nodeProduce(concrete, () -> {});
+                    });
+                    nodeProduce(scrap, () -> {
+                        nodeProduce(slag, () -> {});
+                    });
+                    nodeProduce(potassium, () -> {});
                 });
             });
             node(siphon, () -> {
@@ -526,7 +533,6 @@ public class TantrosTechTree {
                 ), () -> {});
             });
             node(atmosphericIntake, () -> {
-                node(cryogenConditioner);
                 node(magmaTap, Seq.with(
                 ), () -> {
                     node(inlet, Seq.with(
@@ -647,7 +653,9 @@ public class TantrosTechTree {
                             node(ammoniaCompressor, Seq.with(
                                     new Objectives.Produce(methane),
                                     new Objectives.Produce(nitrogen)
-                            ), () -> {});
+                            ), () -> {
+                                node(cryogenConditioner);
+                            });
                             node(polymerPress, Seq.with(
                                     new Objectives.Produce(petroleum),
                                     new Objectives.OnSector(bay)

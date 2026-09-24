@@ -818,7 +818,7 @@ public class AquaResearchDialog extends BaseDialog {
                 b.left();
                 b.margin(0).left().defaults().left();
                 if (selectable) {
-                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50).left().top();
+                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(0).left().top();
                 }
                 b.add().grow();
                 b.table(desc -> {

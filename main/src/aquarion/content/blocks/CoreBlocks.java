@@ -119,6 +119,7 @@ public class CoreBlocks {
             size = 2;
             unitType = AquaUnitTypes.visitor;
             alwaysUnlocked = true;
+            solid = false;
             hasItems = true;
             hasColor = true;
             envEnabled |= Env.terrestrial | Env.underwater;

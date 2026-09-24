@@ -277,11 +277,11 @@ public class UnitBlock extends Block {
             }
 
             if(commandPos != null){
-                if(!out.isEmpty()) out.append(",");
+                if(out.length() > 0) out.append(","); // if(!out.isEmpty()) out.append(",");
                 out.append("pos=").append(commandPos.x).append(":").append(commandPos.y);
             }
 
-            return out.isEmpty() ? null : out.toString();
+            return out.length() == 0 ? null : out.toString();
         }
 
         @Override

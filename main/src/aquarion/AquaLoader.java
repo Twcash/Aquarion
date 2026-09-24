@@ -26,7 +26,7 @@ import mindustry.mod.*;
 import aquarion.annotations.Annotations.*;
 import aquarion.gen.*;
 import mindustry.world.Block;
-//import aquarion.ui.AquaCampaignSelect; //aqua campaign select is kinda cooked rn
+import aquarion.ui.AquaCampaignSelect; //aqua campaign select is kinda cooked rn
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -142,7 +142,7 @@ public class AquaLoader extends Mod {
             ModEventHandler.load();
             ModSettings.init();
             AquaFactions.init();
-            //AquaCampaignSelect.init(); //its kinda cooked rn
+            AquaCampaignSelect.init(); //its kinda cooked rn
             Core.settings.put("campaignselect", true);
         }
     }

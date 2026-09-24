@@ -1283,7 +1283,7 @@ public class CrafterBlocks {
             new DrawHeatInputBitmask());
         }};
         SilicaOxidator = new AquaGenericCrafter("silicon-oxidator") {{
-            requirements(Category.crafting, with(copper, 300, graphite, 200, metaglass, 200));
+            requirements(AquaCategories.heat, with(copper, 300, graphite, 200, metaglass, 200));
             size = 3;
             squareSprite = false;
             itemCapacity = 60;
@@ -1291,6 +1291,9 @@ public class CrafterBlocks {
             ambientSound = AquaSounds.machine8;
             ambientSoundVolume = 0.05f;
             craftTime = 150;
+            makesHeat = true;
+            heatOutput = 5;
+            rotate = false;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeItemStack(new ItemStack(silicon, 20));
             consumeLiq(oxygen, 40/60f);

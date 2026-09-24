@@ -31,8 +31,11 @@ import mindustry.type.Liquid;
 import mindustry.type.LiquidStack;
 import mindustry.ui.Bar;
 import mindustry.world.Tile;
+import mindustry.world.blocks.heat.HeatBlock;
 import mindustry.world.blocks.heat.HeatConsumer;
+import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.liquid.Conduit.ConduitBuild;
+import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
@@ -63,6 +66,12 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
     /** Tied to the environment lighting**/
     public boolean solar = false;
     public boolean hasHeat = false;
+    /** if the block should make heat**/
+    public boolean makesHeat = false;
+    /** how much heat it makes**/
+    public float heatOutput = 10f;
+    /** how long till max heat**/
+    public float warmupRate = 0.15f;
     /** Self Explanatory**/
     public boolean boostAffectSpeedANDoutput = false;
     public float craftTime = 80;
@@ -165,6 +174,9 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                 }
             }
         }
+        if (makesHeat) {
+            stats.add(Stat.output, heatOutput, StatUnit.heatUnits);
+        };
     }
 
 @Override
@@ -219,6 +231,9 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                 }
             }
         }
+        if (makesHeat) {
+            addBar("heat", (AquaGenericCrafter.AquaGenericCrafterBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat / heatOutput));
+        };
     }
 
 
@@ -343,12 +358,22 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         }
     }
 
-    public class AquaGenericCrafterBuild extends Building implements HeatConsumer {
+    public class AquaGenericCrafterBuild extends Building implements HeatConsumer, HeatBlock{
         public float progress;
         public float totalProgress;
         public float warmup;
         public float[] sideHeat = new float[4];
         public float heat = 0f;
+
+        @Override
+        public float heatFrac(){
+            return heat / heatOutput;
+        }
+
+        @Override
+        public float heat(){
+            return heat;
+        }
 
         @Override
         public void draw(){
@@ -457,6 +482,9 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                 craft();
             }
             dumpOutputs();
+            if (makesHeat) {
+                heat = Mathf.approachDelta(heat, heatOutput * efficiency, warmupRate * delta());
+            };
         }
         @Override
         public float getProgressIncrease(float baseTime){
@@ -654,7 +682,7 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         public void read(Reads read, byte revision){
             super.read(read, revision);
             progress = read.f();
-            warmup = read.f();
+            warmup = heat = read.f();
             if(legacyReadWarmup) read.f();
         }
     }

@@ -326,8 +326,7 @@ public class EnvironmentBlocks {
             effectSpacing = 15f;
             effect = AquaFx.vent1;
         }};
-        coral_floor = new Floor("coral-floor", 4) {{
-        }};
+        coral_floor = new Floor("coral-floor", 4);
         redCoralFloor = new Floor("redCoral-floor") {{
             variants = 6;
         }};
@@ -592,8 +591,7 @@ public class EnvironmentBlocks {
             drawEdgeIn = drawEdgeOut = false;
             lightColor = Pal.techBlue.cpy().a(0.7f);
         }};
-        metal1 = new Floor("metal-pole", 0){{
-        }};
+        metal1 = new Floor("metal-pole", 0);
         brokenFloorLight = new Floor("broken-floor-light", 4){{
             lightRadius = 5;
             emitLight = true;
@@ -638,14 +636,10 @@ public class EnvironmentBlocks {
             autotile = true;
             drawEdgeIn = drawEdgeOut = false;
         }};
-        metal13 = new Floor("metal-frame", 0){{
-        }};
-        metal14 = new Floor("metal-bumpe", 0){{
-        }};
-        metal15 = new Floor("metal-plating", 0){{
-        }};
-        metal16 = new Floor("metal-flooring", 2){{
-        }};
+        metal13 = new Floor("metal-frame", 0);
+        metal14 = new Floor("metal-bumpe", 0);
+        metal15 = new Floor("metal-plating", 0);
+        metal16 = new Floor("metal-flooring", 2);
         metalVent = new TiledFloor("metal-vent", 1, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
