@@ -85,7 +85,7 @@ public class AquaLiquids {
         }};
         fumes = new AquaLiquid("fumes", Color.valueOf("83746b")){{
             lightColor = Color.valueOf("d68a7e").a(0.7f);
-            flammability = 1;
+            //flammability = 1;
             explosiveness = 0.4f;
             allDatabaseTabs = true;
             effect = corroding;
