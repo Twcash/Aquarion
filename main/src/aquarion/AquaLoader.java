@@ -4,7 +4,7 @@ import arc.scene.style.TextureRegionDrawable;
 import aquarion.content.AquaCategories;
 import aquarion.content.AquaFactions;
 import aquarion.ui.AquaStyles;
-import aquarion.ui.IconLoader; // <--- Используем существующий IconLoader
+//import aquarion.ui.IconLoader; // <--- Используем существующий IconLoader
 import aquarion.gen.*;
 import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
