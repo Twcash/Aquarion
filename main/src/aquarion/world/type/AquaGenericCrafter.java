@@ -315,6 +315,11 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         if(boostOutputItem != null){
             itemFilter[boostOutputItem.item.id] = true;
         }
+
+        //Only blocks that actually generate heat act as heat sources. Consumers must stay
+        //HeatConsumer-only so heat conductors don't add them to their cameFrom cycle set
+        //(which would make them unable to pull heat through a conductor chain).
+        buildType = makesHeat ? AquaGenericCrafterProducerBuild::new : AquaGenericCrafterBuild::new;
     }
 
     @Override
@@ -358,22 +363,12 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         }
     }
 
-    public class AquaGenericCrafterBuild extends Building implements HeatConsumer, HeatBlock{
+    public class AquaGenericCrafterBuild extends Building implements HeatConsumer{
         public float progress;
         public float totalProgress;
         public float warmup;
         public float[] sideHeat = new float[4];
         public float heat = 0f;
-
-        @Override
-        public float heatFrac(){
-            return heat / heatOutput;
-        }
-
-        @Override
-        public float heat(){
-            return heat;
-        }
 
         @Override
         public void draw(){
@@ -684,6 +679,17 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
             progress = read.f();
             warmup = heat = read.f();
             if(legacyReadWarmup) read.f();
+        }
+    }
+    public class AquaGenericCrafterProducerBuild extends AquaGenericCrafterBuild implements HeatBlock{
+        @Override
+        public float heat(){
+            return heat;
+        }
+
+        @Override
+        public float heatFrac(){
+            return heat / heatOutput;
         }
     }
 }
