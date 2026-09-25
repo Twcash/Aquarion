@@ -179,7 +179,11 @@ public class UnitBlock extends Block {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("progress", (UnitBlockBuild e) -> new Bar("bar.progress", Pal.ammo, e::totalProgress));
+        addBar("progress", (UnitBlockBuild e) -> new Bar(
+                () -> Core.bundle.format("bar.progress", Strings.autoFixed(e.totalProgress() * 100, 1)),
+                () -> Pal.ammo,
+                e::totalProgress
+        ));
         addBar("units", (UnitBlockBuild e) ->
                 new Bar(
                         () -> unit == null ? "[lightgray]" + Iconc.cancel :
@@ -270,11 +274,11 @@ public class UnitBlock extends Block {
             }
 
             if(commandPos != null){
-                if(!out.isEmpty()) out.append(",");
+                if(out.length() > 0) out.append(","); // if(!out.isEmpty()) out.append(",");
                 out.append("pos=").append(commandPos.x).append(":").append(commandPos.y);
             }
 
-            return out.isEmpty() ? null : out.toString();
+            return out.length() == 0 ? null : out.toString();
         }
 
         @Override

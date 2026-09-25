@@ -643,7 +643,7 @@ public class TurretBlocks {
             limitRange(1.1f);
         }};
                 javelin = new ItemTurret("javelin") {{
-            requirements(Category.turret, with(polymer, 250, graphite, 750, AquaItems.ferricMatter, 500, silicon, 400));
+            requirements(Category.turret, with(polymer, 250, graphite, 350, AquaItems.ferricMatter, 500, silicon, 400));
             shownPlanets.addAll(fakeSerpulo,fakeErekir,tantros2);
             size = 3;
             shoot.shots = 4;

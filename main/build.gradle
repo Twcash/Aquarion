@@ -1,20 +1,22 @@
-plugins{
+plugins {
     id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 def generatedSourcesDir = file("$buildDir/generated/sources")
 
-sourceSets.main{
+sourceSets.main {
     java.srcDirs = [
             'src/',
             "${generatedSourcesDir}/fetchComps/java/main"
     ]
 }
 
-sourceCompatibility = 17
-targetCompatibility = 17
-
-dependencies{
+dependencies {
     compileOnly "org.jetbrains:annotations:24.0.1"
     compileOnly "com.github.Anuken.Arc:arc-core:$arcVersion"
     compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
@@ -23,7 +25,7 @@ dependencies{
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
 }
 
-ext{
+ext {
     fetchPackage = modName.replaceAll("-", "") + '/fetched'
     fetchDir = file("${generatedSourcesDir}/fetchComps/java/main/$fetchPackage")
     fetchTemp = file("${generatedSourcesDir}/fetchComps/fetch.txt")
@@ -41,39 +43,39 @@ import arc.util.serialization.Jval
 
 import java.util.concurrent.CopyOnWriteArrayList
 
-task deploy(type: Jar){
+task deploy(type: Jar) {
     dependsOn ':tools:proc', sourceSets.main.runtimeClasspath
 
     archiveFileName.set "${modDisplayName}Desktop.jar"
 
     from files(sourceSets.main.output.classesDirs)
     from files(sourceSets.main.output.resourcesDir)
-    from configurations.runtimeClasspath.collect{ it.isDirectory() ? it : zipTree(it) }
-    from files(assetsDir){ exclude 'sprites/vanilla/**' }
+    from configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    from files(assetsDir) { exclude 'sprites/vanilla/**' }
 
-    from(rootDir){
+    from(rootDir) {
         include 'mod.json'
         include 'icon.png'
     }
 }
 
-task dex(type: Jar){
+task dex(type: Jar) {
     archiveFileName.set "${modDisplayName}.jar"
     dependsOn deploy
 
     final def desktopJar = deploy.archiveFile.get().asFile
     final def dexJar = new File(dex.temporaryDir, 'Dexed.jar')
 
-    doFirst{
+    doFirst {
         def command = ['d8', '--min-api', sdkAPI, '--output', dexJar, desktopJar]
         final File[] files =
                 configurations.compileClasspath.asList() +
                         configurations.runtimeClasspath.asList()
 
-        for(def file : files) command += ['--classpath', file.path]
+        for (def file : files) command += ['--classpath', file.path]
         command += ['--lib', file("$sdkRoot/platforms/android-$sdkVersion/android.jar")]
 
-        if(OS.isWindows) command = ['cmd', '/c'] + command
+        if (OS.isWindows) command = ['cmd', '/c'] + command
         command.execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
     }
 
@@ -81,25 +83,25 @@ task dex(type: Jar){
     from zipTree(dexJar)
 }
 
-class Fetcher{
+class Fetcher {
     UnsafeRunnable run
     int retries = 3
     long[] backoffMs = [2000L, 5000L, 15000L]
     private volatile Throwable error = null
 
     @SuppressWarnings('all')
-    void execute(){
+    void execute() {
         Throwable last = null
-        for(int attempt = 0; attempt <= retries; attempt++){
-            try{
+        for (int attempt = 0; attempt <= retries; attempt++) {
+            try {
                 run.run()
                 error = null
                 return
-            }catch(Throwable e){
+            } catch (Throwable e) {
                 last = e
                 Log.info("fetch attempt " + (attempt + 1) + "/" + (retries + 1) + " failed: " + e)
-                if(attempt < retries && backoffMs[attempt] > 0){
-                    try{ Thread.sleep(backoffMs[attempt]) }catch(InterruptedException ie){ Thread.currentThread().interrupt() }
+                if (attempt < retries && backoffMs[attempt] > 0) {
+                    try { Thread.sleep(backoffMs[attempt]) } catch (InterruptedException ie) { Thread.currentThread().interrupt() }
                 }
             }
         }
@@ -107,15 +109,15 @@ class Fetcher{
     }
 }
 
-task fetchComps{
+task fetchComps {
     inputs.property "mindustryVersion", mindustryFetchVersion
     inputs.property "fetchRevision", fetchRevision
     outputs.dir fetchDir
     outputs.file fetchTemp
-    outputs.cacheIf{ true }
+    outputs.cacheIf { true }
 
-    doLast{
-        delete{ delete fetchDir.parentFile.parentFile }
+    doLast {
+        delete { delete fetchDir.parentFile.parentFile }
         fetchDir.mkdirs()
 
         final CopyOnWriteArrayList<Fetcher> fetches = new CopyOnWriteArrayList<>()
@@ -127,7 +129,7 @@ task fetchComps{
                     .block({ final res ->
                         final def list = Jval.read(res.getResultAsString()).asArray()
 
-                        for(final Jval val : list){
+                        for (final Jval val : list) {
                             final def filename = val.get('name').asString()
                             final def fileurl = val.get('download_url').asString()
 
@@ -148,7 +150,7 @@ task fetchComps{
                                                     .replaceAll('@EntityDef\\(*.*\\)*\n*', '')
                                                     .replaceAll('@MethodPriority\\(([^)]+)f\\)', '@MethodPriority($1)')
 
-                                            if(content.isEmpty()) throw new IllegalStateException()
+                                            if (content.isEmpty()) throw new IllegalStateException()
 
                                             final def fi = Fi.get("$fetchDir/$filename")
                                             fi.writeString(content, false)
@@ -165,20 +167,20 @@ task fetchComps{
         Seq<Thread> threads = Seq.with(fetches).map({ final Fetcher fetch ->
             new Thread({
                 fetch.execute()
-                synchronized(fetches){
+                synchronized (fetches) {
                     fetches.remove(fetch)
                 }
             })
         })
 
         threads.each(Thread::start)
-        while(!fetches.isEmpty()) Thread.currentThread().yield()
+        while (!fetches.isEmpty()) Thread.currentThread().yield()
 
         def missing = []
-        for(String name : expectedFilenames){
-            if(!Fi.get("$fetchDir/$name").exists()) missing.add(name)
+        for (String name : expectedFilenames) {
+            if (!Fi.get("$fetchDir/$name").exists()) missing.add(name)
         }
-        if(!missing.isEmpty()){
+        if (!missing.isEmpty()) {
             throw new GradleException("fetchComps: " + missing.size() + "/" + expectedFilenames.size() + " comp files failed to download: " + missing)
         }
 
@@ -186,12 +188,13 @@ task fetchComps{
     }
 }
 
-tasks.withType(JavaCompile).configureEach{ task ->
+tasks.withType(JavaCompile).configureEach { task ->
     task.options.release = 17
     task.dependsOn 'fetchComps'
+    options.compilerArgs += ['-Xlint:-processing']
 }
 
-tasks.withType(Jar){
+tasks.withType(Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     exclude modName + '/fetched/**'

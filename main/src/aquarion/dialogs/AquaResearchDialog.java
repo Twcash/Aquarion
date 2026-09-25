@@ -815,9 +815,10 @@ public class AquaResearchDialog extends BaseDialog {
             boolean selectable = selectable(node);
 
             infoTable.table(b -> {
+                b.left();
                 b.margin(0).left().defaults().left();
                 if (selectable) {
-                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(50).left().top();
+                    b.button(Icon.info, Styles.nodei, () -> ui.content.show(node.content)).width(0).left().top();
                 }
                 b.add().grow();
                 b.table(desc -> {
@@ -916,7 +917,7 @@ public class AquaResearchDialog extends BaseDialog {
                     }
                     desc.row();
                     desc.add().padTop(5); //adjust this too for spacing between research req and the thingy above
-                    desc.row();
+                    desc.row().left();
 
                 }).pad(9);
 
@@ -934,7 +935,7 @@ public class AquaResearchDialog extends BaseDialog {
             });
             if (node.content.description != null && node.content.inlineDescription && selectable) {
                 infoTable.row();
-                infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).growX()).fillX();
+                infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).maxWidth(infoTable.getMinWidth())).left();
             }
 
             addChild(infoTable);

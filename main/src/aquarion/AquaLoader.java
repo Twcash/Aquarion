@@ -4,6 +4,8 @@ import arc.scene.style.TextureRegionDrawable;
 import aquarion.content.AquaCategories;
 import aquarion.content.AquaFactions;
 import aquarion.ui.AquaStyles;
+import aquarion.ui.IconLoader; // <--- Используем существующий IconLoader
+import aquarion.gen.*;
 import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
@@ -22,12 +24,14 @@ import mindustry.mod.*;
 import aquarion.annotations.Annotations.*;
 import aquarion.gen.*;
 import mindustry.world.Block;
+import aquarion.ui.AquaCampaignSelect; //aqua campaign select is kinda cooked rn
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import static arc.Core.app;
 import static mindustry.Vars.headless;
+
 
 @LoadRegs("error")
 @EnsureLoad
@@ -135,6 +139,8 @@ public class AquaLoader extends Mod {
             ModEventHandler.load();
             ModSettings.init();
             AquaFactions.init();
+            AquaCampaignSelect.init(); //its kinda cooked rn
+            Core.settings.put("campaignselect", true);
         }
     }
 
