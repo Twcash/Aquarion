@@ -9,6 +9,10 @@
   <a href="https://github.com/Twcash/Aquarion/releases/latest"><img src="https://img.shields.io/github/downloads/Twcash/Aquarion/total?colorA=46479e&colorB=b0b1f5&style=for-the-badge&logo=github&logoColor=cad3f5" alt="Downloads"></a>
 </p>
 
+<p align="center">
+  <a href="README.md"><img src="https://img.shields.io/badge/English-46479e?style=for-the-badge&logo=googletranslate&logoColor=white" alt="English"></a>
+  <a href="README_ru.md"><img src="https://img.shields.io/badge/Русский-b0b1f5?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Русский"></a>
+</p>
 ---
 
 This mod started as an ambitious attempt to recreate **Tantros** in Mindustry, it escalated to adding a new solar system and recreating Serpulo too. Erekir is planned to be integrated at a later point.
