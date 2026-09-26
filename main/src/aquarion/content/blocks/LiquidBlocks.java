@@ -40,8 +40,10 @@ public class LiquidBlocks {
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge") {{
             requirements(Category.liquid, with(polymer, 30, silicon, 30));
             willMelt = false;
+            liquidCapacity = 60;
             range = 6;
             hasPower = false;
+            health = 200;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             floating = true;
