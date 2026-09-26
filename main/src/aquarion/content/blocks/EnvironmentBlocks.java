@@ -339,15 +339,19 @@ public class EnvironmentBlocks {
         }};
 
 
-        gabbro = new Floor("gabbro", 3);
+        gabbro = new Floor("gabbro", 3){{
+            attributes.set(metamorphic, 0.5f);
+        }};
 
-        gabbro_extrusions = new Floor("gabbro-extrusions", 10);
-
+        gabbro_extrusions = new Floor("gabbro-extrusions", 10){{
+            attributes.set(metamorphic, 0.75f);
+        }};
         gabbro_vent = new SteamVent("gabbro-vent") {{
             attributes.set(Attribute.steam, 1f);
             parent = blendGroup = EnvironmentBlocks.gabbro_extrusions;
             effectSpacing = 15f;
             variants = 3;
+            attributes.set(metamorphic, 2f);
             effect = AquaFx.vent1;
         }};
         brimstoneFloor = new Floor("brimstone-floor", 3) {{
