@@ -8,6 +8,7 @@ import mindustry.content.Planets;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.type.Category;
 import mindustry.world.Block;
+import mindustry.world.blocks.liquid.LiquidJunction;
 import mindustry.world.blocks.production.Pump;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
@@ -40,8 +41,10 @@ public class LiquidBlocks {
         pulseSiphonBridge = new ModifiedLiquidBridge("pulse-siphon-bridge") {{
             requirements(Category.liquid, with(polymer, 30, silicon, 30));
             willMelt = false;
+            liquidCapacity = 120;
             range = 6;
             hasPower = false;
+            health = 200;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             floating = true;
@@ -69,8 +72,7 @@ public class LiquidBlocks {
             alwaysUnlocked = true;
         }};
         pulseSiphon = new ModifiedConduit("pulse-siphon") {{
-            //but what if siligone? SOLVEDDD!
-            requirements(Category.liquid, with(polymer, 2, silicon, 2));
+            requirements(Category.liquid, with(polymer, 1, ferricMatter, 1));
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 120;
@@ -89,13 +91,13 @@ public class LiquidBlocks {
             alwaysUnlocked = true;
             willMelt = true;
         }};
-        siphonJunction = new ModifiedLiquidJunction("siphon-junction") {{
+        siphonJunction = new LiquidJunction("siphon-junction") {{
             requirements(Category.liquid, with(silicon, 35));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
             health = 110;
-            sideLiquidCapacity = 80;
+            //sideLiquidCapacity = 80;
             ((ModifiedConduit) siphon).junctionReplacement = this;
             ((ModifiedConduit) pulseSiphon).junctionReplacement = this;
         }};
@@ -110,7 +112,7 @@ public class LiquidBlocks {
             liquidCapacity = 80;
         }};
         siphonVessel = new ModifiedLiquidRouter("siphon-vessel") {{
-            requirements(Category.liquid, with(silicon, 150, metaglass, 50));
+            requirements(Category.liquid, with(silicon, 150, metaglass, 2));
             liquidPadding = 2;
             squareSprite = false;
             liquidCapacity = 4000;
@@ -143,7 +145,7 @@ public class LiquidBlocks {
             envDisabled = Env.none;
         }};
         siphonReservoir = new ModifiedLiquidRouter("siphon-reservoir") {{
-            requirements(Category.liquid, with(silicon, 1000, polymer, 250));
+            requirements(Category.liquid, with(aluminum, 1000, polymer, 250));
             liquidPadding = 3;
             squareSprite = false;
             liquidCapacity = 32000;

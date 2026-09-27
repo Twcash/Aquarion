@@ -84,10 +84,11 @@ public class TurretBlocks {
             ammoUseEffect = Fx.casing1;
             ammoPerShot = 5;
             shootCone = 2;
+            maxAmmo = 30;
             shoot.shots = 5;
             inaccuracy = 10;
-            reload = 90;
-            range = 110;
+            reload = 120;
+            range = 80;
             ammo(silicon, AquaBullets.pointSilicon,
                     minium, AquaBullets.pointMinium,
                     graphite, AquaBullets.pointGraphite,

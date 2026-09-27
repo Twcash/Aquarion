@@ -734,6 +734,7 @@ public class CrafterBlocks {
             requirements(Category.production, with(graphite, 500, lead, 300, silicon, 900, copper, 250));
             size = 6;
             squareSprite = false;
+            processTime = 600;
             consumePower(12);
             itemCapacity = 250;
         }};
