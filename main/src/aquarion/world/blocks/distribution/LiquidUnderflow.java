@@ -18,6 +18,7 @@ import java.util.Set;
 
 public class LiquidUnderflow extends LiquidBlock {
     public boolean invert = false;
+    public boolean willMelt = false;
     public LiquidUnderflow(String name) {
         super(name);
         canOverdrive = false;
@@ -124,7 +125,7 @@ public class LiquidUnderflow extends LiquidBlock {
                     }
                 }
             }
-            if(liquid.temperature > 0.5f){
+            if(liquid.temperature > 0.5f && willMelt){
                 damageContinuous(liquid.temperature / 100f);
                 if(Mathf.chanceDelta(0.01f)){
                     Fx.steam.at(x, y);
