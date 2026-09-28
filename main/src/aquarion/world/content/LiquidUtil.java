@@ -1,12 +1,7 @@
 package aquarion.world.content;
 
 import aquarion.world.MultiBlockLib.LinkBlock;
-import aquarion.world.blocks.distribution.LiquidUnderflow;
-import aquarion.world.blocks.distribution.ModifiedConduit;
-import aquarion.world.blocks.distribution.ModifiedLiquidJunction;
-import aquarion.world.blocks.distribution.ModifiedLiquidRouter;
-import aquarion.world.blocks.distribution.Pipe;
-import aquarion.world.blocks.distribution.SiphonSorter;
+import aquarion.world.blocks.distribution.*;
 import arc.graphics.Color;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
@@ -27,8 +22,8 @@ public class LiquidUtil {
         return build instanceof ModifiedConduit.ModifiedConduitBuild
             || build instanceof Pipe.PipeBuild
             || build instanceof ModifiedLiquidRouter.ughBuild
-            || build instanceof ModifiedLiquidJunction.wtfBuild
-            || build instanceof LiquidUnderflow.liqUnderBuild
+            || build instanceof ModifiedLiquidJunction.ModLiquidJunctionBuild
+            || build instanceof UnderflowValve.UnderflowValveBuild
             || build instanceof SiphonSorter.SiphonSorterBuild;
     }
 
@@ -38,7 +33,7 @@ public class LiquidUtil {
      * since their main module says nothing about how much they can actually accept.
      */
     public static boolean isSideBuffered(Building build){
-        return build instanceof ModifiedLiquidJunction.wtfBuild
+        return build instanceof ModifiedLiquidJunction.ModLiquidJunctionBuild
             || build instanceof SiphonSorter.SiphonSorterBuild;
     }
 
@@ -123,15 +118,11 @@ public class LiquidUtil {
      */
     public static float freeSpaceFor(Building to, Building from, Liquid liquid){
         if(to == null) return 0f;
-        if(to instanceof ModifiedLiquidJunction.wtfBuild j){
+        if(to instanceof ModifiedLiquidJunction.ModLiquidJunctionBuild j){
             return j.freeSpaceFor(from);
         }
         if(to instanceof SiphonSorter.SiphonSorterBuild s){
             return s.freeSpaceFor(from);
-        }
-        if(to instanceof LiquidUnderflow.liqUnderBuild u){
-            //gates store nothing themselves; without a liquid the chain can't be resolved, so report no space
-            return liquid == null ? 0f : u.freeSpaceFor(from, liquid);
         }
         if(to instanceof LinkBlock.LinkBuild lb){
             //link tiles share the main multi-block's storage and declare no capacity of their own

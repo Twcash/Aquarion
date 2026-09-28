@@ -10,7 +10,6 @@ import mindustry.type.Category;
 import mindustry.world.Block;
 import mindustry.world.blocks.liquid.LiquidJunction;
 import mindustry.world.blocks.production.Pump;
-import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
@@ -49,7 +48,7 @@ public class LiquidBlocks {
             envDisabled = Env.none;
             floating = true;
         }};
-        siphonUnderflow = new LiquidUnderflow("siphon-underflow") {{
+        siphonUnderflow = new UnderflowValve("siphon-underflow") {{
             requirements(Category.liquid, with(silicon, 35));
             invert = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
