@@ -23,7 +23,7 @@ public class LiquidUtil {
             || build instanceof Pipe.PipeBuild
             || build instanceof ModifiedLiquidRouter.ughBuild
             || build instanceof ModifiedLiquidJunction.ModLiquidJunctionBuild
-            || build instanceof UnderflowValve.UnderflowValveBuild
+            || build instanceof OverflowValve.OverflowValveBuild
             || build instanceof SiphonSorter.SiphonSorterBuild;
     }
 

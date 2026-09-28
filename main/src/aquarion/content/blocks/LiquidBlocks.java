@@ -48,7 +48,7 @@ public class LiquidBlocks {
             envDisabled = Env.none;
             floating = true;
         }};
-        siphonUnderflow = new UnderflowValve("siphon-underflow") {{
+        siphonUnderflow = new OverflowValve("siphon-underflow") {{
             requirements(Category.liquid, with(silicon, 35));
             invert = true;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.siphonDestroy);
