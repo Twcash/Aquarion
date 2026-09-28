@@ -20,6 +20,7 @@ import java.util.Set;
 public class LiquidValve extends LiquidJunction {
     public boolean invert = false;
     public boolean willMelt = false;
+
     public LiquidValve(String name){
         super(name);
         floating = true;
@@ -33,7 +34,7 @@ public class LiquidValve extends LiquidJunction {
         instantTransfer = true;
     }
 
-    public class LiquidValveBuild extends Building{
+    public class LiquidValveBuild extends Building {
         @Override
         public void draw(){
             Draw.rect(region, x, y);
@@ -45,13 +46,13 @@ public class LiquidValve extends LiquidJunction {
 
             int dir = (source.relativeTo(tile.x, tile.y) + 1) % 4;
             Building next = nearby(dir);
-            if(next == null || (!next.acceptLiquid(this, liquid) && !(next.block instanceof LiquidJunction) && !(next.block instanceof LiquidUnderflow))){
+            if(next == null || (!next.acceptLiquid(this, liquid) && !(next.block instanceof LiquidJunction))){
                 dir = (source.relativeTo(tile.x, tile.y) + 3) % 4;
                 next = nearby(dir);
-                if(next == null || (!next.acceptLiquid(this, liquid) && !(next.block instanceof LiquidJunction) && !(next.block instanceof LiquidUnderflow))){
+                if(next == null || (!next.acceptLiquid(this, liquid) && !(next.block instanceof LiquidJunction))){
                     dir = (source.relativeTo(tile.x, tile.y) + 4) % 4;
                     next = nearby(dir);
-                    if(next == null || (!next.acceptLiquid(this, liquid) && !(next.block instanceof LiquidJunction) && !(next.block instanceof LiquidUnderflow))){
+                    if(next == null || (!next.acceptLiquid(this, liquid) && !(next.block instanceof LiquidJunction))){
                         return this;
                     }
                 }
