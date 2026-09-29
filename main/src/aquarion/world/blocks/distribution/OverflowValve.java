@@ -72,14 +72,14 @@ public class OverflowValve extends LiquidJunction {
         }
 
         /** Checks if a getLiquidDestination pathfind failed; because all junctions return themselves if they fail*/
-        public boolean failedDestination(Building build){
-            return build instanceof LiquidJunctionBuild || build == null;
+        public boolean failedDestination(Building build, Liquid liquid){
+            return build instanceof LiquidJunctionBuild || build == null || (build.block.hasLiquids && (build.liquids.get(liquid) / build.block.liquidCapacity) > 0.99f );
         }
 
         public Building attemptDestination(Building a, Liquid liquid){
             if(!invalidTarget(a, liquid)){
                 Building other = a.getLiquidDestination(this, liquid);
-                if(!failedDestination(other)){
+                if(!failedDestination(other, liquid)){
                     return other;
                 }
             }
