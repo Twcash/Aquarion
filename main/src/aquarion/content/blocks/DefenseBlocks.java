@@ -47,7 +47,7 @@ import static mindustry.type.ItemStack.with;
 
 public class DefenseBlocks {
     public static Block forceGenerator, meteor, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
-            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade
+            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade, defunctForceSynthesizer
     //I have no clue where to put these so I'll put them here
     ,dolomiteReagentMix, sandClump;
 
@@ -449,6 +449,29 @@ public class DefenseBlocks {
                             stroke(3f * e.fout());
                             Lines.poly(e.x, e.y, 4, 150-3*e.time, 0);
                         });
+        }};
+        defunctForceSynthesizer = new ForceProjector("defunct-force-synthesizer"){{
+            requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
+            size = 3;
+            squareSprite = false;
+            consumePower(12);
+            shieldHealth = 3000;
+            cooldownBrokenBase = 3f;
+            cooldownNormal = 0.5f;
+            radius = 200;
+            sides = 4;
+            shieldRotation = 45f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            shieldBreakEffect = new Effect(80, e -> {
+                color(e.color);
+                stroke(3f * e.fout());
+                Lines.poly(e.x, e.y, 4, 200-200*(e.time/e.lifetime), 45);
+            });
+            forceShrinkEffect = new Effect(10, e -> {
+                color(e.color);
+                stroke(3f * e.fout());
+                Lines.poly(e.x, e.y, 4, 150-3*e.time, 45);
+            });
         }};
 
     }
