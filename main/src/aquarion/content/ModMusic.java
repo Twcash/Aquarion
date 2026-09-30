@@ -21,8 +21,8 @@ public class ModMusic {
     public static Seq<Music> aquaDarkMusic = new Seq<>();
     public static Seq<Music> aquaBossMusic = new Seq<>();
 
-    public static String[] aquaAmbientList = {"quiet-processing", "underwaves", "che-go-boom", "fih", "expansion","decaying-giants", "scarred-skies", "during-creation", "flying-fire"};
-    public static String[] aquaDarkList = {"sinking", "bubblerine", "exhasperation", "mold"};
+    public static String[] aquaAmbientList = {"quiet-processing", "underwaves", "che-go-boom", "fih", "expansion","decaying-giants", "scarred-skies", "during-creation", "flying-fire", "stargazing"};
+    public static String[] aquaDarkList = {"sinking", "bubblerine", "exhasperation", "mold", "tripwire"};
     public static String[] aquaBossList = {"acceptance","oh-the-horror", "hero-brine", "not-so-distant-now", "concussive"};
 
     public static Seq<Music> origAmbientMusic;
@@ -97,6 +97,7 @@ public class ModMusic {
         musics.put("during-creation", new MusicInfo(none, "During Creation", nik));
         musics.put("flying-fire", new MusicInfo(none, "Flying Fire", myt));
         musics.put("stargazing", new MusicInfo(none, "Stargazing (Mindustry Version)", myt));
+        musics.put("tripwire," new MusicInfo(none, "Tripwire", myt));
         //###########################################################################
         //######################## !!!HOW ADD MUSIC!!! ##############################
         //musics.put("filename", new MusicInfo("aquarion-iconname", "You Music Name", "Author"));
