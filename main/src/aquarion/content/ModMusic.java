@@ -97,7 +97,7 @@ public class ModMusic {
         musics.put("during-creation", new MusicInfo(none, "During Creation", nik));
         musics.put("flying-fire", new MusicInfo(none, "Flying Fire", myt));
         musics.put("stargazing", new MusicInfo(none, "Stargazing (Mindustry Version)", myt));
-        musics.put("tripwire," new MusicInfo(none, "Tripwire", myt));
+        musics.put("tripwire", new MusicInfo(none, "Tripwire", myt));
         //###########################################################################
         //######################## !!!HOW ADD MUSIC!!! ##############################
         //musics.put("filename", new MusicInfo("aquarion-iconname", "You Music Name", "Author"));
