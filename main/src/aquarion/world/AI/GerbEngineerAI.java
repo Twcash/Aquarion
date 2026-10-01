@@ -8,9 +8,7 @@ import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.Vars;
 import mindustry.content.Blocks;
-import mindustry.ai.types.GroundAI;
 import mindustry.ctype.ContentType;
-import mindustry.entities.units.AIController;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
@@ -32,7 +30,7 @@ import static mindustry.Vars.world;
  * Gerb worker AI. Engineers group up in a crew and march far away from the player's
  * core, then lay down the outpost blueprint for the current sector difficulty.
  */
-public class GerbEngineerAI extends GroundAI {
+public class GerbEngineerAI extends AquaAI {
     public static final float minOutpostDist = 60f;
     public static final float maxOutpostDist = 160f;
     public static final int crewSize = 6;
@@ -42,15 +40,6 @@ public class GerbEngineerAI extends GroundAI {
     public static final float planTimeout = 10 * 60;
 
     private final Seq<Unit> crew = new Seq<>();
-    private static final boolean[] pathNotFound = {false};
-    /** Last tile the pathfinder handed us, so we keep moving if the path is mid-computation. */
-    final Vec2 lastPathDest = new Vec2();
-    /** Clamped request point (never path halfway across the map). */
-    final Vec2 pathReq = new Vec2();
-    float pathTimer = Mathf.random(10f);
-    static final float pathInterval = 10f;
-    boolean pathPending = false;
-    boolean pathSide = false;
     private final Vec2 site = new Vec2();
     private final Vec2 plot = new Vec2();
     private float gatherTimer = 0f;
@@ -335,7 +324,7 @@ public class GerbEngineerAI extends GroundAI {
     }
 
     /** Whether a ground unit can stand on this tile. */
-    boolean walkable(Tile t){
+    public boolean walkable(Tile t){
         return t != null && !t.solid() && !t.floor().isLiquid && !t.floor().isDeep();
     }
 
@@ -380,62 +369,5 @@ public class GerbEngineerAI extends GroundAI {
             if(u.id() < unit.id) n++;
         }
         return n % Math.max(blueprint(currentDifficulty()).size, 1);
-    }
-
-    /** Pathfinds to a destination instead of beelining, and faces the direction of travel. */
-    void pathMoveTo(Vec2 target, float arriveDist){
-        if(target == null || unit == null || !unit.isValid()) return;
-        if(unit.isFlying()) return;
-
-        if(unit.within(target, arriveDist)) return;
-
-        //clamp the request so units never path the whole map in one go, and pace it out
-        clampPathTarget(target, pathReq);
-        pathTimer += Time.delta;
-
-        if(pathTimer >= pathInterval || lastPathDest.isZero() || unit.within(lastPathDest, tilesize * 1.5f)){
-            pathTimer = 0f;
-            pathPending = false;
-            var result = Vars.controlPath.getPathPosition(unit, pathReq);
-            if(result.move && result.dest != null){
-                lastPathDest.set(result.dest);
-            }else if(result.unreachable){
-                lastPathDest.setZero();
-            }else{
-                //path still computing - don't wait on a reached step; back off before re-asking
-                lastPathDest.setZero();
-                pathPending = true;
-                pathTimer = -30f;
-            }
-        }
-
-        if(!lastPathDest.isZero() && !pathPending){
-            moveTo(lastPathDest, 0f);
-        }else{
-            //no step yet: drift diagonally toward the goal instead of freezing
-            drift();
-        }
-
-        if(unit.vel().len() > 0.5f){
-            unit.lookAt(unit.vel().angle());
-        }
-    }
-
-    /** Copies a path target that is at most {@code maxPathDist} away, dropping far endpoints to a nearer waypoint. */
-    void clampPathTarget(Vec2 target, Vec2 out){
-        float maxD = tilesize * 90f;
-        if(unit.within(target, maxD)){
-            out.set(target);
-        }else{
-            out.trns(unit.angleTo(target), maxD).add(unit);
-        }
-    }
-
-    /** Keeps the unit pushing forward-toward its goal while the pathfinder catches up. */
-    void drift(){
-        pathSide = !pathSide;
-        float ang = unit.angleTo(pathReq.x, pathReq.y);
-        Tmp.v1.trns(ang + 20f * (pathSide ? 1 : -1), unit.type.speed * 2f).add(unit);
-        moveTo(Tmp.v1, 0f);
     }
 }
