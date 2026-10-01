@@ -439,11 +439,22 @@ public class DefenseBlocks {
             radius = 200;
             sides = 4;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            shieldBreakEffect = new Effect(40, e -> {
-                color(e.color);
-                stroke(3f * e.fout());
-                    Lines.poly(e.x, e.y, 4, 200, 0);
-            });
+            shieldBreakEffect = new MultiEffect(
+                    new Effect(45, e -> {
+                        color(e.color);
+                        stroke(3f * e.fout());
+                        Lines.poly(e.x, e.y, 4, 180-4*e.time, 0);
+                    }),
+                    new Effect(40, e -> {
+                        color(e.color);
+                        stroke(3f * e.fout());
+                        Lines.poly(e.x, e.y, 4, 160-4*e.time, 0);
+                    }),
+                    new Effect(35, e -> {
+                        color(e.color);
+                        stroke(3f * e.fout());
+                        Lines.poly(e.x, e.y, 4, 140-4*e.time, 0);
+                    }));
             forceShrinkEffect = new Effect(50, e -> {
                             color(e.color);
                             stroke(3f * e.fout());
@@ -452,7 +463,7 @@ public class DefenseBlocks {
         }};
         defunctForceSynthesizer = new ForceProjector("defunct-force-synthesizer"){{
             requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
-            size = 3;
+            size = 4;
             squareSprite = false;
             consumePower(12);
             shieldHealth = 3000;
