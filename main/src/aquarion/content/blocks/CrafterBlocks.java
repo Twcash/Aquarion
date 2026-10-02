@@ -1979,10 +1979,9 @@ public class CrafterBlocks {
             outputLiquidAmount = 255f;
 
             results = new ItemStack[]{
-                    new ItemStack(Items.sand, 13),
+                    new ItemStack(Items.sand, 25),
                     new ItemStack(Items.copper, 12),
                     new ItemStack(Items.lead, 12),
-                    new ItemStack(Items.sand, 25),
                     new ItemStack(calcium, 15)
             };
             drawer = new DrawMulti(
