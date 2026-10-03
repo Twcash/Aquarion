@@ -44,7 +44,7 @@ public class EnvironmentBlocks {
     }
     //metal floors
     public static Block metalFloor1, metalFloor2, blueMetalFloor1, metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12, metal13, metal14, metal15, metal16, floorLight, brokenFloorLight, metalPlates1,
-            glassFloor, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating;
+            glassFloor, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating,crux1,crux2,crux3,crux4,crux5,crux6,crux7,cruxVent, cruxLight;
     //metal walls
     public static Block metalWall3, metalWall4, metalWall5, metalWall6, metalWall7, metalWall1, metalWalltwo;
     //defunct stuff
@@ -71,7 +71,7 @@ public class EnvironmentBlocks {
     // ores
     public static Block oreNickelWall, oreCalcite, oreRadium, oreUranium, orePitchblende, oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre, miniumOre, pentlanditeOre, fluoriteOre;
     //walls
-    public static Block blueSandWall,calciteWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,crasindWall, fluoriteWall, fluoriteChunk, cupriteWall, pinkSaltWall, boricWall, arsenideWall, chertWall, chertOutcrop, feldsparOutcrop, algalBloom, algalWall, bloom,
+    public static Block blueSandWall,brimstoneWall,calciteWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,crasindWall, fluoriteWall, fluoriteChunk, cupriteWall, pinkSaltWall, boricWall, arsenideWall, chertWall, chertOutcrop, feldsparOutcrop, algalBloom, algalWall, bloom,
             blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, tranticaOvergrownWall, basaltOutcrop;
     //vents and such
     public static Block brimstoneVent, geothermal_vent, feldspar_vent, shaleVent, gabbro_vent, andesiteVent, metalVent;
@@ -568,6 +568,30 @@ public class EnvironmentBlocks {
 //            effect = AquaFx.heatEngineGenerate;
 //            effectSpacing = 120;
         }};
+        crux1 = new Floor("crux-floor1", 0);
+        crux2 = new Floor("crux-floor2", 0);
+        crux3 = new Floor("crux-floor3", 0){{
+            drawEdgeOut = false;
+        }};
+        crux4 = new Floor("crux-floor4", 0);
+        crux5 = new Floor("crux-floor5", 0);
+        crux6 = new Floor("crux-floor6", 0);
+        crux7 = new Floor("crux-floor7", 0){{
+            drawEdgeOut = false;
+        }};
+        cruxLight = new Floor("crux-light", 0){{
+            lightRadius = 70;
+            emitLight = true;
+            drawEdgeIn = drawEdgeOut = false;
+            lightColor = Pal.techBlue.cpy().a(0.7f);
+        }};
+        cruxVent = new SteamVent("crux-vent"){{
+            attributes.set(Attribute.steam, 1f);
+            variants = 0;
+            parent = blendGroup = metalFloor;
+            effectSpacing = 15f;
+            effect = AquaFx.vent1;
+        }};
         metal3 = new TiledFloor("metal-heat-sink-off", 1, 2){{
             drawEdgeOut = false;
             drawEdgeIn = false;
@@ -663,6 +687,10 @@ public class EnvironmentBlocks {
         }};
         glassFloor = new Floor("glass-floor", 3) {{
             itemDrop = Items.metaglass;
+        }};
+        brimstoneWall = new StaticWall("brimstone-wall"){{
+            variants = 10;
+            itemDrop = brimstone;
         }};
         metalWall1 = new StaticWall("metal-wall"){{
             variants = 6;

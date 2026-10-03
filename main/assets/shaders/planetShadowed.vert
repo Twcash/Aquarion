@@ -15,6 +15,7 @@ uniform mat4 u_lightSpaceMatrix;
 varying vec4 v_col;
 varying vec4 v_lightSpacePos;
 varying vec3 v_worldPos;
+varying float v_emissive;
 
 const vec3 diffuse = vec3(0.01);
 
@@ -35,9 +36,10 @@ void main(){
 
     vec3 norc = (u_ambientColor + specular) * (diffuse + vec3(clamp((dot(worldNormal, u_lightdir) + 1.0) / 2.0, 0.0, 1.0)));
 
-    float emissive = a_emissive.a * u_emissive * min(pow(max(0.0, (1.0 - norc.r) * 1.2), 3.0), 1.1);
+    float emissive = a_emissive.a * u_emissive * (0.8 + 0.2 * min(pow(max(0.0, (1.0 - norc.r) * 1.2), 3.0), 1.0));
 
     v_col = vec4(mix(a_color.rgb, a_emissive.rgb, emissive), 1.0) * vec4(mix(norc, vec3(1.0), emissive), 1.0);
+    v_emissive = clamp(emissive, 0.0, 1.0);
     v_lightSpacePos = u_lightSpaceMatrix * vec4(worldPos, 1.0);
     v_worldPos = worldPos;
     gl_Position = u_proj * u_trans * a_position;

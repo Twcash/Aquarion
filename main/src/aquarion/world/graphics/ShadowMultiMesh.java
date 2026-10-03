@@ -15,7 +15,7 @@ import java.lang.reflect.Field;
 
 public class ShadowMultiMesh implements GenericMesh {
     private final Planet planet;
-    private final ObjMesh ring;
+    private final PlanetMesh ring;
     private final PlanetMesh hexMesh;
     private final GenericMesh[] allMeshes;
 
@@ -31,7 +31,7 @@ public class ShadowMultiMesh implements GenericMesh {
         shaderField = f;
     }
 
-    public ShadowMultiMesh(Planet planet, ObjMesh ring, GenericMesh... others) {
+    public ShadowMultiMesh(Planet planet, PlanetMesh ring, GenericMesh... others) {
         this.planet = planet;
         this.ring = ring;
         this.hexMesh = (others.length > 0 && others[0] instanceof PlanetMesh) ? (PlanetMesh) others[0] : null;
@@ -73,7 +73,7 @@ public class ShadowMultiMesh implements GenericMesh {
         PlanetShadowMap.bindShadowMap(1);
         PlanetShadowMap.ShadowedPlanetShader ss = PlanetShadowMap.shadowedShader;
         ss.planet = planet;
-        ss.emissive = false;
+        ss.emissive = ringEmissive();
         ss.lightDir.set(planet.solarSystem.position).sub(planet.position).nor();
         ss.ambientColor.set(planet.solarSystem.lightColor);
 
@@ -85,6 +85,12 @@ public class ShadowMultiMesh implements GenericMesh {
         setShader(ring, ss);
         ring.render(params, projection, transform);
         setShader(ring, ringFinal);
+    }
+
+    private boolean ringEmissive() {
+        if (ring instanceof GlTFMesh) return ((GlTFMesh) ring).emissive;
+        if (ring instanceof ObjMesh) return ((ObjMesh) ring).emissive;
+        return false;
     }
 
     private static Shader getShader(PlanetMesh mesh) {
