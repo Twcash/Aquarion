@@ -90,7 +90,7 @@ public class LiquidBlocks {
             alwaysUnlocked = true;
             willMelt = true;
         }};
-        siphonJunction = new LiquidJunction("siphon-junction") {{
+        siphonJunction = new ModifiedLiquidJunction("siphon-junction") {{
             requirements(Category.liquid, with(silicon, 35));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;

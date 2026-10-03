@@ -362,14 +362,16 @@ public class TantrosTechTree {
                                                 new Objectives.Research(thermalCrackingUnit),
                                                 new Objectives.Research(combustionHeater)
                                         ), () -> {
-
                                             node(searedWastes, Seq.with(
                                                     new Objectives.SectorComplete(erodedCanyon),
                                                     new Objectives.Research(thrash)), () -> {
                                                 node(dryRiver, Seq.with(new Objectives.SectorComplete(searedWastes)), () -> {
                                                 });
-
                                             });
+                                            node(pipeyard, Seq.with(
+                                                    new Objectives.Research(fumeMixer),
+                                                    new Objectives.Research(aluminum)
+                                            ), () -> {});
                                         });
                                         node(diseasedCleft, Seq.with(new Objectives.SectorComplete(bay)), () -> {
                                             node(fungalTropics, Seq.with(new Objectives.SectorComplete(diseasedCleft)), () -> {
