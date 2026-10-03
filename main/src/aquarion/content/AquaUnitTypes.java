@@ -77,8 +77,9 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
     public static @Annotations.EntityDef(value ={Unitc.class,  AquaLegsc.class}, serialize = false) AquaLegUnitType regality, rally, timmy;
     public static MultiLegSegmentUnit mite;
-    public static UnitType visitor, mediumTruck, infantry, concussor, breaker, suppressor, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
-    public static UnitType engineer;
+    public static UnitType visitor, mediumTruck, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
+    public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType infantry, concussor, breaker, suppressor;
+    public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType engineer;
     public static @Annotations.EntityDef(value = {Unitc.class, AquaMechc.class}) UnitType knight;
     //core units and transport
 
@@ -2761,7 +2762,6 @@ public class AquaUnitTypes {
             }});
         }};
         infantry = new UnitType("gerb-infantry") {{
-            constructor = LegsUnit::create;
             legCount = 4;
             legLength = 9;
             speed = 1.1f;
@@ -2777,7 +2777,7 @@ public class AquaUnitTypes {
             legMoveSpace = 1.1f;
             drawCell = false;
             abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.infantryDeath, AquaFx.bloodPool)));
-            aiController = GerbInfantryAI::new;
+            aiController = GerbBrainAI::new;
             weapons.add(new Weapon("aquarion-gerb-autogun") {{
                 rotate = false;
                 x = 4;
@@ -2795,7 +2795,6 @@ public class AquaUnitTypes {
         }};
         engineer = new UnitType("engineer") {
             {
-                constructor = LegsUnit::create;
                 legCount = 4;
                 legLength = 9;
                 legMinLength = 0.9f;
@@ -2818,7 +2817,6 @@ public class AquaUnitTypes {
             }
         };
         concussor = new UnitType("gerb-concussor") {{
-            constructor = LegsUnit::create;
             legCount = 6;
             legLength = 11;
             speed = 0.85f;
@@ -2834,7 +2832,7 @@ public class AquaUnitTypes {
             baseLegStraightness = 0.1f;
             legMoveSpace = 1.25f;
             drawCell = false;
-            aiController = GerbInfantryAI::new;
+            aiController = GerbBrainAI::new;
             abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.concDeath, AquaFx.bloodPool)));
             weapons.add(new Weapon("aquarion-gerb-concussion-rifle") {{
                 rotate = true;
@@ -2864,7 +2862,6 @@ public class AquaUnitTypes {
             }});
         }};
         breaker = new UnitType("gerb-breaker") {{
-            constructor = LegsUnit::create;
             legCount = 6;
             legLength = 12;
             speed = 0.75f;
@@ -2880,7 +2877,7 @@ public class AquaUnitTypes {
             baseLegStraightness = 0.1f;
             legMoveSpace = 1.25f;
             drawCell = false;
-            aiController = GerbInfantryAI::new;
+            aiController = GerbBrainAI::new;
             abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.breakDeath, AquaFx.bloodPool)));
             weapons.add(new Weapon("aquarion-gerb-medium-autogun") {{
                 rotate = true;
@@ -2907,7 +2904,6 @@ public class AquaUnitTypes {
             }});
         }};
         suppressor = new UnitType("suppressor") {{
-            constructor = LegsUnit::create;
             legCount = 6;
             legLength = 16;
             speed = 0.75f;
@@ -2924,7 +2920,7 @@ public class AquaUnitTypes {
             baseLegStraightness = 0.1f;
             legMoveSpace = 1.25f;
             drawCell = false;
-            aiController = GerbInfantryAI::new;
+            aiController = GerbBrainAI::new;
             abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.breakDeath, AquaFx.bloodPool)));
             weapons.add(new Weapon("aquarion-gerb-large-autogun") {{
                             rotate = true;

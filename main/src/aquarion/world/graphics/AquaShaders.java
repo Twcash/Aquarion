@@ -11,7 +11,7 @@ import arc.graphics.gl.Shader;
 import arc.math.geom.Vec3;
 import arc.scene.ui.layout.Scl;
 import arc.util.Nullable;
-import arc.util.Reflect;
+
 import arc.util.Time;
 import mindustry.Vars;
 import mindustry.content.Liquids;
@@ -33,7 +33,6 @@ public class AquaShaders {
     public static @Nullable MonsoonShader monsoon;
     public static @Nullable deflectorShader deflectorShield;
     public static @Nullable DissolveShader dissolveShader;
-    public static WaterReflectShader waterReflect;
     public static CacheLayer.ShaderLayer lavalLayer, slavaLayer, petroleumLayer, sslagLayer, brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer, sslagLayer2,
             wetUnderLayer;
     public static Fi file(String name){
@@ -53,8 +52,6 @@ public static void init() {
     petroleum = new SurfaceShader("petroleum");
     neoplasiaBaseShader = new SurfaceShader("neoplasiaBase");
 
-    waterReflect = new WaterReflectShader();
-    ((CacheLayer.ShaderLayer)CacheLayer.water).shader = waterReflect;
 
     shadow = new SurfaceShader("shadow");
     heat = new SurfaceShader("heat");
@@ -67,7 +64,7 @@ public static void init() {
     brineLayer = new CacheLayer.ShaderLayer(brine);
     sslagLayer = new CacheLayer.ShaderLayer(shallowSlag);
     sslagLayer2 = new LiquidUnderFloorLayer(Shaders.slag, Color.valueOf("ff8142"), "molten-slag");
-    wetUnderLayer = new LiquidUnderFloorLayer(waterReflect, Color.valueOf("596ab8"), "deep-water");
+    wetUnderLayer = new LiquidUnderFloorLayer(Shaders.water, Color.valueOf("596ab8"), "deep-water");
     slavaLayer = new CacheLayer.ShaderLayer(shallowLava);
     lavalLayer = new CacheLayer.ShaderLayer(lava);
     heatLayer = new CacheLayer.ShaderLayer(heat);
@@ -94,9 +91,7 @@ public static void init() {
             petroleum.dispose();
             shallowLava.dispose();
             shallowSlag.dispose();
-            waterReflect.dispose();
             neoplasiaBaseShader.dispose();
-            //neoplasiaPodShader.dispose();
             knight1.dispose();
             PlanetShadowMap.dispose();
         }
@@ -272,22 +267,6 @@ public static void init() {
             setUniformf("u_camdir", camDir);
             setUniformf("u_campos", renderer.planets.cam.position);
             setUniformf("u_emissive", emissive ? 1f : 0f);
-        }
-    }
-    public static class WaterReflectShader extends SurfaceShader {
-        public WaterReflectShader() {
-            super("water");
-        }
-        //see https://en.wikipedia.org/wiki/Reflection_(mathematics) if you don't know how the hell reflections works
-        @Override
-        public void apply() {
-            super.apply();
-            if (WaterReflections.buffer != null) {
-                WaterReflections.buffer.getTexture().bind(1);
-                setUniformi("u_reflection", 1);
-                setUniformf("u_refTint", WaterReflections.refTint.r, WaterReflections.refTint.g, WaterReflections.refTint.b, WaterReflections.refTintAmount);
-                setUniformf("u_refOpacity", WaterReflections.refOpacity);
-            }
         }
     }
     public static class MonsoonShader extends SurfaceShader {

@@ -926,13 +926,13 @@ public class TurretBlocks {
             );
         }};
         Foment = new AquaTemplates.AquaItemTurretTemplate("foment") {{
-            health = 925;
+            health = 425;
             ammo(
                     lead, AquaBullets.fomentLead,
                     AquaItems.ferricMatter, AquaBullets.fomentFerric,
                     ferrosilicon, AquaBullets.fomentFerrosilicon,
                     brass, AquaBullets.fomentBrass);
-            requirements(Category.turret, with(lead, 90, AquaItems.zinc, 60f, silicon, 90));
+            requirements(Category.turret, with(lead, 150, AquaItems.zinc, 200f, silicon, 150));
             size = 3;
             range = 170;
             limitRange(1.1f);
@@ -966,7 +966,7 @@ public class TurretBlocks {
             }};
         }};
         grace = new AquaTemplates.AquaItemTurretTemplate("grace") {{
-            requirements(Category.turret, with(cupronickel, 150, metaglass, 100, lead, 260, graphite, 200f));
+            requirements(Category.turret, with(cupronickel, 150, metaglass, 300, lead, 260, graphite, 150f));
             size = 3;
             shootSound = AquaSounds.shootGrace;
             consumeLiquid(water, 12);
@@ -984,7 +984,8 @@ public class TurretBlocks {
             ammo(
                     silicon, graceSilicon,
                     magnesiumPowder, graceMagnesium,
-                    copper, graceCopper
+                    copper, graceCopper,
+                    potassium, gracePotassium
             );
             limitRange(1.1f);
         }};

@@ -36,7 +36,7 @@ public class AquaItems {
     public static Item potassium;
     public static Item compositeSteel;
     public static Item libraryCard;
-
+    public static Item fluorite;
     public static void load() {
         Items.lead.alwaysUnlocked = true;
         Items.silicon.alwaysUnlocked = true;
@@ -190,5 +190,6 @@ public class AquaItems {
         concrete = new Item("concrete", Color.valueOf("5c6a7a")){{
             cost = 1.2f;
         }};
+        fluorite = new AquaItem("fluorite", Color.valueOf("9de0ba"));
     }
 }

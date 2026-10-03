@@ -1966,11 +1966,11 @@ public class CrafterBlocks {
         });
 
         filter = new Filter("filter") {{
-            requirements(Category.crafting, with(copper, 350, silicon, 100, metaglass, 100, nickel, 150));
+            requirements(Category.crafting, with(copper, 500, ferricMatter, 250, silicon, 600, aluminum, 250));
 
             buildTime = 2200f;
             health = 200;
-            craftTime = 100f;
+            craftTime = 600;
             size = 7;
             itemCapacity = 20;
             liquidCapacity = 300f;
@@ -1979,12 +1979,11 @@ public class CrafterBlocks {
             outputLiquidAmount = 255f;
 
             results = new ItemStack[]{
-                    new ItemStack(Items.sand, 13),
+                    new ItemStack(Items.sand, 25),
                     new ItemStack(Items.copper, 12),
                     new ItemStack(Items.lead, 12),
-                    new ItemStack(Items.silicon, 12),
-                    new ItemStack(AquaItems.nickel, 12)
-            }; // items production
+                    new ItemStack(calcium, 15)
+            };
             drawer = new DrawMulti(
                     new DrawRegion("-bottom"),
 
