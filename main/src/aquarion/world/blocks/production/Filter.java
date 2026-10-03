@@ -18,8 +18,8 @@ public class Filter extends AquaGenericCrafter {
     public int seed;
     public ItemStack[] results;
 
-    private final int[] itemChances = {29, 17, 17, 17, 17}; //chance items
-    private final Item[] itemPool = {Items.sand, Items.copper, Items.lead, Items.silicon, AquaItems.nickel}; //items
+    private final int[] itemChances = {25, 25, 25, 25}; //chance items
+    private final Item[] itemPool = {Items.sand, Items.copper, Items.lead, AquaItems.calcium}; //items
 
     public Filter(String name) {
         super(name);
@@ -30,11 +30,10 @@ public class Filter extends AquaGenericCrafter {
         outputsLiquid = true;
 
         results = new ItemStack[]{
-                new ItemStack(Items.sand, 13),
+                new ItemStack(Items.sand, 12),
                 new ItemStack(Items.copper, 12),
                 new ItemStack(Items.lead, 12),
-                new ItemStack(Items.silicon, 12),
-                new ItemStack(AquaItems.nickel, 12)
+                new ItemStack(AquaItems.calcium, 15)
         };
     }
 
@@ -56,7 +55,7 @@ public class Filter extends AquaGenericCrafter {
     @Override
     public void setBars() {
         super.setBars();
-        addBar("clearwater-bar", (FilterBuild entity) -> new Bar(
+        addBar("clearwater-bar", entity -> new Bar(
                 () -> AquaLiquids.clearwater.localizedName,
                 () -> AquaLiquids.clearwater.color,
                 () -> entity.liquids.get(AquaLiquids.clearwater) / liquidCapacity
