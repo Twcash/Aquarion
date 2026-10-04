@@ -285,6 +285,7 @@ public class EnvironmentBlocks {
         overwrite(hotrock, (Floor s) -> s.attributes.set(fertility, -5f));
         overwrite(magmarock, (Floor s) -> s.attributes.set(fertility, -5f));
         overwrite(carbonStone, (Floor s) -> s.attributes.set(metamorphic, 1.5f));
+        overwrite(Blocks.sand, (Floor s) -> s.attributes.set(fertility, -0.25f));
 
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
