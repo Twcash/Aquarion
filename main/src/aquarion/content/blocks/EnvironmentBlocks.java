@@ -51,7 +51,7 @@ public class EnvironmentBlocks {
     public static Block scrapWall, defunctFramingCross, smallDefunctRadarTower, defunctFlooring, crasindFloor, loam, siltyLoam, sandyClayLoam, loamySand, clayLoam, silt, sandyLoam, sandyClay, siltyClayLoam, siltyClay,
             CrasseCoral;
     //deconstructible plants and rocks and stuff (except defunct stuff)
-    public static Block relBlossom, bramble, brulrFern, largeTranticaBush, tyrqPod, bigTyrqPod, scrap1,scrap2,scrap3, varcaudStalk, deadVarcaudStalk, stoneRock, largeStoneRock, hugeStoneRock, massiveStoneRock, basaltRock, largeBasaltRock,
+    public static Block relBlossom, bramble, brulrFern, largeTranticaBush, tyrqPod, bigTyrqPod, scrap1,scrap2,scrap3, varcaudStalk, eseLillypad, deadVarcaudStalk, stoneRock, largeStoneRock, hugeStoneRock, massiveStoneRock, basaltRock, largeBasaltRock,
             hugeBasaltRock, massiveBasaltRock, shaleChunk, largeShaleChunk, crasindtree, parzilPine, elderParzil;
     //boulders and other such stuff
     public static Block calciteBoulder, azuriteProp, ksaRoot, okelBush, cupriteChunks, herylBush, parzilSprig, crasindSprout, kolFern, pinkSaltBoulder,cupriteBoulder, adreSprig, blueSandBoulder, brecciaBoulder, chertBoulder, arsenideBoulder,
@@ -1018,6 +1018,24 @@ public class EnvironmentBlocks {
             shadowLayer = Layer.blockOver;
             buildTime = 20 * 60f;
             shadowOffset = -8;
+        }};
+        eseLillypad = new FloraBlock("ese-lillypad") {{
+            hasShadow = false;
+            shadowAlpha = 0.6f;
+            buildVisibility = sandboxOnly;
+            variants = 5;
+            rotationRand = 45;
+            size = 2;
+            breakable = false;
+            health = 1000;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            createRubble = false;
+            layer = Layer.blockOver + 1;
+            shadowLayer = Layer.blockOver - 1;
+            buildTime = 4 * 60f;
+            solid = false;
         }};
         deadVarcaudStalk = new FloraBlock("dead-varcaud-stalk") {{
             shadowAlpha = 0.6f;
