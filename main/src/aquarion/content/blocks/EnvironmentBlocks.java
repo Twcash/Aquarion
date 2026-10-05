@@ -1036,6 +1036,7 @@ public class EnvironmentBlocks {
             shadowLayer = Layer.blockOver - 1;
             buildTime = 4 * 60f;
             solid = false;
+            requiresWater = true;
         }};
         deadVarcaudStalk = new FloraBlock("dead-varcaud-stalk") {{
             shadowAlpha = 0.6f;

@@ -542,7 +542,7 @@ public class TantrosTechTree {
                     ), () -> {
                         node(inletArray, () -> {});
                         node(vacuumFreezer, Seq.with(
-                                new Objectives.SectorComplete(FeldsparRavine)
+                                new Objectives.Research(halideWater)
                         ), () -> {});
                     });
                     node(magmaDiffuser, Seq.with(
