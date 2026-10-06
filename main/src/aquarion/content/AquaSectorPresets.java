@@ -209,7 +209,7 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 11;
-            captureWave = 17;
+            captureWave = 16;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             outline = false;
