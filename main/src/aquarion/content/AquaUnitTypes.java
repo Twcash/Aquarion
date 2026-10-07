@@ -880,7 +880,7 @@ public class AquaUnitTypes {
         }};
         weld = new AquaUnitType("weld") {{
             constructor = UnitWaterMove::create;
-            speed = 0.45f;
+            speed = 0.85f;
             hitSize = 8;
             range = 80;
             health = 600;
@@ -925,7 +925,7 @@ public class AquaUnitTypes {
         }};
         solder = new AquaUnitType("solder") {{
             constructor = UnitWaterMove::create;
-            speed = 0.25f;
+            speed = 0.55f;
             hitSize = 8 * 1.5f;
             range = 120;
             health = 600;
