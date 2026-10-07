@@ -104,8 +104,9 @@ public class TantrosTechTree {
                     node(weld, Seq.with(
                             new Objectives.OnSector(diseasedCleft)
                     ), () -> {
-                        node(solder, () -> {
-                        });
+                        node(solder, Seq.with(
+                                new Objectives.OnSector(waterfrontFacility)
+                        ), () -> {});
                     });
                     node(rampart, () -> {
                         node(pugnate, () -> {
@@ -276,26 +277,11 @@ public class TantrosTechTree {
                                 node(floodPlains, Seq.with(
                                         new Objectives.Research(vector)
                                 ), () -> {
-                                    node(mountainsideComplex, Seq.with(
-                                            new Objectives.SectorComplete(floodPlains)
-                                    ), () -> {
-                                        node(lowlandStrait, Seq.with(
-                                                new Objectives.SectorComplete(mountainsideComplex),
-                                                new Objectives.Research(vector),
-                                                new Objectives.Research(SolidBoiler)
-                                        ), () -> {
-                                        });
-                                    });
-                                    node(coupledBasin, Seq.with(
-                                            new Objectives.SectorComplete(floodPlains)
-                                    ), () -> {
-                                    });
                                     node(bay, Seq.with(
                                             new Objectives.Research(vector),
                                             new Objectives.Research(bulwark),
                                             new Objectives.Research(CentrifugalPump)
                                     ), () -> {
-
                                         node(frigidShores, () -> {
                                             node(blastedDockyards, () -> {
                                                 node(Ingress, Seq.with(
@@ -379,10 +365,27 @@ public class TantrosTechTree {
                                                         new Objectives.SectorComplete(fungalTropics),
                                                         new Objectives.Research(sporeProcessor),
                                                         new Objectives.Research(ferrosilicon)
-                                                ), () -> {
-                                                });
+                                                ), () -> {});
                                             });
+                                            node(waterfrontFacility, Seq.with(
+                                                    new Objectives.Research(weld),
+                                                    new Objectives.Research(aftershock)
+                                            ), () -> {});
                                         });
+                                    });
+                                    node(mountainsideComplex, Seq.with(
+                                            new Objectives.SectorComplete(floodPlains)
+                                    ), () -> {
+                                        node(lowlandStrait, Seq.with(
+                                                new Objectives.SectorComplete(mountainsideComplex),
+                                                new Objectives.Research(vector),
+                                                new Objectives.Research(SolidBoiler)
+                                        ), () -> {
+                                        });
+                                    });
+                                    node(coupledBasin, Seq.with(
+                                            new Objectives.SectorComplete(floodPlains)
+                                    ), () -> {
                                     });
                                 });
                                 node(whitewoods, () -> {});
