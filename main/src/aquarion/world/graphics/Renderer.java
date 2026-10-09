@@ -35,8 +35,6 @@ public class Renderer {
     }
 
     public static void draw(){
-        WaterReflections.captureScreen();
-
         //if(bloom == null) bloom = new Bloom(true);
         int w = Core.graphics.getWidth();
         int h = Core.graphics.getHeight();
