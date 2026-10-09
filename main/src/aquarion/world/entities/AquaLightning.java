@@ -2,6 +2,7 @@ package aquarion.world.entities;
 
 
 import aquarion.world.graphics.AquaFx;
+import aquarion.world.graphics.Renderer;
 import arc.graphics.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -48,6 +49,7 @@ public class AquaLightning {
         bhit = false;
 
         createBranch(hitter, hitCreate, team, color, damage, x, y, rotation, length, mainLines);
+        Renderer.requestGlitchPass();
         AquaFx.lightning.at(x, y, rotation, color, mainLines);
     }
 

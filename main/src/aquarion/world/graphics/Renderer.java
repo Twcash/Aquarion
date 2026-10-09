@@ -24,6 +24,8 @@ import static mindustry.Vars.tilesize;
 
 public class Renderer {
     public static FrameBuffer buffer;
+    private static boolean deflectorPassRequested;
+    private static boolean glitchPassRequested;
     //public static @Nullable Bloom bloom;
 
     public static class Layer extends mindustry.graphics.Layer {
@@ -57,25 +59,31 @@ public class Renderer {
 //                }
 //        );
 
-        Draw.drawRange(Layer.deflector, 0.01f,
-                () -> buffer.begin(Color.clear),
-                () -> {
-                    buffer.end();
-                    buffer.blit(AquaShaders.deflectorShield);
-                }
-        );
-
-        Draw.drawRange(Layer.glitch, 0.0001f,
-                () -> buffer.begin(Color.clear),
-                () -> {
-                    buffer.end();
-                    Shader shader = AquaShaders.glitch;
-                    if(shader != null){
-                        shader.bind();
-                        buffer.blit(shader);
+        if(deflectorPassRequested && Vars.renderer.animateShields){
+            Draw.drawRange(Layer.deflector, 0.01f,
+                    () -> buffer.begin(Color.clear),
+                    () -> {
+                        buffer.end();
+                        buffer.blit(AquaShaders.deflectorShield);
                     }
-                }
-        );
+            );
+        }
+        deflectorPassRequested = false;
+
+        if(glitchPassRequested){
+            Draw.drawRange(Layer.glitch, 0.0001f,
+                    () -> buffer.begin(Color.clear),
+                    () -> {
+                        buffer.end();
+                        Shader shader = AquaShaders.glitch;
+                        if(shader != null){
+                            shader.bind();
+                            buffer.blit(shader);
+                        }
+                    }
+            );
+        }
+        glitchPassRequested = false;
         if (!GenericNeoplasiaBlock.activeNeoplasia.isEmpty()) {
             Draw.drawRange(Layer.neoplasiaBase, 0.0001f,
                     () -> buffer.begin(Color.clear),
@@ -94,5 +102,13 @@ public class Renderer {
         }
         AquaShaders.refreshLightShader();
         AquaShaders.light.ambient = Vars.state.rules.ambientLight;
+    }
+
+    public static void requestDeflectorPass(){
+        deflectorPassRequested = true;
+    }
+
+    public static void requestGlitchPass(){
+        glitchPassRequested = true;
     }
 }
