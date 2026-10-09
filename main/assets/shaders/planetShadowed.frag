@@ -1,6 +1,7 @@
 varying vec4 v_col;
 varying vec4 v_lightSpacePos;
 varying vec3 v_worldPos;
+varying float v_emissive;
 
 uniform sampler2D u_shadowMap;
 uniform vec3 u_sunPos;
@@ -43,6 +44,9 @@ void main(){
     }
 
     float shadow = max(selfShadow, planetShadow);
-    vec3 color = v_col.rgb * (1.0 - shadow);
+    // emissive surfaces self-illuminate and are not darkened by shadow; non-emissive
+    // shadowed parts keep most of their light so the model's dark side doesn't read as a second mesh
+    float light = 1.0 - shadow * 0.4 * (1.0 - v_emissive);
+    vec3 color = v_col.rgb * light;
     gl_FragColor = vec4(color, v_col.a);
 }
