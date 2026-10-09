@@ -116,6 +116,8 @@ public class RegenPylon extends MendProjector {
         public float charge;
         public float phaseHeat;
         public float smoothEfficiency;
+        private boolean enemyClose;
+        private boolean warningEnemyClose;
         int zapTimer = timers++;
 
         public RegenPylonBuild() {
@@ -129,7 +131,7 @@ public class RegenPylon extends MendProjector {
         @Override
         public void updateTile(){
             boolean suppressed = checkSuppression();
-            boolean enemyClose = enemiesNearby(range*1.8f*2f);
+            updateEnemyState();
 
             boolean canHeal = !suppressed && !enemyClose;
 
@@ -193,14 +195,15 @@ public class RegenPylon extends MendProjector {
             }
         }
 
-        boolean enemiesNearby(float radius){
-            final boolean[] found = {false};
-            Units.nearbyEnemies(team, x, y, radius, u -> {
-                if(!u.dead){
-                    found[0] = true;
-                }
+        void updateEnemyState(){
+            enemyClose = false;
+            warningEnemyClose = false;
+            float warningRange = range * 1.15f * 2f;
+            Units.nearbyEnemies(team, x, y, range * 1.8f * 2f, u -> {
+                if(u.dead) return;
+                enemyClose = true;
+                if(u.within(x, y, warningRange)) warningEnemyClose = true;
             });
-            return found[0];
         }
 
         @Override
@@ -224,7 +227,7 @@ public class RegenPylon extends MendProjector {
         public void draw() {
             super.draw();
             float f = 1.0F - Time.time / 100.0F % 1.0F;
-            Draw.color(enemiesNearby(range * 1.15f*2f) ? Pal.health : RegenPylon.this.baseColor);
+            Draw.color(warningEnemyClose ? Pal.health : RegenPylon.this.baseColor);
             Draw.alpha(this.heat * Mathf.absin(Time.time, 7.957747F, 1.0F) * 0.5F);
             Draw.rect(RegenPylon.this.topRegion, this.x, this.y);
             Draw.alpha(1.0F);

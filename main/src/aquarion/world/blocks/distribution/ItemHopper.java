@@ -31,7 +31,7 @@ public class ItemHopper extends Block {
         @Override
         public void updateTile(){
             tempRect.setCentered(this.x, this.y, size * Vars.tilesize * hitscale);
-            Groups.bullet.intersect(tempRect.x, tempRect.y, tempRect.width, tempRect.height).each(b -> {
+            Groups.bullet.intersect(tempRect.x, tempRect.y, tempRect.width, tempRect.height, b -> {
                 if (b != null && b.isAdded() && b.data instanceof ItemStack item) {
                     if (acceptItem(this, item.item)) {
                         Fx.smoke.at(b.x, b.y);

@@ -16,6 +16,7 @@ import arc.math.Mathf;
 import arc.struct.Seq;
 import arc.util.Nullable;
 import arc.util.Time;
+import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
 import mindustry.Vars;
 import mindustry.graphics.Shaders;
 
@@ -75,20 +76,23 @@ public class Renderer {
                     }
                 }
         );
-        Draw.drawRange(Layer.neoplasiaBase, 0.0001f,
-                () -> buffer.begin(Color.clear),
-                () -> {
-                    buffer.end();
-                    buffer.blit(AquaShaders.neoplasiaBaseShader);
-                }
-        );
-        Draw.drawRange(Layer.neoplasiaUnder, 0.0001f,
-                () -> buffer.begin(Color.clear),
-                () -> {
-                    buffer.end();
-                    buffer.blit(AquaShaders.neoplasiaBaseShader);
-                }
-        );
+        if (!GenericNeoplasiaBlock.activeNeoplasia.isEmpty()) {
+            Draw.drawRange(Layer.neoplasiaBase, 0.0001f,
+                    () -> buffer.begin(Color.clear),
+                    () -> {
+                        buffer.end();
+                        buffer.blit(AquaShaders.neoplasiaBaseShader);
+                    }
+            );
+            Draw.drawRange(Layer.neoplasiaUnder, 0.0001f,
+                    () -> buffer.begin(Color.clear),
+                    () -> {
+                        buffer.end();
+                        buffer.blit(AquaShaders.neoplasiaBaseShader);
+                    }
+            );
+        }
+        AquaShaders.refreshLightShader();
         AquaShaders.light.ambient = Vars.state.rules.ambientLight;
     }
 }

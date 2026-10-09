@@ -240,7 +240,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
 
     Vec2 legOffset(Vec2 out, int index){
         if(type instanceof AquaLegUnitType unit) {
-            out.set(new Vec2(unit.legSequence.get(index).baseX,unit.legSequence.get(index).baseY));
+            out.set(unit.legSequence.get(index).baseX, unit.legSequence.get(index).baseY);
             out.rotate(rotation -90);
         }
         return out;
