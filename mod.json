@@ -5,8 +5,8 @@
 "subtitle": "This mod adds a separate solar system.",
 "author": "twcash",
 "description": "A complete rewrite of the campaign. Currently in heavy development.",
-"version": "4.2.9",
-"minGameVersion": "160.6",
+"version": "4.3.0",
+"minGameVersion": "160.7",
 "hidden": false,
 "java": true,
 "main": "aquarion.AquaLoader"
