@@ -28,6 +28,7 @@ public class MultiLegSegmentUnit extends UnitType {
 
     private TextureRegion[] segmentSprites;
     private TextureRegion[] segmentSpritesOutline;
+    private Segment[] segmentScratch;
 
     public MultiLegSegmentUnit(String name) {
         super(name);
@@ -38,6 +39,10 @@ public class MultiLegSegmentUnit extends UnitType {
 
         segmentSprites = new TextureRegion[legSegments];
         segmentSpritesOutline = new TextureRegion[legSegments];
+        segmentScratch = new Segment[legSegments + 1];
+        for (int i = 0; i < segmentScratch.length; i++) {
+            segmentScratch[i] = new Segment(0f);
+        }
 
         for (int i = 0; i < legSegments; i++) {
             String segmentName = String.format("%s-leg-%d", this.name, i + 1);
@@ -100,8 +105,6 @@ public class MultiLegSegmentUnit extends UnitType {
             Leg leg = legs[i];
             Vec2 basePosition = unit.legOffset(legOffset, i).add(unit.x, unit.y);
             Vec2 targetPosition = leg.base;
-            boolean flip = i >= legs.length / 2f;
-            int flips = Mathf.sign(flip);
             Segment[] segments = generateSegments(basePosition, targetPosition);
 
             for (int j = 0; j < segments.length - 1; j++) {
@@ -116,7 +119,6 @@ public class MultiLegSegmentUnit extends UnitType {
 
                 Vec2 midPosition = Tmp.v1.set(segmentA.position).add(segmentB.position).scl(0.5f);
 
-                float segmentDistance = segmentA.position.dst(segmentB.position);
                 float lineStroke = segmentSprite.width/4f; // Adjust stroke based on distance
                 if (segmentOutline.found()) {
                     Draw.rect(segmentOutline, midPosition.x, midPosition.y, angle);
@@ -136,13 +138,9 @@ public class MultiLegSegmentUnit extends UnitType {
         Draw.reset();
     }
     private Segment[] generateSegments(Vec2 base, Vec2 target) {
-        Segment[] segments = new Segment[legSegments + 1];
+        Segment[] segments = segmentScratch;
         float totalDistance = base.dst(target);
         float dynamicSegmentLength = Math.min(segmentLength, totalDistance / legSegments);
-
-        for (int i = 0; i <= legSegments; i++) {
-            segments[i] = new Segment(dynamicSegmentLength);
-        }
 
         segments[legSegments].position.set(target);
 

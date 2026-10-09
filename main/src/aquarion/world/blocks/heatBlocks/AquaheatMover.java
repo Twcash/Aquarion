@@ -62,6 +62,8 @@ public class AquaheatMover extends Block {
         public float heat = 0f;
         public float[] sideHeat = new float[4];
         public IntSet cameFrom = new IntSet();
+        private final IntSet visited = new IntSet();
+        private final Seq<Building> heatQueue = new Seq<>();
         public long lastHeatUpdate = -1;
         @Override
         public void draw(){
@@ -92,12 +94,12 @@ public class AquaheatMover extends Block {
             if (cameFrom != null) cameFrom.clear();
 
             float totalHeat = 0f;
-            IntSet visited = new IntSet();
-            Seq<Building> queue = new Seq<>();
-            queue.add(this);
+            visited.clear();
+            heatQueue.clear();
+            heatQueue.add(this);
 
-            while (!queue.isEmpty()) {
-                Building current = queue.remove(0);
+            for (int index = 0; index < heatQueue.size; index++) {
+                Building current = heatQueue.get(index);
                 if (!(current instanceof AquaHeatBlock hb)) continue;
                 if (visited.contains(current.id)) continue;
 
@@ -148,11 +150,12 @@ public class AquaheatMover extends Block {
 
                     if (nearby instanceof AquaheatMover.HeatMoverBuild hcNext) {
                         hcNext.updateHeat();
-                        queue.add(nearby);
+                        heatQueue.add(nearby);
                     }
                 }
             }
 
+            heatQueue.clear();
             return totalHeat;
         }
         @Override

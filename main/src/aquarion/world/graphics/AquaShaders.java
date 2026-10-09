@@ -13,6 +13,7 @@ import arc.scene.ui.layout.Scl;
 import arc.util.Nullable;
 
 import arc.util.Time;
+import aquarion.ui.ModSettings;
 import mindustry.Vars;
 import mindustry.content.Liquids;
 import mindustry.graphics.CacheLayer;
@@ -28,6 +29,7 @@ import static mindustry.Vars.tree;
 public class AquaShaders {
     public static PlanetShader planet;
     public static LightShader light;
+    private static Shaders.LightShader vanillaLight;
     public static @Nullable SurfaceShader brine, petroleum, lava, shallowLava, shallowSlag, shadow, heat, glitch, neoplasiaBaseShader;
     public static @Nullable PartRegionShader knight1;
     public static @Nullable MonsoonShader monsoon;
@@ -41,6 +43,8 @@ public class AquaShaders {
 
 
 public static void init() {
+
+    if (vanillaLight == null) vanillaLight = Shaders.light;
 
     planet = new PlanetShader();
     PlanetShadowMap.init();
@@ -80,9 +84,15 @@ public static void init() {
     CacheLayer.addLast(lavalLayer);
     CacheLayer.addLast(neoplasiaBaseLayer);
     light = new LightShader();
-    Shaders.light = light;
+    refreshLightShader();
 
 }
+
+    public static void refreshLightShader(){
+        if (light == null) return;
+        Shaders.LightShader desired = ModSettings.getCustomLightShader() ? light : vanillaLight;
+        if (desired != null && Shaders.light != desired) Shaders.light = desired;
+    }
 
     public static void dispose(){
         if (!Vars.headless) {

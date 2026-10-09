@@ -62,14 +62,14 @@ public class DefenseBlocks {
             containing.add(new ItemStack(sand, 45));
         }};
         meteor = new MissileBlock("meteor"){{
-            requirements(Category.turret, with(copper, 90, lead, 60, graphite, 90));
+            requirements(Category.turret, with(graphite, 20, copper, 40));
             size = 1;
             canMirror = false;
             drawer = new DrawRegionRotated(){{
                 suffix = "-rot";
                 x = 4;
             }};
-            consumePower(2);
+            consumeLiquid(Liquids.oil,0.25f);
             addLink(1,0,1);
             spawn = new MissileUnitType("meteor-unit"){{
                 speed = 4.6f;

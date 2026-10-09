@@ -122,12 +122,15 @@ public class WallPayloadDrill extends PayloadBlock {
         public float heat = 0f;
         public float time = 0f;
         public float totalProgress;
+        private final ObjectMap<Attribute, Float> attributeTotals = new ObjectMap<>();
+        private Block currentRecipe;
+        private float currentEfficiency;
         /**
          * Determines the recipe based on the dominant attribute in the surrounding blocks.
          */
         public Block recipe() {
-            ObjectMap<Attribute, Float> attributeTotals = new ObjectMap<>();
-            calculateEfficiency(tileX(), tileY(), rotation, attributeTotals);
+            attributeTotals.clear();
+            currentEfficiency = calculateEfficiency(tileX(), tileY(), rotation, attributeTotals);
 
             Attribute dominantAttribute = null;
             float highestTotal = 0;
@@ -139,7 +142,8 @@ public class WallPayloadDrill extends PayloadBlock {
                 }
             }
 
-            return dominantAttribute != null ? attributeBlockMap.get(dominantAttribute) : null;
+            currentRecipe = dominantAttribute != null ? attributeBlockMap.get(dominantAttribute) : null;
+            return currentRecipe;
         }
 
         @Override
@@ -174,11 +178,8 @@ public class WallPayloadDrill extends PayloadBlock {
             Block recipe = recipe();
             if (recipe == null) return;
 
-            ObjectMap<Attribute, Float> attributeTotals = new ObjectMap<>();
-            float efficiency = calculateEfficiency(tileX(), tileY(), rotation, attributeTotals);
-
-            progress +=   edelta();
-            boolean produce = efficiency > 0 && payload == null;
+            progress += edelta();
+            boolean produce = currentEfficiency > 0 && payload == null;
             if (produce && progress >= buildTime) {
                 payload = new BuildPayload(recipe, team);
                 recipe.placeEffect.at(x, y, (float) recipe.size / tilesize);
@@ -193,7 +194,7 @@ public class WallPayloadDrill extends PayloadBlock {
         public void draw() {
             Draw.rect(region,x,y,0);
             Draw.rect(outRegion, x, y, rotdeg());
-            var recipe = recipe();
+            var recipe = currentRecipe;
             if (recipe != null) {
                 Draw.draw(Layer.blockBuilding, () -> {
                     Draw.color(Pal.accent);

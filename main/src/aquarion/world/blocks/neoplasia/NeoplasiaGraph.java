@@ -27,6 +27,7 @@ public class NeoplasiaGraph {
     public static float spawnInterval = 600f;
     public static float heartCost = 150f;
     public static GenericNeoplasiaBlock heartBlock;
+    private static boolean trackedNeoplasia;
 
     public static long chunkKey(int cx, int cy) {
         return ((long) cx << 32) | (cy & 0xffffffffL);
@@ -54,6 +55,7 @@ public class NeoplasiaGraph {
         chunk.builds.add(nb);
         if (activeNeoplasia != null) {
             activeNeoplasia.add(nb);
+            trackedNeoplasia = true;
         }
     }
 
@@ -87,6 +89,23 @@ public class NeoplasiaGraph {
     }
 
     public static void update() {
+        if (activeNeoplasia.isEmpty()) {
+            if (trackedNeoplasia) {
+                hearts.clear();
+                primeHeart = null;
+                compMap.clear();
+                heartCounts.clear();
+                biggestBlobs.clear();
+                biggestAmounts.clear();
+                comps.clear();
+                chunks.clear();
+                pulseTimer = 0f;
+                spawnCooldown = 0f;
+                trackedNeoplasia = false;
+            }
+            return;
+        }
+
         pulseTimer += 1f;
         if (pulseTimer < pulseInterval) return;
         pulseTimer = 0f;
@@ -205,6 +224,7 @@ public class NeoplasiaGraph {
         comps.clear();
         chunks.clear();
         activeNeoplasia.clear();
+        trackedNeoplasia = false;
         pulseTimer = 0f;
         spawnCooldown = 0f;
         if (Vars.state.isGame() && Vars.world.tiles != null) {
