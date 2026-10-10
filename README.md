@@ -12,6 +12,7 @@
 <p align="center">
   <a href="README.md"><img src="https://img.shields.io/badge/English-46479e?style=for-the-badge&logo=googletranslate&logoColor=white" alt="English"></a>
   <a href="README_ru.md"><img src="https://img.shields.io/badge/Русский-b0b1f5?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Русский"></a>
+<a href="README_es.md"><img src="https://img.shields.io/badge/English-46479e?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Español"></a>
 </p>
 
 ---
