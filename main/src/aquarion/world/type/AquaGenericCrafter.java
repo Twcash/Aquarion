@@ -3,6 +3,7 @@ package aquarion.world.type;
 import aquarion.ui.AquaBarHelpers;
 import aquarion.world.Uti.AquaStats;
 import aquarion.world.blocks.AquaBlock;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.consumers.AquaConsume;
 import arc.Core;
 import arc.graphics.Color;
@@ -177,6 +178,7 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         if (makesHeat) {
             stats.add(Stat.output, heatOutput, StatUnit.heatUnits);
         };
+        AlternativeBuildCosts.applyStats(this);
     }
 
 @Override
@@ -363,12 +365,23 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         }
     }
 
-    public class AquaGenericCrafterBuild extends Building implements HeatConsumer{
+    public class AquaGenericCrafterBuild extends Building implements HeatConsumer, AlternativeBuildCosts.CostChoiceReceiver{
         public float progress;
         public float totalProgress;
         public float warmup;
         public float[] sideHeat = new float[4];
         public float heat = 0f;
+        private ItemStack constructionCost;
+
+        @Override
+        public void setBuildCostStack(ItemStack stack){
+            constructionCost = stack == null ? null : stack.copy();
+        }
+
+        @Override
+        public ItemStack buildCostStack(){
+            return constructionCost == null ? null : constructionCost.copy();
+        }
 
         @Override
         public void draw(){
@@ -668,6 +681,13 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
             write.f(progress);
             write.f(warmup);
             if(legacyReadWarmup) write.f(0f);
+            write.s((short)(constructionCost == null ? -1 : constructionCost.item.id));
+            write.i(constructionCost == null ? -1 : constructionCost.amount);
+        }
+
+        @Override
+        public byte version(){
+            return 1;
         }
         public float lastOpacity = 0;
 
@@ -679,6 +699,11 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
             progress = read.f();
             warmup = heat = read.f();
             if(legacyReadWarmup) read.f();
+            if(revision >= 1){
+                short itemId = read.s();
+                int itemAmount = read.i();
+                constructionCost = itemId < 0 || itemAmount < 0 ? null : new ItemStack(Vars.content.item(itemId), itemAmount);
+            }
         }
     }
     public class AquaGenericCrafterProducerBuild extends AquaGenericCrafterBuild implements HeatBlock{

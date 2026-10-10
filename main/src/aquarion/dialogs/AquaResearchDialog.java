@@ -887,20 +887,20 @@ public class AquaResearchDialog extends BaseDialog {
                                         }).fillX().left();
                                         t.row();
                                     }
-                                } else if (node.objectives.size > 0) {
-                                    desc.add("@complete").colspan(2).left();
-                                    desc.row();
-                                    if (node.objectives.size > 0) {
-                                        desc.table(r -> {
-                                            for (Objective o : node.objectives) {
-                                                r.add("> " + o.display()).color(Color.lightGray).left();
-                                                r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
-                                                r.row();
-                                            }
-                                        });
-                                    }
                                 }
                             });
+                            if(node.objectives.size > 0){
+                                desc.add("@complete").colspan(2).left();
+                                desc.row();
+                                desc.table(r -> {
+                                    for(Objective objective : node.objectives){
+                                        r.add("> " + objective.display()).color(Color.lightGray).left();
+                                        r.image(objective.complete() ? Icon.ok : Icon.cancel,
+                                            objective.complete() ? Pal.heal : Pal.health).padLeft(3);
+                                        r.row();
+                                    }
+                                });
+                            }
                         }
                     } else {
                         desc.add("@completed").colspan(2).left();

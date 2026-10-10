@@ -1,8 +1,8 @@
 package aquarion.world.blocks.effect;
 
 import aquarion.annotations.Annotations;
-import arc.Core;
 import arc.audio.Sound;
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
@@ -15,11 +15,16 @@ import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import aquarion.world.graphics.AquaFx;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import mindustry.Vars;
 import mindustry.gen.Building;
+import mindustry.ctype.UnlockableContent;
 import mindustry.graphics.Layer;
 import mindustry.type.Item;
+import mindustry.type.ItemStack;
 import mindustry.world.Block;
+
+import static aquarion.content.AquaItems.nickel;
 
 public class ResearchVoider extends Block {
     public float processRate = 1f;
@@ -37,9 +42,34 @@ public class ResearchVoider extends Block {
         solid = true;
     }
 
-    public class ResearchVoiderBuild extends Building {
+    @Override
+    public void setStats(){
+        super.setStats();
+        AlternativeBuildCosts.applyStats(this);
+    }
+
+    @Override
+    public void getDependencies(Cons<UnlockableContent> cons){
+        super.getDependencies(content -> {
+            if(content instanceof Item item && AlternativeBuildCosts.isAlternativeItem(this, item)) return;
+            cons.get(content);
+        });
+    }
+
+    public class ResearchVoiderBuild extends Building implements AlternativeBuildCosts.CostChoiceReceiver {
         public float processProg = 0f;
         public float warmup = 0f;
+        private ItemStack constructionCost;
+
+        @Override
+        public void setBuildCostStack(ItemStack stack){
+            constructionCost = stack == null ? null : stack.copy();
+        }
+
+        @Override
+        public ItemStack buildCostStack(){
+            return constructionCost == null ? null : constructionCost.copy();
+        }
 
         public void processBatch() {
             if (items.empty()) return;
@@ -77,7 +107,7 @@ public class ResearchVoider extends Block {
 
         @Override
         public byte version() {
-            return 3;
+            return 5;
         }
 
         @Override
@@ -85,6 +115,8 @@ public class ResearchVoider extends Block {
             super.write(write);
             write.f(processProg);
             write.f(warmup);
+            write.s((short)(constructionCost == null ? -1 : constructionCost.item.id));
+            write.i(constructionCost == null ? -1 : constructionCost.amount);
         }
 
         @Override
@@ -96,6 +128,19 @@ public class ResearchVoider extends Block {
             }
             if (revision == 2) {
                 read.l(); // skip old lastSavedTime for backwards compat
+            }
+            if(revision >= 4){
+                short itemId = read.s();
+                if(revision >= 5){
+                    int amount = read.i();
+                    constructionCost = itemId < 0 || amount < 0 ? null : new ItemStack(Vars.content.item(itemId), amount);
+                }else{
+                    constructionCost = AlternativeBuildCosts.stackFor(block, itemId < 0 ? null : Vars.content.item(itemId));
+                }
+            }else{
+                // Older Translation Laboratories required nickel directly.
+                constructionCost = AlternativeBuildCosts.stackFor(block, nickel);
+                if(constructionCost == null) constructionCost = new ItemStack(nickel, 900);
             }
         }
 

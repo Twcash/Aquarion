@@ -4,6 +4,7 @@ import aquarion.content.AquaCategories;
 import aquarion.content.AquaItems;
 import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.AquaBlock;
 import aquarion.world.consumers.AquaConsume;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
@@ -714,7 +715,7 @@ public class RefineryBlocks {
         }};
         atmosphericCentrifuge = new AquaGenericCrafter("atmospheric-centrifuge") {{
             liquidOutputDirections = new int[]{1, 2, 3};
-            requirements(AquaCategories.refinery, with(metaglass, 150, copper, 255, ferricMatter, 150));
+            requirements(AquaCategories.refinery, with(metaglass, 150, copper, 255));
             size = 4;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             rotateDraw = false;
@@ -779,6 +780,7 @@ public class RefineryBlocks {
                 phaseOffset = 20;
             }}, new AquaDrawLiquidOutputs());
         }};
+        AlternativeBuildCosts.register(atmosphericCentrifuge, with(ferricMatter, 150, concrete, 300));
         electrolysisVat = new AquaGenericCrafter("electrolysis-vat"){{
             requirements(AquaCategories.refinery, with(metaglass, 250, copper, 300, silicon, 150));
             consumePower(3);

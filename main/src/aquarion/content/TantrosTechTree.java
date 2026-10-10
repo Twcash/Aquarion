@@ -1,6 +1,7 @@
 package aquarion.content;
 
 import aquarion.content.blocks.CrafterBlocks;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import arc.struct.ObjectFloatMap;
 import arc.struct.Seq;
 import mindustry.Vars;
@@ -33,7 +34,8 @@ public class TantrosTechTree {
 
         AquaPlanets.tantros2.techTree = AquaPlanets.fakeSerpulo.techTree = AquaPlanets.fakeErekir.techTree = nodeRoot("RECOMPILE", corePike, () -> {
             context().researchCostMultipliers = costMultipliers;
-            node(researchVoider, () -> {});
+            node(researchVoider, AlternativeBuildCosts.researchRequirements(researchVoider),
+                Seq.with(AlternativeBuildCosts.researchObjective(researchVoider)), () -> {});
             node(coreCuesta, () -> {});
             node(infomatic, () -> {
                 node(toggler, () -> {
@@ -668,7 +670,8 @@ public class TantrosTechTree {
                         });
                     });
                 });
-                node(atmosphericCentrifuge, () -> {});
+                node(atmosphericCentrifuge, AlternativeBuildCosts.researchRequirements(atmosphericCentrifuge),
+                    Seq.with(AlternativeBuildCosts.researchObjective(atmosphericCentrifuge)), () -> {});
             });
         });
     }

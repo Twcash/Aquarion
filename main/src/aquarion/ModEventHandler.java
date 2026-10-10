@@ -5,6 +5,7 @@ import aquarion.content.ModMusic;
 import aquarion.dialogs.AquaResearchDialog;
 import aquarion.dialogs.DialogueDialog;
 import aquarion.ui.ModSettings;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.effect.ResearchServer;
 import aquarion.world.dialogue.StoryProgress;
 import aquarion.world.graphics.MenuReplacer;
@@ -34,6 +35,7 @@ public class ModEventHandler {
 
     public static void init() {
         Events.on(EventType.ClientLoadEvent.class, e -> ModMusic.attach());
+        Events.run(EventType.Trigger.update, AlternativeBuildCosts::updatePreviews);
         Events.on(EventType.ClientLoadEvent.class, e -> ModSettings.init());
         Events.on(EventType.ClientLoadEvent.class, e -> ResearchServer.loadGlobalResearch());
         Events.on(EventType.ClientLoadEvent.class, e -> StoryProgress.load());

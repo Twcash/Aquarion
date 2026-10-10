@@ -2,6 +2,7 @@ package aquarion.content.blocks;
 
 import aquarion.content.*;
 import aquarion.world.blocks.core.AquaCoreBlock;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.core.Bomb;
 import aquarion.world.blocks.core.InfomaticBlock;
 import aquarion.world.blocks.core.OverclockProjector;
@@ -530,7 +531,7 @@ public class CoreBlocks {
             squareSprite = false;
         }};
         researchVoider = new ResearchVoider("translation-matrix") {{
-            requirements(Category.effect, with(silicon, 1500, nickel, 900, copper, 1000, metaglass, 200));
+            requirements(Category.effect, with(silicon, 1500, lead, 1000));
             size = 5;
             buildVisibility = BuildVisibility.campaignOnly;
             processRate = 1f;
@@ -542,6 +543,7 @@ public class CoreBlocks {
             alwaysUnlocked = true;
             researchCostMultiplier = 0;
         }};
+        AlternativeBuildCosts.register(researchVoider, with(nickel, 900, zinc, 900));
         laboratory = new ResearchVoider("laboratory"){{
             size = 5;
             squareSprite = false;

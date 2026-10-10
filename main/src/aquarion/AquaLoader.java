@@ -8,8 +8,13 @@ import aquarion.gen.*;
 import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.environment.CheckpointBlock;
 import aquarion.world.blocks.neoplasia.NeoplasiaGraph;
+import aquarion.world.campaign.DialogueObjective;
+import aquarion.world.campaign.DialogueObjectiveBar;
+import aquarion.world.campaign.DialogueObjectiveOption;
+import aquarion.world.campaign.DialogueObjectiveSystem;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
 import arc.*;
@@ -18,7 +23,10 @@ import arc.util.ArcRuntimeException;
 import mindustry.Vars;
 import mindustry.ctype.*;
 import mindustry.game.EventType;
+import mindustry.game.MapObjectives;
+import mindustry.editor.MapObjectivesDialog;
 import mindustry.gen.Icon;
+import mindustry.io.JsonIO;
 import mindustry.mod.*;
 import aquarion.annotations.Annotations.*;
 import aquarion.gen.*;
@@ -50,6 +58,7 @@ public class AquaLoader extends Mod {
 
     public static void postLoad(){
         Events.on(EventType.ContentInitEvent.class, e -> {
+            AlternativeBuildCosts.install();
             mirrorList.each(block -> {
                 Block mirror = new Block(block.name + "-mirror");
                 Field[] fields = Block.class.getFields();
@@ -133,6 +142,18 @@ public class AquaLoader extends Mod {
 
     @Override
     public void init() {
+        MapObjectives.registerObjective(DialogueObjective::new);
+        MapObjectivesDialog.setInterpreter(DialogueObjective.class, MapObjectivesDialog.defaultInterpreter());
+        MapObjectivesDialog.setInterpreter(DialogueObjectiveOption.class, MapObjectivesDialog.defaultInterpreter());
+        MapObjectivesDialog.setProvider(DialogueObjectiveOption.class, (type, cons) -> cons.get(new DialogueObjectiveOption()));
+        JsonIO.classTag("dialogueObjectiveOption", DialogueObjectiveOption.class);
+        JsonIO.classTag("DialogueObjectiveOption", DialogueObjectiveOption.class);
+
+        Events.on(EventType.WorldLoadEvent.class, e -> DialogueObjectiveSystem.reset());
+        if(!headless){
+            Events.on(EventType.ClientLoadEvent.class, e -> new DialogueObjectiveBar().build());
+        }
+
         if (!Vars.headless && Vars.ui != null) {
             AquaStyles.load();
             ModEventHandler.load();
