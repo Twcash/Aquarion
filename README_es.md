@@ -29,7 +29,7 @@ Este mod inició como un ambicioso intento de recrear **Tantros** en Mindustry, 
 
 ## <img src="main/assets-raw/sprites/blocks/logic/infomatic.png" alt="Aquarion Banner" width="30"> Información
 
-> [!IMPORTANTE]
+> [!IMPORTANT]
 > Para tener la mejor experiencia y evitar romper tu juego, porfavor mantener lo siguiente en mente:
 
 * **Conflictos con Mods:** El mod añade bloques, objetos, unidades y un sistema solar completo esto puede generar conflictos con otros mods.
@@ -42,7 +42,7 @@ Este mod inició como un ambicioso intento de recrear **Tantros** en Mindustry, 
 
 ## <img src="main/assets-raw/sprites/blocks/core/core-pike.png" alt="Aquarion Banner" width="30"> Instalación & Contribución
 
-### Como instalarl
+### Como instalar 
 1. Atravez del navegador de mods del juego
    1. En Mindustry, ve a **Mods** -> **Navegar Mods**
    2. Busca `Aquarion` i preciona **Instalar** 
