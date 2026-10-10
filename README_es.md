@@ -12,6 +12,7 @@
 <p align="center">
   <a href="README.md"><img src="https://img.shields.io/badge/English-46479e?style=for-the-badge&logo=googletranslate&logoColor=white" alt="English"></a>
   <a href="README_ru.md"><img src="https://img.shields.io/badge/Русский-b0b1f5?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Русский"></a>
+  <a href="README_es.md"><img src="https://img.shields.io/badge/Espa%C3%B1ol-46479e?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Español"></a>
 </p>
 
 ---
@@ -28,7 +29,7 @@ Este mod inició como un ambicioso intento de recrear **Tantros** en Mindustry, 
 
 ## <img src="main/assets-raw/sprites/blocks/logic/infomatic.png" alt="Aquarion Banner" width="30"> Información
 
-> [!IMPORTANTE]
+> [!IMPORTANT]
 > Para tener la mejor experiencia y evitar romper tu juego, porfavor mantener lo siguiente en mente:
 
 * **Conflictos con Mods:** El mod añade bloques, objetos, unidades y un sistema solar completo esto puede generar conflictos con otros mods.
@@ -41,7 +42,7 @@ Este mod inició como un ambicioso intento de recrear **Tantros** en Mindustry, 
 
 ## <img src="main/assets-raw/sprites/blocks/core/core-pike.png" alt="Aquarion Banner" width="30"> Instalación & Contribución
 
-### Como instalarl
+### Como instalar 
 1. Atravez del navegador de mods del juego
    1. En Mindustry, ve a **Mods** -> **Navegar Mods**
    2. Busca `Aquarion` i preciona **Instalar** 
