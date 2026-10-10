@@ -86,7 +86,6 @@ public class ModMusic {
         musics.put("not-so-distant-now", new MusicInfo(none, "NOT SO DISTANT NOW", cas));
         musics.put("concussive", new MusicInfo(none, "Concussive", cas));
         musics.put("mold", new MusicInfo(none, "Mold", myt));
-        musics.put("assault", new MusicInfo(none, "Assault", myt));
         musics.put("quiet-processing", new MusicInfo(none, "Quiet Processing", ace));
         musics.put("scarred-skies", new MusicInfo(none, "Scarred Skies", ace));
         musics.put("exhasperation", new MusicInfo(none, "Exasperation", ace));
