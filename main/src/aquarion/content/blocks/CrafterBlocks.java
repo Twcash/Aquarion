@@ -4,7 +4,9 @@ import aquarion.content.AquaAttributes;
 import aquarion.content.AquaCategories;
 import aquarion.content.AquaItems;
 import aquarion.content.AquaSounds;
+import aquarion.world.blocks.AquaBlock;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
+import aquarion.world.blocks.payload.AquaConstructor;
 import aquarion.world.blocks.payload.PayloadCentrifuge;
 import aquarion.world.blocks.production.Filter;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
@@ -17,6 +19,8 @@ import aquarion.world.entities.parts.NewRegPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.type.AquaGenericCrafter;
+import aquarion.world.blocks.production.LaserEnricher;
+import aquarion.world.items.AquaItemEntity;
 import aquarion.world.type.GroundDrill;
 import arc.func.Cons;
 import arc.graphics.Blending;
@@ -39,6 +43,7 @@ import mindustry.world.blocks.production.AttributeCrafter;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.Pump;
+import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
@@ -63,7 +68,8 @@ public class CrafterBlocks {
             cupronickelAlloyer, brineMixer, ferricGrinder, SilicaOxidator, arcFurnace, heatChannel, convectionHeater, combustionHeater,
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
-            fumeFilter, ferroSiliconFoundry, magmaTap, cardReader, cryogenConditioner, rotaryKiln, wallExcavator, pnuematicCentrifuge;
+            fumeFilter, ferroSiliconFoundry, magmaTap, cardReader, cryogenConditioner, rotaryKiln, wallExcavator, pnuematicCentrifuge, explosiveManufactory, explosivePayload,
+            laserEnricher, invarSmeltery;
     public static Block filter;
     public static Block wallCrafter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -71,6 +77,8 @@ public class CrafterBlocks {
     }
     public static void loadContent() {
         disableVanilla();
+
+        AquaItemEntity.registerSpoil(AquaItems.uraniumEnriched, thorium, 60f * 10f);
 
         magmaTap = new AttributeCrafter("magma-tap") {{
             requirements(Category.production, with(lead, 225, zinc, 120, silicon, 100));
@@ -1630,6 +1638,10 @@ public class CrafterBlocks {
                 phaseOffset = 20;
             }});
         }};
+        laserEnricher = new LaserEnricher("laser-enricher"){{
+            requirements(Category.crafting, with(silicon, 180, thorium, 120, tungsten, 100));
+            researchCost = with(silicon, 120, thorium, 80);
+        }};
         pinDrill = new GroundDrill("pin-drill") {{
             requirements(Category.production, with(tungsten, 40, beryllium, 50, silicon, 20));
             drillTime = 100;
@@ -1810,6 +1822,19 @@ public class CrafterBlocks {
             }}, new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"));
             size = 2;
         }};
+        explosivePayload = new AquaBlock("small-explosive-payload"){{
+            requirements(Category.defense, with(coal, 20, brimstone, 10, potassium, 30));
+            baseExplosiveness = 10;
+            buildVisibility = BuildVisibility.sandboxOnly;
+            explosivenessScale = 10;
+            size = 1;
+            health = 100;
+        }};
+        explosiveManufactory = new AquaConstructor("explosives-manufactory"){{
+            requirements(Category.units, with( concrete, 250, copper, 400, silicon, 500, metaglass, 250));
+            size = 3;
+            filter.add(explosivePayload);
+        }};
         chalkalloySmelter = new GenericCrafter("chalkalloy-smelter"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.crafting, with(copper, 60, lead, 45, silicon, 25));
@@ -1826,7 +1851,31 @@ public class CrafterBlocks {
             craftEffect = Fx.mineBig;
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame());
         }};
+        invarSmeltery = new GenericCrafter("invar-smeltery"){{
+            requirements(Category.crafting, with(ferricMatter, 60, lead, 45, silicon, 25));
 
+            craftEffect = Fx.mineBig;
+            ambientSound = Sounds.loopSmelter;
+            ambientSoundVolume = 0.09f;
+            consumePower(2);
+            consumeLiquid(cryofluid, 0.5f);
+            consumeItems(ItemStack.with(ferricMatter, 4, nickel, 6));
+            outputItem = new ItemStack(invar, 5);
+            craftTime = 120;
+            size = 3;
+            drawer = new DrawMulti(new DrawDefault(), new DrawSoftParticles() {{
+                alpha = 0.45f;
+                particleRad = 7f;
+                particleSize = 12f;
+                particleLife = 120f;
+                particles = 15;
+            }}, new DrawRegion("-top"), new DrawGlowRegion() {{
+                alpha = 0.65f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.3f;
+                glowScale = 6f;
+            }});
+        }};
         defunctDrill = new Drill("defunct-drill"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.production, with(silicon, 250, lead, 100));

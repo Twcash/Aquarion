@@ -77,7 +77,7 @@ public class ResearchVoider extends Block {
             if (sector != null) {
                 items.each((item, amount) -> {
                     sector.info.handleItemExport(item, amount);
-                    ResearchServer.addResearch(sector.id, item, amount);
+                    ResearchServer.addResearch(sector, item, amount);
                 });
             };
             AquaFx.vaporizeItem.at(x, y, 0, items.first());

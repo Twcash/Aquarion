@@ -14,7 +14,7 @@ public class AquaItems {
     public static Item pentlandite;
     public static Item magnesiumPowder;
     public static Item steel, brass;
-    public static Item minium, uranium, radium, pitchblende;
+    public static Item minium, uranium, uraniumEnriched, radium, pitchblende;
     public static Item chalkalloy, crystal, pearl;
     public static Item acuminite;
     public static Item hexogen;
@@ -34,6 +34,7 @@ public class AquaItems {
     public static Item zinc;
     public static Item halite;
     public static Item potassium;
+    public static Item invar;
     public static Item compositeSteel;
     public static Item libraryCard;
     public static Item fluorite;
@@ -143,6 +144,10 @@ public class AquaItems {
             cost = 1.1f;
             shownPlanets.add(Planets.serpulo);
         }};
+        invar = new Item("invar", Color.valueOf("99bc86")){{
+            cost = 1.3f;
+            shownPlanets.add(Planets.serpulo);
+        }};
         pitchblende = new AquaItem("pitchblende", Color.valueOf("#f1ffb2")) {{
             radioactivity = 2f;
             hardness = 4;
@@ -164,6 +169,11 @@ public class AquaItems {
         Items.thorium = new AquaItem("thorium", Color.valueOf("#141314")) {{
             radioactivity = 1.5f;
             decayTo = radium;
+        }};
+        uraniumEnriched = new AquaItem("uranium-enriched", Color.valueOf("#ffe1b4")) {{
+            radioactivity = 2.5f;
+            buildable = false;
+            decayTo = Items.thorium;
         }};
         Items.sporePod = null;
         Items.sporePod = new AquaItem("spore-pod", Color.valueOf("#a15bc4")) {{

@@ -4,6 +4,13 @@ import aquarion.world.blocks.distribution.ItemHopper;
 import aquarion.world.blocks.distribution.ItemYeeter;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
+import aquarion.world.blocks.distribution.EntitySorter;
+import aquarion.world.blocks.distribution.EntityJunction;
+import aquarion.world.blocks.distribution.EntityDirectionalUnloader;
+import aquarion.world.blocks.distribution.EntityDirectionalUnloader.EntityDirectionalUnloaderBuild;
+import aquarion.world.blocks.distribution.EntityUnloader.EntityUnloaderBuild;
+import aquarion.world.blocks.core.EntityStorageBuild;
+import aquarion.world.blocks.core.EntityCoreBuild;
 import aquarion.world.blocks.payload.*;
 import aquarion.world.blocks.production.DelayIncinerator;
 import aquarion.world.graphics.AquaFx;
@@ -18,6 +25,9 @@ import mindustry.ctype.UnlockableContent;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.type.Category;
 import mindustry.world.Block;
+import mindustry.world.blocks.storage.StorageBlock;
+import mindustry.world.blocks.storage.CoreBlock;
+import mindustry.world.blocks.storage.Unloader;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.meta.Env;
 import mindustry.world.meta.Stat;
@@ -36,6 +46,16 @@ public class DistributionBlocks {
         setter.get((T) target);
     }
     public static void loadContent() {
+        EntityStorageBuild.install((StorageBlock)Blocks.container);
+        EntityStorageBuild.install((StorageBlock)Blocks.vault);
+        EntityUnloaderBuild.install((Unloader)Blocks.unloader);
+        EntityCoreBuild.install((CoreBlock)Blocks.coreShard);
+        EntityCoreBuild.install((CoreBlock)Blocks.coreFoundation);
+        EntityCoreBuild.install((CoreBlock)Blocks.coreNucleus);
+        EntityCoreBuild.install((CoreBlock)Blocks.coreBastion);
+        EntityCoreBuild.install((CoreBlock)Blocks.coreCitadel);
+        EntityCoreBuild.install((CoreBlock)Blocks.coreAcropolis);
+
         sealedConveyor = new SealedConveyor("sealed-conveyor") {{
             requirements(Category.distribution, with(lead, 1));
             envEnabled = 4;
@@ -118,7 +138,7 @@ public class DistributionBlocks {
             hasItems = true;
             solid = true;
         }};
-        sealedJunction = new Junction("sealed-junction") {{
+        sealedJunction = new EntityJunction("sealed-junction") {{
             requirements(Category.distribution, with(silicon, 15));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
             speed = 15;
@@ -128,12 +148,12 @@ public class DistributionBlocks {
             ((SealedConveyor) sealedConveyor).junctionReplacement = this;
             envDisabled = Env.none;
         }};
-        sealedUnloader = new DirectionalUnloader("sealed-unloader") {{
+        sealedUnloader = new EntityDirectionalUnloader("sealed-unloader") {{
             requirements(Category.distribution, with(metaglass, 40, silicon, 80));
             speed = 2f;
             allowCoreUnload = true;
         }};
-        sealedSorter = new Sorter("sealed-sorter") {{
+        sealedSorter = new EntitySorter("sealed-sorter") {{
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);
@@ -141,7 +161,7 @@ public class DistributionBlocks {
             hasItems = true;
 
         }};
-        sealedInvertedSorter = new Sorter("sealed-inverted-sorter") {{
+        sealedInvertedSorter = new EntitySorter("sealed-inverted-sorter") {{
             requirements(Category.distribution, with(silicon, 15));
             envEnabled |= Env.terrestrial | Env.underwater;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.distriDestroy);

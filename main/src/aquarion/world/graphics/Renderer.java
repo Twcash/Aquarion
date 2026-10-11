@@ -16,14 +16,17 @@ import arc.math.Mathf;
 import arc.struct.Seq;
 import arc.util.Nullable;
 import arc.util.Time;
+import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
 import mindustry.Vars;
 import mindustry.graphics.Shaders;
+import mindustry.world.Tile;
 
 import static mindustry.Vars.tilesize;
 
 public class Renderer {
     public static FrameBuffer buffer;
+    private static final Seq<Tile> visibleWallShadows = new Seq<>();
     private static boolean deflectorPassRequested;
     private static boolean glitchPassRequested;
     //public static @Nullable Bloom bloom;
@@ -41,13 +44,39 @@ public class Renderer {
         //if(bloom == null) bloom = new Bloom(true);
         int w = Core.graphics.getWidth();
         int h = Core.graphics.getHeight();
-        if(buffer == null) buffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
+        if(buffer == null || buffer.getWidth() != w || buffer.getHeight() != h){
+            if(buffer != null) buffer.dispose();
+            buffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
+        }
+
+        visibleWallShadows.clear();
+        if(Vars.world != null && Vars.world.width() > 0 && Vars.world.height() > 0){
+            float halfWidth = Core.camera.width / 2f;
+            float halfHeight = Core.camera.height / 2f;
+            int minX = Math.max(0, Mathf.floor((Core.camera.position.x - halfWidth) / tilesize) - 1);
+            int maxX = Math.min(Vars.world.width() - 1, Mathf.floor((Core.camera.position.x + halfWidth) / tilesize) + 1);
+            int minY = Math.max(0, Mathf.floor((Core.camera.position.y - halfHeight) / tilesize) - 1);
+            int maxY = Math.min(Vars.world.height() - 1, Mathf.floor((Core.camera.position.y + halfHeight) / tilesize) + 1);
+
+            for(int tx = minX; tx <= maxX; tx++){
+                for(int ty = minY; ty <= maxY; ty++){
+                    Tile tile = Vars.world.tile(tx, ty);
+                    if(tile == null) continue;
+                    if(tile.build != null && tile.build.tile != tile) continue;
+                    if(!(tile.block() instanceof AquaWall)) continue;
+                    visibleWallShadows.add(tile);
+                }
+            }
+        }
 
         Draw.drawRange(Layer.shadow, 0.0001f,
-                () -> buffer.begin(Color.clear),
+                () -> {
+                    buffer.begin(Color.clear);
+                    visibleWallShadows.each(tile -> ((AquaWall)tile.block()).drawShadow(tile));
+                },
                 () -> {
                     buffer.end();
-                    buffer.blit(AquaShaders.shadow);
+                    if(AquaShaders.shadow != null) buffer.blit(AquaShaders.shadow);
                 }
         );
 //Heat is nigh Useless and is barely used at all

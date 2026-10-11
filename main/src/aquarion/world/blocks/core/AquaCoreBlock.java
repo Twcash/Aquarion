@@ -2,6 +2,9 @@ package aquarion.world.blocks.core;
 
 import arc.Events;
 import arc.struct.Seq;
+import aquarion.world.items.AquaItemEntity;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.Damage;
@@ -37,7 +40,45 @@ public class AquaCoreBlock extends CoreBlock {
         }
     }
 
-    public class AquaCoreBuild extends CoreBuild{
+    public class AquaCoreBuild extends CoreBuild implements AquaItemEntity.Container{
+        private final Seq<AquaItemEntity> trackedItems = new Seq<>();
+
+        @Override
+        public Seq<AquaItemEntity> aquaItemEntities(){
+            return trackedItems;
+        }
+
+        @Override
+        public void handleItem(Building source, Item item){
+            int before = items.get(item);
+            super.handleItem(source, item);
+            if(items.get(item) > before) AquaItemEntity.addIfTracked(trackedItems, AquaItemEntity.capture(source, item));
+        }
+
+        @Override
+        public void updateTile(){
+            AquaItemEntity.update(trackedItems, items, edelta());
+            super.updateTile();
+        }
+
+        @Override
+        public byte version(){
+            return (byte)(super.version() + 1);
+        }
+
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            AquaItemEntity.write(write, trackedItems);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            if(revision > super.version()) AquaItemEntity.read(read, trackedItems);
+            AquaItemEntity.reconcile(items, trackedItems);
+        }
+
         @Override
         public boolean collision(Bullet other){
             boolean wasDead = health <= 0;

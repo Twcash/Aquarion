@@ -409,6 +409,7 @@ public class TantrosTechTree {
                                 nodeProduce(compositeSteel, () -> {});
                                 nodeProduce(pitchblende, () -> {
                                     nodeProduce(uranium, () -> {
+                                            node(laserEnricher, () -> {});
                                         nodeProduce(thorium, () -> {
                                             nodeProduce(radium, () -> {});
                                         });
