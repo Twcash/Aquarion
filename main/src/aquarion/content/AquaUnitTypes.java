@@ -24,9 +24,11 @@ import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
 import arc.math.geom.Rect;
+import arc.math.geom.Vec2;
 import arc.util.Tmp;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.BuilderAI;
@@ -46,6 +48,7 @@ import mindustry.entities.pattern.ShootAlternate;
 import mindustry.entities.pattern.ShootBarrel;
 import mindustry.entities.units.AIController;
 import mindustry.gen.*;
+import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.StatusEffect;
@@ -71,6 +74,8 @@ public class AquaUnitTypes {
     public static UnitType isop, empusa, oratoria, rhombodera, parasphendale;
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant;
+    //malis
+    public static UnitType pawn, bishop, rook;
     public static @Annotations.EntityDef(value = {Unitc.class, JetUnitc.class}, serialize = false) UnitType martyr;
     public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}, serialize = false) DefunctUnitType endure;
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify, maintainer;
@@ -3946,7 +3951,6 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-
         popper = new UnitType("popper") {{
             constructor = UnitEntity::create;
             flying = true;
@@ -4203,5 +4207,220 @@ public class AquaUnitTypes {
                     new AquaLegConfig(-16/4f/2f, -66/4f/2f, 170, 12){{legExtension = 1;}},
                     new AquaLegConfig(16/4f/2f, -66/4f/2f, -170, 12){{legExtension = 1;}}
             );
+        }};
+        pawn = new ErekirUnitType("pawn"){{
+            constructor = UnitWaterMove::create;
+            speed = 1.15f;
+            drag = 0.12f;
+            hitSize = 10f;
+            health = 620;
+            armor = 5f;
+            accel = 0.4f;
+            rotateSpeed = 3.3f;
+            faceTarget = false;
+            trailLength = 20;
+            waveTrailX = 4f;
+            trailScl = 1.3f;
+            moveSoundVolume = 0.4f;
+            moveSound = Sounds.shipMove;
+            immunities.add(StatusEffects.burning);
+            immunities.add(StatusEffects.melting);
+            weapons.add(new Weapon("aquarion-pawn-gun"){{
+                reload = 30f;
+                x = 0;
+                y = 0;
+                mirror = false;
+                rotate = true;
+                inaccuracy = 2f;
+                rotateSpeed = 2f;
+                rotationLimit = 90f;
+                shake = 1.5f;
+                outlines = true;
+                ejectEffect = Fx.casing2;
+                shootSound = Sounds.shootArtillerySmall;
+                bullet = new ArtilleryBulletType(3f, 20, "aquarion-shell"){{
+                    hitEffect = Fx.flakExplosion;
+                    trailColor = Color.valueOf("d3ffe8");
+                    knockback = 0.8f;
+                    lifetime = 73.5f;
+                    width = height = 11f;
+                    collidesTiles = false;
+                    splashDamageRadius = 30f * 0.75f;
+                    splashDamage = 40f;
+                }};
+            }});
+        }};
+        bishop = new ErekirUnitType("bishop"){{
+            constructor = UnitWaterMove::create;
+            speed = 1.15f;
+            drag = 0.12f;
+            hitSize = 10f;
+            health = 620;
+            armor = 5f;
+            accel = 0.4f;
+            rotateSpeed = 3.3f;
+            faceTarget = false;
+            trailLength = 20;
+            waveTrailX = 4f;
+            trailScl = 1.9f;
+            moveSoundVolume = 0.4f;
+            moveSound = Sounds.shipMove;
+            immunities.add(StatusEffects.burning);
+            immunities.add(StatusEffects.melting);
+            weapons.add(new Weapon("aquarion-bishop-gun"){{
+                shootSound = Sounds.shootLocus;
+                layerOffset = 0.0001f;
+                reload = 60f;
+                shootY = 10f;
+                recoil = 1f;
+                rotate = true;
+                rotateSpeed = 1.4f;
+                mirror = false;
+                shootCone = 2f;
+                x = 0f;
+                y = 0f;
+                heatColor = Color.valueOf("f9350f");
+                cooldownTime = 90f;
+                bullet = new RailBulletType(){{
+                    length = 200f;
+                    damage = 170f;
+                    hitColor = Color.valueOf("d3ffe8");
+                    hitEffect = endEffect = Fx.hitBulletColor;
+                    pierceDamageFactor = 0.8f;
+
+                    smokeEffect = Fx.colorSpark;
+
+                    endEffect = new Effect(14f, e -> {
+                        color(211,255,231);
+                        Drawf.tri(e.x, e.y, e.fout() * 1.5f, 5f, e.rotation);
+                    });
+
+                    shootEffect = new Effect(10, e -> {
+                        color(211,255,231);
+                        float w = 1.2f + 7 * e.fout();
+
+                        Drawf.tri(e.x, e.y, w, 30f * e.fout(), e.rotation);
+                        color(211,255,231);
+
+                        for(int i : Mathf.signs){
+                            Drawf.tri(e.x, e.y, w * 0.9f, 18f * e.fout(), e.rotation + i * 90f);
+                        }
+
+                        Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
+                    });
+
+                    lineEffect = new Effect(20f, e -> {
+                        if(!(e.data instanceof Vec2 v)) return;
+
+                        color(211,255,231);
+                        stroke(e.fout() * 0.9f + 0.6f);
+
+                        Fx.rand.setSeed(e.id);
+                        for(int i = 0; i < 7; i++){
+                            Fx.v.trns(e.rotation, Fx.rand.random(8f, v.dst(e.x, e.y) - 8f));
+                            Lines.lineAngleCenter(e.x + Fx.v.x, e.y + Fx.v.y, e.rotation + e.finpow(), e.foutpowdown() * 20f * Fx.rand.random(0.5f, 1f) + 0.3f);
+                        }
+
+                        e.scaled(14f, b -> {
+                            stroke(b.fout() * 1.5f);
+                            color(211,255,231);
+                            Lines.line(e.x, e.y, v.x, v.y);
+                        });
+                    });
+                }};
+            }});
+        }};
+        rook = new ErekirUnitType("rook"){{
+            constructor = UnitWaterMove::create;
+            speed = 1f;
+            drag = 0.12f;
+            hitSize = 10f;
+            health = 3200;
+            armor = 8f;
+            accel = 0.3f;
+            rotateSpeed = 3f;
+            faceTarget = false;
+            trailLength = 20;
+            waveTrailX = 4f;
+            trailScl = 2.4f;
+            moveSoundVolume = 0.4f;
+            moveSound = Sounds.shipMove;
+            immunities.add(StatusEffects.burning);
+            immunities.add(StatusEffects.melting);
+            immunities.remove(StatusEffects.wet);
+            weapons.add(new Weapon("aquarion-rook-gun"){{
+                layerOffset = 0.1f;
+                reload = 5f;
+                x = 0;
+                y = -4f;
+                mirror = false;
+                rotate = true;
+                inaccuracy = 2f;
+                rotateSpeed = 3f;
+                shake = 1.5f;
+                outlines = true;
+                shootSound = Sounds.shootFlamePlasma;
+                shootSoundVolume = 0.8f;
+                bullet = new BulletType(3.5f, 29f){{
+                    ammoMultiplier = 3f;
+                    hitSize = 7f;
+                    lifetime = 24f;
+                    range = 24*3.5f;
+                    pierce = true;
+                    collidesAir = true;
+                    collidesGround = true;
+                    statusDuration = 60f * 2;
+                    hitEffect = Fx.hitFlamePlasma;
+                    ejectEffect = Fx.none;
+                    despawnEffect = Fx.none;
+                    status = StatusEffects.electrified;
+                    keepVelocity = false;
+                    hittable = false;
+                    shootEffect = new Effect(40f, 80f, e -> {
+                        color(Color.white, Color.valueOf("d3ffe8"), Color.valueOf("5ec1bf"), e.fin());
+
+                        randLenVectors(e.id, 8, e.finpow() * 90f, e.rotation, 10f, (x, y) -> {
+                            Fill.circle(e.x + x, e.y + y, 0.65f + e.fout() * 1.5f);
+                            Drawf.light(e.x + x, e.y + y, 16f * e.fout(), Pal.heal, 0.6f);
+                        });
+                    });
+                }};
+                parts.add(new RegionPart("-blade") {{
+                    mirror = true;
+                    x = 5-1/8f;
+                    y = -5f;
+                    progress = PartProgress.recoil.curve(Interp.pow2In).add(PartProgress.warmup.curve(Interp.pow2In));
+                    outline = true;
+                    outlineColor = Pal.darkOutline;
+                    moveRot = -15f;
+                    layerOffset = 0.1f;
+                    top = true;
+                }});
+            }});
+            /*weapons.add(new Weapon("aquarion-rook-gun-blade"){{
+                layerOffset = 0.05f;
+                rotate = true;
+                top = true;
+                rotateSpeed = 4;
+                x = 65/8f;
+                y = -60/8f;
+                bullet = new BasicBulletType(3f, 18){{
+                    width = 7f;
+                    height = 9f;
+                    lifetime = 60f;
+                    reload = 15f;
+                }};
+            }});*/
+            abilities.add(new ShieldArcAbility(){{
+                radius = 35f;
+                angle = 75f;
+                regen = 30f / 60f;
+                cooldown = 60f * 8f;
+                max = 2100f;
+                y = -12f;
+                width = 4f;
+                whenShooting = false;
+                chanceDeflect = 0f;
+            }});
         }};
     }}

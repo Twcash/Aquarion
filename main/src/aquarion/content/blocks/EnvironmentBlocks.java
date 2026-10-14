@@ -1060,11 +1060,12 @@ public class EnvironmentBlocks {
             underBullets = true;
             targetable = false;
             createRubble = false;
-            layer = Layer.blockOver + 1;
-            shadowLayer = Layer.blockOver - 1;
+            layer = Layer.floor+2;
+            shadowLayer = Layer.floor+1f;
             buildTime = 4 * 60f;
             solid = false;
             requiresWater = true;
+            shadowOffset = 0f;
         }};
         deadVarcaudStalk = new FloraBlock("dead-varcaud-stalk") {{
             shadowAlpha = 0.6f;
