@@ -33,6 +33,9 @@ import mindustry.world.blocks.Autotiler;
 import mindustry.world.blocks.distribution.*;
 import mindustry.Vars;
 import mindustry.world.blocks.liquid.Conduit;
+import aquarion.world.items.AquaItemEntity;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 
 import static mindustry.Vars.itemSize;
 import static mindustry.Vars.tilesize;
@@ -93,7 +96,8 @@ public class SealedConveyor extends Duct implements Autotiler{
         if(bridgeReplacement instanceof DuctBridge bridge) Placement.calculateBridges(plans, bridge, hasJuntionReplacement, b -> b instanceof Duct || b instanceof SealedConveyor || b instanceof Conduit);
         if(bridgeReplacement instanceof ItemBridge bridge) Placement.calculateBridges(plans, bridge, hasJuntionReplacement, b -> b instanceof SealedConveyor || b instanceof Conduit);
     }
-    public class SealedConveyorBuild extends Building {
+    public class SealedConveyorBuild extends Building implements AquaItemEntity.Container {
+        private final Seq<AquaItemEntity> trackedItems = new Seq<>();
         public boolean backCapped = false;
         public boolean capped = false;
         //next entity
@@ -101,11 +105,18 @@ public class SealedConveyor extends Duct implements Autotiler{
         public @Nullable Conveyor.ConveyorBuild nextc;
         public float progress;
         public @Nullable Item current;
+        public int currentData;
+        public float currentAge;
         public int recDir = 0;
         public int blendbits, xscl, yscl, blending;
         public int blendsclx = 1, blendscly = 1;
 
         public float clogHeat = 0f;
+
+        @Override
+        public Seq<AquaItemEntity> aquaItemEntities(){
+            return trackedItems;
+        }
         protected void drawAt(float x, float y, int bits, float rotation, SliceMode slice){
             int frame = enabled && clogHeat < 1f ? (int) (((Time.time * visualSpeed * .05f * timeScale * efficiency / clogHeat)) % 4) : 0;
             Draw.z(Layer.blockUnder + 0.1f);
@@ -118,7 +129,11 @@ public class SealedConveyor extends Duct implements Autotiler{
         @Override
         public int removeStack(Item item, int amount){
             int removed = super.removeStack(item, amount);
-            if(item == current) current = null;
+            if(item == current){
+                current = null;
+                currentData = 0;
+                currentAge = 0f;
+            }
             return removed;
         }
 
@@ -145,7 +160,9 @@ public class SealedConveyor extends Duct implements Autotiler{
             current = item;
             progress = -1f;
             recDir = relativeToEdge(source.tile);
-            items.add(item, 1);
+            AquaItemEntity.receive(this, source, item, items, trackedItems);
+            currentData = trackedItems.isEmpty() ? 0 : trackedItems.first().data;
+            currentAge = trackedItems.isEmpty() ? 0f : trackedItems.first().age;
             noSleep();
         }
 
@@ -200,7 +217,7 @@ public class SealedConveyor extends Duct implements Autotiler{
                         .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
                                 Mathf.clamp((progress + 1f) / 2f));
 
-                Draw.rect(current.fullIcon, x + Tmp.v1.x, y + Tmp.v1.y, itemSize, itemSize);
+                AquaItemEntity.draw(current, currentData, currentAge, x + Tmp.v1.x, y + Tmp.v1.y, itemSize);
             }
             Draw.scl(xscl, yscl);
             drawAt(x, y, blendbits, rotation, SliceMode.none);
@@ -258,13 +275,14 @@ public class SealedConveyor extends Duct implements Autotiler{
     }
         @Override
         public void updateTile(){
+            AquaItemEntity.update(trackedItems, items, edelta());
+            current = trackedItems.isEmpty() ? (items.total() == 0 ? null : items.first()) : trackedItems.first().item;
+            AquaItemEntity trackedCurrent = current == null ? null : trackedItems.find(entity -> entity.item == current);
+            currentData = trackedCurrent == null ? 0 : trackedCurrent.data;
+            currentAge = trackedCurrent == null ? 0f : trackedCurrent.age;
             progress += edelta() / speed * 2f;
             if(progress != 0 && next != null){
                 clogHeat = Mathf.approachDelta(clogHeat, 1f, 1f / stopSpeed);
-            }
-            if(current != null && current.radioactivity > 0){
-                handleDamage(current.radioactivity /10f);
-                if(Mathf.chance(0.05f)) Fx.smoke.at(this);
             }
 
             if(current != null){
@@ -285,6 +303,8 @@ public class SealedConveyor extends Duct implements Autotiler{
                     }
                     items.remove(current, 1);
                     current = null;
+                    currentData = 0;
+                    currentAge = 0f;
                     progress %= (1f - 1f/speed);
                     clogHeat = 0;
                 } else if(progress >= (1f - 1f/speed)){
@@ -299,6 +319,29 @@ public class SealedConveyor extends Duct implements Autotiler{
             if(current == null && items.total() > 0){
                 current = items.first();
             }
+            AquaItemEntity.reconcile(items, trackedItems);
+        }
+
+        @Override
+        public byte version(){
+            return 1;
+        }
+
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            AquaItemEntity.write(write, trackedItems);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            if(revision >= 1) AquaItemEntity.read(read, trackedItems);
+            AquaItemEntity.reconcile(items, trackedItems);
+            current = items.first();
+            currentData = trackedItems.isEmpty() ? 0 : trackedItems.first().data;
+            currentAge = trackedItems.isEmpty() ? 0f : trackedItems.first().age;
         }
     }
 }
+

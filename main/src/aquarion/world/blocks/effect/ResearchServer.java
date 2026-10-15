@@ -12,8 +12,8 @@ import static mindustry.Vars.content;
 public class ResearchServer {
     public static final String SAVE_KEY = "aquarion-research";
 
-    /** Global research pool: sectorId -> (item -> amount). Persisted to file. */
-    public static final ObjectMap<Integer, ObjectMap<Item, Integer>> globalResearch = new ObjectMap<>();
+    /** Global research pool: planet/sector key -> (item -> amount). Persisted to file. */
+    public static final ObjectMap<String, ObjectMap<Item, Integer>> globalResearch = new ObjectMap<>();
 
     private ResearchServer() {}
 
@@ -25,7 +25,7 @@ public class ResearchServer {
         try {
             StringBuilder sb = new StringBuilder();
             boolean firstEntry = true;
-            for (ObjectMap.Entry<Integer, ObjectMap<Item, Integer>> sectorEntry : globalResearch) {
+            for (ObjectMap.Entry<String, ObjectMap<Item, Integer>> sectorEntry : globalResearch) {
                 if (!firstEntry) sb.append("#");
                 firstEntry = false;
                 sb.append(sectorEntry.key);
@@ -54,7 +54,7 @@ public class ResearchServer {
                 String[] parts = sectorStr.split("=");
                 if (parts.length != 2) continue;
                 try {
-                    int sectorId = Integer.parseInt(parts[0]);
+                    String sectorKey = parts[0].matches("\\d+") ? "legacy:" + parts[0] : parts[0];
                     ObjectMap<Item, Integer> items = new ObjectMap<>();
                     String[] itemStrs = parts[1].split(",");
                     for (String itemStr : itemStrs) {
@@ -69,7 +69,7 @@ public class ResearchServer {
                         }
                     }
                     if (!items.isEmpty()) {
-                        globalResearch.put(sectorId, items);
+                        globalResearch.put(sectorKey, items);
                     }
                 } catch (NumberFormatException ignored) {}
             }
@@ -80,7 +80,7 @@ public class ResearchServer {
     /** Get total research items across all sectors. */
     public static ObjectMap<Item, Integer> getAllResearch() {
         ObjectMap<Item, Integer> total = new ObjectMap<>();
-        for (ObjectMap.Entry<Integer, ObjectMap<Item, Integer>> sectorEntry : globalResearch) {
+        for (ObjectMap.Entry<String, ObjectMap<Item, Integer>> sectorEntry : globalResearch) {
             for (ObjectMap.Entry<Item, Integer> itemEntry : sectorEntry.value) {
                 total.put(itemEntry.key, total.get(itemEntry.key, 0) + itemEntry.value);
             }
@@ -95,7 +95,7 @@ public class ResearchServer {
         double percentage = (double) amount / total;
         int remaining = amount;
 
-        for (ObjectMap.Entry<Integer, ObjectMap<Item, Integer>> sectorEntry : globalResearch) {
+        for (ObjectMap.Entry<String, ObjectMap<Item, Integer>> sectorEntry : globalResearch) {
             if (remaining <= 0) break;
             int have = sectorEntry.value.get(item, 0);
             if (have <= 0) continue;
@@ -109,7 +109,7 @@ public class ResearchServer {
     }
 
     public static int getSectorResearchTotal(int sectorId) {
-        ObjectMap<Item, Integer> sectorResearch = globalResearch.get(sectorId);
+        ObjectMap<Item, Integer> sectorResearch = globalResearch.get("legacy:" + sectorId);
         if (sectorResearch == null) return 0;
         int total = 0;
         for (ObjectMap.Entry<Item, Integer> entry : sectorResearch) {
@@ -119,38 +119,67 @@ public class ResearchServer {
     }
 
     public static void addResearch(int sectorId, Item item, int amount) {
+        addResearch("legacy:" + sectorId, item, amount);
+    }
+
+    public static String sectorKey(Sector sector) {
+        return sector.planet.name + ":" + sector.id;
+    }
+
+    public static ObjectMap<Item, Integer> getSectorResearch(Sector sector) {
+        ObjectMap<Item, Integer> research = globalResearch.get(sectorKey(sector));
+        return research == null ? globalResearch.get("legacy:" + sector.id) : research;
+    }
+
+    public static void addResearch(Sector sector, Item item, int amount) {
+        addResearch(sectorKey(sector), item, amount);
+    }
+
+    private static void addResearch(String key, Item item, int amount) {
         if (amount <= 0) return;
 
-        ObjectMap<Item, Integer> sectorResearch = globalResearch.get(sectorId);
+        ObjectMap<Item, Integer> sectorResearch = globalResearch.get(key);
         if (sectorResearch == null) {
             sectorResearch = new ObjectMap<>();
-            globalResearch.put(sectorId, sectorResearch);
+            globalResearch.put(key, sectorResearch);
         }
         sectorResearch.put(item, sectorResearch.get(item, 0) + amount);
         saveGlobalResearch();
     }
 
+    /** Remove researched items from the selected sector only. */
+    public static void removeResearch(Sector sector, Item item, int amount) {
+        ObjectMap<Item, Integer> research = getSectorResearch(sector);
+        if(research == null || amount <= 0) return;
+        String key = sectorKey(sector);
+        if(globalResearch.get(key) == null) key = "legacy:" + sector.id;
+        int remaining = Math.max(0, research.get(item, 0) - amount);
+        if(remaining == 0) research.remove(item);
+        else research.put(item, remaining);
+        if(research.isEmpty()) globalResearch.remove(key);
+        saveGlobalResearch();
+    }
+
     /** Read sector export rates (averaged by SectorInfo) and add to global research pool. Call periodically. */
     public static void updateResearchFromExports() {
-        Planet planet = Vars.state.getPlanet();
-        if (planet == null) return;
-
         boolean changed = false;
-        for (Sector sector : planet.sectors) {
-            if (!sector.hasBase()) continue;
-            int sectorId = sector.id;
-            sector.info.export.each((item, stat) -> {
-                if (stat.mean > 0) {
-                    int amount = Math.max(1, (int) stat.mean);
-                    ObjectMap<Item, Integer> sectorResearch = globalResearch.get(sectorId);
-                    if (sectorResearch == null) {
-                        sectorResearch = new ObjectMap<>();
-                        globalResearch.put(sectorId, sectorResearch);
+        for (Planet planet : Vars.content.planets()) {
+            for (Sector sector : planet.sectors) {
+                if (!sector.hasBase() || sector.info == null || sector.info.export == null) continue;
+                String key = sectorKey(sector);
+                sector.info.export.each((item, stat) -> {
+                    if (stat.mean > 0) {
+                        int amount = Math.max(1, (int) stat.mean);
+                        ObjectMap<Item, Integer> sectorResearch = globalResearch.get(key);
+                        if (sectorResearch == null) {
+                            sectorResearch = new ObjectMap<>();
+                            globalResearch.put(key, sectorResearch);
+                        }
+                        sectorResearch.put(item, sectorResearch.get(item, 0) + amount);
                     }
-                    sectorResearch.put(item, sectorResearch.get(item, 0) + amount);
-                }
-            });
-            if (sector.info.export.size > 0) changed = true;
+                });
+                if (sector.info.export.size > 0) changed = true;
+            }
         }
         if (changed) saveGlobalResearch();
     }

@@ -3,6 +3,7 @@ package aquarion.world.type;
 import aquarion.ui.AquaBarHelpers;
 import aquarion.world.Uti.AquaStats;
 import aquarion.world.blocks.AquaBlock;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.consumers.AquaConsume;
 import arc.Core;
 import arc.graphics.Color;
@@ -40,6 +41,8 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.meta.*;
+import arc.struct.Seq;
+import aquarion.world.items.AquaItemEntity;
 
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
@@ -177,6 +180,7 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         if (makesHeat) {
             stats.add(Stat.output, heatOutput, StatUnit.heatUnits);
         };
+        AlternativeBuildCosts.applyStats(this);
     }
 
 @Override
@@ -363,12 +367,34 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         }
     }
 
-    public class AquaGenericCrafterBuild extends Building implements HeatConsumer{
+    public class AquaGenericCrafterBuild extends Building implements HeatConsumer, AlternativeBuildCosts.CostChoiceReceiver, AquaItemEntity.Container{
+        private final Seq<AquaItemEntity> trackedItems = new Seq<>();
         public float progress;
         public float totalProgress;
         public float warmup;
         public float[] sideHeat = new float[4];
         public float heat = 0f;
+        private ItemStack constructionCost;
+
+        @Override
+        public Seq<AquaItemEntity> aquaItemEntities(){
+            return trackedItems;
+        }
+
+        @Override
+        public void handleItem(Building source, Item item){
+            AquaItemEntity.receive(this, source, item, items, trackedItems);
+        }
+
+        @Override
+        public void setBuildCostStack(ItemStack stack){
+            constructionCost = stack == null ? null : stack.copy();
+        }
+
+        @Override
+        public ItemStack buildCostStack(){
+            return constructionCost == null ? null : constructionCost.copy();
+        }
 
         @Override
         public void draw(){
@@ -431,6 +457,7 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         }
         @Override
         public void updateTile(){
+            AquaItemEntity.update(trackedItems, items, edelta());
             if(hasHeat){
                 heat = calculateHeat(sideHeat);
             }
@@ -480,6 +507,7 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
             if (makesHeat) {
                 heat = Mathf.approachDelta(heat, heatOutput * efficiency, warmupRate * delta());
             };
+            AquaItemEntity.reconcile(items, trackedItems);
         }
         @Override
         public float getProgressIncrease(float baseTime){
@@ -551,6 +579,10 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         }
         @Override
         public void offload(Item item) {
+            offload(item, 0);
+        }
+
+        public void offload(Item item, int entityData) {
             this.produced(item, 1);
             int dump = this.cdump;
 
@@ -558,14 +590,13 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                 this.incrementDump(this.proximity.size);
                 Building other = (Building)this.proximity.get((i + dump) % this.proximity.size);
                 if (other.acceptItem(this, item) && this.canDump(other, item)) {
-                    if(item.radioactivity > 0) Damage.damage(x,y, block.size * 2f, item.radioactivity/10f);
                     if(Mathf.chance(0.05f)) Fx.smoke.at(this);
-                    other.handleItem(this, item);
+                    AquaItemEntity.handleProduced(this, other, item, entityData);
                     return;
                 }
             }
 
-            this.handleItem(this, item);
+            AquaItemEntity.handleProduced(this, this, item, entityData);
         }
         public float liquidEff(){
             return ((AquaBlock)block).getEfficiency(this, ConsumeLiquidBase.class);
@@ -578,7 +609,6 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         public void dumpOutputs(){
             if(outputItems != null && timer(timerDump, dumpTime / timeScale)){
                 for(ItemStack output : outputItems){
-                    if(output.item.radioactivity > 0) Damage.damage(x,y, block.size * 2f, output.item.radioactivity/10f);
                     if(output.item.radioactivity > 0 && Mathf.chance(0.05f)) Fx.smoke.at(this);
                     dump(output.item);
                 }
@@ -668,6 +698,14 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
             write.f(progress);
             write.f(warmup);
             if(legacyReadWarmup) write.f(0f);
+            write.s((short)(constructionCost == null ? -1 : constructionCost.item.id));
+            write.i(constructionCost == null ? -1 : constructionCost.amount);
+            AquaItemEntity.write(write, trackedItems);
+        }
+
+        @Override
+        public byte version(){
+            return 2;
         }
         public float lastOpacity = 0;
 
@@ -679,6 +717,13 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
             progress = read.f();
             warmup = heat = read.f();
             if(legacyReadWarmup) read.f();
+            if(revision >= 1){
+                short itemId = read.s();
+                int itemAmount = read.i();
+                constructionCost = itemId < 0 || itemAmount < 0 ? null : new ItemStack(Vars.content.item(itemId), itemAmount);
+            }
+            if(revision >= 2) AquaItemEntity.read(read, trackedItems);
+            AquaItemEntity.reconcile(items, trackedItems);
         }
     }
     public class AquaGenericCrafterProducerBuild extends AquaGenericCrafterBuild implements HeatBlock{
@@ -693,3 +738,4 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         }
     }
 }
+

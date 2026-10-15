@@ -84,20 +84,21 @@ public class AquaResearchDialog extends BaseDialog {
 
     public void autoSpend() {
         if (!Vars.state.isCampaign() || Vars.state.getSector() == null) return;
-        int sectorId = Vars.state.getSector().id;
-        ObjectMap<Item, Integer> sectorResearch = ResearchServer.globalResearch.get(sectorId);
+        Sector sector = Vars.state.getSector();
+        ObjectMap<Item, Integer> sectorResearch = ResearchServer.getSectorResearch(sector);
         if (sectorResearch == null || sectorResearch.isEmpty()) return;
 
-        spendRecursive(root.node, sectorResearch);
+        TechNode planetTree = sector.planet.techTree;
+        if(planetTree != null) spendRecursive(planetTree, sector, sectorResearch);
     }
 
-    private void spendRecursive(TechNode node, ObjectMap<Item, Integer> research) {
+    private void spendRecursive(TechNode node, Sector sector, ObjectMap<Item, Integer> research) {
         if (node == null) return;
 
         // only recurse into children if this node is unlocked
         if (!node.content.locked()) {
             for (TechNode child : node.children) {
-                spendRecursive(child, research);
+                spendRecursive(child, sector, research);
             }
             return;
         }
@@ -111,7 +112,7 @@ public class AquaResearchDialog extends BaseDialog {
             node.content.unlock();
             node.save();
             for (TechNode child : node.children) {
-                spendRecursive(child, research);
+                spendRecursive(child, sector, research);
             }
             return;
         }
@@ -127,7 +128,7 @@ public class AquaResearchDialog extends BaseDialog {
             int used = Math.min(remaining, available);
             if (used > 0) {
                 node.finishedRequirements[i].amount += used;
-                ResearchServer.removeResearch(item, used);
+                ResearchServer.removeResearch(sector, item, used);
                 research.put(item, available - used);
             }
         }
@@ -138,7 +139,7 @@ public class AquaResearchDialog extends BaseDialog {
         }
 
         for (TechNode child : node.children) {
-            spendRecursive(child, research);
+            spendRecursive(child, sector, research);
         }
     }
 
@@ -887,20 +888,20 @@ public class AquaResearchDialog extends BaseDialog {
                                         }).fillX().left();
                                         t.row();
                                     }
-                                } else if (node.objectives.size > 0) {
-                                    desc.add("@complete").colspan(2).left();
-                                    desc.row();
-                                    if (node.objectives.size > 0) {
-                                        desc.table(r -> {
-                                            for (Objective o : node.objectives) {
-                                                r.add("> " + o.display()).color(Color.lightGray).left();
-                                                r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Pal.heal : Pal.health).padLeft(3);
-                                                r.row();
-                                            }
-                                        });
-                                    }
                                 }
                             });
+                            if(node.objectives.size > 0){
+                                desc.add("@complete").colspan(2).left();
+                                desc.row();
+                                desc.table(r -> {
+                                    for(Objective objective : node.objectives){
+                                        r.add("> " + objective.display()).color(Color.lightGray).left();
+                                        r.image(objective.complete() ? Icon.ok : Icon.cancel,
+                                            objective.complete() ? Pal.heal : Pal.health).padLeft(3);
+                                        r.row();
+                                    }
+                                });
+                            }
                         }
                     } else {
                         desc.add("@completed").colspan(2).left();

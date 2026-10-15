@@ -56,7 +56,7 @@ public class Monsoon extends Weather {
         attrs.set(AquaAttributes.wind, 1f);
         statusDuration = 240;
         soundVol = 1;
-        duration = 15 * Time.toMinutes;
+        duration = 10 * Time.toMinutes;
         soundVolMin = 0.8f;
     }
 

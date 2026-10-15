@@ -29,6 +29,9 @@ public class deflectorShield extends ForceProjector {
             super.updateTile();
 
             deflectBullets();
+            if(Vars.renderer.animateShields && !broken && deflectWarmup > 0.01f && realRadius() > 0.001f){
+                Renderer.requestDeflectorPass();
+            }
         }
 
         public void deflectBullets() {
@@ -94,6 +97,10 @@ public class deflectorShield extends ForceProjector {
 
             float radius = this.realRadius();
             if (radius <= 0.001F) return;
+
+            if(Vars.renderer.animateShields){
+                Renderer.requestDeflectorPass();
+            }
 
             Draw.color(Color.gray.a(0.4f * deflectWarmup), Color.white, Mathf.clamp(hit));
             if (Vars.renderer.animateShields) {

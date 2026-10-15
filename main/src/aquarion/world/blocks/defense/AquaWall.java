@@ -20,13 +20,19 @@ public class AquaWall extends Wall {
     public AquaWall(String name) {
         super(name);
         hasShadow = true;
-        customShadow = true;
+        // AquaWall shadows are submitted by Renderer during its shadow shader pass.
+        // Letting BlockRenderer draw them during the regular block pass is too late
+        // for that framebuffer capture.
+        customShadow = false;
+        drawCached = false;
+        drawDynamic = true;
     }
     @Override
     public void load(){
         super.load();
         custShad = Core.atlas.find(name + "-shadow");
     }
+
     @Override
     public void drawShadow(Tile tile){
         Draw.z(shadow);

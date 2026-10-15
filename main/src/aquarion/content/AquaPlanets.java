@@ -71,7 +71,7 @@ public class AquaPlanets {
             meshLoader = () -> new HexMesh(this, 5);
             alwaysUnlocked = false;
             orbitOffset = 85;
-            orbitRadius = 60;
+            orbitRadius = 30;
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.3f;
             defaultEnv = Env.scorching | Env.terrestrial;
@@ -112,7 +112,6 @@ public class AquaPlanets {
         fakeSerpulo = new Planet("fakeSerp", citun, 1.2f, 4){{
             generator = new FakeSerpuloPlanetGenerator();
             meshLoader = () -> {
-                // auto-fits the station around the planet (outer radius = planet.radius * fitScale)
                 GlTFMesh ring = new GlTFMesh(this, "models/orbital-ring.glb", 1);
                 ring.setProgressProvider(GlTFMesh::techProgress);
                 ring.invertProgress = true;
@@ -180,7 +179,7 @@ public class AquaPlanets {
             startSector = 1;
             generator = new DelubrumPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 3);
-            orbitRadius = 12;
+            orbitRadius = 15;
             orbitOffset = 52;
             visible = true;
             accessible = true;

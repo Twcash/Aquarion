@@ -1,7 +1,10 @@
 package aquarion.content.blocks;
 
 import aquarion.content.*;
+import aquarion.world.blocks.AquaBlock;
 import aquarion.world.blocks.core.AquaCoreBlock;
+import aquarion.world.blocks.core.TrackedStorageBlock;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.core.Bomb;
 import aquarion.world.blocks.core.InfomaticBlock;
 import aquarion.world.blocks.core.OverclockProjector;
@@ -67,6 +70,7 @@ public class CoreBlocks {
     }
 
     public static void loadContent() {
+
         infomatic = new InfomaticBlock("infomatic"){{
             requirements(Category.logic, with(silicon, 10));
             canOverdrive = false;
@@ -134,7 +138,7 @@ public class CoreBlocks {
             bannedFloor  = EnvironmentBlocks.rubble.asFloor();
             targetFloor = EnvironmentBlocks.rubble.asFloor();
         }};
-        cache = new StorageBlock("cache") {{
+        cache = new TrackedStorageBlock("cache") {{
             requirements(Category.effect, with(aluminum, 160, silicon, 150, ferricMatter, 300));
             itemCapacity = 900;
             coreMerge = true;
@@ -146,7 +150,7 @@ public class CoreBlocks {
             envDisabled = Env.none;
             //drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}}, new DrawDefault());
         }};
-        crate = new StorageBlock("crate") {{
+        crate = new TrackedStorageBlock("crate") {{
             requirements(Category.effect, with(cupronickel, 400, silicon, 800));
             itemCapacity = 150;
             coreMerge = false;
@@ -364,19 +368,6 @@ public class CoreBlocks {
                 requirements(Category.effect, with(silicon, 1));
                 baseSize = 16;
             }});
-            shouldEmptyUpgrade = true;
-            emptyUpgrade = null;
-//            emptyUpgrade = (GenericNeoplasiaBlock) (thicBlob = new GenericNeoplasiaBlock("thic-neoplasia-blob") {{
-//                base = (GenericNeoplasiaBlock) neoplasiaMass;
-//                baseSize = 16;
-//                maxAmount = 2500;
-//                itemCapacity = 10;
-//                shouldEmptyUpgrade = false;
-//                oreUpgrade = (GenericNeoplasiaBlock) OreSlurper;
-//                damageUpgrade = (GenericNeoplasiaBlock) callus;
-//                colFrom = Color.valueOf("cf683b");
-//                colTo = Color.valueOf("e2c451");
-//            }});
         }};
         enzyme = new NeoplasiaproductionBlock("enzyme") {{
             requirements(Category.effect, with(silicon, 1));
@@ -530,7 +521,7 @@ public class CoreBlocks {
             squareSprite = false;
         }};
         researchVoider = new ResearchVoider("translation-matrix") {{
-            requirements(Category.effect, with(silicon, 1500, nickel, 900, copper, 1000, metaglass, 200));
+            requirements(Category.effect, with(silicon, 1500, lead, 1000));
             size = 5;
             buildVisibility = BuildVisibility.campaignOnly;
             processRate = 1f;
@@ -542,6 +533,7 @@ public class CoreBlocks {
             alwaysUnlocked = true;
             researchCostMultiplier = 0;
         }};
+        AlternativeBuildCosts.register(researchVoider, with(nickel, 900, zinc, 900));
         laboratory = new ResearchVoider("laboratory"){{
             size = 5;
             squareSprite = false;

@@ -162,6 +162,7 @@ public class AquaFx {
 
                 }
                 Draw.z(Renderer.Layer.glitch);
+                Renderer.requestGlitchPass();
                 TextureRegion tex = Core.atlas.find("circle-shadow");
                 Draw.alpha(e.fout());
                 Draw.rect(tex, e.x, e.y, 2000 * e.fin(), 2000 * e.fin());

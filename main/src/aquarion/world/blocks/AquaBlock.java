@@ -2,7 +2,9 @@ package aquarion.world.blocks;
 
 import aquarion.AquarionMod;
 import aquarion.world.consumers.AquaConsume;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import arc.Core;
+import arc.func.Cons;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import arc.util.Tmp;
@@ -14,6 +16,7 @@ import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.type.Liquid;
 import mindustry.type.LiquidStack;
+import mindustry.ctype.UnlockableContent;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
 import mindustry.world.blocks.heat.HeatConsumer;
@@ -32,6 +35,15 @@ public class AquaBlock extends Block {
     public AquaBlock(String name) {
         super(name);
     }
+
+    @Override
+    public void getDependencies(Cons<UnlockableContent> cons){
+        super.getDependencies(content -> {
+            if(content instanceof Item item && AlternativeBuildCosts.isAlternativeItem(this, item)) return;
+            cons.get(content);
+        });
+    }
+
     public AquaConsume consumeLiq(Liquid liquid, float amount){
         AquaConsume ac = new AquaConsume(new ConsumeLiquid(liquid, amount));
         ac.entries.first().required = true;

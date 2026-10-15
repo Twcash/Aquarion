@@ -67,7 +67,7 @@ public class EnvironmentBlocks {
             boricFloor, pinkSaltFloor, pinkSaltFlats, smoothPinkSaltFloor, boricFloorDense, andesite, basaltPlates, ultrafamicPlates, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor, fluoriteFloor,
             andesiteLayers, basaltSpikes, basaltHolePlates, blueSandFLoor, redSandFloor, brecciaFloor, soil, fertileSoil, nickelFloor,calciteFloor, scrapFloor, andesiteRubble, qusGrass, clay, leafLitter, leafLitterDense, denseStone, stonePores, packedSnow;
     //liquids
-    public static Block clearWaterFloor, blueSandWater, iceWater, brine_liquid, lava, shallowSlag2, wetRocks, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava, deepHalidicWater;
+    public static Block clearWaterFloor, blueSandWater, iceWater, brine_liquid, shallowBrine, lava, shallowSlag2, wetRocks, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava, deepHalidicWater;
     // ores
     public static Block oreNickelWall, oreCalcite, oreRadium, oreUranium, orePitchblende, oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre, miniumOre, pentlanditeOre, fluoriteOre;
     //walls
@@ -88,8 +88,20 @@ public class EnvironmentBlocks {
         rubble = new Floor("rubble"){{
             variants = 3;
         }};
+        shallowBrine = new Floor("shallow-brine") {{
+            speedMultiplier = 0.5f;
+            variants = 0;
+            shallow = true;
+            liquidDrop = AquaLiquids.brine;
+            liquidMultiplier = 1f;
+            isLiquid = true;
+            drownTime = 6000;
+            cacheLayer = AquaShaders.brineLayer;;
+            albedo = 1f;
+            supportsOverlay = true;
+        }};
         brine_liquid = new Floor("brine-liquid") {{
-            speedMultiplier = 0.1f;
+            speedMultiplier = 0.4f;
             variants = 0;
             liquidDrop = AquaLiquids.brine;
             liquidMultiplier = 1.1f;

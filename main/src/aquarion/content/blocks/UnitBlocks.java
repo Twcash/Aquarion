@@ -45,6 +45,7 @@ public class UnitBlocks {
             time = 90;
             consumePower(0.5f);
             unit = maintainer;
+            rebuildable = false;
             beepSound = AquaSounds.distressBeep;
             beepInterval = 240;
             ambientSoundVolume = 1f;

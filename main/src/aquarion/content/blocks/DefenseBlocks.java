@@ -47,7 +47,7 @@ import static mindustry.type.ItemStack.with;
 
 public class DefenseBlocks {
     public static Block forceGenerator, meteor, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
-            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade, defunctForceSynthesizer
+            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade, defunctForceSynthesizer, ferricWall, ferricWallLarge
     //I have no clue where to put these so I'll put them here
     ,dolomiteReagentMix, sandClump;
 
@@ -404,6 +404,19 @@ public class DefenseBlocks {
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.defense, with(chalkalloy, 6));
             health = 110 * 4;
+        }};
+        ferricWall = new Wall("ferric-wall"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.defense, with(ferricMatter, 6));
+            health = 160 * 4;
+            armor = 2;
+        }};
+        ferricWallLarge = new Wall("ferric-wall-large"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.defense, ItemStack.mult(ferricWall.requirements, 4));
+            health = 160 * 4*4;
+            size = 2;
+            armor = 2;
         }};
         chalkalloyWallLarge = new Wall("chalkalloy-wall-large"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
