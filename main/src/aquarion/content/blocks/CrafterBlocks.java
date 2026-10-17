@@ -471,12 +471,13 @@ public class CrafterBlocks {
                 squareSprite = false;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 consumePower(0.5f);
-                drillTime = 240;
+                drillTime = 48;
+                drillMultipliers.put(azurite, 0.2f);
+                drillMultipliers.put(towanite, 0.5f);
                 size = 4;
                 range = 8;
-                consume(new ConsumeLiquidAcidic(1, 0.125f));
+                consume(new ConsumeLiquidAcidic(1, 0.25f));
                 consumeLiquid(ammonia, 8/60f).boost();
-                liquidBoostIntensity = 3f;
                 heatColor = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
             }};
@@ -1854,10 +1855,10 @@ public class CrafterBlocks {
         }};
         invarSmeltery = new GenericCrafter("invar-smeltery"){{
             requirements(Category.crafting, with(ferricMatter, 60, lead, 45, silicon, 25));
-
             craftEffect = Fx.mineBig;
             ambientSound = Sounds.loopSmelter;
             ambientSoundVolume = 0.09f;
+            itemCapacity = 30;
             consumePower(2);
             consumeLiquid(cryofluid, 0.5f);
             consumeItems(ItemStack.with(ferricMatter, 4, nickel, 6));

@@ -74,7 +74,7 @@ public class EnvironmentBlocks {
     public static Block blueSandWall,brimstoneWall,calciteWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,crasindWall, fluoriteWall, fluoriteChunk, cupriteWall, pinkSaltWall, boricWall, arsenideWall, chertWall, chertOutcrop, feldsparOutcrop, algalBloom, algalWall, bloom,
             blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, tranticaOvergrownWall, basaltOutcrop;
     //vents and such
-    public static Block brimstoneVent, geothermal_vent, feldspar_vent, shaleVent, gabbro_vent, andesiteVent, metalVent;
+    public static Block brimstoneVent, geothermal_vent, feldspar_vent, shaleVent, gabbro_vent, andesiteVent, metalVent,geyser;
 
     public static void loadContent() {
         //TODO fix the blend group
@@ -371,6 +371,9 @@ public class EnvironmentBlocks {
         brimstoneFloor = new Floor("brimstone-floor", 3) {{
             itemDrop = brimstone;
         }};
+        geyser = new EffectTiledFloor("geyser",0,5){{
+            parent = blendGroup = brimstoneFloor;
+        }};
         brimstoneVent = new SteamVent("brimstone-vent") {{
             attributes.set(Attribute.steam, 1f);
             parent = blendGroup = brimstoneFloor;
@@ -567,7 +570,7 @@ public class EnvironmentBlocks {
             drawEdgeIn = false;
             clipSize = 3000;
         }};
-        metal3 = new TiledFloor("metal-heat-sink", 1, 2){{
+        metal3 = new EffectTiledFloor("metal-heat-sink", 1, 2){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
@@ -578,8 +581,8 @@ public class EnvironmentBlocks {
             attributes.set(fertility, -5f);
             status = StatusEffects.melting;
             statusDuration = 10;
-//            effect = AquaFx.heatEngineGenerate;
-//            effectSpacing = 120;
+            effect = AquaFx.heatEngineGenerate;
+            effectSpacing = 120;
         }};
         crux1 = new Floor("crux-floor1", 0);
         crux2 = new Floor("crux-floor2", 0);
@@ -691,11 +694,11 @@ public class EnvironmentBlocks {
         metal14 = new Floor("metal-bumpe", 0);
         metal15 = new Floor("metal-plating", 0);
         metal16 = new Floor("metal-flooring", 2);
-        metalVent = new TiledFloor("metal-vent", 1, 3){{
+        metalVent = new EffectTiledFloor("metal-vent", 1, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
-            //effect = AquaFx.vent1;
-            //effectSpacing = 10;
+            effect = AquaFx.vent1;
+            effectSpacing = 10;
             attributes.set(Attribute.steam, 1f);
         }};
         glassFloor = new Floor("glass-floor", 3) {{
