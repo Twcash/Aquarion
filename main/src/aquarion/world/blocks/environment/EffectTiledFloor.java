@@ -59,7 +59,8 @@ public class EffectTiledFloor extends TiledFloor{
 
     @Override
     public void drawMain(Tile tile){
-        if(parent instanceof Floor floor && parent != this){
+        //AirBlock is a Floor too, but has no drawable variant regions.
+        if(parent != Blocks.air && parent instanceof Floor floor && parent != this){
             floor.drawMain(tile);
             floorChanged(tile);
             //Incomplete patches show the parent rather than a missing vent sprite.
@@ -80,7 +81,7 @@ public class EffectTiledFloor extends TiledFloor{
         long packed = world.tiles.getTmpFloorState(tile.array());
         int size = TiledState.size(packed);
         if(size <= 0 || TiledState.x(packed) != 0 || TiledState.y(packed) != 0
-            || (parent instanceof Floor && parent != this && !hasVent(tile))){
+            || (parent != Blocks.air && parent instanceof Floor && parent != this && !hasVent(tile))){
             state.data = 0f;
             return;
         }
