@@ -279,9 +279,11 @@ public class TantrosTechTree {
                                 node(floodPlains, Seq.with(
                                         new Objectives.Research(vector)
                                 ), () -> {
+                                    node(isolatedOutpost, Seq.with(
+                                            new Objectives.Research(bulwark)
+                                    ), () -> {
                                     node(bay, Seq.with(
                                             new Objectives.Research(vector),
-                                            new Objectives.Research(bulwark),
                                             new Objectives.Research(CentrifugalPump)
                                     ), () -> {
                                         node(frigidShores, () -> {
@@ -353,7 +355,12 @@ public class TantrosTechTree {
                                             node(searedWastes, Seq.with(
                                                     new Objectives.SectorComplete(erodedCanyon),
                                                     new Objectives.Research(thrash)), () -> {
-                                                node(dryRiver, Seq.with(new Objectives.SectorComplete(searedWastes)), () -> {
+                                                node(basalticPassageways, Seq.with(
+                                                        new Objectives.SectorComplete(searedWastes)
+                                                ), () -> {
+                                                    node(dryRiver, Seq.with(
+                                                            new Objectives.SectorComplete(basalticPassageways)
+                                                    ), () -> {});
                                                 });
                                             });
                                             node(pipeyard, Seq.with(
@@ -361,8 +368,12 @@ public class TantrosTechTree {
                                                     new Objectives.Research(aluminum)
                                             ), () -> {});
                                         });
-                                        node(diseasedCleft, Seq.with(new Objectives.SectorComplete(bay)), () -> {
-                                            node(fungalTropics, Seq.with(new Objectives.SectorComplete(diseasedCleft)), () -> {
+                                        node(diseasedCleft, Seq.with(
+                                                new Objectives.SectorComplete(bay)
+                                        ), () -> {
+                                            node(fungalTropics, Seq.with(
+                                                    new Objectives.SectorComplete(diseasedCleft)
+                                            ), () -> {
                                                 node(violetValley, Seq.with(
                                                         new Objectives.SectorComplete(fungalTropics),
                                                         new Objectives.Research(sporeProcessor),
@@ -390,6 +401,7 @@ public class TantrosTechTree {
                                     ), () -> {
                                     });
                                 });
+                                });
                                 node(whitewoods, () -> {});
                             });
                         });
@@ -412,7 +424,7 @@ public class TantrosTechTree {
                                 nodeProduce(compositeSteel, () -> {});
                                 nodeProduce(pitchblende, () -> {
                                     nodeProduce(uranium, () -> {
-                                            node(laserEnricher, () -> {});
+                                        nodeProduce(uraniumEnriched, () -> {});
                                         nodeProduce(thorium, () -> {
                                             nodeProduce(radium, () -> {});
                                         });
@@ -618,7 +630,7 @@ public class TantrosTechTree {
                         node(arcFurnace, () -> {
                             node(SilicaOxidator, () -> {});
                             node(ferroSiliconFoundry, Seq.with(
-                                    new Objectives.OnSector(Ecotone)
+                                    new Objectives.OnSector(basalticPassageways)
                             ), () -> {
                                 node(steelFoundry, () -> {});
                             });

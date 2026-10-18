@@ -74,7 +74,7 @@ public class EnvironmentBlocks {
     public static Block blueSandWall,brimstoneWall,calciteWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,crasindWall, fluoriteWall, fluoriteChunk, cupriteWall, pinkSaltWall, boricWall, arsenideWall, chertWall, chertOutcrop, feldsparOutcrop, algalBloom, algalWall, bloom,
             blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, tranticaOvergrownWall, basaltOutcrop;
     //vents and such
-    public static Block brimstoneVent, geothermal_vent, feldspar_vent, shaleVent, gabbro_vent, andesiteVent, metalVent,geyser;
+    public static Block brimstoneVent, geothermal_vent, feldspar_vent, shaleVent, gabbro_vent, andesiteVent, metalVent, brimstoneGeyser;
 
     public static void loadContent() {
         //TODO fix the blend group
@@ -371,7 +371,10 @@ public class EnvironmentBlocks {
         brimstoneFloor = new Floor("brimstone-floor", 3) {{
             itemDrop = brimstone;
         }};
-
+        brimstoneGeyser = new EffectTiledFloor("geyser",0,5){{
+            parent = blendGroup = brimstoneFloor;
+            maxEffectSpacing = 60*60f;
+        }};
         brimstoneVent = new SteamVent("brimstone-vent") {{
             attributes.set(Attribute.steam, 1f);
             parent = blendGroup = brimstoneFloor;
@@ -422,8 +425,7 @@ public class EnvironmentBlocks {
         moss.itemDrop = Items.sporePod;
 
 
-        geothermal_vent = new SteamVent("geothermal-vent") {
-            {
+        geothermal_vent = new SteamVent("geothermal-vent") {{
                 attributes.set(Attribute.steam, 1f);
                 parent = blendGroup = Blocks.basalt;
                 effectSpacing = 15f;
@@ -692,14 +694,10 @@ public class EnvironmentBlocks {
         metal14 = new Floor("metal-bumpe", 0);
         metal15 = new Floor("metal-plating", 0);
         metal16 = new Floor("metal-flooring", 2);
-        metalVent = new EffectTiledFloor("metal-vent", 0, 3){{
+        metalVent = new EffectTiledFloor("metal-vent", 1, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
-            effect = AquaFx.vent2;
-            minEffectDuration = 1;
-            maxEffectDuration = 1;
-            minEffectSpacing = 10;
-            maxEffectSpacing = 10;
+            effect = AquaFx.vent1;
             effectSpacing = 10;
             attributes.set(Attribute.steam, 1f);
         }};
@@ -1528,8 +1526,6 @@ public class EnvironmentBlocks {
             layer = Layer.power + 0.1f;
             placeableLiquid = true;
         }};
-        geyser = new EffectTiledFloor("geyser",0,5){{
-            parent  = brimstoneFloor;
-        }};
+
     }
 }

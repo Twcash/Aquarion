@@ -9,7 +9,7 @@ public class AquaSectorPresets {
     public static SectorPreset  //tantros
     Ingress, diseasedCleft, brinePlateau, FeldsparRavine, Torrent, CrystalCaverns, Grove, Ecotone, SubmergedCanyon, GalenaFringe, ripHold, verdantShallows,
     //serpulo (fake)
-    resurgence, twinPass, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex,  erodedCanyon, searedWastes, fungalTropics, violetValley, frozenLake, stormyCoast, icyRiver, whitewoods, pipeyard, waterfrontFacility,
+    resurgence, twinPass, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex,  erodedCanyon, searedWastes, fungalTropics, violetValley, frozenLake, stormyCoast, icyRiver, whitewoods, pipeyard, waterfrontFacility, isolatedOutpost, basalticPassageways,
     //Delubrum
     lib, ruinedRepository;
     public static void load(){
@@ -24,7 +24,6 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
             outline = false;
         }};
-
         lib = new SectorPreset("lakesideLibrary", AquaPlanets.delubrum,1){{
             outline = false;
             allDatabaseTabs = true;
@@ -169,7 +168,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             outline = false;
         }};
-        dryRiver = new SectorPreset("dried-riverbed", fakeSerpulo, 487){{
+        dryRiver = new SectorPreset("dried-riverbed", fakeSerpulo, 173){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 12;
@@ -218,6 +217,22 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 9;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            outline = false;
+        }};
+        isolatedOutpost = new SectorPreset("isolated-outpost", fakeSerpulo, 344){{
+            allDatabaseTabs = true;
+            addStartingItems = true;
+            difficulty = 3;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            outline = false;
+        }};
+        basalticPassageways = new SectorPreset("basaltic-passageways", fakeSerpulo, 487){{
+            allDatabaseTabs = true;
+            addStartingItems = true;
+            difficulty = 3;
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             outline = false;
