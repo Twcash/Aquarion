@@ -69,11 +69,6 @@ public class FloraBlock extends Block {
         baseRegion = Core.atlas.find(name);
     }
 
-    @Override
-    public void init(){
-        super.init();
-        hasShadow = true;
-    }
 
     @Override
     public void drawBase(Tile tile){
