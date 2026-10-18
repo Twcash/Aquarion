@@ -371,9 +371,7 @@ public class EnvironmentBlocks {
         brimstoneFloor = new Floor("brimstone-floor", 3) {{
             itemDrop = brimstone;
         }};
-        geyser = new EffectTiledFloor("geyser",0,5){{
-            parent = blendGroup = brimstoneFloor;
-        }};
+
         brimstoneVent = new SteamVent("brimstone-vent") {{
             attributes.set(Attribute.steam, 1f);
             parent = blendGroup = brimstoneFloor;
@@ -694,10 +692,14 @@ public class EnvironmentBlocks {
         metal14 = new Floor("metal-bumpe", 0);
         metal15 = new Floor("metal-plating", 0);
         metal16 = new Floor("metal-flooring", 2);
-        metalVent = new EffectTiledFloor("metal-vent", 1, 3){{
+        metalVent = new EffectTiledFloor("metal-vent", 0, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
-            effect = AquaFx.vent1;
+            effect = AquaFx.vent2;
+            minEffectDuration = 1;
+            maxEffectDuration = 1;
+            minEffectSpacing = 10;
+            maxEffectSpacing = 10;
             effectSpacing = 10;
             attributes.set(Attribute.steam, 1f);
         }};
@@ -1526,6 +1528,8 @@ public class EnvironmentBlocks {
             layer = Layer.power + 0.1f;
             placeableLiquid = true;
         }};
-
+        geyser = new EffectTiledFloor("geyser",0,5){{
+            parent  = brimstoneFloor;
+        }};
     }
 }

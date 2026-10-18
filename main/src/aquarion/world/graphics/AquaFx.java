@@ -503,6 +503,22 @@ public class AquaFx {
             Fill.circle(e.x + x + rand.random(-4, 4), e.y + lift + y + rand.random(-4, 4), Interp.pow5In.apply(e.finpow()) * 9.5f + 0.4f);
         });
     }),
+            vent2 = new Effect(150f, e -> {
+                rand.setSeed(e.id + 1);
+
+                Color base = Color.valueOf("ffffff").lerp(Color.valueOf("e4e4d0"), rand.random(0, 1));
+                rand.setSeed(e.id + 5);
+                color(base, AquaPal.smoke.a(0.5f).lerp(Color.valueOf("4a3f3c"), rand.random(0, 1)), Interp.pow2Out.apply(e.fin()));
+                alpha(Interp.pow2In.apply(e.fout()));
+                rand.setSeed(e.id + 2);
+                randLenVectors((long) e.id, (int) e.rotation, Interp.pow5In.apply(e.finpow()) * 80f, 32f + Time.time / 100, 25f, (x, y) ->
+                {
+                    rand.setSeed(e.id + 4);
+                    float lift = Interp.pow2Out.apply(e.fin()) * rand.random(0, 47);
+                    rand.setSeed(e.id + 7);
+                    Fill.circle(e.x + x + rand.random(-4, 4), e.y + lift + y + rand.random(-4, 4), Interp.pow5In.apply(e.finpow()) * 9.5f + 0.4f);
+                });
+            }),
             // bro, Fx suck, i have no clue what im doing
             geysers = new MultiEffect(
                     //literally stole smokePuff Fx from vanilla (i dont know how to adjust its color otherwise)
