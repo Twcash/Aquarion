@@ -1496,7 +1496,7 @@ public class AquaUnitTypes {
                 inaccuracy = 15;
                 bullet = new BulletType(4.2f, 15f) {{
                     hitSize = 7f;
-                    lifetime = 13f;
+                    lifetime = 14f;
                     pierce = true;
                     pierceBuilding = true;
                     pierceCap = 2;
