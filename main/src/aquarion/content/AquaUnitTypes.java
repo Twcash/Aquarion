@@ -1458,7 +1458,7 @@ public class AquaUnitTypes {
             range = 70;
             health = 850;
             stepShake = 0.2f;
-            armor = 5;
+            armor = 25;
             targetAir = true;
             rotateSpeed = 1.2f;
             shadowElevation = 0.2f;
