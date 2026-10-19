@@ -3,6 +3,7 @@ package aquarion.content;
 import aquarion.content.blocks.*;
 import aquarion.units.type.AquaUnitType;
 import aquarion.world.blocks.units.UnitBlock;
+import aquarion.world.blocks.core.SpecializationCatalyst;
 import arc.Events;
 import arc.struct.ObjectMap;
 import arc.struct.ObjectSet;
@@ -31,6 +32,8 @@ import static mindustry.Vars.*;
  */
 public class AquaFactions{
     public static final String sharded = "sharded", crux = "crux", defunct = "defunct";
+    /** Temporary switch: set true to restore faction-based build-menu filtering. */
+    public static boolean filteringEnabled = false;
 
     static final ObjectMap<Block, String> blockFactions = new ObjectMap<>();
     static final ObjectMap<UnitType, String> unitFactions = new ObjectMap<>();
@@ -126,6 +129,11 @@ public class AquaFactions{
 
         );
         setUnits(sharded, AquaUnitTypes.cull,  AquaUnitTypes.cullButScorch);
+        if(CoreBlocks.specializationCatalyst instanceof SpecializationCatalyst catalyst){
+            for(var plan : catalyst.plans){
+                setUnits(sharded, plan.unit);
+            }
+        }
         //Defunct
         set(defunct, EnvironmentBlocks.defunctFramingCross, EnvironmentBlocks.smallDefunctRadarTower);
         setUnits(defunct, AquaUnitTypes.maintainer);
@@ -137,7 +145,7 @@ public class AquaFactions{
         Events.run(EventType.Trigger.update, () -> {
             if(!state.isGame() || player == null) return;
             Unit unit = player.unit();
-            boolean enabled = ModSettings.getBlockFactionVisibility();
+            boolean enabled = enabled();
             //in multiplayer, re-apply periodically in case the local team changes without a unit swap
             if(unit != lastUnit || enabled != lastEnabled || (net.active() && Time.millis() - lastApply >= 2000)){
                 lastUnit = unit;
@@ -183,7 +191,7 @@ public class AquaFactions{
 
     /** Whether faction filtering currently applies. Never applies in sandbox games, and can be toggled in the mod settings. */
     public static boolean enabled(){
-        return ModSettings.getBlockFactionVisibility() && !state.rules.infiniteResources;
+        return filteringEnabled && ModSettings.getBlockFactionVisibility() && !state.rules.infiniteResources;
     }
 
     static void refreshMenu(){

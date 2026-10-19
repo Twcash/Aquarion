@@ -2,12 +2,15 @@ package aquarion.content;
 
 import aquarion.content.blocks.CrafterBlocks;
 import aquarion.world.blocks.AlternativeBuildCosts;
+import aquarion.world.blocks.core.SpecializationCatalyst;
 import arc.struct.ObjectFloatMap;
+import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import mindustry.Vars;
 import mindustry.content.Items;
 import mindustry.game.Objectives;
 import mindustry.type.Item;
+import mindustry.type.UnitType;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.*;
@@ -37,6 +40,14 @@ public class TantrosTechTree {
             node(researchVoider, AlternativeBuildCosts.researchRequirements(researchVoider),
                 Seq.with(AlternativeBuildCosts.researchObjective(researchVoider)), () -> {});
             node(coreCuesta, () -> {});
+            node(specializationCatalyst, () -> {
+                ObjectSet<UnitType> added = new ObjectSet<>();
+                for(var plan : ((SpecializationCatalyst)specializationCatalyst).plans){
+                    if(added.add(plan.unit)){
+                        node(plan.unit, plan.researchRequirements(), () -> {});
+                    }
+                }
+            });
             node(infomatic, () -> {
                 node(toggler, () -> {
                     node(channel, () -> {

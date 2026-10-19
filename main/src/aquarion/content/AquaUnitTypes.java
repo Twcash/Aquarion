@@ -8,6 +8,7 @@ import aquarion.units.DefunctUnitType;
 import aquarion.units.MultiLegSegmentUnit;
 import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.type.AquaUnitType;
+import aquarion.units.type.UnitTrail;
 import aquarion.world.AI.*;
 import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.content.AquaLiquid;
@@ -91,7 +92,7 @@ public class AquaUnitTypes {
     public static UnitType
         //Sharded units
             weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit, apothecary;
-        public static  UnitType  cull, cullButScorch;
+        public static  UnitType  cull, quantify, simplify, multiply, cullButScorch;
     public static void loadContent() {
         visitor = new UnitType("visitor") {{
             hitSize = 6;
@@ -204,6 +205,152 @@ public class AquaUnitTypes {
                         healColor = laserColor = Pal.accent;
                         bullet = new BulletType() {{
                             maxRange = 80;
+                        }};
+                    }}
+            );
+        }};
+        quantify = new UnitType("quantify"){{
+            outlineColor = AquaPal.tantDarkerTone;
+            lowAltitude = flying = coreUnitDock = true;
+            aiController = BuilderAI::new;
+            constructor = UnitEntity::create;
+            health = 250;
+            healColor = Pal.accent;
+            outlineColor = AquaPal.tantDarkestTone;
+            setEnginesMirror(
+                    new UnitEngine(22 / 4f, 22/4f, 3f, -45),
+                    new UnitEngine(22 / 4f, -22/4f, 3f, 180+45)
+            );
+            speed = 7.5f;
+            fogRadius = 5;
+            buildRange = 350;
+            accel = 0.08f;
+            drag = 0.1f;
+            mineWalls = false;
+            mineFloor = false;
+            drawCell = false;
+            buildSpeed = 4f;
+            rotateSpeed = 9;
+            engineSize = 0;
+            mineTier = 2;
+            hitSize = 20;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        multiply = new AquaUnitType("multiply"){{
+            outlineColor = AquaPal.tantDarkerTone;
+            lowAltitude = flying = coreUnitDock = true;
+            aiController = BuilderAI::new;
+            constructor = UnitEntity::create;
+            health = 70;
+            setTrails(new UnitTrail(){{
+                this.length = 12;
+                this.swayScale = 2;
+                swayPhase = 2;
+                swayAmplitude = 3;
+                swayYAmplitude = 0;
+                color =  Pal.accent;
+                this.tailAlpha = 0.1f;
+                tailColor = Pal.accent;
+            }}, new UnitTrail(){{
+                this.length = 12;
+                this.width = 2;
+                this.tailAlpha = 0;
+                this.tailColor = Pal.accentBack;
+                pulseAmplitude = 0.1f;
+                pulseScale = 12;
+            }},new UnitTrail(){{
+                this.length = 12;
+                this.swayScale = 2;
+                swayPhase = 0;
+                swayAmplitude = 3;
+                swayYAmplitude = 0;
+                this.tailAlpha = 0.1f;
+                color = Pal.accent;
+                tailColor = Pal.accent;
+            }});
+            healColor = Pal.accent;
+            outlineColor = AquaPal.tantDarkestTone;
+            engineOffset = 22/4f;
+            engineSize = 4;
+            speed = 16;
+            fogRadius = 5;
+            buildRange = 120;
+            mineSpeed = 20;
+            accel = 0.08f;
+            drag = 0.1f;
+            mineWalls = true;
+            mineFloor = true;
+            buildSpeed = 2.5f;
+            drawCell = false;
+            rotateSpeed = 9;
+            mineTier = 2;
+            hitSize = 20;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            weapons.add(
+                    new RepairBeamWeapon() {{
+                        mirror = false;
+                        rotate = true;
+                        autoTarget = true;
+                        x = 0;
+                        y = 0;
+                        controllable = false;
+                        targetUnits = true;
+                        targetBuildings = true;
+                        fractionRepairSpeed = 0.06f;
+                        widthSinMag = 0.11f;
+                        healColor = laserColor = Pal.accent;
+                        bullet = new BulletType() {{
+                            maxRange = 80;
+                        }};
+                    }}
+            );
+        }};
+        simplify = new UnitType("simplify"){{
+            payloadCapacity = (2 * 2) * tilePayload;
+            outlineColor = AquaPal.tantDarkerTone;
+            lowAltitude = flying = coreUnitDock = true;
+            aiController = BuilderAI::new;
+            constructor = UnitEntity::create;
+            health = 300;
+            healColor = Pal.accent;
+            outlineColor = AquaPal.tantDarkestTone;
+            engineOffset = 20/4f;
+            speed = 5;
+            fogRadius = 2;
+            buildRange = 200;
+            mineSpeed = 0;
+            accel = 0.08f;
+            drag = 0.1f;
+            mineWalls = false;
+            mineFloor = false;
+            drawCell = false;
+            buildSpeed = 1.3f;
+            rotateSpeed = 12;
+            engineSize = 2;
+            mineTier = 0;
+            hitSize = 20;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            weapons.add(
+                    new Weapon("simplify-weapon") {{
+                        x = 0;
+                        y = 2;
+                        shoot.shots = 4;
+                        inaccuracy = 4;
+                        shoot.shotDelay = 1;
+                        reload = 60;
+                        bullet = new BasicBulletType(8,9, "aquarion-bolt"){{
+                            frontColor = backColor = lightColor = trailColor = hitColor = Pal.accent;
+                            homingPower = 0.05f;
+                            shootEffect = Fx.shootSmallColor;
+                            smokeEffect = AquaFx.shootSmoke1;
+                            lifetime = 15;
+                            width = 6;
+                            height = 12;
+                            trailLength = 9;
+                            hitEffect = AquaFx.hitBulletColor1;
                         }};
                     }}
             );

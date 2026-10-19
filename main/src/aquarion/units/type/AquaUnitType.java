@@ -5,6 +5,9 @@ import aquarion.gen.DropShipc;
 import aquarion.world.entities.parts.AquaPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.Renderer;
+import aquarion.world.graphics.StyledTrail;
+import arc.graphics.Color;
+import arc.math.Mathf;
 import arc.Core;
 import arc.graphics.Pixmap;
 import arc.graphics.Pixmaps;
@@ -23,6 +26,16 @@ public class AquaUnitType extends UnitType {
     //Drop pod drop effect.
     public Effect dropEffect = AquaFx.droppod;
 
+    /** Null uses the normal trail/team color at both ends. */
+    public Color trailTailColor;
+    public float trailTailAlpha = 0f;
+    public float trailWaveAmplitude = 0f;
+    public float trailWaveScale = 12f;
+    public float trailWaveCycles = 2f;
+    /** Sine-wave phase offset in radians; PI shifts it by half a cycle. */
+    public float trailWavePhase = 0f;
+    /** Additional trails, placed independently of the unit's default engine trail. */
+    public Seq<UnitTrail> trails = new Seq<>();
 
     public float landDamage = 0f;
     public float landRange = 0f;
@@ -30,6 +43,47 @@ public class AquaUnitType extends UnitType {
     public AquaUnitType(String name) {
         super(name);
         this.envDisabled = Env.none;
+    }
+
+    /** Adds individual trail mounts without creating mirrored copies. */
+    public void setTrails(UnitTrail... mounts){
+        trails.addAll(mounts);
+    }
+
+    public void setTrailsMirror(UnitTrail... mounts){
+        for(UnitTrail mount : mounts){
+            trails.add(mount);
+            if(mount.x != 0f){
+                UnitTrail mirrored = mount.copy();
+                mirrored.x = -mount.x;
+                mirrored.wavePhase += Mathf.PI;
+                mirrored.swayPhase += Mathf.PI;
+                trails.add(mirrored);
+            }
+        }
+    }
+
+    @Override
+    public void init(){
+        for(UnitTrail trail : trails){
+            if(!abilities.contains(trail, true)) abilities.add(trail);
+        }
+        super.init();
+    }
+
+    @Override
+    public void drawTrail(Unit unit){
+        if(!(unit.trail instanceof StyledTrail)){
+            unit.trail = new StyledTrail(trailLength);
+        }
+        StyledTrail trail = (StyledTrail)unit.trail;
+        trail.tailColor = trailTailColor;
+        trail.tailAlpha = trailTailAlpha;
+        trail.waveAmplitude = trailWaveAmplitude;
+        trail.waveScale = trailWaveScale;
+        trail.waveCycles = trailWaveCycles;
+        trail.wavePhase = unit.id * 0.37f + trailWavePhase;
+        super.drawTrail(unit);
     }
 
     @Override

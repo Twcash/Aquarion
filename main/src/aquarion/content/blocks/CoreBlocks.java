@@ -3,6 +3,7 @@ package aquarion.content.blocks;
 import aquarion.content.*;
 import aquarion.world.blocks.AquaBlock;
 import aquarion.world.blocks.core.AquaCoreBlock;
+import aquarion.world.blocks.core.SpecializationCatalyst;
 import aquarion.world.blocks.core.TrackedStorageBlock;
 import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.core.Bomb;
@@ -63,7 +64,7 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block bomb, dPowerSource, dItemSource, dLiquidSource, speaker, toggler, splitter, channel, storageReader, merger, buzzSaw, coreReception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
-            coreEscarpment, laboratory, petal, reconstruct,  corePike, buildCairn, constructionTower, crate, deflectorWell,             neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, neoplasmBlobber, researchVoider;
+            coreEscarpment, laboratory, petal, reconstruct, specializationCatalyst,  corePike, buildCairn, constructionTower, crate, deflectorWell,             neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, neoplasmBlobber, researchVoider;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -198,6 +199,16 @@ public class CoreBlocks {
             hasColor = true;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
+        }};
+        specializationCatalyst = new SpecializationCatalyst("specialization-catalyst"){{
+            requirements(Category.effect, with(silicon, 100, copper, 150, lead, 100));
+            size = 2;
+            health = 600;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+            plans.add(new UnitPlan(AquaUnitTypes.simplify, 120f, with(silicon, 150, lead, 20)));
+            plans.add(new UnitPlan(AquaUnitTypes.multiply, 60f, with(silicon, 60, copper, 10)));
+            plans.add(new UnitPlan(AquaUnitTypes.quantify, 90f, with(copper, 100, silicon, 50)));
         }};
         buildCairn = new BuildTurret("build-cairn") {{
             requirements(Category.effect, with(silicon, 120, copper, 50));

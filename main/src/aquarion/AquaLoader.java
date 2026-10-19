@@ -142,6 +142,7 @@ public class AquaLoader extends Mod {
 
     @Override
     public void init() {
+        aquarion.world.map.RuntimeMapFilters.install();
         MapObjectives.registerObjective(DialogueObjective::new);
         MapObjectivesDialog.setInterpreter(DialogueObjective.class, MapObjectivesDialog.defaultInterpreter());
         MapObjectivesDialog.setInterpreter(DialogueObjectiveOption.class, MapObjectivesDialog.defaultInterpreter());
