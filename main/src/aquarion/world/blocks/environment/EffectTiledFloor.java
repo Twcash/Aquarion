@@ -32,7 +32,7 @@ public class EffectTiledFloor extends TiledFloor{
     public float minEffectDuration = 4*60f; //minimum time the vent stays active for  in seconds (hence the 60f)
     public float maxEffectDuration = 7*60f; //maximum time the vent stays active for in seconds (hence the 60f)
     public float splashDamageRadius = 17f; //spash damage radius in world units
-    public float splashDamage = 100; //damage per second per tile of vent width during eruption
+    public float splashDamage = 0; //damage per second per tile of vent width during eruption
 
     public EffectTiledFloor(String name, int variants, int maxSize){
         super(name, variants, maxSize);
