@@ -30,6 +30,8 @@ import mindustry.graphics.Pal;
 import mindustry.content.Fx;
 
 import mindustry.type.Item;
+import mindustry.world.blocks.payloads.BuildPayload;
+import mindustry.world.blocks.payloads.Payload;
 
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.lineAngle;
@@ -51,6 +53,13 @@ public class AquaFx {
             lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(2f, 7f) + 1.5f);
         }
     }),
+    acceptPayload = new Effect(60, e->{
+        if(e.data instanceof Payload pay){
+            scl(e.fout());
+            alpha(Interp.pow2Out.apply(e.fout()));
+            rect(pay.icon(), e.x, e.y, 0);
+        }
+    }).layer(Layer.blockOver+1),
             hitUranium = new Effect(12, e -> {
                 color(AquaItems.uranium.color);
                 stroke(e.fout() * 2.5f);

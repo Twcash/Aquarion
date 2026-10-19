@@ -201,14 +201,14 @@ public class CoreBlocks {
             envDisabled = Env.none;
         }};
         specializationCatalyst = new SpecializationCatalyst("specialization-catalyst"){{
-            requirements(Category.effect, with(silicon, 100, copper, 600, lead, 100, cupronickel, 250, metaglass, 400));
-            size = 2;
-            health = 600;
+            requirements(Category.effect, with(silicon, 900, graphite, 600, copper, 250, metaglass, 400));
+            size = 3;
+            squareSprite = false;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
-            plans.add(new UnitPlan(AquaUnitTypes.simplify, 120f, with(silicon, 150, lead, 20)));
-            plans.add(new UnitPlan(AquaUnitTypes.multiply, 60f, with(silicon, 60, copper, 10)));
-            plans.add(new UnitPlan(AquaUnitTypes.quantify, 90f, with(copper, 100, silicon, 50)));
+            plans.add(new UnitPlan(AquaUnitTypes.simplify, 120f, with(metaglass, 90, silicon, 150, graphite, 50)));
+            plans.add(new UnitPlan(AquaUnitTypes.multiply, 60f, with(silicon, 100, copper, 100, graphite, 20)));
+            plans.add(new UnitPlan(AquaUnitTypes.quantify, 90f, with(graphite, 100, silicon, 200,lead, 150)));
         }};
         buildCairn = new BuildTurret("build-cairn") {{
             requirements(Category.effect, with(silicon, 120, copper, 50));

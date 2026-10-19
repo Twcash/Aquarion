@@ -64,10 +64,10 @@ public class WallPayloadDrill extends PayloadBlock {
                         e::totalProgress
                 ));
     }
-//    @Override
-//    protected TextureRegion[] icons(){
-//        return new TextureRegion[]{region, outRegion, topRegion, side1};
-//    }
+    @Override
+    protected TextureRegion[] icons(){
+        return new TextureRegion[]{region, outRegion, topRegion};
+    }
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
         Draw.rect(region, plan.drawx(), plan.drawy());
@@ -177,8 +177,8 @@ public class WallPayloadDrill extends PayloadBlock {
 
             Block recipe = recipe();
             if (recipe == null) return;
-
-            progress += edelta();
+            if(payload != null) efficiency = 0;
+            if(payload == null)progress += edelta();
             boolean produce = currentEfficiency > 0 && payload == null;
             if (produce && progress >= buildTime) {
                 payload = new BuildPayload(recipe, team);
@@ -197,7 +197,7 @@ public class WallPayloadDrill extends PayloadBlock {
             var recipe = currentRecipe;
             if (recipe != null) {
                 Draw.draw(Layer.blockBuilding, () -> {
-                    Draw.color(Pal.accent);
+                    Draw.alpha(efficiency);
 
                     for (TextureRegion region : recipe.getGeneratedIcons()) {
                         if (region != null) {
@@ -212,11 +212,6 @@ public class WallPayloadDrill extends PayloadBlock {
 
                     Draw.color();
                 });
-                Draw.z(Layer.blockBuilding + 1);
-                Draw.color(Pal.accent, heat);
-
-                Lines.lineAngleCenter(x + Mathf.sin(time, 10f, Vars.tilesize / 2f * recipe.size + 1f), y, 90, recipe.size * Vars.tilesize + 1f);
-
                 Draw.reset();
             }
 

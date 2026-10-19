@@ -281,7 +281,7 @@ public class AquaUnitTypes {
             drag = 0.1f;
             mineWalls = true;
             mineFloor = true;
-            buildSpeed = 2.5f;
+            buildSpeed = 1f;
             drawCell = false;
             rotateSpeed = 9;
             mineTier = 2;
@@ -326,6 +326,7 @@ public class AquaUnitTypes {
             mineWalls = false;
             mineFloor = false;
             drawCell = false;
+            strafePenalty = 0.9f;
             buildSpeed = 1.3f;
             rotateSpeed = 12;
             engineSize = 2;
@@ -341,12 +342,15 @@ public class AquaUnitTypes {
                         inaccuracy = 4;
                         shoot.shotDelay = 1;
                         reload = 60;
-                        bullet = new BasicBulletType(8,9, "aquarion-bolt"){{
+                        shootSound = Sounds.shootLaser;
+                        bullet = new BasicBulletType(8,11, "aquarion-bolt"){{
                             frontColor = backColor = lightColor = trailColor = hitColor = Pal.accent;
                             homingPower = 0.05f;
                             shootEffect = Fx.shootSmallColor;
                             smokeEffect = AquaFx.shootSmoke1;
                             lifetime = 15;
+                            buildingDamageMultiplier = 0.5f;
+                            keepVelocity = false;
                             width = 6;
                             height = 12;
                             trailLength = 9;
