@@ -201,7 +201,7 @@ public class CoreBlocks {
             envDisabled = Env.none;
         }};
         specializationCatalyst = new SpecializationCatalyst("specialization-catalyst"){{
-            requirements(Category.effect, with(silicon, 100, copper, 150, lead, 100));
+            requirements(Category.effect, with(silicon, 100, copper, 600, lead, 100, cupronickel, 250, metaglass, 400));
             size = 2;
             health = 600;
             envEnabled |= Env.terrestrial | Env.underwater;
