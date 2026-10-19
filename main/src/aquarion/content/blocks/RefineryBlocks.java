@@ -504,7 +504,8 @@ public class RefineryBlocks {
             }}, new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
         }};
         vacuumFreezer = new AquaGenericCrafter("vacuum-freezer") {{
-            requirements(AquaCategories.refinery, with(copper, 120, aluminum, 300));
+            requirements(AquaCategories.refinery, with(copper, 150));
+            AlternativeBuildCosts.register(atmosphericCentrifuge, with(aluminum, 200, concrete, 350));
             size = 6;
             squareSprite = false;
             ambientSound = Sounds.loopCircuit;
@@ -513,7 +514,7 @@ public class RefineryBlocks {
             consumePower(3);
             consumeLiq(halideWater, 6.5f);
             craftTime = 10;
-            outputLiquids = LiquidStack.with(air, 4f, water, 6.375f);
+            outputLiquids = LiquidStack.with(cryogen, 4f, water, 6.375f);
             liquidOutputDirections = new int[]{1, 4};
             rotate = true;
             rotateDraw = false;
@@ -716,6 +717,7 @@ public class RefineryBlocks {
         atmosphericCentrifuge = new AquaGenericCrafter("atmospheric-centrifuge") {{
             liquidOutputDirections = new int[]{1, 2, 3};
             requirements(AquaCategories.refinery, with(metaglass, 150, copper, 255));
+            AlternativeBuildCosts.register(atmosphericCentrifuge, with(ferricMatter, 150, concrete, 300));
             size = 4;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             rotateDraw = false;
@@ -780,7 +782,7 @@ public class RefineryBlocks {
                 phaseOffset = 20;
             }}, new AquaDrawLiquidOutputs());
         }};
-        AlternativeBuildCosts.register(atmosphericCentrifuge, with(ferricMatter, 150, concrete, 300));
+
         electrolysisVat = new AquaGenericCrafter("electrolysis-vat"){{
             requirements(AquaCategories.refinery, with(metaglass, 250, copper, 300, silicon, 150));
             consumePower(3);
