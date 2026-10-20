@@ -10,6 +10,7 @@ import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.type.AquaUnitType;
 import aquarion.units.type.AmphibiousUnitType;
 import aquarion.units.type.BuggyUnitType;
+import aquarion.units.type.BurrowUnitType;
 import aquarion.units.type.UnitTrail;
 import aquarion.world.AI.*;
 import aquarion.world.abilities.LightningFieldAbility;
@@ -94,6 +95,7 @@ public class AquaUnitTypes {
 
     public static @Annotations.EntityDef(value = {Unitc.class, Amphibiousc.class}) AmphibiousUnitType wort;
     public static @Annotations.EntityDef(value = {Unitc.class, Buggyc.class}) BuggyUnitType krait;
+    public static @Annotations.EntityDef(value = {Unitc.class, Burrowc.class}) BurrowUnitType trawl, trawlBody;
     public static UnitType
         //Sharded units
             weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit, apothecary;
@@ -3713,6 +3715,29 @@ public class AquaUnitTypes {
                             }};
                         }
                     });
+        }};
+        trawlBody = new BurrowUnitType("trawl-body", true){{
+            bodySprite = "aquarion-trawl";
+            hitSize = 7f;
+            outlineColor = Color.valueOf("40244e");
+            health = 400f;
+            speed = 1.6f;
+            hopCrushDamage = 60;
+            segmentSpacing = 4;
+        }};
+        trawl = new BurrowUnitType("trawl", false){{
+            bodyType = trawlBody;
+            speed = 1.6f;
+            hitSize = 8f;
+            health = 400f;
+            rotateSpeed = 4f;
+            accel = 0.12f;
+            drag = 0.08f;
+            hopCrushDamage = 60;
+            segmentSpacing = 4;
+            outlineColor = Color.valueOf("40244e");
+            targetAir = false;
+            range = breachRange;
         }};
         krait = new BuggyUnitType("krait"){{
             speed = 3.4f;
