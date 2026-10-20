@@ -1313,8 +1313,8 @@ public class AquaUnitTypes {
             constructor = LegsUnit::create;
             speed = 0.45f;
             hitSize = 16;
-            range = 120;
-            health = 280;
+            range = 160;
+            health = 580;
             stepShake = 0.1f;
             armor = 5;
             targetAir = true;
@@ -1351,7 +1351,7 @@ public class AquaUnitTypes {
                 shootSound = Sounds.shootDiffuse;
                 shootY = 4;
                 reload = 90;
-                bullet = new BasicBulletType(8f, 60, "aquarion-bolt") {{
+                bullet = new BasicBulletType(8f, 65, "aquarion-bolt") {{
                     shrinkY = 0;
                     shrinkX = 0.2f;
                     hitSize = 4;
@@ -1372,9 +1372,9 @@ public class AquaUnitTypes {
                 y = 6f;
                 shootSound = Sounds.shootBreach;
                 shootY = 4;
-                reload = 160;
+                reload = 90;
                 inaccuracy = 7;
-                bullet = new BasicBulletType(2.5f, 45, "aquarion-flechette") {{
+                bullet = new BasicBulletType(3f, 20, "aquarion-flechette") {{
                     shrinkY = 0.1f;
                     shrinkX = 0.4f;
                     knockback = 5;
