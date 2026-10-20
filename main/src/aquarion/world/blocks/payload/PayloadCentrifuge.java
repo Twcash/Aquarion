@@ -13,6 +13,7 @@ import arc.util.Eachable;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.entities.units.BuildPlan;
+import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.graphics.Drawf;
 import mindustry.type.ItemStack;
@@ -22,6 +23,11 @@ import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.PayloadBlock;
 import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawMulti;
+import mindustry.ui.Styles;
+import mindustry.world.Block;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
+import mindustry.world.meta.StatValues;
 
 public class PayloadCentrifuge extends PayloadBlock {
     public float processTime = 240f;
@@ -47,6 +53,34 @@ public class PayloadCentrifuge extends PayloadBlock {
     @Override
     public boolean outputsItems() {
         return true;
+    }
+    @Override
+    public void setStats(){
+        stats.timePeriod = processTime;
+        super.setStats();
+        stats.add(Stat.productionTime, processTime / 60f, StatUnit.seconds);
+        stats.add(Stat.output, table -> {
+            table.row();
+            for(Block block : Vars.content.blocks()){
+                if(!(block instanceof ReagentMix mix) || block.size > size) continue;
+
+                ItemStack[] output = new ItemStack[mix.containing.size];
+                for(int i = 0; i < output.length; i++){
+                    ItemStack stack = mix.containing.get(i);
+                    output[i] = new ItemStack(stack.item, stack.amount * 4);
+                }
+                table.table(Styles.grayPanel, recipe -> {
+                    recipe.left();
+                    recipe.image(mix.uiIcon).size(40).pad(10f)
+                        .with(image -> StatValues.withTooltip(image, mix));
+                    recipe.add("4x " + mix.localizedName).left().padRight(10f);
+                    recipe.row();
+                    recipe.table(items -> StatValues.items(processTime, output).display(items))
+                        .colspan(2).left().pad(10f);
+                }).growX().padTop(5f).padBottom(5f);
+                table.row();
+            }
+        });
     }
     @Override
     public void load(){

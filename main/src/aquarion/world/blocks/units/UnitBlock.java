@@ -1,6 +1,7 @@
 package aquarion.world.blocks.units;
 
 import aquarion.content.AquaSounds;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.graphics.AquaFx;
 import arc.Core;
 import arc.Graphics.Cursor;
@@ -175,6 +176,7 @@ public class UnitBlock extends Block {
             }
             stats.add(Stat.immunities, StatValues.statusEffects(imm));
         }
+        AlternativeBuildCosts.applyStats(this);
     }
     @Override
     public void setBars(){

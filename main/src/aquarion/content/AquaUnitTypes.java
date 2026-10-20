@@ -14,6 +14,7 @@ import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.content.AquaLiquid;
 import aquarion.world.entities.AquaLegConfig;
 import aquarion.world.entities.DroneSpawnerBulletType;
+import aquarion.world.entities.bullet.AquaBulletType;
 import aquarion.world.entities.bullet.TentacleBulletType;
 import aquarion.world.entities.parts.EnginePart;
 import aquarion.world.entities.parts.ShaderPart;
@@ -973,16 +974,94 @@ public class AquaUnitTypes {
             armor = 6;
             hitSize = 8*3f;
             speed = 0.55f;
+            rotateSpeed = 0.9f;
+            baseRotateSpeed = 0.5f;
             drawCell = false;
+            strafePenalty = 0.8f;
+            shadowElevation = 0.5f;
             outlineColor = AquaPal.tantDarkestTone;
             legLengthScl = 1;
-            legMoveSpace = 3f;
+            legMoveSpace = 2.9f;
+            parts.addAll(new RegionPart(){{
+                moveX = -8;
+                this.name = "aquarion-regality-rack";
+                layerOffset = -0.02f;
+                weaponIndex = 1;
+                progress = PartProgress.smoothReload;
+            }}, new RegionPart("-missile"){{
+                layerOffset = -0.01f;
+                moveX = -8;
+                weaponIndex = 1;
+                progress = PartProgress.smoothReload;
+            }});
             legBaseUnder = true;
+            stepSound = Sounds.mechStepHeavy;
             groundLayer = Layer.legUnit+1;
             legSequence.addAll(
-                    new AquaLegConfig(60/4f/2f, -40/2f/4f, -0, 14),
-                    new AquaLegConfig(-60/2f/4f, -40/2f/4f, 0, 14)
+                    new AquaLegConfig(70/4f/2f, -60/2f/4f, -9f, 14),
+                    new AquaLegConfig(-70/2f/4f, -60/2f/4f, 9f, 14)
             );
+            weapons.add(new Weapon(){{
+                shootY = 10;
+                rotate = false;
+                mirror = false;
+                reload = 120;
+                y = 80/8f;
+                x = -128/8f;
+                shootSound = Sounds.shootConquer;
+                recoil = 0;
+                ejectEffect = Fx.casing2;
+                bullet = new AquaBulletType(10, 120, "aquarion-bolt"){{
+                    shootEffect = Fx.shootBigColor;
+                    smokeEffect = AquaFx.shootSmoke3;
+                    width = 8;
+                    height = 12;
+                    keepVelocity = false;
+                    splashDamageRadius = 48;
+                    splashDamage = 120;
+                    rotationRecoilTime = 2;
+                    shouldRecoilRotation = true;
+                    recoil = 1;
+                    lifetime = 45f;
+                    shootCone = 5;
+                    knockback = 2;
+                    flipRotationRecoil = false;
+                    rotationRecoil = 40;
+                    despawnHit = true;
+                    despawnEffect = hitEffect = AquaFx.graceExplosion;
+                    trailLength = 12;
+                    frontColor = AquaPal.redDecal1;
+                    backColor = trailColor = lightColor = hitColor = AquaPal.redDecal1Dark;
+                }};
+            }},new Weapon(){{
+                reload = 240;
+                recoil = 1;
+                shootCone = 5;
+                x = 128/8f;
+                y = 0;
+                mirror = false;
+                rotate = false;
+                bullet = new BasicBulletType(2, 0, "aquarion-regality-missile-thing"){{
+                    splashDamageRadius = 120;
+                    splashDamage = 400;
+                    frontColor = backColor = Color.white;
+                    trailEffect = Fx.missileTrail;
+                    trailLength = 12;
+                    smokeEffect = Fx.shootSmokeMissile;
+                    shootEffect = Fx.none;
+                    shrinkX = shrinkY = 0;
+                    trailInterval = 2;
+                    homingPower = 0.01f;
+                    lifetime = 50;
+                    drag = -0.05f;
+                    knockback = 15;
+                    layer = Layer.bullet - 1;
+                    despawnEffect = hitEffect = Fx.titanExplosionLarge;
+                    width = 32/4f;
+                    height = 96/4f;
+                }};
+            }});
+
         }};
         pillage = new AquaUnitType("pillage") {{
             constructor = LegsUnit::create;

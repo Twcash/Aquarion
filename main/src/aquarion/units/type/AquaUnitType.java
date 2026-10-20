@@ -25,7 +25,6 @@ import mindustry.world.meta.Env;
 public class AquaUnitType extends UnitType {
     //Drop pod drop effect.
     public Effect dropEffect = AquaFx.droppod;
-
     /** Null uses the normal trail/team color at both ends. */
     public Color trailTailColor;
     public float trailTailAlpha = 0f;
