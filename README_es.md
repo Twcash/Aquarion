@@ -30,11 +30,11 @@ Este mod inició como un ambicioso intento de recrear **Tantros** en Mindustry, 
 ## <img src="main/assets-raw/sprites/blocks/logic/infomatic.png" alt="Aquarion Banner" width="30"> Información
 
 > [!IMPORTANT]
-> Para tener la mejor experiencia y evitar romper tu juego, porfavor mantener lo siguiente en mente:
+> Para tener la mejor experiencia y evitar romper tu juego, porfavor mantener lo siguiente en cuenta:
 
 * **Conflictos con Mods:** El mod añade bloques, objetos, unidades y un sistema solar completo esto puede generar conflictos con otros mods.
 * ~~**Actualizaciones Frecuentes:** Actualizaciones son frecuentes pero pequeñas. **Recuerda reinstalar o actualizar el mod regularmente** para asegurar que nuevo contenido y arreglos de errores carguen correctamente.~~
-  * (eso es una mentira, actualizaciones son infrecuentes i pueden contener todo desde un solo arreglo de errores a un planeta completamente nuevo)
+  * (eso es una mentira, actualizaciones son infrecuentes y pueden contener todo desde un solo arreglo de errores a un planeta completamente nuevo)
 * **Trabajó en Proceso:** Este mod esta todavía en desarrollo temprano. si encuentras cualquier error, problemas de balance, crasheos o simplemente errores ortográficos, porfavor reportalos via [GitHub Issues](https://github.com/Twcash/Aquarion/issues) o en el [Discord](https://discord.gg/SbFhxYD797).
   * también eres bienvenido a intentar arreglarlo tu mismo y hacer una PR para eso
 
@@ -45,7 +45,7 @@ Este mod inició como un ambicioso intento de recrear **Tantros** en Mindustry, 
 ### Como instalar 
 1. Atravez del navegador de mods del juego
    1. En Mindustry, ve a **Mods** -> **Navegar Mods**
-   2. Busca `Aquarion` i preciona **Instalar** 
+   2. Busca `Aquarion` y preciona **Instalar** 
    3. Reinicia el juego
 2. Atravez de Releases de Github 
    1. En Github, preciona el texto de **Releases** 
