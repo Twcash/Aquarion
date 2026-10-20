@@ -30,6 +30,8 @@ import mindustry.graphics.Pal;
 import mindustry.content.Fx;
 
 import mindustry.type.Item;
+import mindustry.world.blocks.payloads.BuildPayload;
+import mindustry.world.blocks.payloads.Payload;
 
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.lineAngle;
@@ -39,6 +41,15 @@ import static arc.math.Angles.*;
 public class AquaFx {
     public static final Rand rand = new Rand();
     public static final Vec2 v = new Vec2();
+
+    public static final Effect mechFootprint = new Effect(180f, 160f, e -> {
+        if(!(e.data instanceof TextureRegion foot) || !foot.found()) return;
+        Draw.color(Color.white);
+        Draw.mixcol(e.color, 1f);
+        Draw.alpha(0.35f * e.fout());
+        Draw.rect(foot, e.x, e.y, e.rotation);
+        Draw.reset();
+    }).layer(Layer.debris);
 
     public static final Effect strutBulletTrail = new Effect(16, e -> {
         color(Color.white, e.color, e.fin());
@@ -51,6 +62,13 @@ public class AquaFx {
             lineAngle(e.x + v.x, e.y + v.y, rot, e.fout() * rand.random(2f, 7f) + 1.5f);
         }
     }),
+    acceptPayload = new Effect(60, e->{
+        if(e.data instanceof Payload pay){
+            scl(e.fout());
+            alpha(Interp.pow2Out.apply(e.fout()));
+            rect(pay.icon(), e.x, e.y, 0);
+        }
+    }).layer(Layer.blockOver+1),
             hitUranium = new Effect(12, e -> {
                 color(AquaItems.uranium.color);
                 stroke(e.fout() * 2.5f);

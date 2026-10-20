@@ -3,7 +3,6 @@ package aquarion.world.entities.bullet;
 import aquarion.world.graphics.Renderer;
 import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
@@ -13,11 +12,8 @@ import arc.util.*;
 import mindustry.content.Fx;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
-import mindustry.entities.units.WeaponMount;
 import mindustry.gen.*;
-import mindustry.type.Weapon;
 import mindustry.world.blocks.defense.turrets.BaseTurret;
-import mindustry.world.blocks.defense.turrets.Turret;
 
 public class TentacleBulletType extends BulletType {
 
@@ -25,8 +21,8 @@ public class TentacleBulletType extends BulletType {
     public float segmentLength = 6f;
 
     public float width = 3f;
-    public float range = 120f;
-    public float homingPower = 5f;
+    /** Minimum ticks between contact damage checks; each target is hit once per check. */
+    public float damageInterval = 6f;
     public float whip = 10;
     public float baseOffset = 0f;
 
@@ -38,14 +34,19 @@ public class TentacleBulletType extends BulletType {
     public TentacleBulletType(){
         speed = 0f;
         lifetime = 60f;
+        range = 120f;
+        homingPower = 5f;
 
         despawnEffect = Fx.none;
         hitEffect = Fx.none;
         smokeEffect = Fx.none;
 
-        keepVelocity = true;
+        keepVelocity = false;
         collides = false;
         pierce = true;
+        pierceBuilding = true;
+        hittable = false;
+        removeAfterPierce = false;
     }
 
     public static class TentacleData {
@@ -53,6 +54,27 @@ public class TentacleBulletType extends BulletType {
         public Vec2[] velocity;
         public float extend = 0f;
         public float anchorX, anchorY;
+        public float originX, originY, ownerRotation, direction;
+    }
+    @Override
+    protected float calculateRange(){
+        float requested = rangeOverride > 0f ? rangeOverride : range;
+        return Math.max(0f, Math.min(requested, segmentLength * (segmentCount - 1)));
+    }
+
+    @Override
+    public void init(){
+        if(segmentCount < 2 || segmentLength <= 0f || width < 0f || damageInterval <= 0f){
+            throw new IllegalArgumentException("Tentacles require at least two segments, positive length/damage interval, and nonnegative width.");
+        }
+        super.init();
+        drawSize = Math.max(drawSize, (range + width) * 2f);
+    }
+
+    private float ownerRotation(Bullet b){
+        if(b.owner instanceof Unit owner) return owner.rotation;
+        if(b.owner instanceof BaseTurret.BaseTurretBuild turret) return turret.rotation;
+        return 0f;
     }
     @Override
     public void load(){
@@ -62,6 +84,7 @@ public class TentacleBulletType extends BulletType {
     }
     @Override
     public void init(Bullet b){
+        super.init(b);
         TentacleData data = new TentacleData();
 
         data.points = new Vec2[segmentCount];
@@ -69,6 +92,10 @@ public class TentacleBulletType extends BulletType {
 
         float ox = b.x;
         float oy = b.y;
+        data.originX = ox;
+        data.originY = oy;
+        data.direction = b.rotation();
+        data.ownerRotation = ownerRotation(b);
 
         if(b.owner instanceof Unit owner){
             data.anchorX = ox - owner.x;
@@ -81,21 +108,28 @@ public class TentacleBulletType extends BulletType {
             data.anchorY = 0f;
         }
 
-        Vec2 forward = Tmp.v1.trns(b.rotation(), 6f);
+        //The stored muzzle offset must rotate relative to the owner's firing pose.
+        Vec2 offset = new Vec2(data.anchorX, data.anchorY).rotate(-data.ownerRotation);
+        data.anchorX = offset.x;
+        data.anchorY = offset.y;
 
         for(int i = 0; i < segmentCount; i++){
             data.points[i] = new Vec2(ox, oy);
-            data.velocity[i] = new Vec2(forward).scl(1f + i * 0.2f);
+            data.velocity[i] = new Vec2();
         }
 
         b.data = data;
+        b.vel.setZero();
     }
     @Override
     public void update(Bullet b){
         if(!(b.data instanceof TentacleData data)) return;
 
-        float ox = b.x;
-        float oy = b.y;
+        float ox = data.originX;
+        float oy = data.originY;
+        float rotation = ownerRotation(b);
+        data.direction += Mathf.mod(rotation - data.ownerRotation + 180f, 360f) - 180f;
+        data.ownerRotation = rotation;
 
         if(b.owner instanceof Unit owner){
             float cos = Mathf.cosDeg(owner.rotation());
@@ -104,7 +138,6 @@ public class TentacleBulletType extends BulletType {
             ox = owner.x + data.anchorX * cos - data.anchorY * sin;
             oy = owner.y + data.anchorX * sin + data.anchorY * cos;
 
-            b.rotation(owner.rotation());
         }
         else if(b.owner instanceof BaseTurret.BaseTurretBuild turret){
             float cos = Mathf.cosDeg(turret.rotation);
@@ -113,16 +146,17 @@ public class TentacleBulletType extends BulletType {
             ox = turret.x + data.anchorX * cos - data.anchorY * sin;
             oy = turret.y + data.anchorX * sin + data.anchorY * cos;
 
-            b.rotation(turret.rotation);
         }
 
-        float bx = ox + Angles.trnsx(b.rotation(), baseOffset);
-        float by = oy + Angles.trnsy(b.rotation(), baseOffset);
+        float bx = ox + Angles.trnsx(data.direction, baseOffset);
+        float by = oy + Angles.trnsy(data.direction, baseOffset);
 
         b.set(bx, by);
 
-        Unit unitTarget = Units.closestEnemy(b.team, bx, by, range, u -> !u.dead());
-        Building tileTarget = Units.findEnemyTile(b.team, bx, by, range, bld -> !bld.dead());
+        Unit unitTarget = homingPower > 0f ? Units.closestEnemy(b.team, bx, by, range,
+            u -> !u.dead() && u.hittable() && u.checkTarget(collidesAir, collidesGround)) : null;
+        Building tileTarget = homingPower > 0f && collidesGround && collidesTiles ?
+            Units.findEnemyTile(b.team, bx, by, range, bld -> !bld.dead() && bld.collide(b)) : null;
 
         Position target = null;
 
@@ -138,18 +172,19 @@ public class TentacleBulletType extends BulletType {
 
         if(target != null){
             float targetAngle = Angles.angle(bx, by, target.getX(), target.getY());
-            b.rotation(Angles.moveToward(
-                    b.rotation(),
+            data.direction = Angles.moveToward(
+                    data.direction,
                     targetAngle,
-                    homingPower * Time.delta * 60f + whip
-            ));
+                    homingPower * Time.delta
+            );
         }
+        b.rotation(data.direction);
 
         float life = b.fin();
 
         float extendCurve;
         if(life < 0.2f){
-            extendCurve = Interp.pow10Out.apply(life / 0.2f);
+            extendCurve = Interp.pow3Out.apply(life / 0.2f);
         }else{
             extendCurve = 1f;
         }
@@ -163,40 +198,60 @@ public class TentacleBulletType extends BulletType {
 
         data.points[0].set(bx, by);
 
-        float totalLength = segmentLength * (segmentCount - 1) * data.extend;
-
-        Vec2 forward = Tmp.v1.trns(b.rotation(), 1f);
-
-        for(int i = 1; i < segmentCount; i++){
-            Vec2 prev = data.points[i - 1];
-            Vec2 cur = data.points[i];
-
-            Vec2 dir = Tmp.v2.set(cur).sub(prev);
-            float dist = dir.len();
-
-            if(dist > 0.0001f){
-                float desired = segmentLength * data.extend;
-                dir.scl(1f / dist);
-                cur.set(prev).add(dir.scl(desired));
-            }
-
-            float attack = Mathf.clamp(data.extend * 2f);
-            cur.add(forward.x * attack * 2f, forward.y * attack * 2f);
-
-            float chainDist = cur.dst(data.points[0]);
-            if(chainDist > totalLength){
-                Vec2 clamp = Tmp.v2.set(cur).sub(data.points[0]).setLength(totalLength);
-                cur.set(data.points[0]).add(clamp);
-            }
-
-            if(data.extend < 0.05f){
-                cur.set(data.points[0]);
+        float linkLength = range / (segmentCount - 1) * data.extend;
+        int steps = Math.max(1, Mathf.ceil(Time.delta));
+        float delta = Time.delta / steps;
+        for(int step = 0; step < steps; step++){
+            for(int i = 1; i < segmentCount; i++){
+                Vec2 prev = data.points[i - 1], cur = data.points[i], velocity = data.velocity[i];
+                float fraction = i / (float)(segmentCount - 1);
+                float curl = Mathf.sin(b.time / 6f - fraction * 3f + b.id * 0.37f) * whip * fraction;
+                Vec2 desired = Tmp.v1.trns(data.direction + curl, linkLength).add(prev);
+                velocity.add((desired.x - cur.x) * 0.3f * delta, (desired.y - cur.y) * 0.3f * delta);
+                velocity.scl(Mathf.pow(0.65f, delta));
+                cur.add(velocity.x * delta, velocity.y * delta);
+                cur.sub(prev).limit(linkLength).add(prev);
+                if(linkLength <= 0.001f){
+                    cur.set(prev);
+                    velocity.setZero();
+                }
             }
         }
 
-        for(int i = 0; i < segmentCount; i++){
-            Vec2 p = data.points[i];
-            Damage.damage( b.team,damage, p.y, p.x, width * 2f);
+        if(data.extend > 0.05f && b.timer(1, damageInterval)){
+            applyContactDamage(b, data);
+        }
+    }
+
+    /** Contact follows the rendered links, independent of the tentacle's world position. */
+    protected boolean touches(TentacleData data, Rect hitbox){
+        for(int i = 0; i < data.points.length - 1; i++){
+            Vec2 a = data.points[i], c = data.points[i + 1];
+            if(a.epsilonEquals(c, 0.001f)) continue;
+            float radius = width * (1f - i / (float)segmentCount);
+            if(Intersector.intersectSegmentRectangle(a, c, Tmp.r2.set(hitbox).grow(radius))) return true;
+        }
+        return false;
+    }
+
+    protected void applyContactDamage(Bullet b, TentacleData data){
+        //Each candidate is checked once, even if it overlaps many links.
+        Units.nearbyEnemies(b.team, b.x - range - width, b.y - range - width,
+            (range + width) * 2f, (range + width) * 2f, unit -> {
+                if(unit.dead || !unit.hittable() || !unit.checkTarget(collidesAir, collidesGround)) return;
+                unit.hitbox(Tmp.r1);
+                if(touches(data, Tmp.r1)) hitEntity(b, unit, unit.health);
+            });
+        if(collidesGround && collidesTiles){
+            Units.nearbyBuildings(b.x, b.y, range + width, build -> {
+                if(build.team == b.team || build.dead() || !build.collide(b)) return;
+                build.hitbox(Tmp.r1);
+                if(touches(data, Tmp.r1)){
+                    float health = build.health;
+                    build.collision(b);
+                    hitTile(b, build, build.x, build.y, health, true);
+                }
+            });
         }
     }
     @Override
@@ -209,12 +264,14 @@ public class TentacleBulletType extends BulletType {
         }
         float fade = 1f - Mathf.clamp((b.fin() - 0.75f) / 0.25f);
 
-        Draw.alpha(fade);
         Draw.color(Color.white);
+        Draw.alpha(fade);
 
         for(int i = 0; i < segmentCount - 1; i++){
             Vec2 a = data.points[i];
             Vec2 c = data.points[i + 1];
+            float length = a.dst(c);
+            if(length <= 0.001f) continue;
 
             float angle = Angles.angle(a.x, a.y, c.x, c.y);
             float w = width * (1f - i / (float)segmentCount);
@@ -223,17 +280,17 @@ public class TentacleBulletType extends BulletType {
                     ? frontRegion
                     : backRegion;
 
-            if(region != null){
+            if(region != null && region.found()){
                 Draw.rect(
                         region,
                         (a.x + c.x) / 2f,
                         (a.y + c.y) / 2f,
-                        segmentLength,
+                        length,
                         w * 2f,
                         angle
                 );
             }else{
-                Lines.stroke(w);
+                Lines.stroke(w * 2f);
                 Lines.line(a.x, a.y, c.x, c.y);
             }
         }

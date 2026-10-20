@@ -1,6 +1,8 @@
 package aquarion.world.blocks.payload;
 
 import aquarion.annotations.Annotations;
+import aquarion.world.graphics.AquaFx;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Interp;
@@ -11,6 +13,7 @@ import arc.util.Eachable;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.entities.units.BuildPlan;
+import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.graphics.Drawf;
 import mindustry.type.ItemStack;
@@ -20,13 +23,17 @@ import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.PayloadBlock;
 import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawMulti;
+import mindustry.ui.Styles;
+import mindustry.world.Block;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatUnit;
+import mindustry.world.meta.StatValues;
 
 public class PayloadCentrifuge extends PayloadBlock {
     public float processTime = 240f;
     public float spinRadius = 16f;
     public float warmupSpeed = 0.01f;
     public DrawBlock drawer = new DrawMulti();
-    public @Annotations.Load("@-blur") TextureRegion blurRegion;
     public PayloadCentrifuge(String name) {
         super(name);
         outputsPayload = false;
@@ -47,7 +54,39 @@ public class PayloadCentrifuge extends PayloadBlock {
     public boolean outputsItems() {
         return true;
     }
+    @Override
+    public void setStats(){
+        stats.timePeriod = processTime;
+        super.setStats();
+        stats.add(Stat.productionTime, processTime / 60f, StatUnit.seconds);
+        stats.add(Stat.output, table -> {
+            table.row();
+            for(Block block : Vars.content.blocks()){
+                if(!(block instanceof ReagentMix mix) || block.size > size) continue;
 
+                ItemStack[] output = new ItemStack[mix.containing.size];
+                for(int i = 0; i < output.length; i++){
+                    ItemStack stack = mix.containing.get(i);
+                    output[i] = new ItemStack(stack.item, stack.amount * 4);
+                }
+                table.table(Styles.grayPanel, recipe -> {
+                    recipe.left();
+                    recipe.image(mix.uiIcon).size(40).pad(10f)
+                        .with(image -> StatValues.withTooltip(image, mix));
+                    recipe.add("4x " + mix.localizedName).left().padRight(10f);
+                    recipe.row();
+                    recipe.table(items -> StatValues.items(processTime, output).display(items))
+                        .colspan(2).left().pad(10f);
+                }).growX().padTop(5f).padBottom(5f);
+                table.row();
+            }
+        });
+    }
+    @Override
+    public void load(){
+        super.load();
+        drawer.load(this);
+    }
     public class PayloadCentrifugeBuild extends PayloadBlockBuild<BuildPayload> {
         public float progress;
         public float warmup;
@@ -74,6 +113,7 @@ public class PayloadCentrifuge extends PayloadBlock {
             paySeq.add(payload.content());
             currX.add(x);
             currY.add(y);
+            AquaFx.acceptPayload.at(payload.x(), payload.y(),0,  payload);
             arrive.add(0f);
         }
 
@@ -86,14 +126,13 @@ public class PayloadCentrifuge extends PayloadBlock {
                 efficiency = 0;
                 warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
                 return;
+            } else {
+                for(BuildPayload pay : payloads){
+                    pay.set(x,y,0);
+                }
             }
 
-            for(int i = 0; i < payloads.size; i++){
-                float[] pos = orbitPos(i);
-                currX.set(i, Mathf.lerpDelta(currX.get(i), pos[0], 0.15f));
-                currY.set(i, Mathf.lerpDelta(currY.get(i), pos[1], 0.15f));
-                arrive.set(i, Mathf.approachDelta(arrive.get(i), 1f, 3f));
-            }
+            moveInPayload();
 
             if(efficiency <= 0.001f){
                 efficiency = 0;
@@ -125,33 +164,9 @@ public class PayloadCentrifuge extends PayloadBlock {
                 arrive.clear();
             }
         }
-
-        private float[] orbitPos(int i){
-            float baseRotation = totalProgress * 10;
-            float angle = baseRotation + (360f / payloads.size) * i;
-            float rad = Mathf.degRad * angle;
-            return new float[]{x + Mathf.cos(rad) * spinRadius, y + Mathf.sin(rad) * spinRadius};
-        }
-
         @Override
         public void draw() {
             super.draw();
-            if(payloads.isEmpty()) return;
-            float dissolve = Interp.reverse.apply(Interp.pow2In.apply(progress / processTime));
-
-            for(int i = 0; i < payloads.size; i++){
-                float alpha = Mathf.clamp(arrive.get(i)) * dissolve;
-                BuildPayload bp = payloads.get(i);
-                bp.set(currX.get(i), currY.get(i), 0f);
-                Draw.alpha(alpha);
-                bp.drawShadow(alpha);
-                Draw.alpha(alpha);
-                bp.build.payloadDraw();
-            }
-            float prog = progress/processTime;
-            float alpha = -Mathf.pow((2*(prog))-1, 4)+1;
-            Draw.alpha(alpha);
-            Draw.rect(blurRegion, x, y, totalProgress*2);
             drawer.draw(this);
             Draw.reset();
         }
@@ -180,7 +195,10 @@ public class PayloadCentrifuge extends PayloadBlock {
                 Payload.write(payloads.get(i), write);
             }
         }
-
+        @Override
+        public float warmup(){
+            return warmup;
+        }
         @Override
         public void read(Reads read, byte revision){
             super.read(read, revision);
@@ -198,9 +216,6 @@ public class PayloadCentrifuge extends PayloadBlock {
                 currY.clear();
                 arrive.clear();
                 for(int i = 0; i < payloads.size; i++){
-                    float[] pos = orbitPos(i);
-                    currX.add(pos[0]);
-                    currY.add(pos[1]);
                     arrive.add(1f);
                 }
             }

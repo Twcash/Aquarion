@@ -8,12 +8,16 @@ import aquarion.units.DefunctUnitType;
 import aquarion.units.MultiLegSegmentUnit;
 import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.type.AquaUnitType;
+import aquarion.units.type.AmphibiousUnitType;
+import aquarion.units.type.BuggyUnitType;
+import aquarion.units.type.BurrowUnitType;
 import aquarion.units.type.UnitTrail;
 import aquarion.world.AI.*;
 import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.content.AquaLiquid;
 import aquarion.world.entities.AquaLegConfig;
 import aquarion.world.entities.DroneSpawnerBulletType;
+import aquarion.world.entities.bullet.AquaBulletType;
 import aquarion.world.entities.bullet.TentacleBulletType;
 import aquarion.world.entities.parts.EnginePart;
 import aquarion.world.entities.parts.ShaderPart;
@@ -89,6 +93,9 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, AquaMechc.class}) UnitType knight;
     //core units and transport
 
+    public static @Annotations.EntityDef(value = {Unitc.class, Amphibiousc.class}) AmphibiousUnitType wort;
+    public static @Annotations.EntityDef(value = {Unitc.class, Buggyc.class}) BuggyUnitType krait;
+    public static @Annotations.EntityDef(value = {Unitc.class, Burrowc.class}) BurrowUnitType trawl, trawlBody;
     public static UnitType
         //Sharded units
             weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit, apothecary;
@@ -281,7 +288,7 @@ public class AquaUnitTypes {
             drag = 0.1f;
             mineWalls = true;
             mineFloor = true;
-            buildSpeed = 2.5f;
+            buildSpeed = 1f;
             drawCell = false;
             rotateSpeed = 9;
             mineTier = 2;
@@ -326,6 +333,7 @@ public class AquaUnitTypes {
             mineWalls = false;
             mineFloor = false;
             drawCell = false;
+            strafePenalty = 0.9f;
             buildSpeed = 1.3f;
             rotateSpeed = 12;
             engineSize = 2;
@@ -341,12 +349,15 @@ public class AquaUnitTypes {
                         inaccuracy = 4;
                         shoot.shotDelay = 1;
                         reload = 60;
-                        bullet = new BasicBulletType(8,9, "aquarion-bolt"){{
+                        shootSound = Sounds.shootLaser;
+                        bullet = new BasicBulletType(8,11, "aquarion-bolt"){{
                             frontColor = backColor = lightColor = trailColor = hitColor = Pal.accent;
                             homingPower = 0.05f;
                             shootEffect = Fx.shootSmallColor;
                             smokeEffect = AquaFx.shootSmoke1;
                             lifetime = 15;
+                            buildingDamageMultiplier = 0.5f;
+                            keepVelocity = false;
                             width = 6;
                             height = 12;
                             trailLength = 9;
@@ -969,16 +980,94 @@ public class AquaUnitTypes {
             armor = 6;
             hitSize = 8*3f;
             speed = 0.55f;
+            rotateSpeed = 0.9f;
+            baseRotateSpeed = 0.5f;
             drawCell = false;
+            strafePenalty = 0.8f;
+            shadowElevation = 0.5f;
             outlineColor = AquaPal.tantDarkestTone;
             legLengthScl = 1;
-            legMoveSpace = 3f;
+            legMoveSpace = 2.9f;
+            parts.addAll(new RegionPart(){{
+                moveX = -8;
+                this.name = "aquarion-regality-rack";
+                layerOffset = -0.02f;
+                weaponIndex = 1;
+                progress = PartProgress.smoothReload;
+            }}, new RegionPart("-missile"){{
+                layerOffset = -0.01f;
+                moveX = -8;
+                weaponIndex = 1;
+                progress = PartProgress.smoothReload;
+            }});
             legBaseUnder = true;
+            stepSound = Sounds.mechStepHeavy;
             groundLayer = Layer.legUnit+1;
             legSequence.addAll(
-                    new AquaLegConfig(60/4f/2f, -40/2f/4f, -0, 14),
-                    new AquaLegConfig(-60/2f/4f, -40/2f/4f, 0, 14)
+                    new AquaLegConfig(70/4f/2f, -60/2f/4f, -9f, 14),
+                    new AquaLegConfig(-70/2f/4f, -60/2f/4f, 9f, 14)
             );
+            weapons.add(new Weapon(){{
+                shootY = 10;
+                rotate = false;
+                mirror = false;
+                reload = 120;
+                y = 80/8f;
+                x = -128/8f;
+                shootSound = Sounds.shootConquer;
+                recoil = 0;
+                ejectEffect = Fx.casing2;
+                bullet = new AquaBulletType(10, 120, "aquarion-bolt"){{
+                    shootEffect = Fx.shootBigColor;
+                    smokeEffect = AquaFx.shootSmoke3;
+                    width = 8;
+                    height = 12;
+                    keepVelocity = false;
+                    splashDamageRadius = 48;
+                    splashDamage = 120;
+                    rotationRecoilTime = 2;
+                    shouldRecoilRotation = true;
+                    recoil = 1;
+                    lifetime = 45f;
+                    shootCone = 5;
+                    knockback = 2;
+                    flipRotationRecoil = false;
+                    rotationRecoil = 40;
+                    despawnHit = true;
+                    despawnEffect = hitEffect = AquaFx.graceExplosion;
+                    trailLength = 12;
+                    frontColor = AquaPal.redDecal1;
+                    backColor = trailColor = lightColor = hitColor = AquaPal.redDecal1Dark;
+                }};
+            }},new Weapon(){{
+                reload = 240;
+                recoil = 1;
+                shootCone = 5;
+                x = 128/8f;
+                y = 0;
+                mirror = false;
+                rotate = false;
+                bullet = new BasicBulletType(2, 0, "aquarion-regality-missile-thing"){{
+                    splashDamageRadius = 120;
+                    splashDamage = 400;
+                    frontColor = backColor = Color.white;
+                    trailEffect = Fx.missileTrail;
+                    trailLength = 12;
+                    smokeEffect = Fx.shootSmokeMissile;
+                    shootEffect = Fx.none;
+                    shrinkX = shrinkY = 0;
+                    trailInterval = 2;
+                    homingPower = 0.01f;
+                    lifetime = 50;
+                    drag = -0.05f;
+                    knockback = 15;
+                    layer = Layer.bullet - 1;
+                    despawnEffect = hitEffect = Fx.titanExplosionLarge;
+                    width = 32/4f;
+                    height = 96/4f;
+                }};
+            }});
+
         }};
         pillage = new AquaUnitType("pillage") {{
             constructor = LegsUnit::create;
@@ -1309,8 +1398,8 @@ public class AquaUnitTypes {
             constructor = LegsUnit::create;
             speed = 0.45f;
             hitSize = 16;
-            range = 120;
-            health = 280;
+            range = 160;
+            health = 580;
             stepShake = 0.1f;
             armor = 5;
             targetAir = true;
@@ -1347,7 +1436,7 @@ public class AquaUnitTypes {
                 shootSound = Sounds.shootDiffuse;
                 shootY = 4;
                 reload = 90;
-                bullet = new BasicBulletType(8f, 60, "aquarion-bolt") {{
+                bullet = new BasicBulletType(8f, 65, "aquarion-bolt") {{
                     shrinkY = 0;
                     shrinkX = 0.2f;
                     hitSize = 4;
@@ -1368,9 +1457,9 @@ public class AquaUnitTypes {
                 y = 6f;
                 shootSound = Sounds.shootBreach;
                 shootY = 4;
-                reload = 160;
+                reload = 90;
                 inaccuracy = 7;
-                bullet = new BasicBulletType(2.5f, 45, "aquarion-flechette") {{
+                bullet = new BasicBulletType(3f, 20, "aquarion-flechette") {{
                     shrinkY = 0.1f;
                     shrinkX = 0.4f;
                     knockback = 5;
@@ -3627,6 +3716,112 @@ public class AquaUnitTypes {
                         }
                     });
         }};
+        trawlBody = new BurrowUnitType("trawl-body", true){{
+            bodySprite = "aquarion-trawl";
+            hitSize = 7f;
+            outlineColor = Color.valueOf("40244e");
+            health = 400f;
+            speed = 1.6f;
+            hopCrushDamage = 60;
+            segmentSpacing = 4;
+        }};
+        trawl = new BurrowUnitType("trawl", false){{
+            bodyType = trawlBody;
+            speed = 1.6f;
+            hitSize = 8f;
+            health = 400f;
+            rotateSpeed = 4f;
+            accel = 0.12f;
+            drag = 0.08f;
+            hopCrushDamage = 60;
+            segmentSpacing = 4;
+            outlineColor = Color.valueOf("40244e");
+            targetAir = false;
+            range = breachRange;
+        }};
+        krait = new BuggyUnitType("krait"){{
+            speed = 3.4f;
+            hitSize = 10f;
+            health = 450f;
+            armor = 3f;
+            wheelBase = 12.5f;
+            outlineColor = Pal.darkOutline;
+            weapons.add(new Weapon("aquarion-krait-weapon"){{
+                rotate = true;
+                x = y = 0;
+                rotateSpeed = 4;
+                recoil = 1;
+                mirror = false;
+                reload = 30;
+                inaccuracy = 3;
+                bullet = new BasicBulletType(4, 20){{
+                    width = 4;
+                    height = 7;
+                }};
+            }});
+        }};
+        wort = new AmphibiousUnitType("wort"){{
+            speed = swimSpeed = 1.2f;
+            hopSpeed = 3f;
+            hopDistance = 48f;
+            hopHeight = 18f;
+            hopCooldown = 18f;
+            hopAirTargetThreshold = 0.8f;
+            hopCrushDamage = 90f;
+            hopCrushRadius = 24f;
+            hopLandShake = 1.5f;
+            hopOverEnvironment = true;
+            engineSize = 0;
+            hitSize = 10f;
+            health = 600;
+            drag = 0.12f;
+            immunities.add(StatusEffects.melting);
+            accel = 0.3f;
+            outlineColor = Pal.darkOutline;
+            rotateSpeed = 5f;
+            trailLength = 12;
+            waveTrailX = 3f;
+            weapons.add(new Weapon("aquarion-wort-weapon"){{
+                mirror = true;
+                rotate = true;
+                y = 0;
+                alternate = false;
+                x = 4;
+                shootY = 3f;
+                reload = 110f;
+                rotateSpeed = 8f;
+                shootCone = 8f;
+                shootSound = Sounds.beamParallax;
+                bullet = new aquarion.world.entities.bullet.HarpoonBulletType();
+            }});
+            weapons.add(new Weapon(){{
+                mirror = false;
+                x = y = shootY = 0f;
+                reload = 24f;
+                shootCone = 360f;
+
+                controllable = false;
+                autoTarget = true;
+                targetInterval = targetSwitchInterval = 5f;
+                shootOnDeath = true;
+                targetUnderBlocks = false;
+                ejectEffect = Fx.none;
+                shootSound = Sounds.explosionCrawler;
+                shootSoundVolume = 0.6f;
+                bullet = new BulletType(){{
+                    speed = 0f;
+                    rangeOverride = 25f;
+                    collides = collidesTiles = false;
+                    instantDisappear = true;
+                    killShooter = true;
+                    hittable = false;
+                    collidesAir = true;
+                    splashDamage = 200f;
+                    splashDamageRadius = 70f;
+                    hitEffect = Fx.pulverize;
+                }};
+            }});
+        }};
         recoil = new ErekirUnitType("recoil") {{
             constructor = UnitEntity::create;
             hitSize = 14;
@@ -3644,7 +3839,6 @@ public class AquaUnitTypes {
                 mirror = true;
                 y = 0;
                 reload = 45f;
-                alwaysShooting = true;
                 minShootVelocity = 0.1f;
                 bullet = new TentacleBulletType() {{
                     range = 110;
@@ -3659,7 +3853,6 @@ public class AquaUnitTypes {
                 x = 9f;
                 mirror = true;
                 y = -4;
-                alwaysShooting = true;
                 minShootVelocity = 0.1f;
                 reload = 45f;
                 bullet = new TentacleBulletType() {{

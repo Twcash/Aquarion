@@ -504,7 +504,8 @@ public class RefineryBlocks {
             }}, new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
         }};
         vacuumFreezer = new AquaGenericCrafter("vacuum-freezer") {{
-            requirements(AquaCategories.refinery, with(copper, 120, aluminum, 300));
+            requirements(AquaCategories.refinery, with(copper, 120));
+
             size = 6;
             squareSprite = false;
             ambientSound = Sounds.loopCircuit;
@@ -607,6 +608,7 @@ public class RefineryBlocks {
                 phaseOffset = 10;
             }}, new AquaDrawLiquidOutputs());
         }};
+        AlternativeBuildCosts.register(vacuumFreezer, with(concrete, 150, aluminum, 300));
         acuminiteDegredationArray = new AquaGenericCrafter("acuminite-degredation-array") {{
             requirements(AquaCategories.refinery, with(copper, 550, aluminum, 700, silicon, 500));
             squareSprite = false;

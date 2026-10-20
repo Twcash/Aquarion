@@ -4,6 +4,7 @@ package aquarion.units;
 import aquarion.gen.AquaLegsc;
 import aquarion.world.entities.AquaLeg;
 import aquarion.world.entities.AquaLegConfig;
+import aquarion.world.graphics.AquaFx;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.Texture;
@@ -20,6 +21,7 @@ import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.Vars;
 import mindustry.entities.Leg;
+import mindustry.entities.Effect;
 import mindustry.entities.abilities.Ability;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.units.WeaponMount;
@@ -34,17 +36,48 @@ import static arc.graphics.g2d.Draw.xscl;
 
 public class AquaLegUnitType extends UnitType {
     public Seq<AquaLegConfig> legSequence = new Seq();
-    public float maxLegLength, minLegLength;
     private static final Vec2 legOffset = new Vec2();
     public AquaLegUnitType(String name) {
         super(name);
+        stepSound = Sounds.mechStep;
+        alwaysCreateOutline = true;
     }
-    public Seq<TextureRegion> regione = new Seq<>();
+    public Color footColor = Color.valueOf("0a0e12");
+    /** Maximum grounded foot color mix, from 0 (original sprite) to 1 (full footColor). */
+    public float footColorAlpha = 0.5f;
+    public float footShadowScale = 0.75f;
+    /** Sideways and forward body sway in world units. */
+    public float bodySway = 1f, bodySwayForward = 0.5f;
+    /** Sway cycle length relative to the leg step distance; larger values sway slower. */
+    public float bodySwayScale = 1f;
+    public Effect footprintEffect = AquaFx.mechFootprint;
 
     @Override
     public void draw(Unit unit){
-        super.draw(unit);
-        drawLegs(unit);
+        if(unit.inFogTo(Vars.player.team())) return;
+
+        float originalX = unit.x, originalY = unit.y;
+        if(unit.isAdded() && unit instanceof AquaLegsc legs && bodySwayScale > 0f){
+            float phase = legs.totalLength() / Math.max(legs.moveSpace(), 0.001f) * Mathf.PI / bodySwayScale;
+            float strength = legs.bodySwayStrength() * (1f - unit.elevation);
+            float side = Mathf.sin(phase) * bodySway * strength;
+            float forward = Mathf.cos(phase * 2f) * bodySwayForward * strength;
+            unit.trns(Angles.trnsx(legs.baseRotation(), forward, side),
+                Angles.trnsy(legs.baseRotation(), forward, side));
+        }
+        try{
+            float previousZ = Draw.z();
+            float bodyZ = !unit.isAdded() ? previousZ :
+                unit.elevation > 0.5f || (flying && unit.dead) ? flyingLayer :
+                groundLayer + Mathf.clamp(hitSize / 4000f, 0f, 0.01f);
+            Draw.z(Math.min(Layer.darkness, bodyZ - 1f) - 0.01f);
+            drawLegs(unit);
+            Draw.reset();
+            Draw.z(previousZ);
+            super.draw(unit);
+        }finally{
+            unit.set(originalX, originalY);
+        }
     }
     @Override
     public void drawLegs(Unit unit){
@@ -60,7 +93,7 @@ public class AquaLegUnitType extends UnitType {
             Leg leg = legs[i];
             AquaLegConfig cfg = legSequence.get(i);
             if(cfg.footRegion != null && cfg.footRegion.found()){
-                float ssize = cfg.footRegion.width * cfg.footRegion.scl() * 1.5f;
+                float ssize = cfg.footRegion.width * cfg.footRegion.scl() * 1.5f * footShadowScale;
                 Drawf.shadow(leg.base.x, leg.base.y, ssize, invDrown);
             }
         }
@@ -76,12 +109,23 @@ public class AquaLegUnitType extends UnitType {
                 float scl = shadowElevation * invDrown;
                 float elev = Mathf.slope(1f - leg.stage) * scl;
                 Draw.color(Pal.shadow);
-                Draw.rect(cfg.footRegion, leg.base.x + shadowTX * elev, leg.base.y + shadowTY * elev, position.angleTo(leg.base));
+                Draw.rect(cfg.footRegion, leg.base.x + shadowTX * elev, leg.base.y + shadowTY * elev,
+                    cfg.footRegion.width * cfg.footRegion.scl() * footShadowScale,
+                    cfg.footRegion.height * cfg.footRegion.scl() * footShadowScale, position.angleTo(leg.base));
                 Draw.color();
             }
             Draw.mixcol(Tmp.c3, Tmp.c3.a);
             if(cfg.footRegion != null && cfg.footRegion.found()){
+                float footLift = leg.moving ? Mathf.clamp(Mathf.slope(leg.stage)) : 0f;
+                float groundMix = (1f - footLift) * Mathf.clamp(footColorAlpha);
+                float mixAlpha = groundMix + Tmp.c3.a * (1f - groundMix);
+                //Mix toward the target RGB instead of multiplying the sprite by a dark tint.
+                Tmp.c4.set(footColor).lerp(Tmp.c3, mixAlpha > 0f ? Tmp.c3.a / mixAlpha : 0f);
+                Draw.color();
+                Draw.mixcol(Tmp.c4, mixAlpha);
                 Draw.rect(cfg.footRegion, leg.base.x, leg.base.y, position.angleTo(leg.base));
+                Draw.mixcol(Tmp.c3, Tmp.c3.a);
+                Draw.color();
             }
             if(legBaseUnder){
                 if(cfg.legBaseRegion != null && cfg.legBaseRegion.found()){
@@ -115,9 +159,6 @@ public class AquaLegUnitType extends UnitType {
                 Draw.rect(cfg.baseJointRegion, position.x, position.y, rotation);
             }
         }
-        if(baseRegion.found()){
-            Draw.rect(baseRegion, unit.x, unit.y, rotation - 90);
-        }
     }
 
 
@@ -138,17 +179,40 @@ public class AquaLegUnitType extends UnitType {
     }
     public void drawBody(Unit unit){
         applyColor(unit);
-        Draw.z(groundLayer);
+        if(baseRegion.found() && unit instanceof AquaLegsc unite){
+            Draw.rect(baseRegion, unit.x, unit.y, unite.baseRotation() - 90);
+        }
         Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
 
         Draw.reset();
     }
     @Override
     public void createIcons(MultiPacker packer){
+        super.createIcons(packer);
+        if(!outlines) return;
+
+        //The standard pass covers the body, weapons, parts, and default legs.
+        //Also outline the base and any per-leg sprites selected by a suffix.
+        outlineLegRegion(packer, baseRegion);
+        for(AquaLegConfig cfg : legSequence){
+            outlineLegRegion(packer, cfg.footRegion);
+            outlineLegRegion(packer, cfg.legRegion);
+            outlineLegRegion(packer, cfg.legBaseRegion);
+            outlineLegRegion(packer, cfg.jointRegion);
+            outlineLegRegion(packer, cfg.baseJointRegion);
+        }
+    }
+
+    private void outlineLegRegion(MultiPacker packer, TextureRegion region){
+        if(region != null && region.found()){
+            //The packer tracks outlined names, so shared regions are only processed once.
+            makeOutline(MultiPacker.PageType.main, packer, region, false, outlineColor, outlineRadius);
+        }
     }
     @Override
     public void load(){
         super.load();
+        shadowRegion = region;
 
         for(AquaLegConfig cfg : legSequence){
             if(cfg.suffix != null){

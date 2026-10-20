@@ -19,6 +19,7 @@ import static aquarion.content.blocks.CrafterBlocks.*;
 import static aquarion.content.blocks.DefenseBlocks.*;
 import static aquarion.content.blocks.DistributionBlocks.*;
 import static aquarion.content.blocks.EffectBlocks.lantern;
+import static aquarion.content.blocks.EffectBlocks.led;
 import static aquarion.content.blocks.LiquidBlocks.*;
 import static aquarion.content.blocks.PowerBlocks.*;
 import static aquarion.content.blocks.CoreBlocks.channel;
@@ -60,7 +61,10 @@ public class TantrosTechTree {
                     node(mendSubstation, () -> {});
                     node(overClockProjector, () -> {});
                 });
-                node(lantern, () -> {});
+                node(led, ()->{
+                    node(lantern, () -> {});
+                });
+
                 node(buildCairn, () -> {
                     node(bomb, () -> {});
                     node(constructionTower, () -> {});

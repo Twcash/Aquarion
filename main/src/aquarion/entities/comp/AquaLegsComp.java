@@ -40,6 +40,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
 
     transient Leg[] legs = {};
     transient float totalLength;
+    transient float bodySwayStrength;
     transient float moveSpace;
     transient float baseRotation;
     transient Floor lastDeepFloor;
@@ -139,6 +140,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
 
             //rotation + offset vector
             boolean moving = moving();
+            bodySwayStrength = Mathf.lerpDelta(bodySwayStrength, moving ? 1f : 0f, 0.1f);
             Vec2 moveOffset = !moving ? Tmp.v4.setZero() : Tmp.v4.trns(Angles.angle(deltaX(), deltaY()), trns);
             //make it smooth, not jumpy
             moveOffset = curMoveOffset.lerpDelta(moveOffset, 0.1f);
@@ -180,11 +182,18 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                     //create effect when transitioning to a group it can't move in
                     if (!move && (moving || !type.legContinuousMove) && i % div == l.group) {
                         if (!headless && !inFogTo(player.team())) {
+                            type.stepSound.at(l.base.x, l.base.y,
+                                type.stepSoundPitch + Mathf.range(type.stepSoundPitchRange), type.stepSoundVolume);
                             if (floor.isLiquid) {
                                 floor.walkEffect.at(l.base.x, l.base.y, type.rippleScale, floor.mapColor);
                                 floor.walkSound.at(x, y, 1f, floor.walkSoundVolume);
                             } else {
                                 Fx.unitLandSmall.at(l.base.x, l.base.y, type.rippleScale, floor.mapColor);
+                                AquaLegConfig cfg = unit.legSequence.get(i);
+                                if(cfg.footRegion != null && cfg.footRegion.found()){
+                                    unit.footprintEffect.at(l.base.x, l.base.y, baseOffset.angleTo(l.base),
+                                        unit.footColor, cfg.footRegion);
+                                }
                             }
 
                             //shake when legs contact ground

@@ -5,6 +5,7 @@ import aquarion.content.AquaSounds;
 import aquarion.content.AquaStatuses;
 import aquarion.content.AquaUnitTypes;
 import aquarion.units.type.AquaUnitType;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.payload.InitializationBay;
 import aquarion.world.blocks.units.*;
 import aquarion.world.content.AquaLiquid;
@@ -208,13 +209,14 @@ public class UnitBlocks {
             destroySound = AquaSounds.start2;
         }};
         raze = new UnitBlock("raze-inactive") {{
-            requirements(Category.units, with(polymer, 100, silicon, 150, cupronickel, 120));
+            requirements(Category.units, with( silicon, 150, cupronickel, 120));
             unit = AquaUnitTypes.raze;
             size = 3;
             consumePower(3);
             time = 20 * 60;
             destroySound = AquaSounds.start4;
         }};
+        AlternativeBuildCosts.register(raze, with(polymer, 100, concrete, 150));
         shatter = new UnitBlock("shatter-inactive") {{
             requirements(Category.units, with(graphite, 120, metaglass, 150, polymer, 50, silicon, 100));
             unit = AquaUnitTypes.shatter;
