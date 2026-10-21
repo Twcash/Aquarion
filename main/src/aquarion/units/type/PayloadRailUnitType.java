@@ -1,6 +1,5 @@
 package aquarion.units.type;
 
-import aquarion.world.graphics.Renderer;
 import mindustry.gen.Building;
 import mindustry.gen.PayloadUnit;
 import mindustry.Vars;

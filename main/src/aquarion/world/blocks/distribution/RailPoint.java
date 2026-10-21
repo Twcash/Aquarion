@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import arc.struct.Seq;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import mindustry.core.World;
 import mindustry.gen.Building;
 import mindustry.game.Team;
 import mindustry.graphics.Layer;
@@ -66,7 +67,7 @@ public class RailPoint extends Block{
         PlacementMask cached = placementMasks.get(key);
         if(cached != null) return cached;
         PlacementMask mask = new PlacementMask();
-        int radius = Mathf.ceil(range / tilesize), tx = world.toTile(x), ty = world.toTile(y);
+        int radius = Mathf.ceil(range / tilesize), tx = World.toTile(x), ty = World.toTile(y);
         float[] controls = new float[4];
         for(int ox = -radius; ox <= radius; ox++){
             for(int oy = -radius; oy <= radius; oy++){
@@ -111,7 +112,7 @@ public class RailPoint extends Block{
                 build.setLink(rail, !build.hasLink(rail));
             }
         });
-        config(Point2[].class, (RailPointBuild build, Point2[] points) -> build.replaceLinks(points));
+        config(Point2[].class, RailPointBuild::replaceLinks);
         config(Boolean.class, (RailPointBuild build, Boolean connect) -> {
             if(connect) build.replaceLinks(build.nearbyConfig());
             else build.replaceLinks(new Point2[0]);
@@ -135,7 +136,7 @@ public class RailPoint extends Block{
 
     public void eachNearby(float x, float y, Team team, Cons<Building> consumer){
         int radius = Mathf.ceil(range / tilesize);
-        int tx = world.toTile(x), ty = world.toTile(y);
+        int tx = World.toTile(x), ty = World.toTile(y);
         for(int dx = -radius; dx <= radius; dx++){
             for(int dy = -radius; dy <= radius; dy++){
                 Building other = world.build(tx + dx, ty + dy);

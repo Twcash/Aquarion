@@ -56,7 +56,7 @@ public class RailPayloadSupport{
             for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && target.build.block instanceof Turret){
                 if(target.build.block.consumesLiquid(liquid)
                     || (target.build.block instanceof mindustry.world.blocks.defense.turrets.LiquidTurret turret && turret.ammoTypes.containsKey(liquid))
-                    || (target.build.block instanceof mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret turret && turret.ammoTypes.containsKey(liquid))) return true;
+                    || (target.build.block instanceof mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret tur && tur.ammoTypes.containsKey(liquid))) return true;
             }
         }
         return false;
@@ -108,21 +108,10 @@ public class RailPayloadSupport{
         if(liquid == null || !uses(unit, liquid)) return 0f;
         float total = 0f;
         for(Unit car : RailConsist.members(unit)) if(car instanceof LiquidRailUnit tank && tank.cargoLiquid == liquid
-            && car.type instanceof aquarion.units.type.LiquidRailUnitType type){
+            && car.type instanceof aquarion.units.type.LiquidRailUnitType){
             total += reservedInCar(unit, tank, liquid);
         }
         return total;
-    }
-
-    public static boolean engaged(Unit unit){
-        for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier){
-            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && target.build instanceof Turret.TurretBuild turret){
-                if(turret.hasAmmo() && turret.target instanceof mindustry.gen.Teamc enemy && enemy.team() != unit.team
-                    && (!(turret.target instanceof mindustry.gen.Healthc health) || !health.dead())
-                    && target.build.within(turret.target, turret.range()) && !target.build.within(turret.target, turret.minRange())) return true;
-            }
-        }
-        return false;
     }
 
     public static boolean validEnemy(Unit unit, mindustry.gen.Teamc enemy){
