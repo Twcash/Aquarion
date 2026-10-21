@@ -45,6 +45,10 @@ public class RailCommandAI extends CommandAI{
     private float cargoRetry;
     private Vec2 patrolResume;
     private float patrolSupplyRetry;
+    private Teamc pursuitEnemy;
+    private Vec2 pursuitResume;
+    private RailPointBuild pursuitGoal;
+    private float pursuitRetry;
     private boolean parked;
     private boolean clearingReverse;
     private float reverseRemaining, clearanceRetry, clearanceLeadIn;
@@ -80,6 +84,7 @@ public class RailCommandAI extends CommandAI{
                 float b = to != null && to.nodes.peek() == edge.to ? to.cost + edge.length - distance : Float.POSITIVE_INFINITY;
                 couplingTravel = Math.min(a, b);
                 if(!Float.isFinite(couplingTravel)) couplingTravel = 0f;
+                if(edge.to == station) couplingTravel = -(edge.length - distance);
             }else if(node != null){
                 Route path = RailPathfinder.find(station, node.x, node.y);
                 if(path != null && path.nodes.peek() == node) couplingTravel = path.cost;
@@ -129,6 +134,12 @@ public class RailCommandAI extends CommandAI{
         patrolResume = previous.patrolResume == null ? null : previous.patrolResume.cpy();
         patrolSupplyRetry = previous.patrolSupplyRetry;
         previous.patrolResume = null;
+        pursuitEnemy = previous.pursuitEnemy;
+        pursuitResume = previous.pursuitResume == null ? null : previous.pursuitResume.cpy();
+        pursuitGoal = previous.pursuitGoal;
+        pursuitRetry = previous.pursuitRetry;
+        previous.pursuitEnemy = null;
+        previous.pursuitResume = null;
         commandQueue.clear();
         commandQueue.addAll(previous.commandQueue);
         previous.commandQueue.clear();
@@ -288,6 +299,9 @@ public class RailCommandAI extends CommandAI{
             ai.commandPosition(pos, stopWhenInRange);
             return;
         }
+        pursuitEnemy = null;
+        pursuitResume = null;
+        pursuitGoal = null;
         super.commandPosition(pos, stopWhenInRange);
     }
 
@@ -322,7 +336,7 @@ public class RailCommandAI extends CommandAI{
     private void updateCargo(){
         if(yieldOwner != null || (unit.type.itemCapacity <= 0 && !(unit instanceof aquarion.world.units.LiquidRailUnit) && !(unit.type instanceof aquarion.units.type.PayloadRailUnitType))) return;
         if(patrolResume != null){
-            if(!hasStance(mindustry.ai.UnitStance.patrol) || (targetPos != null && cargoTarget != null && !targetPos.within(cargoTarget, 0.01f))){
+            if(targetPos != null && cargoTarget != null && !targetPos.within(cargoTarget, 0.01f)){
                 patrolResume = null;
                 cargoTarget = null;
             }else{
@@ -332,14 +346,14 @@ public class RailCommandAI extends CommandAI{
             }
         }
         patrolSupplyRetry -= Time.delta;
-        if(cargoTarget == null && targetPos != null && attackTarget == null && hasStance(mindustry.ai.UnitStance.patrol) && patrolSupplyRetry <= 0f){
+        if(cargoTarget == null && targetPos != null && attackTarget == null && patrolSupplyRetry <= 0f){
             patrolSupplyRetry = 30f;
-            if(aquarion.world.units.RailPayloadSupport.outOfAmmo(unit)){
+            if(aquarion.world.units.RailPayloadSupport.outOfSupplies(unit)){
                 CargoStationBuild dock = aquarion.world.units.RailPayloadSupport.choose(unit, edge == null ? node : edge.to);
                 if(dock != null){
                     patrolResume = targetPos.cpy();
                     cargoTarget = dock;
-                    super.commandPosition(new Vec2(dock.x, dock.y));
+                    super.commandPosition(new Vec2(dock.x, dock.y), false);
                     return;
                 }
             }
@@ -432,7 +446,7 @@ public class RailCommandAI extends CommandAI{
             if(other == unit || RailConsist.same(unit, other) || other.dead || other.team != unit.team
                 || !(other.controller() instanceof RailCommandAI ai) || !sameDestination(ai)) continue;
             float gap = convoyDistance(ai);
-            if(gap > 0.01f && gap <= RailTraffic.clearance(unit, other) + tilesize * 3f && gap < nearest){
+            if(gap > 0.01f && gap <= RailTraffic.carSpacing(unit, other) + tilesize * 3f && gap < nearest){
                 nearest = gap;
                 linkedTo = other;
             }
@@ -443,6 +457,10 @@ public class RailCommandAI extends CommandAI{
 
     public Edge trafficEdge(){
         return edge;
+    }
+
+    public float railHeading(){
+        return edge == null ? trainHeading() : edge.sample(distance, new Vec2());
     }
 
     public float trafficDistance(){
@@ -722,7 +740,10 @@ public class RailCommandAI extends CommandAI{
             unit.kill();
             return;
         }
-        if(attached && edge == null && RailPathfinder.active(node)) unit.set(node.x, node.y);
+        if(attached && edge == null && RailPathfinder.active(node)){
+            unit.set(node.x, node.y);
+            aquarion.world.units.RailPayloadSupport.passDock(unit, node);
+        }
         if(couplingStation != null && !clearingReverse){
             if(!RailPathfinder.active(couplingStation) || !couplingStation.holding(unit)) releaseCoupling();
             else if(couplingStation.shouldHold(unit)){
@@ -756,6 +777,11 @@ public class RailCommandAI extends CommandAI{
         }
         if(couplingStation == null && !clearingReverse) updateCargo();
         if(RailConsist.leader(unit) != unit) return;
+        if(yieldOwner == null && couplingStation == null && !clearingReverse && updatePursuit()){
+            holdPosition();
+            moveSpeed = 0f;
+            return;
+        }
         if(attackTarget != null){
             if(targetPos == null) targetPos = new Vec2();
             targetPos.set(attackTarget);
@@ -807,7 +833,7 @@ public class RailCommandAI extends CommandAI{
         }
         updateCoupling();
         if(linkedTo != null && linkedTo.controller() instanceof RailCommandAI leader && !leader.hasCommand()
-            && convoyDistance(leader) <= RailTraffic.clearance(unit, linkedTo) + 1f){
+            && convoyDistance(leader) <= RailTraffic.carSpacing(unit, linkedTo) + 1f){
             // Arrive as one train, keeping the trailing cars on the rails behind the locomotive.
             moveSpeed = 0f;
             finish();
@@ -847,7 +873,7 @@ public class RailCommandAI extends CommandAI{
             }
             limit = Math.min(limit, RailTraffic.followingSpeed(unit, edge, distance, acceleration));
             if(linkedTo != null && linkedTo.controller() instanceof RailCommandAI leader){
-                float space = Math.max(0f, convoyDistance(leader) - RailTraffic.clearance(unit, linkedTo) - 0.5f);
+                float space = Math.max(0f, convoyDistance(leader) - RailTraffic.carSpacing(unit, linkedTo) - 0.5f);
                 limit = Math.min(limit, Mathf.sqrt(leader.moveSpeed * leader.moveSpeed + 2f * acceleration * space));
             }
             moveSpeed = Mathf.approach(moveSpeed, limit, acceleration * Time.delta);
@@ -890,6 +916,7 @@ public class RailCommandAI extends CommandAI{
             unit.set(position);
             if(distance < edge.length) return;
             node = edge.to;
+            aquarion.world.units.RailPayloadSupport.passDock(unit, node);
             lastDirection = rotation;
             edge = null;
             retry = 0f;
@@ -1287,13 +1314,66 @@ public class RailCommandAI extends CommandAI{
         return true;
     }
 
+    private void endPursuit(){
+        Vec2 destination = pursuitResume;
+        pursuitEnemy = null;
+        pursuitResume = null;
+        pursuitGoal = null;
+        route.clear();
+        waitingFor = null;
+        targetPos = null;
+        if(destination != null) super.commandPosition(destination, false);
+        pursuitRetry = 30f;
+    }
+
+    /** Returns true while the train should hold its rail position and fire. */
+    private boolean updatePursuit(){
+        if(patrolResume != null) return false;
+        if(!hasStance(mindustry.ai.UnitStance.pursueTarget)){
+            if(pursuitEnemy != null) endPursuit();
+            return false;
+        }
+        if(attackTarget != null) return aquarion.world.units.RailPayloadSupport.canEngage(unit, attackTarget);
+        if(pursuitEnemy != null && (!aquarion.world.units.RailPayloadSupport.validEnemy(unit, pursuitEnemy)
+            || !unit.within(pursuitEnemy, aquarion.world.units.RailPayloadSupport.pursuitRange(unit) * 2f))){
+            endPursuit();
+            return false;
+        }
+        pursuitRetry -= Time.delta;
+        if(pursuitEnemy == null){
+            if(pursuitRetry > 0f) return false;
+            pursuitRetry = 20f;
+            Teamc enemy = aquarion.world.units.RailPayloadSupport.pursuitTarget(unit);
+            if(enemy == null) return false;
+            pursuitResume = targetPos == null ? null : targetPos.cpy();
+            pursuitEnemy = enemy;
+            cargoTarget = null;
+            pursuitGoal = null;
+            pursuitRetry = 0f;
+            RailPointBuild start = edge == null ? node : edge.to;
+            if(start != null) super.commandPosition(new Vec2(start.x, start.y), false);
+        }
+        if(aquarion.world.units.RailPayloadSupport.canEngage(unit, pursuitEnemy)) return true;
+        if(pursuitRetry <= 0f){
+            pursuitRetry = 20f;
+            Route path = RailPathfinder.find(edge == null ? node : edge.to, pursuitEnemy.x(), pursuitEnemy.y());
+            if(path == null){ endPursuit(); return false; }
+            RailPointBuild goal = path.nodes.peek();
+            if(goal != pursuitGoal || targetPos == null){
+                pursuitGoal = goal;
+                super.commandPosition(new Vec2(goal.x, goal.y), false);
+            }
+        }
+        return false;
+    }
+
     private void resumePatrol(){
         Vec2 destination = patrolResume;
         patrolResume = null;
         cargoTarget = null;
         route.clear();
         waitingFor = null;
-        if(destination != null) super.commandPosition(destination);
+        if(destination != null) super.commandPosition(destination, false);
         patrolSupplyRetry = 30f;
     }
 
@@ -1303,6 +1383,12 @@ public class RailCommandAI extends CommandAI{
                 aquarion.world.units.RailPayloadSupport.transfer(unit, cargoTarget);
             }
             resumePatrol();
+            return;
+        }
+        if(pursuitEnemy != null){
+            route.clear();
+            waitingFor = null;
+            moveSpeed = 0f;
             return;
         }
         Vec2 completed = targetPos == null ? null : targetPos.cpy();

@@ -23,6 +23,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
 public class RailUnitType extends UnitType{
+    /** Car length in world units; zero derives it from the loaded sprite. */
+    public float railLength;
+    /** Minimum visual gap between neighboring cars, in world units. */
+    public float railGap = 1f;
     public RailUnitType(String name){
         super(name);
         constructor = UnitEntity::create;
@@ -30,6 +34,8 @@ public class RailUnitType extends UnitType{
         controller = unit -> new RailCommandAI();
         commands.add(UnitCommand.moveCommand);
         defaultCommand = UnitCommand.moveCommand;
+        if(mindustry.ai.UnitStance.patrol != null) stances.addUnique(mindustry.ai.UnitStance.patrol);
+        if(mindustry.ai.UnitStance.pursueTarget != null) stances.addUnique(mindustry.ai.UnitStance.pursueTarget);
         playerControllable = false;
         logicControllable = false;
         physics = true;

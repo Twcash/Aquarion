@@ -17,6 +17,23 @@ public class RailTraffic{
         return (a.hitSize + b.hitSize) / 2f + 1f;
     }
 
+    public static float bodyLength(Unit unit){
+        return Math.max(unit.hitSize, bodyLength(unit.type));
+    }
+
+    public static float bodyLength(mindustry.type.UnitType unitType){
+        if(!(unitType instanceof RailUnitType type)) return unitType.hitSize;
+        float length = type.railLength;
+        if(length <= 0f && type.region != null && type.region.found()) length = type.region.height * type.region.scl();
+        return Math.max(type.hitSize, length);
+    }
+
+    public static float carSpacing(Unit a, Unit b){
+        float gap = Math.max(a.type instanceof RailUnitType type ? type.railGap : 1f,
+            b.type instanceof RailUnitType type ? type.railGap : 1f);
+        return Math.max(clearance(a, b), (bodyLength(a) + bodyLength(b)) / 2f + gap);
+    }
+
     public static boolean present(Unit unit){
         if(unit == null || unit.dead || Groups.unit == null) return false;
         for(Unit other : Groups.unit) if(other == unit) return true;
@@ -109,7 +126,7 @@ public class RailTraffic{
             }else if(other.within(edge.to, 0.5f)){
                 ahead = edge.length - distance;
             }else continue;
-            float space = Math.max(0f, ahead - clearance(mover, other) - 0.5f);
+            float space = Math.max(0f, ahead - carSpacing(mover, other) - 0.5f);
             float speed = occupied == null ? 0f : ai.trafficSpeed();
             limit = Math.min(limit, Mathf.sqrt(speed * speed + 2f * acceleration * space));
         }

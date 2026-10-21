@@ -103,12 +103,15 @@ public class AquaUnitTypes {
             health = 200;
             hitSize = 12;
             speed = 2f;
-
+            railLength = 14f;
+            railGap = 2f;
             outlineColor = AquaPal.tantDarkestTone;
         }};
         gorge = new LiquidRailUnitType("gorge"){{
             health = 200;
             speed = 2f;
+            railGap = 1;
+            railLength = 8f;
             liquidCapacity = 120f;
             outlineColor = AquaPal.tantDarkestTone;
         }};
@@ -116,7 +119,9 @@ public class AquaUnitTypes {
             health = 200;
             accel = 0.02f;
             drag = 0.01f;
+            railGap = 1;
             speed = 2;
+            railLength = 8;
             outlineColor = AquaPal.tantDarkestTone;
             itemCapacity = 120;
         }};

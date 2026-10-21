@@ -10,6 +10,8 @@ import aquarion.world.units.RailLiquidCargo;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
+import arc.math.Angles;
+import arc.math.geom.Vec2;
 import mindustry.graphics.Drawf;
 import mindustry.world.blocks.ItemSelection;
 import arc.struct.Seq;
@@ -90,24 +92,19 @@ public class RailWorkshop extends RailPoint{
         @Override
         public Object config(){ return coupling ? Long.valueOf(trainLength) : unitChoices.any() ? producedUnit() : super.config(); }
         private Unit first, second, heldTrain, releasedTrain;
-        private int assemblyLength;
+        private float entryHeading = Float.NaN;
 
         private int goal(Unit head){
-            return heldTrain == head ? assemblyLength : Math.max(trainLength, RailConsist.members(head).size + 1);
+            return trainLength;
         }
 
         private void capture(Unit head){
             if(heldTrain == head) return;
-            Unit tail = RailConsist.partner(head);
-            RailPointBuild outlet = exit();
-            if(tail != null && outlet != null && head.controller() instanceof RailCommandAI ai
-                && ai.reverseConsistFor(RailPathfinder.edge(this, outlet))){
-                head = RailConsist.leader(head);
-            }
+            if(RailConsist.members(head).size >= trainLength) return;
+            entryHeading = head.controller() instanceof RailCommandAI ai ? ai.railHeading() : head.rotation;
             heldTrain = head;
             float length = stagingLength(head);
             if(head.controller() instanceof RailCommandAI ai) ai.stageCoupling(this, length, stagingExit(length));
-            assemblyLength = Math.max(trainLength, RailConsist.members(head).size + 1);
         }
 
         private boolean eligible(Unit candidate){
@@ -117,13 +114,14 @@ public class RailWorkshop extends RailPoint{
         }
 
         public boolean holding(Unit candidate){
-            return coupling && enabled && heldTrain == candidate && (releasedTrain == null || !RailConsist.same(candidate, releasedTrain));
+            return coupling && enabled && heldTrain == candidate && RailConsist.members(candidate).size < trainLength
+                && (releasedTrain == null || !RailConsist.same(candidate, releasedTrain));
         }
 
         private float stagingLength(Unit head){
             Unit tail = RailConsist.partner(head);
             if(tail == null) tail = head;
-            return RailConsist.offset(tail) + tail.hitSize / 2f + 1.5f;
+            return RailConsist.offset(tail) + RailTraffic.bodyLength(tail) / 2f + 1.5f;
         }
 
         /** Follow the outlet far enough to bring the tail's rear coupler onto the pad. */
@@ -142,7 +140,8 @@ public class RailWorkshop extends RailPoint{
                 if(segment == null) return seekCoupler ? null : previous;
                 travelled += segment.length;
                 if(seekCoupler){
-                    if(current instanceof RailWorkshopBuild workshop && workshop != this && ((RailWorkshop)workshop.block).coupling && workshop.enabled) return current;
+                    if(current instanceof RailWorkshopBuild workshop && workshop != this && ((RailWorkshop)workshop.block).coupling && workshop.enabled
+                        && (heldTrain == null || RailConsist.members(heldTrain).size < workshop.trainLength)) return current;
                 }else if(travelled >= length) return current;
                 visited.add(current);
                 RailPointBuild next = null;
@@ -165,6 +164,22 @@ public class RailWorkshop extends RailPoint{
         public boolean shouldHold(Unit candidate){
             if(candidate.controller() instanceof RailCommandAI ai && ai.couplingElsewhere(this)) return false;
             if(!coupling || !enabled || !eligible(candidate) || (releasedTrain != null && RailConsist.same(candidate, releasedTrain))) return false;
+            if(RailConsist.members(candidate).size >= trainLength){
+                RailCommandAI controller = (RailCommandAI)candidate.controller();
+                boolean commandedHere = candidate.within(this, 0.05f) && controller.targetPos != null && controller.targetPos.within(this, 1f);
+                if(heldTrain == candidate || commandedHere){
+                    if(heldTrain != candidate) entryHeading = controller.railHeading();
+                    RailPointBuild destination = stagingExit(stagingLength(candidate) + RailTraffic.bodyLength(candidate) + 1f);
+                    controller.releaseCoupling();
+                    heldTrain = null;
+                    releasedTrain = candidate;
+                    if(destination != null){
+                        candidate.command().commandPosition(new Vec2(destination.x, destination.y));
+                        return true;
+                    }
+                }
+                return false;
+            }
             if(heldTrain == candidate || candidate.within(this, 0.05f)){
                 capture(candidate);
                 if(heldTrain != candidate) return true;
@@ -177,29 +192,35 @@ public class RailWorkshop extends RailPoint{
                     && (releasedTrain == null || !RailConsist.same(other, releasedTrain))){
                     Unit tail = RailConsist.partner(other);
                     if(tail == null) tail = other;
-                    if(candidate.within(tail, RailTraffic.clearance(candidate, tail) + 2f)) return true;
+                    if(candidate.within(tail, RailTraffic.carSpacing(candidate, tail) + 2f)) return true;
                 }
             }
             return false;
         }
 
         public boolean compatible(Unit a, Unit b){
+            Unit tail = RailConsist.partner(a);
+            if(tail == null) tail = a;
             return !RailConsist.same(a, b) && eligible(a) && eligible(b)
-                && within(b, size * tilesize / 2f + b.hitSize / 2f)
-                && b.within(RailConsist.partner(a) == null ? a : RailConsist.partner(a), RailTraffic.clearance(a, b) + 3f)
+                && RailConsist.members(b).size < trainLength
+                && within(b, size * tilesize / 2f + RailTraffic.bodyLength(b) / 2f)
+                && b.within(tail, RailTraffic.carSpacing(tail, b) + 3f)
                 && a.stack.amount + b.stack.amount <= a.type.itemCapacity + b.type.itemCapacity;
         }
 
         public boolean canReceive(Unit incoming, Unit held){
             Unit head = RailConsist.leader(held);
             return coupling && enabled && !RailConsist.same(incoming, head) && incoming.team == team && head.team == team
-                && incoming.type instanceof RailUnitType && holding(head);
+                && incoming.type instanceof RailUnitType && RailConsist.members(incoming).size < trainLength && holding(head);
         }
         private boolean findPair(){
             first = second = null;
-            if(heldTrain != null && eligible(heldTrain)) first = heldTrain;
+            if(heldTrain != null && eligible(heldTrain)){
+                if(RailConsist.members(heldTrain).size >= trainLength){ shouldHold(heldTrain); return false; }
+                first = heldTrain;
+            }
             if(first == null) for(Unit candidate : Groups.unit){
-                if(eligible(candidate) && (releasedTrain == null || !RailConsist.same(candidate, releasedTrain)) && candidate.within(this, 1f) && (first == null || candidate.id < first.id)) first = candidate;
+                if(eligible(candidate) && RailConsist.members(candidate).size < trainLength && (releasedTrain == null || !RailConsist.same(candidate, releasedTrain)) && candidate.within(this, 1f) && (first == null || candidate.id < first.id)) first = candidate;
             }
             if(first == null) return false;
             capture(first);
@@ -214,7 +235,7 @@ public class RailWorkshop extends RailPoint{
         private boolean padClear(Unit a, Unit b){
             for(Unit other : Groups.unit){
                 if(other == a || other == b || (a != null && RailConsist.same(a, other)) || (b != null && RailConsist.same(b, other)) || other.dead || other.type.flying) continue;
-                if(other.within(this, ((a == null ? producedUnit().hitSize : a.type.hitSize) + other.hitSize) / 2f + 1f)) return false;
+                if(other.within(this, ((a == null ? RailTraffic.bodyLength(producedUnit()) : RailTraffic.bodyLength(a)) + RailTraffic.bodyLength(other)) / 2f + 1f)) return false;
             }
             return true;
         }
@@ -228,6 +249,10 @@ public class RailWorkshop extends RailPoint{
                 Building target = world.build(links.get(i));
                 if(!(target instanceof RailPointBuild rail) || RailPathfinder.edge(this, rail) == null) continue;
                 float facing = ((rail.x - x) * dx + (rail.y - y) * dy) / dst(rail);
+                if(coupling && Float.isFinite(entryHeading)){
+                    facing = Mathf.cosDeg(Angles.angleDist(entryHeading, RailPathfinder.edge(this, rail).sample(0f, new Vec2())));
+                    if(facing < -0.001f) continue;
+                }
                 if(best == null || facing > alignment || (facing == alignment && rail.pos() < best.pos())){
                     best = rail;
                     alignment = facing;
@@ -273,7 +298,7 @@ public class RailWorkshop extends RailPoint{
                     float staged = ai.couplingProgress();
                     ai.releaseCoupling();
                     RailPointBuild destination = nextCoupler != null ? nextCoupler
-                        : coupling ? stagingExit(stagingLength(result) + result.hitSize + 1f) : outlet;
+                        : coupling ? stagingExit(stagingLength(result) + RailTraffic.bodyLength(result) + 1f) : outlet;
                     if(destination == null) destination = outlet;
                     ai.commandPosition(new arc.math.geom.Vec2(destination.x, destination.y));
                     if(coupling){
@@ -319,6 +344,8 @@ public class RailWorkshop extends RailPoint{
             selectedUnit = revision >= 4 ? content.unit(read.s()) : null;
             if(!unitChoices.contains(selectedUnit, true)) selectedUnit = null;
             first = second = null;
+            heldTrain = releasedTrain = null;
+            entryHeading = Float.NaN;
         }
     }
 }

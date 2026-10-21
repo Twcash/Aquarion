@@ -55,7 +55,7 @@ public class RailConsist{
         if(all.first() == unit) return 0f;
         float distance = 0f;
         for(int i = 1; i < all.size; i++){
-            distance += RailTraffic.clearance(all.get(i - 1), all.get(i)) + 0.5f;
+            distance += RailTraffic.carSpacing(all.get(i - 1), all.get(i)) + 0.5f;
             if(all.get(i) == unit) return distance;
         }
         return 0f;
@@ -103,8 +103,18 @@ public class RailConsist{
 
     public static int capacity(Unit unit){
         int capacity = 0;
-        for(Unit member : members(unit)) capacity += member.type.itemCapacity;
+        for(Unit member : members(unit)) if(!RailPayloadSupport.reserveCar(unit, member)) capacity += member.type.itemCapacity;
         return capacity;
+    }
+
+    public static int cargoAmount(Unit unit){
+        int amount = 0;
+        for(Unit car : members(unit)) amount += car.stack.amount - RailPayloadSupport.reservedInCar(unit, car, car.stack.item);
+        return amount;
+    }
+    public static Item cargoItem(Unit unit){
+        for(Unit car : members(unit)) if(car.stack.amount > RailPayloadSupport.reservedInCar(unit, car, car.stack.item)) return car.stack.item;
+        return null;
     }
 
     public static Item item(Unit unit){
@@ -114,6 +124,7 @@ public class RailConsist{
 
     public static void add(Unit unit, Item item, int amount){
         for(Unit member : members(unit)){
+            if(RailPayloadSupport.reserveCar(unit, member)) continue;
             if(member.stack.amount > 0 && member.stack.item != item) continue;
             int added = Math.min(amount, member.type.itemCapacity - member.stack.amount);
             if(added > 0) member.addItem(item, added);
@@ -122,10 +133,11 @@ public class RailConsist{
     }
 
     public static void remove(Unit unit, int amount){
-        Item item = item(unit);
+        Item item = cargoItem(unit);
         for(Unit member : members(unit)){
             if(member.stack.item != item) continue;
-            int removed = Math.min(amount, member.stack.amount);
+            int reserve = RailPayloadSupport.reservedInCar(unit, member, item);
+            int removed = Math.min(amount, member.stack.amount - reserve);
             member.stack.amount -= removed;
             amount -= removed;
             if(member.stack.amount == 0) member.clearItem();
