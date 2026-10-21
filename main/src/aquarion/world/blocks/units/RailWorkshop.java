@@ -41,11 +41,9 @@ public class RailWorkshop extends RailPoint{
         size = 3;
         range = 120f;
         rotateDraw = false;
-        canOverdrive = false;
-        hasItems = !coupling;
+\        hasItems = !coupling;
         itemCapacity = 120;
         consumePower(2f);
-        buildType = RailWorkshopBuild::new;
         saveConfig = true;
         config(UnitType.class, (RailWorkshopBuild build, UnitType unit) -> {
             if(!coupling && unitChoices.contains(unit, true) && build.producedUnit() != unit){
