@@ -62,12 +62,6 @@ public class RailWorkshop extends RailPoint{
         super.init();
     }
 
-    @Override
-    public void load(){
-        super.load();
-        region = Core.atlas.find(name, Core.atlas.find(coupling ? "additive-reconstructor" : "ground-factory"));
-    }
-
     public class RailWorkshopBuild extends RailPointBuild{
         public float progress;
         public UnitType selectedUnit;

@@ -34,7 +34,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block pathFactory, pathCoupler;
+    public static Block trainyard, pathCoupler;
     public static Block defunctBeacon1, maintainerInactive ,regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad, apothecary;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -42,11 +42,11 @@ public class UnitBlocks {
     }
 
     public static void loadContent() {
-        pathFactory = new RailWorkshop("trainyard", false){{
+        trainyard = new RailWorkshop("trainyard", false){{
             unitChoices.add(path, gorge, burden);
             requirements(Category.units, with(concrete, 150, lead, 200, steel, 100, silicon, 80));
             inputUnit = outputUnit = path;
-            recipe = with(lead, 40, steel, 20, silicon, 20);
+            recipe = with(metaglass, 50, lead, 120, graphite, 40);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

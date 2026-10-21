@@ -93,15 +93,21 @@ public class CargoStation extends RailPoint{
                 table.row();
                 Table selection = new Table();
                 table.add(selection).colspan(2);
-                boolean[] previous = {!payloadMode};
-                selection.update(() -> {
-                    if(previous[0] == payloadMode) return;
-                    previous[0] = payloadMode;
+                Runnable rebuildSelection = () -> {
                     selection.clear();
                     if(payloadMode) ItemSelection.buildTable(CargoStation.this, selection,
                         Vars.content.blocks().select(block -> block.size == 2 && block.unlockedNow() && block.isVisible()),
                         () -> filterBlock, this::configure);
                     else ItemSelection.buildTable(CargoStation.this, selection, Vars.content.items(), () -> filterItem, this::configure);
+                };
+                // Configuration popups measure their contents before the first update.
+                rebuildSelection.run();
+                boolean[] previous = {payloadMode};
+                selection.update(() -> {
+                    if(previous[0] == payloadMode) return;
+                    previous[0] = payloadMode;
+                    rebuildSelection.run();
+                    table.pack();
                 });
             }
         }

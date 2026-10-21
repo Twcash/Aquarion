@@ -740,7 +740,7 @@ public class CrafterBlocks {
             consumePower(2);
         }};
         pnuematicCentrifuge = new PayloadCentrifuge("pnuematic-payload-centrifuge"){{
-            requirements(Category.production, with(graphite, 500, lead, 300, silicon, 900, copper, 250));
+            requirements(AquaCategories.refinery, with(graphite, 500, lead, 300, silicon, 900, copper, 250));
             size = 6;
             squareSprite = false;
             processTime = 600;
