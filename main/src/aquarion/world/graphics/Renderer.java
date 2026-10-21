@@ -29,6 +29,7 @@ public class Renderer {
     private static final Seq<Tile> visibleWallShadows = new Seq<>();
     private static boolean deflectorPassRequested;
     private static boolean glitchPassRequested;
+    private static final Seq<Runnable> railPlacementAreas = new Seq<>();
     //public static @Nullable Bloom bloom;
 
     public static class Layer extends mindustry.graphics.Layer {
@@ -38,6 +39,7 @@ public class Renderer {
         public static final float neoplasiaUnder = Layer.blockUnder + 0.011221232134f;
         public static final float neoplasiaBase = Layer.blockOver + 0.133262332134f;
         public static final float glitch = Layer.deflector+3;
+        public static final float railPlacement = Layer.overlayUI - 1f;
     }
 
     public static void draw(){
@@ -50,6 +52,33 @@ public class Renderer {
         }
 
         visibleWallShadows.clear();
+        // Composite all placement sectors together before limiting opacity. Overlapping
+        // rails must not build up into an opaque patch over the terrain.
+        Draw.draw(Layer.railPlacement, () -> {
+            if(railPlacementAreas.isEmpty()) return;
+            if(AquaShaders.railPlacement == null){
+                railPlacementAreas.clear();
+                return;
+            }
+            Blending previousBlend = Draw.getBlend();
+            Draw.blend(Blending.normal);
+            buffer.begin(Color.clear);
+            try{
+                // Draw masks only while the target buffer is bound, never directly
+                // to the screen or between separately scheduled layer callbacks.
+                railPlacementAreas.each(Runnable::run);
+            }finally{
+                buffer.end();
+                railPlacementAreas.clear();
+                Draw.reset();
+            }
+            // blit() bypasses SpriteBatch, so set the GL blend state explicitly.
+            // Otherwise the capped alpha can be ignored by the current blend mode.
+            Blending.normal.apply();
+            buffer.blit(AquaShaders.railPlacement);
+            Draw.blend(previousBlend);
+            previousBlend.apply();
+        });
         if(Vars.world != null && Vars.world.width() > 0 && Vars.world.height() > 0){
             float halfWidth = Core.camera.width / 2f;
             float halfHeight = Core.camera.height / 2f;
@@ -139,5 +168,9 @@ public class Renderer {
 
     public static void requestGlitchPass(){
         glitchPassRequested = true;
+    }
+
+    public static void requestRailPlacementPass(Runnable area){
+        railPlacementAreas.add(area);
     }
 }

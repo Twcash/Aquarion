@@ -1,6 +1,8 @@
 package aquarion.content.blocks;
 
 import aquarion.world.blocks.distribution.ItemHopper;
+import aquarion.world.blocks.distribution.RailPoint;
+import aquarion.world.blocks.distribution.CargoStation;
 import aquarion.world.blocks.distribution.ItemYeeter;
 import aquarion.world.blocks.distribution.SealedConveyor;
 import aquarion.world.blocks.distribution.SealedRouter;
@@ -41,11 +43,50 @@ public class DistributionBlocks {
     public static Block payloadDistributor, itemHopper, itemYeeter, tungstenYeeter, tungstenHopper, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
-    public static Block cargoDepot, cargoDock;
+    public static Block liquidCargoDock, liquidCargoDepot, cargoDepot, cargoDock, railPoint, railJunction;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
     public static void loadContent() {
+        liquidCargoDock = new CargoStation("liquid-dock", true, true){{
+            requirements(Category.liquid, with(concrete, 100, lead, 150, steel, 50));
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        liquidCargoDepot = new CargoStation("liquid-depot", false, true){{
+            requirements(Category.liquid, with(concrete, 150, lead, 200, steel, 75));
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        cargoDock = new CargoStation("cargo-dock", true){{
+            requirements(Category.distribution, with(concrete, 100, lead, 150, steel, 50));
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        cargoDepot = new CargoStation("cargo-depot", false){{
+            requirements(Category.distribution, with(concrete, 150, lead, 200, steel, 75));
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        railPoint = new RailPoint("rail-node"){{
+            requirements(Category.distribution, with(concrete, 100, lead, 250));
+            size = 2;
+            rotateDraw = false;
+            range = 120;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+
+        railJunction = new RailPoint("rail-junction"){{
+            requirements(Category.distribution, with(concrete, 100, lead, 250));
+            size = 2;
+            rotateDraw = false;
+            fourDirections = true;
+            range = 120;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+
         EntityStorageBuild.install((StorageBlock)Blocks.container);
         EntityStorageBuild.install((StorageBlock)Blocks.vault);
         EntityUnloaderBuild.install((Unloader)Blocks.unloader);
