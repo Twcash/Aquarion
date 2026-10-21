@@ -16,6 +16,8 @@ import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.ui.Styles;
 
+import static mindustry.Vars.mobile;
+
 /** Bottom-left HUD bar for dialogue map objectives. */
 public class DialogueObjectiveBar {
     private static DialogueObjectiveBar instance;
@@ -49,7 +51,7 @@ public class DialogueObjectiveBar {
         bar.table(info -> {
             info.add(speaker).left().padBottom(4f);
             info.row();
-            info.add(text).left().width(700f).wrap();
+            info.add(text).left().width(mobile ? 300f : 700f).wrap();
             info.row();
             info.add(options).left().padTop(10f);
         });
