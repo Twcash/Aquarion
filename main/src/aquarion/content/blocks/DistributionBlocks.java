@@ -49,27 +49,27 @@ public class DistributionBlocks {
     }
     public static void loadContent() {
         liquidCargoDock = new CargoStation("liquid-dock", true, true){{
-            requirements(Category.liquid, with(concrete, 100, lead, 150, steel, 50));
+            requirements(Category.liquid, with(concrete, 100, lead, 150, metaglass, 50));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         liquidCargoDepot = new CargoStation("liquid-depot", false, true){{
-            requirements(Category.liquid, with(concrete, 150, lead, 200, steel, 75));
+            requirements(Category.liquid, with(concrete, 150, lead, 200, metaglass, 75));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         cargoDock = new CargoStation("cargo-dock", true){{
-            requirements(Category.distribution, with(concrete, 100, lead, 150, steel, 50));
+            requirements(Category.distribution, with(concrete, 100, lead, 150, copper, 200));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         cargoDepot = new CargoStation("cargo-depot", false){{
-            requirements(Category.distribution, with(concrete, 150, lead, 200, steel, 75));
+            requirements(Category.distribution, with(concrete, 150, lead, 200, copper, 200));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         railPoint = new RailPoint("rail-node"){{
-            requirements(Category.distribution, with(concrete, 100, lead, 250));
+            requirements(Category.distribution, with(concrete, 50, lead, 20));
             size = 2;
             rotateDraw = false;
             range = 120;
@@ -78,7 +78,7 @@ public class DistributionBlocks {
         }};
 
         railJunction = new RailPoint("rail-junction"){{
-            requirements(Category.distribution, with(concrete, 100, lead, 250));
+            requirements(Category.distribution, with(concrete, 100, lead, 150));
             size = 2;
             rotateDraw = false;
             fourDirections = true;

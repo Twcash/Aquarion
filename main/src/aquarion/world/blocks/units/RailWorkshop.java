@@ -41,7 +41,7 @@ public class RailWorkshop extends RailPoint{
         size = 3;
         range = 120f;
         rotateDraw = false;
-\        hasItems = !coupling;
+       hasItems = !coupling;
         itemCapacity = 120;
         consumePower(2f);
         saveConfig = true;

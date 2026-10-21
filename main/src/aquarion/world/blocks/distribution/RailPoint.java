@@ -105,7 +105,6 @@ public class RailPoint extends Block{
         destructible = true;
         configurable = true;
         saveConfig = false;
-        buildType = RailPointBuild::new;
         config(Point2.class, (RailPointBuild build, Point2 point) -> {
             Building other = world.build(build.tileX() + point.x, build.tileY() + point.y);
             if(other instanceof RailPointBuild rail){
