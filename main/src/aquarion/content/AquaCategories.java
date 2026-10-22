@@ -2,7 +2,6 @@ package aquarion.content;
 
 import mindustry.type.Category;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -10,17 +9,16 @@ public class AquaCategories {
 
     public static Category refinery;
     public static Category heat;
-
+    public static Category railways;
     private static boolean initialized = false;
 
     public static void init() {
         if (initialized) return;
-        initialized = true;
 
         try {
             Category[] original = Category.all;
             int nextOrdinal = original.length;
-            Category[] extended = new Category[original.length + 2];
+            Category[] extended = new Category[original.length + 3];
             System.arraycopy(original, 0, extended, 0, original.length);
 
             try {
@@ -38,6 +36,7 @@ public class AquaCategories {
 
                 refinery = (Category) allocateInstance.invoke(unsafe, Category.class);
                 heat = (Category) allocateInstance.invoke(unsafe, Category.class);
+                railways = (Category) allocateInstance.invoke(unsafe, Category.class);
 
                 Field nameField = Enum.class.getDeclaredField("name");
                 long nameOffset = (long) objectFieldOffset.invoke(unsafe, nameField);
@@ -48,15 +47,15 @@ public class AquaCategories {
                 putInt.invoke(unsafe, refinery, ordinalOffset, nextOrdinal);
                 putObject.invoke(unsafe, heat, nameOffset, "heat");
                 putInt.invoke(unsafe, heat, ordinalOffset, nextOrdinal + 1);
-
+                putObject.invoke(unsafe, railways, nameOffset, "railways");
+                putInt.invoke(unsafe, railways, ordinalOffset, nextOrdinal + 2);
                 extended[original.length] = refinery;
                 extended[original.length + 1] = heat;
-
+                extended[original.length + 2] = railways;
                 Field allField = Category.class.getDeclaredField("all");
                 long allOffset = (long) staticFieldOffset.invoke(unsafe, allField);
                 Object allBase = staticFieldBase.invoke(unsafe, allField);
                 putObject.invoke(unsafe, allBase, allOffset, extended);
-
                 for (Field f : Category.class.getDeclaredFields()) {
                     if (f.getType() == Category[].class && !f.getName().equals("all")) {
                         long fOffset = (long) staticFieldOffset.invoke(unsafe, f);
@@ -65,27 +64,8 @@ public class AquaCategories {
                         break;
                     }
                 }
-            } catch (Throwable e) {
-                Constructor<Category> constructor = Category.class.getDeclaredConstructor(String.class, int.class);
-                constructor.setAccessible(true);
-
-                refinery = constructor.newInstance("refinery", nextOrdinal);
-                heat = constructor.newInstance("heat", nextOrdinal + 1);
-
-                extended[original.length] = refinery;
-                extended[original.length + 1] = heat;
-
-                Field allField = Category.class.getDeclaredField("all");
-                allField.setAccessible(true);
-                allField.set(null, extended);
-
-                for (Field f : Category.class.getDeclaredFields()) {
-                    if (f.getType() == Category[].class && !f.getName().equals("all")) {
-                        f.setAccessible(true);
-                        f.set(null, extended);
-                        break;
-                    }
-                }
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException("Could not extend build categories", e);
             }
 
             try {
@@ -95,6 +75,7 @@ public class AquaCategories {
             } catch (Exception ignored) {
             }
 
+            initialized = true;
         } catch (Exception e) {
             throw new RuntimeException("Custom Category failed to initialize", e);
         }

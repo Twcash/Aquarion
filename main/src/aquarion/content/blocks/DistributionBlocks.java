@@ -1,5 +1,6 @@
 package aquarion.content.blocks;
 
+import aquarion.content.AquaCategories;
 import aquarion.world.blocks.distribution.ItemHopper;
 import aquarion.world.blocks.distribution.RailPoint;
 import aquarion.world.blocks.distribution.CargoStation;
@@ -49,27 +50,27 @@ public class DistributionBlocks {
     }
     public static void loadContent() {
         liquidCargoDock = new CargoStation("liquid-dock", true, true){{
-            requirements(Category.liquid, with(concrete, 100, lead, 150, metaglass, 50));
+            requirements(AquaCategories.railways, with(concrete, 100, lead, 150, metaglass, 50));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         liquidCargoDepot = new CargoStation("liquid-depot", false, true){{
-            requirements(Category.liquid, with(concrete, 150, lead, 200, metaglass, 75));
+            requirements(AquaCategories.railways, with(concrete, 150, lead, 200, metaglass, 75));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         cargoDock = new CargoStation("cargo-dock", true){{
-            requirements(Category.distribution, with(concrete, 100, lead, 150, copper, 200));
+            requirements(AquaCategories.railways, with(concrete, 100, lead, 150, copper, 200));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         cargoDepot = new CargoStation("cargo-depot", false){{
-            requirements(Category.distribution, with(concrete, 150, lead, 200, copper, 200));
+            requirements(AquaCategories.railways, with(concrete, 150, lead, 200, copper, 200));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         railPoint = new RailPoint("rail-node"){{
-            requirements(Category.distribution, with(concrete, 50, lead, 20));
+            requirements(AquaCategories.railways, with(concrete, 50, lead, 20));
             size = 2;
             rotateDraw = false;
             range = 120;
@@ -258,16 +259,16 @@ public class DistributionBlocks {
         });
         payloadPad = new PayloadJumper("payload-pad"){{
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            requirements(Category.units, with(polymer, 45, silicon, 50, copper, 120));
+            requirements(Category.units, with(graphite, 100, silicon, 50, copper, 120));
             size = 3;
         }};
         payloadDisplacer = new Displacer("payload-displacer"){{
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
 
-            requirements(Category.units, with(polymer, 80, silicon, 90, ferricMatter, 25));
+            requirements(Category.units, with(graphite, 150, silicon, 200, metaglass, 100));
         }};
         payloadDistributor = new PayloadDistributor("payload-distributor"){{
-            requirements(Category.units, with(polymer, 30));
+            requirements(Category.units, with(graphite, 30));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
         }};
         //this can be used as example if you want to edit stuff from reflections on specific blocks

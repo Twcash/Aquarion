@@ -1,6 +1,7 @@
 package aquarion.content;
 
 import aquarion.content.blocks.CrafterBlocks;
+import aquarion.content.blocks.UnitBlocks;
 import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.core.SpecializationCatalyst;
 import arc.struct.ObjectFloatMap;
@@ -14,6 +15,7 @@ import mindustry.type.UnitType;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.*;
+import static aquarion.content.AquaUnitTypes.*;
 import static aquarion.content.blocks.CoreBlocks.*;
 import static aquarion.content.blocks.CrafterBlocks.*;
 import static aquarion.content.blocks.DefenseBlocks.*;
@@ -27,6 +29,8 @@ import static aquarion.content.blocks.RefineryBlocks.*;
 import static aquarion.content.blocks.TurretBlocks.*;
 import static aquarion.content.blocks.UnitBlocks.*;
 import static aquarion.content.AquaSectorPresets.*;
+import static aquarion.content.blocks.UnitBlocks.bulwark;
+import static aquarion.content.blocks.UnitBlocks.mite;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.content.TechTree.*;
@@ -106,35 +110,50 @@ public class TantrosTechTree {
                 });
             });
             node(mite, ()->{
-                node(bulwark, Seq.with(
+                node(trainyard, ()->{
+                    node(gorge);
+                    node(burden);
+                    node(path);
+                    node(pathCoupler);
+                    node(railPoint, ()->{
+                        node(cargoDock, ()->{
+                            node(cargoDepot);
+                        });
+                        node(liquidCargoDock, ()->{
+                            node(liquidCargoDepot);
+                        });
+                        node(railJunction);
+                    });
+                });
+                node(UnitBlocks.bulwark, Seq.with(
                         new Objectives.OnSector(floodPlains),
                         new Objectives.Research(pelt)
                 ), () -> {
-                    node(crest, () -> {
+                    node(UnitBlocks.crest, () -> {
                         node(unitByte, () -> {
-                            node(index, () -> {});
-                            node(apothecary, () -> {});
+                            node(UnitBlocks.index, () -> {});
+                            node(UnitBlocks.apothecary, () -> {});
                         });
-                        node(soar, () -> {
+                        node(UnitBlocks.soar, () -> {
                         });
                     });
-                    node(weld, Seq.with(
+                    node(UnitBlocks.weld, Seq.with(
                             new Objectives.OnSector(diseasedCleft)
                     ), () -> {
-                        node(solder, Seq.with(
+                        node(UnitBlocks.solder, Seq.with(
                                 new Objectives.OnSector(waterfrontFacility)
                         ), () -> {});
                     });
-                    node(rampart, () -> {
-                        node(pugnate, () -> {
-                            node(raze, () -> {
+                    node(UnitBlocks.rampart, () -> {
+                        node(UnitBlocks.pugnate, () -> {
+                            node(UnitBlocks.raze, () -> {
                             });
-                            node(reave, () -> {
+                            node(UnitBlocks.reave, () -> {
                             });
-                            node(shatter, () -> {
+                            node(UnitBlocks.shatter, () -> {
                             });
                         });
-                        node(pillage, Seq.with(
+                        node(UnitBlocks.pillage, Seq.with(
                                 new Objectives.SectorComplete(mountainsideComplex)
                         ), () -> {
                             node(meteor, () -> {
@@ -338,7 +357,7 @@ public class TantrosTechTree {
                                                                 });
                                                             });
                                                             node(Grove, Seq.with(
-                                                                    new Objectives.Research(pugnate),
+                                                                    new Objectives.Research(UnitBlocks.pugnate),
                                                                     new Objectives.Research(vacuumFreezer),
                                                                     new Objectives.Produce(aluminum)
                                                             ), () -> {
@@ -396,7 +415,7 @@ public class TantrosTechTree {
                                                 ), () -> {});
                                             });
                                             node(waterfrontFacility, Seq.with(
-                                                    new Objectives.Research(weld),
+                                                    new Objectives.Research(UnitBlocks.weld),
                                                     new Objectives.Research(aftershock)
                                             ), () -> {});
                                         });
@@ -557,6 +576,7 @@ public class TantrosTechTree {
                 node(pumpAssembly);
             });
             node(harvester, () -> {
+                node(wallExcavator);
                 node(plasmaExtractor, () -> {
                     node(beamBore, () -> {});
                 });
@@ -662,6 +682,9 @@ public class TantrosTechTree {
                         });
                     });
                     node(graphiteConcentrator, () -> {
+                        node(pnuematicCentrifuge, ()->{
+                            node(rotaryKiln);
+                        });
                         node(SolidBoiler, Seq.with(
                                 new Objectives.SectorComplete(twinPass)
                         ), () -> {

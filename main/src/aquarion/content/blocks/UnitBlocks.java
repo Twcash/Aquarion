@@ -1,9 +1,6 @@
 package aquarion.content.blocks;
 
-import aquarion.content.AquaLiquids;
-import aquarion.content.AquaSounds;
-import aquarion.content.AquaStatuses;
-import aquarion.content.AquaUnitTypes;
+import aquarion.content.*;
 import aquarion.units.type.AquaUnitType;
 import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.payload.InitializationBay;
@@ -44,14 +41,14 @@ public class UnitBlocks {
     public static void loadContent() {
         trainyard = new RailWorkshop("trainyard", false){{
             unitChoices.add(path, gorge, burden);
-            requirements(Category.units, with(concrete, 150, lead, 200, steel, 100, silicon, 80));
+            requirements(AquaCategories.railways, with(concrete, 150, graphite, 200, copper, 100, silicon, 80));
             inputUnit = outputUnit = path;
             recipe = with(metaglass, 50, lead, 120, graphite, 40);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
         pathCoupler = new RailWorkshop("rail-coupler", true){{
-            requirements(Category.units, with(concrete, 150, lead, 150, steel, 100, silicon, 100));
+            requirements(AquaCategories.railways, with(concrete, 150, lead, 150, graphite, 100, silicon, 100));
             inputUnit = path;
             outputUnit = path;
             buildTime = 120f;

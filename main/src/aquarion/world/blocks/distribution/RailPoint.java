@@ -130,8 +130,16 @@ public class RailPoint extends Block{
     public void load(){
         super.load();
         region = Core.atlas.find(name, "junction");
+        topRegion = Core.atlas.find(name + "-top");
         railRegion = Core.atlas.find(name + "-rail", Core.atlas.find("aquarion-rail", Core.atlas.find("rail")));
         if(railRegion.found()) trackWidth = railRegion.height * railRegion.scl();
+    }
+
+    @Override
+    public TextureRegion[] icons(){
+        return topRegion != null && topRegion.found()
+            ? new TextureRegion[]{region, topRegion}
+            : new TextureRegion[]{region};
     }
 
     public void eachNearby(float x, float y, Team team, Cons<Building> consumer){
