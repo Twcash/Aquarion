@@ -17,6 +17,11 @@ import mindustry.entities.Lightning;
 import mindustry.entities.Units;
 import mindustry.entities.effect.WrapEffect;
 import mindustry.gen.Building;
+import mindustry.gen.Unit;
+import mindustry.gen.Payloadc;
+import mindustry.world.blocks.payloads.BuildPayload;
+import aquarion.units.type.PayloadRailUnitType;
+import aquarion.units.type.RailUnitType;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Pal;
 import mindustry.logic.LAccess;
@@ -121,6 +126,7 @@ public class RegenPylon extends MendProjector {
         public float smoothEfficiency;
         private boolean enemyClose;
         private boolean warningEnemyClose;
+        private Unit trainHolder;
         int zapTimer = timers++;
 
         public RegenPylonBuild() {
@@ -129,6 +135,16 @@ public class RegenPylon extends MendProjector {
         @Override
         public float range() {
             return range/2f;
+        }
+
+        @Override
+        public void updatePayload(Unit unitHolder, Building buildingHolder){
+            trainHolder = unitHolder != null && unitHolder.type instanceof PayloadRailUnitType ? unitHolder : null;
+            try{
+                super.updatePayload(unitHolder, buildingHolder);
+            }finally{
+                trainHolder = null;
+            }
         }
 
         @Override
@@ -195,6 +211,23 @@ public class RegenPylon extends MendProjector {
                             );
                         }
                 );
+                if(trainHolder != null){
+                    // Payload buildings are absent from the world building index.
+                    float halfRange = realRange * tilesize / 2f;
+                    Units.nearby(team, x - halfRange, y - halfRange, halfRange * 2f, halfRange * 2f, car -> {
+                        if(!(car.type instanceof RailUnitType) || car.dead) return;
+                        if(car.damaged()) car.heal(healAmount * efficiency);
+                        if(car instanceof Payloadc carrier){
+                            for(var payload : carrier.payloads()){
+                                if(payload instanceof BuildPayload carried && carried.build.damaged() && !carried.build.isHealSuppressed()){
+                                    carried.build.heal(healAmount * efficiency);
+                                    carried.build.recentlyHealed();
+                                    Fx.healBlockFull.at(car.x, car.y, carried.block().size, baseColor, carried.block());
+                                }
+                            }
+                        }
+                    });
+                }
             }
         }
 

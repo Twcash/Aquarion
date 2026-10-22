@@ -1,9 +1,6 @@
 package aquarion.content.blocks;
 
-import aquarion.content.AquaLiquids;
-import aquarion.content.AquaSounds;
-import aquarion.content.AquaStatuses;
-import aquarion.content.AquaUnitTypes;
+import aquarion.content.*;
 import aquarion.units.type.AquaUnitType;
 import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.payload.InitializationBay;
@@ -34,6 +31,7 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
+    public static Block trainyard, pathCoupler;
     public static Block defunctBeacon1, maintainerInactive ,regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad, apothecary;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -41,6 +39,22 @@ public class UnitBlocks {
     }
 
     public static void loadContent() {
+        trainyard = new RailWorkshop("trainyard", false){{
+            unitChoices.add(path, gorge, burden);
+            requirements(Category.units, with(concrete, 150, graphite, 200, copper, 100, silicon, 80));
+            inputUnit = outputUnit = path;
+            recipe = with(metaglass, 50, lead, 120, graphite, 40);
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        pathCoupler = new RailWorkshop("rail-coupler", true){{
+            requirements(Category.units, with(concrete, 150, lead, 150, graphite, 100, silicon, 100));
+            inputUnit = path;
+            outputUnit = path;
+            buildTime = 120f;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
         maintainerInactive = new DefunctUnitBlock("maintainer-inactive"){{
             buildVisibility = BuildVisibility.sandboxOnly;
             time = 90;

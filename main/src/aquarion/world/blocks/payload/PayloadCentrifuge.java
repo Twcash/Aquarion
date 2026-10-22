@@ -10,6 +10,7 @@ import arc.math.Mathf;
 import arc.struct.FloatSeq;
 import arc.struct.Seq;
 import arc.util.Eachable;
+import arc.util.Strings;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.entities.units.BuildPlan;
@@ -73,7 +74,8 @@ public class PayloadCentrifuge extends PayloadBlock {
                     recipe.left();
                     recipe.image(mix.uiIcon).size(40).pad(10f)
                         .with(image -> StatValues.withTooltip(image, mix));
-                    recipe.add("4x " + mix.localizedName).left().padRight(10f);
+                    recipe.add("4x " + mix.localizedName + "\n[lightgray]" + Strings.autoFixed(4f * 60f / processTime, 3) + "/s")
+                        .left().padRight(10f);
                     recipe.row();
                     recipe.table(items -> StatValues.items(processTime, output).display(items))
                         .colspan(2).left().pad(10f);
@@ -103,8 +105,13 @@ public class PayloadCentrifuge extends PayloadBlock {
         }
 
         @Override
+        public float totalProgress(){
+            return totalProgress;
+        }
+
+        @Override
         public boolean shouldConsume(){
-            return payloads.size > 0;
+            return enabled && payloads.size >= 4;
         }
 
         @Override
@@ -134,12 +141,11 @@ public class PayloadCentrifuge extends PayloadBlock {
 
             moveInPayload();
 
-            if(efficiency <= 0.001f){
+            if(efficiency <= 0.001f || payloads.size < 4){
                 efficiency = 0;
                 warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
                 return;
             }
-            if(payloads.size < 4) return;
 
             progress += edelta();
             warmup = Mathf.approachDelta(warmup, 1f, warmupSpeed);

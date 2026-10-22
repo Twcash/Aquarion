@@ -165,6 +165,25 @@ public class MissileBlock extends Block implements MultiBlock {
         public Seq<Building[]> linkProximityMap;
         public Tile teamPos, statusPos;
         public float totprogress = 0;
+        private boolean payloadUpdating;
+
+        @Override
+        public void updatePayload(Unit unitHolder, Building buildingHolder){
+            payloadUpdating = true;
+            try{
+                if(!dead) super.updatePayload(unitHolder, buildingHolder);
+            }finally{
+                payloadUpdating = false;
+            }
+        }
+
+        @Override
+        public void pickedUp(){
+            super.pickedUp();
+            linkCreated = false;
+            linkEntities = null;
+            if(linkProximityMap != null) linkProximityMap.clear();
+        }
         @Override
         public void created(){
             super.created();
@@ -180,7 +199,7 @@ public class MissileBlock extends Block implements MultiBlock {
         @Override
         public void updateTile() {
             super.updateTile();
-            if (!linkCreated) {
+            if (!payloadUpdating && tile != emptyTile && !linkCreated) {
                 linkEntities = setLinkBuild(this, block, tile, team, size, rotation);
                 linkCreated = true;
                 updateLinkProximity();
@@ -213,11 +232,12 @@ public class MissileBlock extends Block implements MultiBlock {
                 if(b.controller() instanceof CommandAI ai){
                     ai.commandPosition(Tmp.v6);
                 }
-                b.rotation = this.rotdeg();
+                b.rotation = Angles.angle(x, y, targetX, targetY);
                 Effect.shake(2f, 3f, this);
                 Fx.producesmoke.at(this);
                 b.add();
-                kill();
+                if(payloadUpdating || tile == emptyTile) dead = true;
+                else kill();
             }
         }
 
@@ -237,6 +257,7 @@ public class MissileBlock extends Block implements MultiBlock {
         }
 
         boolean targetInCone(float targetX, float targetY) {
+            if(payloadUpdating) return true;
             if (shootCone >= 360f) return true;
             float angle = Angles.angle(x, y, targetX, targetY);
             return Math.abs(Angles.angleDist(rotdeg(), angle)) <= shootCone / 2f;
@@ -244,6 +265,7 @@ public class MissileBlock extends Block implements MultiBlock {
         @Override
         public void updateLinkProximity() {
             if (linkEntities != null) {
+                if(linkProximityMap == null) linkProximityMap = new Seq<>();
                 linkProximityMap.clear();
                 //add link entity's proximity
                 for (Building link : linkEntities) {
@@ -289,12 +311,12 @@ public class MissileBlock extends Block implements MultiBlock {
 
         @Override
         public void onRemoved() {
-            createPlaceholder(tile, size);
+            if(tile != emptyTile) createPlaceholder(tile, size);
         }
 
         @Override
         public boolean canPickup() {
-            return false;
+            return super.canPickup();
         }
 
         @Override
@@ -315,7 +337,7 @@ public class MissileBlock extends Block implements MultiBlock {
         @Override
         public void drawStatus() {
             statusPos = world.tile(tileX() + statusOverlayPos(size, rotation).x, tileY() + statusOverlayPos(size, rotation).y);
-            if (block.enableDrawStatus && block.consumers.length > 0) {
+            if (statusPos != null && block.enableDrawStatus && block.consumers.length > 0) {
                 float multiplier = block.size > 1 ? 1 : 0.64F;
                 Draw.z(Layer.power + 1);
                 Draw.color(Pal.gray);

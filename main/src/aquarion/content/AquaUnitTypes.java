@@ -7,11 +7,7 @@ import aquarion.units.AquaLegUnitType;
 import aquarion.units.DefunctUnitType;
 import aquarion.units.MultiLegSegmentUnit;
 import aquarion.units.abilities.DeathFxAbility;
-import aquarion.units.type.AquaUnitType;
-import aquarion.units.type.AmphibiousUnitType;
-import aquarion.units.type.BuggyUnitType;
-import aquarion.units.type.BurrowUnitType;
-import aquarion.units.type.UnitTrail;
+import aquarion.units.type.*;
 import aquarion.world.AI.*;
 import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.content.AquaLiquid;
@@ -76,6 +72,7 @@ public class AquaUnitTypes {
     public static ErekirUnitType recoil;
     //cruxahh
     public static UnitType fabricantDrone;
+    public static UnitType path;
     public static UnitType isop, empusa, oratoria, rhombodera, parasphendale;
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant;
@@ -96,11 +93,38 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, Amphibiousc.class}) AmphibiousUnitType wort;
     public static @Annotations.EntityDef(value = {Unitc.class, Buggyc.class}) BuggyUnitType krait;
     public static @Annotations.EntityDef(value = {Unitc.class, Burrowc.class}) BurrowUnitType trawl, trawlBody;
+    public static UnitType gorge, burden;
     public static UnitType
         //Sharded units
             weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit, apothecary;
         public static  UnitType  cull, quantify, simplify, multiply, cullButScorch;
     public static void loadContent() {
+        burden = new PayloadRailUnitType("burden"){{
+            health = 200;
+            hitSize = 12;
+            speed = 2f;
+            railLength = 14f;
+            railGap = 2f;
+            outlineColor = AquaPal.tantDarkestTone;
+        }};
+        gorge = new LiquidRailUnitType("gorge"){{
+            health = 200;
+            speed = 2f;
+            railGap = 1;
+            railLength = 8f;
+            liquidCapacity = 1500;
+            outlineColor = AquaPal.tantDarkestTone;
+        }};
+        path = new RailUnitType("path"){{
+            health = 200;
+            accel = 0.02f;
+            drag = 0.01f;
+            railGap = 1;
+            speed = 2;
+            railLength = 8;
+            outlineColor = AquaPal.tantDarkestTone;
+            itemCapacity = 120;
+        }};
         visitor = new UnitType("visitor") {{
             hitSize = 6;
             speed = 1.8f;

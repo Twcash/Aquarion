@@ -35,6 +35,7 @@ public class AquaShaders {
     public static @Nullable MonsoonShader monsoon;
     public static @Nullable deflectorShader deflectorShield;
     public static @Nullable DissolveShader dissolveShader;
+    public static @Nullable RailPlacementShader railPlacement;
     public static CacheLayer.ShaderLayer lavalLayer, slavaLayer, petroleumLayer, sslagLayer, brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer, sslagLayer2,
             wetUnderLayer;
     public static Fi file(String name){
@@ -61,6 +62,7 @@ public static void init() {
     heat = new SurfaceShader("heat");
     monsoon = new MonsoonShader();
     dissolveShader = new DissolveShader("dissolve");
+    railPlacement = new RailPlacementShader();
     glitch = new SurfaceShader("glitch");
     deflectorShield = new deflectorShader();
     shadowLayer = new CacheLayer.ShaderLayer(shadow);
@@ -104,8 +106,22 @@ public static void init() {
             neoplasiaBaseShader.dispose();
             knight1.dispose();
             PlanetShadowMap.dispose();
+            if(railPlacement != null) railPlacement.dispose();
         }
     }
+    public static class RailPlacementShader extends Shader{
+        public float maxAlpha = 0.18f;
+
+        public RailPlacementShader(){
+            super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/rail-placement.frag"));
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_maxAlpha", maxAlpha);
+        }
+    }
+
     public static class LightShader extends Shaders.LightShader {
 
         public Color ambient = new Color(0.01f, 0.01f, 0.04f, 0.99f);
