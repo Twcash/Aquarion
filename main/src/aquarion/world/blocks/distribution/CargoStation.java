@@ -210,7 +210,7 @@ public class CargoStation extends RailPoint{
             if(storedPayload != null){
                 storedPayload.set(x, y, rotdeg());
                 storedPayload.update(null, this);
-                if(!pickup && movePayload(storedPayload)) storedPayload = null;
+                if(storedPayload.isDead() || (!pickup && movePayload(storedPayload))) storedPayload = null;
             }
             if(!pickup && liquidCargo){
                 for(Liquid liquid : Vars.content.liquids()) if(liquids.get(liquid) > 0f) dumpLiquid(liquid);

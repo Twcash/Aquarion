@@ -112,7 +112,7 @@ public class AquaUnitTypes {
             speed = 2f;
             railGap = 1;
             railLength = 8f;
-            liquidCapacity = 120f;
+            liquidCapacity = 1500;
             outlineColor = AquaPal.tantDarkestTone;
         }};
         path = new RailUnitType("path"){{

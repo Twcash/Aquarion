@@ -69,7 +69,7 @@ public class DefenseBlocks {
                 suffix = "-rot";
                 x = 4;
             }};
-            consumeLiquid(Liquids.oil,0.25f);
+            consumeLiquid(Liquids.oil,0.1f);
             addLink(1,0,1);
             spawn = new MissileUnitType("meteor-unit"){{
                 speed = 4.6f;
@@ -83,9 +83,8 @@ public class DefenseBlocks {
                 engineSize = 3.1f;
                 engineOffset = 10f;
                 controller = u -> new NewMissileAI();
-                rotateSpeed = 0.25f;
+                rotateSpeed = 1.1f;
                 drawCell = false;
-                circleTarget = true;
                 trailLength = 18;
                 missileAccelTime = 50f;
                 lowAltitude = true;
@@ -104,7 +103,7 @@ public class DefenseBlocks {
                     deathExplosionEffect = Fx.massiveExplosion;
                     shootOnDeath = true;
                     shake = 10f;
-                    bullet = new ExplosionBulletType(300f, 25f){{
+                    bullet = new ExplosionBulletType(500f, 35f){{
                         hitColor = Pal.redLight;
                         shootEffect = new MultiEffect(Fx.massiveExplosion, new WaveEffect(){{
                             lifetime = 20f;

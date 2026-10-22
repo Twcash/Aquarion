@@ -22,7 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
-public class RailUnitType extends UnitType{
+public class RailUnitType extends AquaUnitType{
     /** Car length in world units; zero derives it from the loaded sprite. */
     public float railLength;
     /** Minimum visual gap between neighboring cars, in world units. */

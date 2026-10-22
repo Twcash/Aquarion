@@ -14,7 +14,7 @@ import arc.graphics.g2d.Draw;
 public class PayloadRailUnitType extends RailUnitType{
     public PayloadRailUnitType(String name){
         super(name);
-        constructor = PayloadUnit::create;
+        constructor = aquarion.world.units.PayloadRailUnit::new;
         itemCapacity = 0;
         payloadCapacity = 4f * Vars.tilesize * Vars.tilesize;
         pickupUnits = false;
@@ -26,6 +26,9 @@ public class PayloadRailUnitType extends RailUnitType{
 
         if(unit instanceof Payloadc carrier){
             for(int i = 0; i < carrier.payloads().size; i++){
+                if(carrier.payloads().get(i) instanceof BuildPayload load && !load.isDead()){
+                    aquarion.world.units.RailMissileRestock.remember(unit, load.block());
+                }
                 if(carrier.payloads().get(i) instanceof BuildPayload payload
                         && !(payload instanceof TrainBuildPayload)){
 

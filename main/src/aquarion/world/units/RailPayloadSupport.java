@@ -25,7 +25,7 @@ public class RailPayloadSupport{
         int count = 0, before = 0;
         for(Unit car : RailConsist.members(unit)){
             if(car instanceof Payloadc carrier) for(Payload payload : carrier.payloads()){
-                if(payload instanceof BuildPayload target && target.build.block instanceof Turret) armed = true;
+                if(payload instanceof BuildPayload target && (target.build.block instanceof Turret || target.build.block instanceof aquarion.world.blocks.defense.MissileBlock)) armed = true;
             }
             if(liquid ? car instanceof LiquidRailUnit : !(car instanceof LiquidRailUnit) && car.type.itemCapacity > 0){
                 count++;
@@ -44,7 +44,7 @@ public class RailPayloadSupport{
 
     private static boolean uses(Unit unit, Item item){
         for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier){
-            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && target.build.block instanceof Turret){
+            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && (target.build.block instanceof Turret || target.build.block instanceof aquarion.world.blocks.defense.MissileBlock)){
                 if(target.build.block.consumesItem(item)
                     || (target.build.block instanceof mindustry.world.blocks.defense.turrets.ItemTurret turret && turret.ammoTypes.containsKey(item))) return true;
             }
@@ -53,7 +53,7 @@ public class RailPayloadSupport{
     }
     private static boolean uses(Unit unit, Liquid liquid){
         for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier){
-            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && target.build.block instanceof Turret){
+            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && (target.build.block instanceof Turret || target.build.block instanceof aquarion.world.blocks.defense.MissileBlock)){
                 if(target.build.block.consumesLiquid(liquid)
                     || (target.build.block instanceof mindustry.world.blocks.defense.turrets.LiquidTurret turret && turret.ammoTypes.containsKey(liquid))
                     || (target.build.block instanceof mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret tur && tur.ammoTypes.containsKey(liquid))) return true;
@@ -145,7 +145,23 @@ public class RailPayloadSupport{
         return range;
     }
 
+    public static boolean canFireFrom(Unit unit, mindustry.gen.Teamc enemy, float x, float y){
+        if(!validEnemy(unit, enemy)) return false;
+        float distance = arc.math.Mathf.dst(x, y, enemy.x(), enemy.y());
+        for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier){
+            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target
+                && target.build instanceof Turret.TurretBuild turret && target.build.block instanceof Turret block
+                && turret.hasAmmo() && canTarget(block, enemy)
+                && distance <= turret.range() && distance > turret.minRange()) return true;
+        }
+        return false;
+    }
+
     public static mindustry.gen.Teamc pursuitTarget(Unit unit){
+        return pursuitTarget(unit, null);
+    }
+
+    public static mindustry.gen.Teamc pursuitTarget(Unit unit, mindustry.gen.Teamc excluded){
         float range = pursuitRange(unit);
         if(range <= 0f) return null;
         mindustry.gen.Teamc best = null;
@@ -153,13 +169,15 @@ public class RailPayloadSupport{
         for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier){
             for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && target.build instanceof Turret.TurretBuild turret
                 && target.build.block instanceof Turret block && turret.hasAmmo()){
-                if(turret.target instanceof mindustry.gen.Teamc enemy && validEnemy(unit, enemy) && canTarget(block, enemy) && car.within(enemy, range)) return enemy;
+                if(turret.target instanceof mindustry.gen.Teamc enemy && enemy != excluded && validEnemy(unit, enemy) && canTarget(block, enemy) && car.within(enemy, range)) return enemy;
                 for(Unit enemy : Groups.unit){
+                    if(enemy == excluded) continue;
                     if(!validEnemy(unit, enemy) || !canTarget(block, enemy) || !car.within(enemy, range)) continue;
                     float distance = car.dst2(enemy);
                     if(distance < closest){ best = enemy; closest = distance; }
                 }
                 for(Building enemy : Groups.build){
+                    if(enemy == excluded) continue;
                     if(!validEnemy(unit, enemy) || !canTarget(block, enemy) || !car.within(enemy, range)) continue;
                     float distance = car.dst2(enemy);
                     if(distance < closest){ best = enemy; closest = distance; }
@@ -181,6 +199,15 @@ public class RailPayloadSupport{
     }
 
     public static boolean outOfSupplies(Unit unit){
+        if(RailMissileRestock.needed(unit)) return true;
+        for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier){
+            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target
+                && target.block() instanceof aquarion.world.blocks.defense.MissileBlock){
+                for(Liquid liquid : Vars.content.liquids()){
+                    if(target.block().consumesLiquid(liquid) && target.build.liquids.get(liquid) <= 0.001f) return true;
+                }
+            }
+        }
         if(outOfAmmo(unit)) return true;
         for(Unit car : RailConsist.members(unit)) if(reserveCar(unit, car)){
             if(car instanceof LiquidRailUnit tank){
@@ -233,8 +260,9 @@ public class RailPayloadSupport{
     }
     public static boolean needsDock(Unit unit, CargoStationBuild dock){
         if(!dock.pickup() || dock.team != unit.team || !RailPathfinder.active(dock)) return false;
+        if(RailMissileRestock.needsDock(unit, dock)) return true;
         for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier){
-            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && target.build.block instanceof Turret){
+            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && (target.build.block instanceof Turret || target.build.block instanceof aquarion.world.blocks.defense.MissileBlock)){
                 Building build = target.build;
                 if(dock.liquidCargo()){
                     for(Liquid liquid : Vars.content.liquids()) if(dock.liquids.get(liquid) > 0.001f && accepts(build, liquid) && room(build, liquid) > 0.001f) return true;
@@ -262,9 +290,9 @@ public class RailPayloadSupport{
     }
     public static int transfer(Unit unit, CargoStationBuild dock){
         if(Vars.net.client() || !needsDock(unit, dock)) return 0;
-        int transferred = 0;
+        int transferred = RailMissileRestock.transfer(unit, dock);
         for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier){
-            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && target.build.block instanceof Turret){
+            for(Payload payload : carrier.payloads()) if(payload instanceof BuildPayload target && (target.build.block instanceof Turret || target.build.block instanceof aquarion.world.blocks.defense.MissileBlock)){
                 Building build = target.build;
                 if(dock.liquidCargo()){
                     for(Liquid liquid : Vars.content.liquids()) if(accepts(build, liquid)){

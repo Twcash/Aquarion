@@ -16,6 +16,7 @@ public class TrainBuildPayload extends BuildPayload{
             return;
         }
         build.tile = Vars.emptyTile;
+        if(!build.dead) RailMissileRestock.remember(holder, build.block);
         RailPayloadSupport.feed(holder, build);
         if(build.power != null) build.power.status = 1f;
         build.updatePayload(holder, null);

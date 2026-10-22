@@ -49,6 +49,10 @@ public class RailCommandAI extends CommandAI{
     private Vec2 pursuitResume;
     private RailPointBuild pursuitGoal;
     private float pursuitRetry;
+    private Teamc unreachableEnemy;
+    private float unreachableRetry;
+    private final Vec2 pursuitLastPosition = new Vec2();
+    private float pursuitStall;
     private boolean parked;
     private boolean clearingReverse;
     private float reverseRemaining, clearanceRetry, clearanceLeadIn;
@@ -138,6 +142,10 @@ public class RailCommandAI extends CommandAI{
         pursuitResume = previous.pursuitResume == null ? null : previous.pursuitResume.cpy();
         pursuitGoal = previous.pursuitGoal;
         pursuitRetry = previous.pursuitRetry;
+        unreachableEnemy = previous.unreachableEnemy;
+        unreachableRetry = previous.unreachableRetry;
+        pursuitLastPosition.set(unit.x, unit.y);
+        pursuitStall = 0f;
         previous.pursuitEnemy = null;
         previous.pursuitResume = null;
         commandQueue.clear();
@@ -1328,12 +1336,31 @@ public class RailCommandAI extends CommandAI{
 
     /** Returns true while the train should hold its rail position and fire. */
     private boolean updatePursuit(){
+        unreachableRetry -= Time.delta;
+        if(unreachableRetry <= 0f) unreachableEnemy = null;
         if(patrolResume != null) return false;
         if(!hasStance(mindustry.ai.UnitStance.pursueTarget)){
             if(pursuitEnemy != null) endPursuit();
             return false;
         }
-        if(attackTarget != null) return aquarion.world.units.RailPayloadSupport.canEngage(unit, attackTarget);
+        if(attackTarget != null){
+            if(aquarion.world.units.RailPayloadSupport.canEngage(unit, attackTarget)) return true;
+            pursuitRetry -= Time.delta;
+            if(pursuitRetry <= 0f){
+                pursuitRetry = 20f;
+                Route reachable = RailPathfinder.pursuit(edge == null ? node : edge.to,
+                    point -> aquarion.world.units.RailPayloadSupport.canFireFrom(unit, attackTarget, point.x, point.y));
+                if(reachable == null){
+                    unreachableEnemy = attackTarget;
+                    unreachableRetry = 600f;
+                    attackTarget = null;
+                    targetPos = null;
+                    if(pursuitEnemy != null) endPursuit();
+                    else finish();
+                }
+            }
+            return false;
+        }
         if(pursuitEnemy != null && (!aquarion.world.units.RailPayloadSupport.validEnemy(unit, pursuitEnemy)
             || !unit.within(pursuitEnemy, aquarion.world.units.RailPayloadSupport.pursuitRange(unit) * 2f))){
             endPursuit();
@@ -1343,22 +1370,59 @@ public class RailCommandAI extends CommandAI{
         if(pursuitEnemy == null){
             if(pursuitRetry > 0f) return false;
             pursuitRetry = 20f;
-            Teamc enemy = aquarion.world.units.RailPayloadSupport.pursuitTarget(unit);
+            Teamc enemy = aquarion.world.units.RailPayloadSupport.pursuitTarget(unit, unreachableEnemy);
             if(enemy == null) return false;
             pursuitResume = targetPos == null ? null : targetPos.cpy();
             pursuitEnemy = enemy;
+            pursuitLastPosition.set(unit.x, unit.y);
+            pursuitStall = 0f;
             cargoTarget = null;
             pursuitGoal = null;
             pursuitRetry = 0f;
             RailPointBuild start = edge == null ? node : edge.to;
             if(start != null) super.commandPosition(new Vec2(start.x, start.y), false);
         }
-        if(aquarion.world.units.RailPayloadSupport.canEngage(unit, pursuitEnemy)) return true;
+        if(aquarion.world.units.RailPayloadSupport.canEngage(unit, pursuitEnemy)){
+            pursuitStall = 0f;
+            pursuitLastPosition.set(unit.x, unit.y);
+            return true;
+        }
+        if(pursuitLastPosition.dst2(unit.x, unit.y) < 1f) pursuitStall += Time.delta;
+        else{
+            pursuitLastPosition.set(unit.x, unit.y);
+            pursuitStall = 0f;
+        }
+        if(pursuitStall >= 180f){
+            unreachableEnemy = pursuitEnemy;
+            unreachableRetry = 600f;
+            endPursuit();
+            return false;
+        }
         if(pursuitRetry <= 0f){
             pursuitRetry = 20f;
-            Route path = RailPathfinder.find(edge == null ? node : edge.to, pursuitEnemy.x(), pursuitEnemy.y());
-            if(path == null){ endPursuit(); return false; }
-            RailPointBuild goal = path.nodes.peek();
+            RailPointBuild goal = null;
+            if(edge != null){
+                Vec2 sample = new Vec2();
+                int steps = Math.max(1, (int)Math.ceil((edge.length - distance) / 4f));
+                for(int i = 0; i <= steps; i++){
+                    edge.sample(distance + (edge.length - distance) * i / steps, sample);
+                    if(aquarion.world.units.RailPayloadSupport.canFireFrom(unit, pursuitEnemy, sample.x, sample.y)){
+                        goal = edge.to;
+                        break;
+                    }
+                }
+            }
+            if(goal == null){
+                Route path = RailPathfinder.pursuit(edge == null ? node : edge.to,
+                    point -> aquarion.world.units.RailPayloadSupport.canFireFrom(unit, pursuitEnemy, point.x, point.y));
+                if(path != null) goal = path.nodes.peek();
+            }
+            if(goal == null){
+                unreachableEnemy = pursuitEnemy;
+                unreachableRetry = 600f;
+                endPursuit();
+                return false;
+            }
             if(goal != pursuitGoal || targetPos == null){
                 pursuitGoal = goal;
                 super.commandPosition(new Vec2(goal.x, goal.y), false);

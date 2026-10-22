@@ -71,6 +71,50 @@ public class RailPathfinder{
         return search(start, 0f, 0f, allowed, suitable, true);
     }
 
+    /** Finds a reachable firing position, including positions between rail nodes. */
+    public static Route pursuit(RailPointBuild start, Boolf<Vec2> inRange){
+        if(!active(start)) return null;
+        var graph = trainGraph();
+        HashMap<RailPointBuild, Visit> visits = new HashMap<>();
+        PriorityQueue<Visit> queue = new PriorityQueue<>((a, b) -> Float.compare(a.cost, b.cost));
+        Visit first = new Visit(start, null, 0f);
+        visits.put(start, first);
+        queue.add(first);
+        Vec2 sample = new Vec2();
+        while(!queue.isEmpty()){
+            Visit visit = queue.remove();
+            if(visits.get(visit.node) != visit) continue;
+            Visit goal = inRange.get(sample.set(visit.node.x, visit.node.y)) ? visit : null;
+            Seq<Edge> adjacent = graph.get(visit.node);
+            if(goal == null && adjacent != null) for(Edge section : adjacent){
+                if(section.to.team != start.team) continue;
+                int steps = Math.max(1, (int)Math.ceil(section.length / 4f));
+                for(int i = 1; i <= steps; i++){
+                    section.sample(section.length * i / steps, sample);
+                    if(inRange.get(sample)){
+                        goal = new Visit(section.to, visit, visit.cost + section.length);
+                        break;
+                    }
+                }
+                if(goal != null) break;
+                float cost = visit.cost + section.length;
+                Visit previous = visits.get(section.to);
+                if(previous == null || cost < previous.cost){
+                    Visit next = new Visit(section.to, visit, cost);
+                    visits.put(section.to, next);
+                    queue.add(next);
+                }
+            }
+            if(goal != null){
+                Seq<RailPointBuild> nodes = new Seq<>();
+                for(Visit current = goal; current != null; current = current.previous) nodes.add(current.node);
+                nodes.reverse();
+                return new Route(nodes, goal.cost);
+            }
+        }
+        return null;
+    }
+
     private static Route search(RailPointBuild start, float targetX, float targetY, Boolf<Edge> allowed,
                                 Boolf<RailPointBuild> suitable, boolean parking){
         if(!active(start)) return null;
