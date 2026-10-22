@@ -31,8 +31,6 @@ public class AquaCategories {
                 Method objectFieldOffset = unsafeClass.getMethod("objectFieldOffset", Field.class);
                 Method putObject = unsafeClass.getMethod("putObject", Object.class, long.class, Object.class);
                 Method putInt = unsafeClass.getMethod("putInt", Object.class, long.class, int.class);
-                Method staticFieldOffset = unsafeClass.getMethod("staticFieldOffset", Field.class);
-                Method staticFieldBase = unsafeClass.getMethod("staticFieldBase", Field.class);
 
                 refinery = (Category) allocateInstance.invoke(unsafe, Category.class);
                 heat = (Category) allocateInstance.invoke(unsafe, Category.class);
@@ -53,14 +51,10 @@ public class AquaCategories {
                 extended[original.length + 1] = heat;
                 extended[original.length + 2] = railways;
                 Field allField = Category.class.getDeclaredField("all");
-                long allOffset = (long) staticFieldOffset.invoke(unsafe, allField);
-                Object allBase = staticFieldBase.invoke(unsafe, allField);
-                putObject.invoke(unsafe, allBase, allOffset, extended);
+                setCategoryArray(allField, extended, unsafeClass, unsafe, putObject);
                 for (Field f : Category.class.getDeclaredFields()) {
                     if (f.getType() == Category[].class && !f.getName().equals("all")) {
-                        long fOffset = (long) staticFieldOffset.invoke(unsafe, f);
-                        Object fBase = staticFieldBase.invoke(unsafe, f);
-                        putObject.invoke(unsafe, fBase, fOffset, extended);
+                        setCategoryArray(f, extended, unsafeClass, unsafe, putObject);
                         break;
                     }
                 }
@@ -79,5 +73,21 @@ public class AquaCategories {
         } catch (Exception e) {
             throw new RuntimeException("Custom Category failed to initialize", e);
         }
+    }
+    private static void setCategoryArray(Field field, Category[] values, Class<?> unsafeClass,
+                                         Object unsafe, Method putObject) throws ReflectiveOperationException{
+        // ART allows accessible field writes; its Unsafe omits the desktop static-field methods.
+        field.setAccessible(true);
+        try{
+            field.set(null, values);
+            return;
+        }catch(IllegalAccessException desktopFinalField){
+            // Desktop Java requires Unsafe to replace static final enum arrays.
+        }
+        Method offsetMethod = unsafeClass.getMethod("staticFieldOffset", Field.class);
+        Method baseMethod = unsafeClass.getMethod("staticFieldBase", Field.class);
+        long offset = (long)offsetMethod.invoke(unsafe, field);
+        Object base = baseMethod.invoke(unsafe, field);
+        putObject.invoke(unsafe, base, offset, values);
     }
 }
