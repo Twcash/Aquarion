@@ -122,7 +122,6 @@ public class AquaLoader extends Mod {
 
             if (Core.atlas.has("aquarion-icon-refinery")) Icon.icons.put("refinery", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-refinery")));
             if (Core.atlas.has("aquarion-icon-heat")) Icon.icons.put("heat", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-heat")));
-            if (Core.atlas.has("aquarion-railways")) Icon.icons.put("railways", new TextureRegionDrawable(Core.atlas.find("aquarion-railways")));
             if (ModSettings.getShowUpdates()) {
                 new AquaUpdate().check(AquaLoader.class);
             }
