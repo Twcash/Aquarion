@@ -22,39 +22,28 @@ public class AquaCategories {
             System.arraycopy(original, 0, extended, 0, original.length);
 
             try {
-                Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
-                Field unsafeField = unsafeClass.getDeclaredField("theUnsafe");
-                unsafeField.setAccessible(true);
-                Object unsafe = unsafeField.get(null);
-
-                Method allocateInstance = unsafeClass.getMethod("allocateInstance", Class.class);
-                Method objectFieldOffset = unsafeClass.getMethod("objectFieldOffset", Field.class);
-                Method putObject = unsafeClass.getMethod("putObject", Object.class, long.class, Object.class);
-                Method putInt = unsafeClass.getMethod("putInt", Object.class, long.class, int.class);
-
-                refinery = (Category) allocateInstance.invoke(unsafe, Category.class);
-                heat = (Category) allocateInstance.invoke(unsafe, Category.class);
-                railways = (Category) allocateInstance.invoke(unsafe, Category.class);
-
-                Field nameField = Enum.class.getDeclaredField("name");
-                long nameOffset = (long) objectFieldOffset.invoke(unsafe, nameField);
-                Field ordinalField = Enum.class.getDeclaredField("ordinal");
-                long ordinalOffset = (long) objectFieldOffset.invoke(unsafe, ordinalField);
-
-                putObject.invoke(unsafe, refinery, nameOffset, "refinery");
-                putInt.invoke(unsafe, refinery, ordinalOffset, nextOrdinal);
-                putObject.invoke(unsafe, heat, nameOffset, "heat");
-                putInt.invoke(unsafe, heat, ordinalOffset, nextOrdinal + 1);
-                putObject.invoke(unsafe, railways, nameOffset, "railways");
-                putInt.invoke(unsafe, railways, ordinalOffset, nextOrdinal + 2);
+                var constructor = Category.class.getDeclaredConstructor(String.class, int.class);
+                constructor.setAccessible(true);
+                // Use the actual enum constructor without Constructor.newInstance's enum restriction.
+                // Reflective method-handle lookup keeps newer Android API types out of class signatures.
+                Class<?> handles = Class.forName("java.lang.invoke.MethodHandles");
+                Object lookup = handles.getMethod("lookup").invoke(null);
+                Class<?> lookupType = Class.forName("java.lang.invoke.MethodHandles$Lookup");
+                Object factory = lookupType.getMethod("unreflectConstructor", java.lang.reflect.Constructor.class)
+                    .invoke(lookup, constructor);
+                Method invoke = Class.forName("java.lang.invoke.MethodHandle")
+                    .getMethod("invokeWithArguments", Object[].class);
+                refinery = (Category)invoke.invoke(factory, new Object[]{new Object[]{"refinery", nextOrdinal}});
+                heat = (Category)invoke.invoke(factory, new Object[]{new Object[]{"heat", nextOrdinal + 1}});
+                railways = (Category)invoke.invoke(factory, new Object[]{new Object[]{"railways", nextOrdinal + 2}});
                 extended[original.length] = refinery;
                 extended[original.length + 1] = heat;
                 extended[original.length + 2] = railways;
                 Field allField = Category.class.getDeclaredField("all");
-                setCategoryArray(allField, extended, unsafeClass, unsafe, putObject);
+                setCategoryArray(allField, extended);
                 for (Field f : Category.class.getDeclaredFields()) {
                     if (f.getType() == Category[].class && !f.getName().equals("all")) {
-                        setCategoryArray(f, extended, unsafeClass, unsafe, putObject);
+                        setCategoryArray(f, extended);
                         break;
                     }
                 }
@@ -74,8 +63,7 @@ public class AquaCategories {
             throw new RuntimeException("Custom Category failed to initialize", e);
         }
     }
-    private static void setCategoryArray(Field field, Category[] values, Class<?> unsafeClass,
-                                         Object unsafe, Method putObject) throws ReflectiveOperationException{
+    private static void setCategoryArray(Field field, Category[] values) throws ReflectiveOperationException{
         // ART allows accessible field writes; its Unsafe omits the desktop static-field methods.
         field.setAccessible(true);
         try{
@@ -84,6 +72,11 @@ public class AquaCategories {
         }catch(IllegalAccessException desktopFinalField){
             // Desktop Java requires Unsafe to replace static final enum arrays.
         }
+        Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
+        Field unsafeField = unsafeClass.getDeclaredField("theUnsafe");
+        unsafeField.setAccessible(true);
+        Object unsafe = unsafeField.get(null);
+        Method putObject = unsafeClass.getMethod("putObject", Object.class, long.class, Object.class);
         Method offsetMethod = unsafeClass.getMethod("staticFieldOffset", Field.class);
         Method baseMethod = unsafeClass.getMethod("staticFieldBase", Field.class);
         long offset = (long)offsetMethod.invoke(unsafe, field);
