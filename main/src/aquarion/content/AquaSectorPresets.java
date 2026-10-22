@@ -236,6 +236,7 @@ public class AquaSectorPresets {
             showSectorLandInfo = false;
             overrideLaunchDefaults = true;
             outline = false;
+            captureWave = 29;
         }};
 
         //TANTROS#

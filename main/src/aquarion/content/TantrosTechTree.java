@@ -576,8 +576,8 @@ public class TantrosTechTree {
                 node(pumpAssembly);
             });
             node(harvester, () -> {
-                node(wallExcavator);
                 node(plasmaExtractor, () -> {
+                    node(wallExcavator, () -> {});
                     node(beamBore, () -> {});
                 });
                 node(DrillDerrick, () -> {
@@ -654,6 +654,9 @@ public class TantrosTechTree {
                     node(scrapCentrifuge, Seq.with(
                             new Objectives.OnSector(frozenLake)
                     ), () -> {
+                        node(pnuematicCentrifuge, ()->{
+                            node(rotaryKiln);
+                        });
                         node(ultrafamicRefinery, () -> {});
                         /*node(filter, Seq.with(
                                 new Objectives.SectorComplete(bay)
@@ -682,9 +685,6 @@ public class TantrosTechTree {
                         });
                     });
                     node(graphiteConcentrator, () -> {
-                        node(pnuematicCentrifuge, ()->{
-                            node(rotaryKiln);
-                        });
                         node(SolidBoiler, Seq.with(
                                 new Objectives.SectorComplete(twinPass)
                         ), () -> {
