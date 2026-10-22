@@ -22,6 +22,8 @@ import mindustry.graphics.Shaders;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
 import mindustry.world.Tile;
+import mindustry.world.blocks.environment.StaticWall;
+import mindustry.world.blocks.environment.TallBlock;
 import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.PayloadBlock;
 import mindustry.world.draw.DrawGlowRegion;
@@ -98,6 +100,7 @@ public class WallPayloadDrill extends PayloadBlock {
         for(int i = 0; i < size; i++){
             Tile wall = miningTile(x, y, rotation, i);
             if(wall == null) continue;
+            if(!(wall.block() instanceof StaticWall) || !(wall.block() instanceof TallBlock)) return;
             boolean matches = selected != null && wall.solid() && wall.block().attributes.get(selected) > 0f;
             Drawf.selected(wall, matches ? Pal.accent : Pal.remove);
         }
