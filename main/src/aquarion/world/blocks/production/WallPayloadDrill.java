@@ -26,6 +26,8 @@ import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.PayloadBlock;
 import mindustry.world.draw.DrawGlowRegion;
 import mindustry.world.meta.Attribute;
+import mindustry.world.meta.Stat;
+import mindustry.world.meta.StatValues;
 
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
@@ -58,11 +60,73 @@ public class WallPayloadDrill extends PayloadBlock {
     @Override
     public void setBars() {
         super.setBars();
-                addBar("progress", (WallPayloadDrillBuild e) -> new Bar(
-                        () -> Core.bundle.format("bar.progress", Strings.autoFixed(e.totalProgress * 100, 1)),
-                        () -> Pal.ammo,
-                        e::totalProgress
-                ));
+        addBar("drillspeed", (WallPayloadDrillBuild e) -> new Bar(
+            () -> Core.bundle.format("bar.payload-drillspeed", Strings.fixed(e.productionRate(), 2)),
+            () -> Pal.ammo, () -> e.heat));
+    }
+
+    @Override
+    public void setStats(){
+        stats.timePeriod = buildTime;
+        super.setStats();
+        for(var entry : attributeBlockMap){
+            stats.add(Stat.output, StatValues.content(entry.value));
+            stats.add(Stat.tiles, StatValues.blocks(entry.key, false, 1f, true, false));
+        }
+        stats.add(Stat.drillSpeed, table -> table.add(Core.bundle.format("bar.payload-drillspeed", Strings.fixed(size * 60f / buildTime, 2))));
+    }
+
+    private Tile miningTile(int tx, int ty, int rotation, int index){
+        int x = tx - (size - 1) / 2, y = ty - (size - 1) / 2;
+        return switch(rotation & 3){
+            case 0 -> world.tile(x + size, y + index);
+            case 1 -> world.tile(x + index, y + size);
+            case 2 -> world.tile(x - 1, y + index);
+            default -> world.tile(x + index, y - 1);
+        };
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid);
+        ObjectMap<Attribute, Float> totals = new ObjectMap<>();
+        calculateEfficiency(x, y, rotation, totals);
+        Attribute selected = dominant(totals);
+        Block output = selected == null ? null : attributeBlockMap.get(selected);
+        float previousZ = Draw.z();
+        Draw.z(previousZ - 0.01f);
+        for(int i = 0; i < size; i++){
+            Tile wall = miningTile(x, y, rotation, i);
+            if(wall == null) continue;
+            boolean matches = selected != null && wall.solid() && wall.block().attributes.get(selected) > 0f;
+            Drawf.selected(wall, matches ? Pal.accent : Pal.remove);
+        }
+        Draw.z(previousZ);
+        float width = drawPlaceText(Core.bundle.format("bar.payload-drillspeed",
+            Strings.fixed(selected == null ? 0f : totals.get(selected, 0f) * 60f / buildTime, 2)), x, y, valid);
+        if(output != null){
+            float dx = x * tilesize + offset - width / 2f - 4f;
+            float dy = y * tilesize + offset + size * tilesize / 2f + 5f;
+            float iconSize = Vars.iconSmall / 4f;
+            Draw.mixcol(Color.darkGray, 1f);
+            Draw.rect(output.fullIcon, dx, dy - 1f, iconSize, iconSize);
+            Draw.reset();
+            Draw.rect(output.fullIcon, dx, dy, iconSize, iconSize);
+        }
+
+    }
+
+    private Attribute dominant(ObjectMap<Attribute, Float> totals){
+        Attribute best = null;
+        float highest = 0f;
+        for(var entry : attributeBlockMap){
+            float value = totals.get(entry.key, 0f);
+            if(value > highest || (value == highest && value > 0f && (best == null || entry.key.id < best.id))){
+                best = entry.key;
+                highest = value;
+            }
+        }
+        return best;
     }
     @Override
     protected TextureRegion[] icons(){
@@ -130,20 +194,23 @@ public class WallPayloadDrill extends PayloadBlock {
          */
         public Block recipe() {
             attributeTotals.clear();
-            currentEfficiency = calculateEfficiency(tileX(), tileY(), rotation, attributeTotals);
-
-            Attribute dominantAttribute = null;
-            float highestTotal = 0;
-
-            for (ObjectMap.Entry<Attribute, Float> entry : attributeTotals) {
-                if (entry.value > highestTotal) {
-                    highestTotal = entry.value;
-                    dominantAttribute = entry.key;
-                }
-            }
+            calculateEfficiency(tileX(), tileY(), rotation, attributeTotals);
+            Attribute dominantAttribute = dominant(attributeTotals);
+            currentEfficiency = dominantAttribute == null ? 0f : attributeTotals.get(dominantAttribute, 0f);
 
             currentRecipe = dominantAttribute != null ? attributeBlockMap.get(dominantAttribute) : null;
             return currentRecipe;
+        }
+
+        public float productionRate(){
+            return payload == null && enabled ? currentEfficiency * efficiency * timeScale() * 60f / buildTime : 0f;
+        }
+
+        @Override public boolean shouldConsume(){ return enabled && payload == null && recipe() != null; }
+
+        @Override public void drawSelect(){
+            super.drawSelect();
+            drawItemSelection(recipe());
         }
 
         @Override
@@ -176,16 +243,19 @@ public class WallPayloadDrill extends PayloadBlock {
             super.updateTile();
 
             Block recipe = recipe();
-            if (recipe == null) return;
+            if (recipe == null){
+                heat = Mathf.approachDelta(heat, 0f, 1f / 60f);
+                return;
+            }
             if(payload != null) efficiency = 0;
-            if(payload == null)progress += edelta();
+            if(payload == null)progress += edelta() * currentEfficiency;
             boolean produce = currentEfficiency > 0 && payload == null;
             if (produce && progress >= buildTime) {
                 payload = new BuildPayload(recipe, team);
                 recipe.placeEffect.at(x, y, (float) recipe.size / tilesize);
                 progress = 0;
             }
-            heat = Mathf.lerpDelta(heat, 1f, 0.15f);
+            heat = Mathf.approachDelta(heat, Mathf.num(produce && efficiency > 0f), 1f / 60f);
             time += heat * delta();
         }
 
