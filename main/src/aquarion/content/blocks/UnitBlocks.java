@@ -115,7 +115,7 @@ public class UnitBlocks {
             size =5;
         }};
         reinforcedFraming = new Wall("reinforced-framing"){{
-            requirements(Category.units, with(lead, 90, cupronickel, 90));
+            requirements(Category.units, with(lead, 90, concrete, 90));
             size = 1;
             health = 300;
         }};
@@ -125,7 +125,7 @@ public class UnitBlocks {
             health = 400;
         }};
         regality = new AssembleUnitBlock("regality-core"){{
-            requirements(Category.units, with(silicon, 80, metaglass, 30, lead, 50, graphite, 40));
+            requirements(Category.units, with(silicon, 600, concrete, 200, polymer, 500, metaglass, 600 ));
             unit = AquaUnitTypes.regality;
             size = 3;
             startsound = AquaSounds.start7;

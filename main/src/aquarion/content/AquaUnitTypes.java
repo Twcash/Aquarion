@@ -1071,14 +1071,15 @@ public class AquaUnitTypes {
                 y = 0;
                 mirror = false;
                 rotate = false;
-                bullet = new BasicBulletType(2, 0, "aquarion-regality-missile-thing"){{
-                    splashDamageRadius = 120;
-                    splashDamage = 400;
-                    frontColor = backColor = Color.white;
-                    trailEffect = Fx.missileTrail;
+                bullet = new AquaBulletType(2, 0, "aquarion-regality-missile-thing"){{
+                    splashDamageRadius = 50;
+                    splashDamage = 200;
+                    frontColor = backColor = Color.valueOf("f3a155");
+                    //trailEffect = Fx.missileTrailSmokeSmall;
                     trailLength = 12;
-                    smokeEffect = Fx.shootSmokeMissile;
+                    smokeEffect = AquaFx.shootSmokeMissile1;
                     shootEffect = Fx.none;
+                    trailTailAlpha = 0;
                     shrinkX = shrinkY = 0;
                     trailInterval = 2;
                     homingPower = 0.01f;

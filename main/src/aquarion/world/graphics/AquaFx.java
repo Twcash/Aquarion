@@ -754,7 +754,7 @@ public class AquaFx {
                 b.lifetime = 30f + intensity * 35f;
                 rand.setSeed(b.id);
 
-                color(b.color, Pal.stoneGray, Interp.pow2In.apply(b.fin()));
+                color(Color.white, b.color, Interp.pow2In.apply(b.fin()));
                 alpha(0.7f);
                 for (int i = 0; i < 4; i++) {
                     rand.setSeed(b.id * 2L + i);
@@ -1375,7 +1375,19 @@ public class AquaFx {
                 Draw.rect(reg, e.x, e.y, e.rotation+180);
                 Draw.reset();
             }).layer(Layer.scorch - 0.1f),
-            shootSmoke1 = new Effect(30f, e -> {
+            shootSmokeMissile1 = new Effect(130f, 300f, e -> {
+                color(Pal.redLight);
+                alpha(0.5f);
+                rand.setSeed(e.id);
+                for(int i = 0; i < 10; i++){
+                    v.trns(e.rotation + 180f + rand.range(21f), rand.random(e.finpow() * 90f)).add(rand.range(3f), rand.range(3f));
+                    e.scaled(e.lifetime * rand.random(0.2f, 1f), b -> {
+                        Fill.circle(e.x + v.x, e.y + v.y, b.fout() * 4f + 0.3f);
+                    });
+                }
+            }),
+
+    shootSmoke1 = new Effect(30f, e -> {
                 color(Pal.lighterOrange, Color.valueOf("1f1c19"), Color.valueOf("0f0d0b"), e.fin());
 
                 randLenVectors(e.id, 7, e.finpow() * 14f, e.rotation, 24f, (x, y) -> {
@@ -1394,7 +1406,7 @@ public class AquaFx {
                 });
             }),
             shootSmoke3 = new Effect(50f, e -> {
-                color(Pal.lighterOrange, Pal.lightishGray, Color.lightGray, Interp.pow2Out.apply(e.fin()));
+                color(Pal.lighterOrange, e.color, e.color, Interp.pow2Out.apply(e.fin()));
                 rand.setSeed(e.id+1);
                 randLenVectors(e.id, rand.random(5,9), Interp.pow2In.apply(e.finpow()) * 50f, e.rotation, 28f, (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, Interp.pow5Out.apply(e.fout()) * 4.5f);
