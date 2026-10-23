@@ -898,6 +898,7 @@ public class AquaUnitTypes {
         mite = new AquaLegUnitType("mite"){{
             stepEffectScale = 0.25f;
             liquidStepEffectScale = 0.35f;
+            stepSound = Sounds.mechStepSmall;
             damageState = new UnitDamageState(){{
                 firstEffect  = AquaFx.smokePuff1;
                 firstColor = Color.gray;
