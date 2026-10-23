@@ -739,83 +739,6 @@ public class CrafterBlocks {
             attributeBlockMap.put(AquaAttributes.dolomite, DefenseBlocks.dolomiteReagentMix);
             consumePower(2);
         }};
-        pnuematicCentrifuge = new PayloadCentrifuge("pnuematic-payload-centrifuge"){{
-            requirements(AquaCategories.refinery, with(graphite, 500, lead, 300, silicon, 900, copper, 250));
-            size = 6;
-            squareSprite = false;
-            processTime = 600;
-            consumePower(4);
-            consumeLiquid(air, 4);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawOrbitRegions() {{
-                orbitSpeed = 4f;
-                radius = 16;
-                suffix = "-cog";
-                rotateSpeed = 8f;
-                spinSprite = true;
-                countRotOffset = 22.5f;
-                regionCount = 9;
-            }}, new DrawOrbitRegions() {{
-                orbitSpeed = 4f;
-                radius = 20;
-                suffix = "-gear";
-                rotateSpeed = 8f;
-                spinSprite = true;
-                countRotOffset = 22.5f;
-                regionCount = 15;
-            }}, new DrawParticles() {{
-                color = Color.valueOf("aea6a6");
-                alpha = 0.5f;
-                particleSize = 4f;
-                particles = 45;
-                particleRad = 8 * 2f;
-                particleLife = 20;
-                reverse = true;
-                rotateScl = 1.5f;
-            }}, new DrawParticles() {{
-                color = Color.valueOf("c8bcbb");
-                alpha = 0.6f;
-                particleSize = 7f;
-                particles = 20;
-                particleRad = 8 * 3f;
-                reverse = true;
-                particleLife = 20;
-                rotateScl = 2f;
-            }}, new DrawRegion("-pod"){{
-                spinSprite = true;
-                rotateSpeed = 7;
-            }}, new DrawRegion("-pod"){{
-                spinSprite = true;
-                rotateSpeed = 7;
-                rotation = 45;
-            }}, new DrawRegion("-thing"){{
-                spinSprite = true;
-                rotateSpeed = 5;
-            }}, new DrawRegion("-top"), new PhaseOffsetGlowRegion("-glow") {{
-                alpha = 0.35f;
-                color = Color.valueOf("e68569");
-                glowIntensity = 0.3f;
-                glowScale = 5f;
-                layer = heat;
-                blending = Blending.additive;
-            }}, new PhaseOffsetGlowRegion("-glow1") {{
-                alpha = 0.4f;
-                color = Color.valueOf("e68569");
-                glowIntensity = 0.25f;
-                glowScale = 6f;
-                layer = heat;
-                blending = Blending.additive;
-                phaseOffset = 10;
-            }}, new PhaseOffsetGlowRegion("-glow2") {{
-                alpha = 0.45f;
-                color = Color.valueOf("e68569");
-                glowIntensity = 0.4f;
-                glowScale = 8f;
-                layer = heat;
-                blending = Blending.additive;
-                phaseOffset = 15;
-            }});
-            itemCapacity = 250;
-        }};
         CentrifugalPump = new Pump("centrifugal-pump") {{
             requirements(Category.liquid, with(copper, 120, metaglass, 50));
             size = 3;
@@ -1708,6 +1631,83 @@ public class CrafterBlocks {
                 blending = Blending.additive;
                 phaseOffset = 20;
             }});
+        }};
+        pnuematicCentrifuge = new PayloadCentrifuge("pnuematic-payload-centrifuge"){{
+            requirements(AquaCategories.refinery, with(graphite, 500, lead, 300, silicon, 900, copper, 250));
+            size = 6;
+            squareSprite = false;
+            processTime = 600;
+            consumePower(4);
+            consumeLiquid(air, 4);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawOrbitRegions() {{
+                orbitSpeed = 4f;
+                radius = 16;
+                suffix = "-cog";
+                rotateSpeed = 8f;
+                spinSprite = true;
+                countRotOffset = 22.5f;
+                regionCount = 9;
+            }}, new DrawOrbitRegions() {{
+                orbitSpeed = 4f;
+                radius = 20;
+                suffix = "-gear";
+                rotateSpeed = 8f;
+                spinSprite = true;
+                countRotOffset = 22.5f;
+                regionCount = 15;
+            }}, new DrawParticles() {{
+                color = Color.valueOf("aea6a6");
+                alpha = 0.5f;
+                particleSize = 4f;
+                particles = 45;
+                particleRad = 8 * 2f;
+                particleLife = 20;
+                reverse = true;
+                rotateScl = 1.5f;
+            }}, new DrawParticles() {{
+                color = Color.valueOf("c8bcbb");
+                alpha = 0.6f;
+                particleSize = 7f;
+                particles = 20;
+                particleRad = 8 * 3f;
+                reverse = true;
+                particleLife = 20;
+                rotateScl = 2f;
+            }}, new DrawRegion("-pod"){{
+                spinSprite = true;
+                rotateSpeed = 7;
+            }}, new DrawRegion("-pod"){{
+                spinSprite = true;
+                rotateSpeed = 7;
+                rotation = 45;
+            }}, new DrawRegion("-thing"){{
+                spinSprite = true;
+                rotateSpeed = 5;
+            }}, new DrawRegion("-top"), new PhaseOffsetGlowRegion("-glow") {{
+                alpha = 0.35f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.3f;
+                glowScale = 5f;
+                layer = heat;
+                blending = Blending.additive;
+            }}, new PhaseOffsetGlowRegion("-glow1") {{
+                alpha = 0.4f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.25f;
+                glowScale = 6f;
+                layer = heat;
+                blending = Blending.additive;
+                phaseOffset = 10;
+            }}, new PhaseOffsetGlowRegion("-glow2") {{
+                alpha = 0.45f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 8f;
+                layer = heat;
+                blending = Blending.additive;
+                phaseOffset = 15;
+            }});
+            itemCapacity = 250;
         }};
         laserEnricher = new LaserEnricher("laser-enricher"){{
             requirements(Category.crafting, with(silicon, 180, thorium, 120, tungsten, 100));
