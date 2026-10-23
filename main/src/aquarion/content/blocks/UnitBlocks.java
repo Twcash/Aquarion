@@ -32,7 +32,7 @@ import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
     public static Block trainyard, pathCoupler;
-    public static Block defunctBeacon1, maintainerInactive ,regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad, apothecary;
+    public static Block defunctBeacon1, maintainerInactive ,voltaic, regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad, apothecary;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -115,7 +115,7 @@ public class UnitBlocks {
             size =5;
         }};
         reinforcedFraming = new Wall("reinforced-framing"){{
-            requirements(Category.units, with(lead, 90, cupronickel, 90));
+            requirements(Category.units, with(lead, 90, concrete, 90));
             size = 1;
             health = 300;
         }};
@@ -124,21 +124,7 @@ public class UnitBlocks {
             size = 1;
             health = 400;
         }};
-        regality = new AssembleUnitBlock("regality-core"){{
-            requirements(Category.units, with(silicon, 80, metaglass, 30, lead, 50, graphite, 40));
-            unit = AquaUnitTypes.regality;
-            size = 3;
-            startsound = AquaSounds.start7;
-            time = 20 * 60;
-            reqs.putAll(new float[]{2,-1}, reinforcedFraming,
-                    new float[]{2,0},reinforcedFraming,
-                    new float[]{2,1}, reinforcedFraming,
-                    new float[]{-2,-1},armamentMounting,
-                    new float[]{-2,0}, armamentMounting,
-                    new float[]{-2,1}, armamentMounting,
-                    new float[]{-2,2}, armamentMounting);
-            consumePower(6);
-        }};
+
         mite = new UnitBlock("mite-inactive"){{
             requirements(Category.units, with(silicon, 50, copper, 45));
             unit = AquaUnitTypes.mite;
@@ -264,6 +250,39 @@ public class UnitBlocks {
             consumeLiquid(hydrogen,4);
             time = 60 * 60;
             destroySound = AquaSounds.start;
+        }};
+        regality = new AssembleUnitBlock("regality-core"){{
+            requirements(Category.units, with(silicon, 600, concrete, 200, polymer, 500, metaglass, 600 ));
+            unit = AquaUnitTypes.regality;
+            size = 3;
+            startsound = AquaSounds.start7;
+            time = 20 * 60;
+            reqs.putAll(
+                    new float[]{2,-1}, reinforcedFraming,
+                    new float[]{2,0},reinforcedFraming,
+                    new float[]{2,1}, reinforcedFraming,
+                    new float[]{-2,-1},armamentMounting,
+                    new float[]{-2,0}, armamentMounting,
+                    new float[]{-2,1}, armamentMounting,
+                    new float[]{-2,2}, armamentMounting);
+            consumePower(6);
+        }};
+        voltaic = new AssembleUnitBlock("voltaic-core"){{
+            requirements(Category.units, with(silicon, 600, concrete, 300, polymer, 400, graphite, 200, copper, 400));
+            unit = AquaUnitTypes.voltaic;
+            size = 2;
+            startsound = AquaSounds.start7;
+            time = 20 * 60;
+            reqs.putAll(
+                    new float[]{-1.5f,-.5f},reinforcedFraming,
+                    new float[]{-1.5f,.5f},reinforcedFraming,
+                    new float[]{-.5f,1.5f},reinforcedFraming,
+                    new float[]{.5f,1.5f},reinforcedFraming,
+                    new float[]{-2.5f,-1.5f}, armamentMounting,
+                    new float[]{-2.5f,-.5f}, armamentMounting,
+                    new float[]{-2.5f,.5f}, armamentMounting,
+                    new float[]{-2.5f,1.5f}, armamentMounting);
+            consumePower(2);
         }};
         apothecary = new UnitBlock("apothecary-inactive") {{
             requirements(Category.units, with(silicon, 750, polymer, 325, copper, 1250, graphite, 250, metaglass, 50));

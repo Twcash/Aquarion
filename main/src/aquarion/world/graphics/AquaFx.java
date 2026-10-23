@@ -42,6 +42,15 @@ public class AquaFx {
     public static final Rand rand = new Rand();
     public static final Vec2 v = new Vec2();
 
+    /** Rotation is the size multiplier, including the individual particles. */
+    public static final Effect legStepDust = new Effect(30f, e -> {
+        float size = Math.max(0f, e.rotation);
+        color(Tmp.c1.set(e.color).mul(1.1f));
+        randLenVectors(e.id, Math.max(1, (int)(6 * size)), 12f * e.finpow() * size, (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, (e.fout() * 3f + 0.1f) * size);
+        });
+    }).layer(Layer.debris);
+
     public static final Effect mechFootprint = new Effect(180f, 160f, e -> {
         if(!(e.data instanceof TextureRegion foot) || !foot.found()) return;
         Draw.color(Color.white);
@@ -754,7 +763,7 @@ public class AquaFx {
                 b.lifetime = 30f + intensity * 35f;
                 rand.setSeed(b.id);
 
-                color(b.color, Pal.stoneGray, Interp.pow2In.apply(b.fin()));
+                color(Color.white, b.color, Interp.pow2In.apply(b.fin()));
                 alpha(0.7f);
                 for (int i = 0; i < 4; i++) {
                     rand.setSeed(b.id * 2L + i);
@@ -1375,7 +1384,40 @@ public class AquaFx {
                 Draw.rect(reg, e.x, e.y, e.rotation+180);
                 Draw.reset();
             }).layer(Layer.scorch - 0.1f),
-            shootSmoke1 = new Effect(30f, e -> {
+            shootSmokeMissile1 = new Effect(130f, 300f, e -> {
+                color(Pal.redLight);
+                alpha(0.5f);
+                rand.setSeed(e.id);
+                for(int i = 0; i < 10; i++){
+                    v.trns(e.rotation + 180f + rand.range(21f), rand.random(e.finpow() * 90f)).add(rand.range(3f), rand.range(3f));
+                    e.scaled(e.lifetime * rand.random(0.2f, 1f), b -> {
+                        Fill.circle(e.x + v.x, e.y + v.y, b.fout() * 4f + 0.3f);
+                    });
+                }
+            }),
+            smokePuff1 = new Effect(120, e -> {
+                color(Pal.darkerGray, Pal.darkestMetal, e.fout());
+                alpha(Interp.pow5In.apply(e.fout()));
+                randLenVectors(e.id, 6, 4f + 8f * Interp.pow2Out.apply(e.finpow()), (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fin() * 3f));
+                });
+            }).layer(Layer.bullet-1f),
+            smokePuff2 = new Effect(140, e -> {
+                color(Pal.darkerGray, Pal.darkestMetal, e.fout());
+                alpha(Interp.pow5In.apply(e.fout()));
+                randLenVectors(e.id, 7, 4f + 10f * Interp.pow2Out.apply(e.finpow()), (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fin() * 6f));
+                });
+            }).layer(Layer.bullet-1f),
+            spark1 = new Effect(10f, e -> {
+                color(Color.white, e.color, e.fin());
+                stroke(e.fout() * 1.1f + 0.2f);
+
+                randLenVectors(e.id, 4, e.fin(), 4f, (x, y) -> {
+                    lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 3f + 0.5f);
+                });
+            }),
+    shootSmoke1 = new Effect(30f, e -> {
                 color(Pal.lighterOrange, Color.valueOf("1f1c19"), Color.valueOf("0f0d0b"), e.fin());
 
                 randLenVectors(e.id, 7, e.finpow() * 14f, e.rotation, 24f, (x, y) -> {
@@ -1383,7 +1425,7 @@ public class AquaFx {
                 });
                 color(Color.white,Pal.lightishOrange, e.fin());
                 randLenVectors(e.id, 4, e.finpow() * 11f, e.rotation, 22f, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 1f);
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()));
                 });
             }),
             shootSmoke2 = new Effect(45f, e -> {
@@ -1394,7 +1436,7 @@ public class AquaFx {
                 });
             }),
             shootSmoke3 = new Effect(50f, e -> {
-                color(Pal.lighterOrange, Pal.lightishGray, Color.lightGray, Interp.pow2Out.apply(e.fin()));
+                color(Pal.lighterOrange, e.color, e.color, Interp.pow2Out.apply(e.fin()));
                 rand.setSeed(e.id+1);
                 randLenVectors(e.id, rand.random(5,9), Interp.pow2In.apply(e.finpow()) * 50f, e.rotation, 28f, (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, Interp.pow5Out.apply(e.fout()) * 4.5f);

@@ -131,6 +131,10 @@ public class TantrosTechTree {
                         new Objectives.OnSector(floodPlains),
                         new Objectives.Research(pelt)
                 ), () -> {
+                    node(armamentMounting, ()->{
+                        node(reinforcedFraming);
+                        node(UnitBlocks.regality);
+                    });
                     node(UnitBlocks.crest, () -> {
                         node(unitByte, () -> {
                             node(UnitBlocks.index, () -> {});

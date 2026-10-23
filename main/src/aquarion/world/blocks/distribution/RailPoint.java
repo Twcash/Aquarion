@@ -37,6 +37,7 @@ public class RailPoint extends Block{
     public boolean fourDirections;
     /** Smallest allowed bend radius, in world units. */
     public float minRadius = 16f;
+    //This is in tiles.
     public float trackWidth = 2f;
     public float railShadowX = -10f, railShadowY = -10f;
     public TextureRegion railRegion;

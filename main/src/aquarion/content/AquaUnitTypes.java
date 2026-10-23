@@ -21,6 +21,7 @@ import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.units.newTankUnitType;
+import aquarion.world.units.UnitDamageState;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -82,8 +83,8 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}, serialize = false) DefunctUnitType endure;
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify, maintainer;
     public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
-    public static @Annotations.EntityDef(value ={Unitc.class,  AquaLegsc.class}, serialize = false) AquaLegUnitType regality, rally, timmy;
-    public static MultiLegSegmentUnit mite;
+    public static @Annotations.EntityDef(value ={Unitc.class,  AquaLegsc.class}, serialize = false) AquaLegUnitType regality, voltaic, rally, timmy;
+    public static @Annotations.EntityDef(value = {Unitc.class, AquaLegsc.class}, serialize = false) AquaLegUnitType mite;
     public static UnitType visitor, mediumTruck, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
     public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType infantry, concussor, breaker, suppressor;
     public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType engineer;
@@ -188,7 +189,7 @@ public class AquaUnitTypes {
                     }}
             );
         }};
-        cull = new UnitType("cull") {{
+        cull = new DamageStateUnitType("cull") {{
             payloadCapacity = (2 * 2) * tilePayload;
             outlineColor = AquaPal.tantDarkerTone;
             lowAltitude = flying = coreUnitDock = true;
@@ -894,19 +895,38 @@ public class AquaUnitTypes {
 //                    }}, 10f, .4f) {{
 //                    }});
 //        }};
-        mite = new MultiLegSegmentUnit("mite"){{
-            constructor = LegsUnit::create;
+        mite = new AquaLegUnitType("mite"){{
+            stepEffectScale = 0.25f;
+            liquidStepEffectScale = 0.35f;
+            stepSound = Sounds.mechStepSmall;
+            damageState = new UnitDamageState(){{
+                firstEffect  = AquaFx.smokePuff1;
+                firstColor = Color.gray;
+                secondColor = Pal.lighterOrange;
+                firstChance = 0.08f;
+                secondChance = 0.04f;
+                firstPower = 2f;
+                secondPower = 3f;
+                radiusScale = 0.35f;
+            }};
             hitSize = 4;
+            bodySway = 0.1f;
+            bodySwayForward = 0.1f;
             speed = 0.9f;
-            legMoveSpace =1.6f;
-            legSegments = 1;
+            legMoveSpace =2f;
+            legSequence.addAll(
+                new AquaLegConfig(2.5f, 2.5f, -45f, 3f){{segments = 1;}},
+                new AquaLegConfig(-2.5f, 2.5f, 45f, 3f){{segments = 1;}},
+                new AquaLegConfig(2.5f, -2.5f, -135f, 3f){{segments = 1;}},
+                new AquaLegConfig(-2.5f, -2.5f, 135f, 3f){{segments = 1;}}
+            );
+            mechStepParticles = false;
             legContinuousMove = lockLegBase = true;
             drawCell = false;
             legLength = 4;
             legBaseOffset = 2.5f;
             faceTarget = true;
             legCount = 4;
-            mechStepParticles = false;
             outlineColor = AquaPal.tantDarkestTone;
             legGroupSize = 2;
             weapons.add(new Weapon("mite-weapon"){{
@@ -942,6 +962,16 @@ public class AquaUnitTypes {
             outlines = true;
             drawCell = false;
             outlineColor = AquaPal.tantDarkestTone;
+            damageState = new UnitDamageState(){{
+                firstEffect  = AquaFx.smokePuff2;
+                firstColor = Color.gray;
+                secondColor = Pal.lighterOrange;
+                firstChance = 0.08f;
+                secondChance = 0.04f;
+                firstPower = 2f;
+                secondPower = 3f;
+                radiusScale = 0.6f;
+            }};
             weapons.addAll(new Weapon("aquarion-bulwark-weapon") {{
                 rotate = true;
                 rotateSpeed = 1.3f;
@@ -1071,14 +1101,15 @@ public class AquaUnitTypes {
                 y = 0;
                 mirror = false;
                 rotate = false;
-                bullet = new BasicBulletType(2, 0, "aquarion-regality-missile-thing"){{
-                    splashDamageRadius = 120;
-                    splashDamage = 400;
-                    frontColor = backColor = Color.white;
-                    trailEffect = Fx.missileTrail;
+                bullet = new AquaBulletType(2, 0, "aquarion-regality-missile-thing"){{
+                    splashDamageRadius = 50;
+                    splashDamage = 200;
+                    frontColor = backColor = Color.valueOf("f3a155");
+                    //trailEffect = Fx.missileTrailSmokeSmall;
                     trailLength = 12;
-                    smokeEffect = Fx.shootSmokeMissile;
+                    smokeEffect = AquaFx.shootSmokeMissile1;
                     shootEffect = Fx.none;
+                    trailTailAlpha = 0;
                     shrinkX = shrinkY = 0;
                     trailInterval = 2;
                     homingPower = 0.01f;
@@ -1092,6 +1123,44 @@ public class AquaUnitTypes {
                 }};
             }});
 
+        }};
+        voltaic = new AquaLegUnitType("voltaic"){{
+            health = 3500;
+            armor = 20;
+            hitSize = 8 * 3f;
+            speed = 0.9f;
+            rotateSpeed = 1.2f;
+            baseRotateSpeed = 0.5f;
+            drawCell = false;
+            strafePenalty = 0.8f;
+            shadowElevation = 0.5f;
+            outlineColor = AquaPal.tantDarkestTone;
+            legLengthScl = 1;
+            legMoveSpace = 2.8f;
+            lockLegBase = true;
+            legBaseUnder = true;
+            stepSound = Sounds.mechStep;
+            allowLegStep = true;
+            legGroupSize = 1;
+            groundLayer = Layer.legUnit + 1;
+            legSequence.addAll(
+                    new AquaLegConfig(70 / 4f / 2f, -60 / 2f / 4f, -30f, 22){{segments = 5;this.legExtension = 5f;}},
+                    new AquaLegConfig(-70 / 2f / 4f, -60 / 2f / 4f, 30f, 22){{segments = 5;this.legExtension = 5f;}},
+                    new AquaLegConfig(0,-4, 180f, 22){{segments = 5;this.legExtension = 5f;}}
+            );
+            weapons.addAll(new Weapon("voltaic-weapon"){{
+                rotate = false; mirror = false;
+                x = -43/4f;
+                shoot.shotDelay = 2;
+                shoot.shots = 10;
+                reload = 90;
+                shootSound = Sounds.shootArc;
+                bullet = new LightningBulletType(){{
+                    damage = 10;
+                    lightningLength = 20;
+                    lightningAngle = 15;
+                }};
+            }});
         }};
         pillage = new AquaUnitType("pillage") {{
             constructor = LegsUnit::create;
@@ -1111,6 +1180,16 @@ public class AquaUnitTypes {
             legMinLength = 0.8f;
             legStraightLength = 0.9f;
             legStraightness = 0.4f;
+            damageState = new UnitDamageState(){{
+                firstEffect  = AquaFx.smokePuff2;
+                firstColor = Color.gray;
+                secondColor = Pal.lighterOrange;
+                firstChance = 0.08f;
+                secondChance = 0.04f;
+                firstPower = 2f;
+                secondPower = 3f;
+                radiusScale = 0.6f;
+            }};
             weapons.add(new Weapon("aquarion-pillage-weapon") {{
                 mirror = false;
                 x = 0;
@@ -1169,6 +1248,16 @@ public class AquaUnitTypes {
                 reload = 120;
                 shoot.shots = 2;
                 shootSound = Sounds.shootArc;
+                damageState = new UnitDamageState(){{
+                    firstEffect  = AquaFx.smokePuff2;
+                    firstColor = Color.gray;
+                    secondColor = Pal.lighterOrange;
+                    firstChance = 0.08f;
+                    secondChance = 0.04f;
+                    firstPower = 2f;
+                    secondPower = 3f;
+                    radiusScale = 0.6f;
+                }};
                 bullet = new LightningBulletType() {{
                     lightningColor = hitColor = Pal.techBlue;
                     damage = 25f;
@@ -1245,6 +1334,16 @@ public class AquaUnitTypes {
             drawCell = false;
             allDatabaseTabs = true;
             outlineColor = AquaPal.tantDarkestTone;
+            damageState = new UnitDamageState(){{
+                firstEffect  = AquaFx.smokePuff2;
+                firstColor = Color.gray;
+                secondColor = Pal.lighterOrange;
+                firstChance = 0.08f;
+                secondChance = 0.04f;
+                firstPower = 2f;
+                secondPower = 3f;
+                radiusScale = 0.6f;
+            }};
             weapons.addAll(new Weapon("aquarion-rampart-weapon") {{
                 rotate = false;
                 mirror = false;
@@ -1299,6 +1398,16 @@ public class AquaUnitTypes {
             legLengthScl = 0.95f;
             legForwardScl = 0.75f;
             legMoveSpace = 1.2f;
+            damageState = new UnitDamageState(){{
+                firstEffect  = AquaFx.smokePuff2;
+                firstColor = Color.gray;
+                secondColor = Pal.lighterOrange;
+                firstChance = 0.08f;
+                secondChance = 0.04f;
+                firstPower = 2f;
+                secondPower = 3f;
+                radiusScale = 0.6f;
+            }};
             weapons.addAll(new Weapon("aquarion-pugnate-weapon") {{
                 rotate = true;
                 rotateSpeed = 0.9f;
@@ -1346,6 +1455,16 @@ public class AquaUnitTypes {
             outlines = true;
             drawCell = false;
             outlineColor = AquaPal.tantDarkestTone;
+            damageState = new UnitDamageState(){{
+                firstEffect  = AquaFx.smokePuff2;
+                firstColor = Color.gray;
+                secondColor = Pal.lighterOrange;
+                firstChance = 0.08f;
+                secondChance = 0.04f;
+                firstPower = 2f;
+                secondPower = 3f;
+                radiusScale = 0.6f;
+            }};
             weapons.addAll(new Weapon("aquarion-crest-weapon") {{
                 rotate = true;
                 rotateSpeed = 0.9f;
@@ -1391,6 +1510,16 @@ public class AquaUnitTypes {
             outlines = true;
             drawCell = false;
             outlineColor = AquaPal.tantDarkestTone;
+            damageState = new UnitDamageState(){{
+                firstEffect  = AquaFx.smokePuff2;
+                firstColor = Color.gray;
+                secondColor = Pal.lighterOrange;
+                firstChance = 0.08f;
+                secondChance = 0.04f;
+                firstPower = 2f;
+                secondPower = 3f;
+                radiusScale = 0.6f;
+            }};
             weapons.add(new RepairBeamWeapon() {{
                 widthSinMag = 0.12f;
                 reload = 20f;
@@ -1788,7 +1917,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        index = new UnitType("index") {{
+        index = new AquaUnitType("index") {{
             flying = true;
             flyingLayer = Layer.flyingUnitLow;
             speed = 2f;
@@ -1806,6 +1935,16 @@ public class AquaUnitTypes {
             engineOffset = 8;
             engineSize = 2f;
             omniMovement = false;
+            damageState = new UnitDamageState(){{
+                firstEffect  = AquaFx.smokePuff2;
+                firstColor = Color.gray;
+                secondColor = Pal.lighterOrange;
+                firstChance = 0.08f;
+                secondChance = 0.04f;
+                firstPower = 2f;
+                secondPower = 3f;
+                radiusScale = 0.6f;
+            }};
             /*setEnginesMirror(
                     new UnitEngine(5, -6, 2f, -45f)
             );*/

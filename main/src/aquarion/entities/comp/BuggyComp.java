@@ -1,5 +1,7 @@
 package aquarion.entities.comp;
 
+import aquarion.gen.AquaUnitc;
+
 import aquarion.annotations.Annotations.*;
 import aquarion.units.type.BuggyUnitType;
 import aquarion.world.units.BuggyCollision;
@@ -15,7 +17,7 @@ import static mindustry.Vars.*;
 
 /** Steering, signed wheel travel, and momentum live on the unit through controller changes. */
 @EntityComponent
-abstract class BuggyComp implements Unitc, ElevationMovec{
+abstract class BuggyComp implements AquaUnitc, ElevationMovec{
     @Import UnitType type;
     @Import float x, y, rotation;
     @Import Vec2 vel;

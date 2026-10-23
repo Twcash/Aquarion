@@ -72,8 +72,8 @@ public class PayloadCentrifuge extends PayloadBlock {
                 }
                 table.table(Styles.grayPanel, recipe -> {
                     recipe.left();
-                    recipe.image(mix.uiIcon).size(40).pad(10f)
-                        .with(image -> StatValues.withTooltip(image, mix));
+                    recipe.image(mix.uiIcon).size(40).pad(10f).left()
+                        .with(image -> StatValues.withTooltip(image, mix)).left();
                     recipe.add("4x " + mix.localizedName + "\n[lightgray]" + Strings.autoFixed(4f * 60f / processTime, 3) + "/s")
                         .left().padRight(10f);
                     recipe.row();

@@ -1,5 +1,7 @@
 package aquarion.entities.comp;
 
+import aquarion.gen.AquaUnitc;
+
 import aquarion.annotations.Annotations;
 import aquarion.annotations.Annotations.*;
 import aquarion.world.AI.GerbRole;
@@ -14,7 +16,7 @@ import mindustry.gen.Unitc;
  * survives when the brain swaps controllers.
  */
 @EntityComponent
-abstract class GerbComp implements Unitc, Legsc {
+abstract class GerbComp implements AquaUnitc, Legsc {
     /** Per-unit personality, 0 (timid) to 1 (bold); rolled once per spawn. */
     public transient float personality = 0f;
     /** Current tactical role; the brain picks the controller to match. */

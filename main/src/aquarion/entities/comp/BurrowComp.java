@@ -1,5 +1,7 @@
 package aquarion.entities.comp;
 
+import aquarion.gen.AquaUnitc;
+
 import aquarion.annotations.Annotations.*;
 import aquarion.gen.BurrowUnit;
 import aquarion.units.type.BurrowUnitType;
@@ -22,7 +24,7 @@ import mindustry.type.UnitType;
 import static mindustry.Vars.*;
 
 @EntityComponent
-abstract class BurrowComp implements Unitc, ElevationMovec{
+abstract class BurrowComp implements AquaUnitc, ElevationMovec{
     @Import UnitType type;
     @Import float x, y, rotation, health, maxHealth, hitTime, armor, armorOverride, healthMultiplier;
     @Import Vec2 vel;

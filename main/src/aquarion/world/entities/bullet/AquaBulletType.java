@@ -1,6 +1,8 @@
 package aquarion.world.entities.bullet;
 
 import arc.Events;
+import arc.graphics.Color;
+import aquarion.world.graphics.StyledTrail;
 import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
 import arc.struct.ObjectMap;
@@ -20,6 +22,28 @@ import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
 public class AquaBulletType extends BasicBulletType {
+    /** Same gradient and wave settings as AquaUnitType's trails. */
+    public Color trailTailColor;
+    public float trailTailAlpha = 0f;
+    public float trailWaveAmplitude = 0f;
+    public float trailWaveScale = 12f;
+    public float trailWaveCycles = 2f;
+    public float trailWavePhase = 0f;
+
+    @Override
+    public void updateTrail(Bullet bullet){
+        if(!mindustry.Vars.headless && trailLength > 0){
+            if(!(bullet.trail instanceof StyledTrail)) bullet.trail = new StyledTrail(trailLength);
+            StyledTrail trail = (StyledTrail)bullet.trail;
+            trail.tailColor = trailTailColor;
+            trail.tailAlpha = trailTailAlpha;
+            trail.waveAmplitude = trailWaveAmplitude;
+            trail.waveScale = trailWaveScale;
+            trail.waveCycles = trailWaveCycles;
+            trail.wavePhase = bullet.id * 0.37f + trailWavePhase;
+        }
+        super.updateTrail(bullet);
+    }
 
     public AquaBulletType(float speed, float damage, String bulletSprite){
         super(speed, damage);

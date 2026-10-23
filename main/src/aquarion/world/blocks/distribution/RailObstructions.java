@@ -6,6 +6,7 @@ import arc.struct.Seq;
 import mindustry.gen.Building;
 import mindustry.gen.Groups;
 import mindustry.world.Tile;
+import mindustry.world.blocks.environment.Cliff;
 
 import static mindustry.Vars.*;
 
@@ -82,7 +83,7 @@ final class RailObstructions{
                 for(int ty = minY; ty <= maxY; ty++){
                     Tile tile = world.tile(tx, ty);
                     if(tile == null) return false;
-                    boolean wall = tile.block().isStatic() && tile.block().solid;
+                    boolean wall = tile.block().isStatic() && tile.block().solid && !(tile.block() instanceof Cliff);
                     boolean node = tile.block() instanceof RailPoint;
                     if(node){
                         float nx = tile.build == null ? tx * tilesize : tile.build.x;
