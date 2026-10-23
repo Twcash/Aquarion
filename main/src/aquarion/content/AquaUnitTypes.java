@@ -77,7 +77,7 @@ public class AquaUnitTypes {
     public static UnitType frost, rime, verglas, glaciate, permafrost;
     public static UnitType cog, tenon, assembly, fabricant;
     //malis
-    public static UnitType pawn, bishop, rook;
+    public static UnitType pawn, bishop, rook, malisKnight;
     public static @Annotations.EntityDef(value = {Unitc.class, JetUnitc.class}, serialize = false) UnitType martyr;
     public static @Annotations.EntityDef(value = {Unitc.class, DialogueUnitc.class, LegsUnit.class}, serialize = false) DefunctUnitType endure;
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify, maintainer;
@@ -4785,6 +4785,129 @@ public class AquaUnitTypes {
                 width = 4f;
                 whenShooting = false;
                 chanceDeflect = 0f;
+            }});
+        }};
+        malisKnight = new ErekirUnitType("malis-knight"){{
+            constructor = UnitWaterMove::create;
+            speed = 1.1f;
+            drag = 0.15f;
+            hitSize = 32f;
+            health = 12000;
+            armor = 15f;
+            accel = 0.35f;
+            rotateSpeed = 3.3f;
+            faceTarget = false;
+            trailLength = 15;
+            waveTrailX = 5f;
+            trailScl = 1.6f;
+            moveSoundVolume = 0.5f;
+            moveSound = Sounds.shipMove;
+            immunities.add(StatusEffects.burning);
+            immunities.add(StatusEffects.melting);
+            weapons.add(new Weapon("aquarion-malis-knight-side-gun"){{
+                reload = 25f;
+                x = 11;
+                y = 8;
+                mirror = true;
+                alternate = false;
+                rotate = true;
+                inaccuracy = 2f;
+                rotateSpeed = 2f;
+                shake = 1.5f;
+                outlines = true;
+                ejectEffect = Fx.casing2;
+                shootSound = Sounds.shootArtillerySmall;
+                bullet = new ArtilleryBulletType(3f, 20, "aquarion-shell"){{
+                    frontColor = Color.valueOf("d3ffe8");
+                    backColor = Color.valueOf("5ec1bf");
+                    hitEffect = Fx.flakExplosion;
+                    trailColor = Color.valueOf("d3ffe8");
+                    knockback = 0.8f;
+                    lifetime = 73.5f;
+                    width = height = 8f;
+                    collidesTiles = false;
+                    splashDamageRadius = 30f * 0.75f;
+                    splashDamage = 60f;
+                }};
+            }});
+            weapons.add(new Weapon("aquarion-malis-knight-gun"){{
+                minWarmup = 0.5f;
+                cooldownTime = 50f;
+                reload = 150f;
+                x = 0;
+                y = -3;
+                mirror = false;
+                rotate = true;
+                inaccuracy = 2f;
+                rotateSpeed = 2f;
+                shake = 1.5f;
+                outlines = true;
+                ejectEffect = Fx.casing3;
+                shootSound = Sounds.shootArtillery;
+                bullet = new ArtilleryBulletType(3f, 20, "aquarion-star-bullet"){{
+                    hitEffect = despawnEffect = Fx.explosion;
+                    frontColor = Color.valueOf("d3ffe8");
+                    backColor = Color.valueOf("5ec1bf");
+                    hitEffect = Fx.flakExplosion;
+                    trailColor = Color.valueOf("d3ffe8");
+                    knockback = 0.8f;
+                    lifetime = 73.5f;
+                    width = height = 18f;
+                    collidesTiles = false;
+                    splashDamageRadius = 48;
+                    splashDamage = 160f;
+                    fragRandomSpread = 0;
+                    fragSpread = 90;
+                    fragBullets = 4;
+                    fragBullet = new BasicBulletType() {{
+                        hitEffect = despawnEffect = Fx.explosion;
+                        frontColor = Color.valueOf("d3ffe8");
+                        backColor = Color.valueOf("5ec1bf");
+                        splashDamage = 80f;
+                        splashDamageRadius = 24f;
+                        speed = 2f;
+                        lifetime = 18f;
+                        sprite = "aquarion-long-bullet";
+                        fragRandomSpread = 0;
+                        fragSpread = 120;
+                        fragBullets = 3;
+                        width = height = 14f;
+                        fragBullet = new BasicBulletType() {{
+                            frontColor = Color.valueOf("d3ffe8");
+                            backColor = Color.valueOf("5ec1bf");
+                            splashDamage = 15f;
+                            splashDamageRadius = 12f;
+                            speed = 2f;
+                            lifetime = 12f;
+                            sprite = "aquarion-shrapnel";
+                            width = height = 10f;
+                        }};
+                    }};
+                }};
+                /*parts.add(new RegionPart("-blade-2") {{
+                    rotation = -15f;
+                    mirror = true;
+                    x = 9.25f;
+                    y = -12f;
+                    progress = PartProgress.warmup.blend(PartProgress.reload, 0.3f);
+                    outline = true;
+                    outlineColor = Pal.darkOutline;
+                    moveRot = -20f;
+                    rotateSpeed = 0.5f;
+                    layerOffset = 0.05f;
+                }});*/
+                parts.add(new RegionPart("-blade-1") {{
+                    rotation = -10f;
+                    mirror = true;
+                    x = 8f;
+                    y = -6f;
+                    progress = PartProgress.warmup.blend(PartProgress.reload, 0.3f);
+                    outline = true;
+                    outlineColor = Pal.darkOutline;
+                    moveRot = -15f;
+                    rotateSpeed = 0.5f;
+                    layerOffset = 0.1f;
+                }});
             }});
         }};
     }}

@@ -38,7 +38,10 @@ public class Author {
                 new Author("kapzduke", "aquarion.menu.desc_kapzduke", "https://github.com/kapzduke", "kapzduke", Icon.players, true),
                 new Author("camelStyleUser", "aquarion.menu.desc_camelStyleUser", "https://github.com/camelStyleUser", "camelStyleUser", Icon.players, true),
                 new Author("Henan-CN-0921", "aquarion.menu.desc_Henan-CN-0921", "https://github.com/Henan-CN-0921", "Henan-CN-0921", Icon.players, true),
-                new Author("Norax", "aquarion.menu.desc_Norax", "https://github.com/Noraxx1", "Norax", Icon.players, true)
+                new Author("Norax", "aquarion.menu.desc_Norax", "https://github.com/Noraxx1", "Norax", Icon.players, true),
+                new Author("Lordshen", "aquarion.menu.desc_Norax", "", "", Icon.players, false),
+                new Author("cattomancer", "aquarion.menu.desc_Norax", "", "", Icon.players, false),
+                new Author("ashes", "aquarion.menu.desc_Norax", "", "", Icon.players, false)
         );
     }
 }

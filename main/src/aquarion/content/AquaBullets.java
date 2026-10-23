@@ -1613,6 +1613,7 @@ public class AquaBullets {
                     speed = 5f;
                     lifetime = 12f;
                     sprite = "aquarion-long-bullet";
+                    collidesGround = false;
                 }};
             }},
             javelinGraphite = new BasicBulletType() {{
