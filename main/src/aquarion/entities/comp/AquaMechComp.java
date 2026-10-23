@@ -1,5 +1,7 @@
 package aquarion.entities.comp;
 
+import aquarion.gen.AquaUnitc;
+
 import aquarion.annotations.Annotations.*;
 import arc.math.Angles;
 import arc.math.geom.Vec2;
@@ -15,7 +17,7 @@ import mindustry.type.UnitType;
  * instead of planting the feet stiffly like the vanilla mech base does.
  */
 @EntityComponent
-abstract class AquaMechComp implements Unitc, Mechc {
+abstract class AquaMechComp implements AquaUnitc, Mechc {
     @Import
     float rotation, baseRotation;
     @Import

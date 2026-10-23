@@ -1,5 +1,7 @@
 package aquarion.entities.comp;
 
+import aquarion.gen.AquaUnitc;
+
 import aquarion.annotations.Annotations.*;
 import aquarion.units.type.AquaUnitType;
 import aquarion.world.units.AmphibiousPathfinder;
@@ -21,7 +23,7 @@ import static mindustry.Vars.*;
 
 /** Naval movement in liquid, with serialized/synchronized discrete hops on dry ground. */
 @EntityComponent
-abstract class AmphibiousComp implements Unitc, WaterMovec {
+abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
     @Import UnitType type;
     @Import float x, y, rotation, speedMultiplier, elevation;
     @Import boolean wasFlying;

@@ -42,6 +42,15 @@ public class AquaFx {
     public static final Rand rand = new Rand();
     public static final Vec2 v = new Vec2();
 
+    /** Rotation is the size multiplier, including the individual particles. */
+    public static final Effect legStepDust = new Effect(30f, e -> {
+        float size = Math.max(0f, e.rotation);
+        color(Tmp.c1.set(e.color).mul(1.1f));
+        randLenVectors(e.id, Math.max(1, (int)(6 * size)), 12f * e.finpow() * size, (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, (e.fout() * 3f + 0.1f) * size);
+        });
+    }).layer(Layer.debris);
+
     public static final Effect mechFootprint = new Effect(180f, 160f, e -> {
         if(!(e.data instanceof TextureRegion foot) || !foot.found()) return;
         Draw.color(Color.white);
@@ -1386,7 +1395,22 @@ public class AquaFx {
                     });
                 }
             }),
+            smokePuff1 = new Effect(45, e -> {
+                color(Pal.darkerGray, Pal.darkestMetal, e.fout());
+                //alpha(Interp.pow5In.apply(e.fout()));
+                randLenVectors(e.id, 6, 4f + 15f * e.finpow(), (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 3f);
+                    Fill.circle(e.x + x / 2f, e.y + y / 2f, e.fout());
+                });
+            }),
+            spark1 = new Effect(10f, e -> {
+                color(Color.white, e.color, e.fin());
+                stroke(e.fout() * 1.1f + 0.5f);
 
+                randLenVectors(e.id, 9, 1f * e.fin(), 4f, (x, y) -> {
+                    lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 3f + 0.5f);
+                });
+            }),
     shootSmoke1 = new Effect(30f, e -> {
                 color(Pal.lighterOrange, Color.valueOf("1f1c19"), Color.valueOf("0f0d0b"), e.fin());
 
@@ -1395,7 +1419,7 @@ public class AquaFx {
                 });
                 color(Color.white,Pal.lightishOrange, e.fin());
                 randLenVectors(e.id, 4, e.finpow() * 11f, e.rotation, 22f, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 1f);
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()));
                 });
             }),
             shootSmoke2 = new Effect(45f, e -> {

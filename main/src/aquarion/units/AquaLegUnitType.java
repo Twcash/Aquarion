@@ -34,7 +34,7 @@ import mindustry.type.UnitType;
 
 import static arc.graphics.g2d.Draw.xscl;
 
-public class AquaLegUnitType extends UnitType {
+public class AquaLegUnitType extends aquarion.units.type.DamageStateUnitType {
     public Seq<AquaLegConfig> legSequence = new Seq();
     private static final Vec2 legOffset = new Vec2();
     public AquaLegUnitType(String name) {
@@ -51,6 +51,19 @@ public class AquaLegUnitType extends UnitType {
     /** Sway cycle length relative to the leg step distance; larger values sway slower. */
     public float bodySwayScale = 1f;
     public Effect footprintEffect = AquaFx.mechFootprint;
+    /** Ground contact particles. Null or Fx.none disables them. */
+    public Effect stepEffect = AquaFx.legStepDust;
+    /** Passed as effect rotation/size; the default dust scales both spread and particle size. */
+    public float stepEffectScale = 0.5f;
+    /** Null uses the floor's walk effect; Fx.none disables liquid contact particles. */
+    public Effect liquidStepEffect;
+    public float liquidStepEffectScale = 1f;
+
+    public void emitFootstep(float x, float y, mindustry.world.blocks.environment.Floor floor){
+        Effect effect = floor.isLiquid ? (liquidStepEffect == null ? floor.walkEffect : liquidStepEffect) : stepEffect;
+        float scale = rippleScale * (floor.isLiquid ? liquidStepEffectScale : stepEffectScale);
+        if(effect != null && scale > 0f) effect.at(x, y, scale, floor.mapColor);
+    }
 
     @Override
     public void draw(Unit unit){
@@ -127,7 +140,26 @@ public class AquaLegUnitType extends UnitType {
                 Draw.mixcol(Tmp.c3, Tmp.c3.a);
                 Draw.color();
             }
-            if(legBaseUnder){
+            if(cfg.segments == 1){
+                TextureRegion section = cfg.segmentRegions[0];
+                if(section != null && section.found() && position.dst2(leg.base) > 0.000001f){
+                    Lines.stroke(section.height * section.scl() * flips);
+                    Lines.line(section, position.x, position.y, leg.base.x, leg.base.y, false);
+                }
+            }else if(leg instanceof aquarion.world.entities.SegmentedAquaLeg segmented){
+                for(int s = 0; s < segmented.points.length - 1; s++){
+                    int index = legBaseUnder ? segmented.points.length - 2 - s : s;
+                    TextureRegion section = cfg.segmentRegions[index];
+                    Vec2 from = segmented.points[index], to = segmented.points[index + 1];
+                    if(section != null && section.found()){
+                        Lines.stroke(section.height * section.scl() * flips);
+                        Lines.line(section, from.x, from.y, to.x, to.y, false);
+                    }
+                    if(index > 0 && cfg.jointRegion != null && cfg.jointRegion.found()){
+                        Draw.rect(cfg.jointRegion, from.x, from.y);
+                    }
+                }
+            }else if(legBaseUnder){
                 if(cfg.legBaseRegion != null && cfg.legBaseRegion.found()){
                     Lines.stroke(cfg.legBaseRegion.height * cfg.legRegion.scl() * flips);
                     Lines.line(cfg.legBaseRegion, leg.joint.x + Tmp.v1.x, leg.joint.y + Tmp.v1.y, leg.base.x, leg.base.y, false);
@@ -146,7 +178,7 @@ public class AquaLegUnitType extends UnitType {
                     Lines.line(cfg.legBaseRegion, leg.joint.x + Tmp.v1.x, leg.joint.y + Tmp.v1.y, leg.base.x, leg.base.y, false);
                 }
             }
-            if(cfg.jointRegion != null && cfg.jointRegion.found()){
+            if(cfg.segments > 1 && !(leg instanceof aquarion.world.entities.SegmentedAquaLeg) && cfg.jointRegion != null && cfg.jointRegion.found()){
                 Draw.rect(cfg.jointRegion, leg.joint.x, leg.joint.y);
             }
         }
@@ -200,6 +232,7 @@ public class AquaLegUnitType extends UnitType {
             outlineLegRegion(packer, cfg.legBaseRegion);
             outlineLegRegion(packer, cfg.jointRegion);
             outlineLegRegion(packer, cfg.baseJointRegion);
+            if(cfg.segmentRegions != null) for(TextureRegion section : cfg.segmentRegions) outlineLegRegion(packer, section);
         }
     }
 
@@ -215,6 +248,7 @@ public class AquaLegUnitType extends UnitType {
         shadowRegion = region;
 
         for(AquaLegConfig cfg : legSequence){
+            if(cfg.segments < 1) throw new IllegalArgumentException(name + ": leg segments must be positive");
             if(cfg.suffix != null){
                 cfg.footRegion = Core.atlas.find(name + "-foot" + cfg.suffix, footRegion);
                 cfg.legRegion = Core.atlas.find(name + "-leg" + cfg.suffix, legRegion);
@@ -229,6 +263,11 @@ public class AquaLegUnitType extends UnitType {
                 cfg.legBaseRegion = legBaseRegion;
                 cfg.jointRegion = jointRegion;
                 cfg.baseJointRegion = baseJointRegion;
+            }
+            cfg.segmentRegions = new TextureRegion[cfg.segments];
+            for(int i = 0; i < cfg.segments; i++){
+                TextureRegion fallback = i == cfg.segments - 1 ? cfg.legBaseRegion : cfg.legRegion;
+                cfg.segmentRegions[i] = Core.atlas.find(name + "-leg-" + (i + 1) + (cfg.suffix == null ? "" : cfg.suffix), fallback);
             }
         }
     }

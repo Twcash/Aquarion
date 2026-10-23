@@ -175,6 +175,7 @@ public class AquaLoader extends Mod {
         AquarionMod.loadContent();
         AquaLoader.postLoad();
         aquarionEntityMapping.init();
+        aquarion.world.units.AquaPlayerUnits.init();
     }
 
     public static Mods.LoadedMod mod(){

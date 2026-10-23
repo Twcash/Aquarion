@@ -1,5 +1,7 @@
 package aquarion.entities.comp;
 
+import aquarion.gen.AquaUnitc;
+
 import aquarion.annotations.Annotations;
 import aquarion.annotations.Annotations.*;
 import arc.graphics.g2d.Draw;
@@ -21,7 +23,7 @@ import mindustry.type.UnitType;
 import mindustry.world.Tile;
 
 @Annotations.EntityComponent
-abstract class JetUnitComp implements Unitc {
+abstract class JetUnitComp implements AquaUnitc {
     @Import
     float x, y, hitSize, rotation;
     @Import

@@ -21,6 +21,7 @@ import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.units.newTankUnitType;
+import aquarion.world.units.UnitDamageState;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -83,7 +84,7 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify, maintainer;
     public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
     public static @Annotations.EntityDef(value ={Unitc.class,  AquaLegsc.class}, serialize = false) AquaLegUnitType regality, rally, timmy;
-    public static MultiLegSegmentUnit mite;
+    public static @Annotations.EntityDef(value = {Unitc.class, AquaLegsc.class}, serialize = false) AquaLegUnitType mite;
     public static UnitType visitor, mediumTruck, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
     public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType infantry, concussor, breaker, suppressor;
     public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType engineer;
@@ -188,7 +189,7 @@ public class AquaUnitTypes {
                     }}
             );
         }};
-        cull = new UnitType("cull") {{
+        cull = new DamageStateUnitType("cull") {{
             payloadCapacity = (2 * 2) * tilePayload;
             outlineColor = AquaPal.tantDarkerTone;
             lowAltitude = flying = coreUnitDock = true;
@@ -894,19 +895,37 @@ public class AquaUnitTypes {
 //                    }}, 10f, .4f) {{
 //                    }});
 //        }};
-        mite = new MultiLegSegmentUnit("mite"){{
-            constructor = LegsUnit::create;
+        mite = new AquaLegUnitType("mite"){{
+            stepEffectScale = 0.25f;
+            liquidStepEffectScale = 0.35f;
+            damageState = new UnitDamageState(){{
+                firstEffect  = AquaFx.smokePuff1;
+                firstColor = Color.gray;
+                secondColor = Pal.lighterOrange;
+                firstChance = 0.08f;
+                secondChance = 0.04f;
+                firstPower = 2f;
+                secondPower = 3f;
+                radiusScale = 0.35f;
+            }};
             hitSize = 4;
+            bodySway = 0.1f;
+            bodySwayForward = 0.1f;
             speed = 0.9f;
-            legMoveSpace =1.6f;
-            legSegments = 1;
+            legMoveSpace =2f;
+            legSequence.addAll(
+                new AquaLegConfig(2.5f, 2.5f, -45f, 3f){{segments = 1;}},
+                new AquaLegConfig(-2.5f, 2.5f, 45f, 3f){{segments = 1;}},
+                new AquaLegConfig(2.5f, -2.5f, -135f, 3f){{segments = 1;}},
+                new AquaLegConfig(-2.5f, -2.5f, 135f, 3f){{segments = 1;}}
+            );
+            mechStepParticles = false;
             legContinuousMove = lockLegBase = true;
             drawCell = false;
             legLength = 4;
             legBaseOffset = 2.5f;
             faceTarget = true;
             legCount = 4;
-            mechStepParticles = false;
             outlineColor = AquaPal.tantDarkestTone;
             legGroupSize = 2;
             weapons.add(new Weapon("mite-weapon"){{

@@ -20,7 +20,7 @@ import mindustry.graphics.MultiPacker;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 
-public class MultiLegSegmentUnit extends UnitType {
+public class MultiLegSegmentUnit extends aquarion.units.type.DamageStateUnitType {
     private static final Vec2 legOffset = new Vec2();
     public int legSegments = 5;
     public float segmentLength = 15f;
