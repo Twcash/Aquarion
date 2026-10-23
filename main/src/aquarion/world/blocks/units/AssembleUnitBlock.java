@@ -215,7 +215,7 @@ public class AssembleUnitBlock extends Block {
     }
     @Override
     public TextureRegion[] icons(){
-        return new TextureRegion[]{ unit.fullIcon};
+        return new TextureRegion[]{ unit.fullIcon, inactiveRegion};
     }
     @Override
     public boolean outputsItems(){

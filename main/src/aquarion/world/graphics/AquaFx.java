@@ -1395,19 +1395,25 @@ public class AquaFx {
                     });
                 }
             }),
-            smokePuff1 = new Effect(45, e -> {
+            smokePuff1 = new Effect(120, e -> {
                 color(Pal.darkerGray, Pal.darkestMetal, e.fout());
-                //alpha(Interp.pow5In.apply(e.fout()));
-                randLenVectors(e.id, 6, 4f + 15f * e.finpow(), (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, e.fout() * 3f);
-                    Fill.circle(e.x + x / 2f, e.y + y / 2f, e.fout());
+                alpha(Interp.pow5In.apply(e.fout()));
+                randLenVectors(e.id, 6, 4f + 8f * Interp.pow2Out.apply(e.finpow()), (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fin() * 3f));
                 });
-            }),
+            }).layer(Layer.bullet-1f),
+            smokePuff2 = new Effect(140, e -> {
+                color(Pal.darkerGray, Pal.darkestMetal, e.fout());
+                alpha(Interp.pow5In.apply(e.fout()));
+                randLenVectors(e.id, 7, 4f + 10f * Interp.pow2Out.apply(e.finpow()), (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fin() * 6f));
+                });
+            }).layer(Layer.bullet-1f),
             spark1 = new Effect(10f, e -> {
                 color(Color.white, e.color, e.fin());
-                stroke(e.fout() * 1.1f + 0.5f);
+                stroke(e.fout() * 1.1f + 0.2f);
 
-                randLenVectors(e.id, 9, 1f * e.fin(), 4f, (x, y) -> {
+                randLenVectors(e.id, 4, e.fin(), 4f, (x, y) -> {
                     lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 3f + 0.5f);
                 });
             }),
