@@ -2,12 +2,17 @@ package aquarion.world.blocks.production;
 
 import aquarion.content.AquaItems;
 import aquarion.content.AquaLiquids;
+import aquarion.world.consumers.AquaConsume;
 import aquarion.world.type.AquaGenericCrafter;
 import arc.math.Mathf;
 import arc.struct.Seq;
 import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.type.Item;
 import mindustry.type.LiquidStack;
+import mindustry.world.consumers.Consume;
+import mindustry.world.consumers.ConsumeLiquid;
+import mindustry.world.consumers.ConsumeLiquids;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatValues;
 
@@ -20,7 +25,13 @@ import mindustry.world.meta.StatValues;
  *   drop(Items.copper, 10, 5, 15);   // предмет, шанс (вес), от и до
  */
 public class Filter extends AquaGenericCrafter {
-    /** Сколько очищенной воды выдаётся в секунду. */
+    /**
+     * Сколько очищенной воды выдаётся на 1 единицу входной воды.
+     * 1 = вошло 50, вышло 50. 0.5 = вошло 100, вышло 50. Работает, если задан consumeLiquid(water, ...).
+     */
+    public float clearwaterRatio = 1f;
+
+    /** Запасное значение (в секунду), если входную воду найти не удалось. */
     public float outputLiquidAmount = 6.0f;
 
     /** Сколько бросков (выпадений) за один цикл. */
@@ -91,8 +102,40 @@ public class Filter extends AquaGenericCrafter {
 
         super.init();
 
+        // Выход очищенной воды = вход воды * clearwaterRatio.
+        // Фактический выход дальше сам масштабируется эффективностью (то есть тем, сколько воды реально подаётся).
+        float waterIn = findWaterInput();
+        if (waterIn > 0f && outputLiquids != null && outputLiquids.length > 0) {
+            outputLiquids[0].amount = waterIn * clearwaterRatio;
+        }
+
         // AquaGenericCrafter.init() принудительно ставит свой buildType, возвращаем FilterBuild.
         buildType = FilterBuild::new;
+    }
+
+    /** Находит расход входной воды (за тик) среди потребителей блока. */
+    private float findWaterInput() {
+        float best = 0f;
+        for (Consume c : consumers) {
+            if (c instanceof AquaConsume ac) {
+                for (AquaConsume.Entry e : ac.entries) {
+                    best = Math.max(best, waterAmount(e.consumer));
+                }
+            } else {
+                best = Math.max(best, waterAmount(c));
+            }
+        }
+        return best;
+    }
+
+    private float waterAmount(Consume c) {
+        if (c instanceof ConsumeLiquid cl && cl.liquid == Liquids.water) return cl.amount;
+        if (c instanceof ConsumeLiquids cls) {
+            for (LiquidStack ls : cls.liquids) {
+                if (ls.liquid == Liquids.water) return ls.amount;
+            }
+        }
+        return 0f;
     }
 
     @Override
