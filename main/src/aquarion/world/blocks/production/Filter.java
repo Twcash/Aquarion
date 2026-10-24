@@ -37,9 +37,7 @@ public class Filter extends AquaGenericCrafter {
 
         itemCapacity = 40;
         liquidCapacity = 60f;
-
-        // Предметы не должны зависеть от того, полна ли очищенная вода.
-        ignoreLiquidFullness = true;
+        
     }
 
     @Override
