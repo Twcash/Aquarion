@@ -2083,40 +2083,39 @@ public class CrafterBlocks {
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
             r.consumeItems(ItemStack.with(sporePod, 1));
             r.craftTime = 60;
-        });
+        }); 
 
         filter = new Filter("filter") {{
             requirements(Category.crafting, with(copper, 500, ferricMatter, 250, silicon, 600, aluminum, 250));
-
             buildTime = 2200f;
-            health = 200;
-            craftTime = 600;
             size = 7;
-            itemCapacity = 20;
-            liquidCapacity = 300f;
-            consumePower(2.0f);
-            consume(new LiquidStack(water, 4.25f));
-            outputLiquidAmount = 255f;
+            health = 200;
 
-            results = new ItemStack[]{
-                    new ItemStack(Items.sand, 25),
-                    new ItemStack(Items.copper, 12),
-                    new ItemStack(Items.lead, 12),
-                    new ItemStack(calcium, 15)
-            };
+            craftTime = 600f;
+            itemCapacity = 25;
+            liquidCapacity = 300f;
+
+            consumePower(2.0f);
+            consumeLiquid(water, 4.25f);
+            clearwaterRatio = 1f;
+
+            rollsPerCraft = 1;
+            // drop(item, chance, quantity);
+            // drop(item, chance, min, max);
+            drop(Items.sand, 50f, 25);
+            drop(Items.copper, 20f, 10, 15);
+            drop(Items.lead, 20f, 10, 15);
+            drop(calcium, 10f, 5, 20);
+
             drawer = new DrawMulti(
                     new DrawRegion("-bottom"),
-
                     new DrawRegion("-underwater"),
-
                     new DrawLiquidTile(mindustry.content.Liquids.water, 2f) {{
-                        padBottom = 28f;
+                            padBottom = 28f;
                     }},
-
                     new DrawLiquidTile(aquarion.content.AquaLiquids.clearwater, 2f) {{
-                        padTop = 28f;
+                            padTop = 28f;
                     }},
-
                     new DrawDefault()
             );
         }};

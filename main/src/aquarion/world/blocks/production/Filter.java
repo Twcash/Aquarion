@@ -1,25 +1,53 @@
 package aquarion.world.blocks.production;
 
+import aquarion.content.AquaItems;
 import aquarion.content.AquaLiquids;
+import aquarion.world.consumers.AquaConsume;
 import aquarion.world.type.AquaGenericCrafter;
+import arc.math.Mathf;
+import arc.struct.Seq;
 import mindustry.content.Items;
+import mindustry.content.Liquids;
 import mindustry.type.Item;
-import mindustry.type.ItemStack;
-import mindustry.ui.Bar;
-import mindustry.world.blocks.production.Separator;
+import mindustry.type.LiquidStack;
+import mindustry.world.consumers.Consume;
+import mindustry.world.consumers.ConsumeLiquid;
+import mindustry.world.consumers.ConsumeLiquids;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatValues;
-import mindustry.world.meta.BlockStatus;
-import arc.math.Mathf;
-import aquarion.content.AquaItems;
 
 public class Filter extends AquaGenericCrafter {
-    public float outputLiquidAmount = 6.0f;
-    public int seed;
-    public ItemStack[] results;
+    public float clearwaterRatio = 1f;
 
-    private final int[] itemChances = {25, 25, 25, 25}; //chance items
-    private final Item[] itemPool = {Items.sand, Items.copper, Items.lead, AquaItems.calcium}; //items
+    public float outputLiquidAmount = 6.0f;
+
+    public int rollsPerCraft = 1;
+
+    public Seq<FilterDrop> drops = new Seq<>();
+
+    private float totalWeight = 0f;
+    private int maxPerCraft = 0;
+
+    public static class FilterDrop {
+        public final Item item;
+        public final float chance;
+        public final int minAmount, maxAmount;
+
+        public FilterDrop(Item item, float chance, int minAmount, int maxAmount) {
+            this.item = item;
+            this.chance = chance;
+            this.minAmount = Math.min(minAmount, maxAmount);
+            this.maxAmount = Math.max(minAmount, maxAmount);
+        }
+    }
+
+    public void drop(Item item, float chance, int amount) {
+        drop(item, chance, amount, amount);
+    }
+
+    public void drop(Item item, float chance, int min, int max) {
+        drops.add(new FilterDrop(item, chance, min, max));
+    }
 
     public Filter(String name) {
         super(name);
@@ -27,106 +55,133 @@ public class Filter extends AquaGenericCrafter {
         hasItems = true;
         hasLiquids = true;
         hasPower = true;
-        outputsLiquid = true;
 
-        results = new ItemStack[]{
-                new ItemStack(Items.sand, 12),
-                new ItemStack(Items.copper, 12),
-                new ItemStack(Items.lead, 12),
-                new ItemStack(AquaItems.calcium, 15)
-        };
+        itemCapacity = 40;
+        liquidCapacity = 60f;
+    }
+
+    @Override
+    public void init() {
+        if (drops.isEmpty()) {
+            drop(Items.sand, 25f, 12);
+            drop(Items.copper, 25f, 12);
+            drop(Items.lead, 25f, 12);
+            drop(AquaItems.calcium, 25f, 15);
+        }
+
+        totalWeight = 0f;
+        int biggest = 0;
+        for (FilterDrop d : drops) {
+            totalWeight += d.chance;
+            biggest = Math.max(biggest, d.maxAmount);
+        }
+        maxPerCraft = biggest * Math.max(1, rollsPerCraft);
+        itemCapacity = Math.max(itemCapacity, maxPerCraft * 2);
+
+        outputLiquid = new LiquidStack(AquaLiquids.clearwater, outputLiquidAmount / 60f);
+
+        super.init();
+
+        float waterIn = findWaterInput();
+        if (waterIn > 0f && outputLiquids != null && outputLiquids.length > 0) {
+            outputLiquids[0].amount = waterIn * clearwaterRatio;
+        }
+
+        buildType = FilterBuild::new;
+    }
+
+    private float findWaterInput() {
+        float best = 0f;
+        for (Consume c : consumers) {
+            if (c instanceof AquaConsume ac) {
+                for (AquaConsume.Entry e : ac.entries) {
+                    best = Math.max(best, waterAmount(e.consumer));
+                }
+            } else {
+                best = Math.max(best, waterAmount(c));
+            }
+        }
+        return best;
+    }
+
+    private float waterAmount(Consume c) {
+        if (c instanceof ConsumeLiquid cl && cl.liquid == Liquids.water) return cl.amount;
+        if (c instanceof ConsumeLiquids cls) {
+            for (LiquidStack ls : cls.liquids) {
+                if (ls.liquid == Liquids.water) return ls.amount;
+            }
+        }
+        return 0f;
     }
 
     @Override
     public void setStats() {
         super.setStats();
 
-        int[] sum = {0};
-        for(var r : results) sum[0] += r.amount;
-
         stats.add(Stat.output, table -> {
-            for(ItemStack stack : results){
-                table.add(StatValues.displayItemPercent(stack.item, (int)((float)stack.amount / sum[0] * 100), true)).padRight(5);
+            for (FilterDrop d : drops) {
+                table.add(StatValues.displayItemPercent(
+                        d.item,
+                        Math.round(d.chance * 100f / totalWeight),
+                        true
+                )).padRight(5);
             }
         });
-        stats.add(Stat.output, StatValues.liquid(AquaLiquids.clearwater, outputLiquidAmount, false));
-    }
-
-    @Override
-    public void setBars() {
-        super.setBars();
-        addBar("clearwater-bar", entity -> new Bar(
-                () -> AquaLiquids.clearwater.localizedName,
-                () -> AquaLiquids.clearwater.color,
-                () -> entity.liquids.get(AquaLiquids.clearwater) / liquidCapacity
-        ));
     }
 
     public class FilterBuild extends AquaGenericCrafterBuild {
+
         @Override
-        public void updateTile() {
-            if (efficiency > 0 && liquids.get(AquaLiquids.clearwater) < liquidCapacity) {
-                totalProgress += warmup * delta();
-                progress += getProgressIncrease(craftTime);
-                warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);
+        public boolean shouldConsume() {
+            if (liquids.get(AquaLiquids.clearwater) >= liquidCapacity - 0.1f) return false;
 
-                liquids.add(AquaLiquids.clearwater, (outputLiquidAmount / 60f) * edelta());
-            } else {
-                warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);
-            }
+            if (items.total() + maxPerCraft > itemCapacity) return false;
 
-            if (progress >= 1f) {
-                progress %= 1f;
+            return super.shouldConsume();
+        }
 
-                int rand = Mathf.randomSeed(seed++, 0, 99);
-                int count = 0;
-                Item chosenItem = null;
+        @Override
+        public void craft() {
+            consume();
 
-                for (int index = 0; index < itemPool.length; index++) {
-                    if (rand >= count && rand < count + itemChances[index]) {
-                        chosenItem = itemPool[index];
-                        break;
-                    }
-                    count += itemChances[index];
-                }
+            for (int r = 0; r < Math.max(1, rollsPerCraft); r++) {
+                FilterDrop drop = rollDrop();
+                if (drop == null) continue;
 
-                consume();
+                int amount = drop.minAmount == drop.maxAmount
+                        ? drop.minAmount
+                        : Mathf.random(drop.minAmount, drop.maxAmount);
 
-                if (chosenItem != null) {
-                    int amountToDrop = 1;
-                    for (ItemStack stack : results) {
-                        if (stack.item == chosenItem) {
-                            amountToDrop = stack.amount;
-                            break;
-                        }
-                    }
-
-                    if (items.get(chosenItem) < itemCapacity) {
-                        for (int j = 0; j < amountToDrop; j++) {
-                            offload(chosenItem);
-                        }
-                    }
+                for (int i = 0; i < amount; i++) {
+                    offload(drop.item);
                 }
             }
 
-            if (liquids.get(AquaLiquids.clearwater) > 0) {
-                dumpLiquid(AquaLiquids.clearwater);
+            if (wasVisible) {
+                craftEffect.at(x, y);
             }
+
+            progress %= 1f;
+        }
+
+        @Override
+        public void dumpOutputs() {
+            super.dumpOutputs();
 
             if (timer(timerDump, dumpTime / timeScale)) {
                 dump();
             }
         }
 
-        @Override
-        public BlockStatus status() {
-            if (liquids.get(AquaLiquids.clearwater) >= liquidCapacity) {
-                return BlockStatus.noOutput;
+        private FilterDrop rollDrop() {
+            if (totalWeight <= 0f) return null;
+            float roll = Mathf.random(totalWeight);
+            float acc = 0f;
+            for (FilterDrop d : drops) {
+                acc += d.chance;
+                if (roll < acc) return d;
             }
-            if (efficiency > 0 && warmup > 0.5f) {
-                return BlockStatus.active;
-            }
-            return BlockStatus.noInput;
+            return drops.peek();
         }
     }
 }
