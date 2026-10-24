@@ -2092,14 +2092,12 @@ public class CrafterBlocks {
             health = 200;
 
             craftTime = 600f;
-            itemCapacity = 100;
+            itemCapacity = 20;
             liquidCapacity = 300f;
 
             consumePower(2.0f);
-    // Вода: 0.5 за тик = 30 в секунду (реально достижимо помпами).
-            consumeLiquid(water, 0.5f);
-    // Очищенная вода: 20 в секунду.
-            outputLiquidAmount = 20f;
+            consumeLiquid(water, 4.25f);
+            outputLiquidAmount = 255f;
 
             results = new ItemStack[]{
                      new ItemStack(Items.sand, 25),
