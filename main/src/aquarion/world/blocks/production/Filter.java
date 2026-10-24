@@ -16,28 +16,13 @@ import mindustry.world.consumers.ConsumeLiquids;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatValues;
 
-/**
- * Фильтр: за каждый цикл делает rollsPerCraft бросков и выдаёт предметы из drops,
- * а также постоянно производит очищенную воду.
- *
- * Всё настраивается в определении блока (CrafterBlocks.java), например:
- *   drop(Items.sand, 25, 20);        // предмет, шанс (вес), количество
- *   drop(Items.copper, 10, 5, 15);   // предмет, шанс (вес), от и до
- */
 public class Filter extends AquaGenericCrafter {
-    /**
-     * Сколько очищенной воды выдаётся на 1 единицу входной воды.
-     * 1 = вошло 50, вышло 50. 0.5 = вошло 100, вышло 50. Работает, если задан consumeLiquid(water, ...).
-     */
     public float clearwaterRatio = 1f;
 
-    /** Запасное значение (в секунду), если входную воду найти не удалось. */
     public float outputLiquidAmount = 6.0f;
 
-    /** Сколько бросков (выпадений) за один цикл. */
     public int rollsPerCraft = 1;
 
-    /** Список возможных выпадений. Заполняется через drop(...). */
     public Seq<FilterDrop> drops = new Seq<>();
 
     private float totalWeight = 0f;
@@ -45,7 +30,6 @@ public class Filter extends AquaGenericCrafter {
 
     public static class FilterDrop {
         public final Item item;
-        /** Вес шанса. Не обязан давать в сумме 100: шанс = chance / сумма всех chance. */
         public final float chance;
         public final int minAmount, maxAmount;
 
@@ -57,12 +41,10 @@ public class Filter extends AquaGenericCrafter {
         }
     }
 
-    /** Фиксированное количество предметов. */
     public void drop(Item item, float chance, int amount) {
         drop(item, chance, amount, amount);
     }
 
-    /** Случайное количество предметов от min до max. */
     public void drop(Item item, float chance, int min, int max) {
         drops.add(new FilterDrop(item, chance, min, max));
     }
@@ -80,7 +62,6 @@ public class Filter extends AquaGenericCrafter {
 
     @Override
     public void init() {
-        // Если в определении блока ничего не задано, берём значения по умолчанию.
         if (drops.isEmpty()) {
             drop(Items.sand, 25f, 12);
             drop(Items.copper, 25f, 12);
@@ -97,23 +78,18 @@ public class Filter extends AquaGenericCrafter {
         maxPerCraft = biggest * Math.max(1, rollsPerCraft);
         itemCapacity = Math.max(itemCapacity, maxPerCraft * 2);
 
-        // Очищенную воду производит базовый AquaGenericCrafter (значение за тик).
         outputLiquid = new LiquidStack(AquaLiquids.clearwater, outputLiquidAmount / 60f);
 
         super.init();
 
-        // Выход очищенной воды = вход воды * clearwaterRatio.
-        // Фактический выход дальше сам масштабируется эффективностью (то есть тем, сколько воды реально подаётся).
         float waterIn = findWaterInput();
         if (waterIn > 0f && outputLiquids != null && outputLiquids.length > 0) {
             outputLiquids[0].amount = waterIn * clearwaterRatio;
         }
 
-        // AquaGenericCrafter.init() принудительно ставит свой buildType, возвращаем FilterBuild.
         buildType = FilterBuild::new;
     }
 
-    /** Находит расход входной воды (за тик) среди потребителей блока. */
     private float findWaterInput() {
         float best = 0f;
         for (Consume c : consumers) {
@@ -157,10 +133,8 @@ public class Filter extends AquaGenericCrafter {
 
         @Override
         public boolean shouldConsume() {
-            // Пауза, пока блок забит очищенной водой.
             if (liquids.get(AquaLiquids.clearwater) >= liquidCapacity - 0.1f) return false;
 
-            // Пауза, пока блок забит предметами (не помещается самая большая порция).
             if (items.total() + maxPerCraft > itemCapacity) return false;
 
             return super.shouldConsume();
@@ -192,10 +166,8 @@ public class Filter extends AquaGenericCrafter {
 
         @Override
         public void dumpOutputs() {
-            // Базовый класс выгружает жидкость.
             super.dumpOutputs();
 
-            // Предметы выгружаем сами, т.к. outputItems у фильтра не задан.
             if (timer(timerDump, dumpTime / timeScale)) {
                 dump();
             }
