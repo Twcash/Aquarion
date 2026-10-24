@@ -1,25 +1,25 @@
 package aquarion.world.blocks.production;
 
+import aquarion.content.AquaItems;
 import aquarion.content.AquaLiquids;
 import aquarion.world.type.AquaGenericCrafter;
+import arc.math.Mathf;
 import mindustry.content.Items;
 import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.ui.Bar;
-import mindustry.world.blocks.production.Separator;
+import mindustry.world.meta.BlockStatus;
 import mindustry.world.meta.Stat;
 import mindustry.world.meta.StatValues;
-import mindustry.world.meta.BlockStatus;
-import arc.math.Mathf;
-import aquarion.content.AquaItems;
 
 public class Filter extends AquaGenericCrafter {
+    /** Сколько очищенной воды выдаётся в секунду. */
     public float outputLiquidAmount = 6.0f;
-    public int seed;
+
+    /** Что и сколько выпадает за один цикл. Вес шанса = amount. */
     public ItemStack[] results;
 
-    private final int[] itemChances = {25, 25, 25, 25}; //chance items
-    private final Item[] itemPool = {Items.sand, Items.copper, Items.lead, AquaItems.calcium}; //items
+    private int totalWeight = 0;
 
     public Filter(String name) {
         super(name);
@@ -29,24 +29,46 @@ public class Filter extends AquaGenericCrafter {
         hasPower = true;
         outputsLiquid = true;
 
-        results = new ItemStack[]{
-                new ItemStack(Items.sand, 12),
-                new ItemStack(Items.copper, 12),
-                new ItemStack(Items.lead, 12),
-                new ItemStack(AquaItems.calcium, 15)
-        };
+        itemCapacity = 40;
+        liquidCapacity = 60f;
+        // ВАЖНО: craftTime, consumePower(...) и consumeLiquid(...) задаются в определении блока.
+    }
+
+    @Override
+    public void init() {
+        // Предметы создаются к этому моменту, поэтому null-ов в пуле не будет.
+        if (results == null) {
+            results = new ItemStack[]{
+                    new ItemStack(Items.sand, 12),
+                    new ItemStack(Items.copper, 12),
+                    new ItemStack(Items.lead, 12),
+                    new ItemStack(AquaItems.calcium, 15)
+            };
+        }
+
+        totalWeight = 0;
+        int maxAmount = 0;
+        for (ItemStack s : results) {
+            totalWeight += s.amount;
+            maxAmount = Math.max(maxAmount, s.amount);
+        }
+        // Чтобы самая большая порция всегда помещалась.
+        itemCapacity = Math.max(itemCapacity, maxAmount * 2);
+
+        super.init();
     }
 
     @Override
     public void setStats() {
         super.setStats();
 
-        int[] sum = {0};
-        for(var r : results) sum[0] += r.amount;
-
         stats.add(Stat.output, table -> {
-            for(ItemStack stack : results){
-                table.add(StatValues.displayItemPercent(stack.item, (int)((float)stack.amount / sum[0] * 100), true)).padRight(5);
+            for (ItemStack stack : results) {
+                table.add(StatValues.displayItemPercent(
+                        stack.item,
+                        Math.round(stack.amount * 100f / totalWeight),
+                        true
+                )).padRight(5);
             }
         });
         stats.add(Stat.output, StatValues.liquid(AquaLiquids.clearwater, outputLiquidAmount, false));
@@ -63,53 +85,49 @@ public class Filter extends AquaGenericCrafter {
     }
 
     public class FilterBuild extends AquaGenericCrafterBuild {
+
+        @Override
+        public boolean shouldConsume() {
+            // Работаем, пока есть место под воду и предметы.
+            return enabled
+                    && liquids.get(AquaLiquids.clearwater) < liquidCapacity - 0.01f
+                    && items.total() < itemCapacity;
+        }
+
         @Override
         public void updateTile() {
-            if (efficiency > 0 && liquids.get(AquaLiquids.clearwater) < liquidCapacity) {
+            if (efficiency > 0 && shouldConsume()) {
                 totalProgress += warmup * delta();
                 progress += getProgressIncrease(craftTime);
                 warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);
 
                 liquids.add(AquaLiquids.clearwater, (outputLiquidAmount / 60f) * edelta());
+                liquids.clamp(AquaLiquids.clearwater, 0f, liquidCapacity);
             } else {
                 warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);
             }
 
             if (progress >= 1f) {
                 progress %= 1f;
-
-                int rand = Mathf.randomSeed(seed++, 0, 99);
-                int count = 0;
-                Item chosenItem = null;
-
-                for (int index = 0; index < itemPool.length; index++) {
-                    if (rand >= count && rand < count + itemChances[index]) {
-                        chosenItem = itemPool[index];
-                        break;
-                    }
-                    count += itemChances[index];
-                }
-
                 consume();
 
-                if (chosenItem != null) {
-                    int amountToDrop = 1;
-                    for (ItemStack stack : results) {
-                        if (stack.item == chosenItem) {
-                            amountToDrop = stack.amount;
+                Item chosen = rollItem();
+                if (chosen != null && items.get(chosen) < itemCapacity) {
+                    int amount = 1;
+                    for (ItemStack s : results) {
+                        if (s.item == chosen) {
+                            amount = s.amount;
                             break;
                         }
                     }
-
-                    if (items.get(chosenItem) < itemCapacity) {
-                        for (int j = 0; j < amountToDrop; j++) {
-                            offload(chosenItem);
-                        }
+                    for (int i = 0; i < amount; i++) {
+                        if (items.total() >= itemCapacity) break;
+                        offload(chosen);
                     }
                 }
             }
 
-            if (liquids.get(AquaLiquids.clearwater) > 0) {
+            if (liquids.get(AquaLiquids.clearwater) > 0.001f) {
                 dumpLiquid(AquaLiquids.clearwater);
             }
 
@@ -118,9 +136,19 @@ public class Filter extends AquaGenericCrafter {
             }
         }
 
+        private Item rollItem() {
+            int roll = Mathf.random(0, totalWeight - 1);
+            int acc = 0;
+            for (ItemStack s : results) {
+                acc += s.amount;
+                if (roll < acc) return s.item;
+            }
+            return null;
+        }
+
         @Override
         public BlockStatus status() {
-            if (liquids.get(AquaLiquids.clearwater) >= liquidCapacity) {
+            if (liquids.get(AquaLiquids.clearwater) >= liquidCapacity - 0.01f) {
                 return BlockStatus.noOutput;
             }
             if (efficiency > 0 && warmup > 0.5f) {
