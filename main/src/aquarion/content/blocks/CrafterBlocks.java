@@ -2092,12 +2092,12 @@ public class CrafterBlocks {
             health = 200;
 
             craftTime = 600f;
-            itemCapacity = 20;
+            itemCapacity = 25;
             liquidCapacity = 300f;
 
             consumePower(2.0f);
             consumeLiquid(water, 4.25f);
-            outputLiquidAmount = 255f;
+            clearwaterRatio = 1f;
 
             rollsPerCraft = 1;
             // drop(item, chance, quantity);
