@@ -48,8 +48,8 @@ public class CheckpointBlock extends OverlayFloor {
         checkpoints.clear();
         if (world == null || world.tiles == null) return;
         for (Tile tile : world.tiles) {
-            //exact class match so specialized checkpoint types keep their own list
-            if (tile.overlay() != null && tile.overlay().getClass() == CheckpointBlock.class) {
+            // Content definitions use anonymous subclasses; exclude air routes explicitly.
+            if (tile.overlay() instanceof CheckpointBlock && !(tile.overlay() instanceof DefunctCheckpointBlock)) {
                 checkpoints.add(tile);
             }
         }

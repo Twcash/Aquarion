@@ -1,6 +1,7 @@
 package aquarion.entities.comp;
 
 import aquarion.gen.AquaUnitc;
+import aquarion.world.AI.CheckpointProgress;
 
 import aquarion.annotations.Annotations.*;
 import arc.math.Angles;
@@ -23,6 +24,10 @@ abstract class AquaMechComp implements AquaUnitc, Mechc {
     @Import
     UnitType type;
 
+    /** Saved lifetime and checkpoint release state, retained across controller changes and reloads. */
+    transient float checkpointTime;
+    transient boolean checkpointReleased;
+
     /** Degrees per tick the hip pivots toward the body rotation while standing still and turning. */
     protected float idleTurnSpeed = 3f;
     /** Multiplier on the type's rotateSpeed for how decisively the hip steps into a turn while walking. */
@@ -30,6 +35,8 @@ abstract class AquaMechComp implements AquaUnitc, Mechc {
 
     @Override
     public void update() {
+        CheckpointProgress.restore(self());
+        checkpointTime += Time.delta / 60f;
         if (!moving()) {
             baseRotation = Angles.moveToward(baseRotation, rotation, idleTurnSpeed * Time.delta);
         }

@@ -133,6 +133,7 @@ public class TantrosTechTree {
                 ), () -> {
                     node(armamentMounting, ()->{
                         node(reinforcedFraming);
+                        node(UnitBlocks.voltaic);
                         node(UnitBlocks.regality);
                     });
                     node(UnitBlocks.crest, () -> {

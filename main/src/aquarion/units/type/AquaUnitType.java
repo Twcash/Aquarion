@@ -24,6 +24,10 @@ import mindustry.type.UnitType;
 import mindustry.world.meta.Env;
 
 public class AquaUnitType extends DamageStateUnitType {
+    /** Seconds alive before checkpoint AI permanently returns to ground attack AI. Negative disables the timer. */
+    public float checkpointDuration = -1f;
+    /** Objective flag that permanently releases checkpoint AI. Empty disables the flag trigger. */
+    public String checkpointReturnFlag = "";
     //Drop pod drop effect.
     public Effect dropEffect = AquaFx.droppod;
     /** Null uses the normal trail/team color at both ends. */

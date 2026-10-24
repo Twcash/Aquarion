@@ -1,12 +1,17 @@
 package aquarion.world.AI;
 
 import aquarion.world.blocks.environment.CheckpointBlock;
+import aquarion.gen.AquaMechc;
 import arc.struct.Seq;
 import arc.util.Nullable;
 import arc.util.Tmp;
+import arc.util.Time;
 import mindustry.ai.types.GroundAI;
 import mindustry.entities.units.AIController;
 import mindustry.world.Tile;
+import mindustry.gen.Unit;
+
+import static mindustry.Vars.state;
 
 /**
  * Follows the numbered checkpoint markers placed in the map editor.
@@ -18,13 +23,50 @@ import mindustry.world.Tile;
 public class CheckpointAI extends AIController {
     /** Distance in world units at which a checkpoint counts as reached and the next one is targeted. */
     public float arriveRadius = 12f;
+    /** Seconds alive before returning to normal ground AI; negative disables the timer. */
+    public float returnToBaseAfter = -1f;
+    /** Optional map objective flag that releases the unit from its checkpoint route. */
+    public String returnToBaseFlag = "";
 
     protected int checkpointIndex;
     protected boolean started;
+    protected float elapsed;
+    protected boolean released;
+
+    @Override
+    public void unit(Unit unit){
+        if(this.unit != unit){
+            checkpointIndex = 0;
+            started = false;
+            elapsed = 0f;
+            released = false;
+        }
+        super.unit(unit);
+    }
+
+    @Override
+    public void updateUnit(){
+        if(!(unit instanceof AquaMechc)) elapsed += Time.delta / 60f;
+        super.updateUnit();
+    }
+
+    /** Releases this unit permanently, including after a save/load for Aquarion mechs. */
+    public void returnToBaseAI(){
+        released = true;
+        if(unit instanceof AquaMechc mech) mech.checkpointReleased(true);
+    }
 
     @Override
     public boolean useFallback() {
-        return CheckpointBlock.checkpoints.isEmpty();
+        if(unit != null) CheckpointProgress.restore(unit);
+        float alive = unit instanceof AquaMechc mech ? mech.checkpointTime() : elapsed;
+        if((unit instanceof AquaMechc mech && mech.checkpointReleased())
+            || (returnToBaseAfter >= 0f && alive >= returnToBaseAfter)
+            || (returnToBaseFlag != null && !returnToBaseFlag.isEmpty() && state != null
+                && state.rules.objectiveFlags.contains(returnToBaseFlag))){
+            returnToBaseAI();
+        }
+        return released || CheckpointBlock.checkpoints.isEmpty();
     }
 
     @Override

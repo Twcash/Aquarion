@@ -4515,8 +4515,15 @@ public class AquaUnitTypes {
             }});
         }};
         knight = new AquaUnitType("knight") {{
-            controller = u -> new CheckpointAI();
-            this.aiController = CheckpointAI::new;
+            checkpointDuration = 10f * 60f;
+            checkpointReturnFlag = "knight-attack-core";
+            aiController = () -> {
+                CheckpointAI ai = new CheckpointAI();
+                ai.returnToBaseAfter = checkpointDuration;
+                ai.returnToBaseFlag = checkpointReturnFlag;
+                return ai;
+            };
+            controller = u -> aiController.get();
             hitSize = 450f / 2f / 4f;
             speed = 0.2f;
             mechFrontSway = 1.6f;

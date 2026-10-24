@@ -30,12 +30,12 @@ public class DialogueObjectiveBar {
     private final Table bar = new Table();
     private final Image portrait = new Image();
     private final Label speaker = new Label("");
-    private final Label text = new Label("");
+    private final DialogueLabel text = new DialogueLabel();
     private final Table options = new Table();
     private Cell<Table> barCell;
     private DialogueObjective shown;
-    private float typeTimer, enterT, exitT, slideOffset;
-    private int charCount;
+    private float enterT, exitT, slideOffset;
+    private DialogueTypewriter typewriter;
     private boolean entering, exiting, built;
 
     public void build(){
@@ -65,7 +65,7 @@ public class DialogueObjectiveBar {
         barCell = root.add(bar).bottom().left().pad(basePad);
         Vars.ui.hudGroup.addChild(root);
         bar.clicked(() -> {
-            if(!exiting && shown != null && charCount >= (shown.text == null ? 0 : shown.text.length()) && (shown.options == null || shown.options.length == 0)){
+            if(!exiting && shown != null && typewriter != null && typewriter.isComplete() && (shown.options == null || shown.options.length == 0)){
                 DialogueObjectiveSystem.advance();
                 beginExit();
             }
@@ -81,6 +81,8 @@ public class DialogueObjectiveBar {
     static void reset(){
         if(instance == null) return;
         instance.shown = null;
+        instance.typewriter = null;
+        instance.text.setDialogue(null);
         instance.entering = false;
         instance.exiting = false;
         instance.root.visible = false;
@@ -116,8 +118,7 @@ public class DialogueObjectiveBar {
 
         if(shown != current){
             shown = current;
-            typeTimer = 0f;
-            charCount = 0;
+            typewriter = new DialogueTypewriter(current.text);
             entering = true;
             exiting = false;
             enterT = exitT = 0f;
@@ -126,7 +127,7 @@ public class DialogueObjectiveBar {
             speaker.setText(localize(current.speaker));
             portrait.visible = current.icon != null && !current.icon.isEmpty();
             if(portrait.visible) portrait.setDrawable(new TextureRegionDrawable(Core.atlas.find(current.icon)));
-            text.setText("");
+            text.setDialogue(typewriter);
             options.clearChildren();
             if(current.options != null){
                 options.defaults().height(44f);
@@ -166,19 +167,13 @@ public class DialogueObjectiveBar {
             return;
         }
 
-        String dialogueText = current.text == null ? "" : current.text;
-        if(charCount < dialogueText.length()){
-            typeTimer += Time.delta / 60f;
-            int target = Math.min((int)(typeTimer * charRate), dialogueText.length());
-            if(target > charCount){
-                charCount = target;
-                text.setText(dialogueText.substring(0, charCount));
-            }
+        if(!typewriter.isComplete()){
+            typewriter.update(Time.delta / 60f, charRate);
+            text.setDialogue(typewriter);
         }
     }
 
     private String localize(String value){
-        if(value == null) return "";
-        return value.startsWith("@") ? Core.bundle.get(value.substring(1), value) : value;
+        return DialogueTypewriter.localize(value);
     }
 }

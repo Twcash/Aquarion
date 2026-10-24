@@ -15,6 +15,7 @@ import aquarion.world.campaign.DialogueObjective;
 import aquarion.world.campaign.DialogueObjectiveBar;
 import aquarion.world.campaign.DialogueObjectiveOption;
 import aquarion.world.campaign.DialogueObjectiveSystem;
+import aquarion.world.campaign.SectorCapturedObjective;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
 import arc.*;
@@ -103,6 +104,7 @@ public class AquaLoader extends Mod {
 
     public AquaLoader(boolean tools){
         AquaLoader.tools = tools;
+        aquarion.world.AI.CheckpointProgress.register();
         Events.run(EventType.Trigger.draw, Renderer::draw);
         Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
         Events.on(EventType.WorldLoadEvent.class, e -> NeoplasiaGraph.reset());
@@ -143,6 +145,8 @@ public class AquaLoader extends Mod {
     public void init() {
         aquarion.world.map.RuntimeMapFilters.install();
         MapObjectives.registerObjective(DialogueObjective::new);
+        MapObjectives.registerObjective(SectorCapturedObjective::new);
+        MapObjectivesDialog.setInterpreter(SectorCapturedObjective.class, MapObjectivesDialog.defaultInterpreter());
         MapObjectivesDialog.setInterpreter(DialogueObjective.class, MapObjectivesDialog.defaultInterpreter());
         MapObjectivesDialog.setInterpreter(DialogueObjectiveOption.class, MapObjectivesDialog.defaultInterpreter());
         MapObjectivesDialog.setProvider(DialogueObjectiveOption.class, (type, cons) -> cons.get(new DialogueObjectiveOption()));
