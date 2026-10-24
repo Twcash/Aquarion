@@ -34,7 +34,7 @@ This mod started as an ambitious attempt to recreate **Tantros** in Mindustry, i
 
 * **Mod Conflicts:** The mod adds new blocks, units, and a completely different solar system, so there may be conflicts with other mods.
 * ~~**Frequent Updates:** Updates are frequent but mostly small. **Remember to reinstall or update the mod regularly** to ensure all new content and fixes load properly.~~
-  * (that is a lie, updates are infrequent and can contany anything from a single bugfix to an entirely new planet)
+  * (that is a lie, updates are infrequent and can contain anything from a single bugfix to an entirely new planet)
 * **Work in Progress:** This mod is still heavily under development. If you encounter any bugs, balance issues, crashes or simply typos, please report them via [GitHub Issues](https://github.com/Twcash/Aquarion/issues) or on the [Discord](https://discord.gg/SbFhxYD797).
   * you are also welcome to attempt to fix those issues yourself and make a PR for that
 
