@@ -1574,7 +1574,7 @@ public class CrafterBlocks {
             }});
         }};
         rotaryKiln = new AquaGenericCrafter("rotary-kiln"){{
-            requirements(Category.crafting, with(silicon, 900, copper, 900, graphite, 900));
+            requirements(Category.crafting, with(silicon, 900, copper, 1200, graphite, 700));
             size = 6;
             squareSprite = false;
             baseEfficiency = 1;
@@ -1633,7 +1633,7 @@ public class CrafterBlocks {
             }});
         }};
         pnuematicCentrifuge = new PayloadCentrifuge("pnuematic-payload-centrifuge"){{
-            requirements(AquaCategories.refinery, with(graphite, 500, lead, 300, silicon, 900, copper, 250));
+            requirements(AquaCategories.refinery, with(graphite, 500, lead, 300, silicon, 900, copper, 250, metaglass, 460));
             size = 6;
             squareSprite = false;
             processTime = 600;
