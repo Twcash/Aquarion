@@ -102,7 +102,9 @@ public class Filter extends AquaGenericCrafter {
                 warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);
 
                 liquids.add(AquaLiquids.clearwater, (outputLiquidAmount / 60f) * edelta());
-                liquids.clamp(AquaLiquids.clearwater, 0f, liquidCapacity);
+                if (liquids.get(AquaLiquids.clearwater) > liquidCapacity) {
+                    liquids.set(AquaLiquids.clearwater, liquidCapacity);
+                }
             } else {
                 warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);
             }
