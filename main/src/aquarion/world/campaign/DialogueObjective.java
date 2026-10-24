@@ -12,6 +12,15 @@ public class DialogueObjective extends MapObjective {
     public String speaker = "";
     /** Atlas region name for the speaker portrait. */
     public String icon = "";
+    /**
+     * Literal text or @bundle/map-locale key. Color tags are instant; {0.5} pauses for half a second.
+     * {draft, correction} types the draft, backspaces it, then types the correction.
+     * {typo: draft, correction} is equivalent. Either version may contain nested declarations.
+     * Backspacing runs at least at the default typing speed, even if the draft uses a slower speed.
+     * {shake: 0.1} shakes subsequent letters by 10% of line height; {shake: 0} disables it.
+     * {speed: 24} sets characters per second; {speed: reset} restores the default.
+     * {pause: 0.5} is an alias for {0.5}. Declarations persist until changed or the dialogue ends.
+     */
     public String text = "";
     public DialogueObjectiveOption[] options = {};
     /** Seconds before the dialogue ends automatically. Zero means wait for a choice or click. */
