@@ -2089,7 +2089,7 @@ public class CrafterBlocks {
             requirements(Category.crafting, with(copper, 500, ferricMatter, 250, silicon, 600, aluminum, 250));
             buildTime = 2200f;
             size = 7;
-            health = 200 * size * size;
+            health = 200;
 
             craftTime = 600f;
             itemCapacity = 100;
@@ -2111,13 +2111,13 @@ public class CrafterBlocks {
             drawer = new DrawMulti(
                     new DrawRegion("-bottom"),
                     new DrawRegion("-underwater"),
-            new DrawLiquidTile(mindustry.content.Liquids.water, 2f) {{
-                    padBottom = 28f;
-            }},
-            new DrawLiquidTile(aquarion.content.AquaLiquids.clearwater, 2f) {{
-                    padTop = 28f;
-            }},
-            new DrawDefault()
+                    new DrawLiquidTile(mindustry.content.Liquids.water, 2f) {{
+                            padBottom = 28f;
+                    }},
+                    new DrawLiquidTile(aquarion.content.AquaLiquids.clearwater, 2f) {{
+                            padTop = 28f;
+                    }},
+                    new DrawDefault()
             );
         }};
         cardReader = new GenericCrafter("card-reader"){{
