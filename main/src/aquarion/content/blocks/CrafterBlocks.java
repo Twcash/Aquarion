@@ -2099,12 +2099,11 @@ public class CrafterBlocks {
             consumeLiquid(water, 4.25f);
             outputLiquidAmount = 255f;
 
-            results = new ItemStack[]{
-                     new ItemStack(Items.sand, 25),
-                     new ItemStack(Items.copper, 12),
-                     new ItemStack(Items.lead, 12),
-                     new ItemStack(calcium, 15)
-            };
+            rollsPerCraft = 1;
+            drop(Items.sand, 50f, 25);
+            drop(Items.copper, 20f, 10, 15);
+            drop(Items.lead, 20f, 10, 15);
+            drop(calcium, 10f, 5, 20);
 
             drawer = new DrawMulti(
                     new DrawRegion("-bottom"),
