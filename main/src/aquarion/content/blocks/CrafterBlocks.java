@@ -2100,6 +2100,8 @@ public class CrafterBlocks {
             outputLiquidAmount = 255f;
 
             rollsPerCraft = 1;
+            // drop(item, chance, quantity);
+            // drop(item, chance, min, max);
             drop(Items.sand, 50f, 25);
             drop(Items.copper, 20f, 10, 15);
             drop(Items.lead, 20f, 10, 15);
