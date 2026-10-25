@@ -1143,7 +1143,8 @@ public class TurretBlocks {
         }};
         maelstrom = new LiquidTurret("maelstrom") {{
             requirements(Category.turret, with(AquaItems.brass, 250, copper, 100));
-            shoot.firstShotDelay = 20f;
+            //shoot.firstShotDelay = 20f;
+            reload = 30f;
             shoot.shotDelay = 2;
             shoot.shots = 5;
             ammoPerShot = 2;
@@ -1159,7 +1160,7 @@ public class TurretBlocks {
             shootSound = shootSap;
             targetGround = false;
             warmupMaintainTime = 50;
-            shootWarmupSpeed = 0.07f;
+            shootWarmupSpeed = 0.1f;
             minWarmup = 0.85f;
             trackingRange = 320;
             loopSound = loopSpray;

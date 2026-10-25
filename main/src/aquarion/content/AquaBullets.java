@@ -1671,6 +1671,7 @@ public class AquaBullets {
                 homingDelay = 3f;
                 homingPower = 0.1f;
                 homingRange = 48;
+                ammoMultiplier = 8;
             }},
             ensignLead = new RailBulletType() {{
                 length = 155f;

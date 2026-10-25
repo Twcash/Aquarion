@@ -69,7 +69,7 @@ public class EnvironmentBlocks {
     //liquids
     public static Block clearWaterFloor, blueSandWater, iceWater, brine_liquid, shallowBrine, lava, shallowSlag2, wetRocks, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava, deepHalidicWater;
     // ores
-    public static Block oreNickelWall, oreCalcite, oreRadium, oreUranium, orePitchblende, oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre, miniumOre, pentlanditeOre, fluoriteOre;
+    public static Block oreNickelWall, oreCalcite, oreRadium, oreUranium, orePitchblende, oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre, miniumOre, pentlanditeOre, fluoriteOre, haliteOre;
     //walls
     public static Block blueSandWall,brimstoneWall,calciteWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,crasindWall, fluoriteWall, fluoriteChunk, cupriteWall, pinkSaltWall, boricWall, arsenideWall, chertWall, chertOutcrop, feldsparOutcrop, algalBloom, algalWall, bloom,
             blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, tranticaOvergrownWall, basaltOutcrop;
@@ -773,6 +773,9 @@ public class EnvironmentBlocks {
             variants = 3;
         }};
         fluoriteOre = new OreBlock("ore-fluorite", fluorite){{
+            variants = 3;
+        }};
+        haliteOre = new OreBlock("halite-ore", halite){{
             variants = 3;
         }};
         ferricOre = new OreBlock("ferric-ore", ferricMatter) {{
