@@ -18,6 +18,7 @@ import arc.util.Nullable;
 import arc.util.Time;
 import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
+import aquarion.world.blocks.neoplasia.NeoplasmTreeBase;
 import mindustry.Vars;
 import mindustry.graphics.Shaders;
 import mindustry.world.Tile;
@@ -27,6 +28,7 @@ import static mindustry.Vars.tilesize;
 public class Renderer {
     public static FrameBuffer buffer;
     private static final Seq<Tile> visibleWallShadows = new Seq<>();
+    private static final arc.math.geom.Rect treeCamera = new arc.math.geom.Rect();
     private static boolean deflectorPassRequested;
     private static boolean glitchPassRequested;
     private static final Seq<Runnable> railPlacementAreas = new Seq<>();
@@ -143,6 +145,13 @@ public class Renderer {
         }
         glitchPassRequested = false;
         if (!GenericNeoplasiaBlock.activeNeoplasia.isEmpty()) {
+            // Block clipSize is shared content data. Cull spreading canopies per building instead.
+            Core.camera.bounds(treeCamera);
+            for(var tree : NeoplasmTreeBase.trees){
+                if(tree.dead() || tree.tile == null || tree.tile.build != tree) continue;
+                float size = tree.drawingClipSize();
+                if(treeCamera.overlaps(tree.x - size / 2f, tree.y - size / 2f, size, size)) tree.draw();
+            }
             Draw.drawRange(Layer.neoplasiaBase, 0.0001f,
                     () -> buffer.begin(Color.clear),
                     () -> {

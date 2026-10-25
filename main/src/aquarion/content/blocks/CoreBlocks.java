@@ -17,15 +17,8 @@ import aquarion.world.blocks.logic.BinaryChannel;
 import aquarion.world.blocks.logic.BinarySplitter;
 import aquarion.world.blocks.logic.StorageReader;
 import aquarion.world.blocks.logic.toggler;
-import aquarion.world.blocks.neoplasia.DefensiveNeoplasiaBlock;
-import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
-import aquarion.world.blocks.neoplasia.NeoplasmHeart;
-import aquarion.world.blocks.neoplasia.NeoplasiaGraph;
-import aquarion.world.blocks.neoplasia.NeoplasmTreeBase;
-import aquarion.world.blocks.neoplasia.NeoplasmTurret;
-import aquarion.world.blocks.neoplasia.NeoplasmVein;
+import aquarion.world.blocks.neoplasia.*;
 import aquarion.world.entities.bullet.NeoplasmGlobBulletType;
-import aquarion.world.blocks.neoplasia.NeoplasiaproductionBlock;
 import aquarion.world.AI.PopperAI;
 import aquarion.world.content.AquaItem;
 import aquarion.world.graphics.AquaFx;
@@ -64,7 +57,7 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block bomb, dPowerSource, dItemSource, dLiquidSource, speaker, toggler, splitter, channel, storageReader, merger, buzzSaw, coreReception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
-            coreEscarpment, laboratory, petal, reconstruct, specializationCatalyst,  corePike, buildCairn, constructionTower, crate, deflectorWell,             neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, neoplasmBlobber, researchVoider;
+            coreEscarpment, laboratory, petal, reconstruct, specializationCatalyst,  corePike, buildCairn, constructionTower, crate, deflectorWell,blister, liquidSlurper, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, neoplasmBlobber, researchVoider;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -324,15 +317,19 @@ public class CoreBlocks {
             range = 180;
         }};
         neoplasiaMass = new GenericNeoplasiaBlock("neoplasia-mass") {{
+            veinCandidate = true;
             requirements(Category.effect, with(silicon, 1));
             buildVisibility = BuildVisibility.sandboxOnly;
             base = this;
-            itemCapacity = 8;
+            itemCapacity = 20;
             perItemCapacity = true;
             burstThresholdFraction = 0.55f;
             emptyUpgrade = (GenericNeoplasiaBlock) thicBlob;
             emptyUpgradeCost = 800;
             oreUpgrade = (GenericNeoplasiaBlock) (OreSlurper = new NeoplasiaproductionBlock("ore-slurper") {{
+                selfGrowRate = 2f;
+                oreGrowBonus = 1f;
+                massExportRate = 1f;
                 requirements(Category.effect, with(silicon, 1));
                 maxAmount = 1600;
                 itemCapacity = 50;
@@ -345,7 +342,9 @@ public class CoreBlocks {
                     requirements(Category.effect, with(silicon, 1));
                     burstDelay = 100;
                     burstLength = 15;
-                    selfGrowRate = 1.5f;
+                    selfGrowRate = 6f;
+                    oreGrowBonus = 3f;
+                    massExportRate = 3f;
                     itemCapacity = 60;
                     perItemCapacity = true;
                     burstThresholdFraction = 0.95f;
@@ -354,14 +353,16 @@ public class CoreBlocks {
                     cost = 1500;
                     baseSize = 20;
                     oreUpgrade = (GenericNeoplasiaBlock) (oresplurpererer = new NeoplasiaproductionBlock("ore-slurpererer") {{
-                        maxAmount = 2500;
+                        maxAmount = 10000;
                         burstDelay = 50;
                         cost = 2500;
                         requirements(Category.effect, with(silicon, 1));
                         burstLength = 15;
                         itemCapacity = 70;
                         perItemCapacity = true;
-                        selfGrowRate = 2.6f;
+                        selfGrowRate = 18f;
+                        oreGrowBonus = 9f;
+                        massExportRate = 9f;
                         itemCost = ItemStack.with(crystal, 20, pearl, 10);
                         bursts = 5;
                         oreUpgrade = null;
@@ -387,9 +388,10 @@ public class CoreBlocks {
             base = (GenericNeoplasiaBlock) neoplasiaMass;
             output = new ItemStack(crystal, 1);
             craftCost = 100;
-            oreGrowBonus = 0.01f;
+            oreGrowBonus = 0.25f;
             craftTime = 180;
-            selfGrowRate = 0.01f;
+            selfGrowRate = 0.75f;
+            bursts = 0;
             itemCapacity = 20;
             burstDelay = 50;
             cost = 200;
@@ -408,8 +410,9 @@ public class CoreBlocks {
             base = (GenericNeoplasiaBlock) neoplasiaMass;
             output = new ItemStack(pearl, 2);
             craftCost = 300;
-            oreGrowBonus = 0.01f;
-            selfGrowRate = 0.1f;
+            oreGrowBonus = 0.5f;
+            selfGrowRate = 1.5f;
+            bursts = 0;
             burstThresholdFraction = 0.4f;
             burstDelay = 50;
             cost = 200;
@@ -445,7 +448,7 @@ public class CoreBlocks {
             colFrom = Color.valueOf("8B0000");
             colTo = Color.valueOf("FF6347");
         }};
-        NeoplasiaGraph.heartBlock = (GenericNeoplasiaBlock) heart;
+        NeoplasiaGraph.heartBlock = (NeoplasmHeart) heart;
         NeoplasiaGraph.heartCost = ((NeoplasmHeart) heart).heartCost;
         neoplasmBlobber = new NeoplasmTurret("neoplasm-blobber"){{
             buildVisibility = BuildVisibility.sandboxOnly;
@@ -460,6 +463,14 @@ public class CoreBlocks {
             colTo = Color.valueOf("FF6347");
             requiredTech = 1;
         }};
+        blister = new NeoplasiaBlister("neoplasia-blister"){{
+            base = (GenericNeoplasiaBlock) neoplasiaMass;
+        }};
+        liquidSlurper = new NeoplasmLiquidSlurper("liquid-slurper"){{
+            requirements(Category.effect, with(silicon, 1));
+            base = (GenericNeoplasiaBlock)neoplasiaMass;
+        }};
+        GenericNeoplasiaBlock.liquidSlurperBlock = (NeoplasmLiquidSlurper)liquidSlurper;
         //Holy Jank...
         overwrite(OreSlurper, (NeoplasiaproductionBlock r) -> {
             r.oreUpgrade = (GenericNeoplasiaBlock) oreSlurperer;
@@ -474,7 +485,7 @@ public class CoreBlocks {
         });
         overwrite(oresplurpererer, (NeoplasiaproductionBlock r) -> {
             r.oreUpgrade = null;
-            r.base = (GenericNeoplasiaBlock) thicBlob;
+            r.base = (GenericNeoplasiaBlock) neoplasiaMass;
             r.buildVisibility = BuildVisibility.sandboxOnly;
             r.requiredTech = 2;
         });
@@ -487,12 +498,12 @@ public class CoreBlocks {
         });
         overwrite(neoplasiaMass, (GenericNeoplasiaBlock r) -> {
             r.base = (GenericNeoplasiaBlock) neoplasiaMass;
-            r.shouldEmpty2Upgrade = true;
-            r.empty2Upgrade = (GenericNeoplasiaBlock) vein;
-            r.empty2UpgradeCost = 1000;
+            r.shouldEmpty2Upgrade = false;
+            r.empty2Upgrade = null;
             r.buildVisibility = BuildVisibility.sandboxOnly;
             r.emptyUpgrade = (GenericNeoplasiaBlock) neoplasmBlobber;
             r.emptyUpgradeCost = 200;
+            r.ventBlock = (GenericNeoplasiaBlock) blister;
         });
         GenericNeoplasiaBlock.veinBlock = (GenericNeoplasiaBlock) vein;
         GenericNeoplasiaBlock.itemProducers.put(crystal, (GenericNeoplasiaBlock) enzyme);
@@ -504,13 +515,15 @@ public class CoreBlocks {
             itemCapacity = 30;
             podCost = 100;
             branchCost = 200;
-            unitGrowTime = 6f;
+            branchInterval = 180f;
+            spacing = 24f;
+            unitGrowTime = 30f * 60f;
+            unitSpawnInterval = 8f * 60f;
             maxPodsPerBranch = 3;
             unitItemCost = new ItemStack[]{new ItemStack(crystal, 2)};
             unitType = AquaUnitTypes.popper;
             spewerType = AquaUnitTypes.spewer;
             spewerChance = 0.3f;
-            maxSpewers = 24;
             spewerItemCost = new ItemStack[]{new ItemStack(crystal, 2)};
             buildVisibility = BuildVisibility.sandboxOnly;
         }};

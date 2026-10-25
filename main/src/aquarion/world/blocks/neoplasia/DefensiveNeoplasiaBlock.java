@@ -57,18 +57,21 @@ public class DefensiveNeoplasiaBlock extends GenericNeoplasiaBlock{
 
             if (!NeoplasiaGraph.isConnected(this)) {
                 disconnectionTime += delta();
-                amount -= amount * (0.001f + disconnectionTime * 0.00005f) * delta();
+                if(disconnectionTime > disconnectGrace){
+                    amount -= amount * (0.001f + (disconnectionTime - disconnectGrace) * 0.00005f) * delta();
+                }
             } else {
                 disconnectionTime = 0f;
                 grow();
             }
             burstSpread();
             damageNearby();
+            tryLiquidSlurper();
             if(damageUpgrade != null && recentDamage <= reverseUpgradeThreshold){
                 reverseRolls++;
                 if(Mathf.randomSeed(tile.pos() * 29L + reverseRolls, 0f, 1f) < reverseUpgradeChance * delta()){
                     AquaFx.neoplasiaPlace.at(x, y);
-                    this.tile.setBlock(damageUpgrade, this.team);
+                    upgradeTo(damageUpgrade);
                     return;
                 }
             }
