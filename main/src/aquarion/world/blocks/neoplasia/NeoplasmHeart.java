@@ -2,102 +2,160 @@ package aquarion.world.blocks.neoplasia;
 
 import aquarion.world.graphics.Renderer;
 import arc.func.Cons;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
 import arc.math.Interp;
 import arc.math.Mathf;
+import arc.math.geom.Geometry;
 import arc.math.geom.Vec2;
+import arc.struct.Seq;
 import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
-import mindustry.gen.Building;
-import mindustry.type.Item;
+import mindustry.Vars;
+import mindustry.game.Team;
+import mindustry.world.Tile;
+import mindustry.world.blocks.storage.CoreBlock;
+import mindustry.world.meta.Env;
+import static mindustry.content.Blocks.air;
+import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock.NeoplasiaBuild;
 
-public class NeoplasmHeart extends GenericNeoplasiaBlock {
-    public float techStep = 100f;
+/** A real team core with neoplasia mass growth and heart connectivity. */
+public class NeoplasmHeart extends CoreBlock {
+    public float techStep = 100f, heartCost = 150f, dissolveRate = 0.005f;
     public int techMax = 5;
-    public float heartCost = 150f;
-    public float dissolveRate = 0.005f;
+    public float maxAmount = 1000f, startMass = 0.001f, selfGrowRate = 0.04f, baseSize = 14f;
+    public Color colFrom = Color.valueOf("701e1e"), colTo = Color.valueOf("cf5a3b");
 
-    public NeoplasmHeart(String name) {
+    public NeoplasmHeart(String name){
         super(name);
         update = true;
         solid = true;
         destructible = true;
         rebuildable = false;
+        requiresCoreZone = false;
+        envEnabled = Env.any;
+        envDisabled = Env.none;
+        itemCapacity = 1000;
     }
 
-    public class NeoplasmHeartBuild extends GenericNeoplasiaBlock.NeoplasiaBuild {
-        public boolean isPrime = false;
-        public boolean dissolving = false;
+    public class NeoplasmHeartBuild extends CoreBuild {
+        public boolean isPrime, dissolving;
+        public float amount;
+        float spawnTime, liquidRequestTimer;
+        final Seq<NeoplasiaBuild> adjacent = new Seq<>();
 
-        @Override
-        public void created() {
+        Seq<NeoplasiaBuild> neighbors(){
+            adjacent.clear();
+            if(tile != null) for(var offset : Geometry.d8){
+                Tile other = Vars.world.tile(tile.x + offset.x, tile.y + offset.y);
+                if(other != null && other.build instanceof NeoplasiaBuild tissue && tissue.team == team && !tissue.dead()) adjacent.addUnique(tissue);
+            }
+            return adjacent;
+        }
+
+        @Override public void created(){
             super.created();
+            amount = startMass;
+            health = amount;
+            maxHealth = Math.max(amount, maxAmount);
+            Vars.state.teams.registerCore(this);
             NeoplasiaGraph.addHeart(this);
         }
 
-        @Override
-        public void onRemoved() {
-            super.onRemoved();
+        @Override public void onRemoved(){
             NeoplasiaGraph.removeHeart(this);
+            adjacent.clear();
+            super.onRemoved();
         }
 
-        @Override
-        public void updateTile() {
-            if (tile == null) return;
-            if (spawnTime < spawnDuration) spawnTime += delta();
+        @Override public void changeTeam(Team next){
+            if(next == team) return;
+            super.changeTeam(next);
+            NeoplasiaGraph.addHeart(this);
+        }
+
+        @Override public float handleDamage(float damage){
+            float actual = super.handleDamage(damage);
+            amount = Math.max(0f, amount - actual);
+            return actual;
+        }
+
+        @Override public void updateTile(){
+            super.updateTile();
+            if(tile == null || tile.build != this) return;
+            spawnTime = Math.min(90f, spawnTime + delta());
+            if(amount <= 0f || dissolving && amount <= 1f){ kill(); return; }
+            if(dissolving) amount -= amount * dissolveRate * delta();
+            else{
+                amount = Math.max(amount, Math.min(maxAmount, amount + selfGrowRate * delta()));
+                tryLiquidSlurper();
+            }
             health = amount;
-            maxHealth = amount;
-            if (amount <= 0f) {
-                kill();
+            maxHealth = Math.max(amount, maxAmount);
+        }
+
+        void tryLiquidSlurper(){
+            NeoplasmLiquidSlurper type = GenericNeoplasiaBlock.liquidSlurperBlock;
+            if(type == null) return;
+            liquidRequestTimer += delta();
+            if(liquidRequestTimer < 120f || amount < type.cost + Math.max(1f, maxAmount * 0.05f)) return;
+            liquidRequestTimer = 0f;
+            if(!type.hasLiquid(tile)) return;
+            for(var offset : Geometry.d8){
+                Tile other = Vars.world.tile(tile.x + offset.x, tile.y + offset.y);
+                if(other != null && other.block() == type && other.team() == team) return;
+            }
+            for(var offset : Geometry.d8){
+                Tile site = Vars.world.tile(tile.x + offset.x, tile.y + offset.y);
+                if(site == null || site.block() != air || site.floor().isLiquid || !site.floor().placeableOn || !type.hasLiquid(site)) continue;
+                site.setBlock(type, team);
+                if(site.build instanceof NeoplasiaBuild gland){ gland.amount = type.cost; amount -= type.cost; }
                 return;
             }
-            if (dissolving) {
-                disconnectionTime += delta();
-                amount -= amount * dissolveRate * delta();
-            } else {
-                grow();
-            }
         }
 
-        @Override
-        public boolean acceptItem(Building source, Item item) {
-            return false;
-        }
+        final Cons<Vec2> wiggle = vec -> vec.add(Mathf.sin(vec.y * 3 + Time.time, 25f, 0.4f), Mathf.cos(vec.x * 3 + Time.time, 31f, 0.44f));
 
-        final Cons<Vec2> wiggle = vec -> vec.add(
-            Mathf.sin(vec.y * 3 + Time.time, wscl, wmag) + Mathf.sin(vec.x * 3 - Time.time, 70 * wtscl, 0.8f * wmag2),
-            Mathf.cos(vec.x * 3 + Time.time + 8, wscl + 6f, wmag * 1.1f) + Mathf.sin(vec.y * 3 - Time.time, 50 * wtscl, 0.2f * wmag2));
-
-        @Override
-        public void draw() {
-            super.draw();
-            float scale = 1f;
-            if(spawnTime < spawnDuration){
-                float progress = spawnTime / spawnDuration;
-                scale = Interp.smooth.apply(progress);
-            }
-            Draw.scl(scale);
+        @Override public void draw(){
+            float previousZ = Draw.z();
+            float scale = Interp.smooth.apply(Mathf.clamp(spawnTime / 90f));
+            Draw.color(colFrom, colTo, Mathf.clamp(amount / maxAmount));
+            Draw.z(Renderer.Layer.neoplasiaUnder);
+            Fill.circle(x, y, baseSize * 0.5f * scale);
+            Draw.z(Renderer.Layer.neoplasiaBase);
+            Fill.circle(x, y, baseSize * 0.5f * scale);
             Draw.color();
-            Draw.z(Renderer.Layer.blockOver + 2);
-            Draw.rectv(region, tile.worldx(), tile.worldy(), region.width * region.scl() * scale, region.height * region.scl() * scale, 0, wiggle);
+            Draw.z(Renderer.Layer.blockOver + 2f);
+            Draw.rectv(region, x, y, region.width * region.scl() * scale, region.height * region.scl() * scale, 0f, wiggle);
+            Draw.reset();
+            Draw.z(previousZ);
         }
 
-        @Override
-        public void write(Writes write) {
+        @Override public byte version(){ return 32; }
+        @Override public void write(Writes write){
             super.write(write);
+            write.f(amount);
+            write.f(spawnTime);
             write.bool(isPrime);
+            write.bool(dissolving);
         }
-
-        @Override
-        public void read(Reads read, byte revision) {
-            super.read(read, revision);
+        @Override public void read(Reads read, byte revision){
+            // Old hearts had the generic mass prefix and no core command position.
+            super.read(read, (byte)(revision >= 32 ? 1 : 0));
+            amount = read.f();
+            spawnTime = read.f();
+            if(revision < 32){
+                read.f();
+                read.f();
+                if(revision >= GenericNeoplasiaBlock.transportSaveRevision) read.f();
+            }
             isPrime = read.bool();
+            dissolving = revision >= 32 && read.bool();
+            health = amount;
+            maxHealth = Math.max(amount, maxAmount);
         }
-
-        public int techLevel() {
-            int level = 1 + (int) (amount / techStep);
-            return Math.min(techMax, level);
-        }
+        public int techLevel(){ return Math.min(techMax, 1 + (int)(amount / techStep)); }
     }
 }

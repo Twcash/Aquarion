@@ -4455,6 +4455,9 @@ public class AquaUnitTypes {
             }});
         }};
         popper = new UnitType("popper") {{
+            envEnabled = Env.any;
+            envDisabled = Env.none;
+            envRequired = Env.none;
             constructor = UnitEntity::create;
             flying = true;
             lowAltitude = true;
@@ -4489,6 +4492,9 @@ public class AquaUnitTypes {
             }});
         }};
         spewer = new UnitType("spewer") {{
+            envEnabled = Env.any;
+            envDisabled = Env.none;
+            envRequired = Env.none;
             constructor = UnitEntity::create;
             flying = true;
             lowAltitude = true;
