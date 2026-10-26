@@ -43,7 +43,7 @@ public class LiquidBlocks {
             liquidCapacity = 120;
             range = 6;
             hasPower = false;
-            health = 200;
+            health = 240;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
             floating = true;
@@ -72,6 +72,7 @@ public class LiquidBlocks {
         }};
         pulseSiphon = new ModifiedConduit("pulse-siphon") {{
             requirements(Category.liquid, with(polymer, 1, ferricMatter, 1));
+            health = 240;
             junctionReplacement = siphonJunction;
             bridgeReplacement = pulseSiphonBridge;
             liquidCapacity = 120;

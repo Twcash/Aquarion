@@ -891,6 +891,7 @@ public class AquaResearchDialog extends BaseDialog {
                                 }
                             });
                             if(node.objectives.size > 0){
+                                desc.row();
                                 desc.add("@complete").colspan(2).left();
                                 desc.row();
                                 desc.table(r -> {

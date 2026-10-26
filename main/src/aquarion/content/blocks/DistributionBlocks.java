@@ -15,6 +15,7 @@ import aquarion.world.blocks.core.EntityStorageBuild;
 import aquarion.world.blocks.core.EntityCoreBuild;
 import aquarion.world.blocks.payload.*;
 import aquarion.world.blocks.production.DelayIncinerator;
+import aquarion.world.blocks.units.RailWorkshop;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.WaterReflections;
 import arc.func.Cons;
@@ -36,6 +37,8 @@ import mindustry.world.meta.Stat;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaPlanets.*;
+import static aquarion.content.AquaUnitTypes.*;
+import static aquarion.content.AquaUnitTypes.path;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
@@ -43,18 +46,33 @@ public class DistributionBlocks {
     public static Block payloadDistributor, itemHopper, itemYeeter, tungstenYeeter, tungstenHopper, cremator, payloadPad, sealedInvertedSorter,steelRouter, steelConveyor, armoredSealedConveyor, sealedOverflow, sealedDistributor,
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
-    public static Block liquidCargoDock, liquidCargoDepot, cargoDepot, cargoDock, railPoint, railJunction;
+    public static Block trainyard, pathCoupler, liquidCargoDock, liquidCargoDepot, cargoDepot, cargoDock, railPoint, railJunction;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
     public static void loadContent() {
-        liquidCargoDock = new CargoStation("liquid-dock", true, true){{
-            requirements(Category.units, with(concrete, 100, lead, 150, metaglass, 50));
+        trainyard = new RailWorkshop("trainyard", false){{
+            unitChoices.add(path, gorge, burden);
+            requirements(Category.units, with(concrete, 150, graphite, 200, copper, 100, silicon, 80));
+            inputUnit = outputUnit = path;
+            recipe = with(metaglass, 50, lead, 120, graphite, 40);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        liquidCargoDepot = new CargoStation("liquid-depot", false, true){{
-            requirements(Category.units, with(concrete, 150, lead, 200, metaglass, 75));
+        railPoint = new RailPoint("rail-node"){{
+            requirements(Category.units, with(concrete, 50, lead, 20));
+            size = 2;
+            rotateDraw = false;
+            range = 120;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
+        railJunction = new RailPoint("rail-junction"){{
+            requirements(Category.units, with(concrete, 100, lead, 150));
+            size = 2;
+            rotateDraw = false;
+            fourDirections = true;
+            range = 120;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -68,25 +86,24 @@ public class DistributionBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        railPoint = new RailPoint("rail-node"){{
-            requirements(Category.units, with(concrete, 50, lead, 20));
-            size = 2;
-            rotateDraw = false;
-            range = 120;
+        liquidCargoDock = new CargoStation("liquid-dock", true, true){{
+            requirements(Category.units, with(concrete, 100, lead, 150, metaglass, 50));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
-        railJunction = new RailPoint("rail-junction"){{
-            requirements(Category.units, with(concrete, 100, lead, 150));
-            size = 2;
-            rotateDraw = false;
-            fourDirections = true;
-            range = 120;
+        liquidCargoDepot = new CargoStation("liquid-depot", false, true){{
+            requirements(Category.units, with(concrete, 150, lead, 200, metaglass, 75));
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-
+        pathCoupler = new RailWorkshop("rail-coupler", true){{
+            requirements(Category.units, with(concrete, 150, lead, 150, graphite, 100, silicon, 100));
+            inputUnit = path;
+            outputUnit = path;
+            buildTime = 120f;
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
         EntityStorageBuild.install((StorageBlock)Blocks.container);
         EntityStorageBuild.install((StorageBlock)Blocks.vault);
         EntityUnloaderBuild.install((Unloader)Blocks.unloader);

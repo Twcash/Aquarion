@@ -1143,6 +1143,8 @@ public class TurretBlocks {
         }};
         maelstrom = new LiquidTurret("maelstrom") {{
             requirements(Category.turret, with(AquaItems.brass, 250, copper, 100));
+            //shoot.firstShotDelay = 20f;
+            reload = 30f;
             shoot.shotDelay = 2;
             shoot.shots = 5;
             ammoPerShot = 2;
