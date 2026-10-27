@@ -354,7 +354,8 @@ public class RailCommandAI extends CommandAI{
             }
         }
         patrolSupplyRetry -= Time.delta;
-        if(cargoTarget == null && targetPos != null && attackTarget == null && patrolSupplyRetry <= 0f){
+        if(cargoTarget == null && targetPos != null && attackTarget == null && patrolSupplyRetry <= 0f
+            && !(world.buildWorld(targetPos.x, targetPos.y) instanceof CargoStationBuild station && station.team == unit.team)){
             patrolSupplyRetry = 30f;
             if(aquarion.world.units.RailPayloadSupport.outOfSupplies(unit)){
                 CargoStationBuild dock = aquarion.world.units.RailPayloadSupport.choose(unit, edge == null ? node : edge.to);
@@ -1453,6 +1454,14 @@ public class RailCommandAI extends CommandAI{
             route.clear();
             waitingFor = null;
             moveSpeed = 0f;
+            return;
+        }
+        if(cargoTarget == null && targetPos != null && node instanceof CargoStationBuild dock
+            && targetPos.within(dock, dock.block.size * tilesize / 2f)
+            && unit.within(dock, dock.block.size * tilesize / 2f + unit.hitSize / 2f)
+            && (RailCargo.waitForFullLoad(unit, dock) || RailCargo.waitForUnload(unit, dock))){
+            moveSpeed = 0f;
+            waitingFor = null;
             return;
         }
         Vec2 completed = targetPos == null ? null : targetPos.cpy();

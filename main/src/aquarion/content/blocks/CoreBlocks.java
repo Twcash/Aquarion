@@ -19,6 +19,7 @@ import aquarion.world.blocks.logic.StorageReader;
 import aquarion.world.blocks.logic.toggler;
 import aquarion.world.blocks.neoplasia.*;
 import aquarion.world.entities.bullet.NeoplasmGlobBulletType;
+import aquarion.world.entities.bullet.TentacleBulletType;
 import aquarion.world.AI.PopperAI;
 import aquarion.world.content.AquaItem;
 import aquarion.world.graphics.AquaFx;
@@ -57,7 +58,7 @@ import static mindustry.type.ItemStack.with;
 
 public class CoreBlocks {
     public static Block bomb, dPowerSource, dItemSource, dLiquidSource, speaker, toggler, splitter, channel, storageReader, merger, buzzSaw, coreReception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
-            coreEscarpment, laboratory, petal, reconstruct, specializationCatalyst,  corePike, buildCairn, constructionTower, crate, deflectorWell,blister, liquidSlurper, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, neoplasmBlobber, researchVoider;
+            coreEscarpment, laboratory, petal, reconstruct, specializationCatalyst,  corePike, buildCairn, constructionTower, crate, deflectorWell,blister, liquidSlurper, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, tentaclePit, largeTentaclePit, neoplasmBlobber, largeBlobber, researchVoider;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -466,6 +467,24 @@ public class CoreBlocks {
             colTo = Color.valueOf("FF6347");
             requiredTech = 1;
         }};
+        largeBlobber = new NeoplasmTurret("large-blobber"){{
+            requirements(Category.effect, BuildVisibility.sandboxOnly, with(crystal, 6));
+            maxAmount = 1000f;
+            selfGrowRate = 0.02f;
+            baseSize = 20f;
+            base = (GenericNeoplasiaBlock)neoplasiaMass;
+            range = 180f;
+            shootLength = 12f;
+            reloadTime = 120f;
+            shootType = (NeoplasmGlobBulletType)AquaBullets.neoplasmGlob;
+            itemCost = with(crystal, 6);
+            shouldEmptyUpgrade = false;
+            colFrom = Color.valueOf("8B0000");
+            colTo = Color.valueOf("FF6347");
+            requiredTech = 2;
+        }};
+        ((GenericNeoplasiaBlock)neoplasmBlobber).emptyUpgrade = (GenericNeoplasiaBlock)largeBlobber;
+        ((GenericNeoplasiaBlock)neoplasmBlobber).emptyUpgradeCost = 400f;
         blister = new NeoplasiaBlister("neoplasia-blister"){{
             base = (GenericNeoplasiaBlock) neoplasiaMass;
         }};
@@ -511,26 +530,72 @@ public class CoreBlocks {
         GenericNeoplasiaBlock.veinBlock = (GenericNeoplasiaBlock) vein;
         GenericNeoplasiaBlock.itemProducers.put(crystal, (GenericNeoplasiaBlock) enzyme);
         tree = new NeoplasmTreeBase("branching-sprout") {{
-            requirements(Category.effect, with(silicon, 1));
+            requirements(Category.effect, with(crystal, 10, pearl, 2));
+            cost = 750f;
+            itemCost = with(crystal, 10, pearl, 2);
             base = (GenericNeoplasiaBlock) neoplasiaMass;
             maxAmount = 40000;
             selfGrowRate = 2.5f;
             itemCapacity = 30;
+            perItemCapacity = true;
             podCost = 100;
             branchCost = 200;
             branchInterval = 180f;
-            spacing = 24f;
-            unitGrowTime = 30f * 60f;
-            unitSpawnInterval = 8f * 60f;
+            spacing = 32f;
+            unitGrowTime = 45f * 60f;
+            unitSpawnInterval = 16f * 60f;
             maxPodsPerBranch = 3;
             unitItemCost = new ItemStack[]{new ItemStack(crystal, 2)};
             unitType = AquaUnitTypes.popper;
             spewerType = AquaUnitTypes.spewer;
             spewerChance = 0.3f;
-            spewerItemCost = new ItemStack[]{new ItemStack(crystal, 2)};
+            spewerItemCost = with(crystal, 4, pearl, 1);
             buildVisibility = BuildVisibility.sandboxOnly;
         }};
         GenericNeoplasiaBlock.treeBlock = (GenericNeoplasiaBlock) tree;
+        tentaclePit = new NeoplasmTentaclePit("tentacle-pit"){{
+            requirements(Category.effect, BuildVisibility.sandboxOnly, with(pearl, 2, crystal, 10));
+            itemCost = with(pearl, 2, crystal, 10);
+            upgradeItemCost = with(pearl, 2, crystal, 10);
+            base = (GenericNeoplasiaBlock)neoplasiaMass;
+            maxAmount = 1500f;
+            baseSize = 16f;
+            shootType = new TentacleBulletType(){{
+                sprite = "aquarion-neoplasia-tentacle";
+                range = 104f;
+                segmentCount = 19;
+                segmentLength = 6f;
+                segmentOffset = 4f;
+                layer = mindustry.graphics.Layer.bullet - 1f;
+                width = 7f;
+                damage = 8f;
+                damageInterval = 2f;
+                lifetime = 90f;
+                collidesTiles = true;
+            }};
+        }};
+        largeTentaclePit = new NeoplasmTentaclePit("large-tentacle-pit"){{
+            requirements(Category.effect, BuildVisibility.sandboxOnly, with(pearl, 4, crystal, 20));
+            itemCost = with(pearl, 4, crystal, 20);
+            base = (GenericNeoplasiaBlock)neoplasiaMass;
+            maxAmount = 3000f;
+            baseSize = 24f;
+            shootType = new TentacleBulletType(){{
+                sprite = "aquarion-large-neoplasia-tentacle";
+                range = 180f;
+                segmentCount = 25;
+                segmentLength = 14;
+                segmentOffset = 16f;
+                layer = mindustry.graphics.Layer.bullet - 1f;
+                width = 9f;
+                damage = 60f;
+                damageInterval = 20f;
+                lifetime = 90f;
+                collidesTiles = true;
+            }};
+        }};
+        ((NeoplasmTentaclePit)tentaclePit).largeVariant = (NeoplasmTentaclePit)largeTentaclePit;
+        GenericNeoplasiaBlock.tentaclePitBlock = (NeoplasmTentaclePit)tentaclePit;
         PopperAI.defaultBlobBlock = (GenericNeoplasiaBlock) neoplasiaMass;
         PopperAI.defaultBlobItems = new ItemStack[]{new ItemStack(crystal, 1)};
         GenericNeoplasiaBlock.itemProducers.put(pearl, (GenericNeoplasiaBlock) petal);

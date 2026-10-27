@@ -108,6 +108,7 @@ public class AquaLoader extends Mod {
         aquarion.world.blocks.environment.TemporaryFloors.register();
         Events.run(EventType.Trigger.draw, Renderer::draw);
         Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
+        Events.on(EventType.ResetEvent.class, e -> NeoplasiaGraph.clear());
         Events.on(EventType.WorldLoadEvent.class, e -> NeoplasiaGraph.reset());
         Events.on(EventType.WorldLoadEvent.class, e -> CheckpointBlock.rebuildCheckpoints());
         Events.on(EventType.WorldLoadEvent.class, e -> aquarion.world.blocks.environment.DefunctCheckpointBlock.rebuildCheckpoints());

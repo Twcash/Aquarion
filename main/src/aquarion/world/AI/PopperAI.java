@@ -154,6 +154,8 @@ public class PopperAI extends AIController {
             pushVec[1] = 0f;
             if (pushDisableTimer <= 0f) obstaclePush(pushVec);
             Tmp.v1.set(unit.x + sx + ax + bx + pushVec[0] + Mathf.cosDeg(wanderAngle) * wanderDist, unit.y + sy + ay + by + pushVec[1] + Mathf.sinDeg(wanderAngle) * wanderDist);
+            NeoplasiaUnitMovement.clampDestination(Tmp.v1, boundaryMargin);
+            if(unit.within(Tmp.v1, tilesize)) Tmp.v1.set(world.unitWidth() / 2f, world.unitHeight() / 2f);
             moveTo(Tmp.v1, 0f);
             unit.lookAt(Tmp.v1);
             return;
@@ -255,7 +257,11 @@ public class PopperAI extends AIController {
     }
 
     boolean validDepositTile(Tile tile){
-        return tile != null && tile.block() == mindustry.content.Blocks.air && tile.build == null
+        return tile != null && tile.worldx() >= Math.min(boundaryMargin, world.unitWidth() / 2f)
+            && tile.worldx() <= world.unitWidth() - Math.min(boundaryMargin, world.unitWidth() / 2f)
+            && tile.worldy() >= Math.min(boundaryMargin, world.unitHeight() / 2f)
+            && tile.worldy() <= world.unitHeight() - Math.min(boundaryMargin, world.unitHeight() / 2f)
+            && tile.block() == mindustry.content.Blocks.air && tile.build == null
             && !tile.floor().isDeep() && tile.floor().placeableOn
             && Mathf.dst(tile.worldx() - spawnX, tile.worldy() - spawnY) >= minDepositDistance;
     }

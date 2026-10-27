@@ -64,6 +64,7 @@ public class DefensiveNeoplasiaBlock extends GenericNeoplasiaBlock{
                 disconnectionTime = 0f;
                 grow();
             }
+            itemRequestsReady = true;
             burstSpread();
             damageNearby();
             tryLiquidSlurper();

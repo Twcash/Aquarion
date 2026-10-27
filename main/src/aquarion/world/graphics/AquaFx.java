@@ -1424,7 +1424,7 @@ public class AquaFx {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 2.5f);
                 });
                 color(Color.white,Pal.lightishOrange, e.fin());
-                randLenVectors(e.id, 4, e.finpow() * 11f, e.rotation, 22f, (x, y) -> {
+                randLenVectors(e.id, 4, e.finpow() * 12f, e.rotation, 22f, (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()));
                 });
             }),
@@ -1436,10 +1436,10 @@ public class AquaFx {
                 });
             }),
             shootSmoke3 = new Effect(50f, e -> {
-                color(Pal.lighterOrange, e.color, e.color, Interp.pow2Out.apply(e.fin()));
+                color(e.color,Color.grays(0.2f), Interp.pow2In.apply(e.fin()));
                 rand.setSeed(e.id+1);
-                randLenVectors(e.id, rand.random(5,9), Interp.pow2In.apply(e.finpow()) * 50f, e.rotation, 28f, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, Interp.pow5Out.apply(e.fout()) * 4.5f);
+                randLenVectors(e.id, rand.random(5,9), Interp.pow2In.apply(e.finpow()) * 50f, e.rotation, 20f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow5Out.apply(e.fout()) * 3.5f);
                 });
             }),
             shootSmokeRadioactive = new Effect(75f, e -> {

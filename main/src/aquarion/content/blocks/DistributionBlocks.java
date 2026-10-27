@@ -72,7 +72,6 @@ public class DistributionBlocks {
             requirements(Category.units, with(concrete, 50, lead, 20));
             size = 2;
             rotateDraw = false;
-            range = 120;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
@@ -82,7 +81,6 @@ public class DistributionBlocks {
             size = 2;
             rotateDraw = false;
             fourDirections = true;
-            range = 120;
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};

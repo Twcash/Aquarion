@@ -119,7 +119,51 @@ public class RailCargo{
         return amount;
     }
 
+    /** Explicit dock orders load available items repeatedly and wait for a full train, even if the dock runs dry. */
+    public static boolean waitForFullLoad(Unit unit, CargoStationBuild station){
+        if(station.team != unit.team || !station.pickup() || station.liquidCargo() || station.payloadMode
+            || RailConsist.capacity(unit) <= 0) return false;
+        for(Item item : Vars.content.items()){
+            int available = station.items.get(item);
+            if(available <= 0) continue;
+            int room = 0;
+            for(Unit car : RailConsist.members(unit)){
+                if(RailPayloadSupport.reserveCar(unit, car) || car.stack.amount > 0 && car.stack.item != item) continue;
+                room += Math.max(0, car.type.itemCapacity - car.stack.amount);
+            }
+            int amount = Math.min(available, room);
+            if(amount <= 0) continue;
+            RailConsist.add(unit, item, amount);
+            station.items.remove(item, amount);
+        }
+        return RailConsist.cargoAmount(unit) < RailConsist.capacity(unit);
+    }
+
+    /** Manual depot orders override item/payload filters and ammo reservations, but never storage capacity. */
+    public static int unloadCommanded(Unit unit, CargoStationBuild station){
+        if(Vars.net.client() || station.team != unit.team || station.pickup() || station.liquidCargo()
+            || !RailPathfinder.active(station)) return 0;
+        int moved = RailPayloadCargo.transfer(unit, station, true);
+        for(Unit car : RailConsist.members(unit)){
+            if(car.stack.item == null || car.stack.amount <= 0) continue;
+            int amount = Math.min(station.room(), car.stack.amount);
+            if(amount <= 0) continue;
+            station.items.add(car.stack.item, amount);
+            car.stack.amount -= amount;
+            if(car.stack.amount == 0) car.clearItem();
+            moved += amount;
+        }
+        return moved;
+    }
+
+    public static boolean waitForUnload(Unit unit, CargoStationBuild station){
+        if(station.team != unit.team || station.pickup() || station.liquidCargo()) return false;
+        unloadCommanded(unit, station);
+        return RailConsist.amount(unit) > 0 || RailPayloadCargo.carried(unit) != null;
+    }
+
     public static int transfer(Unit unit, CargoStationBuild station, boolean commanded){
+        if(commanded && !station.pickup() && !station.liquidCargo()) return unloadCommanded(unit, station);
         if(commanded && station.pickup() && station.storedPayload != null && RailPayloadCargo.hasRoom(unit, station.storedPayload)){
             return RailPayloadCargo.transfer(unit, station, true);
         }

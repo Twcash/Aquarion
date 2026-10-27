@@ -149,7 +149,9 @@ public class Renderer {
             Core.camera.bounds(treeCamera);
             for(var tree : NeoplasmTreeBase.trees){
                 if(tree.dead() || tree.tile == null || tree.tile.build != tree) continue;
-                float size = tree.drawingClipSize();
+                float size = tree.approximateClipSize();
+                if(!treeCamera.overlaps(tree.x - size / 2f, tree.y - size / 2f, size, size)) continue;
+                size = tree.drawingClipSize();
                 if(treeCamera.overlaps(tree.x - size / 2f, tree.y - size / 2f, size, size)) tree.draw();
             }
             Draw.drawRange(Layer.neoplasiaBase, 0.0001f,

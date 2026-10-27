@@ -46,7 +46,7 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
     public float branchInterval = 60f;
     /** After the initial crown, tips keep extending while mass is available. */
     public boolean continuousGrowth = true;
-    public int maxChildrenPerBranch = 3;
+    public int maxChildrenPerBranch = 2;
     public int branchExpansionStages = 3;
     /** Added cross-sectional support for each mature descendant limb. */
     public float branchThickening = 0.12f;
@@ -67,8 +67,8 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
     public ItemStack[] unitItemCost;
     public float minVisualSize = 14f;
     public float maxVisualSize = 70f;
-    public int[] maxBranchesByLevel = {8, 12, 16};
-    public float[] branchLengthByLevel = {44f, 28f, 16f};
+    public int[] maxBranchesByLevel = {4, 6, 8};
+    public float[] branchLengthByLevel = {72f, 56f, 40f};
     public float[] branchThicknessByLevel = {3f, 1.8f, 0.9f};
     public float spacing = 16f;
     public TextureRegion branchRegion;
@@ -229,7 +229,11 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
         }
 
         boolean canGrowBranch(float price){
-            return branchBudget + Math.max(0f, amount - lifeReserve()) >= price;
+            float podReserve = 0f;
+            for(BranchNode branch : branches){
+                if(branch.growth >= 1f && branch.pods.size < maxPodsPerBranch) podReserve += podCost;
+            }
+            return branchBudget + Math.max(0f, amount - lifeReserve() - podReserve) >= price;
         }
 
         void payBranch(float price){
@@ -242,8 +246,8 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
         public void updateTile() {
             super.updateTile();
             if(tile == null || tile.build != this || dead()) return;
-            growBranches();
             managePods();
+            growBranches();
             spawnSpotTimer -= Time.delta;
             if (spawnSpotTimer <= 0f) {
                 spawnSpotTimer = 90f;
@@ -284,7 +288,8 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                 if(level > 0){
                     for(int i = 0; i < branches.size; i++){
                         BranchNode candidate = branches.get(i);
-                        if(candidate.level == level - 1 && candidate.growth >= 1f && candidate.expansionStage >= branchExpansionStages && countChildren(i) < children){
+                        if(candidate.level == level - 1 && candidate.growth >= 1f && candidate.expansionStage >= branchExpansionStages
+                            && countChildren(i) < maxChildrenPerBranch && countChildren(i) < children){
                             parent = i;
                             children = countChildren(i);
                         }
@@ -293,10 +298,10 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                 }
                 long seed = tile.pos() * 31L + branches.size * 7L;
                 float angle = parent < 0
-                    ? treeAngle + 360f * countBranches(0) / maxBranchesByLevel[0]
+                    ? treeAngle + (countBranches(0) + Mathf.randomSeed(seed + 5, -0.35f, 0.35f)) * 360f / maxBranchesByLevel[0]
                     : branches.get(parent).angle + (children % 2 == 0 ? -1 : 1) * Mathf.randomSeed(seed, 20f, 45f);
-                float length = branchLengthByLevel[level] * Mathf.randomSeed(seed + 1, 0.9f, 1.1f);
-                float attach = Mathf.randomSeed(seed + 3, 0.3f, 0.8f);
+                float length = branchLengthByLevel[level] * Mathf.randomSeed(seed + 1, 0.8f, 1.2f);
+                float attach = children == 0 ? 1f : Mathf.randomSeed(seed + 3, 0.8f, 0.95f);
                 if(parent >= 0) angle = outwardAngle(parent, attach, length, children, seed);
                 branches.add(new BranchNode(level, angle,
                     length,
@@ -310,7 +315,9 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             int parent = -1;
             for(int i = 0; i < branches.size; i++){
                 BranchNode candidate = branches.get(i);
-                if(candidate.growth < 1f || candidate.expansionStage < branchExpansionStages || countChildren(i) >= maxChildrenPerBranch) continue;
+                // Most limbs continue as a single shoot; only every third generation forks.
+                int childLimit = candidate.level % 3 == 2 ? maxChildrenPerBranch : Math.min(1, maxChildrenPerBranch);
+                if(candidate.growth < 1f || candidate.expansionStage < branchExpansionStages || countChildren(i) >= childLimit) continue;
                 if(parent < 0 || candidate.level < branches.get(parent).level ||
                     candidate.level == branches.get(parent).level && countChildren(i) < countChildren(parent)) parent = i;
             }
@@ -321,8 +328,8 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             long seed = tile.pos() * 31L + branches.size * 7L;
             int children = countChildren(parent);
             int last = branchLengthByLevel.length - 1;
-            float length = branchLengthByLevel[last] * Mathf.randomSeed(seed + 1, 0.9f, 1.1f);
-            float attach = children == 0 ? 1f : Mathf.randomSeed(seed + 3, 0.45f, 0.85f);
+            float length = branchLengthByLevel[last] * Mathf.randomSeed(seed + 1, 0.8f, 1.2f);
+            float attach = children == 0 ? 1f : Mathf.randomSeed(seed + 3, 0.8f, 0.95f);
             float angle = outwardAngle(parent, attach, length, children, seed);
             branches.add(new BranchNode(tip.level + 1, angle,
                 length,
@@ -338,19 +345,22 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             int offset = parent * 4;
             float bx = Mathf.lerp(geometry[offset], geometry[offset + 2], attach);
             float by = Mathf.lerp(geometry[offset + 1], geometry[offset + 3], attach);
-            float radial = Mathf.angle(bx - x, by - y);
-            float preferred = children == 0 ? 0f : (children % 2 == 1 ? -40f : 40f);
-            float bestAngle = radial, bestScore = -Float.MAX_VALUE;
+            float heading = branches.get(parent).angle;
+            float preferred = children == 0 ? Mathf.randomSeed(seed + 5, -14f, 14f)
+                : (children % 2 == 1 ? -1f : 1f) * Mathf.randomSeed(seed + 5, 24f, 40f);
+            float spread = children == 0 ? 18f : 40f;
+            float bestAngle = heading, bestScore = -Float.MAX_VALUE;
             for(int attempt = 0; attempt < 7; attempt++){
-                float turn = attempt == 0 ? preferred : Mathf.randomSeed(seed + attempt * 37L, -55f, 55f);
-                float angle = radial + turn;
+                float turn = attempt == 0 ? preferred : Mathf.randomSeed(seed + attempt * 37L, -spread, spread);
+                float angle = heading + turn;
                 float tx = bx + Mathf.cosDeg(angle) * length, ty = by + Mathf.sinDeg(angle) * length;
                 float clearance = length * length * 4f;
                 for(int i = 0; i < branches.size; i++){
                     if(i == parent) continue;
                     clearance = Math.min(clearance, Mathf.dst2(tx, ty, geometry[i * 4 + 2], geometry[i * 4 + 3]));
                 }
-                float score = clearance + Mathf.dst2(x, y, tx, ty) * 0.05f;
+                float score = clearance + Mathf.dst2(x, y, tx, ty) * 0.05f
+                    - Math.abs(turn - preferred) / spread * length * length * 0.25f;
                 if(score > bestScore){ bestScore = score; bestAngle = angle; }
             }
             return bestAngle;
@@ -375,24 +385,24 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
 
         void managePods() {
             podCreationCooldown = Math.max(0f, podCreationCooldown - delta());
-            if(podCreationCooldown > 0f || branches.isEmpty() || amount < podCost + lifeReserve()) return;
-            for (int offset = 0; offset < branches.size; offset++) {
-                int bi = (podCreationCursor + offset) % branches.size;
+            if(podCreationCooldown > 0f || branches.isEmpty()) return;
+            int start = podCreationCursor;
+            boolean created = false;
+            for(int offset = 0; offset < branches.size; offset++){
+                int bi = (start + offset) % branches.size;
                 BranchNode branch = branches.get(bi);
-                if(branch.growth < 1f) continue;
-                if (branch.pods.size < maxPodsPerBranch) {
-                    amount -= podCost;
-                    long seed = tile.pos() * 13L + bi * 7L + branch.pods.size * 3L;
-                    LeafPod pod = new LeafPod();
-                    pod.position = 0.2f + Mathf.randomSeed(seed, 0f, 0.7f);
-                    pod.progress = 0f;
-                    pod.side = Mathf.randomSeed(seed + 1, 0, 1) == 0 ? -1 : 1;
-                    branch.pods.add(pod);
-                    podCreationCursor = (bi + 1) % branches.size;
-                    podCreationCooldown = podCreationInterval;
-                    return;
-                }
+                if(branch.growth < 1f || branch.pods.size >= maxPodsPerBranch) continue;
+                if(amount < podCost + lifeReserve()) break;
+                amount -= podCost;
+                long seed = tile.pos() * 13L + bi * 7L + branch.pods.size * 3L;
+                LeafPod pod = new LeafPod();
+                pod.position = 0.2f + 0.7f * (branch.pods.size + Mathf.randomSeed(seed, 0.15f, 0.85f)) / Math.max(1, maxPodsPerBranch);
+                pod.side = Mathf.randomSeed(seed + 1, 0, 1) == 0 ? -1 : 1;
+                branch.pods.add(pod);
+                podCreationCursor = (bi + 1) % branches.size;
+                created = true;
             }
+            if(created) podCreationCooldown = podCreationInterval;
         }
 
         float[] tmp4 = new float[4];
@@ -413,31 +423,30 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
 
         void tickPods() {
             unitSpawnCooldown = Math.max(0f, unitSpawnCooldown - Time.delta);
-            BranchNode nextBranch = null;
-            LeafPod nextPod = null;
+            boolean startWave = unitSpawnCooldown <= 0f;
+            boolean started = false;
+            boolean hatchCapacity = canHatchUnit();
             for (BranchNode branch : branches) {
                 for (int pi = 0; pi < branch.pods.size; pi++) {
                     LeafPod pod = branch.pods.get(pi);
                     if(!pod.growing) pod.idleTime += Time.delta;
-                    if(pod.growing || unitSpawnCooldown > 0f || branch.growth < 1f || amount < podCost + lifeReserve()) continue;
+                    if(!hatchCapacity || pod.growing || !startWave || branch.growth < 1f || amount < podCost + lifeReserve()) continue;
                     planPod(branch, pod);
                     if(!hasSpawnSpot && pod.plannedUnit != 1) continue;
                     if (!hasUnitCost(pod.plannedUnit == 1 ? spewerCost() : unitCost())) continue;
-                    if(nextPod == null || pod.idleTime > nextPod.idleTime){
-                        nextBranch = branch;
-                        nextPod = pod;
+                    if(!Vars.net.client()){
+                        consumeUnitCost(pod.plannedUnit == 1 ? spewerCost() : unitCost());
+                        amount -= podCost;
                     }
+                    long seed = tile.pos() * 31L + Float.floatToIntBits(branch.phase) * 17L + Float.floatToIntBits(pod.position) * 13L + pod.cycle * 997L;
+                    pod.growDuration = Math.max(1f, unitGrowTime * Mathf.randomSeed(seed + 91, 1f - podGrowthVariation, 1f + podGrowthVariation));
+                    pod.growing = true;
+                    pod.idleTime = 0f;
+                    started = true;
                 }
             }
-            if(nextPod != null){
-                if(!Vars.net.client()){
-                    consumeUnitCost(nextPod.plannedUnit == 1 ? spewerCost() : unitCost());
-                    amount -= podCost;
-                }
-                long seed = tile.pos() * 31L + Float.floatToIntBits(nextBranch.phase) * 17L + Float.floatToIntBits(nextPod.position) * 13L + nextPod.cycle * 997L;
-                nextPod.growDuration = Math.max(1f, unitGrowTime * Mathf.randomSeed(seed + 91, 1f - podGrowthVariation, 1f + podGrowthVariation));
-                nextPod.growing = true;
-                nextPod.idleTime = 0f;
+            // The interval spaces out waves, rather than serializing every pod on the tree.
+            if(started){
                 unitSpawnCooldown = unitSpawnInterval;
             }
             for(BranchNode branch : branches){
@@ -446,11 +455,13 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                     // Resources were reserved at the start; other pods cannot stall this one.
                     pod.progress += Time.delta;
                     if(pod.progress < pod.growDuration || !hasSpawnSpot && pod.plannedUnit != 1 || branch.growth < 1f) continue;
+                    if(!hatchCapacity) continue;
                     UnitType offspring = pod.plannedUnit == 1 && spewerType != null ? spewerType : unitType;
                     if(!Vars.net.client()){
                         leafPos(branch, pod, tmp2);
                         float angle = Mathf.random(360f), dist = Mathf.random(2f, 6f);
                         offspring.spawn(team, tmp2[0] + Mathf.cosDeg(angle) * dist, tmp2[1] + Mathf.sinDeg(angle) * dist);
+                        hatchCapacity = canHatchUnit();
                     }
                     pod.progress = 0f;
                     pod.plannedUnit = -1;
@@ -461,10 +472,20 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             }
         }
 
+        boolean canHatchUnit(){
+            int active = unitType == null ? 0 : team.data().countType(unitType);
+            if(spewerType != null && spewerType != unitType) active += team.data().countType(spewerType);
+            return active < NeoplasiaGraph.unitLimit(team);
+        }
+
         void planPod(BranchNode branch, LeafPod pod){
-            if(pod.plannedUnit >= 0) return;
+            if(pod.growing) return;
             long seed = tile.pos() * 31L + Float.floatToIntBits(branch.phase) * 17L + Float.floatToIntBits(pod.position) * 13L + pod.cycle * 997L;
-            pod.plannedUnit = spewerType != null && Mathf.randomSeed(seed, 0f, 1f) < spewerChance ? 1 : 0;
+            float surplus = Math.max(0f, amount - lifeReserve() - podCost * 2f);
+            float supply = Mathf.clamp(surplus / Math.max(1f, podCost * 10f));
+            float chance = Mathf.clamp(spewerChance * supply * 3f);
+            pod.plannedUnit = spewerType != null && hasUnitCost(spewerCost())
+                && Mathf.randomSeed(seed, 0f, 1f) < chance ? 1 : 0;
         }
 
         ItemStack[] unitCost() {
@@ -553,6 +574,14 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                 float width = branch.thickness * maturity * Mathf.sqrt(1f + Math.max(0f, limbSupport[i] - maturity) * branchThickening) * 2.5f;
                 radius = Math.max(radius, Mathf.dst(x, y, geometry[offset + 2], geometry[offset + 3]) + width);
             }
+        }
+
+        /** Conservative bounds from the last geometry update, for cheap off-screen rejection. */
+        public float approximateClipSize(){
+            float extension = 0f;
+            for(float length : branchLengthByLevel) extension = Math.max(extension, length * 1.2f);
+            return Math.max(maxVisualSize, (radius + extension) * 2f)
+                + 2f * (Math.abs(limbShadowOffset) + tilesize * 2f);
         }
 
         public float drawingClipSize(){
@@ -702,7 +731,6 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                     }
                 for (LeafPod pod : branch.pods) {
 
-                    if (pod.progress <= 0f) continue;
                     leafPos(branch, pod, tmp2);
                     float px = tmp2[0], py = tmp2[1];
                     float podProgress = Mathf.clamp(pod.progress / Math.max(1f, pod.growDuration > 0f ? pod.growDuration : unitGrowTime));

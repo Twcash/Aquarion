@@ -72,7 +72,8 @@ public class RailPayloadCargo{
     public static int transfer(Unit unit, CargoStationBuild station, boolean commanded){
         if(station.team != unit.team || !RailPathfinder.active(station)) return 0;
         boolean explicitPickup = commanded && station.pickup() && station.storedPayload != null && hasRoom(unit, station.storedPayload);
-        if(!explicitPickup && !valid(unit, station)) return 0;
+        boolean explicitUnload = commanded && !station.pickup() && !station.liquidCargo();
+        if(!explicitPickup && !explicitUnload && !valid(unit, station)) return 0;
         if(station.pickup()){
             Payload payload = station.storedPayload;
             for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier && !carrier.hasPayload() && carrier.canPickupPayload(payload)){
@@ -82,8 +83,12 @@ public class RailPayloadCargo{
         }else{
             for(Unit car : RailConsist.members(unit)) if(car instanceof Payloadc carrier && carrier.hasPayload()){
                 Payload payload = carrier.payloads().first();
-                if(!station.acceptsPayloadCargo(payload)) continue;
-                station.handlePayload(null, payload);
+                if(explicitUnload){
+                    if(!station.receiveCommandedPayload(payload)) continue;
+                }else{
+                    if(!station.acceptsPayloadCargo(payload)) continue;
+                    station.handlePayload(null, payload);
+                }
                 if(station.storedPayload == payload){ carrier.payloads().remove(0); return 1; }
             }
         }

@@ -28,6 +28,8 @@ public class NeoplasiaGraph {
     public static float spawnCooldown = 0f;
     public static float spawnInterval = 600f;
     public static float heartCost = 150f;
+    public static float heartSpacing = 100f * Vars.tilesize;
+    public static int unitsPerHeart = 20;
     public static NeoplasmHeart heartBlock;
     private static boolean trackedNeoplasia;
     public static boolean dirty;
@@ -41,13 +43,10 @@ public class NeoplasiaGraph {
     private static final Seq<NeoplasmVein.NeoplasmVeinBuild> rankedVeins = new Seq<>();
     private static final ObjectMap<Item, Seq<NeoplasiaBuild>> supplies = new ObjectMap<>();
     private static NeoplasiaBuild indexingSupply;
+    private static final Seq<NeoplasiaBuild> digestionTargets = new Seq<>();
     private static final mindustry.world.modules.ItemModule.ItemConsumer indexSupply = (item, count) -> {
         if(count > indexingSupply.neededAmount(item)) supplies.get(item, Seq::new).add(indexingSupply);
     };
-    private static final ObjectFloatMap<NeoplasiaBuild> routeCosts = new ObjectFloatMap<>();
-    private record RouteStep(NeoplasiaBuild build, float cost){}
-    private static final java.util.PriorityQueue<RouteStep> routeQueue = new java.util.PriorityQueue<>(
-        java.util.Comparator.comparingDouble(RouteStep::cost));
 
     static boolean hasDeliveryNetwork(NeoplasiaBuild build){
         return deliveryComponents.contains(compMap.get(build, 0));
@@ -198,6 +197,10 @@ public class NeoplasiaGraph {
     }
 
     public static void update() {
+        if(Vars.state == null || !Vars.state.isPlaying() || Vars.state.isPaused()
+            || Vars.net.client() || Vars.world.isGenerating()) return;
+        // World transitions can leave queued colony references to tiles from the old map.
+        if(primeHeart != null && !isCurrent(primeHeart)) primeHeart = null;
         if (activeNeoplasia.isEmpty() && hearts.isEmpty()) {
             veinCounts.clear();
             veinLimits.clear();
@@ -225,6 +228,10 @@ public class NeoplasiaGraph {
         pulseTimer += Time.delta;
         // Batch topology changes and deliveries; growing tissue must not rebuild the graph every frame.
         if (pulseTimer < pulseInterval && (!members.isEmpty() || !dirty)) return;
+        int previousBuilds = activeNeoplasia.size, previousHearts = hearts.size;
+        activeNeoplasia.removeAll(build -> !isCurrent(build));
+        hearts.removeAll(heart -> !isCurrent(heart));
+        if(previousBuilds != activeNeoplasia.size || previousHearts != hearts.size) dirty = true;
         float elapsed = pulseTimer;
         pulseTimer = 0f;
         boolean rebuild = dirty || members.isEmpty();
@@ -314,43 +321,36 @@ public class NeoplasiaGraph {
         transport();
 
         if (spawnCooldown > 0f) spawnCooldown -= elapsed;
-        if (heartBlock != null) {
-            for (int i = 0; i < comps.size; i++) {
-                if (spawnCooldown > 0f) break;
-                int comp = comps.get(i);
-                if (heartCounts.get(comp, 0) > 0) continue;
-                NeoplasiaBuild big = biggestBlobs.get(comp);
-                if (big != null && big.amount >= heartCost) {
+        if(heartBlock != null && spawnCooldown <= 0f){
+            NeoplasiaBuild candidate = null;
+            for(NeoplasiaBuild build : activeNeoplasia){
+                if(!isCurrent(build) || !build.block().veinCandidate || build.amount < heartCost || !heartSiteAllowed(build)) continue;
+                if(candidate == null || build.amount > candidate.amount || build.amount == candidate.amount && build.pos() < candidate.pos()) candidate = build;
+            }
+            if(candidate != null){
+                int component = compMap.get(candidate, 0);
+                if(candidate.upgradeTo(heartBlock)){
                     spawnCooldown = spawnInterval;
-                    big.upgradeTo(heartBlock);
-                    heartCounts.increment(comp);
+                    if(component != 0) heartCounts.increment(component);
                 }
             }
         }
+        // Multiple hearts sustain a growing colony; joining their tissue no longer dissolves them.
+    }
 
-        for (int i = 0; i < comps.size; i++) {
-            int comp = comps.get(i);
-            if (heartCounts.get(comp, 0) < 2) continue;
-            NeoplasmHeart.NeoplasmHeartBuild keep = null;
-            for (int h = 0; h < hearts.size; h++) {
-                NeoplasmHeart.NeoplasmHeartBuild heart = hearts.get(h);
-                if (heart.dead() || heart.dissolving || heartComponent(heart) != comp) continue;
-                if (keep == null) keep = heart;
-                if (primeHeart != null && !primeHeart.dead() && !primeHeart.dissolving && heartComponent(primeHeart) == comp) {
-                    keep = primeHeart;
-                    break;
-                }
-            }
-            if (keep == null) continue;
-            for (int h = 0; h < hearts.size; h++) {
-                NeoplasmHeart.NeoplasmHeartBuild heart = hearts.get(h);
-                if (heart.dead() || heart.dissolving || heart == keep || heartComponent(heart) != comp) continue;
-                heart.dissolving = true;
-                dirty = true;
-                hearts.remove(h);
-                h--;
-            }
+    static boolean heartSiteAllowed(Building site){
+        for(NeoplasmHeart.NeoplasmHeartBuild heart : hearts){
+            if(heart.team == site.team && isCurrent(heart) && !heart.dissolving && site.within(heart, heartSpacing - 0.001f)) return false;
         }
+        return true;
+    }
+
+    public static int unitLimit(mindustry.game.Team team){
+        int count = 0;
+        for(NeoplasmHeart.NeoplasmHeartBuild heart : hearts){
+            if(heart.team == team && isCurrent(heart) && !heart.dissolving) count++;
+        }
+        return count * unitsPerHeart;
     }
 
     /** Veins put their whole connected colony on one instant mass and item transport network. */
@@ -368,12 +368,12 @@ public class NeoplasiaGraph {
             deliveryComponents.add(compMap.get(component.first(), 0));
             if(artery != null) equalizeMass(component, artery);
             for(NeoplasiaBuild build : component){
-                if(build.tile.build != build || build.dead()) continue;
+                if(build.tile.build != build || build.dead() || !build.itemRequestsReady) continue;
                 indexingSupply = build;
                 build.items.each(indexSupply);
             }
             for(NeoplasiaBuild build : component){
-                if(build.tile.build != build || build.dead() || build.neededItems == null) continue;
+                if(build.tile.build != build || build.dead() || !build.itemRequestsReady || build.neededItems == null) continue;
                 for(Item item : build.neededItems){
                     Seq<NeoplasiaBuild> sources = supplies.get(item);
                     if(sources == null) continue;
@@ -394,6 +394,42 @@ public class NeoplasiaGraph {
                     }
                 }
             }
+            // After normal requests, feed the lowest-mass tissue instead of leaving food in full blobs.
+            digestionTargets.clear();
+            for(NeoplasiaBuild build : component){
+                if(isCurrent(build) && build.itemRequestsReady && build.digestionDemand() > 0) digestionTargets.add(build);
+            }
+            digestionTargets.sort((a, b) -> {
+                int mass = Float.compare(a.amount / a.block().maxAmount, b.amount / b.block().maxAmount);
+                return mass != 0 ? mass : Integer.compare(a.pos(), b.pos());
+            });
+            for(NeoplasiaBuild target : digestionTargets){
+                int wanted = target.digestionDemand();
+                for(var entry : supplies.entries()){
+                    if(wanted <= 0) break;
+                    Seq<NeoplasiaBuild> sources = entry.value;
+                    while(wanted > 0 && !sources.isEmpty()){
+                        NeoplasiaBuild source = sources.peek();
+                        if(source == target){ sources.pop(); continue; }
+                        int available = Math.max(0, source.items.get(entry.key) - source.neededAmount(entry.key));
+                        int room = target.block().perItemCapacity ? target.block().itemCapacity - target.items.get(entry.key)
+                            : target.block().itemCapacity - target.items.total();
+                        if(room <= 0) break;
+                        int take = Math.min(wanted, Math.min(available, room));
+                        if(take > 0){
+                            source.items.remove(entry.key, take);
+                            target.items.add(entry.key, take);
+                            recordFlow(source, target, take);
+                            animateDelivery(source, target, entry.key);
+                            wanted -= take;
+                        }
+                        if(available <= take) sources.pop();
+                    }
+                }
+            }
+            digestionTargets.clear();
+            // Preserve food that can still fit as mass; consume only genuinely unusable leftovers.
+            for(NeoplasiaBuild build : component) if(isCurrent(build) && build.itemRequestsReady) build.expelItems();
         }
         indexingSupply = null;
         for(Seq<NeoplasiaBuild> stores : supplies.values()) stores.clear();
@@ -425,41 +461,27 @@ public class NeoplasiaGraph {
         }
     }
 
-    /** Stable terrain variation and turn costs keep supply paths from becoming ruler-straight spokes. */
+    /** Linear-time delivery tree; varied neighbor order retains organic routes without a heap allocation per step. */
     static void routeVeins(Seq<NeoplasiaBuild> component){
         if(component.isEmpty()) return;
-        routeCosts.clear();
-        routeQueue.clear();
+        pulseQueue.clear();
         NeoplasiaBuild root = component.first();
         for(NeoplasiaBuild build : component){
             flowParents.remove(build);
             if(build.pos() < root.pos()) root = build;
         }
-        routeCosts.put(root, 0f);
-        routeQueue.add(new RouteStep(root, 0f));
-        while(!routeQueue.isEmpty()){
-            RouteStep step = routeQueue.poll();
-            NeoplasiaBuild current = step.build;
-            if(step.cost > routeCosts.get(current, Float.POSITIVE_INFINITY)) continue;
-            NeoplasiaBuild parent = flowParents.get(current);
-            NeoplasiaBuild grandparent = parent == null ? null : flowParents.get(parent);
-            for(NeoplasiaBuild neighbor : current.neighbors()){
-                int dx = neighbor.tile.x - current.tile.x, dy = neighbor.tile.y - current.tile.y;
-                int hash = current.pos() * 73428767 ^ neighbor.pos() * 912931;
-                hash ^= hash >>> 16;
-                float cost = (dx != 0 && dy != 0 ? 1.35f : 1f) + (hash & 1023) / 1024f * 0.7f;
-                if(parent != null && grandparent != null &&
-                    current.tile.x - parent.tile.x == dx && current.tile.y - parent.tile.y == dy &&
-                    parent.tile.x - grandparent.tile.x == dx && parent.tile.y - grandparent.tile.y == dy) cost += 1.2f;
-                float total = step.cost + cost;
-                if(total >= routeCosts.get(neighbor, Float.POSITIVE_INFINITY)) continue;
-                routeCosts.put(neighbor, total);
+        pulseQueue.addLast(root);
+        while(!pulseQueue.isEmpty()){
+            NeoplasiaBuild current = pulseQueue.removeFirst();
+            Seq<NeoplasiaBuild> neighbors = current.neighbors();
+            int start = neighbors.isEmpty() ? 0 : Math.floorMod(current.pos() * 31, neighbors.size);
+            for(int i = 0; i < neighbors.size; i++){
+                NeoplasiaBuild neighbor = neighbors.get((start + i) % neighbors.size);
+                if(neighbor == root || flowParents.containsKey(neighbor)) continue;
                 flowParents.put(neighbor, current);
-                routeQueue.add(new RouteStep(neighbor, total));
+                pulseQueue.addLast(neighbor);
             }
         }
-        routeQueue.clear();
-        routeCosts.clear();
     }
 
     static float reserveFor(NeoplasiaBuild build){
@@ -508,7 +530,7 @@ public class NeoplasiaGraph {
         for(int i = 0; i < component.size; i++){
             NeoplasiaBuild build = component.get(i);
             // Keep local stores and rich patches instead of flattening every colony each pulse.
-            float change = ((float)desiredMass[i] - build.amount) * 0.08f;
+            float change = ((float)desiredMass[i] - build.amount) * 0.02f;
             if(change < 0f) build.amount += change;
             else if(change > 0f) build.receiveMass(change);
             // Passive balancing is not a transport route and must not grow veins.
@@ -584,16 +606,21 @@ public class NeoplasiaGraph {
         }
     }
 
-    public static void reset() {
+    static boolean isCurrent(Building build){
+        return build != null && !build.dead() && build.tile != null
+            && Vars.world.tile(build.tile.x, build.tile.y) == build.tile && build.tile.build == build;
+    }
+
+    /** Clear references before a new world is read; do not rescan the outgoing world. */
+    public static void clear() {
         NeoplasmTreeBase.trees.clear();
         GenericNeoplasiaBlock.nextTreeSeed.clear();
         GenericNeoplasiaBlock.clearSearch();
         supplies.clear();
         indexingSupply = null;
+        digestionTargets.clear();
         pulseQueue.clear();
         flowAncestors.clear();
-        routeQueue.clear();
-        routeCosts.clear();
         veinCounts.clear();
         veinLimits.clear();
         veinGrowth.clear();
@@ -616,6 +643,10 @@ public class NeoplasiaGraph {
         trackedNeoplasia = false;
         pulseTimer = 0f;
         spawnCooldown = 0f;
+    }
+
+    public static void reset() {
+        clear();
         if (Vars.world.tiles != null) {
             for (Tile tile : Vars.world.tiles) {
                 if (tile.build instanceof NeoplasmHeart.NeoplasmHeartBuild hb) {
