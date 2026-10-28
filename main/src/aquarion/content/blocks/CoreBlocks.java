@@ -247,6 +247,7 @@ public class CoreBlocks {
             consumePower(0.75f);
             consumeItem(Items.silicon).boost();
             range = 26;
+            phaseBoost = 2f;
             phaseRangeBoost = 3f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             healAmount = 250;
@@ -266,8 +267,6 @@ public class CoreBlocks {
             reload = 240;
             healAmount = 300;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            phaseBoost = 0;
-            phaseRangeBoost = 0;
             liquidCapacity = 60;
             researchCostMultiplier = 0;
         }};
@@ -283,8 +282,6 @@ public class CoreBlocks {
             healAmount = 500;
             squareSprite = false;
             reload = 120;
-            phaseBoost = 0;
-            phaseRangeBoost = 0;
             lightningRange = 50;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             liquidCapacity = 700;

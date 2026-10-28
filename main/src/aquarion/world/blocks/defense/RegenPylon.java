@@ -60,8 +60,8 @@ public class RegenPylon extends MendProjector {
         reload = 300f;
         range = 60.0F;
         healAmount = 250F;
-        phaseBoost = 2F;
-        phaseRangeBoost = 50.0F;
+        phaseBoost = 0F;
+        phaseRangeBoost = 0;
         useTime = 400.0F;
         solid = true;
         update = true;
@@ -110,6 +110,9 @@ public class RegenPylon extends MendProjector {
         x += (int) offset;
         y += (int) offset;
         Drawf.dashSquare(baseColor, x, y, range/2f * tilesize);
+        if(phaseRangeBoost > 0) {
+            Drawf.dashSquare(Pal.lightishGray, x, y, (range / 2f + phaseRangeBoost) * tilesize);
+        }
         indexer.eachBlock(player.team(), Tmp.r1.setCentered(x, y, range/2f * tilesize), b -> true, t -> {
             Drawf.selected(t, Tmp.c1.set(baseColor).a(Mathf.absin(4f, 1f)));
         });
