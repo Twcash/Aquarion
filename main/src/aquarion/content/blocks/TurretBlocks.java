@@ -1445,31 +1445,6 @@ public class TurretBlocks {
                 trailEffect = Fx.artilleryTrailSmoke;
             }};
         }};
-        overwrite(Blocks.ripple, (ItemTurret r) -> {
-                    r.requirements = null;
-                    r.requirements(Category.turret, ItemStack.with(Items.copper, 150, Items.graphite, 135, chalkalloy, 60));
-                }
-        );
-        overwrite(Blocks.fuse, (ItemTurret r) -> {
-            r.ammoTypes = null;
-            float brange = r.range + 10f;
-            r.ammo(
-                    chalkalloy, new ShrapnelBulletType(){{
-                        length = brange;
-                        damage = 66f;
-                        ammoMultiplier = 4f;
-                        width = 17f;
-                        reloadMultiplier = 1.3f;
-                    }},
-                    steel, new ShrapnelBulletType(){{
-                        length = brange;
-                        damage = 105f;
-                        ammoMultiplier = 5f;
-                        toColor = Color.gray;
-                        shootEffect = smokeEffect = Fx.thoriumShoot;
-                    }}
-            );
-        });
         ensign = new ItemTurret("ensign") {{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.turret, with(lead, 45, silicon, 60, chalkalloy, 20));

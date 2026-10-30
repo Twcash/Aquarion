@@ -644,11 +644,5 @@ public class PowerBlocks {
             powerProduction = 4;
             baseExplosiveness = 2;
         }};
-
-        //Overwrite vanilla blocks
-
-        overwrite(Blocks.impactReactor, (ImpactReactor r) ->{
-            r.itemDuration = 120f;
-        });
     }
 }

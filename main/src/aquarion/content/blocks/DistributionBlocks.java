@@ -269,10 +269,6 @@ public class DistributionBlocks {
             itemCapacity = 30;
             consumePower(1/2f);
         }};
-        overwrite(Blocks.titaniumConveyor, (Conveyor r) -> {
-            r.requirements = null;
-            r.requirements(Category.distribution, with(Items.copper, 1, Items.lead, 1, chalkalloy, 1));
-        });
         payloadPad = new PayloadJumper("payload-pad"){{
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             requirements(Category.units, with(graphite, 100, silicon, 50, copper, 120));
