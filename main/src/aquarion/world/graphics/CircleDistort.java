@@ -42,7 +42,7 @@ public final class CircleDistort{
             if(scene == null || scene.width != width || scene.height != height){
                 if(scene != null) scene.dispose();
                 scene = new Texture(width, height);
-                scene.setFilter(Texture.TextureFilter.linear);
+                scene.setFilter(Texture.TextureFilter.nearest);
                 scene.setWrap(Texture.TextureWrap.clampToEdge);
             }
             scene.bind(0);

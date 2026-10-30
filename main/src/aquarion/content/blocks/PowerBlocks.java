@@ -7,6 +7,7 @@ import aquarion.world.blocks.power.*;
 import aquarion.world.content.AquaLiquid;
 import aquarion.world.drawers.*;
 import aquarion.world.graphics.AquaFx;
+import aquarion.world.graphics.Renderer;
 import arc.func.Cons;
 import arc.graphics.Color;
 import arc.struct.Seq;
@@ -40,7 +41,7 @@ import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
-import static mindustry.graphics.Layer.power;
+import static mindustry.graphics.Layer.*;
 import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {

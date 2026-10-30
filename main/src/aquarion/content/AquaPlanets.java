@@ -112,9 +112,10 @@ public class AquaPlanets {
         fakeSerpulo = new Planet("fakeSerp", citun, 1.2f, 4){{
             generator = new FakeSerpuloPlanetGenerator();
             meshLoader = () -> {
-                GlTFMesh ring = new GlTFMesh(this, "models/orbital-ring.glb", 1);
-                ring.setProgressProvider(GlTFMesh::techProgress);
+                GlTFMesh ring = new GlTFMesh(this, "models/orbital-ring.glb", .5f);
+                ring.setProgressProvider(() -> GlTFMesh.techProgress(this));
                 ring.invertProgress = true;
+                ring.rotationY = 180;
                 return new ShadowMultiMesh(this, ring, new HexMesh(this, 6));
             };
             alwaysUnlocked = true;

@@ -17,7 +17,7 @@ varying vec4 v_lightSpacePos;
 varying vec3 v_worldPos;
 varying float v_emissive;
 
-const vec3 diffuse = vec3(0.01);
+const vec3 diffuse = vec3(0.08);
 
 void main(){
     vec3 specular = vec3(0.0, 0.0, 0.0);
@@ -34,7 +34,7 @@ void main(){
         specular = vec3(1.0 * pow(specularFactor, 40.0)) * albedo;
     }
 
-    vec3 norc = (u_ambientColor + specular) * (diffuse + vec3(clamp((dot(worldNormal, u_lightdir) + 1.0) / 2.0, 0.0, 1.0)));
+    vec3 norc = (u_ambientColor + specular) * (diffuse + vec3(0.92 * max(dot(worldNormal, u_lightdir), 0.0)));
 
     float emissive = a_emissive.a * u_emissive * (0.8 + 0.2 * min(pow(max(0.0, (1.0 - norc.r) * 1.2), 3.0), 1.0));
 
