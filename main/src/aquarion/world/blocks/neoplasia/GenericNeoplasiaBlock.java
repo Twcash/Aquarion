@@ -57,6 +57,8 @@ public class GenericNeoplasiaBlock extends Block {
     public static ObjectMap<Item, GenericNeoplasiaBlock> itemProducers = new ObjectMap<>();
     public static GenericNeoplasiaBlock veinBlock;
     public static GenericNeoplasiaBlock treeBlock;
+    public float treeSeedInterval = 600f, treeSeedChance = 0.04f, treeSeedCooldown = 5400f;
+    public static NeoplasmTentaclePit tentaclePitBlock;
     public static NeoplasmLiquidSlurper liquidSlurperBlock;
     public boolean veinCandidate = false;
     public static final NeoplasmItemBulletType itemBullet = new NeoplasmItemBulletType();
@@ -67,8 +69,13 @@ public class GenericNeoplasiaBlock extends Block {
     /** Mass per tick available to feed connected factories and trees. */
     public float massExportRate = 0f;
     public float disconnectGrace = 120f;
+    /** Passive mass growth and outward spread run at half their base rates. */
+    public float massGrowthMultiplier = 0.5f;
+    public float spreadSpeedMultiplier = 0.5f;
     public float selfGrowRate = 0.04f;
     public float oreGrowBonus = 0.25f;
+    /** Ordinary tissue digests surplus items into mass, reserving crafting and upgrade stock. */
+    public float itemMassGain = 25f, itemDigestionTime = 60f;
     public float cost = 10;//Internal var for build requests
     public ItemStack[] itemCost; //Internal item cost(s) for build requests
     public GenericNeoplasiaBlock base;
@@ -141,6 +148,7 @@ public class GenericNeoplasiaBlock extends Block {
         int damageRolls = 0;
         public float amount = 0f;
         public float recentDamage = 0f;
+        float defenseTime;
         float spawnTime = 0f;
         float spawnDuration = 90f;
         float burstStepDelay = 4f;
@@ -174,6 +182,21 @@ public class GenericNeoplasiaBlock extends Block {
         float pullTimer;
         float liquidRequestTimer;
         float treeSeedTimer;
+        Tile pendingTreeSite;
+        float pendingTreeValidation;
+        float enemyScanTimer;
+        float itemDigestionTimer;
+        boolean itemRequestsReady;
+        private int foodStock, foodSpace;
+        private final mindustry.world.modules.ItemModule.ItemConsumer countFood = (item, count) ->
+            foodStock += Math.max(0, count - neededAmount(item));
+        private final mindustry.world.modules.ItemModule.ItemConsumer discardUnusable = (item, count) -> {
+            int extra = Math.max(0, count - neededAmount(item));
+            int food = Math.min(extra, foodSpace);
+            foodSpace -= food;
+            int unused = extra - food;
+            if(unused > 0) items.remove(item, unused);
+        };
 
         /** Spreading uses eight directions, so transport and heart connectivity must do so too. */
         Seq<NeoplasiaBuild> neighbors(){
@@ -195,7 +218,36 @@ public class GenericNeoplasiaBlock extends Block {
         public void receiveMass(float value){ amount += value; }
         public float massCapacity(){ return maxAmount; }
 
+        int digestionCapacity(){
+            return block().veinCandidate && itemMassGain > 0f ? (int)Math.floor(Math.max(0f, maxAmount - amount) / itemMassGain) : 0;
+        }
+
+        int digestionStock(){
+            foodStock = 0;
+            items.each(countFood);
+            return foodStock;
+        }
+
+        int digestionDemand(){
+            int capacity = digestionCapacity();
+            return capacity <= 0 ? 0 : Math.max(0, capacity - digestionStock());
+        }
+
+        void digestItems(){
+            if(net.client() || !block().veinCandidate || itemMassGain <= 0f) return;
+            itemDigestionTimer = Math.min(itemDigestionTime, itemDigestionTimer + delta());
+            if(itemDigestionTimer < itemDigestionTime || digestionCapacity() <= 0) return;
+            for(Item item : content.items()){
+                if(items.get(item) <= neededAmount(item)) continue;
+                items.remove(item, 1);
+                receiveMass(itemMassGain);
+                itemDigestionTimer = 0f;
+                return;
+            }
+        }
+
         void needItem(Item item, int amount) {
+            itemRequestsReady = true;
             if (neededItems == null) neededItems = new ObjectSet<>();
             if (neededAmounts == null) neededAmounts = new ObjectIntMap<>();
             neededItems.add(item);
@@ -225,21 +277,9 @@ public class GenericNeoplasiaBlock extends Block {
             itemTraffic = Math.min(100f, itemTraffic + 1f);
         }
         void expelItems() {
-            if (base == null) {
-                items.clear();
-                return;
-            }
-            items.each((stack, amt) -> {
-                Tile t = pickBestNeighbor(tile);
-                if (t != null && t.block() == air) {
-                    t.setBlock(base, team);
-                    if (t.build instanceof NeoplasiaBuild nb) {
-                        nb.amount += amt;
-                        nb.current = stack;
-                    }
-                }
-            });
-            items.clear();
+            if(items.total() == 0) return;
+            foodSpace = digestionCapacity();
+            items.each(discardUnusable);
         }
         public boolean isProducing(Item item){
             return block().isProducing(item);
@@ -273,6 +313,7 @@ public class GenericNeoplasiaBlock extends Block {
         public void created() {
             super.created();
             amount = startMass;
+            enemyScanTimer = Math.floorMod(tile.pos(), 10);
             NeoplasiaGraph.register(this);
         }
 
@@ -336,9 +377,11 @@ public class GenericNeoplasiaBlock extends Block {
             if(tile.build != this) return;
             tryUpgrades();
             if(tile.build != this) return;
+            trySpawnTree(connected);
+            itemRequestsReady = true;
+            if(connected) digestItems();
             requestItems();
             pushItems();
-            trySpawnTree(connected);
             if (items.total() > 0 && (neededItems == null || neededItems.isEmpty())) {
                 clogTimer += delta();
                 if (clogTimer >= clogThreshold) {
@@ -377,30 +420,48 @@ public class GenericNeoplasiaBlock extends Block {
         }
 
         void trySpawnTree(boolean connected) {
-            if (net.client() || treeBlock == null || !connected || !block().veinCandidate || amount < maxAmount * 0.85f) return;
-            treeSeedTimer += delta();
-            if(treeSeedTimer < 300f) return;
-            treeSeedTimer = 0f;
-            if(Time.time < nextTreeSeed.get(team, 0f)) return;
-            treeRolls++;
-            if (Mathf.randomSeed(tile.pos() * 17L + treeRolls, 0f, 1f) < 0.12f) {
-                for (int dx = -3; dx <= 3; dx++) {
-                    for (int dy = -3; dy <= 3; dy++) {
-                        Tile other = world.tile(tile.x + dx, tile.y + dy);
-                        if (other != null && other.block() == Blocks.air && treeBlock.canPlaceOn(other, team, 0)) {
-                            float cost = maxAmount * 0.25f;
-                            if (amount >= cost) {
-                                amount -= cost;
-                                other.setBlock(treeBlock, team);
-                                if (other.build instanceof NeoplasiaBuild nb) {
-                                    nb.amount = Math.min(cost, nb.block().maxAmount);
-                                }
-                                nextTreeSeed.put(team, Time.time + 1800f);
-                            }
-                            return;
-                        }
+            if(net.client() || treeBlock == null || !connected || !block().veinCandidate
+                || amount < Math.max(maxAmount * 0.85f, treeBlock.cost + lifeReserve())){
+                pendingTreeSite = null;
+                return;
+            }
+            if(Time.time < nextTreeSeed.get(team, 0f)){ pendingTreeSite = null; return; }
+            if(pendingTreeSite == null){
+                treeSeedTimer += delta();
+                if(treeSeedTimer < treeSeedInterval) return;
+                treeSeedTimer = 0f;
+                treeRolls++;
+                if(Mathf.randomSeed(tile.pos() * 17L + treeRolls, 0f, 1f) >= treeSeedChance) return;
+                search: for(int dx = -3; dx <= 3; dx++) for(int dy = -3; dy <= 3; dy++){
+                    Tile other = world.tile(tile.x + dx, tile.y + dy);
+                    if(other != null && other.block() == Blocks.air && treeBlock.canPlaceOn(other, team, 0)){
+                        pendingTreeSite = other;
+                        pendingTreeValidation = 60f;
+                        break search;
                     }
                 }
+                if(pendingTreeSite == null) return;
+            }
+            if(world.tile(pendingTreeSite.x, pendingTreeSite.y) != pendingTreeSite || pendingTreeSite.block() != Blocks.air){
+                pendingTreeSite = null;
+                return;
+            }
+            pendingTreeValidation -= delta();
+            if(pendingTreeValidation <= 0f){
+                pendingTreeValidation = 60f;
+                if(!treeBlock.canPlaceOn(pendingTreeSite, team, 0)){ pendingTreeSite = null; return; }
+            }
+            if(treeBlock.itemCost != null) for(ItemStack stack : treeBlock.itemCost) needItem(stack.item, stack.amount);
+            if(!hasItemCost(treeBlock.itemCost)) return;
+            if(!treeBlock.canPlaceOn(pendingTreeSite, team, 0)){ pendingTreeSite = null; return; }
+            Tile site = pendingTreeSite;
+            pendingTreeSite = null;
+            site.setBlock(treeBlock, team);
+            if(site.build instanceof NeoplasiaBuild tree){
+                consumeItemCost(treeBlock.itemCost);
+                amount -= treeBlock.cost;
+                tree.amount = Math.min(treeBlock.cost, tree.block().maxAmount);
+                nextTreeSeed.put(team, Time.time + treeSeedCooldown);
             }
         }
 
@@ -419,7 +480,8 @@ public class GenericNeoplasiaBlock extends Block {
         public GenericNeoplasiaBlock block(){
             return (GenericNeoplasiaBlock) this.block;
         }
-        void upgradeTo(Block target) {
+        boolean upgradeTo(Block target) {
+            if(net.client() || world.isGenerating() || target == null || !NeoplasiaGraph.isCurrent(this)) return false;
             float savedAmount = amount;
             Seq<ItemStack> inventory = new Seq<>();
             items.each((item, count) -> inventory.add(new ItemStack(item, count)));
@@ -433,8 +495,10 @@ public class GenericNeoplasiaBlock extends Block {
                 heart.health = savedAmount;
                 for(ItemStack stack : inventory) heart.items.add(stack.item, stack.amount);
             }
+            return true;
         }
         void tryUpgrades() {
+            if(tryGrowTentaclePit()) return;
             if(oreUpgrade != null && isOre(tile) && NeoplasiaGraph.techLevel() >= oreUpgrade.requiredTech){
                 if(oreUpgrade.itemCost != null){
                     for (ItemStack stack : oreUpgrade.itemCost) {
@@ -491,11 +555,47 @@ public class GenericNeoplasiaBlock extends Block {
             }
         }
 
+        @Override
+        public float handleDamage(float damage){
+            float actual = super.handleDamage(damage);
+            amount = Math.max(0f, amount - actual);
+            recentDamage += actual;
+            if(actual > 0f) NeoplasmTentaclePit.alertDamage(this);
+            NeoplasiaDamage.bleed(this, actual);
+            return actual;
+        }
+
+        boolean tryGrowTentaclePit(){
+            if(defenseTime <= 0f || net.client() || tentaclePitBlock == null) return false;
+            defenseTime = Math.max(0f, defenseTime - delta());
+            if(!NeoplasiaGraph.isCurrent(this) || !NeoplasiaGraph.isConnected(this)) return false;
+            NeoplasmTentaclePit target = tentaclePitBlock;
+            ItemStack[] payment = target.itemCost;
+            if(block() instanceof NeoplasmTentaclePit pit){
+                if(pit.largeVariant == null) return false;
+                target = pit.largeVariant;
+                payment = pit.upgradeItemCost;
+            }else{
+                if(!block().veinCandidate || !target.canUpgradeToThis(this)) return false;
+                if(target.largeVariant != null && hasItemCost(target.largeVariant.itemCost)){
+                    target = target.largeVariant;
+                    payment = target.itemCost;
+                }
+            }
+            if(NeoplasiaGraph.techLevel() < target.requiredTech) return false;
+            if(payment != null) for(ItemStack stack : payment) needItem(stack.item, stack.amount);
+            if(hasItemCost(payment) && upgradeTo(target)){
+                ((NeoplasiaBuild)tile.build).consumeItemCost(payment);
+            }
+            // Keep requesting and reserving defense items before unrelated upgrades.
+            return true;
+        }
+
         void grow() {
             float growth = selfGrowRate;
             if (isOre(tile)) growth += oreGrowBonus;
             // Downgrades may retain a larger store; stop growing rather than discard the excess.
-            amount = Math.max(amount, Math.min(maxAmount, amount + growth * delta()));
+            amount = Math.max(amount, Math.min(maxAmount, amount + growth * massGrowthMultiplier * delta()));
         }
 
         void burstSpread() {
@@ -503,7 +603,7 @@ public class GenericNeoplasiaBlock extends Block {
             float threshold = maxAmount * burstThresholdFraction;
             if (burstDir == -1) {
                 if (amount < threshold || burstCooldown > 0f) {
-                    burstCooldown -= delta();
+                    burstCooldown -= delta() * spreadSpeedMultiplier;
                     return;
                 }
                 burstTile = tile;
@@ -513,7 +613,7 @@ public class GenericNeoplasiaBlock extends Block {
                 currentBurstLength = 1 + (int) (Mathf.pow(Mathf.randomSeed(tile.pos() * 11L + burstCount, 0f, 1f), 0.6f) * burstLength);
                 burstDir = 0;
             }
-            burstTimer += delta();
+            burstTimer += delta() * spreadSpeedMultiplier;
             if (burstTimer < burstStepDelay) return;
             burstTimer = 0f;
             if (burstTile == null || amount <= 1f) {
@@ -594,7 +694,7 @@ public class GenericNeoplasiaBlock extends Block {
         }
 
         void damageNearby() {
-            if (tile == null) return;
+            if (tile == null || damage <= 0f) return;
             for (int i = 0; i < 4; i++) {
                 Tile t = tile.nearby(i);
                 if (t == null) continue;
@@ -603,10 +703,14 @@ public class GenericNeoplasiaBlock extends Block {
                 if (other != null && other.team != team) other.damage(damage * delta());
             }
             float range = tilesize * 2f;
-            damageTarget = null;
-            damageTargetDst = range * range;
-            Units.nearbyEnemies(team, x - range, y - range, range * 2f, range * 2f, scanEnemies);
-            if (damageTarget != null) {
+            enemyScanTimer += delta();
+            if(enemyScanTimer >= 10f){
+                enemyScanTimer = 0f;
+                damageTarget = null;
+                damageTargetDst = range * range;
+                Units.nearbyEnemies(team, x - range, y - range, range * 2f, range * 2f, scanEnemies);
+            }
+            if(damageTarget != null && !damageTarget.dead() && damageTarget.team != team && damageTarget.within(x, y, range)){
                 damageTarget.damage(damage * delta());
             }
         }
@@ -657,40 +761,7 @@ public class GenericNeoplasiaBlock extends Block {
         }
 
         void pushItems() {
-            if (items.total() <= 0) return;
-            int pushed = 0;
-            for (int i = 0; i < pushRate; i++) {
-                Item item = null;
-                for (Item candidate : content.items()) {
-                    int count = items.get(candidate);
-                    if (count <= 0) continue;
-                    int keep = neededAmount(candidate);
-                    if (count > keep) {
-                        item = candidate;
-                        break;
-                    }
-                }
-                if (item == null) break;
-                Building target = null;
-                Building sender = receivedFrom != null ? receivedFrom.get(item) : null;
-                if (sender != null && !sender.isValid()) {
-                    receivedFrom.remove(item);
-                    sender = null;
-                }
-                for (NeoplasiaBuild n : neighbors()) {
-                    Building neighbor = n;
-                    if (neighbor == sender) continue;
-                    if (n.items.get(item) > 0 && n.neededAmount(item) <= n.items.get(item)) continue;
-                    if (!n.acceptItem(this, item)) continue;
-                    target = n;
-                    break;
-                }
-                if (target == null) break;
-                items.remove(item, 1);
-                target.handleItem(this, item);
-                pushed++;
-            }
-            if (pushed > 0) clogTimer = 0f;
+            // NeoplasiaGraph batches transfers to actual consumers. Idle items must not bounce between neighbors.
         }
 
         void spawnItemFlight(Item item, Building target) {

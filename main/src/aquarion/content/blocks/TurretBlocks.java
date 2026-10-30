@@ -248,8 +248,8 @@ public class TurretBlocks {
             requirements(Category.turret, with(cupronickel, 120, silicon, 110, metaglass, 150, graphite, 70));
             health = 650;
             size = 3;
-            reload = 220;
-            ammoPerShot = 9;
+            reload = 20;
+            ammoPerShot = 1;
             range = 260;
             shootSound = AquaSounds.vectorShot;
             maxAmmo = 40;
@@ -257,8 +257,8 @@ public class TurretBlocks {
             warmupMaintainTime = 120;
             shootWarmupSpeed = 0.05f;
             minWarmup = 0.9f;
-            rotateSpeed = 0.95f;
-            recoils = 4;
+            ammoUseEffect = Fx.casing2;
+            rotateSpeed = 1.1f;
             coolantMultiplier = 0.9f;
             liquidCapacity = 200;
             ammo(
@@ -268,15 +268,21 @@ public class TurretBlocks {
                     steel, AquaBullets.vectorSteel,
                     uranium, AquaBullets.vectorUranium
             );
-            shoot = new ShootBarrel() {{
-                shots = 4;
-                shotDelay = 10;
-            }};
             drawer = new AquaDrawTurret() {{
                 parts.addAll(new NewRegPart("-hammer"){{
                     moveY = -7;
-                    progress = PartProgress.recoil.curve(pow2In);
+                    progress = PartProgress.reload.curve(pow2In);
                     under = true;
+                }}, new NewRegPart("-plate"){{
+                    moveX = 4;
+                    progress = warmup.curve(pow2In);
+                    under = true;
+                }}, new NewRegPart("-shell"){{
+                    moveX = 7;
+                    progress = PartProgress.reload.curve(pow2In);
+                    under = true;
+                    colorTo = Color.grays(0.1f).a(0);
+                    color = Color.white.a(1);
                 }});
             }};
             consumeCoolant(40 / 60f);

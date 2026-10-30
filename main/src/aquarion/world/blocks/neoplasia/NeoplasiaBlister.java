@@ -48,18 +48,18 @@ public class NeoplasiaBlister extends NeoplasiaproductionBlock{
         @Override
         void tryUpgrades(){
             super.tryUpgrades();
-            if(input != null) needItem(input.item, input.amount);
+            if(input != null && !charged && burstDir < 0 && amount - craftCost + growthAmount <= maxAmount) needItem(input.item, input.amount);
         }
 
         @Override
         public void updateTile(){
             super.updateTile();
             if(!shouldCraft || amount < craftCost || charged || burstDir >= 0) return;
+            if(amount - craftCost + growthAmount > maxAmount) return;
             if(input != null && !items.has(input.item, input.amount)){
                 pullItems(input.item, input.amount);
                 return;
             }
-            if(amount - craftCost + growthAmount > maxAmount) return;
             prog = Math.min(1f, prog + delta() / Math.max(1f, craftTime));
             if(prog >= 1f - 0.00001f){
                 if(input != null) items.remove(input);

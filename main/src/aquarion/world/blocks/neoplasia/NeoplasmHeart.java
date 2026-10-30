@@ -35,15 +35,22 @@ public class NeoplasmHeart extends CoreBlock {
         destructible = true;
         rebuildable = false;
         requiresCoreZone = false;
+        placeableLiquid = true;
+        floating = true;
         envEnabled = Env.any;
         envDisabled = Env.none;
         itemCapacity = 1000;
+    }
+
+    @Override public boolean canPlaceOn(Tile tile, Team team, int rotation){
+        return tile != null;
     }
 
     public class NeoplasmHeartBuild extends CoreBuild {
         public boolean isPrime, dissolving;
         public float amount;
         float spawnTime, liquidRequestTimer;
+        private boolean destroyedNormally;
         final Seq<NeoplasiaBuild> adjacent = new Seq<>();
 
         Seq<NeoplasiaBuild> neighbors(){
@@ -70,6 +77,17 @@ public class NeoplasmHeart extends CoreBlock {
             super.onRemoved();
         }
 
+        @Override public void onDestroyed(){
+            // Overwriting/removing a heart is not combat destruction or a core capture.
+            if(dissolving || tile == null || tile.build != this) return;
+            destroyedNormally = true;
+            super.onDestroyed();
+        }
+
+        @Override public void afterDestroyed(){
+            if(destroyedNormally) super.afterDestroyed();
+        }
+
         @Override public void changeTeam(Team next){
             if(next == team) return;
             super.changeTeam(next);
@@ -79,6 +97,8 @@ public class NeoplasmHeart extends CoreBlock {
         @Override public float handleDamage(float damage){
             float actual = super.handleDamage(damage);
             amount = Math.max(0f, amount - actual);
+            if(actual > 0f) NeoplasmTentaclePit.alertDamage(this);
+            NeoplasiaDamage.bleed(this, actual);
             return actual;
         }
 
@@ -152,7 +172,8 @@ public class NeoplasmHeart extends CoreBlock {
                 if(revision >= GenericNeoplasiaBlock.transportSaveRevision) read.f();
             }
             isPrime = read.bool();
-            dissolving = revision >= 32 && read.bool();
+            if(revision >= 32) read.bool();
+            dissolving = false; // Connected hearts are no longer retired when their colonies merge.
             health = amount;
             maxHealth = Math.max(amount, maxAmount);
         }

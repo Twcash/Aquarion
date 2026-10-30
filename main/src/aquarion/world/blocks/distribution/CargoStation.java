@@ -40,7 +40,6 @@ public class CargoStation extends RailPoint{
         liquidCapacity = 1000f;
         itemCapacity = 1000;
         size = 3;
-        range = 120f;
         rotateDraw = false;
         buildType = CargoStationBuild::new;
         if(!pickup){
@@ -76,6 +75,15 @@ public class CargoStation extends RailPoint{
             return !liquidCargo && !pickup && payloadMode && storedPayload == null && smallPayload(payload)
                 && payload instanceof BuildPayload build && build.block() == filterBlock;
         }
+        /** Explicit train orders can unload supported building payloads without changing automatic depot filters. */
+        public boolean receiveCommandedPayload(Payload payload){
+            if(Vars.net.client() || liquidCargo || pickup || storedPayload != null || !smallPayload(payload)
+                || ((BuildPayload)payload).build.team != team) return false;
+            storedPayload = payload;
+            payload.set(x, y, rotdeg());
+            return true;
+        }
+
         public boolean liquidCargo(){ return liquidCargo; }
         public float liquidRoom(){ return Math.max(0f, liquidCapacity - liquids.sum((liquid, amount) -> amount)); }
         public boolean acceptsLiquidCargo(Liquid liquid){ return liquidCargo && !pickup && liquid != null && filterLiquid == liquid && liquidRoom() > 0.001f; }

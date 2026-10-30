@@ -38,6 +38,8 @@ public class GlTFMesh extends PlanetMesh {
     public float brightness = 1f;
     /** When auto-fitting (scale <= 0), the model is scaled so its outer radius = planet.radius * fitScale. */
     public float fitScale = 2.5f;
+    /** Model rotation in degrees about the planet-local axes, applied X, then Y, then Z. */
+    public float rotationX, rotationY, rotationZ;
     private float bakeScale = 1f;
 
     /** Provides a 0..1 progress value used to advance the animation (e.g. research progress). */
@@ -50,12 +52,29 @@ public class GlTFMesh extends PlanetMesh {
     public boolean invertProgress;
     private float progress;
     private float lastBaked = Float.NaN;
+    private float lastRotationX = Float.NaN, lastRotationY = Float.NaN, lastRotationZ = Float.NaN;
+    private final float[] modelRotation = new float[9];
     private float[] bakedVertices;
     private final float[] tmp3 = new float[3];
     private final float[] normalMatrix = new float[9];
 
     public GlTFMesh(Planet planet, String gltfPath) {
         this(planet, gltfPath, -1f);
+    }
+
+    /** Creates a mesh with an explicit scale and model rotation in degrees. */
+    public GlTFMesh(Planet planet, String gltfPath, float scale, float rotationX, float rotationY, float rotationZ) {
+        this(planet, gltfPath, scale);
+        setRotation(rotationX, rotationY, rotationZ);
+    }
+
+    /** Rotates the entire scene about its origin, after node animation and before planet rotation. */
+    public GlTFMesh setRotation(float x, float y, float z) {
+        rotationX = x;
+        rotationY = y;
+        rotationZ = z;
+        bake();
+        return this;
     }
 
     /**
@@ -100,6 +119,9 @@ public class GlTFMesh extends PlanetMesh {
 
     public void setProgressProvider(ProgressProvider provider) {
         this.progressProvider = provider;
+        if(provider != null && gltf != null && gltf.duration <= 0f){
+            Log.warn("GlTF: @ has no animation tracks; research progress cannot animate this model.", planet.name);
+        }
     }
 
     /** Computes research progress (0..1) from how many tech tree nodes are unlocked. */
@@ -112,6 +134,24 @@ public class GlTFMesh extends PlanetMesh {
         return done / (float) TechTree.all.size;
     }
 
+    /** Research belonging to this planet's assigned tree, including shared trees. */
+    public static float techProgress(Planet planet) {
+        if(planet.techTree == null) return 0f;
+        arc.struct.Seq<TechTree.TechNode> pending = new arc.struct.Seq<>();
+        pending.add(planet.techTree);
+        int done = 0, total = 0;
+        while(!pending.isEmpty()){
+            TechTree.TechNode node = pending.pop();
+            // The root is available from the start and is not research progress.
+            if(node != planet.techTree){
+                total++;
+                if(node.content.unlocked()) done++;
+            }
+            pending.addAll(node.children);
+        }
+        return total == 0 ? 0f : done / (float)total;
+    }
+
     private float animTime() {
         if (gltf == null || gltf.duration <= 0f) return 0f;
         return progress * gltf.duration;
@@ -121,8 +161,12 @@ public class GlTFMesh extends PlanetMesh {
     public void bake() {
         if (gltf == null || gltf.meshes == null) return;
         float time = animTime();
-        if (time == lastBaked) return;
+        if (time == lastBaked && rotationX == lastRotationX && rotationY == lastRotationY && rotationZ == lastRotationZ) return;
         lastBaked = time;
+        lastRotationX = rotationX;
+        lastRotationY = rotationY;
+        lastRotationZ = rotationZ;
+        updateModelRotation();
 
         gltf.compute(time);
 
@@ -232,9 +276,10 @@ public class GlTFMesh extends PlanetMesh {
         float py = m[wo + 1] * x + m[wo + 5] * y + m[wo + 9] * z + m[wo + 13];
         float pz = m[wo + 2] * x + m[wo + 6] * y + m[wo + 10] * z + m[wo + 14];
 
-        bakedVertices[w++] = px * sx;
-        bakedVertices[w++] = py * sx;
-        bakedVertices[w++] = pz * sx;
+        float[] r = modelRotation;
+        bakedVertices[w++] = (r[0] * px + r[1] * py + r[2] * pz) * sx;
+        bakedVertices[w++] = (r[3] * px + r[4] * py + r[5] * pz) * sx;
+        bakedVertices[w++] = (r[6] * px + r[7] * py + r[8] * pz) * sx;
 
         float nx, ny, nz;
         if (nrm != null) {
@@ -254,9 +299,9 @@ public class GlTFMesh extends PlanetMesh {
             ny /= nlen;
             nz /= nlen;
         }
-        bakedVertices[w++] = nx;
-        bakedVertices[w++] = ny;
-        bakedVertices[w++] = nz;
+        bakedVertices[w++] = r[0] * nx + r[1] * ny + r[2] * nz;
+        bakedVertices[w++] = r[3] * nx + r[4] * ny + r[5] * nz;
+        bakedVertices[w++] = r[6] * nx + r[7] * ny + r[8] * nz;
 
         float cr = 1f, cg = 1f, cb = 1f;
         if (mat != null) {
@@ -292,6 +337,17 @@ public class GlTFMesh extends PlanetMesh {
         bakedVertices[w++] = Math.max(er, Math.max(eg, eb)) > 0.01f ? 1f : 0f;
 
         return w;
+    }
+
+    private void updateModelRotation() {
+        float cx = Mathf.cosDeg(rotationX), sx = Mathf.sinDeg(rotationX);
+        float cy = Mathf.cosDeg(rotationY), sy = Mathf.sinDeg(rotationY);
+        float cz = Mathf.cosDeg(rotationZ), sz = Mathf.sinDeg(rotationZ);
+        // Row-major Rz * Ry * Rx; normals use the same orthonormal rotation.
+        float[] r = modelRotation;
+        r[0] = cz * cy; r[1] = cz * sy * sx - sz * cx; r[2] = cz * sy * cx + sz * sx;
+        r[3] = sz * cy; r[4] = sz * sy * sx + cz * cx; r[5] = sz * sy * cx - cz * sx;
+        r[6] = -sy; r[7] = cy * sx; r[8] = cy * cx;
     }
 
     /** Samples a texture with bilinear filtering into {@code out} (0..1). */
@@ -375,6 +431,8 @@ public class GlTFMesh extends PlanetMesh {
                 bake();
             }
         }
+        // Also apply changes made through setProgress/setTime, not just the provider.
+        bake();
         GL20 gl = Core.gl;
         boolean wasCulling = gl.glIsEnabled(GL20.GL_CULL_FACE);
         if (wasCulling) gl.glDisable(GL20.GL_CULL_FACE);

@@ -16,6 +16,9 @@ import java.util.LinkedHashMap;
 import arc.struct.Seq;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import arc.util.Eachable;
+import mindustry.entities.units.BuildPlan;
+import mindustry.input.InputHandler.QueryEachable;
 import mindustry.core.World;
 import mindustry.gen.Building;
 import mindustry.game.Team;
@@ -33,7 +36,8 @@ import static mindustry.Vars.*;
 /** Visual rail nodes with editable links constrained by endpoint positions and rotations. */
 public class RailPoint extends Block{
     public static long graphRevision;
-    public float range = 80f;
+    public static final float defaultRange = 120f;
+    public float range = defaultRange;
     public boolean fourDirections;
     /** Smallest allowed bend radius, in world units. */
     public float minRadius = 16f;
@@ -177,9 +181,13 @@ public class RailPoint extends Block{
     /** Solve the same tangent-constrained cubic for previews, placement areas and tracks.
      * Optional controls receives the two control points as x1, y1, x2, y2. */
     public boolean curve(float x, float y, int rotation, float targetX, float targetY, int targetRotation, float[] controls){
+        return curve(x, y, rotation, targetX, targetY, targetRotation, controls, fourDirectionsAt(x, y), fourDirectionsAt(targetX, targetY));
+    }
+
+    private boolean curve(float x, float y, int rotation, float targetX, float targetY, int targetRotation, float[] controls, boolean startFour, boolean endFour){
         // Canonical endpoint order ensures reversing a link produces exactly the same curve.
         if(x > targetX || (x == targetX && y > targetY)){
-            boolean valid = curve(targetX, targetY, targetRotation, x, y, rotation, controls);
+            boolean valid = curve(targetX, targetY, targetRotation, x, y, rotation, controls, endFour, startFour);
             if(valid && controls != null){
                 float cx = controls[0], cy = controls[1];
                 controls[0] = controls[2];
@@ -195,7 +203,6 @@ public class RailPoint extends Block{
         float distance = Mathf.sqrt(distance2);
         float handle = distance * 0.4f;
         // Cardinal axes are exact: no trigonometric rounding at perpendicular endpoints.
-        boolean startFour = fourDirectionsAt(x, y), endFour = fourDirectionsAt(targetX, targetY);
         int preferred = Math.abs(dx) >= Math.abs(dy) ? 0 : 1;
         for(int startAxis = 0; startAxis < (startFour ? 2 : 1); startAxis++){
             for(int endAxis = 0; endAxis < (endFour ? 2 : 1); endAxis++){
@@ -275,6 +282,66 @@ public class RailPoint extends Block{
         Renderer.requestRailPlacementPass(() -> drawPlacementTiles(mask.tiles, color, team, placingRotation));
     }
 
+    /** v160's QueryEachable.each is intentionally empty; query nearby center tiles instead. */
+    protected void eachPlanNear(float x, float y, Eachable<BuildPlan> plans, Cons<BuildPlan> consumer){
+        if(plans instanceof QueryEachable query){
+            int radius = Mathf.ceil(range / tilesize) + 1;
+            int cx = World.toTile(x), cy = World.toTile(y);
+            for(int dx = -radius; dx <= radius; dx++) for(int dy = -radius; dy <= radius; dy++){
+                int tx = cx + dx, ty = cy + dy;
+                BuildPlan plan = query.find(tx, ty, candidate -> candidate.x == tx && candidate.y == ty);
+                if(plan != null) consumer.get(plan);
+            }
+        }else{
+            plans.each(consumer);
+        }
+    }
+
+    private boolean hasPlanAt(Eachable<BuildPlan> plans, int x, int y){
+        if(plans instanceof QueryEachable query) return query.find(x, y, plan -> plan.x == x && plan.y == y) != null;
+        boolean[] found = {false};
+        plans.each(plan -> { if(plan.x == x && plan.y == y) found[0] = true; });
+        return found[0];
+    }
+
+    private boolean planLinks(BuildPlan plan, int targetX, int targetY){
+        if(!(plan.config instanceof Point2[] points)) return true;
+        for(Point2 point : points){
+            if(point != null && plan.x + point.x == targetX && plan.y + point.y == targetY) return true;
+        }
+        return false;
+    }
+
+    private void drawPlanLink(BuildPlan plan, RailPoint target, float x, float y, int rotation){
+        if(Mathf.dst(plan.drawx(), plan.drawy(), x, y) > Math.min(range, target.range)) return;
+        float[] controls = new float[4];
+        if(!curve(plan.drawx(), plan.drawy(), plan.rotation, x, y, rotation, controls, fourDirections, target.fourDirections)
+            || !target.curve(x, y, rotation, plan.drawx(), plan.drawy(), plan.rotation, new float[4], target.fourDirections, fourDirections)
+            || !obstructions.clear(plan.drawx(), plan.drawy(), x, y, controls)) return;
+        Draw.color(Pal.placing);
+        Lines.stroke(trackWidth);
+        drawTrackCurve(plan.drawx(), plan.drawy(), x, y, controls, 0f, 0f);
+    }
+
+    @Override
+    public void drawPlanConfigTop(BuildPlan plan, Eachable<BuildPlan> list){
+        if(plan.breaking) return;
+        eachPlanNear(plan.drawx(), plan.drawy(), list, other -> {
+            if(other == plan || other.breaking || !(other.block instanceof RailPoint target)
+                || (other.x == plan.x && other.y == plan.y)) return;
+            if(planLinks(plan, other.x, other.y) || target.planLinks(other, plan.x, plan.y)){
+                drawPlanLink(plan, target, other.drawx(), other.drawy(), other.rotation);
+            }
+        });
+        if(player != null){
+            eachNearby(plan.drawx(), plan.drawy(), player.team(), other -> {
+                if(!planLinks(plan, other.tileX(), other.tileY())) return;
+                if(!hasPlanAt(list, other.tileX(), other.tileY())) drawPlanLink(plan, (RailPoint)other.block, other.x, other.y, other.rotation);
+            });
+        }
+        Draw.reset();
+    }
+
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         super.drawPlace(x, y, rotation, valid);
@@ -301,6 +368,15 @@ public class RailPoint extends Block{
             }
         });
         if(visible.size > 0) Renderer.requestRailPlacementPass(() -> drawPlacementTiles(visible, Pal.heal, team, rotation));
+        // Include queued nodes while positioning the next endpoint.
+        if(control != null && control.input != null){
+            BuildPlan preview = new BuildPlan(x, y, rotation, this);
+            eachPlanNear(wx, wy, control.input.allPlans(), other -> {
+                if(!other.breaking && other.block instanceof RailPoint target && (other.x != x || other.y != y)){
+                    drawPlanLink(preview, target, other.drawx(), other.drawy(), other.rotation);
+                }
+            });
+        }
         Draw.reset();
     }
     public class RailPointBuild extends Building{

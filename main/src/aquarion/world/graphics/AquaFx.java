@@ -23,14 +23,14 @@ import mindustry.content.Liquids;
 import mindustry.entities.Effect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
-import mindustry.gen.Tex;
+import mindustry.gen.Building;
+import mindustry.world.Block;
+import static mindustry.Vars.world;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
-import mindustry.content.Fx;
 
 import mindustry.type.Item;
-import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
 
 import static arc.graphics.g2d.Draw.*;
@@ -38,9 +38,278 @@ import static arc.graphics.g2d.Lines.lineAngle;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.*;
 
+
 public class AquaFx {
+    /** Item data spirals in from the block's edge, shrinking to nothing at its center. */
+    public static Effect itemVortex(arc.func.Floatp halfWidth, float duration, float turns){
+        return new Effect(duration, 240f, e -> {
+            if(!(e.data instanceof Item item) || item.fullIcon == null) return;
+            float maxSize = Math.max(item.fullIcon.width, item.fullIcon.height);
+            if(maxSize <= 0f) return;
+            float edge = halfWidth.get() / Math.max(Math.abs(Mathf.cosDeg(e.rotation)), Math.abs(Mathf.sinDeg(e.rotation)));
+            float radius = edge * e.fout();
+            float angle = e.rotation + turns * 360f * e.fin() * e.fin();
+            float x = e.x + Angles.trnsx(angle, radius), y = e.y + Angles.trnsy(angle, radius);
+            float progress = e.fin();
+            float scale = 10f * 4f * progress * (1f - progress) / maxSize;
+            Draw.color(Color.white);
+            Draw.rect(item.fullIcon, x, y, item.fullIcon.width * scale, item.fullIcon.height * scale, angle);
+            Draw.reset();
+        }).layer(Layer.power - 2f);
+    }
+
+    //Intellij banned me from AquaPal
+    private static final Color  smoke1 = Color.valueOf("4a4848"), smoke2 = Color.valueOf("989592"),smoke3 = Color.valueOf("706c59");
+    private static final Color fire1 = Color.valueOf("ff6b26"), fire2 = Color.valueOf("ffce75"), fire3 = Color.valueOf("ff681c");
+
+    /** Stable per-particle sample in [0, 1), independent of the shared random state. */
+    public static float randomParticle(long seed){
+        seed = (seed ^ (seed >>> 30)) * 0xbf58476d1ce4e5b9L;
+        seed = (seed ^ (seed >>> 27)) * 0x94d049bb133111ebL;
+        seed ^= seed >>> 31;
+        return (seed >>> 40) / 16777216f;
+    }
+
+    public static float randomParticle(long seed, float max){
+        return randomParticle(seed) * max;
+    }
+
+    public static float randomParticle(long seed, float min, float max){
+        return Mathf.lerp(min, max, randomParticle(seed));
+    }
+
+    public static void Flash(float elapsed){
+        if(elapsed > 135f) return;
+        float white = 1f - Mathf.clamp((elapsed - 23f) / 22f);
+        float glow = Mathf.clamp((135f - elapsed) / 90f) * 0.16f;
+        Draw.z(Layer.end - 0.1f);
+        Draw.color(Color.white, fire2, Mathf.clamp((elapsed - 45f) / 60f));
+        Draw.alpha(Math.max(white, glow));
+        Fill.rect(Core.camera.position.x, Core.camera.position.y, Core.camera.width + 4f, Core.camera.height + 4f);
+        Draw.reset();
+    }
+
+    public static final Effect nuclearFireball = mindustry.content.Fx.impactReactorExplosion;
+
+    public static final Effect hitIncend2 = new Effect(600f, 320f, e -> {
+        Building target = world.buildWorld(e.x, e.y);
+        if(!(e.data instanceof Integer id) || target == null || target.id != id) return;
+        Draw.z(Layer.blockOver + 1f);
+        for(int i = 0; i < 12; i++){
+            float angle = Mathf.randomSeed(e.id + i * 17L, 360f);
+            float distance = Mathf.randomSeed(e.id + i * 23L, e.rotation * 0.45f);
+            float pulse = (Mathf.sin(e.time / 7f + i * 2f) + 1f) * 0.5f;
+            float size = (2.5f + pulse * 3.5f) * Mathf.clamp(e.fout() * 5f);
+            float x = e.x + Angles.trnsx(angle, distance), y = e.y + Angles.trnsy(angle, distance);
+            Draw.color(fire3);
+            Draw.alpha(0.9f);
+            Fill.circle(x, y, size);
+            Draw.color(fire2);
+            Fill.circle(x, y, size * 0.45f);
+        }
+        Draw.reset();
+    });
+    public static void BigassExplosionCloud(int id, float originX, float originY, float elapsed, float radius, int particles, float duration){
+        float time = elapsed - 25f;
+        if(time < 0f || time >= duration) return;
+        Draw.z(Layer.effect + 0.2f);
+        float growth = Interp.pow2Out.apply(Mathf.clamp(time / 210f));
+        float envelope = Mathf.clamp(time / 60f) * Mathf.clamp((duration - time) / 360f);
+        float coverage = 0f;
+        for(int i = 0; i < particles; i++){
+            // THERE ARE SO MANY VARIABLES
+            long anchor = id + i * 127L;
+            float period = randomParticle(anchor + 1, 180f, 320f);
+            float clock = time + randomParticle(anchor + 2, period);
+            int cycle = Mathf.floor(clock / period);
+            float age = clock / period - cycle;
+            long seed = anchor + cycle * 104729L;
+            float angle = randomParticle(seed + 3, 360f);
+            float travel = radius * 0.72f * Mathf.sqrt(randomParticle(seed + 4)) * growth;
+            float turn = age * Mathf.PI2 * randomParticle(seed + 7, 0.65f, 1.4f) + randomParticle(seed + 8, Mathf.PI2);
+            float curl = randomParticle(seed + 6, 14f, 35f) * growth;
+            float radial = travel + Mathf.sin(turn) * curl + age * 24f;
+            float tangent = Mathf.cos(turn) * curl;
+            float x = originX + Angles.trnsx(angle, radial) + Angles.trnsx(angle + 90f, tangent) + time * 0.018f;
+            float y = originY + Angles.trnsy(angle, radial) + Angles.trnsy(angle + 90f, tangent) + time * 0.004f;
+            float billow = Mathf.sin(age * Mathf.PI);
+            float size = randomParticle(seed + 5, 18f, 42f) * (0.4f + growth * 0.6f) * (0.5f + billow * 0.6f);
+            float opacity = billow * billow * envelope * randomParticle(seed + 10, 0.28f, 0.46f);
+            float cooling = Mathf.clamp(travel / (radius * 0.72f) * 0.32f + time / 1600f + age * 0.1f);
+            nuclearPuff(seed, x, y, size, cooling, opacity);
+            coverage = Math.max(coverage, opacity);
+        }
+        if(coverage > 0f){
+            CircleDistort.drawSmoke(originX + 15f, originY, radius * 0.95f, time, coverage);
+        }
+        Draw.reset();
+    }
+    public static void ShockwaveDust(int id, float originX, float originY, float elapsed, float radius, float delay, float waveDuration){
+        Draw.z(Layer.effect + 0.1f);
+        for(int i = 0; i < 1400; i++){
+            long seed = id + i * 67L;
+            float angle = randomParticle(seed, 360f);
+            float r = radius * Mathf.sqrt(randomParticle(seed + 1));
+            // Randomize both position and release time so smoke forms scattered pockets.
+            if(nuclearNoise(Angles.trnsx(angle, r) / 120f, Angles.trnsy(angle, r) / 120f, id) < 0.3f) continue;
+            float age = elapsed - delay - waveDuration * r / radius - randomParticle(seed + 3, 0f, 45f);
+            if(age < 0f || age > 600f) continue;
+            float t = age / 600f;
+            float size = randomParticle(seed + 2, 10f, 23f) * (0.7f + t);
+            float x = originX + Angles.trnsx(angle, r + t * 40f) + t * 30f;
+            float y = originY + Angles.trnsy(angle, r + t * 40f) + Mathf.sin(age / 35f + i) * 7f;
+            nuclearPuff(seed, x, y, size, 0.45f + t * 0.55f, Mathf.clamp(age / 15f) * (1f - t) * 0.6f);
+        }
+        Draw.reset();
+    }
+
+    public static final Effect debris = new Effect(150f, 700f, e -> {
+        if(!(e.data instanceof Block block)) return;
+        TextureRegion[] regions = block.getGeneratedIcons();
+        if(regions == null) return;
+        for(int i = 0; i < regions.length; i++){
+            TextureRegion region = regions[i];
+            if(region == null || !region.found()) continue;
+            float angle = e.rotation + Mathf.randomSeed(e.id + i * 31L, -55f, 55f);
+            float travel = Mathf.randomSeed(e.id + i * 71L, 55f, 210f) * e.finpow();
+            Draw.color(Color.white, smoke3, e.fin());
+            Draw.alpha(e.fout());
+            Draw.rect(region, e.x + Angles.trnsx(angle, travel),
+                e.y + Angles.trnsy(angle, travel) + Mathf.sin(e.fin() * Mathf.PI) * 45f,
+                e.rotation + e.fin() * Mathf.randomSeed(e.id + i, -330f, 330f));
+        }
+        Draw.reset();
+    }).layer(Layer.debris);
+
+    /** Draw local fallout; elapsed/lifetime include the preceding wave delay. */
+    public static void nuclearFallout(int id, float originX, float originY, float elapsed, float lifetime, float radius, float delay, float waveDuration){
+            Draw.z(Layer.flyingUnit + 0.1f);
+            Draw.color(smoke3);
+            float fade = Mathf.clamp((elapsed - delay - waveDuration) / 120f) * Mathf.clamp((lifetime - elapsed) / 180f);
+            for(int i = 0; i < 180; i++){
+                long anchor = id + i * 43L;
+                float period = randomParticle(anchor, 160f, 280f);
+                float clock = elapsed - delay - waveDuration + randomParticle(anchor + 1, period);
+                int cycle = Mathf.floor(clock / period);
+                float age = clock / period - cycle;
+                long seed = anchor + cycle * 104729L;
+                float dx = randomParticle(seed + 2, -radius, radius);
+                float dy = randomParticle(seed + 3, -radius, radius);
+                if(!nuclearFalloutContains(dx, dy, radius, id)) continue;
+                float x = originX + dx + age * randomParticle(seed + 5, -20f, 50f) + Mathf.sin(elapsed / 65f + i) * 7f;
+                float y = originY + dy + age * randomParticle(seed + 6, -25f, 30f);
+                float size = randomParticle(seed + 4, 3f, 8f) * (0.6f + age);
+                nuclearPuff(seed, x, y, size, 0.6f + age * 0.4f, Mathf.sin(age * Mathf.PI) * 0.28f * fade);
+            }
+            Draw.color(smoke3);
+            Draw.alpha(0.3f * fade);
+            for(int i = 0; i < 100; i++){
+                float dx = randomParticle(id + i * 7L, -radius, radius);
+                float dy = randomParticle(id + i * 13L, -radius, radius);
+                if(!nuclearFalloutContains(dx, dy, radius, id)) continue;
+                float fall = (elapsed * 0.35f + i * 19f) % 60f;
+                Fill.circle(originX + dx, originY + dy - fall, 1.4f);
+            }
+            Draw.reset();
+    }
+
+
+
+    // Smooth seeded fields keep terrain damage coherent rather than random tile speckle.
+    private static float nuclearNoise(float x, float y, int seed){
+        int ix = Mathf.floor(x), iy = Mathf.floor(y);
+        float fx = x - ix, fy = y - iy;
+        fx = fx * fx * (3f - 2f * fx);
+        fy = fy * fy * (3f - 2f * fy);
+        float a = Mathf.randomSeed(seed + ix * 734287L + iy * 912271L);
+        float b = Mathf.randomSeed(seed + (ix + 1) * 734287L + iy * 912271L);
+        float c = Mathf.randomSeed(seed + ix * 734287L + (iy + 1) * 912271L);
+        float d = Mathf.randomSeed(seed + (ix + 1) * 734287L + (iy + 1) * 912271L);
+        return Mathf.lerp(Mathf.lerp(a, b, fx), Mathf.lerp(c, d, fx), fy);
+    }
+
+    public static boolean nuclearFalloutContains(float dx, float dy, float radius, int seed){
+        float x = (dx - radius * 0.15f) / (radius * 0.85f);
+        float y = dy / (radius * 0.5f);
+        return x * x + y * y < 0.45f + nuclearNoise(dx / 100f, dy / 100f, seed + 31) * 0.95f;
+    }
+
+    public static void drawNuclearShockwave(float x, float y, float progress, float radius){
+        progress = Mathf.clamp(progress);
+        float currentRadius = radius * progress;
+        float fade = Mathf.pow(1f - progress, 1.8f);
+        CircleDistort.draw(x, y, currentRadius, fade);
+        Draw.z(Layer.light + 2f);
+        Draw.color(Color.white, fire2, progress);
+        Draw.alpha(0.42f * fade);
+        Lines.stroke(0.6f + 2.4f * fade);
+        Lines.circle(x, y, currentRadius);
+        Lines.stroke(2f);
+        Draw.alpha(0.12f * fade);
+        Lines.circle(x, y, Math.max(0f, currentRadius - 18f));
+        Draw.reset();
+    }
+
+    public static void drawNuclearTerrainImpact(long id, float originX, float originY, float direction, float elapsed, Color material){
+        if(elapsed < 0f || elapsed > 90f) return;
+        Draw.z(Layer.end - 1f);
+        float age = elapsed / 90f, fade = 1f - age;
+        rand.setSeed(id);
+        for(int i = 0; i < 6; i++){
+            float angle = direction + rand.random(-85f, 85f);
+            float travel = rand.random(12f, 55f) * (1f - fade * fade);
+            float x = originX + Angles.trnsx(angle, travel), y = originY + Angles.trnsy(angle, travel);
+            Draw.color(material);
+            Draw.alpha(fade * 0.85f);
+            Fill.square(x, y, rand.random(2f, 5f) * fade, angle + age * 120f);
+            Draw.alpha(fade * 0.45f);
+            Fill.circle(x, y, (3f + age * rand.random(5f, 12f)) * fade);
+        }
+        Draw.reset();
+    }
+
+    public static void nuclearPuff(long id, float x, float y, float radius, float progress, float opacity){
+        float tint = Mathf.randomSeed(id + 5);
+        float cool = Interp.pow2Out.apply(Mathf.clamp(progress * 2.8f));
+        Tmp.c1.set(fire1).lerp(Pal.lightOrange, Mathf.randomSeed(id + 1));
+        Tmp.c2.set(smoke1).lerp(smoke2, tint);
+        Draw.color(Tmp.c1.lerp(Tmp.c2, cool));
+        Draw.alpha(opacity);
+        float phase = Mathf.randomSeed(id + 9, 360f);
+        Fill.polyBegin();
+        for(int i = 0; i < 40; i++){
+            float angle = i * 9f;
+            float edge = radius * (1f + 0.1f * Mathf.sinDeg(angle * 3f + phase)
+                + 0.065f * Mathf.sinDeg(angle * 5f - phase));
+            Fill.polyPoint(x + Angles.trnsx(angle, edge), y + Angles.trnsy(angle, edge));
+        }
+        Fill.polyEnd();
+    }
+
+    public static final Effect nuclearFalloutSmoke = new Effect(180f, 100f, e -> {
+        float age = e.fin();
+        float direction = Mathf.randomSeed(e.id, 360f);
+        float drift = e.finpow() * Mathf.randomSeed(e.id + 1, 7f, 18f);
+        float x = e.x + Angles.trnsx(direction, drift);
+        float y = e.y + Angles.trnsy(direction, drift);
+        float size = Mathf.randomSeed(e.id + 2, 3f, 6f) * (0.5f + age);
+        nuclearPuff(e.id, x, y, size, 0.65f + age * 0.35f,
+            Mathf.sin(age * Mathf.PI) * 0.5f);
+        Draw.reset();
+    }).layer(Layer.effect);
+
     public static final Rand rand = new Rand();
     public static final Vec2 v = new Vec2();
+
+    public static final Effect nuclearTerrainHit = new Effect(72f, 160f, e -> {
+        rand.setSeed(e.id);
+        Draw.color(e.color, Color.gray, e.fin());
+        Draw.alpha(e.fout() * 0.65f);
+        Angles.randLenVectors(e.id + 19, 4, 2f + e.finpow() * 15f, (x, y) -> {
+            Fill.circle(e.x + x, e.y + y, (3f + e.fin() * 7f) * e.fout());
+        });
+        Draw.reset();
+    }).layer(Layer.light + 2.5f);
 
     /** Rotation is the size multiplier, including the individual particles. */
     public static final Effect legStepDust = new Effect(30f, e -> {
@@ -378,19 +647,6 @@ public class AquaFx {
                 });
                 Drawf.light(e.x, e.y, 20f, e.color, 0.6f * e.fout());
             }),
-            shootSmokeFormentGallium = new Effect(35f, e -> {
-                color(Color.white, e.color, e.fin());
-
-                randLenVectors(e.id, 6, e.finpow() * 29f, e.rotation, 26f, (x, y) ->
-                        Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.1f)
-                );
-            }),
-            smallShockwave = new Effect(25f, 80f, e -> {
-                color(e.color, Color.lightGray, e.fin());
-                stroke(e.fout() * 2f + 0.4f);
-                Lines.circle(e.x, e.y, e.fin() * 18f);
-            }).layer(Layer.debris),
-
     pentagonShootSmoke = new Effect(65f, e -> {
         color(Color.valueOf("ffbfc8"), Color.valueOf("e8586c"), e.fin());
 
@@ -1424,7 +1680,7 @@ public class AquaFx {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()) * 2.5f);
                 });
                 color(Color.white,Pal.lightishOrange, e.fin());
-                randLenVectors(e.id, 4, e.finpow() * 11f, e.rotation, 22f, (x, y) -> {
+                randLenVectors(e.id, 4, e.finpow() * 12f, e.rotation, 22f, (x, y) -> {
                     Fill.circle(e.x + x, e.y + y, Interp.pow2Out.apply(e.fout()));
                 });
             }),
@@ -1436,10 +1692,10 @@ public class AquaFx {
                 });
             }),
             shootSmoke3 = new Effect(50f, e -> {
-                color(Pal.lighterOrange, e.color, e.color, Interp.pow2Out.apply(e.fin()));
+                color(e.color,Color.grays(0.2f), Interp.pow2In.apply(e.fin()));
                 rand.setSeed(e.id+1);
-                randLenVectors(e.id, rand.random(5,9), Interp.pow2In.apply(e.finpow()) * 50f, e.rotation, 28f, (x, y) -> {
-                    Fill.circle(e.x + x, e.y + y, Interp.pow5Out.apply(e.fout()) * 4.5f);
+                randLenVectors(e.id, rand.random(5,9), Interp.pow2In.apply(e.finpow()) * 50f, e.rotation, 20f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, Interp.pow5Out.apply(e.fout()) * 3.5f);
                 });
             }),
             shootSmokeRadioactive = new Effect(75f, e -> {
@@ -1560,7 +1816,7 @@ public class AquaFx {
                     Fill.circle(e.x, e.y, 40f * flash);
                     blend();
                 }
-
+                CircleDistort.draw(e.x,e.y, 12*e.fout(), .5f*e.fout());
                 float iconAlpha = Mathf.clamp(1f - fin * 1.5f);
                 float iconSize = 16f;//iunno
                 if(iconAlpha > 0f && item.fullIcon != null){

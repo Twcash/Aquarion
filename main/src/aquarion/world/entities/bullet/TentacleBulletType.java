@@ -19,6 +19,8 @@ public class TentacleBulletType extends BulletType {
 
     public int segmentCount = 14;
     public float segmentLength = 6f;
+    /** Extra sprite length for overlap between adjacent segments, in world units. */
+    public float segmentOffset = 0f;
 
     public float width = 3f;
     /** Minimum ticks between contact damage checks; each target is hit once per check. */
@@ -64,8 +66,8 @@ public class TentacleBulletType extends BulletType {
 
     @Override
     public void init(){
-        if(segmentCount < 2 || segmentLength <= 0f || width < 0f || damageInterval <= 0f){
-            throw new IllegalArgumentException("Tentacles require at least two segments, positive length/damage interval, and nonnegative width.");
+        if(segmentCount < 2 || segmentLength <= 0f || segmentOffset < 0f || width < 0f || damageInterval <= 0f){
+            throw new IllegalArgumentException("Tentacles require at least two segments, positive length/damage interval, and nonnegative width/segment offset.");
         }
         super.init();
         drawSize = Math.max(drawSize, (range + width) * 2f);
@@ -285,7 +287,7 @@ public class TentacleBulletType extends BulletType {
                         region,
                         (a.x + c.x) / 2f,
                         (a.y + c.y) / 2f,
-                        length,
+                        length + segmentOffset,
                         w * 2f,
                         angle
                 );

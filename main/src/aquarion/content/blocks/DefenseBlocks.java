@@ -5,6 +5,7 @@ import aquarion.world.MultiBlockLib.drawrr.DrawRegionCenterSymmetry;
 import aquarion.world.MultiBlockLib.drawrr.DrawRegionRotated;
 import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.blocks.defense.MissileBlock;
+import aquarion.world.blocks.defense.NukeBlock;
 import aquarion.world.blocks.payload.ReagentMix;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
@@ -46,13 +47,18 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DefenseBlocks {
-    public static Block forceGenerator, meteor, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+    public static Block forceGenerator, testblock, meteor, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade, defunctForceSynthesizer, ferricWall, ferricWallLarge
     //I have no clue where to put these so I'll put them here
     ,dolomiteReagentMix, sandClump;
 
 
     public static void loadContent() {
+        testblock = new NukeBlock("testblock"){{
+            requirements(Category.turret, BuildVisibility.sandboxOnly, with());
+            alwaysUnlocked = true;
+            health = 100;
+        }};
         dolomiteReagentMix = new ReagentMix("dolomite-mixture"){{
             size = 2;
             containing.add(new ItemStack(sand, 15), new ItemStack(calcium, 5), new ItemStack(magnesiumPowder, 5));

@@ -31,8 +31,8 @@ final class NeoplasiaItemTransit {
             int firstVein = -1;
             for(int i = 0; i < path.size; i++){
                 Building build = path.get(i);
-                points[i * 2] = build.x;
-                points[i * 2 + 1] = build.y;
+                points[i * 2] = build.tile.worldx() + build.block.offset;
+                points[i * 2 + 1] = build.tile.worldy() + build.block.offset;
                 if(firstVein < 0 && build instanceof NeoplasmVein.NeoplasmVeinBuild) firstVein = i;
             }
             entry = firstVein;
@@ -86,7 +86,8 @@ final class NeoplasiaItemTransit {
     }
 
     static void play(Seq<? extends Building> path, Item item){
-        if(!canAnimate() || path.size < 2 || path.size > 256) return;
+        if(item == null || !canAnimate() || path.size < 2 || path.size > 256) return;
+        for(Building build : path) if(build == null || !NeoplasiaGraph.isCurrent(build)) return;
         for(int i = 0; i < occupiedUntil.length; i++){
             if(occupiedUntil[i] > Time.time) continue;
             Route route = new Route(path, item);

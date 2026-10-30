@@ -36,7 +36,7 @@ task proc(type: JavaExec) {
 
     workingDir = assetsDir
     mainClass.set(rootProject.ext.modName.replaceAll("-", "") + '.tools.Tools')
-    classpath = sourceSets.main.runtimeClasspath
+    classpath = project(':main').sourceSets.main.output + sourceSets.main.runtimeClasspath
     systemProperty 'currentModName', modName
 
     doFirst {

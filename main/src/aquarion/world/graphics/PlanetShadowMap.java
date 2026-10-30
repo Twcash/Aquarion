@@ -37,16 +37,18 @@ public class PlanetShadowMap {
     public static void updateLightSpace(Planet planet) {
         Vec3 lightDir = new Vec3(planet.solarSystem.position)
                 .sub(planet.position)
-                .rotate(Vec3.Y, planet.getRotation())
                 .nor();
         float extent = 10f;
         lightProjection.setToOrtho(-extent, extent, -extent, extent, -1f, extent * 3f);
-        lightView.setToLookAt(lightDir.scl(extent * 2), Vec3.Zero, Vec3.Y);
+        Vec3 eye = lightDir.scl(extent * 2).add(planet.position);
+        Vec3 up = Math.abs(new Vec3(planet.solarSystem.position).sub(planet.position).nor().dot(Vec3.Y)) > 0.99f ? Vec3.X : Vec3.Y;
+        lightView.setToLookAt(eye, planet.position, up);
         lightSpaceMatrix.set(lightProjection).mul(lightView);
     }
 
     public static void begin() {
-        shadowBuffer.begin(Color.clear);
+        // Unwritten pixels represent the far plane, not an occluder at depth zero.
+        shadowBuffer.begin(Color.white);
     }
 
     public static void end() {
@@ -102,6 +104,8 @@ public class PlanetShadowMap {
             setUniformf("u_sunPos", planet.solarSystem.position);
 
             tmpPlanets.clear();
+            // The host globe must eclipse its own orbital mesh too.
+            tmpPlanets.add(planet);
             collectPlanets(planet.solarSystem, planet, tmpPlanets);
             int count = Math.min(tmpPlanets.size, MAX_SHADOW_PLANETS);
             setUniformi("u_planetCount", count);

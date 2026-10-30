@@ -13,6 +13,12 @@ public class DialogueObjectiveSystem {
     private DialogueObjectiveSystem(){
     }
 
+    /** Queue dialogue from any gameplay event using the normal objective UI and save state. */
+    public static void show(DialogueObjective dialogue){
+        if(dialogue == null || state == null || !state.isGame()) return;
+        if(!state.rules.objectives.all.contains(dialogue, true)) state.rules.objectives.add(dialogue);
+    }
+
     public static void reset(){
         suppressQualifiedOnLoad = active != null || DialogueObjectiveBar.isOpen();
         active = null;
@@ -56,6 +62,8 @@ public class DialogueObjectiveSystem {
 
     public static void choose(DialogueObjectiveOption option){
         if(active == null || option == null) return;
+        if(option.setGlobalFlags != null) for(String flag : option.setGlobalFlags) GlobalFlags.set(flag);
+        if(option.clearGlobalFlags != null) for(String flag : option.clearGlobalFlags) GlobalFlags.set(flag, false);
         if(option.setFlags != null){
             for(String flag : option.setFlags){
                 if(flag != null && !flag.isEmpty() && !state.rules.objectiveFlags.contains(flag)){

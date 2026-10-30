@@ -108,6 +108,7 @@ public class AquaLoader extends Mod {
         aquarion.world.blocks.environment.TemporaryFloors.register();
         Events.run(EventType.Trigger.draw, Renderer::draw);
         Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
+        Events.on(EventType.ResetEvent.class, e -> NeoplasiaGraph.clear());
         Events.on(EventType.WorldLoadEvent.class, e -> NeoplasiaGraph.reset());
         Events.on(EventType.WorldLoadEvent.class, e -> CheckpointBlock.rebuildCheckpoints());
         Events.on(EventType.WorldLoadEvent.class, e -> aquarion.world.blocks.environment.DefunctCheckpointBlock.rebuildCheckpoints());
@@ -145,7 +146,11 @@ public class AquaLoader extends Mod {
     @Override
     public void init() {
         aquarion.world.map.RuntimeMapFilters.install();
+        aquarion.world.campaign.GlobalFlagTriggers.register();
+        aquarion.dialogs.GlobalDialogues.load();
         MapObjectives.registerObjective(DialogueObjective::new);
+        MapObjectives.registerObjective(aquarion.world.campaign.BlockPlacedObjective::new);
+        MapObjectivesDialog.setInterpreter(aquarion.world.campaign.BlockPlacedObjective.class, MapObjectivesDialog.defaultInterpreter());
         MapObjectives.registerObjective(SectorCapturedObjective::new);
         MapObjectivesDialog.setInterpreter(SectorCapturedObjective.class, MapObjectivesDialog.defaultInterpreter());
         MapObjectivesDialog.setInterpreter(DialogueObjective.class, MapObjectivesDialog.defaultInterpreter());
@@ -154,7 +159,10 @@ public class AquaLoader extends Mod {
         JsonIO.classTag("dialogueObjectiveOption", DialogueObjectiveOption.class);
         JsonIO.classTag("DialogueObjectiveOption", DialogueObjectiveOption.class);
 
-        Events.on(EventType.WorldLoadEvent.class, e -> DialogueObjectiveSystem.reset());
+        Events.on(EventType.WorldLoadEvent.class, e -> {
+            aquarion.world.campaign.GlobalFlags.reload();
+            DialogueObjectiveSystem.reset();
+        });
         if(!headless){
             Events.on(EventType.ClientLoadEvent.class, e -> new DialogueObjectiveBar().build());
         }

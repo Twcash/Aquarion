@@ -4,6 +4,7 @@ import aquarion.world.Uti.AquaStats;
 import arc.Core;
 import arc.graphics.Color;
 import arc.math.Mathf;
+import arc.struct.IntSet;
 import arc.util.Tmp;
 import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
@@ -74,6 +75,11 @@ public class AquaHeatCrafter extends GenericCrafter {
     }
 
     public class AquaHeatCrafterBuild extends GenericCrafterBuild implements HeatConsumer {
+        @Override
+        public float calculateHeat(float[] sides, IntSet cameFrom){
+            return SharedHeat.adjust(this, sides, super.calculateHeat(sides, cameFrom));
+        }
+
         //TODO sideHeat could be smooth
         public float[] sideHeat = new float[4];
         public float heat = 0f;

@@ -13,8 +13,8 @@ public class NeoplasmLiquidSlurper extends GenericNeoplasiaBlock {
     public NeoplasmLiquidSlurper(String name){
         super(name);
         maxAmount = 20000f;
-        selfGrowRate = 60f;
-        massExportRate = 50f;
+        selfGrowRate = 8f;
+        massExportRate = 5f;
         cost = 100f;
         baseSize = 24f;
         bursts = 0;
