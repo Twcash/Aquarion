@@ -9,6 +9,10 @@ import static mindustry.Vars.state;
 public class DialogueObjective extends MapObjective {
     /** Only becomes available once this objective flag is set. Empty means always available. */
     public String requiresFlag = "";
+    /** Shared across sector saves in this campaign. */
+    public String requiresGlobalFlag = "";
+    public String endGlobalFlag = "";
+    public String[] setGlobalFlags = {};
     public String speaker = "";
     /** Atlas region name for the speaker portrait. */
     public String icon = "";
@@ -34,7 +38,8 @@ public class DialogueObjective extends MapObjective {
     @Override
     public boolean update(){
         if(finished) return true;
-        if(!endFlag.isEmpty() && state.rules.objectiveFlags.contains(endFlag)){
+        if(!endFlag.isEmpty() && state.rules.objectiveFlags.contains(endFlag)
+            || !endGlobalFlag.isEmpty() && GlobalFlags.has(endGlobalFlag)){
             finished = true;
             return true;
         }
@@ -50,11 +55,25 @@ public class DialogueObjective extends MapObjective {
 
     @Override
     public boolean qualified(){
-        return super.qualified() && (requiresFlag.isEmpty() || state.rules.objectiveFlags.contains(requiresFlag));
+        return super.qualified() && (requiresFlag.isEmpty() || state.rules.objectiveFlags.contains(requiresFlag))
+            && (requiresGlobalFlag.isEmpty() || GlobalFlags.has(requiresGlobalFlag));
+    }
+
+    @Override
+    public void done(){
+        super.done();
+        for(String flag : setGlobalFlags) GlobalFlags.set(flag);
     }
 
     public void finish(){
         finished = true;
+    }
+
+    /** Run the next objective after this dialogue completes; show the first dialogue to queue both. */
+    public <T extends MapObjective> T next(T next){
+        if(next == null || next == this) throw new IllegalArgumentException("Expected a different next objective");
+        child(next);
+        return next;
     }
 
     public boolean isFinished(){

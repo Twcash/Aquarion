@@ -5,4 +5,6 @@ public class DialogueObjectiveOption {
     public String text = "";
     /** Objective flags set when this choice is selected. */
     public String[] setFlags = {};
+    public String[] setGlobalFlags = {};
+    public String[] clearGlobalFlags = {};
 }
