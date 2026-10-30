@@ -86,21 +86,6 @@ public class DistributionBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        railPoint = new RailPoint("rail-node"){{
-            requirements(Category.units, with(concrete, 50, lead, 20));
-            size = 2;
-            rotateDraw = false;
-            envEnabled |= Env.terrestrial | Env.underwater;
-            envDisabled = Env.none;
-        }};
-
-        railJunction = new RailPoint("rail-junction"){
-            {
-                requirements(Category.units, with(concrete, 100, lead, 150));
-                size = 2;
-                rotateDraw = false;
-                fourDirections = true;
-            }};
         liquidCargoDock = new CargoStation("liquid-dock", true, true){{
             requirements(Category.units, with(concrete, 100, lead, 150, metaglass, 50));
             envEnabled |= Env.terrestrial | Env.underwater;

@@ -36,6 +36,7 @@ public class AquaShaders {
     public static @Nullable deflectorShader deflectorShield;
     public static @Nullable DissolveShader dissolveShader;
     public static @Nullable RailPlacementShader railPlacement;
+    public static @Nullable CircleDistortShader circleDistort;
     public static CacheLayer.ShaderLayer lavalLayer, slavaLayer, petroleumLayer, sslagLayer, brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer, sslagLayer2,
             wetUnderLayer;
     public static Fi file(String name){
@@ -63,6 +64,7 @@ public static void init() {
     monsoon = new MonsoonShader();
     dissolveShader = new DissolveShader("dissolve");
     railPlacement = new RailPlacementShader();
+    circleDistort = new CircleDistortShader();
     glitch = new SurfaceShader("glitch");
     deflectorShield = new deflectorShader();
     shadowLayer = new CacheLayer.ShaderLayer(shadow);
@@ -107,6 +109,30 @@ public static void init() {
             knight1.dispose();
             PlanetShadowMap.dispose();
             if(railPlacement != null) railPlacement.dispose();
+            CircleDistort.dispose();
+            if(circleDistort != null){ circleDistort.dispose(); circleDistort = null; }
+        }
+    }
+    /** Circular shockwave and caustic-smoke refraction, composited by CircleDistort. */
+    public static class CircleDistortShader extends Shader{
+        public float x, y, radius, strength, time;
+        public boolean smoke;
+
+        public CircleDistortShader(){
+            super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/circle-distort.frag"));
+        }
+
+        @Override
+        public void apply(){
+            setUniformi("u_texture", 0);
+            setUniformf("u_camera", Core.camera.position.x - Core.camera.width / 2f,
+                Core.camera.position.y - Core.camera.height / 2f);
+            setUniformf("u_worldSize", Core.camera.width, Core.camera.height);
+            setUniformf("u_center", x, y);
+            setUniformf("u_radius", radius);
+            setUniformf("u_strength", strength);
+            setUniformf("u_time", time);
+            setUniformf("u_smoke", smoke ? 1f : 0f);
         }
     }
     public static class RailPlacementShader extends Shader{

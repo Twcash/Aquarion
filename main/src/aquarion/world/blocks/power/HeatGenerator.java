@@ -6,6 +6,8 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
+import arc.struct.IntSet;
+import aquarion.world.blocks.heatBlocks.SharedHeat;
 import arc.util.Time;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
@@ -83,6 +85,11 @@ public class HeatGenerator extends ConsumeGenerator {
 
     //TODO: draw warmup fraction on block?
     public class HeatGenBuild extends ConsumeGeneratorBuild implements HeatConsumer{
+        @Override
+        public float calculateHeat(float[] sides, IntSet cameFrom){
+            return SharedHeat.adjust(this, sides, super.calculateHeat(sides, cameFrom));
+        }
+
         public float[] sideHeat = new float[4];
         public float heat = 0f, instability, totalProgress, warmup, flash;
 

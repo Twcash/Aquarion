@@ -1595,7 +1595,7 @@ public class CrafterBlocks {
             drawer = new DrawMulti(new DrawDefault(), new DrawLiquidTile(water, 4), new DrawWheel() {{
                 width = 120 / 4f;
                 height = 103 / 4f;
-                rotation = 90;
+                rotation = -90;
                 y = -50/2f/4f;
                 sideCount = 36;
                 rotationSpeed = 1.1f;

@@ -190,6 +190,13 @@ task fetchComps {
 
 tasks.withType(JavaCompile).configureEach { task ->
     task.options.release = 17
+    // The processors generate module-wide registries; partial compilation can omit them.
+    task.options.incremental = false
+    task.outputs.upToDateWhen {
+        def gen = "${modName.replaceAll('-', '')}/gen"
+        task.destinationDirectory.file("${gen}/${classPrefix}ContentRegionRegistry.class").get().asFile.exists() &&
+                task.destinationDirectory.file("${gen}/Regions.class").get().asFile.exists()
+    }
     task.dependsOn 'fetchComps'
     options.compilerArgs += ['-Xlint:-processing']
 }

@@ -129,7 +129,9 @@ public class AquaheatMover extends Block {
                     );
 
                     float transfer;
-                    if (canPullFromBack) {
+                    if(nearby instanceof SharedHeat.Source shared){
+                        transfer = shared.heatTo(current);
+                    }else if (canPullFromBack) {
                         // Pull heat from behind if non-conductor
                         transfer = nb.heat() / contactPoints;
                     } else {

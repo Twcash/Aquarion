@@ -40,6 +40,7 @@ import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
+import static mindustry.graphics.Layer.power;
 import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
@@ -641,8 +642,28 @@ public class PowerBlocks {
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.power;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            powerProduction = 4;
+            maxHeat = 700f;
+            overloadInput = 600;
             baseExplosiveness = 2;
+            heatPerItem = 75f;
+            drawer = new DrawMulti(new DrawDefault(), new DrawParticles() {{
+                color = Color.white;
+                alpha = 0.7f;
+                particles = 60;
+                reverse = false;
+                particleRad = 7 * 8f;
+                particleSize = 10;
+                poly = false;
+            }}, new DrawParticles() {{
+                color = Color.white;
+                alpha = 0.8f;
+                particles = 30;
+                particleLife = 120;
+                reverse = false;
+                particleRad = 5 * 8f;
+                particleSize = 11;
+                poly = false;
+            }});
         }};
 
         //Overwrite vanilla blocks
