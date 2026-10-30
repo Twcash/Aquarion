@@ -2044,47 +2044,6 @@ public class CrafterBlocks {
             craftTime = 120;
             drawer = new DrawMulti(new DrawDefault(), new DrawFade());
         }};
-        overwrite(Blocks.plastaniumCompressor, (GenericCrafter r) ->{
-            r.requirements = null;
-            r.requirements(Category.crafting, ItemStack.with(silicon, 120, chalkalloy, 60, graphite, 40));
-            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
-            r.consumeItems(ItemStack.with(chalkalloy, 2));
-        });
-        overwrite(Blocks.cultivator, (AttributeCrafter r) ->{
-            r.outputItem = new ItemStack(sporePod, 3);
-            r.craftTime = 240f;
-        });
-        overwrite(Blocks.pyratiteMixer, (GenericCrafter r) ->{
-            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
-            r.consumeItems(ItemStack.with(coal, 2, lead, 4, sand, 4));
-            r.outputItem = new ItemStack(Items.pyratite, 3);
-            r.craftTime = 120;
-        });
-        overwrite(Blocks.blastMixer, (GenericCrafter r) ->{
-            r.outputItem = new ItemStack(Items.blastCompound, 3);
-            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
-            r.consumeItems(ItemStack.with(pyratite, 3, sporePod, 3));
-            r.craftTime = 120;
-        });
-        overwrite(Blocks.cryofluidMixer, (GenericCrafter r) ->{
-            r.requirements = null;
-            r.requirements(Category.crafting, ItemStack.with(silicon, 120, chalkalloy, 90, graphite, 40, metaglass, 60));
-            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
-            r.consumeItems(ItemStack.with(chalkalloy, 1));
-        });
-        overwrite(Blocks.siliconCrucible, (GenericCrafter r) ->{
-            r.outputItem = new ItemStack(Items.silicon, 12);
-            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
-            r.consumeItems(ItemStack.with(coal, 6, sand, 9, pyratite, 1));
-            r.craftTime = 120;
-        });
-        overwrite(Blocks.sporePress, (GenericCrafter r) ->{
-            r.outputLiquid = new LiquidStack(oil, 18/60f);
-            r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
-            r.consumeItems(ItemStack.with(sporePod, 1));
-            r.craftTime = 60;
-        }); 
-
         filter = new Filter("filter") {{
             requirements(Category.crafting, with(copper, 500, ferricMatter, 250, silicon, 600, aluminum, 250));
             buildTime = 2200f;

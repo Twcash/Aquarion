@@ -666,11 +666,5 @@ public class PowerBlocks {
                 poly = false;
             }});
         }};
-
-        //Overwrite vanilla blocks
-
-        overwrite(Blocks.impactReactor, (ImpactReactor r) ->{
-            r.itemDuration = 120f;
-        });
     }
 }
