@@ -69,7 +69,7 @@ public class CruxOverrideBlocks {
 
         overwrite(Blocks.surgeSmelter, (GenericCrafter r) -> {
             r.removeConsumer(r.findConsumer(f -> f instanceof ConsumeItems));
-            r.consumeItems(with(Items.copper, 3, Items.lead, 4, Items.titanium, 2, Items.silicon, 3));
+            r.consumeItems(with(Items.copper, 3, Items.lead, 4, chalkalloy, 2, Items.silicon, 3));
         });
 
         overwrite(Blocks.cryofluidMixer, (GenericCrafter r) ->{
@@ -117,7 +117,7 @@ public class CruxOverrideBlocks {
 
         overwrite(Blocks.door, (Door r) -> {
                     r.requirements = null;
-            r.requirements(Category.defense, with(chalkalloy, 6, Items.silicon, 4));
+                    r.requirements(Category.defense, with(chalkalloy, 6, Items.silicon, 4));
                 }
         );
 
@@ -212,7 +212,7 @@ public class CruxOverrideBlocks {
 
         overwrite(Blocks.differentialGenerator, (ConsumeGenerator r) -> {
                     r.requirements = null;
-                    r.requirements(Category.power, with(Items.copper, 70, Items.titanium, 50, Items.lead, 100, Items.silicon, 65, Items.metaglass, 50));
+                    r.requirements(Category.power, with(Items.copper, 70, chalkalloy, 50, Items.lead, 100, Items.silicon, 65, Items.metaglass, 50));
                 }
         );
 
@@ -237,49 +237,49 @@ public class CruxOverrideBlocks {
 
         overwrite(Blocks.container, (StorageBlock r) -> {
                     r.requirements = null;
-                    r.requirements(Category.effect, with(Items.titanium, 100));
+                    r.requirements(Category.effect, with(chalkalloy, 100));
                 }
         );
 
         overwrite(Blocks.vault, (StorageBlock r) -> {
                     r.requirements = null;
-                    r.requirements(Category.effect, with(Items.titanium, 250, Items.thorium, 125));
+                    r.requirements(Category.effect, with(chalkalloy, 250, Items.thorium, 125));
                 }
         );
 
         overwrite(Blocks.lancer, (PowerTurret r) -> {
                     r.requirements = null;
-                    r.requirements(Category.turret, with(Items.copper, 60, Items.lead, 70, Items.silicon, 60, Items.titanium, 30));
+                    r.requirements(Category.turret, with(Items.copper, 60, Items.lead, 70, Items.silicon, 60, chalkalloy, 30));
                 }
         );
 
         overwrite(Blocks.parallax, (TractorBeamTurret r) -> {
                     r.requirements = null;
-                    r.requirements(Category.turret, with(Items.silicon, 160, Items.titanium, 110, Items.graphite, 50));
+                    r.requirements(Category.turret, with(Items.silicon, 160, chalkalloy, 110, Items.graphite, 50));
                 }
         );
 
         overwrite(Blocks.swarmer, (ItemTurret r) -> {
                     r.requirements = null;
-                    r.requirements(Category.turret, with(Items.graphite, 35, Items.titanium, 35, Items.plastanium, 45, Items.silicon, 30));
+                    r.requirements(Category.turret, with(Items.graphite, 35, chalkalloy, 35, Items.plastanium, 45, Items.silicon, 30));
                 }
         );
 
         overwrite(Blocks.salvo, (ItemTurret r) -> {
                     r.requirements = null;
-                    r.requirements(Category.turret, with(Items.copper, 100, Items.graphite, 80, Items.titanium, 50));
+                    r.requirements(Category.turret, with(Items.copper, 100, Items.graphite, 80, chalkalloy, 50));
                 }
         );
 
         overwrite(Blocks.segment, (PointDefenseTurret r) -> {
                     r.requirements = null;
-                    r.requirements(Category.turret, with(Items.silicon, 130, Items.thorium, 80, Items.phaseFabric, 40, Items.titanium, 40));
+                    r.requirements(Category.turret, with(Items.silicon, 130, Items.thorium, 80, Items.phaseFabric, 40, chalkalloy, 40));
                 }
         );
 
         overwrite(Blocks.tsunami, (LiquidTurret r) -> {
                     r.requirements = null;
-                    r.requirements(Category.turret, with(Items.metaglass, 100, Items.lead, 400, Items.titanium, 250, Items.thorium, 100));
+                    r.requirements(Category.turret, with(Items.metaglass, 100, Items.lead, 400, chalkalloy, 250, Items.thorium, 100));
                 }
         );
 
@@ -313,7 +313,7 @@ public class CruxOverrideBlocks {
 
         overwrite(Blocks.cyclone, (ItemTurret r) -> {
                     r.requirements = null;
-                    r.requirements(Category.turret, with(Items.copper, 200, Items.titanium, 125, Items.plastanium, 80));
+                    r.requirements(Category.turret, with(Items.copper, 200, chalkalloy, 125, Items.plastanium, 80));
                 }
         );
     }
