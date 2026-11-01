@@ -12,6 +12,7 @@ import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.Door;
 import mindustry.world.blocks.defense.ForceProjector;
+import mindustry.world.blocks.defense.MendProjector;
 import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.distribution.Conveyor;
@@ -118,6 +119,12 @@ public class CruxOverrideBlocks {
         overwrite(Blocks.door, (Door r) -> {
                     r.requirements = null;
                     r.requirements(Category.defense, with(chalkalloy, 6, Items.silicon, 4));
+                }
+        );
+
+        overwrite(Blocks.mendProjector, (MendProjector r) -> {
+                    r.requirements = null;
+                    r.requirements(Category.effect, with(Items.lead, 100, chalkalloy, 25, Items.silicon, 40, Items.copper, 50));
                 }
         );
 
