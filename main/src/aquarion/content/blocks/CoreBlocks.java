@@ -57,7 +57,7 @@ import static mindustry.type.ItemStack.with;
 
 
 public class CoreBlocks {
-    public static Block bomb, dPowerSource, dItemSource, dLiquidSource, speaker, toggler, splitter, channel, storageReader, merger, buzzSaw, coreReception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
+    public static Block bomb, toggler, splitter, channel, storageReader, merger, buzzSaw, coreReception, infomatic, mendPyre, mendSubstation, mendPylon, cache, coreCuesta, overClockProjector,
             coreEscarpment, laboratory, petal, reconstruct, specializationCatalyst,  corePike, buildCairn, constructionTower, crate, deflectorWell,blister, liquidSlurper, neoplasiaMass, OreSlurper, oreSlurperer, oresplurpererer, callus, thicBlob, enzyme, heart, vein, tree, tentaclePit, largeTentaclePit, neoplasmBlobber, largeBlobber, researchVoider;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -71,30 +71,9 @@ public class CoreBlocks {
             canOverdrive = false;
             size = 1;
         }};
-        speaker = new InfomaticBlock("speaker"){{
-            requirements(Category.logic, BuildVisibility.worldProcessorOnly, with());
-            size = 1;
-            privileged = true;
-            targetable = false;
-        }};
-        dPowerSource = new PowerSource("defunct-power-source"){{
-            requirements(Category.logic, BuildVisibility.worldProcessorOnly, with());
-            size = 1;
-            privileged = true;
-            targetable = false;
-        }};
-        dLiquidSource = new LiquidSource("defunct-liquid-source"){{
-            requirements(Category.logic, BuildVisibility.worldProcessorOnly, with());
-            size = 1;
-            privileged = true;
-            targetable = false;
-        }};
-        dItemSource = new ItemSource("defunct-item-source"){{
-            requirements(Category.logic, BuildVisibility.worldProcessorOnly, with());
-            size = 1;
-            privileged = true;
-            targetable = false;
-        }};
+
+
+
         toggler = new toggler("toggler"){{
             requirements(Category.logic, with(silicon, 10, graphite, 5));
             size = 1;

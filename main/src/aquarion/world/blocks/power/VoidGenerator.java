@@ -83,6 +83,12 @@ public class VoidGenerator extends PowerGenerator{
         public double smoothedInput;
         private double pendingInput;
 
+        public void clearCore(){
+            heat = 0f;
+            smoothedInput = pendingInput = 0d;
+            productionEfficiency = 0f;
+        }
+
         @Override
         public float getPowerProduction(){
             return 0f;
@@ -98,7 +104,10 @@ public class VoidGenerator extends PowerGenerator{
             pendingInput = 0d;
             smoothedInput += (input - smoothedInput) * alpha;
             if(!mindustry.Vars.net.client() && smoothedInput >= overloadInput){
-                looseSingularity.createNet(team, x, y, Mathf.random(360f), -1f, 1f, 1f);
+                for(Building other : proximity){
+                    if(other instanceof SingularityEjector.SingularityEjectorBuild ejector && ejector.eject(this)) return;
+                }
+                looseSingularity.createNet(mindustry.game.Team.derelict, x, y, Mathf.random(360f), -1f, 1f, 1f);
                 mindustry.content.Fx.impactReactorExplosion.at(x, y);
                 Call.effect(mindustry.content.Fx.impactReactorExplosion, x, y, 0f, Color.white);
                 Effect.shake(12f, 30f, x, y);

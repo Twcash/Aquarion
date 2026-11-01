@@ -69,7 +69,7 @@ import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
 
 public class TurretBlocks {
-    public static Block javelin, aftershock, suffocate,concuss, volt, grace, perforate, nostalgia, memorial, finite, mayhem, illustrate, acquit, clobber, reconstitution, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
+    public static Block javelin, aftershock, suffocate,concuss, volt, grace, perforate, finite, mayhem, illustrate, acquit, clobber, reconstitution, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
       blaze, ensign, hack;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -1385,70 +1385,6 @@ public class TurretBlocks {
                         moves.add(new PartMove(warmup.curve(pow2In), 2, 3, 0));
                     }});
                 }
-            }};
-        }};
-        nostalgia = new PowerTurret("nostalgia"){{
-            destroyEffect = AquaFx.factoryDestroyDefunct;
-            requirements(Category.turret, with(silicon, 300));
-            size = 2;
-            category = Category.turret;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            range = 190;
-            consumePower(5);
-            consumeCoolant(0.2f);
-
-            reload = 20;
-            ammoUseEffect = Fx.casing1;
-            inaccuracy = 7;
-            outlineColor = Color.valueOf("2d2e37");
-            shootSound = shootDuo;
-            shootType = new BasicBulletType(5, 25, "missile"){{
-                trailLength = 14;
-                width = 6;
-                height = 8;
-                frontColor = Color.white;
-                backColor = trailColor = hitColor = lightColor = Pal.berylShot;
-                shootEffect = Fx.shootSmallColor;
-                smokeEffect = Fx.shootSmallSmoke;
-                homingDelay = 5;
-                homingPower = 0.03f;
-                homingRange = 20;
-                trailInterval = 5;
-                trailEffect = Fx.artilleryTrail;
-            }};
-        }};
-        memorial = new PowerTurret("memorial"){{
-            requirements(Category.turret, with(silicon, 2000, metaglass, 150, graphite, 250));
-            destroyEffect = AquaFx.factoryDestroyDefunct;
-            size = 3;
-            category = Category.turret;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            range = 300;
-            consumePower(12);
-            consumeCoolant(0.4f);
-
-            reload = 90;
-            ammoUseEffect = Fx.casing1;
-            inaccuracy = 11;
-            outlineColor = Color.valueOf("2d2e37");
-            shootSound = shootDuo;
-            shoot.shots = 3;
-            shoot.shotDelay = 10;
-
-            shootType = new BasicBulletType(3, 55, "missile"){{
-                trailLength = 10;
-                width = 8;
-                height = 14;
-                frontColor = Color.white;
-                backColor = trailColor = hitColor = lightColor = Pal.berylShot;
-                shootEffect = Fx.shootSmallColor;
-                smokeEffect = Fx.shootSmallSmoke;
-                homingDelay = 40;
-                homingPower = 0.01f;
-                homingRange = 45;
-                trailInterval = 5;
-                lifetime = 190;
-                trailEffect = Fx.artilleryTrailSmoke;
             }};
         }};
         ensign = new ItemTurret("ensign") {{

@@ -115,10 +115,12 @@ public class AquaPlanets {
                 GlTFMesh ring = new GlTFMesh(this, "models/orbital-ring.glb", .5f);
                 ring.setProgressProvider(() -> GlTFMesh.techProgress(this));
                 ring.invertProgress = true;
-                ring.rotationY = 180;
+                ring.rotationY = 90;
+                ring.rotationX = 45;
                 return new ShadowMultiMesh(this, ring, new HexMesh(this, 6));
             };
             alwaysUnlocked = true;
+            prebuildBase = true;
             accessible = true;
             orbitRadius = 70;
             orbitOffset = 56;
@@ -133,7 +135,6 @@ public class AquaPlanets {
             atmosphereRadIn = -0.02f;
             atmosphereRadOut = 0.2f;
             startSector = 112;
-            prebuildBase = true;
             allowLaunchSchematics = false;
             orbitSpacing = 6f;
             defaultCore = CoreBlocks.corePike;

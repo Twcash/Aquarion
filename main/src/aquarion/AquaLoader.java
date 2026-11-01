@@ -145,6 +145,7 @@ public class AquaLoader extends Mod {
 
     @Override
     public void init() {
+        aquarion.ui.ClientCompatibility.install();
         aquarion.world.map.RuntimeMapFilters.install();
         aquarion.world.campaign.GlobalFlagTriggers.register();
         aquarion.dialogs.GlobalDialogues.load();

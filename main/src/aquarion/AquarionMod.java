@@ -3,6 +3,7 @@ package aquarion;
 import aquarion.annotations.Annotations;
 import aquarion.content.*;
 import aquarion.content.blocks.*;
+
 import aquarion.content.AquaLoadouts;
 import aquarion.content.AquaPlanets;
 import aquarion.content.AquaSectorPresets;
@@ -48,6 +49,7 @@ public class AquarionMod  implements Loadable{
         AquaUnitTypes.loadContent();
         UnitBlocks.loadContent();
         CoreBlocks.loadContent();
+        DefunctBlocks.loadContent();
         //distribution blocks need to be loaded here bc of unittypes
         DistributionBlocks.loadContent();
         //keep these at the back

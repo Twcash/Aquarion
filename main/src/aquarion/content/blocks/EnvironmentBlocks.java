@@ -48,7 +48,7 @@ public class EnvironmentBlocks {
     //metal walls
     public static Block metalWall3, metalWall4, metalWall5, metalWall6, metalWall7, metalWall1, metalWalltwo;
     //defunct stuff
-    public static Block scrapWall, defunctFramingCross, smallDefunctRadarTower, defunctFlooring, crasindFloor, loam, siltyLoam, sandyClayLoam, loamySand, clayLoam, silt, sandyLoam, sandyClay, siltyClayLoam, siltyClay,
+    public static Block scrapWall, crasindFloor, loam, siltyLoam, sandyClayLoam, loamySand, clayLoam, silt, sandyLoam, sandyClay, siltyClayLoam, siltyClay,
             CrasseCoral;
     //deconstructible plants and rocks and stuff (except defunct stuff)
     public static Block relBlossom, bramble, brulrFern, largeTranticaBush, tyrqPod, bigTyrqPod, scrap1,scrap2,scrap3, varcaudStalk, eseLillypad, deadVarcaudStalk, stoneRock, largeStoneRock, hugeStoneRock, massiveStoneRock, basaltRock, largeBasaltRock,
@@ -60,14 +60,14 @@ public class EnvironmentBlocks {
     public static Block andesiteExtrusions, CrystalGalena, basaltBluff, towaniteCluster, azuriteLarge, pinkSaltCrystals, bewCoral, yulrCoral, tranticaBush, regoubloom, pillarCoral, loteasCoral, songCoral;
     //overlays
     public static Block scrapChunks, scorche, crasindLitter, sparseSnow;
-    public static Block checkpoint, defunctCheckpoint;
+    public static Block checkpoint;
     //floors
     public static Block  tranticaOvergrownFloor, smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor, algal_carpet, coral_floor, cupriteFloor, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro, petroleumFloor, petroleumSeep, rubble, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor,
             boricFloor, pinkSaltFloor, pinkSaltFlats, smoothPinkSaltFloor, boricFloorDense, andesite, basaltPlates, ultrafamicPlates, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor, fluoriteFloor,
             andesiteLayers, basaltSpikes, basaltHolePlates, blueSandFLoor, redSandFloor, brecciaFloor, soil, fertileSoil, nickelFloor,calciteFloor, scrapFloor, andesiteRubble, qusGrass, clay, leafLitter, leafLitterDense, denseStone, stonePores, packedSnow;
     //liquids
-    public static Block clearWaterFloor, blueSandWater, iceWater, brine_liquid, shallowBrine, lava, shallowSlag2, wetRocks, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava, deepHalidicWater;
+    public static Block clearWaterFloor, blueSandWater, iceWater, brine_liquid, shallowBrine, wetRocks, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava, deepHalidicWater;
     // ores
     public static Block oreNickelWall, oreCalcite, oreRadium, oreUranium, orePitchblende, oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre, miniumOre, pentlanditeOre, fluoriteOre, haliteOre;
     //walls
@@ -496,9 +496,7 @@ public class EnvironmentBlocks {
         checkpoint = new CheckpointBlock("checkpoint"){{
             buildVisibility = BuildVisibility.editorOnly;
         }};
-        defunctCheckpoint = new DefunctCheckpointBlock("defunct-checkpoint"){{
-            buildVisibility = BuildVisibility.editorOnly;
-        }};
+
         arsenideFloor = new Floor("arsenide-floor", 4) {{
             attributes.set(fertility, -5f);
         }};
@@ -732,25 +730,9 @@ public class EnvironmentBlocks {
         scorche = new OverlayFloor("scorche"){{
             variants = 4;
         }};
-        defunctFlooring = new Floor("defunct-flooring"){{
-            variants = 0;
-        }};
-        defunctFramingCross = new Wall("defunct-framing-cross") {{
-            requirements(Category.defense, with(silicon, 25, lead, 15, graphite, 25));
-            variants = 2;
-            health = 150;
-            buildVisibility = BuildVisibility.sandboxOnly;
-        }};
-        smallDefunctRadarTower = new Radar("defunct-small-radar-tower") {{
-            size = 3;
-            requirements(Category.effect, with(silicon, 500, lead, 750, ferricMatter, 50, copper, 750));
-            health = 1500;
-            customShadow = true;
-            consumePower(1f);
-            discoveryTime = 300f;
-            fogRadius = 16;
-            buildVisibility = BuildVisibility.sandboxOnly;
-        }};
+
+
+
         sporeMoss.attributes.set(fertility, 0.75f);
         moss.attributes.set(fertility, 0.5f);
         basalt.attributes.set(metamorphic, 0.5f);

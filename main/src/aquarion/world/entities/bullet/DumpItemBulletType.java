@@ -53,6 +53,8 @@ public class DumpItemBulletType extends BulletType {
         Draw.reset();
     }
     public void despawned(Bullet b) {
+        // Consumed stacks must not explode, ignite terrain, or reach a hopper.
+        if(b.absorbed) return;
         if(b.tileOn().build instanceof ItemHopper.HopperBuild) return;
         super.despawned(b);
         if(b.tileOn().floor().isLiquid){
