@@ -43,6 +43,7 @@ public class AquarionMod  implements Loadable{
         CrafterBlocks.loadContent();
         vannilaturret.loadContent();
         RefineryBlocks.loadContent();
+        CruxOverrideBlocks.loadContent();
         AquaMenuDialog.attach();
 ;       EnvironmentBlocks.shallowSlag.asFloor().blendGroup = Blocks.slag;
         //units and cores, keep these after blocks
