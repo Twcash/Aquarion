@@ -135,7 +135,7 @@ public class AquaFactions{
             }
         }
         //Defunct
-        set(defunct, EnvironmentBlocks.defunctFramingCross, EnvironmentBlocks.smallDefunctRadarTower);
+        set(defunct, DefunctBlocks.defunctFramingCross, DefunctBlocks.smallDefunctRadarTower);
         setUnits(defunct, AquaUnitTypes.maintainer);
         //everything researchable in the modded tech tree is sharded
         tagTechTreeBlocks(sharded);

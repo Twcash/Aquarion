@@ -31,23 +31,14 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block defunctBeacon1, maintainerInactive ,voltaic, regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad, apothecary;
+    public static Block voltaic, regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad, apothecary;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
 
     public static void loadContent() {
-        maintainerInactive = new DefunctUnitBlock("maintainer-inactive"){{
-            buildVisibility = BuildVisibility.sandboxOnly;
-            time = 90;
-            consumePower(0.5f);
-            unit = maintainer;
-            rebuildable = false;
-            beepSound = AquaSounds.distressBeep;
-            beepInterval = 240;
-            ambientSoundVolume = 1f;
-        }};
+
         infantryPad = new InfantryLandingPad("infantry-landing-pad"){{
             requirements(Category.units, with());
             buildTime = 600;
@@ -276,14 +267,7 @@ public class UnitBlocks {
             destroySound = AquaSounds.start5;
             consumeLiquid(AquaLiquids.ammonia, 1.2f);
         }};
-        defunctBeacon1 = new DefunctBeacon("defunct-beacon-small"){{
-            buildVisibility = BuildVisibility.sandboxOnly;
-            size = 2;
-            squareSprite = false;
-            consumePower(4f);
-            units.addAll(vilify,vilify,vilify,vilify);
-            spawnRange = 24;
-        }};
+
         overwrite(Blocks.groundFactory, (UnitFactory r) -> {
             r.plans.remove(2);
             r.plans.addAll(

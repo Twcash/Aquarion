@@ -309,7 +309,11 @@ public class AlternativeBuildCosts {
             }
             setActive(current, selected);
             if(!deconstructionPrepared){
+                // Vanilla initialization starts at a complete building; this stub may
+                // already be partially built or have restored progress from a save.
+                float remainingProgress = progress;
                 super.setDeconstruct(deconstructionPrevious == null ? current : deconstructionPrevious);
+                progress = remainingProgress;
                 deconstructionPrepared = true;
             }
             super.deconstruct(builder, core, amount);

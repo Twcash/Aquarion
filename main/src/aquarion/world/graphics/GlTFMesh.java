@@ -314,13 +314,19 @@ public class GlTFMesh extends PlanetMesh {
             cg *= col[vi * colComps + 1];
             cb *= col[vi * colComps + 2];
         }
+        // glTF material factors and vertex colors are linear. Planet shaders render
+        // directly in display space, so convert before multiplying sRGB texture samples.
+        cr = linearToSrgb(cr);
+        cg = linearToSrgb(cg);
+        cb = linearToSrgb(cb);
         if (hasBaseTex) {
             sampleTexture(gltf.images[mat.baseImage], uv[vi * 2], uv[vi * 2 + 1], tmp3);
             cr *= tmp3[0];
             cg *= tmp3[1];
             cb *= tmp3[2];
         }
-        bakedVertices[w++] = Color.toFloatBits(cr * brightness, cg * brightness, cb * brightness, 1f);
+        bakedVertices[w++] = Color.toFloatBits(Mathf.clamp(cr * brightness),
+            Mathf.clamp(cg * brightness), Mathf.clamp(cb * brightness), 1f);
 
         float er = mat != null ? mat.er : 0f;
         float eg = mat != null ? mat.eg : 0f;
@@ -337,6 +343,11 @@ public class GlTFMesh extends PlanetMesh {
         bakedVertices[w++] = Math.max(er, Math.max(eg, eb)) > 0.01f ? 1f : 0f;
 
         return w;
+    }
+
+    private static float linearToSrgb(float value){
+        return value <= 0.0031308f ? value * 12.92f
+            : 1.055f * (float)Math.pow(value, 1f / 2.4f) - 0.055f;
     }
 
     private void updateModelRotation() {

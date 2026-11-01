@@ -63,7 +63,7 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class CrafterBlocks {
-    public static Block ammoniaCompressor,blastFoundry,blastCompressor,blastierDrill,mixingArray, brassMixingPot, solarBoiler, defunctDrill, largeDefunctDrill, chalkalloySmelter,
+    public static Block ammoniaCompressor,blastFoundry,blastCompressor,blastierDrill,mixingArray, brassMixingPot, solarBoiler, chalkalloySmelter,
             coolingTower, glassPulverizer, thermalEvaporator, sporeProcessor, coalLiquefactor, coalHeater, polymerPress, drillRig, graphiteConcentrator,
             cupronickelAlloyer, brineMixer, ferricGrinder, SilicaOxidator, arcFurnace, heatChannel, convectionHeater, combustionHeater,
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
@@ -1947,40 +1947,8 @@ public class CrafterBlocks {
                 glowScale = 6f;
             }});
         }};
-        defunctDrill = new Drill("defunct-drill"){{
-            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
-            requirements(Category.production, with(silicon, 250, lead, 100));
-            size = 2;
-            squareSprite = false;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            drawMineItem = false;
-            consumeLiquid(water, 1).boost();
-            liquidBoostIntensity = 3;
-            drillTime = 180;
-            itemCapacity = 15;
-            liquidCapacity = 100;
-            drillEffect = Fx.mineBig;
-            consumePower(1);
-            tier = 1;
-            category = Category.production;
-        }};
-        largeDefunctDrill = new Drill("large-defunct-drill"){{
-            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
-            requirements(Category.production, with(silicon, 500, lead, 250, copper, 300, graphite, 250));
-            size = 3;
-            squareSprite = false;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            drawMineItem = false;
-            consumeLiquid(methane, 3).boost();
-            liquidBoostIntensity = 3;
-            drillTime = 160;
-            itemCapacity = 30;
-            liquidCapacity = 100;
-            drillEffect = Fx.mineBig;
-            consumePower(4);
-            tier = 2;
-            category = Category.production;
-        }};
+
+
         mixingArray = new GenericCrafter("array-mixer"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.crafting, with(Items.copper, 65, Items.silicon, 60, chalkalloy, 1500));

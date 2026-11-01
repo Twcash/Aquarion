@@ -4,6 +4,8 @@ import arc.Events;
 import arc.struct.Seq;
 import mindustry.game.EventType.ResetEvent;
 import mindustry.game.EventType.WorldLoadEvent;
+import mindustry.game.EventType.SaveLoadEvent;
+import mindustry.game.EventType.Trigger;
 import mindustry.game.Team;
 import mindustry.gen.Bullet;
 import mindustry.gen.Groups;
@@ -27,9 +29,12 @@ public final class LooseSingularitySaves{
         if(registered) return;
         registered = true;
         Events.on(ResetEvent.class, event -> pending.clear());
-        Events.on(WorldLoadEvent.class, event -> {
-            for(SavedCore core : pending) core.restore();
-            pending.clear();
+        Events.on(WorldLoadEvent.class, event -> restorePending());
+        // Save custom chunks can be read after WorldLoadEvent has already fired.
+        Events.on(SaveLoadEvent.class, event -> restorePending());
+        // Network world loads do not necessarily emit SaveLoadEvent.
+        Events.run(Trigger.update, () -> {
+            if(!world.isGenerating()) restorePending();
         });
         SaveVersion.addCustomChunk("aquarion-loose-singularities", new SaveFileReader.CustomChunk(){
             public void write(DataOutput stream) throws IOException{
@@ -42,12 +47,19 @@ public final class LooseSingularitySaves{
         });
     }
 
+    private static void restorePending(){
+        if(pending.isEmpty()) return;
+        for(SavedCore core : pending) core.restore();
+        pending.clear();
+    }
+
     public static void write(DataOutput stream) throws IOException{
         Seq<Bullet> cores = new Seq<>();
-        Groups.bullet.each(b -> {
+        for(int i = 0; i < Groups.bullet.size(); i++){
+            Bullet b = Groups.bullet.index(i);
             if(b.type instanceof LooseSingularityBulletType && b.isAdded()) cores.add(b);
-        });
-        stream.writeInt(1);
+        }
+        stream.writeInt(2);
         stream.writeInt(cores.size);
         for(Bullet b : cores){
             stream.writeInt(b.type.id);
@@ -61,6 +73,7 @@ public final class LooseSingularitySaves{
             stream.writeFloat(b.vel.y);
             var state = (LooseSingularityBulletType.CoreState)b.data;
             stream.writeInt(state.seed);
+            stream.writeBoolean(state.blackHole);
             stream.writeInt(state.size);
             for(var entry : state){
                 stream.writeInt(entry.key);
@@ -71,7 +84,8 @@ public final class LooseSingularitySaves{
 
     public static void read(DataInput stream) throws IOException{
         pending.clear();
-        if(stream.readInt() != 1) throw new IOException("Unsupported singularity save version");
+        int version = stream.readInt();
+        if(version < 1 || version > 2) throw new IOException("Unsupported singularity save version");
         int count = stream.readInt();
         if(count < 0 || count > 100000) throw new IOException("Invalid singularity count");
         for(int i = 0; i < count; i++){
@@ -86,6 +100,7 @@ public final class LooseSingularitySaves{
             core.vx = stream.readFloat();
             core.vy = stream.readFloat();
             core.state = new LooseSingularityBulletType.CoreState(stream.readInt());
+            if(version >= 2) core.state.blackHole = stream.readBoolean();
             int released = stream.readInt();
             if(released < 0 || released > 1000000) throw new IOException("Invalid singularity release count");
             for(int j = 0; j < released; j++) core.state.put(stream.readInt(), stream.readFloat());
@@ -111,6 +126,7 @@ public final class LooseSingularitySaves{
             bullet.lifetime = lifetime;
             bullet.fdata = area;
             bullet.vel.set(vx, vy);
+            if(vx != 0f || vy != 0f) bullet.rotation(arc.math.Angles.angle(vx, vy));
             bullet.data = state;
         }
     }
