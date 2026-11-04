@@ -1574,7 +1574,7 @@ public class CrafterBlocks {
             }});
         }};
         rotaryKiln = new AquaGenericCrafter("rotary-kiln"){{
-            requirements(Category.crafting, with(silicon, 900, copper, 1200, graphite, 700));
+            requirements(Category.crafting, with(silicon, 900, copper, 1200, graphite, 700, cupronickel, 370));
             size = 6;
             squareSprite = false;
             baseEfficiency = 1;
@@ -1582,7 +1582,7 @@ public class CrafterBlocks {
             maxEfficiency = 4;
             overheatScale = 0.5f;
             hasHeat = true;
-            consumePower(6);
+            consumePower(15);
             consumeLiq(water, 5);
             consumeLiq(air, 12);
             consumeItemStack(new ItemStack(sand, 40), new ItemStack(calcium, 10));
@@ -1637,7 +1637,7 @@ public class CrafterBlocks {
             size = 6;
             squareSprite = false;
             processTime = 600;
-            consumePower(4);
+            consumePower(6);
             consumeLiquid(air, 4);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawOrbitRegions() {{
                 orbitSpeed = 4f;
