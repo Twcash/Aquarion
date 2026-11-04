@@ -57,6 +57,7 @@ public class AquarionMod  implements Loadable{
         AquaLoadouts.load();
         //the menu background is replaced in ModEventHandler on ClientLoadEvent
         AquaPlanets.loadContent();
+        aquarion.world.campaign.PlanetWeather.register();
         AquaSectorPresets.load();
         TantrosTechTree.load();
         //faction tags need all blocks loaded first
