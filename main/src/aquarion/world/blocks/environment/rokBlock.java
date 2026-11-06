@@ -43,7 +43,6 @@ public class rokBlock extends Block {
     public int minimapColor(Tile tile){
         return mapColor.rgba();
     }
-
     @Override
     public void drawBase(Tile tile) {
         Draw.z(layer);
@@ -60,10 +59,9 @@ public class rokBlock extends Block {
         public void drawTeam(){
             //no
         }
-
     }
     public class rokBlockBuild extends Building {
-        //prevents the tree from breaking during wave shockwave
+        //prevents the rock from breaking during wave shockwave
         //shamelessly stolen from Minedustry
         //i did this after flora, so it was very fast
         @Override

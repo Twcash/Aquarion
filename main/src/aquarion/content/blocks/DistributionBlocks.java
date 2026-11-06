@@ -47,9 +47,6 @@ public class DistributionBlocks {
             sealedUnloader, sealedConveyor, massDistributor, sealedRouter, sealedSorter,
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block trainyard, pathCoupler, liquidCargoDock, liquidCargoDepot, cargoDepot, cargoDock, railPoint, railJunction;
-    public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
-        setter.get((T) target);
-    }
     public static void loadContent() {
         trainyard = new RailWorkshop("trainyard", false){{
             unitChoices.add(path, gorge, burden);
@@ -283,7 +280,5 @@ public class DistributionBlocks {
             requirements(Category.units, with(graphite, 30));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
         }};
-        //this can be used as example if you want to edit stuff from reflections on specific blocks
-        WaterReflections.set(itemYeeter, 1f, 0.3f, true);
     }
 }

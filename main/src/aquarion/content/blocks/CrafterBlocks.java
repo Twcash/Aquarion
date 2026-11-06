@@ -1574,7 +1574,7 @@ public class CrafterBlocks {
             }});
         }};
         rotaryKiln = new AquaGenericCrafter("rotary-kiln"){{
-            requirements(Category.crafting, with(silicon, 900, copper, 1200, graphite, 700));
+            requirements(Category.crafting, with(silicon, 900, copper, 1200, graphite, 700, cupronickel, 370));
             size = 6;
             squareSprite = false;
             baseEfficiency = 1;
@@ -1582,7 +1582,7 @@ public class CrafterBlocks {
             maxEfficiency = 4;
             overheatScale = 0.5f;
             hasHeat = true;
-            consumePower(6);
+            consumePower(15);
             consumeLiq(water, 5);
             consumeLiq(air, 12);
             consumeItemStack(new ItemStack(sand, 40), new ItemStack(calcium, 10));
@@ -1637,7 +1637,7 @@ public class CrafterBlocks {
             size = 6;
             squareSprite = false;
             processTime = 600;
-            consumePower(4);
+            consumePower(6);
             consumeLiquid(air, 4);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawOrbitRegions() {{
                 orbitSpeed = 4f;
@@ -1924,6 +1924,7 @@ public class CrafterBlocks {
         }};
         invarSmeltery = new GenericCrafter("invar-smeltery"){{
             requirements(Category.crafting, with(ferricMatter, 60, lead, 45, silicon, 25));
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             craftEffect = Fx.mineBig;
             ambientSound = Sounds.loopSmelter;
             ambientSoundVolume = 0.09f;
@@ -1965,7 +1966,7 @@ public class CrafterBlocks {
 
         blastierDrill = new Drill("blastier-drill"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
-            requirements(Category.production, with(Items.copper, 65, Items.silicon, 60, chalkalloy, 1500));
+            requirements(Category.production, with(Items.copper, 330, Items.silicon, 600, chalkalloy, 500, ferricMatter, 250));
             size = 6;
             drillTime = 210;
             drawRim = true;
