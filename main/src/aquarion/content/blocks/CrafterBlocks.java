@@ -1924,6 +1924,7 @@ public class CrafterBlocks {
         }};
         invarSmeltery = new GenericCrafter("invar-smeltery"){{
             requirements(Category.crafting, with(ferricMatter, 60, lead, 45, silicon, 25));
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             craftEffect = Fx.mineBig;
             ambientSound = Sounds.loopSmelter;
             ambientSoundVolume = 0.09f;
