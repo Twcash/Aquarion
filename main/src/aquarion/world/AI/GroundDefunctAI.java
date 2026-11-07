@@ -9,6 +9,8 @@ import mindustry.gen.Teamc;
 import mindustry.gen.Unit;
 import mindustry.world.Tile;
 
+import static mindustry.Vars.controlPath;
+
 /**
  * Defunct ground unit behavior: follows the numbered ground checkpoints in
  * ascending order, looping after the last one. When a map has no ground
@@ -25,10 +27,10 @@ public class GroundDefunctAI extends GroundAI {
 
     @Override
     public Teamc findMainTarget(float x, float y, float range, boolean air, boolean ground){
-        Unit result = Units.closestEnemy(unit.team, x, y, mapRange, u -> u.checkTarget(air, ground));
-        if(result != null) return result;
+        Teamc nearby = super.findMainTarget(x, y, range, air, ground);
+        if(nearby != null) return nearby;
 
-        return super.findMainTarget(x, y, range, air, ground);
+        return Units.closestEnemy(unit.team, x, y, mapRange, u -> u.checkTarget(air, ground));
     }
 
     @Override
@@ -53,7 +55,10 @@ public class GroundDefunctAI extends GroundAI {
             checkpoint = points.get(checkpointIndex);
         }
 
-        moveTo(Tmp.v1.set(checkpoint.worldx(), checkpoint.worldy()), 0f);
+        var path = controlPath.getPathPosition(unit, Tmp.v1.set(checkpoint.worldx(), checkpoint.worldy()));
+        if(path.move){
+            moveTo(path.dest, 0f);
+        }
         faceTarget();
     }
 
