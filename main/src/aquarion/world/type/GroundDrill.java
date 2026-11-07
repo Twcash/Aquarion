@@ -519,10 +519,6 @@ public class GroundDrill extends AquaBlock implements AquaBarHelpers.CustomBarHo
             if(timer(timerDump, dumpTime / timeScale)){
                 for(Item item : returnItems){
                     dump(item);
-                    if(item != null && item.radioactivity > 0){
-                        Damage.damage(x, y, 2, item.radioactivity /10f);
-                        if(Mathf.chance(0.05f)) Fx.smoke.at(this);
-                    }
                 }
             }
             if(itemBooster != null && itemBooster.efficiency(this) > 0f){

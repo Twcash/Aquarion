@@ -8,17 +8,14 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Angles;
-import arc.math.Mat;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
-import arc.math.geom.Vec2;
 import arc.struct.IntSeq;
 import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Time;
 import arc.util.Tmp;
-import aquarion.world.graphics.WaterReflections;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.Team;
 import mindustry.gen.Building;
@@ -304,12 +301,6 @@ public class PowerPylon extends PowerNode {
 
             Draw.z(Layer.power);
 
-            Mat saved = null; // ñ
-            if(WaterReflections.captureReflections){
-                saved = new Mat().set(Draw.trans());
-                Draw.trans(Tmp.m2.setToTranslation(0f, -2f * WaterReflections.reflectionGroundGap));
-            }
-
             for(int i = 0; i < power.links.size; i++){
                 Draw.alpha(laserOpacity);
                 Building link = world.build(power.links.get(i));
@@ -322,16 +313,14 @@ public class PowerPylon extends PowerNode {
                         vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
                         len1 = this.block.size * tilesize / 2f - 1.5f, len2 = link.block.size * tilesize / 2f - 1.5f;
                 Lines.stroke(thickness);
-                float angle = Angles.angle(x, y, link.x, link.y);
-                Vec2 pos1 = new Vec2(x, y), pos2 = new Vec2(link.x, link.y);
-                boolean reverse = pos1.x > pos2.x;
+                boolean reverse = x > link.x;
                 if(reverse)Draw.xscl = -1;
 
                 Lines.stroke(thickness);
                 Lines.line(cable, x + vx*len1, y + vy*len1, link.x - vx*len2, link.y - vy*len2, false);
-                Draw.rect(cableEnd, x + vx*len1, y + vy*len1, angle);
+                Draw.rect(cableEnd, x + vx*len1, y + vy*len1, angle1);
                 Draw.xscl = -1f;
-                Draw.rect(cableEnd, link.x - vx*len2, link.y - vy*len2, angle);
+                Draw.rect(cableEnd, link.x - vx*len2, link.y - vy*len2, angle1);
                 Draw.xscl = Draw.yscl = 1f;
                 Draw.color(Color.red);
                 Draw.alpha(Mathf.absin(Time.time, 4, 1) * this.power.graph.getSatisfaction()*0.25f);
@@ -341,7 +330,6 @@ public class PowerPylon extends PowerNode {
             }
 
             Draw.reset();
-            if(saved != null) Draw.trans(saved);
         }
 
         protected boolean linked(Building other){

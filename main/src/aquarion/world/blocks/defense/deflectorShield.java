@@ -13,8 +13,6 @@ import mindustry.Vars;
 import mindustry.gen.Groups;
 import mindustry.world.blocks.defense.ForceProjector;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class deflectorShield extends ForceProjector {
     public deflectorShield(String name) {
         super(name);
@@ -24,12 +22,16 @@ public class deflectorShield extends ForceProjector {
         private static final float detectionMultiplier = 2f;
 
         public float deflectWarmup = 0f;
+        private boolean bulletNearby;
 
         @Override
         public void updateTile() {
             super.updateTile();
 
             deflectBullets();
+            if(Vars.renderer.animateShields && !broken && deflectWarmup > 0.01f && realRadius() > 0.001f){
+                Renderer.requestDeflectorPass();
+            }
         }
 
         public void deflectBullets() {
@@ -37,18 +39,18 @@ public class deflectorShield extends ForceProjector {
             if(realRadius <= 0 || broken) return;
 
             float detectRadius = realRadius * detectionMultiplier;
-            AtomicBoolean bulletNearby = new AtomicBoolean(false);
+            bulletNearby = false;
 
             Groups.bullet.intersect(x - detectRadius, y - detectRadius, detectRadius * 2f, detectRadius * 2f, b -> {
                 if(b.team != this.team){
-                    bulletNearby.set(true);
+                    bulletNearby = true;
                 }
             });
 
-            if(bulletNearby.get() && Mathf.chanceDelta(0.05f)){
+            if(bulletNearby && Mathf.chanceDelta(0.05f)){
                 AquaFx.deflectorSteam.at(x, y);
             }
-            deflectWarmup = Mathf.lerpDelta(deflectWarmup, bulletNearby.get() ? 1f : 0f, 0.01f);
+            deflectWarmup = Mathf.lerpDelta(deflectWarmup, bulletNearby ? 1f : 0f, 0.01f);
 
             if(deflectWarmup < 0.1f) return;
 
@@ -95,6 +97,10 @@ public class deflectorShield extends ForceProjector {
 
             float radius = this.realRadius();
             if (radius <= 0.001F) return;
+
+            if(Vars.renderer.animateShields){
+                Renderer.requestDeflectorPass();
+            }
 
             Draw.color(Color.gray.a(0.4f * deflectWarmup), Color.white, Mathf.clamp(hit));
             if (Vars.renderer.animateShields) {

@@ -3,6 +3,7 @@ package aquarion;
 import aquarion.annotations.Annotations;
 import aquarion.content.*;
 import aquarion.content.blocks.*;
+
 import aquarion.content.AquaLoadouts;
 import aquarion.content.AquaPlanets;
 import aquarion.content.AquaSectorPresets;
@@ -42,18 +43,21 @@ public class AquarionMod  implements Loadable{
         CrafterBlocks.loadContent();
         vannilaturret.loadContent();
         RefineryBlocks.loadContent();
+        CruxOverrideBlocks.loadContent();
         AquaMenuDialog.attach();
 ;       EnvironmentBlocks.shallowSlag.asFloor().blendGroup = Blocks.slag;
         //units and cores, keep these after blocks
         AquaUnitTypes.loadContent();
         UnitBlocks.loadContent();
         CoreBlocks.loadContent();
+        DefunctBlocks.loadContent();
         //distribution blocks need to be loaded here bc of unittypes
         DistributionBlocks.loadContent();
         //keep these at the back
         AquaLoadouts.load();
         //the menu background is replaced in ModEventHandler on ClientLoadEvent
         AquaPlanets.loadContent();
+        aquarion.world.campaign.PlanetWeather.register();
         AquaSectorPresets.load();
         TantrosTechTree.load();
         //faction tags need all blocks loaded first

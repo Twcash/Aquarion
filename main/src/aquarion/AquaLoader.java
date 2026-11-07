@@ -4,36 +4,41 @@ import arc.scene.style.TextureRegionDrawable;
 import aquarion.content.AquaCategories;
 import aquarion.content.AquaFactions;
 import aquarion.ui.AquaStyles;
-import aquarion.ui.IconLoader; // <--- Используем существующий IconLoader
 import aquarion.gen.*;
 import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.MultiBlockLib.PlaceholderBlock;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.environment.CheckpointBlock;
 import aquarion.world.blocks.neoplasia.NeoplasiaGraph;
+import aquarion.world.campaign.DialogueObjective;
+import aquarion.world.campaign.DialogueObjectiveBar;
+import aquarion.world.campaign.DialogueObjectiveOption;
+import aquarion.world.campaign.DialogueObjectiveSystem;
+import aquarion.world.campaign.SectorCapturedObjective;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
 import arc.*;
 import arc.struct.Seq;
 import arc.util.ArcRuntimeException;
-import arc.util.Log;
 import mindustry.Vars;
-import mindustry.content.Planets;
 import mindustry.ctype.*;
 import mindustry.game.EventType;
+import mindustry.game.MapObjectives;
+import mindustry.editor.MapObjectivesDialog;
 import mindustry.gen.Icon;
+import mindustry.io.JsonIO;
 import mindustry.mod.*;
 import aquarion.annotations.Annotations.*;
 import aquarion.gen.*;
 import mindustry.world.Block;
-//import aquarion.ui.AquaCampaignSelect; //aqua campaign select is kinda cooked rn
+import aquarion.ui.AquaCampaignSelect; //aqua campaign select is kinda cooked rn
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import static arc.Core.app;
 import static mindustry.Vars.headless;
-import static mindustry.Vars.mods;
 
 
 @LoadRegs("error")
@@ -54,6 +59,7 @@ public class AquaLoader extends Mod {
 
     public static void postLoad(){
         Events.on(EventType.ContentInitEvent.class, e -> {
+            AlternativeBuildCosts.install();
             mirrorList.each(block -> {
                 Block mirror = new Block(block.name + "-mirror");
                 Field[] fields = Block.class.getFields();
@@ -98,8 +104,11 @@ public class AquaLoader extends Mod {
 
     public AquaLoader(boolean tools){
         AquaLoader.tools = tools;
+        aquarion.world.AI.CheckpointProgress.register();
+        aquarion.world.blocks.environment.TemporaryFloors.register();
         Events.run(EventType.Trigger.draw, Renderer::draw);
         Events.run(EventType.Trigger.update, NeoplasiaGraph::update);
+        Events.on(EventType.ResetEvent.class, e -> NeoplasiaGraph.clear());
         Events.on(EventType.WorldLoadEvent.class, e -> NeoplasiaGraph.reset());
         Events.on(EventType.WorldLoadEvent.class, e -> CheckpointBlock.rebuildCheckpoints());
         Events.on(EventType.WorldLoadEvent.class, e -> aquarion.world.blocks.environment.DefunctCheckpointBlock.rebuildCheckpoints());
@@ -117,7 +126,6 @@ public class AquaLoader extends Mod {
 
             if (Core.atlas.has("aquarion-icon-refinery")) Icon.icons.put("refinery", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-refinery")));
             if (Core.atlas.has("aquarion-icon-heat")) Icon.icons.put("heat", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-heat")));
-
             if (ModSettings.getShowUpdates()) {
                 new AquaUpdate().check(AquaLoader.class);
             }
@@ -137,12 +145,35 @@ public class AquaLoader extends Mod {
 
     @Override
     public void init() {
+        aquarion.ui.ClientCompatibility.install();
+        aquarion.world.map.RuntimeMapFilters.install();
+        aquarion.world.campaign.GlobalFlagTriggers.register();
+        aquarion.dialogs.GlobalDialogues.load();
+        MapObjectives.registerObjective(DialogueObjective::new);
+        MapObjectives.registerObjective(aquarion.world.campaign.BlockPlacedObjective::new);
+        MapObjectivesDialog.setInterpreter(aquarion.world.campaign.BlockPlacedObjective.class, MapObjectivesDialog.defaultInterpreter());
+        MapObjectives.registerObjective(SectorCapturedObjective::new);
+        MapObjectivesDialog.setInterpreter(SectorCapturedObjective.class, MapObjectivesDialog.defaultInterpreter());
+        MapObjectivesDialog.setInterpreter(DialogueObjective.class, MapObjectivesDialog.defaultInterpreter());
+        MapObjectivesDialog.setInterpreter(DialogueObjectiveOption.class, MapObjectivesDialog.defaultInterpreter());
+        MapObjectivesDialog.setProvider(DialogueObjectiveOption.class, (type, cons) -> cons.get(new DialogueObjectiveOption()));
+        JsonIO.classTag("dialogueObjectiveOption", DialogueObjectiveOption.class);
+        JsonIO.classTag("DialogueObjectiveOption", DialogueObjectiveOption.class);
+
+        Events.on(EventType.WorldLoadEvent.class, e -> {
+            aquarion.world.campaign.GlobalFlags.reload();
+            DialogueObjectiveSystem.reset();
+        });
+        if(!headless){
+            Events.on(EventType.ClientLoadEvent.class, e -> new DialogueObjectiveBar().build());
+        }
+
         if (!Vars.headless && Vars.ui != null) {
             AquaStyles.load();
             ModEventHandler.load();
             ModSettings.init();
             AquaFactions.init();
-            //AquaCampaignSelect.init(); //its kinda cooked rn
+            AquaCampaignSelect.init(); //its kinda cooked rn
             Core.settings.put("campaignselect", true);
         }
     }
@@ -158,6 +189,7 @@ public class AquaLoader extends Mod {
         AquarionMod.loadContent();
         AquaLoader.postLoad();
         aquarionEntityMapping.init();
+        aquarion.world.units.AquaPlayerUnits.init();
     }
 
     public static Mods.LoadedMod mod(){

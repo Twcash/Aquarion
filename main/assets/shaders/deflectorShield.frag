@@ -30,6 +30,10 @@ void main(){
     sumA += texture2D(u_texture, uv + vec2(-STEP, -STEP) * v).a;
 
     float centerA = texture2D(u_texture, uv).a;
+    if(centerA <= 0.0 && sumA <= 0.0){
+        gl_FragColor = vec4(0.0);
+        return;
+    }
     float smoothAlpha = max(centerA, sumA * 0.125);
 
     // Edge fading

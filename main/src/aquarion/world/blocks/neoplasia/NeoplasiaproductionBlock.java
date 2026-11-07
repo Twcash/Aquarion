@@ -74,29 +74,36 @@ public class NeoplasiaproductionBlock extends GenericNeoplasiaBlock{
 
         @Override
         public void updateTile(){
-            if(shouldCraft && amount > craftCost){
-                prog += 1/craftTime*delta();
-                if(input != null) {
-                    if (prog >= 1 && items.has(input.item.id) && (block().perItemCapacity ? items.get(output.item) + output.amount <= itemCapacity : output.amount + items.total() < itemCapacity)) {
-                        items.remove(input);
-                        items.add(output.item, output.amount);
-                        prog = 0;
-                        amount -= craftCost;
-                    } else if(items.get(input.item) < input.amount){
-                        needItem(input.item, input.amount);
-                        pullItems(input.item, input.amount);
-                    }
-                } else{
-                    if (prog >= 1 && (block().perItemCapacity ? items.get(output.item) + output.amount <= itemCapacity : output.amount + items.total() < itemCapacity)) {
-                        items.add(output.item, output.amount);
-                        prog = 0;
-                        amount -= craftCost;
-                    }
-                }
-            }
             super.updateTile();
+            if(tile == null || tile.build != this || !shouldCraft || output == null) return;
+            if(amount < craftCost + lifeReserve()) return;
+            if(input != null && !items.has(input.item, input.amount)) return;
+            int occupied = perItemCapacity ? items.get(output.item) : items.total();
+            if(input != null && (!perItemCapacity || input.item == output.item)) occupied -= input.amount;
+            if(occupied + output.amount > itemCapacity) return;
+            prog = Math.min(1f, prog + delta() / Math.max(1f, craftTime));
+            if(prog >= 1f - 0.00001f){
+                if(input != null) items.remove(input);
+                items.add(output.item, output.amount);
+                amount -= craftCost;
+                prog = 0f;
+            }
         }
 
+        @Override
+        public byte version(){ return transportSaveRevision + 1; }
+
+        @Override
+        public void write(arc.util.io.Writes write){
+            super.write(write);
+            write.f(prog);
+        }
+
+        @Override
+        public void read(arc.util.io.Reads read, byte revision){
+            super.read(read, revision);
+            prog = revision >= 1 ? read.f() : 0f;
+        }
         @Override
         public void draw() {
             super.draw();

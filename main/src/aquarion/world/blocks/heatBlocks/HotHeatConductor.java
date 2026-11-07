@@ -1,6 +1,7 @@
 package aquarion.world.blocks.heatBlocks;
 
 import arc.math.Mathf;
+import arc.struct.IntSet;
 import mindustry.content.Fx;
 import mindustry.gen.Building;
 import mindustry.world.blocks.heat.HeatBlock;
@@ -14,6 +15,11 @@ public class HotHeatConductor extends HeatConductor {
     }
 
     public class HotHeatConductorBuild extends HeatConductorBuild implements HeatBlock, HeatConsumer {
+        @Override
+        public float calculateHeat(float[] sides, IntSet cameFrom){
+            return SharedHeat.adjust(this, sides, super.calculateHeat(sides, cameFrom));
+        }
+
         public void updateTile() {
             this.updateHeat();
             if(heat > meltThresh){

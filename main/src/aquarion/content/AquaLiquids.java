@@ -175,6 +175,7 @@ public class AquaLiquids {
         defunctBlood = new Liquid("defunct-blood"){{
             hidden = true;
             viscosity = 0.9f;
+            coolant = false;
         }};
     }
 }

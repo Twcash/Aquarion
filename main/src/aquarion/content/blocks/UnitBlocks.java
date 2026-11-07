@@ -1,10 +1,8 @@
 package aquarion.content.blocks;
 
-import aquarion.content.AquaLiquids;
-import aquarion.content.AquaSounds;
-import aquarion.content.AquaStatuses;
-import aquarion.content.AquaUnitTypes;
+import aquarion.content.*;
 import aquarion.units.type.AquaUnitType;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.payload.InitializationBay;
 import aquarion.world.blocks.units.*;
 import aquarion.world.content.AquaLiquid;
@@ -33,22 +31,14 @@ import static mindustry.content.Liquids.oil;
 import static mindustry.type.ItemStack.with;
 
 public class UnitBlocks {
-    public static Block defunctBeacon1, maintainerInactive ,regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad, apothecary;
+    public static Block voltaic, regality, reinforcedFraming, armamentMounting, initializationBay, concussorPad, statusApplier, mite ,pillage, solder,  weld, bulwark, pugnate, rampart, crest, reave, soar, raze, shatter, castellan, unitByte, index, tuple, infantryPad, apothecary;
     
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
 
     public static void loadContent() {
-        maintainerInactive = new DefunctUnitBlock("maintainer-inactive"){{
-            buildVisibility = BuildVisibility.sandboxOnly;
-            time = 90;
-            consumePower(0.5f);
-            unit = maintainer;
-            beepSound = AquaSounds.distressBeep;
-            beepInterval = 240;
-            ambientSoundVolume = 1f;
-        }};
+
         infantryPad = new InfantryLandingPad("infantry-landing-pad"){{
             requirements(Category.units, with());
             buildTime = 600;
@@ -99,30 +89,16 @@ public class UnitBlocks {
             size =5;
         }};
         reinforcedFraming = new Wall("reinforced-framing"){{
-            requirements(Category.units, with(lead, 90, cupronickel, 90));
+            requirements(Category.units, with(lead, 90, concrete, 90));
             size = 1;
             health = 300;
         }};
-        armamentMounting = new Wall("armnament-mounting"){{
+        armamentMounting = new Wall("armament-mounting"){{
             requirements(Category.units, with(silicon, 50, graphite, 100, copper, 200));
             size = 1;
             health = 400;
         }};
-        regality = new AssembleUnitBlock("regality-core"){{
-            requirements(Category.units, with(silicon, 80, metaglass, 30, lead, 50, graphite, 40));
-            unit = AquaUnitTypes.regality;
-            size = 3;
-            startsound = AquaSounds.start7;
-            time = 20 * 60;
-            reqs.putAll(new float[]{2,-1}, reinforcedFraming,
-                    new float[]{2,0},reinforcedFraming,
-                    new float[]{2,1}, reinforcedFraming,
-                    new float[]{-2,-1},armamentMounting,
-                    new float[]{-2,0}, armamentMounting,
-                    new float[]{-2,1}, armamentMounting,
-                    new float[]{-2,2}, armamentMounting);
-            consumePower(6);
-        }};
+
         mite = new UnitBlock("mite-inactive"){{
             requirements(Category.units, with(silicon, 50, copper, 45));
             unit = AquaUnitTypes.mite;
@@ -207,13 +183,14 @@ public class UnitBlocks {
             destroySound = AquaSounds.start2;
         }};
         raze = new UnitBlock("raze-inactive") {{
-            requirements(Category.units, with(polymer, 100, silicon, 150, cupronickel, 120));
+            requirements(Category.units, with( silicon, 150, cupronickel, 120));
             unit = AquaUnitTypes.raze;
             size = 3;
             consumePower(3);
             time = 20 * 60;
             destroySound = AquaSounds.start4;
         }};
+        AlternativeBuildCosts.register(raze, with(polymer, 100, concrete, 150));
         shatter = new UnitBlock("shatter-inactive") {{
             requirements(Category.units, with(graphite, 120, metaglass, 150, polymer, 50, silicon, 100));
             unit = AquaUnitTypes.shatter;
@@ -248,6 +225,39 @@ public class UnitBlocks {
             time = 60 * 60;
             destroySound = AquaSounds.start;
         }};
+        regality = new AssembleUnitBlock("regality-core"){{
+            requirements(Category.units, with(silicon, 600, concrete, 200, polymer, 500, metaglass, 600 ));
+            unit = AquaUnitTypes.regality;
+            size = 3;
+            startsound = AquaSounds.start7;
+            time = 20 * 60;
+            reqs.putAll(
+                    new float[]{2,-1}, reinforcedFraming,
+                    new float[]{2,0},reinforcedFraming,
+                    new float[]{2,1}, reinforcedFraming,
+                    new float[]{-2,-1},armamentMounting,
+                    new float[]{-2,0}, armamentMounting,
+                    new float[]{-2,1}, armamentMounting,
+                    new float[]{-2,2}, armamentMounting);
+            consumePower(6);
+        }};
+        voltaic = new AssembleUnitBlock("voltaic-core"){{
+            requirements(Category.units, with(silicon, 600, concrete, 300, polymer, 400, graphite, 200, copper, 400));
+            unit = AquaUnitTypes.voltaic;
+            size = 2;
+            startsound = AquaSounds.start7;
+            time = 20 * 60;
+            reqs.putAll(
+                    new float[]{-1.5f,-.5f},reinforcedFraming,
+                    new float[]{-1.5f,.5f},reinforcedFraming,
+                    new float[]{-.5f,1.5f},reinforcedFraming,
+                    new float[]{.5f,1.5f},reinforcedFraming,
+                    new float[]{-2.5f,-1.5f}, armamentMounting,
+                    new float[]{-2.5f,-.5f}, armamentMounting,
+                    new float[]{-2.5f,.5f}, armamentMounting,
+                    new float[]{-2.5f,1.5f}, armamentMounting);
+            consumePower(2);
+        }};
         apothecary = new UnitBlock("apothecary-inactive") {{
             requirements(Category.units, with(silicon, 750, polymer, 325, copper, 1250, graphite, 250, metaglass, 50));
             unit = AquaUnitTypes.apothecary;
@@ -257,14 +267,7 @@ public class UnitBlocks {
             destroySound = AquaSounds.start5;
             consumeLiquid(AquaLiquids.ammonia, 1.2f);
         }};
-        defunctBeacon1 = new DefunctBeacon("defunct-beacon-small"){{
-            buildVisibility = BuildVisibility.sandboxOnly;
-            size = 2;
-            squareSprite = false;
-            consumePower(4f);
-            units.addAll(vilify,vilify,vilify,vilify);
-            spawnRange = 24;
-        }};
+
         overwrite(Blocks.groundFactory, (UnitFactory r) -> {
             r.plans.remove(2);
             r.plans.addAll(

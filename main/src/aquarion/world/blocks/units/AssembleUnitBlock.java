@@ -191,8 +191,11 @@ public class AssembleUnitBlock extends Block {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("progress", (UnitBlockBuild e) -> new Bar("bar.progress", Pal.ammo, e::totalProgress));
-
+        addBar("progress", (UnitBlockBuild e) -> new Bar(
+                () -> Core.bundle.format("bar.progress", Strings.autoFixed(e.totalProgress() * 100, 1)),
+                () -> Pal.ammo,
+                e::totalProgress
+        ));
         addBar("units", (UnitBlockBuild e) ->
                 new Bar(
                         () -> unit == null ? "[lightgray]" + Iconc.cancel :
@@ -212,7 +215,7 @@ public class AssembleUnitBlock extends Block {
     }
     @Override
     public TextureRegion[] icons(){
-        return new TextureRegion[]{ unit.fullIcon};
+        return new TextureRegion[]{ unit.fullIcon, inactiveRegion};
     }
     @Override
     public boolean outputsItems(){

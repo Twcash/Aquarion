@@ -2,6 +2,9 @@ package aquarion.world.blocks.core;
 
 import arc.Events;
 import arc.struct.Seq;
+import aquarion.world.items.AquaItemEntity;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.Damage;
@@ -37,7 +40,45 @@ public class AquaCoreBlock extends CoreBlock {
         }
     }
 
-    public class AquaCoreBuild extends CoreBuild{
+    public class AquaCoreBuild extends CoreBuild implements AquaItemEntity.Container{
+        private final Seq<AquaItemEntity> trackedItems = new Seq<>();
+
+        @Override
+        public Seq<AquaItemEntity> aquaItemEntities(){
+            return trackedItems;
+        }
+
+        @Override
+        public void handleItem(Building source, Item item){
+            int before = items.get(item);
+            super.handleItem(source, item);
+            if(items.get(item) > before) AquaItemEntity.addIfTracked(trackedItems, AquaItemEntity.capture(source, item));
+        }
+
+        @Override
+        public void updateTile(){
+            AquaItemEntity.update(trackedItems, items, edelta());
+            super.updateTile();
+        }
+
+        @Override
+        public byte version(){
+            return (byte)(super.version() + 1);
+        }
+
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            AquaItemEntity.write(write, trackedItems);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            if(revision > super.version()) AquaItemEntity.read(read, trackedItems);
+            AquaItemEntity.reconcile(items, trackedItems);
+        }
+
         @Override
         public boolean collision(Bullet other){
             boolean wasDead = health <= 0;
@@ -69,14 +110,20 @@ public class AquaCoreBlock extends CoreBlock {
 
         @Override
         public void requestSpawn(Player player) {
-            //do not try to respawn in unsupported environments at all
-            if(!selectPlayerUnit().supportsEnv(state.rules.env) || !allowSpawn) return;
-
-
-            configure(player.id);
+            if(player == null || !allowSpawn) return;
+            if(net.client()){
+                configure(player.id);
+            }else{
+                playerSpawn(player);
+            }
         }
 
         public UnitType selectPlayerUnit(){
+            SpecializationCatalyst.specBuild catalyst = getCatalyst();
+            return catalyst == null ? defaultPlayerUnit() : catalyst.unit();
+        }
+
+        public UnitType defaultPlayerUnit(){
             for(UnitType type: unitTypes){
                 if(type.supportsEnv(state.rules.env)){
                     return type;
@@ -85,9 +132,31 @@ public class AquaCoreBlock extends CoreBlock {
 
             return unitType;
         }
+        public UnitType getUnit(){
+            SpecializationCatalyst.specBuild catalyst = getCatalyst();
+            return catalyst == null ? null : catalyst.unit();
+        }
 
+        public SpecializationCatalyst.specBuild getCatalyst(){
+            SpecializationCatalyst.specBuild selected = null;
+            for(Building other : proximity){
+                if(other instanceof SpecializationCatalyst.specBuild catalyst && other.team == team && catalyst.canSpawn()
+                    && (selected == null || catalyst.pos() < selected.pos())){
+                    selected = catalyst;
+                }
+            }
+            return selected;
+        }
         public void playerSpawn(Player player){
-            UnitType spawnType = selectPlayerUnit();
+            // Configuration is forwarded to clients too; only the server creates and pays for units.
+            if(net.client() || player == null || player.team() != team || !player.dead() || !allowSpawn) return;
+            SpecializationCatalyst.specBuild catalyst = getCatalyst();
+            if(catalyst != null && !catalyst.requestRespawn(player, this)){
+                player.set(this);
+                return;
+            }
+            UnitType spawnType = catalyst == null ? defaultPlayerUnit() : catalyst.unit();
+            if(spawnType == null || !spawnType.supportsEnv(state.rules.env)) return;
             if(this.wasVisible){
                 Fx.spawn.at(this);
             }
@@ -106,6 +175,7 @@ public class AquaCoreBlock extends CoreBlock {
                 unit.spawnedByCore(true);
                 unit.controller(player);
                 unit.add();
+                if(catalyst != null) catalyst.finishSpawn();
             }
 
             if(state.isCampaign() && player == Vars.player){

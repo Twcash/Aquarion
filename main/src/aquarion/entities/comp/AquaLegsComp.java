@@ -1,4 +1,6 @@
 package aquarion.entities.comp;
+
+import aquarion.gen.AquaUnitc;
 import aquarion.annotations.Annotations;
 import aquarion.gen.*;
 import aquarion.units.AquaLegUnitType;
@@ -26,7 +28,7 @@ import static mindustry.Vars.player;
 
 //I don't smoke weed.
 @Annotations.EntityComponent
-abstract class AquaLegsComp implements Posc, Rotc, Unitc {
+abstract class AquaLegsComp implements Posc, Rotc, AquaUnitc {
     private static final Vec2 straightVec = new Vec2();
 
     @Annotations.Import
@@ -40,6 +42,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
 
     transient Leg[] legs = {};
     transient float totalLength;
+    transient float bodySwayStrength;
     transient float moveSpace;
     transient float baseRotation;
     transient Floor lastDeepFloor;
@@ -87,8 +90,15 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
             }
             if (type instanceof AquaLegUnitType unit) {
                 AquaLegConfig conf = unit.legSequence.get(i);
-                Fx.legDestroy.at(base.x, base.y, 0f, new LegDestroyData(base.cpy(), l.joint, conf.legRegion));
-                Fx.legDestroy.at(l.joint.x, l.joint.y, 0f, new LegDestroyData(l.joint.cpy().add(Tmp.v2), l.base, conf.legBaseRegion));
+                if(l instanceof aquarion.world.entities.SegmentedAquaLeg segmented){
+                    for(int s = 0; s < segmented.points.length - 1; s++){
+                        Vec2 from = segmented.points[s], to = segmented.points[s + 1];
+                        Fx.legDestroy.at(from.x, from.y, 0f, new LegDestroyData(from.cpy(), to.cpy(), conf.segmentRegions[s]));
+                    }
+                }else{
+                    Fx.legDestroy.at(base.x, base.y, 0f, new LegDestroyData(base.cpy(), l.joint, conf.legRegion));
+                    Fx.legDestroy.at(l.joint.x, l.joint.y, 0f, new LegDestroyData(l.joint.cpy().add(Tmp.v2), l.base, conf.legBaseRegion));
+                }
             }
         }
     }
@@ -105,7 +115,8 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
             baseRotation = rotation;
 
             for (int i = 0; i < legs.length; i++) {
-                Leg l = new Leg();
+                AquaLegConfig cfg = unit.legSequence.get(i);
+                Leg l = cfg.segments == 2 ? new Leg() : new aquarion.world.entities.SegmentedAquaLeg(cfg.segments);
 
                 float dstRot = legAngle(i);
                 Vec2 baseOffset = legOffset(Tmp.v5, i).add(x, y);
@@ -114,6 +125,9 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                 l.base.trns(dstRot, unit.legSequence.get(i).legLength/2f+unit.legSequence.get(i).legLength).add(baseOffset);
 
                 legs[i] = l;
+                if(l instanceof aquarion.world.entities.SegmentedAquaLeg segmented){
+                    segmented.solve(baseOffset, cfg.legLength, cfg.baseX > 0);
+                }
             }
             totalLength = Mathf.random(100f);
         }
@@ -139,6 +153,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
 
             //rotation + offset vector
             boolean moving = moving();
+            bodySwayStrength = Mathf.lerpDelta(bodySwayStrength, moving ? 1f : 0f, 0.1f);
             Vec2 moveOffset = !moving ? Tmp.v4.setZero() : Tmp.v4.trns(Angles.angle(deltaX(), deltaY()), trns);
             //make it smooth, not jumpy
             moveOffset = curMoveOffset.lerpDelta(moveOffset, 0.1f);
@@ -180,11 +195,18 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                     //create effect when transitioning to a group it can't move in
                     if (!move && (moving || !type.legContinuousMove) && i % div == l.group) {
                         if (!headless && !inFogTo(player.team())) {
+                            type.stepSound.at(l.base.x, l.base.y,
+                                type.stepSoundPitch + Mathf.range(type.stepSoundPitchRange), type.stepSoundVolume);
                             if (floor.isLiquid) {
-                                floor.walkEffect.at(l.base.x, l.base.y, type.rippleScale, floor.mapColor);
+                                unit.emitFootstep(l.base.x, l.base.y, floor);
                                 floor.walkSound.at(x, y, 1f, floor.walkSoundVolume);
                             } else {
-                                Fx.unitLandSmall.at(l.base.x, l.base.y, type.rippleScale, floor.mapColor);
+                                unit.emitFootstep(l.base.x, l.base.y, floor);
+                                AquaLegConfig cfg = unit.legSequence.get(i);
+                                if(cfg.footRegion != null && cfg.footRegion.found()){
+                                    unit.footprintEffect.at(l.base.x, l.base.y, baseOffset.angleTo(l.base),
+                                        unit.footColor, cfg.footRegion);
+                                }
                             }
 
                             //shake when legs contact ground
@@ -229,6 +251,9 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
                 //limit again after updating
                 l.joint.sub(baseOffset).clampLength(type.legMinLength * legLength / 2f, type.legMaxLength * legLength / 2f).add(baseOffset);
                 l.base.sub(baseOffset).clampLength(type.legMinLength * legLength, type.legMaxLength * legLength).add(baseOffset);
+                if(l instanceof aquarion.world.entities.SegmentedAquaLeg segmented){
+                    segmented.solve(baseOffset, legLength, side);
+                }
             }
 
             //when at least 1 leg is touching land, it can't drown
@@ -240,7 +265,7 @@ abstract class AquaLegsComp implements Posc, Rotc, Unitc {
 
     Vec2 legOffset(Vec2 out, int index){
         if(type instanceof AquaLegUnitType unit) {
-            out.set(new Vec2(unit.legSequence.get(index).baseX,unit.legSequence.get(index).baseY));
+            out.set(unit.legSequence.get(index).baseX, unit.legSequence.get(index).baseY);
             out.rotate(rotation -90);
         }
         return out;

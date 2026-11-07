@@ -5,7 +5,7 @@ import aquarion.world.graphics.Renderer;
 import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import mindustry.content.Blocks;
-import mindustry.gen.Teamc;
+import mindustry.Vars;
 import mindustry.world.Tile;
 
 import static mindustry.Vars.tilesize;
@@ -21,11 +21,17 @@ public class NeoplasmTurret extends GenericNeoplasiaBlock {
         super(name);
     }
     @Override
+    public void init(){
+        super.init();
+        clipSize = Math.max(clipSize, baseSize * 2f);
+    }
+
+    @Override
     public boolean canUpgradeToThis(NeoplasiaBuild build) {
         for (int dx = -10; dx <= 10; dx++) {
             for (int dy = -10; dy <= 10; dy++) {
                 Tile t = world.tile(build.tile.x + dx, build.tile.y + dy);
-                if (t != null && t.build instanceof NeoplasmTurretBuild) {
+                if (t != null && t.build != build && t.team() == build.team && t.build instanceof NeoplasmTurretBuild) {
                     return false;
                 }
             }
@@ -49,7 +55,8 @@ public class NeoplasmTurret extends GenericNeoplasiaBlock {
         @Override
         public void updateTile() {
             super.updateTile();
-            if (shootType == null || shootType.neoplasiaBlock == null) return;
+            if (Vars.net.client() || !NeoplasiaGraph.isCurrent(this) || !NeoplasiaGraph.isConnected(this)
+                || shootType == null || shootType.neoplasiaBlock == null) return;
 
             Tile target = findTarget();
             if (target != null) {
@@ -78,22 +85,23 @@ public class NeoplasmTurret extends GenericNeoplasiaBlock {
         }
 
         Tile findTarget() {
-            int tr = (int)(range / tilesize);
+            int tr = Mathf.ceil(range / tilesize);
             int bestType = 0;
             Tile bestTile = null;
             float bestDist = Float.MAX_VALUE;
             for (int dx = -tr; dx <= tr; dx++) {
                 for (int dy = -tr; dy <= tr; dy++) {
                     float dst = Mathf.dst(dx, dy);
-                    if (dst > tr) continue;
+                    if (dst * tilesize > range) continue;
                     Tile t = world.tile(tile.x + dx, tile.y + dy);
-                    if (t == null || t.solid() || t.floor().isDeep()) continue;
+                    if (t == null || t.build == this || t.solid() || t.floor().isDeep()) continue;
                     int type = 0;
                     if (t.block() == Blocks.air && shootType.neoplasiaBlock.canPlaceOn(t, team, 0)) {
                         type = 2;
                     } else if (t.build instanceof NeoplasiaBuild nb && nb.team == team && nb.amount < nb.block().maxAmount * 0.3f) {
                         type = 1;
                     }
+                    if(type == 0) continue;
                     if (type > bestType || (type == bestType && dst < bestDist)) {
                         bestType = type;
                         bestTile = t;

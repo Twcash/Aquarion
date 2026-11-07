@@ -4,6 +4,8 @@ import aquarion.ui.AquaBarHelpers;
 import aquarion.world.Uti.AquaStatValues;
 import aquarion.world.entities.bullet.AquaBulletType;
 import arc.Core;
+import arc.struct.IntSet;
+import aquarion.world.blocks.heatBlocks.SharedHeat;
 import mindustry.core.World;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Fires;
@@ -76,6 +78,11 @@ public class AquaItemTurret extends ItemTurret implements AquaBarHelpers.CustomB
         }
     }
     public class AquaItemTurretBuild extends ItemTurretBuild{
+        @Override
+        public float calculateHeat(float[] sides, IntSet cameFrom){
+            return SharedHeat.adjust(this, sides, super.calculateHeat(sides, cameFrom));
+        }
+
         //Will crash when the new release of Mindustry is made!!!!
         public UnlockableContent getAmmoContent(){
             return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;

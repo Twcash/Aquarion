@@ -2,7 +2,7 @@ package aquarion.content;
 
 import aquarion.content.blocks.CoreBlocks;
 import aquarion.planets.*;
-import aquarion.world.graphics.ObjMesh;
+import aquarion.world.graphics.GlTFMesh;
 import aquarion.world.graphics.ShadowMultiMesh;
 import arc.func.Cons;
 import arc.graphics.Color;
@@ -71,7 +71,7 @@ public class AquaPlanets {
             meshLoader = () -> new HexMesh(this, 5);
             alwaysUnlocked = false;
             orbitOffset = 85;
-            orbitRadius = 60;
+            orbitRadius = 30;
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.3f;
             defaultEnv = Env.scorching | Env.terrestrial;
@@ -112,10 +112,15 @@ public class AquaPlanets {
         fakeSerpulo = new Planet("fakeSerp", citun, 1.2f, 4){{
             generator = new FakeSerpuloPlanetGenerator();
             meshLoader = () -> {
-                ObjMesh ring = new ObjMesh(this, "models/orbital-ring-destroyed.obj", 1);
+                GlTFMesh ring = new GlTFMesh(this, "models/orbital-ring.glb", .5f);
+                ring.setProgressProvider(() -> GlTFMesh.techProgress(this));
+                ring.invertProgress = true;
+                ring.rotationY = 90;
+                ring.rotationX = 45;
                 return new ShadowMultiMesh(this, ring, new HexMesh(this, 6));
             };
             alwaysUnlocked = true;
+            prebuildBase = true;
             accessible = true;
             orbitRadius = 70;
             orbitOffset = 56;
@@ -130,7 +135,6 @@ public class AquaPlanets {
             atmosphereRadIn = -0.02f;
             atmosphereRadOut = 0.2f;
             startSector = 112;
-            prebuildBase = true;
             allowLaunchSchematics = false;
             orbitSpacing = 6f;
             defaultCore = CoreBlocks.corePike;
@@ -177,7 +181,7 @@ public class AquaPlanets {
             startSector = 1;
             generator = new DelubrumPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 3);
-            orbitRadius = 12;
+            orbitRadius = 15;
             orbitOffset = 52;
             visible = true;
             accessible = true;

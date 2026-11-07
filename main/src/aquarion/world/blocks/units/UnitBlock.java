@@ -1,6 +1,7 @@
 package aquarion.world.blocks.units;
 
 import aquarion.content.AquaSounds;
+import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.graphics.AquaFx;
 import arc.Core;
 import arc.Graphics.Cursor;
@@ -163,13 +164,10 @@ public class UnitBlock extends Block {
         if(unit.sample instanceof Payloadc){
             stats.add(Stat.payloadCapacity, StatValues.squared(Mathf.sqrt(unit.payloadCapacity / (tilesize * tilesize)), StatUnit.blocks));
         }
-
         mindustry.type.ItemStack[] reqs = unit.getFirstRequirements();
-
         if(unit.weapons.any()){
             stats.add(Stat.weapons, StatValues.weapons(unit, unit.weapons));
         }
-
         if(unit.immunities.size > 0){
             Seq<StatusEffect> imm = unit.immunities.toSeq().sort();
             //it's redundant to list wet for naval units
@@ -178,6 +176,7 @@ public class UnitBlock extends Block {
             }
             stats.add(Stat.immunities, StatValues.statusEffects(imm));
         }
+        AlternativeBuildCosts.applyStats(this);
     }
     @Override
     public void setBars(){
@@ -277,11 +276,11 @@ public class UnitBlock extends Block {
             }
 
             if(commandPos != null){
-                if(!out.isEmpty()) out.append(",");
+                if(out.length() > 0) out.append(","); // if(!out.isEmpty()) out.append(",");
                 out.append("pos=").append(commandPos.x).append(":").append(commandPos.y);
             }
 
-            return out.isEmpty() ? null : out.toString();
+            return out.length() == 0 ? null : out.toString();
         }
 
         @Override

@@ -19,14 +19,26 @@ import mindustry.world.meta.Env;
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.magma;
 import static aquarion.content.AquaPlanets.*;
+import static mindustry.content.Items.copper;
 import static mindustry.content.Items.silicon;
 import static mindustry.type.ItemStack.with;
 
 public class EffectBlocks {
-    public static Block  lantern;
+    public static Block  lantern, led;
     public static StoryTellerBlock storyteller;
 
     public static void loadContent() {
+        led = new LightBlock("led") {{
+            shownPlanets.addAll(fakeSerpulo,fakeErekir, tantros2, qeraltar);
+            requirements(Category.effect, BuildVisibility.lightingOnly, with(silicon, 10, copper, 5));
+            brightness = 0.5f;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            size = 1;
+            radius = 20;
+            consumePower(0.1f);
+            envEnabled |= Env.terrestrial | Env.underwater;
+            envDisabled = Env.none;
+        }};
         lantern = new LightBlock("lantern") {{
             shownPlanets.addAll(fakeSerpulo,fakeErekir, tantros2, qeraltar);
             requirements(Category.effect, BuildVisibility.lightingOnly, with(silicon, 30));
@@ -39,8 +51,8 @@ public class EffectBlocks {
             consume(new ConsumeLiquidFlammable(0.1f, 2 / 60f));
         }};
 
-        storyteller = new StoryTellerBlock("storyteller") {{
-            story = DialogueStories.all.first();
-        }};
+//        storyteller = new StoryTellerBlock("storyteller") {{
+//            story = DialogueStories.all.first();
+//        }};
     }
 }

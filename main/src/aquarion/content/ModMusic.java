@@ -2,8 +2,10 @@ package aquarion.content;
 
 import aquarion.ui.ModSettings;
 import aquarion.ui.UIEvents;
+import arc.Core;
 import arc.Events;
 import arc.audio.Music;
+import arc.math.Mathf;
 import arc.struct.ArrayMap;
 import arc.struct.Seq;
 import arc.util.Log;
@@ -11,7 +13,9 @@ import mindustry.Vars;
 import mindustry.audio.SoundControl;
 import mindustry.core.GameState;
 import mindustry.game.EventType.StateChangeEvent;
+import mindustry.game.EventType.Trigger;
 import mindustry.game.EventType.WorldLoadEvent;
+import mindustry.gen.Groups;
 import mindustry.gen.Musics;
 
 import java.lang.reflect.Field;
@@ -21,8 +25,8 @@ public class ModMusic {
     public static Seq<Music> aquaDarkMusic = new Seq<>();
     public static Seq<Music> aquaBossMusic = new Seq<>();
 
-    public static String[] aquaAmbientList = {"quiet-processing", "underwaves", "che-go-boom", "fih", "expansion","decaying-giants", "scarred-skies", "during-creation", "flying-fire"};
-    public static String[] aquaDarkList = {"sinking", "bubblerine", "exhasperation", "mold"};
+    public static String[] aquaAmbientList = {"quiet-processing", "underwaves", "che-go-boom", "expansion","decaying-giants", "scarred-skies", "during-creation", "flying-fire", "stargazing"};
+    public static String[] aquaDarkList = {"sinking", "bubblerine", "exhasperation", "mold", "tripwire"};
     public static String[] aquaBossList = {"acceptance","oh-the-horror", "hero-brine", "not-so-distant-now", "concussive"};
 
     public static Seq<Music> origAmbientMusic;
@@ -34,6 +38,16 @@ public class ModMusic {
 
     public static Music betterFine;
     public static Music realFine;
+
+    private static final float knightMusicTailSeconds = 2f;
+    private static final float pauseFadeSeconds = 3f;
+    private static Music knightMusic;
+    private static Music knightPauseMusic;
+    private static float knightMusicTail;
+    private static float pauseMix;
+    private static float pausedPosition;
+    private static boolean wasPaused;
+    private static boolean marchStarted;
 
     public static Field currentMus;
     //DON`T TOUCH IT`S ICON FOR ERROR OR NOT FOUND IMAGE
@@ -86,7 +100,6 @@ public class ModMusic {
         musics.put("not-so-distant-now", new MusicInfo(none, "NOT SO DISTANT NOW", cas));
         musics.put("concussive", new MusicInfo(none, "Concussive", cas));
         musics.put("mold", new MusicInfo(none, "Mold", myt));
-        musics.put("assault", new MusicInfo(none, "Assault", myt));
         musics.put("quiet-processing", new MusicInfo(none, "Quiet Processing", ace));
         musics.put("scarred-skies", new MusicInfo(none, "Scarred Skies", ace));
         musics.put("exhasperation", new MusicInfo(none, "Exasperation", ace));
@@ -96,6 +109,8 @@ public class ModMusic {
         musics.put("sinking", new MusicInfo(none, "Sinking", ace));
         musics.put("during-creation", new MusicInfo(none, "During Creation", nik));
         musics.put("flying-fire", new MusicInfo(none, "Flying Fire", myt));
+        musics.put("stargazing", new MusicInfo(none, "Stargazing (Mindustry Version)", myt));
+        musics.put("tripwire", new MusicInfo(none, "Tripwire", myt));
         //###########################################################################
         //######################## !!!HOW ADD MUSIC!!! ##############################
         //musics.put("filename", new MusicInfo("aquarion-iconname", "You Music Name", "Author"));
@@ -121,6 +136,10 @@ public class ModMusic {
         realLand = Musics.land;
         betterFine = Vars.tree.loadMusic("better-fine");
         realFine = Musics.fine;
+        knightMusic = Core.audio.newMusic(Vars.tree.get("music/march.wav"));
+        knightPauseMusic = Core.audio.newMusic(Vars.tree.get("music/boss/oh-the-horror.ogg"));
+        knightMusic.setLooping(true);
+        knightPauseMusic.setLooping(true);
 
         updateFine();
         updateLand();
@@ -145,18 +164,84 @@ public class ModMusic {
 
     public static void attach() {
         Events.on(WorldLoadEvent.class, e -> {
+            stopKnightMusic();
             enableCustomMusic();
         });
 
         Events.on(StateChangeEvent.class, e -> {
             if (e.from != GameState.State.menu && e.to == GameState.State.menu) {
+                stopKnightMusic();
                 disableCustomMusic();
             }
         });
 
+        Events.run(Trigger.update, ModMusic::updateKnightMusic);
         reflectCurMus();
         UIEvents.monitorMusic();
         UIEvents.registerControls();
+    }
+
+    private static void updateKnightMusic() {
+        if (knightMusic == null || !Vars.state.isGame() || Vars.state.rules.editor
+            || Vars.state.rules.disableMusic || knightMusic.getLength() <= 0f) {
+            stopKnightMusic();
+            return;
+        }
+
+        float delta = Core.graphics.getDeltaTime();
+        boolean paused = Vars.state.isPaused();
+        boolean knightPresent = Groups.unit.find(unit -> unit.type == AquaUnitTypes.knight && !unit.dead) != null;
+        if (knightPresent) {
+            knightMusicTail = knightMusicTailSeconds;
+        } else if (!paused) {
+            knightMusicTail = Math.max(0f, knightMusicTail - delta);
+        }
+
+        if (knightMusicTail <= 0f) {
+            stopKnightMusic();
+            return;
+        }
+
+        // Keep the regular controller quiet during Knight's music.
+        SoundControl sound = Vars.control.sound;
+        sound.stop();
+        sound.keepSilent();
+
+        if (paused && !wasPaused && marchStarted) {
+            pausedPosition = knightMusic.getPosition();
+        } else if (!paused && wasPaused && marchStarted) {
+            knightMusic.setPosition(pausedPosition);
+        }
+        wasPaused = paused;
+
+        pauseMix = Mathf.approach(pauseMix, paused ? 1f : 0f, delta / pauseFadeSeconds);
+        float volume = Core.settings.getInt("musicvol") / 100f * Mathf.clamp(Vars.state.rules.musicVolume);
+        float tailVolume = knightMusicTail / knightMusicTailSeconds;
+        knightMusic.setVolume(volume * tailVolume * (1f - pauseMix));
+        if (!paused && !knightMusic.isPlaying()) {
+            knightMusic.play();
+            if (marchStarted) knightMusic.setPosition(pausedPosition);
+            marchStarted = true;
+        } else if (paused && pauseMix >= 1f) {
+            knightMusic.pause(true);
+        }
+
+        if (knightPresent && pauseMix > 0f) {
+            knightPauseMusic.setVolume(volume * tailVolume * pauseMix);
+            if (!knightPauseMusic.isPlaying()) knightPauseMusic.play();
+        } else if (knightPauseMusic.isPlaying()) {
+            knightPauseMusic.stop();
+        }
+    }
+
+    private static void stopKnightMusic() {
+        if (marchStarted) knightMusic.stop();
+        if (pauseMix > 0f) knightPauseMusic.stop();
+        knightMusicTail = 0f;
+        pauseMix = 0f;
+        pausedPosition = 0f;
+        marchStarted = false;
+        wasPaused = false;
     }
 
     public static void enableCustomMusic() {

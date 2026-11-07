@@ -5,6 +5,8 @@ import aquarion.world.MultiBlockLib.drawrr.DrawRegionCenterSymmetry;
 import aquarion.world.MultiBlockLib.drawrr.DrawRegionRotated;
 import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.blocks.defense.MissileBlock;
+import aquarion.world.blocks.defense.NukeBlock;
+import aquarion.world.blocks.payload.ReagentMix;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Color;
@@ -45,20 +47,35 @@ import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
 public class DefenseBlocks {
-    public static Block forceGenerator, meteor, defunctWall, smallDefunctWall, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
-            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade;
+    public static Block forceGenerator, testblock, meteor, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
+            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade, ferricWall, ferricWallLarge
+    //I have no clue where to put these so I'll put them here
+    ,dolomiteReagentMix, sandClump;
 
 
     public static void loadContent() {
+        testblock = new NukeBlock("testblock"){{
+            requirements(Category.turret, BuildVisibility.sandboxOnly, with());
+            alwaysUnlocked = true;
+            health = 100;
+        }};
+        dolomiteReagentMix = new ReagentMix("dolomite-mixture"){{
+            size = 2;
+            containing.add(new ItemStack(sand, 15), new ItemStack(calcium, 5), new ItemStack(magnesiumPowder, 5));
+        }};
+        sandClump = new ReagentMix("sand-clump"){{
+            size = 2;
+            containing.add(new ItemStack(sand, 45));
+        }};
         meteor = new MissileBlock("meteor"){{
-            requirements(Category.turret, with(copper, 90, lead, 60, graphite, 90));
+            requirements(Category.turret, with(graphite, 20, copper, 40));
             size = 1;
             canMirror = false;
             drawer = new DrawRegionRotated(){{
                 suffix = "-rot";
                 x = 4;
             }};
-            consumePower(2);
+            consumeLiquid(Liquids.oil,0.1f);
             addLink(1,0,1);
             spawn = new MissileUnitType("meteor-unit"){{
                 speed = 4.6f;
@@ -72,9 +89,8 @@ public class DefenseBlocks {
                 engineSize = 3.1f;
                 engineOffset = 10f;
                 controller = u -> new NewMissileAI();
-                rotateSpeed = 0.25f;
+                rotateSpeed = 1.1f;
                 drawCell = false;
-                circleTarget = true;
                 trailLength = 18;
                 missileAccelTime = 50f;
                 lowAltitude = true;
@@ -93,7 +109,7 @@ public class DefenseBlocks {
                     deathExplosionEffect = Fx.massiveExplosion;
                     shootOnDeath = true;
                     shake = 10f;
-                    bullet = new ExplosionBulletType(300f, 25f){{
+                    bullet = new ExplosionBulletType(500f, 35f){{
                         hitColor = Pal.redLight;
                         shootEffect = new MultiEffect(Fx.massiveExplosion, new WaveEffect(){{
                             lifetime = 20f;
@@ -394,28 +410,27 @@ public class DefenseBlocks {
             requirements(Category.defense, with(chalkalloy, 6));
             health = 110 * 4;
         }};
+        ferricWall = new Wall("ferric-wall"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.defense, with(ferricMatter, 6));
+            health = 160 * 4;
+            armor = 2;
+        }};
+        ferricWallLarge = new Wall("ferric-wall-large"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.defense, ItemStack.mult(ferricWall.requirements, 4));
+            health = 160 * 4*4;
+            size = 2;
+            armor = 2;
+        }};
         chalkalloyWallLarge = new Wall("chalkalloy-wall-large"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.defense, ItemStack.mult(chalkalloyWall.requirements, 4));
             health = 110 * 4 * 4;
             size = 2;
         }};
-        smallDefunctWall = new Wall("defunct-wall-small"){{
-            requirements(Category.defense, ItemStack.with(lead, 10, silicon, 15));
-            size = 1;
-            destroyEffect = AquaFx.factoryDestroyDefunct;
-            health = 250;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            category = Category.defense;
-        }};
-        defunctWall = new Wall("defunct-wall"){{
-            requirements(Category.defense, ItemStack.mult(smallDefunctWall.requirements, 4));
-            size = 2;
-            health = 1000;
-            destroyEffect = AquaFx.factoryDestroyDefunct;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            category = Category.defense;
-        }};
+
+
         forceGenerator = new ForceProjector("force-generator"){{
             requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
             size = 3;
@@ -428,17 +443,29 @@ public class DefenseBlocks {
             radius = 200;
             sides = 4;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            shieldBreakEffect = new Effect(40, e -> {
-                color(e.color);
-                stroke(3f * e.fout());
-                    Lines.poly(e.x, e.y, 4, 200, 0);
-            });
-            //forceShrinkEffect = new Effect(40, e -> {
-            //                color(e.color);
-            //                stroke(3f * e.fout());
-            //                Lines.poly(e.x, e.y, 4, 200, 0);
-            //            });
+            shieldBreakEffect = new MultiEffect(
+                    new Effect(45, e -> {
+                        color(e.color);
+                        stroke(3f * e.fout());
+                        Lines.poly(e.x, e.y, 4, 180-4*e.time, 0);
+                    }),
+                    new Effect(40, e -> {
+                        color(e.color);
+                        stroke(3f * e.fout());
+                        Lines.poly(e.x, e.y, 4, 160-4*e.time, 0);
+                    }),
+                    new Effect(35, e -> {
+                        color(e.color);
+                        stroke(3f * e.fout());
+                        Lines.poly(e.x, e.y, 4, 140-4*e.time, 0);
+                    }));
+            forceShrinkEffect = new Effect(50, e -> {
+                            color(e.color);
+                            stroke(3f * e.fout());
+                            Lines.poly(e.x, e.y, 4, 150-3*e.time, 0);
+                        });
         }};
+
 
     }
 }

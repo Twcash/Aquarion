@@ -11,8 +11,9 @@ import arc.graphics.gl.Shader;
 import arc.math.geom.Vec3;
 import arc.scene.ui.layout.Scl;
 import arc.util.Nullable;
-import arc.util.Reflect;
+
 import arc.util.Time;
+import aquarion.ui.ModSettings;
 import mindustry.Vars;
 import mindustry.content.Liquids;
 import mindustry.graphics.CacheLayer;
@@ -28,12 +29,14 @@ import static mindustry.Vars.tree;
 public class AquaShaders {
     public static PlanetShader planet;
     public static LightShader light;
+    private static Shaders.LightShader vanillaLight;
     public static @Nullable SurfaceShader brine, petroleum, lava, shallowLava, shallowSlag, shadow, heat, glitch, neoplasiaBaseShader;
     public static @Nullable PartRegionShader knight1;
     public static @Nullable MonsoonShader monsoon;
-    public static @Nullable PodShader neoplasiaPodShader;
     public static @Nullable deflectorShader deflectorShield;
-    public static WaterReflectShader waterReflect;
+    public static @Nullable DissolveShader dissolveShader;
+    public static @Nullable RailPlacementShader railPlacement;
+    public static @Nullable CircleDistortShader circleDistort;
     public static CacheLayer.ShaderLayer lavalLayer, slavaLayer, petroleumLayer, sslagLayer, brineLayer, shadowLayer, heatLayer, podLayer, glitchLayer, deflecterLayer, neoplasiaBaseLayer, sslagLayer2,
             wetUnderLayer;
     public static Fi file(String name){
@@ -42,6 +45,8 @@ public class AquaShaders {
 
 
 public static void init() {
+
+    if (vanillaLight == null) vanillaLight = Shaders.light;
 
     planet = new PlanetShader();
     PlanetShadowMap.init();
@@ -53,22 +58,21 @@ public static void init() {
     petroleum = new SurfaceShader("petroleum");
     neoplasiaBaseShader = new SurfaceShader("neoplasiaBase");
 
-    waterReflect = new WaterReflectShader();
-    ((CacheLayer.ShaderLayer)CacheLayer.water).shader = waterReflect;
 
     shadow = new SurfaceShader("shadow");
     heat = new SurfaceShader("heat");
     monsoon = new MonsoonShader();
-
+    dissolveShader = new DissolveShader("dissolve");
+    railPlacement = new RailPlacementShader();
+    circleDistort = new CircleDistortShader();
     glitch = new SurfaceShader("glitch");
-
     deflectorShield = new deflectorShader();
     shadowLayer = new CacheLayer.ShaderLayer(shadow);
     neoplasiaBaseLayer = new CacheLayer.ShaderLayer(neoplasiaBaseShader);
     brineLayer = new CacheLayer.ShaderLayer(brine);
     sslagLayer = new CacheLayer.ShaderLayer(shallowSlag);
     sslagLayer2 = new LiquidUnderFloorLayer(Shaders.slag, Color.valueOf("ff8142"), "molten-slag");
-    wetUnderLayer = new LiquidUnderFloorLayer(waterReflect, Color.valueOf("596ab8"), "deep-water");
+    wetUnderLayer = new LiquidUnderFloorLayer(Shaders.water, Color.valueOf("596ab8"), "deep-water");
     slavaLayer = new CacheLayer.ShaderLayer(shallowLava);
     lavalLayer = new CacheLayer.ShaderLayer(lava);
     heatLayer = new CacheLayer.ShaderLayer(heat);
@@ -84,9 +88,15 @@ public static void init() {
     CacheLayer.addLast(lavalLayer);
     CacheLayer.addLast(neoplasiaBaseLayer);
     light = new LightShader();
-    Shaders.light = light;
+    refreshLightShader();
 
 }
+
+    public static void refreshLightShader(){
+        if (light == null) return;
+        Shaders.LightShader desired = ModSettings.getCustomLightShader() ? light : vanillaLight;
+        if (desired != null && Shaders.light != desired) Shaders.light = desired;
+    }
 
     public static void dispose(){
         if (!Vars.headless) {
@@ -95,13 +105,49 @@ public static void init() {
             petroleum.dispose();
             shallowLava.dispose();
             shallowSlag.dispose();
-            waterReflect.dispose();
             neoplasiaBaseShader.dispose();
-            //neoplasiaPodShader.dispose();
             knight1.dispose();
             PlanetShadowMap.dispose();
+            if(railPlacement != null) railPlacement.dispose();
+            CircleDistort.dispose();
+            if(circleDistort != null){ circleDistort.dispose(); circleDistort = null; }
         }
     }
+    /** Circular shockwave and caustic-smoke refraction, composited by CircleDistort. */
+    public static class CircleDistortShader extends Shader{
+        public float x, y, radius, strength, time;
+        public boolean smoke;
+
+        public CircleDistortShader(){
+            super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/circle-distort.frag"));
+        }
+
+        @Override
+        public void apply(){
+            setUniformi("u_texture", 0);
+            setUniformf("u_camera", Core.camera.position.x - Core.camera.width / 2f,
+                Core.camera.position.y - Core.camera.height / 2f);
+            setUniformf("u_worldSize", Core.camera.width, Core.camera.height);
+            setUniformf("u_center", x, y);
+            setUniformf("u_radius", radius);
+            setUniformf("u_strength", strength);
+            setUniformf("u_time", time);
+            setUniformf("u_smoke", smoke ? 1f : 0f);
+        }
+    }
+    public static class RailPlacementShader extends Shader{
+        public float maxAlpha = 0.18f;
+
+        public RailPlacementShader(){
+            super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/rail-placement.frag"));
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_maxAlpha", maxAlpha);
+        }
+    }
+
     public static class LightShader extends Shaders.LightShader {
 
         public Color ambient = new Color(0.01f, 0.01f, 0.04f, 0.99f);
@@ -236,184 +282,6 @@ public static void init() {
         }
     }
 
-    public static class PodShader extends Shader {
-        Texture noiseTex;
-
-        public PodShader(String frag) {
-            super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/" + frag + ".frag"));
-            loadNoise();
-        }
-
-        public PodShader(String vertRaw, String fragRaw) {
-            super(vertRaw, fragRaw);
-            loadNoise();
-        }
-        public void loadNoise(){
-            Core.assets.load("sprites/" + textureName() + ".png", Texture.class).loaded = t -> {
-                t.setWrap(Texture.TextureWrap.repeat);
-                t.setFilter(Texture.TextureFilter.linear);
-            };
-        }
-        public String textureName() {
-            return "noise";
-        }
-        @Override
-        public void apply(){
-            setUniformf("u_campos", Core.camera.position.x - Core.camera.width / 2, Core.camera.position.y - Core.camera.height / 2);
-            setUniformf("u_resolution", Core.camera.width, Core.camera.height);
-            setUniformf("u_time", Time.time);
-
-            if(hasUniform("u_noises")){
-                if(noiseTex == null){
-                    noiseTex = Core.assets.get("sprites/" + textureName() + ".png", Texture.class);
-                    noiseTex.setWrap(Texture.TextureWrap.repeat);
-                    noiseTex.setFilter(Texture.TextureFilter.linear);
-                }
-
-                noiseTex.bind(3);
-                renderer.effectBuffer.getTexture().bind(0);
-
-                setUniformi("u_noises", 3);
-            }
-        }
-    }
-    public static class GlitchShader extends AquaShaders.SurfaceShader {
-
-        public FrameBuffer prevBuffer; // stores the previous frame
-        private final Shader passthrough;
-
-        public GlitchShader(String frag) {
-            super(frag);
-
-            int w = Core.graphics.getWidth();
-            int h = Core.graphics.getHeight();
-            prevBuffer = new FrameBuffer(Pixmap.Format.rgba8888, w, h, false);
-
-            // Simple passthrough shader to copy texture into prevBuffer
-            passthrough = new Shader(Shaders.getShaderFi("screenspace.vert"), Shaders.getShaderFi("screenspace.frag"));
-        }
-
-        @Override
-        public void apply() {
-            super.apply();
-            setUniformf("u_resolution", Core.camera.width*5, Core.camera.height*5);
-            setUniformf("u_time", Time.time/3.0f);
-            // Bind current frame as texture unit 0
-            renderer.effectBuffer.getTexture().bind(0);
-            setUniformi("u_texture", 0);
-
-            // Bind previous frame as texture unit 1
-            prevBuffer.getTexture().bind(1);
-            setUniformi("u_prevFrame", 1);
-        }
-
-        /** Call this AFTER drawing the frame with glitchShader */
-        public void updatePreviousFrame() {
-            prevBuffer.begin(Color.clear);
-            renderer.effectBuffer.blit(passthrough);
-            prevBuffer.end();
-        }
-    }
-    //Replacing block shaders
-    public static class ExtendedBlockShader extends Shaders.BlockBuildShader {
-        public final Shader shad;
-
-        public ExtendedBlockShader(String shaderName, ShaderExtension ext) {
-            super();
-            this.shad = new Shader("shaders/screenspace.vert", "shaders/" + shaderName + ".frag");
-
-            if (ext != null) {
-                ext.extend(this, shad);
-            }
-        }
-
-        @Override
-        public void disableVertexAttribute(String name) {
-            shad.disableVertexAttribute(name);
-        }
-
-        @Override
-        public int fetchUniformLocation(String name, boolean pedantic) {
-            return shad.fetchUniformLocation(name, pedantic);
-        }
-
-        @Override
-        public int getAttributeLocation(String name) {
-            return shad.getAttributeLocation(name);
-        }
-
-        @Override
-        public String[] getAttributes() {
-            return shad.getAttributes();
-        }
-
-        @Override
-        public String[] getUniforms() {
-            return shad.getUniforms();
-        }
-
-        @Override
-        public int getAttributeSize(String name) {
-            return shad.getAttributeSize(name);
-        }
-
-        @Override
-        public void bind() {
-            shad.bind();
-        }
-
-        @Override
-        public boolean hasUniform(String name) {
-            return shad.hasUniform(name);
-        }
-
-        @Override
-        public int getUniformType(String name) {
-            return shad.getUniformType(name);
-        }
-
-        @Override
-        public int getUniformLocation(String name) {
-            return shad.getUniformLocation(name);
-        }
-
-        @Override
-        public int getUniformSize(String name) {
-            return shad.getUniformSize(name);
-        }
-
-        @Override
-        public void dispose() {
-            shad.dispose();
-            super.dispose();
-        }
-
-        @Override
-        public boolean isDisposed() {
-            return shad.isDisposed();
-        }
-
-        // Optional extension hook
-        @FunctionalInterface
-        public interface ShaderExtension {
-            void extend(ExtendedBlockShader self, Shader internal);
-        }
-        //replace
-        public static void replaceShader(Shader shader, String name) {
-            Reflect.set(Shaders.class, name, shader);
-            Object original = Reflect.get(CacheLayer.class, name);
-            CacheLayer[] allLayers = CacheLayer.all;
-
-            for (int i = 0; i < allLayers.length; i++) {
-                if (allLayers[i] == original) {
-                    CacheLayer.ShaderLayer newLayer = new CacheLayer.ShaderLayer(shader);
-                    Reflect.set(CacheLayer.class, name, newLayer);
-                    allLayers[i] = newLayer;
-                    newLayer.id = i;
-                }
-            }
-        }
-    }
     public static class deflectorShader extends Shaders.LoadShader {
 
         public deflectorShader(){
@@ -435,7 +303,6 @@ public static void init() {
         public Vec3 lightDir = new Vec3(1, 1, 1).nor();
         public Color ambientColor = Color.white.cpy();
         public Vec3 camDir = new Vec3();
-        public Vec3 camPos = new Vec3();
         public boolean emissive;
         public Planet planet;
 
@@ -452,22 +319,6 @@ public static void init() {
             setUniformf("u_camdir", camDir);
             setUniformf("u_campos", renderer.planets.cam.position);
             setUniformf("u_emissive", emissive ? 1f : 0f);
-        }
-    }
-    public static class WaterReflectShader extends SurfaceShader {
-        public WaterReflectShader() {
-            super("water");
-        }
-        //see https://en.wikipedia.org/wiki/Reflection_(mathematics) if you don't know how the hell reflections works
-        @Override
-        public void apply() {
-            super.apply();
-            if (WaterReflections.buffer != null) {
-                WaterReflections.buffer.getTexture().bind(1);
-                setUniformi("u_reflection", 1);
-                setUniformf("u_refTint", WaterReflections.refTint.r, WaterReflections.refTint.g, WaterReflections.refTint.b, WaterReflections.refTintAmount);
-                setUniformf("u_refOpacity", WaterReflections.refOpacity);
-            }
         }
     }
     public static class MonsoonShader extends SurfaceShader {
@@ -489,5 +340,56 @@ public static void init() {
             setUniformf("u_intensity", intensity);
         }
     }
+    public static class DissolveShader extends Shaders.LoadShader{
+        /** 0..1; how much of the region has burned away. */
+        public float progress;
+        /** Colour of the glowing edge left behind by the dissolve. Alpha controls its strength. */
+        public Color edgeColor = Color.valueOf("ffd37f");
+        public TextureRegion region = new TextureRegion();
+        public @Nullable Texture noiseTex;
 
+        public DissolveShader(String frag){
+            //the "default" vertex shader is the one the sprite batch uses; screenspace.vert has no
+            //projection matrix, so anything drawn with it in the world ends up off-screen.
+            super(frag, "default");
+            loadNoise();
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_progress", progress);
+            setUniformf("u_edgeColor", edgeColor);
+
+            if(region.texture == null){
+                setUniformf("u_uv", 0f, 0f);
+                setUniformf("u_uv2", 1f, 1f);
+                setUniformf("u_texsize", 1f, 1f);
+            }else{
+                setUniformf("u_uv", region.u, region.v);
+                setUniformf("u_uv2", region.u2, region.v2);
+                setUniformf("u_texsize", region.texture.width, region.texture.height);
+            }
+
+            if(noiseTex == null && assets.isLoaded("sprites/" + textureName() + ".png", Texture.class)){
+                noiseTex = assets.get("sprites/" + textureName() + ".png", Texture.class);
+            }
+
+            if(noiseTex != null){
+                //unit 0 is taken by the sprite batch texture, which is bound right after apply()
+                noiseTex.bind(1);
+                setUniformi("u_noise", 1);
+            }
+        }
+
+        public String textureName(){
+            return "noise";
+        }
+
+        public void loadNoise(){
+            assets.load("sprites/" + textureName() + ".png", Texture.class).loaded = t -> {
+                t.setFilter(Texture.TextureFilter.linear);
+                t.setWrap(Texture.TextureWrap.repeat);
+            };
+        }
+    }
 }

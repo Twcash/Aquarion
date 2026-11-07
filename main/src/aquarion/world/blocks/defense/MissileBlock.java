@@ -4,6 +4,7 @@ import aquarion.world.MultiBlockLib.MultiBlock;
 import aquarion.world.MultiBlockLib.MultiBlockEntity;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
+import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
 import arc.struct.IntSeq;
@@ -33,8 +34,6 @@ import mindustry.world.draw.DrawBlock;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.meta.Stat;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import static mindustry.Vars.*;
 
 public class MissileBlock extends Block implements MultiBlock {
@@ -46,6 +45,8 @@ public class MissileBlock extends Block implements MultiBlock {
     public boolean canMirror = false;
     public int[] rotations = {0, 1, 2, 3, 0, 1, 2, 3};
     public float range = 250;
+    /** Full width of the target acquisition cone, in degrees. */
+    public float shootCone = 60f;
     public UnitType spawn = UnitTypes.alpha;
     public float time = 240;
     public MissileBlock(String name) {
@@ -164,6 +165,25 @@ public class MissileBlock extends Block implements MultiBlock {
         public Seq<Building[]> linkProximityMap;
         public Tile teamPos, statusPos;
         public float totprogress = 0;
+        private boolean payloadUpdating;
+
+        @Override
+        public void updatePayload(Unit unitHolder, Building buildingHolder){
+            payloadUpdating = true;
+            try{
+                if(!dead) super.updatePayload(unitHolder, buildingHolder);
+            }finally{
+                payloadUpdating = false;
+            }
+        }
+
+        @Override
+        public void pickedUp(){
+            super.pickedUp();
+            linkCreated = false;
+            linkEntities = null;
+            if(linkProximityMap != null) linkProximityMap.clear();
+        }
         @Override
         public void created(){
             super.created();
@@ -179,7 +199,7 @@ public class MissileBlock extends Block implements MultiBlock {
         @Override
         public void updateTile() {
             super.updateTile();
-            if (!linkCreated) {
+            if (!payloadUpdating && tile != emptyTile && !linkCreated) {
                 linkEntities = setLinkBuild(this, block, tile, team, size, rotation);
                 linkCreated = true;
                 updateLinkProximity();
@@ -189,10 +209,12 @@ public class MissileBlock extends Block implements MultiBlock {
                 totprogress += progress;
             }
 
+            if (progress < time || net.client()) return;
+
             Building targetBuilding = findEnemyBuilding(range);
             Unit targetUnit = findEnemyUnit(range);
 
-            if ((targetBuilding != null || targetUnit != null) && progress >= time && !net.client() ) {
+            if (targetBuilding != null || targetUnit != null) {
                 float targetX = x;
                 float targetY = y;
 
@@ -210,18 +232,19 @@ public class MissileBlock extends Block implements MultiBlock {
                 if(b.controller() instanceof CommandAI ai){
                     ai.commandPosition(Tmp.v6);
                 }
-                b.rotation = this.rotdeg();
+                b.rotation = Angles.angle(x, y, targetX, targetY);
                 Effect.shake(2f, 3f, this);
                 Fx.producesmoke.at(this);
                 b.add();
-                kill();
+                if(payloadUpdating || tile == emptyTile) dead = true;
+                else kill();
             }
         }
 
         Unit findEnemyUnit(float radius) {
             final Unit[] found = {null};
             Units.nearbyEnemies(team, x, y, radius, u -> {
-                if (!u.dead) {
+                if (!u.dead && targetInCone(u.x, u.y)) {
                     found[0] = u;
                 }
             });
@@ -230,16 +253,19 @@ public class MissileBlock extends Block implements MultiBlock {
 
         // Find enemy buildings in range
         Building findEnemyBuilding(float radius) {
-            AtomicReference<Building> b = new AtomicReference<>();
-            indexer.findEnemyTile(team, x, y, range, build ->{
-                b.set(build);
-                return true;
-            });
-            return b.get();
+            return indexer.findEnemyTile(team, x, y, radius, build -> targetInCone(build.x, build.y));
+        }
+
+        boolean targetInCone(float targetX, float targetY) {
+            if(payloadUpdating) return true;
+            if (shootCone >= 360f) return true;
+            float angle = Angles.angle(x, y, targetX, targetY);
+            return Math.abs(Angles.angleDist(rotdeg(), angle)) <= shootCone / 2f;
         }
         @Override
         public void updateLinkProximity() {
             if (linkEntities != null) {
+                if(linkProximityMap == null) linkProximityMap = new Seq<>();
                 linkProximityMap.clear();
                 //add link entity's proximity
                 for (Building link : linkEntities) {
@@ -285,12 +311,12 @@ public class MissileBlock extends Block implements MultiBlock {
 
         @Override
         public void onRemoved() {
-            createPlaceholder(tile, size);
+            if(tile != emptyTile) createPlaceholder(tile, size);
         }
 
         @Override
         public boolean canPickup() {
-            return false;
+            return super.canPickup();
         }
 
         @Override
@@ -311,7 +337,7 @@ public class MissileBlock extends Block implements MultiBlock {
         @Override
         public void drawStatus() {
             statusPos = world.tile(tileX() + statusOverlayPos(size, rotation).x, tileY() + statusOverlayPos(size, rotation).y);
-            if (block.enableDrawStatus && block.consumers.length > 0) {
+            if (statusPos != null && block.enableDrawStatus && block.consumers.length > 0) {
                 float multiplier = block.size > 1 ? 1 : 0.64F;
                 Draw.z(Layer.power + 1);
                 Draw.color(Pal.gray);

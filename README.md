@@ -9,6 +9,12 @@
   <a href="https://github.com/Twcash/Aquarion/releases/latest"><img src="https://img.shields.io/github/downloads/Twcash/Aquarion/total?colorA=46479e&colorB=b0b1f5&style=for-the-badge&logo=github&logoColor=cad3f5" alt="Downloads"></a>
 </p>
 
+<p align="center">
+  <a href="README.md"><img src="https://img.shields.io/badge/English-46479e?style=for-the-badge&logo=googletranslate&logoColor=white" alt="English"></a>
+  <a href="README_ru.md"><img src="https://img.shields.io/badge/Русский-b0b1f5?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Русский"></a>
+<a href="README_es.md"><img src="https://img.shields.io/badge/Espa%C3%B1ol-46479e?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Español"></a>
+</p>
+
 ---
 
 This mod started as an ambitious attempt to recreate **Tantros** in Mindustry, it escalated to adding a new solar system and recreating Serpulo too. Erekir is planned to be integrated at a later point.
@@ -28,7 +34,7 @@ This mod started as an ambitious attempt to recreate **Tantros** in Mindustry, i
 
 * **Mod Conflicts:** The mod adds new blocks, units, and a completely different solar system, so there may be conflicts with other mods.
 * ~~**Frequent Updates:** Updates are frequent but mostly small. **Remember to reinstall or update the mod regularly** to ensure all new content and fixes load properly.~~
-  * (that is a lie, updates are infrequent and can contany anything from a single bugfix to an entirely new planet)
+  * (that is a lie, updates are infrequent and can contain anything from a single bugfix to an entirely new planet)
 * **Work in Progress:** This mod is still heavily under development. If you encounter any bugs, balance issues, crashes or simply typos, please report them via [GitHub Issues](https://github.com/Twcash/Aquarion/issues) or on the [Discord](https://discord.gg/SbFhxYD797).
   * you are also welcome to attempt to fix those issues yourself and make a PR for that
 

@@ -1,5 +1,7 @@
 package aquarion.entities.comp;
 
+import aquarion.gen.AquaUnitc;
+
 import aquarion.annotations.Annotations;
 import aquarion.units.type.AquaUnitType;
 import arc.Events;
@@ -16,7 +18,7 @@ import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.UnitPayload;
 
 @Annotations.EntityComponent
-abstract class DropShipComp implements Unitc, Posc, ElevationMovec, Payloadc {
+abstract class DropShipComp implements AquaUnitc, Posc, ElevationMovec, Payloadc {
     //Do not use the standard UnitType with this component
     @Annotations.Import UnitType type;
     @Annotations.Import float x, y, elevation, speedMultiplier, health, maxHealth, rotation;

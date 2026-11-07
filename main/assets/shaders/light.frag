@@ -18,7 +18,7 @@ float bayer4(vec2 pos){
     return (v / 16.0) - 0.5;
 }
 
-const int blurRadius = 4;
+const int blurRadius = 2;
 const float blurStrength = 1.0;
 
 vec4 blurLight(vec2 uv){

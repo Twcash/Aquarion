@@ -9,6 +9,7 @@ import arc.util.Tmp;
 import mindustry.content.Fx;
 import mindustry.gen.*;
 import mindustry.graphics.Layer;
+import mindustry.graphics.MultiPacker;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 
@@ -25,8 +26,23 @@ public class rokBlock extends Block {
         breakSound = Sounds.rockBreak;
         destroySound = Sounds.rockBreak;
         drawTeamOverlay = false;
+        hasColor = true;
     }
 
+    @Override
+    public void createIcons(MultiPacker packer) {
+        super.createIcons(packer);
+        var image = packer.get(fullIcon);
+        int pixel = image.get(fullIcon.width / 2, fullIcon.height / 2);
+        Color col = Color.rgb(Color.ri(pixel), Color.gi(pixel), Color.bi(pixel));
+        Tmp.c3.set(col);
+        mapColor.set(Tmp.c3);
+    }
+
+    @Override
+    public int minimapColor(Tile tile){
+        return mapColor.rgba();
+    }
     @Override
     public void drawBase(Tile tile) {
         Draw.z(layer);
@@ -43,10 +59,9 @@ public class rokBlock extends Block {
         public void drawTeam(){
             //no
         }
-
     }
     public class rokBlockBuild extends Building {
-        //prevents the tree from breaking during wave shockwave
+        //prevents the rock from breaking during wave shockwave
         //shamelessly stolen from Minedustry
         //i did this after flora, so it was very fast
         @Override

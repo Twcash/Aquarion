@@ -32,6 +32,7 @@ public class ModSettings {
             root.checkPref("debugHitboxRendering", false);
             root.checkPref("aquaMenuBattles", true);
             root.checkPref("blockFactionVisibility", true);
+            root.checkPref("customLightShader", true);
             
             for (Setting setting : root.getSettings()) {
                 if (setting instanceof CheckSetting) {
@@ -138,5 +139,9 @@ public class ModSettings {
 
     public static boolean getBlockFactionVisibility(){
         return Core.settings.getBool("blockFactionVisibility", true);
+    }
+
+    public static boolean getCustomLightShader(){
+        return Core.settings.getBool("customLightShader", true);
     }
 }

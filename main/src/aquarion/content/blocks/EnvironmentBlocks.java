@@ -6,6 +6,7 @@ import aquarion.content.AquaLiquids;
 import aquarion.content.AquaStatuses;
 import aquarion.world.blocks.environment.*;
 import aquarion.world.blocks.power.GenericGenerator;
+import aquarion.world.content.AquaItem;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaShaders;
 import arc.func.Cons;
@@ -43,37 +44,37 @@ public class EnvironmentBlocks {
     }
     //metal floors
     public static Block metalFloor1, metalFloor2, blueMetalFloor1, metal1, metal2, metal3, metal4, metal5, metal6, metal7, metal8, metal9, metal10, metal11, metal12, metal13, metal14, metal15, metal16, floorLight, brokenFloorLight, metalPlates1,
-            glassFloor, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating;
+            glassFloor, metalBankFloor, damagedPlates1, damagedPlates2, damagedPlates3, damagedPlated4, plates1, metalPlates, plates2,plates3,plates4, metalGrating,crux1,crux2,crux3,crux4,crux5,crux6,crux7,cruxVent, cruxLight;
     //metal walls
     public static Block metalWall3, metalWall4, metalWall5, metalWall6, metalWall7, metalWall1, metalWalltwo;
     //defunct stuff
-    public static Block scrapWall, defunctFramingCross, smallDefunctRadarTower, defunctFlooring, crasindFloor, loam, siltyLoam, sandyClayLoam, loamySand, clayLoam, silt, sandyLoam, sandyClay, siltyClayLoam, siltyClay,
+    public static Block scrapWall, crasindFloor, loam, siltyLoam, sandyClayLoam, loamySand, clayLoam, silt, sandyLoam, sandyClay, siltyClayLoam, siltyClay,
             CrasseCoral;
     //deconstructible plants and rocks and stuff (except defunct stuff)
-    public static Block relBlossom, bramble, brulrFern, largeTranticaBush, tyrqPod, bigTyrqPod, scrap1,scrap2,scrap3, varcaudStalk, deadVarcaudStalk, stoneRock, largeStoneRock, hugeStoneRock, massiveStoneRock, basaltRock, largeBasaltRock,
+    public static Block relBlossom, bramble, brulrFern, largeTranticaBush, tyrqPod, bigTyrqPod, scrap1,scrap2,scrap3, varcaudStalk, eseLillypad, deadVarcaudStalk, stoneRock, largeStoneRock, hugeStoneRock, massiveStoneRock, basaltRock, largeBasaltRock,
             hugeBasaltRock, massiveBasaltRock, shaleChunk, largeShaleChunk, crasindtree, parzilPine, elderParzil;
     //boulders and other such stuff
-    public static Block azuriteProp, ksaRoot, okelBush, cupriteChunks, herylBush, parzilSprig, crasindSprout, kolFern, pinkSaltBoulder,cupriteBoulder, adreSprig, blueSandBoulder, brecciaBoulder, chertBoulder, arsenideBoulder,
-            feldsparBoulder, gabbroBoulder, ultrafamicBoulder;
+    public static Block calciteBoulder, azuriteProp, ksaRoot, okelBush, cupriteChunks, herylBush, parzilSprig, crasindSprout, kolFern, pinkSaltBoulder,cupriteBoulder, adreSprig, blueSandBoulder, brecciaBoulder, chertBoulder, arsenideBoulder,
+            feldsparBoulder, gabbroBoulder, ultrafamicBoulder, fluoriteBoulder;
     //the large wall ore thingys and other tall blocks
     public static Block andesiteExtrusions, CrystalGalena, basaltBluff, towaniteCluster, azuriteLarge, pinkSaltCrystals, bewCoral, yulrCoral, tranticaBush, regoubloom, pillarCoral, loteasCoral, songCoral;
     //overlays
     public static Block scrapChunks, scorche, crasindLitter, sparseSnow;
-    public static Block checkpoint, defunctCheckpoint;
+    public static Block checkpoint;
     //floors
     public static Block  tranticaOvergrownFloor, smoothBrecciaFloor, arsenideFloor, arsenideLayers, chertFloor, algal_carpet, coral_floor, cupriteFloor, feldspar, ferric_extrusions,
             gabbro_extrusions, gabbro, petroleumFloor, petroleumSeep, rubble, roughFeldspar, feldsparPebbles, feldsparRubble, smoothFeldspar, phylite_floor, slate, ultrafamicFloor, brimstoneFloor,
-            boricFloor, pinkSaltFloor, pinkSaltFlats, smoothPinkSaltFloor, boricFloorDense, andesite, basaltPlates, ultrafamicPlates, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor,
-            andesiteLayers, basaltSpikes, basaltHolePlates, blueSandFLoor, redSandFloor, brecciaFloor, soil, fertileSoil, nickelFloor, scrapFloor, andesiteRubble, qusGrass, clay, leafLitter, leafLitterDense, denseStone, stonePores, packedSnow;
+            boricFloor, pinkSaltFloor, pinkSaltFlats, smoothPinkSaltFloor, boricFloorDense, andesite, basaltPlates, ultrafamicPlates, chertPlates, greenCoralFloor, BlueCoralFloor, redCoralFloor, fluoriteFloor,
+            andesiteLayers, basaltSpikes, basaltHolePlates, blueSandFLoor, redSandFloor, brecciaFloor, soil, fertileSoil, nickelFloor,calciteFloor, scrapFloor, andesiteRubble, qusGrass, clay, leafLitter, leafLitterDense, denseStone, stonePores, packedSnow;
     //liquids
-    public static Block clearWaterFloor, blueSandWater, iceWater, brine_liquid, lava, shallowSlag2, wetRocks, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava, deepHalidicWater;
+    public static Block clearWaterFloor, blueSandWater, iceWater, brine_liquid, shallowBrine, wetRocks, shallowSlag, shallowYellowstoneSlag, shallowSlagPlates, shallowLava, deepHalidicWater;
     // ores
-    public static Block oreNickelWall, oreRadium, oreUranium, orePitchblende, oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre, miniumOre, pentlanditeOre;
+    public static Block oreNickelWall, oreCalcite, oreRadium, oreUranium, orePitchblende, oreNickel, oreBauxite, oreAluminum, oreSilicon, acuminiteOre, ferricOre, serpentineOre, miniumOre, pentlanditeOre, fluoriteOre, haliteOre;
     //walls
-    public static Block blueSandWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,crasindWall, cupriteWall, pinkSaltWall, boricWall, arsenideWall, chertWall, chertOutcrop, feldsparOutcrop, algalBloom, algalWall, bloom,
+    public static Block blueSandWall,brimstoneWall,calciteWall,redSandWall, brecciaWall, ultrafamicWall, exposedSerpentine,crasindWall, fluoriteWall, fluoriteChunk, cupriteWall, pinkSaltWall, boricWall, arsenideWall, chertWall, chertOutcrop, feldsparOutcrop, algalBloom, algalWall, bloom,
             blueCoralWall, redCoralWall, greenCoralWall, feldsparWall, gabbroWall, tranticaOvergrownWall, basaltOutcrop;
     //vents and such
-    public static Block brimstoneVent, geothermal_vent, feldspar_vent, shaleVent, gabbro_vent, andesiteVent, metalVent;
+    public static Block brimstoneVent, geothermal_vent, feldspar_vent, shaleVent, gabbro_vent, andesiteVent, metalVent, brimstoneGeyser;
 
     public static void loadContent() {
         //TODO fix the blend group
@@ -87,8 +88,20 @@ public class EnvironmentBlocks {
         rubble = new Floor("rubble"){{
             variants = 3;
         }};
+        shallowBrine = new Floor("shallow-brine") {{
+            speedMultiplier = 0.5f;
+            variants = 0;
+            shallow = true;
+            liquidDrop = AquaLiquids.brine;
+            liquidMultiplier = 1f;
+            isLiquid = true;
+            drownTime = 6000;
+            cacheLayer = AquaShaders.brineLayer;;
+            albedo = 1f;
+            supportsOverlay = true;
+        }};
         brine_liquid = new Floor("brine-liquid") {{
-            speedMultiplier = 0.1f;
+            speedMultiplier = 0.4f;
             variants = 0;
             liquidDrop = AquaLiquids.brine;
             liquidMultiplier = 1.1f;
@@ -280,9 +293,11 @@ public class EnvironmentBlocks {
         overwrite(redStoneVent, (SteamVent s) -> s.effect = AquaFx.vent1);
         overwrite(shale, (Floor s) -> s.attributes.set(metamorphic, 1f));
         overwrite(Blocks.salt, (Floor s) -> s.attributes.set(fertility, -5f));
+        overwrite(stoneWall, (StaticWall s) -> s.attributes.set(dolomite, 1f));
         overwrite(hotrock, (Floor s) -> s.attributes.set(fertility, -5f));
         overwrite(magmarock, (Floor s) -> s.attributes.set(fertility, -5f));
         overwrite(carbonStone, (Floor s) -> s.attributes.set(metamorphic, 1.5f));
+        overwrite(Blocks.sand, (Floor s) -> s.attributes.set(fertility, -0.25f));
 
         feldspar_vent = new SteamVent("feldspar-vent") {{
             attributes.set(Attribute.steam, 1f);
@@ -326,8 +341,7 @@ public class EnvironmentBlocks {
             effectSpacing = 15f;
             effect = AquaFx.vent1;
         }};
-        coral_floor = new Floor("coral-floor", 4) {{
-        }};
+        coral_floor = new Floor("coral-floor", 4);
         redCoralFloor = new Floor("redCoral-floor") {{
             variants = 6;
         }};
@@ -339,19 +353,27 @@ public class EnvironmentBlocks {
         }};
 
 
-        gabbro = new Floor("gabbro", 3);
+        gabbro = new Floor("gabbro", 3){{
+            attributes.set(metamorphic, 0.5f);
+        }};
 
-        gabbro_extrusions = new Floor("gabbro-extrusions", 10);
-
+        gabbro_extrusions = new Floor("gabbro-extrusions", 10){{
+            attributes.set(metamorphic, 0.75f);
+        }};
         gabbro_vent = new SteamVent("gabbro-vent") {{
             attributes.set(Attribute.steam, 1f);
             parent = blendGroup = EnvironmentBlocks.gabbro_extrusions;
             effectSpacing = 15f;
             variants = 3;
+            attributes.set(metamorphic, 2f);
             effect = AquaFx.vent1;
         }};
         brimstoneFloor = new Floor("brimstone-floor", 3) {{
             itemDrop = brimstone;
+        }};
+        brimstoneGeyser = new EffectTiledFloor("geyser",0,5){{
+            parent = blendGroup = brimstoneFloor;
+            maxEffectSpacing = 60*60f;
         }};
         brimstoneVent = new SteamVent("brimstone-vent") {{
             attributes.set(Attribute.steam, 1f);
@@ -369,6 +391,10 @@ public class EnvironmentBlocks {
             variants = 3;
             effect = AquaFx.vent1;
             attributes.set(metamorphic, 0.8f);
+        }};
+        fluoriteFloor = new Floor("fluorite-floor", 3){{
+            itemDrop = fluorite;
+            playerUnmineable = true;
         }};
         cupriteFloor = new Floor("cuprite-floor", 3) {{
             emitLight = true;
@@ -399,8 +425,7 @@ public class EnvironmentBlocks {
         moss.itemDrop = Items.sporePod;
 
 
-        geothermal_vent = new SteamVent("geothermal-vent") {
-            {
+        geothermal_vent = new SteamVent("geothermal-vent") {{
                 attributes.set(Attribute.steam, 1f);
                 parent = blendGroup = Blocks.basalt;
                 effectSpacing = 15f;
@@ -421,6 +446,10 @@ public class EnvironmentBlocks {
             tilingVariants = 2;
             tilingSize = 4;
             attributes.set(metamorphic, 0.7f);
+        }};
+        calciteFloor = new Floor("calcite-floor", 3) {{
+            itemDrop = calcium;
+            playerUnmineable = true;
         }};
         blueSandFLoor = new Floor("blue-sand-floor", 3) {{
             itemDrop = Items.sand;
@@ -467,9 +496,7 @@ public class EnvironmentBlocks {
         checkpoint = new CheckpointBlock("checkpoint"){{
             buildVisibility = BuildVisibility.editorOnly;
         }};
-        defunctCheckpoint = new DefunctCheckpointBlock("defunct-checkpoint"){{
-            buildVisibility = BuildVisibility.editorOnly;
-        }};
+
         arsenideFloor = new Floor("arsenide-floor", 4) {{
             attributes.set(fertility, -5f);
         }};
@@ -541,7 +568,7 @@ public class EnvironmentBlocks {
             drawEdgeIn = false;
             clipSize = 3000;
         }};
-        metal3 = new TiledFloor("metal-heat-sink", 1, 2){{
+        metal3 = new EffectTiledFloor("metal-heat-sink", 1, 2){{
             drawEdgeOut = false;
             drawEdgeIn = false;
             clipSize = 3000;
@@ -552,8 +579,32 @@ public class EnvironmentBlocks {
             attributes.set(fertility, -5f);
             status = StatusEffects.melting;
             statusDuration = 10;
-//            effect = AquaFx.heatEngineGenerate;
-//            effectSpacing = 120;
+            effect = AquaFx.heatEngineGenerate;
+            effectSpacing = 120;
+        }};
+        crux1 = new Floor("crux-floor1", 0);
+        crux2 = new Floor("crux-floor2", 0);
+        crux3 = new Floor("crux-floor3", 0){{
+            drawEdgeOut = false;
+        }};
+        crux4 = new Floor("crux-floor4", 0);
+        crux5 = new Floor("crux-floor5", 0);
+        crux6 = new Floor("crux-floor6", 0);
+        crux7 = new Floor("crux-floor7", 0){{
+            drawEdgeOut = false;
+        }};
+        cruxLight = new Floor("crux-light", 0){{
+            lightRadius = 70;
+            emitLight = true;
+            drawEdgeIn = drawEdgeOut = false;
+            lightColor = Pal.techBlue.cpy().a(0.7f);
+        }};
+        cruxVent = new SteamVent("crux-vent"){{
+            attributes.set(Attribute.steam, 1f);
+            variants = 0;
+            parent = blendGroup = metalFloor;
+            effectSpacing = 15f;
+            effect = AquaFx.vent1;
         }};
         metal3 = new TiledFloor("metal-heat-sink-off", 1, 2){{
             drawEdgeOut = false;
@@ -592,8 +643,7 @@ public class EnvironmentBlocks {
             drawEdgeIn = drawEdgeOut = false;
             lightColor = Pal.techBlue.cpy().a(0.7f);
         }};
-        metal1 = new Floor("metal-pole", 0){{
-        }};
+        metal1 = new Floor("metal-pole", 0);
         brokenFloorLight = new Floor("broken-floor-light", 4){{
             lightRadius = 5;
             emitLight = true;
@@ -638,23 +688,23 @@ public class EnvironmentBlocks {
             autotile = true;
             drawEdgeIn = drawEdgeOut = false;
         }};
-        metal13 = new Floor("metal-frame", 0){{
-        }};
-        metal14 = new Floor("metal-bumpe", 0){{
-        }};
-        metal15 = new Floor("metal-plating", 0){{
-        }};
-        metal16 = new Floor("metal-flooring", 2){{
-        }};
-        metalVent = new TiledFloor("metal-vent", 1, 3){{
+        metal13 = new Floor("metal-frame", 0);
+        metal14 = new Floor("metal-bumpe", 0);
+        metal15 = new Floor("metal-plating", 0);
+        metal16 = new Floor("metal-flooring", 2);
+        metalVent = new EffectTiledFloor("metal-vent", 1, 3){{
             drawEdgeOut = false;
             drawEdgeIn = false;
-            //effect = AquaFx.vent1;
-            //effectSpacing = 10;
+            effect = AquaFx.vent1;
+            effectSpacing = 10;
             attributes.set(Attribute.steam, 1f);
         }};
         glassFloor = new Floor("glass-floor", 3) {{
             itemDrop = Items.metaglass;
+        }};
+        brimstoneWall = new StaticWall("brimstone-wall"){{
+            variants = 10;
+            itemDrop = brimstone;
         }};
         metalWall1 = new StaticWall("metal-wall"){{
             variants = 6;
@@ -680,25 +730,9 @@ public class EnvironmentBlocks {
         scorche = new OverlayFloor("scorche"){{
             variants = 4;
         }};
-        defunctFlooring = new Floor("defunct-flooring"){{
-            variants = 0;
-        }};
-        defunctFramingCross = new Wall("defunct-framing-cross") {{
-            requirements(Category.defense, with(silicon, 25, lead, 15, graphite, 25));
-            variants = 2;
-            health = 150;
-            buildVisibility = BuildVisibility.sandboxOnly;
-        }};
-        smallDefunctRadarTower = new Radar("defunct-small-radar-tower") {{
-            size = 3;
-            requirements(Category.effect, with(silicon, 500, lead, 750, ferricMatter, 50, copper, 750));
-            health = 1500;
-            customShadow = true;
-            consumePower(1f);
-            discoveryTime = 300f;
-            fogRadius = 16;
-            buildVisibility = BuildVisibility.sandboxOnly;
-        }};
+
+
+
         sporeMoss.attributes.set(fertility, 0.75f);
         moss.attributes.set(fertility, 0.5f);
         basalt.attributes.set(metamorphic, 0.5f);
@@ -716,6 +750,15 @@ public class EnvironmentBlocks {
         oreNickel = new OreBlock("ore-nickel", nickel);
         acuminiteOre = new OreBlock("acuminite-ore", acuminite) {{
             variants = 5;
+        }};
+        oreCalcite = new OreBlock("ore-calcite", calcium){{
+            variants = 3;
+        }};
+        fluoriteOre = new OreBlock("ore-fluorite", fluorite){{
+            variants = 3;
+        }};
+        haliteOre = new OreBlock("halite-ore", halite){{
+            variants = 3;
         }};
         ferricOre = new OreBlock("ferric-ore", ferricMatter) {{
             variants = 8;
@@ -783,6 +826,17 @@ public class EnvironmentBlocks {
         redCoralWall = new StaticWall("red-coral-wall") {{
             variants = 3;
         }};
+        fluoriteWall = new StaticWall("fluorite-wall"){{
+            variants = 3;
+            itemDrop = fluorite;
+        }};
+        fluoriteChunk = new TallBlock("fluorite-chunk") {{
+            variants = 2;
+            emitLight = true;
+            lightRadius = 12;
+            lightColor = Color.valueOf("9de0ba90");
+            itemDrop = fluorite;
+        }};
         cupriteWall = new StaticWall("cuprite-wall") {{
             variants = 2;
             emitLight = true;
@@ -825,6 +879,10 @@ public class EnvironmentBlocks {
         blueSandWall = new StaticWall("blue-sand-wall") {{
             variants = 2;
             attributes.set(Attribute.sand, 2f);
+        }};
+        calciteWall = new StaticWall("calcite-wall") {{
+            variants = 3;
+            itemDrop = calcium;
         }};
         redSandWall = new StaticWall("red-sand-wall") {{
             variants = 2;
@@ -988,6 +1046,26 @@ public class EnvironmentBlocks {
             shadowLayer = Layer.blockOver;
             buildTime = 20 * 60f;
             shadowOffset = -8;
+        }};
+        eseLillypad = new FloraBlock("ese-lillypad") {{
+            hasShadow = false;
+            shadowAlpha = 0.6f;
+            buildVisibility = sandboxOnly;
+            variants = 5;
+            rotationRand = 45;
+            size = 2;
+            breakable = false;
+            health = 1000;
+            clipSize = 120;
+            underBullets = true;
+            targetable = false;
+            createRubble = false;
+            layer = Layer.floor+2;
+            shadowLayer = Layer.floor+1f;
+            buildTime = 4 * 60f;
+            solid = false;
+            requiresWater = true;
+            shadowOffset = 0f;
         }};
         deadVarcaudStalk = new FloraBlock("dead-varcaud-stalk") {{
             shadowAlpha = 0.6f;
@@ -1304,6 +1382,10 @@ public class EnvironmentBlocks {
         azuriteProp = new Prop("azuriteProp") {{
             variants = 3;
         }};
+        fluoriteBoulder = new Prop("fluorite-boulder"){{
+            variants = 2;
+            fluoriteFloor.asFloor().decoration = this;
+        }};
         ultrafamicBoulder = new Prop("ultrafamic-boulder") {{
             variants = 2;
             ultrafamicFloor.asFloor().decoration = this;
@@ -1364,6 +1446,10 @@ public class EnvironmentBlocks {
             variants = 3;
             arsenideFloor.asFloor().decoration = this;
             arsenideLayers.asFloor().decoration = this;
+        }};
+        calciteBoulder = new Prop("calcite-boulder"){{
+            variants = 2;
+            calciteFloor.asFloor().decoration = this;
         }};
         blueSandBoulder = new Prop("blue-sand-boulder") {{
             variants = 2;

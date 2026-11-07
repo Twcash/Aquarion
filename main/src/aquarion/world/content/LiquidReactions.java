@@ -14,6 +14,7 @@ import mindustry.world.modules.LiquidModule;
  */
 public class LiquidReactions {
     private static final Seq<LiquidReaction> all = new Seq<>();
+    private static final Seq<Liquid> present = new Seq<>();
 
     public static void register(LiquidReaction reaction){
         all.add(reaction);
@@ -45,7 +46,7 @@ public class LiquidReactions {
     public static boolean react(LiquidModule liquids, Building build, float capacity){
         if(liquids == null) return false;
 
-        Seq<Liquid> present = new Seq<>();
+        present.clear();
         liquids.each((liquid, amount) -> {
             if(amount > 0.1f) present.add(liquid);
         });

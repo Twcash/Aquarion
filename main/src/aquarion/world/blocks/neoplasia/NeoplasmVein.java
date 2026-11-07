@@ -1,19 +1,34 @@
 package aquarion.world.blocks.neoplasia;
 
+import aquarion.world.graphics.Renderer;
+import arc.graphics.Color;
+import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.Fill;
+import arc.math.Mathf;
+import arc.math.Interp;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.gen.Building;
 import mindustry.type.Item;
 
-import static mindustry.Vars.content;
-
 public class NeoplasmVein extends NeoplasiaproductionBlock {
     public NeoplasmVein(String name) {
         super(name);
+        colFrom = Color.valueOf("5b132a");
+        colTo = Color.valueOf("ba1334");
     }
 
     public class NeoplasmVeinBuild extends NeoplasiaProductionBlockBuild {
         float activity = 0f;
+        int tissueDistance = Integer.MAX_VALUE;
+        boolean crowded;
+        float age;
+        private final Color strandColor = new Color();
+
+        Color veinColor(Color result){
+            float brightness = 0.25f + 0.75f / (1f + Math.max(0, tissueDistance - 1) * 0.2f);
+            return result.set(colFrom).lerp(colTo, Mathf.clamp(amount / maxAmount)).mul(brightness, brightness, brightness, 1f);
+        }
 
         @Override
         public void created() {
@@ -23,63 +38,60 @@ public class NeoplasmVein extends NeoplasiaproductionBlock {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            return true;
+            return hasItemRoom(item);
         }
 
         @Override
         public void handleItem(Building source, Item item) {
-            items.add(item, 1);
-            itemTraffic = Math.min(100f, itemTraffic + 1f);
+            super.handleItem(source, item);
         }
 
         @Override
         public void updateTile() {
             super.updateTile();
             if (tile == null || tile.build != this) return;
-            if (amount > 50f) {
-                for (Building neighbor : proximity) {
-                    if (!(neighbor instanceof NeoplasiaProductionBlockBuild pb)) continue;
-                    if (neighbor instanceof NeoplasmVeinBuild) continue;
-                    NeoplasiaproductionBlock prodBlock = (NeoplasiaproductionBlock) pb.block();
-                    if (prodBlock.shouldCraft && pb.amount < prodBlock.craftCost) {
-                        float need = prodBlock.craftCost - pb.amount;
-                        float transfer = Math.min(amount * 0.15f, need);
-                        if (transfer > 0f) {
-                            amount -= transfer;
-                            pb.amount += transfer;
-                        }
-                    }
-                }
-            }
-            if (items.total() > 0) {
+            age += delta();
+            if(crowded){
+                activity = Math.max(0f, activity - delta() * 0.5f);
+                routeTraffic = 0f;
+            }else if (routeTraffic > 1f) {
                 activity = Math.min(100f, activity + delta() * 5f);
-            } else {
-                activity = Math.max(0f, activity - delta() * 0.05f);
             }
-            if (activity <= 0f && items.total() <= 0 && base != null) {
+            if (activity <= 0f && base != null && crowded) {
                 upgradeTo(base);
+                if(tile.build instanceof NeoplasiaBuild tissue){
+                    tissue.routeTraffic = 0f;
+                    tissue.veinRegrowDelay = 36000f;
+                }
             }
         }
 
         @Override
         void pushItems() {
-            for (Item item : content.items()) {
-                while (items.get(item) > 0) {
-                    items.remove(item, 1);
-                    boolean didPush = false;
-                    for (Building neighbor : proximity) {
-                        if (!(neighbor instanceof NeoplasiaBuild n)) continue;
-                        if (!n.acceptItem(this, item)) continue;
-                        n.handleItem(this, item);
-                        didPush = true;
-                        break;
-                    }
-                    if (!didPush) {
-                        items.add(item, 1);
-                        break;
-                    }
-                }
+            super.pushItems();
+        }
+
+        @Override
+        public void draw(){
+            float previousZ = Draw.z();
+            float growth = Interp.smooth.apply(Mathf.clamp(spawnTime / Math.max(1f, spawnDuration)));
+            float radius = baseSize * 0.5f * growth;
+            // Both layers must match the mass shader's draw ranges exactly.
+            veinColor(strandColor);
+            Draw.color(strandColor);
+            Draw.z(Renderer.Layer.neoplasiaUnder);
+            Fill.circle(x, y, radius);
+            Draw.z(Renderer.Layer.neoplasiaBase - 0.01f);
+            Draw.color();
+            if(region != null && region.found()){
+                Draw.rect(region, x, y, region.width * region.scl() * growth,
+                    region.height * region.scl() * growth);
             }
+            Draw.z(Renderer.Layer.neoplasiaBase);
+            Draw.color(strandColor);
+            Fill.circle(x, y, radius);
+            Draw.reset();
+            Draw.z(previousZ);
         }
 
         @Override

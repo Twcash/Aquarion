@@ -1,6 +1,8 @@
 varying vec4 v_col;
+varying vec3 v_ambient;
 varying vec4 v_lightSpacePos;
 varying vec3 v_worldPos;
+varying float v_emissive;
 
 uniform sampler2D u_shadowMap;
 uniform vec3 u_sunPos;
@@ -11,7 +13,7 @@ uniform float u_planetRadius[8];
 float calculateShadow(vec4 lightSpacePos) {
     vec3 projCoords = lightSpacePos.xyz / lightSpacePos.w;
     projCoords = projCoords * 0.5 + 0.5;
-    if (projCoords.z > 1.0 || projCoords.x < 0.0 || projCoords.x > 1.0 || projCoords.y < 0.0 || projCoords.y > 1.0) return 0.0;
+    if (projCoords.z < 0.0 || projCoords.z > 1.0 || projCoords.x < 0.0 || projCoords.x > 1.0 || projCoords.y < 0.0 || projCoords.y > 1.0) return 0.0;
     float closestDepth = texture2D(u_shadowMap, projCoords.xy).r;
     float currentDepth = projCoords.z;
     float bias = 0.005;
@@ -36,13 +38,15 @@ void main(){
     for (int i = 0; i < 8; i++) {
         if (i >= u_planetCount) break;
         float t = raySphereIntersect(v_worldPos, toSun, u_planetPos[i], u_planetRadius[i]);
-        if (t > 0.001) {
+        if (t > 0.001 && t < length(u_sunPos - v_worldPos)) {
             planetShadow = 1.0;
             break;
         }
     }
 
     float shadow = max(selfShadow, planetShadow);
-    vec3 color = v_col.rgb * (1.0 - shadow);
+    // Preserve ambient illumination instead of darkening it a second time.
+    float light = 1.0 - shadow * 0.85 * (1.0 - v_emissive);
+    vec3 color = mix(v_ambient, v_col.rgb, light);
     gl_FragColor = vec4(color, v_col.a);
 }

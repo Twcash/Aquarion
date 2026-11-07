@@ -1,5 +1,8 @@
 package aquarion.entities.comp;
 
+import aquarion.gen.AquaUnitc;
+import aquarion.world.AI.CheckpointProgress;
+
 import aquarion.annotations.Annotations.*;
 import arc.math.Angles;
 import arc.math.geom.Vec2;
@@ -15,11 +18,15 @@ import mindustry.type.UnitType;
  * instead of planting the feet stiffly like the vanilla mech base does.
  */
 @EntityComponent
-abstract class AquaMechComp implements Unitc, Mechc {
+abstract class AquaMechComp implements AquaUnitc, Mechc {
     @Import
     float rotation, baseRotation;
     @Import
     UnitType type;
+
+    /** Saved lifetime and checkpoint release state, retained across controller changes and reloads. */
+    transient float checkpointTime;
+    transient boolean checkpointReleased;
 
     /** Degrees per tick the hip pivots toward the body rotation while standing still and turning. */
     protected float idleTurnSpeed = 3f;
@@ -28,6 +35,8 @@ abstract class AquaMechComp implements Unitc, Mechc {
 
     @Override
     public void update() {
+        CheckpointProgress.restore(self());
+        checkpointTime += Time.delta / 60f;
         if (!moving()) {
             baseRotation = Angles.moveToward(baseRotation, rotation, idleTurnSpeed * Time.delta);
         }

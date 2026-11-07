@@ -96,7 +96,7 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
         return super.canReplace(other) || (other.replaceable && (other instanceof Conveyor || other instanceof Duct));
     }
 
-    public class wtfBuild extends LiquidJunctionBuild{
+    public class ModLiquidJunctionBuild extends LiquidJunctionBuild{
         public Item lastItem;
         public Tile lastInput;
         public float time;
@@ -133,22 +133,22 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
             StringBuilder sb = new StringBuilder();
             side.each((liquid, amount) -> {
                 if(amount > 0.001f){
-                    if(sb.length() > 0) sb.append(" + ");
+                    if(!sb.isEmpty()) sb.append(" + ");
                     sb.append(liquid.localizedName);
                 }
             });
-            return sb.length() == 0 ? Core.bundle.get("bar.liquid") : sb;
+            return sb.isEmpty() ? Core.bundle.get("bar.liquid") : sb;
         }
 
         private CharSequence sideTooltip(LiquidModule side){
             StringBuilder sb = new StringBuilder();
             side.each((liquid, amount) -> {
                 if(amount > 0.001f){
-                    if(sb.length() > 0) sb.append("\n");
+                    if(!sb.isEmpty()) sb.append("\n");
                     sb.append(liquid.localizedName).append(": ").append((int)amount).append("/").append((int)sideLiquidCapacity);
                 }
             });
-            return sb.length() == 0 ? Core.bundle.get("bar.liquid") : sb;
+            return sb.isEmpty() ? Core.bundle.get("bar.liquid") : sb;
         }
 
         @Override
@@ -207,7 +207,7 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
             }
         }
 
-        @Override
+        /*@Override
         public boolean acceptLiquid(Building source, Liquid liquid){
             noSleep();
             if(source != null && source.team != team) return false;
@@ -239,12 +239,6 @@ public class ModifiedLiquidJunction extends LiquidJunction implements LiquidUtil
             if(source == null) return sideLiquidCapacity * 4f;
             int dir = inputSide(source);
             return sides[dir] == null ? sideLiquidCapacity : LiquidUtil.freeSpace(sides[dir], sideLiquidCapacity);
-        }
-
-        @Override
-        public Building getLiquidDestination(Building source, Liquid liquid){
-            //the junction is always the buffering endpoint: it stores liquid per side and throttles output
-            return this;
         }
 
         public Building getTileTarget(Item item, Tile from, boolean set){

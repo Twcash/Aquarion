@@ -73,6 +73,7 @@ public interface MultiBlock {
 
 
     default Seq<Building> setLinkBuild(Building building, Block block, Tile tile, Team team, int size, int rotation) {
+        if(building.isPayload()) return null;
         Seq<Building> out = new Seq<>();
         for (int i = 0; i < linkBlockPos().size; i++) {
             Point2 p = linkBlockPos().get(i);

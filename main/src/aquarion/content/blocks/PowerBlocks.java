@@ -1,41 +1,30 @@
 package aquarion.content.blocks;
 
 import aquarion.content.AquaCategories;
-import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
 import aquarion.world.blocks.power.*;
-import aquarion.world.content.AquaLiquid;
 import aquarion.world.drawers.*;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
 import arc.graphics.Color;
 import arc.struct.Seq;
-import mindustry.content.Blocks;
 import mindustry.content.Fx;
-import mindustry.content.Items;
-import mindustry.content.Planets;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
-import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.sandbox.PowerSource;
-import mindustry.world.blocks.units.Reconstructor;
-import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
-import mindustry.world.blocks.power.ImpactReactor;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.*;
 import static aquarion.content.AquaPlanets.*;
-import static aquarion.content.AquaUnitTypes.*;
-import static aquarion.content.AquaUnitTypes.verglas;
 import static aquarion.world.graphics.Renderer.Layer.heat;
 import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
@@ -43,7 +32,8 @@ import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
-    public static Block defunctGenerator, largeDefunctGenerator, miniumReactor, singularityReactor, advSolarGen, defunctNode, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, fumeEngine;
+    public static Block ejector;
+    public static Block miniumReactor, singularityReactor, advSolarGen, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, fumeEngine;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -80,38 +70,10 @@ public class PowerBlocks {
             baseExplosiveness = 2;//funnier
             envDisabled |= Env.underwater;
         }};
-        defunctNode = new PowerNode("defunct-node"){{
-            consumesPower = outputsPower = true;
-            consumePowerBuffered(500);
-            health = 200;
-            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            laserRange = 8;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            category = Category.power;
-        }};
 
-        defunctGenerator = new PowerSource("defunct-generator"){{
-            requirements(Category.power, with(silicon, 1200, lead, 500));
-            size = 2;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            category = Category.power;
-            powerProduction = 4;
-            baseExplosiveness = 2;
-            maxNodes = 10;
-            maxRange = 1;
-            laserRange = 1;
-        }};
-        largeDefunctGenerator = new PowerSource("large-defunct-generator"){{
-            requirements(Category.power, with(silicon, 1500, lead, 750, metaglass, 500));
-            size = 3;
-            buildVisibility = BuildVisibility.sandboxOnly;
-            category = Category.power;
-            powerProduction = 8;
-            baseExplosiveness = 4;
-            maxNodes = 10;
-            maxRange = 1;
-            laserRange = 1;
-        }};
+
+
+
         leadBurner = new GenericGenerator("lead-burner"){{
             requirements(Category.power, with(lead, 70, copper, 80));
             consumeLiquid(air, 1/3f);
@@ -635,20 +597,38 @@ public class PowerBlocks {
                     sides = 1;
             }}, new DrawDefault(), new DrawHeatInputBitmask("-heats"));
         }};
+        ejector = new SingularityEjector("core-ejector"){{
+            requirements(Category.effect, with(silicon, 300, lead, 200));
+            size = 3;
+        }};
         singularityReactor = new VoidGenerator("singularity-reactor"){{
             requirements(Category.power, with(silicon, 1200, lead, 500));
             size = 9;
             buildVisibility = BuildVisibility.sandboxOnly;
             category = Category.power;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            powerProduction = 4;
+            maxHeat = 700f;
+            overloadInput = 600;
             baseExplosiveness = 2;
+            heatPerItem = 75f;
+            drawer = new DrawMulti(new DrawDefault(), new DrawParticles() {{
+                color = Color.white;
+                alpha = 0.7f;
+                particles = 60;
+                reverse = false;
+                particleRad = 7 * 8f;
+                particleSize = 10;
+                poly = false;
+            }}, new DrawParticles() {{
+                color = Color.white;
+                alpha = 0.8f;
+                particles = 30;
+                particleLife = 120;
+                reverse = false;
+                particleRad = 5 * 8f;
+                particleSize = 11;
+                poly = false;
+            }});
         }};
-
-        //Overwrite vanilla blocks
-
-        overwrite(Blocks.impactReactor, (ImpactReactor r) ->{
-            r.itemDuration = 120f;
-        });
     }
 }

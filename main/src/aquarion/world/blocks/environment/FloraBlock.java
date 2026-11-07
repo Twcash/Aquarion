@@ -20,6 +20,7 @@ import mindustry.gen.Building;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
+import mindustry.graphics.MultiPacker;
 import mindustry.type.Liquid;
 import mindustry.world.Block;
 import mindustry.world.Tile;
@@ -62,6 +63,7 @@ public class FloraBlock extends Block {
         noUpdateDisabled = true;
         drawTeamOverlay = false;
     }
+
     @Override
     public void load() {
         super.load();
@@ -70,9 +72,18 @@ public class FloraBlock extends Block {
     }
 
     @Override
-    public void init(){
-        super.init();
-        hasShadow = true;
+    public void createIcons(MultiPacker packer) {
+        super.createIcons(packer);
+        var image = packer.get(fullIcon);
+        int pixel = image.get(fullIcon.width / 2, fullIcon.height / 2);
+        Color col = Color.rgb(Color.ri(pixel), Color.gi(pixel), Color.bi(pixel));
+        Tmp.c3.set(col);
+        mapColor.set(Tmp.c3);
+    }
+
+    @Override
+    public int minimapColor(Tile tile){
+        return mapColor.rgba();
     }
 
     @Override
