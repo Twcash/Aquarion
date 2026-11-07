@@ -12,8 +12,13 @@ def generatedSourcesDir = file("$buildDir/generated/sources")
 sourceSets.main {
     java.srcDirs = [
             'src/',
-            "${generatedSourcesDir}/fetchComps/java/main"
+            "${generatedSourcesDir}/fetchComps/java/main",
+            "${generatedSourcesDir}/soundKeys/java/main"
     ]
+}
+
+tasks.named('compileJava') {
+    dependsOn ':tools:generateSounds'
 }
 
 dependencies {

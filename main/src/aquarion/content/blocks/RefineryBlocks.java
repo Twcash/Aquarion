@@ -39,7 +39,6 @@ import static aquarion.content.AquaItems.ferricMatter;
 import static aquarion.content.AquaLiquids.*;
 import static aquarion.content.AquaLiquids.muriaticAcid;
 import static aquarion.content.AquaPlanets.*;
-import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static arc.math.Interp.pow5Out;
 import static mindustry.content.Items.*;
 import static mindustry.content.Items.sand;
@@ -70,10 +69,7 @@ public class RefineryBlocks {
             consumeLiq(magma, 2);
             itemBoostIntensity = 2;
             consumeBoost(salt, 1, 1f);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawRegion("-ring"), new DrawAdvancedPistons() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawRegion("-ring"), new DrawAdvancedPistons() {{
                 sinMag = 2f;
                 sinScl = 10f;
                 sideOffset = Mathf.pi * 2;
@@ -145,10 +141,7 @@ public class RefineryBlocks {
                     new LiquidStack(oxygen, 5.5f),
                     new LiquidStack(rareSludge, 0.1f)
             };
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(muriaticAcid, 5), new DrawRegion("-spinny", 0.8f, true), new DrawDefault(), new AquaDrawLiquidOutputs(), new DrawHeatInputBitmask("-heats"));
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(muriaticAcid, 5), new DrawRegion("-spinny", 0.8f, true), new DrawDefault(), new AquaDrawLiquidOutputs(), new DrawHeatInputBitmask("-heats"));
         }};
         bauxiteCentrifuge = new AquaGenericCrafter("bauxite-centrifuge") {{
             requirements(AquaCategories.refinery, with(lead, 450, silicon, 600, copper, 300));
@@ -176,10 +169,7 @@ public class RefineryBlocks {
                 colorTo = Color.valueOf("fdbda6");
 
             }});
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawOrbitRegions("-capsule", 8, 11f, 2f), new DrawRegion("-lower-toob"), new DrawLiquidTile(oxygen) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawOrbitRegions("-capsule", 8, 11f, 2f), new DrawRegion("-lower-toob"), new DrawLiquidTile(oxygen) {{
                 padBottom = 3;
                 padRight = 3;
                 padTop = 22;
@@ -208,10 +198,7 @@ public class RefineryBlocks {
                     new ItemStack(sand, 5),
                     new ItemStack(zinc, 30),
                     new ItemStack(ferricMatter, 25)};
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 1) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 1) {{
                 alpha = 0.6f;
             }}, new DrawRegion("-mid"), new DrawLiquidTile(slag) {{
                 padBottom = 166 / 4f;
@@ -265,10 +252,10 @@ public class RefineryBlocks {
                 padRight = 12;
                 padLeft = 12;
                 alpha = 0.7f;
-            }}, new DrawRegion("-midder"), new DrawBlurSpin("-fan", 8f) {{
+            }}, new DrawRegion("-midder"), new DrawOffsetBlurSpin("-fan", 8f) {{
                 x = 5 / 4f;
                 y = -4f;
-            }}, new DrawBlurSpin("-fan", 8f) {{
+            }}, new DrawOffsetBlurSpin("-fan", 8f) {{
                 x = 5 / 4f;
                 y = 30 / 4f;
             }}, new DrawDefault(), new DrawGlowRegion() {{
@@ -305,10 +292,7 @@ public class RefineryBlocks {
                 size = 5;
                 updateEffect = Fx.steam;
                 updateEffectChance = 0.05f;
-                drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                    layer = shadow;
-                    drawIcon = false;
-                }}, new DrawRegion("-bottom"), new DrawLiquidTile(muriaticAcid, 1.5f) {{
+                drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(muriaticAcid, 1.5f) {{
                     alpha = 0.6f;
                 }}, new DrawDefault(), new DrawGlowRegion() {{
                     alpha = 0.65f;
@@ -347,10 +331,7 @@ public class RefineryBlocks {
                     new ItemStack(brimstone, 30),
                     new ItemStack(ferricMatter, 15)};
 
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawPistons() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawPistons() {{
                 sides = 1;
                 angleOffset = -90;
                 sinMag = 2.5f;
@@ -375,10 +356,7 @@ public class RefineryBlocks {
             craftTime = 5 * 60f;
             consumeItemStack(new ItemStack(galena, 40));
             outputItems = ItemStack.with(lead, 40, brimstone, 25, copper, 15);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawGlowRegion("-glow") {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawGlowRegion("-glow") {{
                 alpha = 0.4f;
                 color = Color.valueOf("e68569");
                 glowIntensity = 0.3f;
@@ -407,10 +385,7 @@ public class RefineryBlocks {
             outputLiquids = LiquidStack.with(oil, 3/2f, haze, 2f, muriaticAcid, 1f);
             outputItem = new ItemStack(brimstone, 4);
             liquidOutputDirections = new int[]{3, 1, 2};
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawRegion("-middle"), new DrawRegion("-top"), new AquaDrawLiquidOutputs(), new DrawGlowRegion("-glow") {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawRegion("-middle"), new DrawRegion("-top"), new AquaDrawLiquidOutputs(), new DrawGlowRegion("-glow") {{
                 alpha = 0.4f;
                 color = Color.valueOf("e68569");
                 glowIntensity = 0.3f;
@@ -427,8 +402,30 @@ public class RefineryBlocks {
             squareSprite = false;
             size = 3;
             craftTime = 120;
-            outputItems = ItemStack.with(sand, 8, copper, 1, nickel, 2, lead, 2);
+            outputItems = ItemStack.with(sand, 8, copper, 2, nickel, 3, lead, 2);
             consumePower(3f);
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawOrbitRegions(){{
+                suffix = "-pod";
+                radius = 5;
+                regionCount = 4;
+                orbitSpeed = 8;
+            }}, new DrawRegion("-top"), new PhaseOffsetGlowRegion("-glow") {{
+                alpha = 0.35f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.3f;
+                glowScale = 5f;
+                layer = Layer.block + 3;
+                blending = Blending.additive;
+                phaseOffset = 10;
+            }}, new PhaseOffsetGlowRegion("-glow1") {{
+                alpha = 0.40f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 7f;
+                layer = Layer.block + 3;
+                blending = Blending.additive;
+                phaseOffset = 20;
+            }});
         }};
         thermalCrackingUnit = new AquaGenericCrafter("thermal-cracking-unit") {{
             requirements(AquaCategories.refinery, with(copper, 250, silicon, 600, metaglass, 700));
@@ -453,10 +450,7 @@ public class RefineryBlocks {
             outputItem = new ItemStack(graphite, 5);
             liquidCapacity = 300;
             itemCapacity = 60;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawRegion("-mider"), new DrawLiquidTile(petroleum, 4) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawRegion("-mider"), new DrawLiquidTile(petroleum, 4) {{
                 padBottom = 7;
             }}, new DrawRegion("-mid"), new DrawLiquidTile(methane) {{
                 padRight = padLeft = 4;
@@ -477,7 +471,7 @@ public class RefineryBlocks {
             outputItems = ItemStack.with(polymer, 4);
             liquidCapacity = 300;
             itemCapacity = 60;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow"){{layer = shadow;drawIcon = false;}},new DrawDefault(), new DrawGlowRegion());
+            drawer = new DrawMulti(new DrawBlockShadow(),new DrawDefault(), new DrawGlowRegion());
         }};
         desulferizationAssembly = new AquaGenericCrafter("desulferization-assembly") {{
             requirements(AquaCategories.refinery, with(metaglass, 250, copper, 500, lead, 900, graphite, 450));
@@ -498,10 +492,7 @@ public class RefineryBlocks {
             itemCapacity = 120;
             size = 5;
             squareSprite = false;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawDefault(), new DrawGlowRegion(), new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
         }};
         vacuumFreezer = new AquaGenericCrafter("vacuum-freezer") {{
             requirements(AquaCategories.refinery, with(copper, 120));
@@ -569,10 +560,7 @@ public class RefineryBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             updateEffect = Fx.steam;
             updateEffectChance = 0.01f;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault() {
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault() {
             }, new DrawPump("-pump") {{
                 y = 45 / 4f;
                 x = -38 / 4f;
@@ -626,10 +614,7 @@ public class RefineryBlocks {
             updateEffect = Fx.coalSmeltsmoke;
             outputLiquid = new LiquidStack(fluorine, 0.75f);
             outputItems = ItemStack.with(aluminum, 60, copper, 60);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawCellsNew() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawCellsNew() {{
                 range = 70 / 4f;
                 radius = 2.5f;
                 particles = 400;
@@ -643,17 +628,17 @@ public class RefineryBlocks {
                 timeScl = 20;
                 circle = true;
             }}, new DrawRegion("-panel"),
-                    new DrawBlurSpin("-fan", 0.6f * 9f) {{
+                    new DrawOffsetBlurSpin("-fan", 0.6f * 9f) {{
                         blurThresh = 0.6f;
                         x = -96 / 4f;
                         y = -10 / 4f;
                     }},
-                    new DrawBlurSpin("-fan", 0.6f * 9f) {{
+                    new DrawOffsetBlurSpin("-fan", 0.6f * 9f) {{
                         blurThresh = 0.6f;
                         x = -96 / 4f;
                         y = 40 / 4f;
                     }},
-                    new DrawBlurSpin("-fan", 0.6f * 9f) {{
+                    new DrawOffsetBlurSpin("-fan", 0.6f * 9f) {{
                         blurThresh = 0.6f;
                         x = -96 / 4f;
                         y = 90 / 4f;
@@ -731,10 +716,7 @@ public class RefineryBlocks {
                     new AquaConsume(new ConsumeLiquid(cryogen, 6f)), 3f);
             outputLiquids = LiquidStack.with(argon, 0.25f, oxygen, 2f, nitrogen, 1.75f);
             squareSprite = false;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawOrbitRegions("-centrifuge", 4, 7f, 3.5f), new DrawLiquidTile(air) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawOrbitRegions("-centrifuge", 4, 7f, 3.5f), new DrawLiquidTile(air) {{
                 alpha = 0.6f;
                 padding = 2;
             }}, new DrawLiquidTile(oxygen) {{
@@ -801,7 +783,21 @@ public class RefineryBlocks {
             rotate = true;
             rotateDraw = false;
             craftEffect = Fx.steamCoolSmoke;
-            drawer = new DrawMulti(new DrawDefault(), new DrawLiquidTile(water, 1), new DrawRegion("-top"), new AquaDrawLiquidOutputs());
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawLiquidTile(water, 1), new DrawRegion("-top"), new AquaDrawLiquidOutputs(),new DrawGlowRegion("-glow") {{
+                alpha = 0.55f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.4f;
+                glowScale = 5f;
+                layer = Layer.block + 3;
+                blending = Blending.additive;
+            }}, new DrawGlowRegion("-glow1") {{
+                alpha = 0.45f;
+                color = Color.valueOf("e68569");
+                glowIntensity = 0.35f;
+                glowScale = 6f;
+                layer = Layer.block + 3;
+                blending = Blending.additive;
+            }});
         }};
         haliteRefinery = new AquaGenericCrafter("halite-refinery"){{
             requirements(AquaCategories.refinery, with(metaglass, 600, silicon, 550, copper,1200, graphite, 250));
@@ -834,10 +830,7 @@ public class RefineryBlocks {
                     new LiquidStack(hydrogen, 17),
                     new LiquidStack(hydroxide, 34)
             };
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(hydroxide) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(hydroxide) {{
                 padBottom = 111 / 4f;
                 alpha = 0.8f;
             }}, new DrawLiquidTile(chlorine) {{
@@ -883,10 +876,7 @@ public class RefineryBlocks {
             consumeLiquid(bioPulp, 1.25f);
             outputItem = new ItemStack(coal, 5);
             outputLiquid = new LiquidStack(haze, 0.5f);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawHeatOutput(), new DrawGlowRegion() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawHeatOutput(), new DrawGlowRegion() {{
                 glowIntensity = 0.7f;
                 glowScale = 9;
                 alpha = 0.5f;
@@ -923,10 +913,7 @@ public class RefineryBlocks {
                     new ItemStack(nickel, 6),
                     new ItemStack(magnesiumPowder, 10)
             };
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"),
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"),
                     new DrawWheel() {{
                         x = 4;
                         y = -4f;

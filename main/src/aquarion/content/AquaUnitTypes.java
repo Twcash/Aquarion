@@ -4554,7 +4554,7 @@ public class AquaUnitTypes {
             mechStepParticles = true;
             immunities.add(StatusEffects.wet);
             immunities.add(StatusEffects.burning);
-            stepSound = AquaSounds.knightStep;
+            stepSound = AquaSounds.mechStepKnight;
             stepSoundVolume = 1;
             groundLayer = Layer.power + 1;
             forceMultiTarget = true;

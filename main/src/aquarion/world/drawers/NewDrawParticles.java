@@ -8,10 +8,10 @@ import arc.util.Time;
 import mindustry.gen.Building;
 import mindustry.world.draw.DrawParticles;
 
-public class BetterDrawParticles extends DrawParticles {
+public class NewDrawParticles extends DrawParticles {
     public float x = 0;
     public float y = 0;
-    public int sides;
+    public int sides = 12;
     @Override
     public void draw(Building build){
 
