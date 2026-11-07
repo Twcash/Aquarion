@@ -4,6 +4,8 @@ import aquarion.content.blocks.CoreBlocks;
 import aquarion.world.campaign.GlobalFlagTriggers;
 import aquarion.world.campaign.DialogueObjective;
 import aquarion.world.campaign.DialogueObjectiveSystem;
+import arc.Events;
+import jdk.jfr.EventType;
 import mindustry.content.Blocks;
 
 public class GlobalDialogues {
@@ -16,6 +18,13 @@ public class GlobalDialogues {
     }
 
     public enum DialogueEvent implements GlobalFlagTriggers.FlagTrigger{
+//        playerDie{
+//            @Override
+//            public boolean complete(){
+//                return Events.on(u);
+//            }
+//
+//        },
         labDestroy{
             @Override
             public boolean complete(){

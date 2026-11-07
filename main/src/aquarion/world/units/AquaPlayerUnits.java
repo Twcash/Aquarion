@@ -76,11 +76,11 @@ public class AquaPlayerUnits{
     public static class PlayerUnitBridge extends Ability{
         public PlayerUnitBridge(){ display = false; }
         @Override public void update(Unit unit){
-            if(!(unit instanceof AquaUnitc)) AquaPlayerUnitHooks.updatePlayerUnit(unit);
+            if(!(unit instanceof AquaUnitc)) aquarion.world.units.UnitHooks.updatePlayerUnit(unit);
         }
-        @Override public void draw(Unit unit){ AquaPlayerUnitHooks.drawPlayerUnit(unit); }
-        @Override public void created(Unit unit){ AquaPlayerUnitHooks.createdPlayerUnit(unit); }
-        @Override public void death(Unit unit){ AquaPlayerUnitHooks.diedPlayerUnit(unit); }
+        @Override public void draw(Unit unit){ aquarion.world.units.UnitHooks.drawPlayerUnit(unit); }
+        @Override public void created(Unit unit){ aquarion.world.units.UnitHooks.createdPlayerUnit(unit); }
+        @Override public void death(Unit unit){ aquarion.world.units.UnitHooks.diedPlayerUnit(unit); }
     }
 }
 

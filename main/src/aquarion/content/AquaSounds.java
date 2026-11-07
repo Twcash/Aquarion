@@ -8,6 +8,7 @@ import mindustry.Vars;
 
 public class AquaSounds {
     public static Sound
+            shootRampart = new Sound(),
             distressBeep = new Sound(),
             death = new Sound(),
             atak = new Sound(),
@@ -60,6 +61,7 @@ public class AquaSounds {
                     javelinShot = new Sound();
 
     public static void load(){
+        shootRampart = loadSound("shootRampart");
         shootMissileHuge = loadSound("shootMissileHuge");
         electricExplosion = loadSound("electricExplosion");
         knightStep = loadSound("mechStepKnight");

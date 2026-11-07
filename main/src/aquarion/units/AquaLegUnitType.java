@@ -46,6 +46,8 @@ public class AquaLegUnitType extends aquarion.units.type.DamageStateUnitType {
     /** Maximum grounded foot color mix, from 0 (original sprite) to 1 (full footColor). */
     public float footColorAlpha = 0.5f;
     public float footShadowScale = 0.75f;
+    /** Draw soft shadows beneath the feet. Does not affect body or lifted-foot sprite shadows. */
+    public boolean drawLegSoftShadow = true;
     /** Sideways and forward body sway in world units. */
     public float bodySway = 1f, bodySwayForward = 0.5f;
     /** Sway cycle length relative to the leg step distance; larger values sway slower. */
@@ -70,6 +72,9 @@ public class AquaLegUnitType extends aquarion.units.type.DamageStateUnitType {
         if(unit.inFogTo(Vars.player.team())) return;
 
         float originalX = unit.x, originalY = unit.y;
+        if(unit.dead && unit instanceof aquarion.gen.AquaUnitc aqua){
+            unit.y -= unit.hitSize * 0.15f * Mathf.clamp(aqua.deathTimer() / 25f);
+        }
         if(unit.isAdded() && unit instanceof AquaLegsc legs && bodySwayScale > 0f){
             float phase = legs.totalLength() / Math.max(legs.moveSpace(), 0.001f) * Mathf.PI / bodySwayScale;
             float strength = legs.bodySwayStrength() * (1f - unit.elevation);
@@ -93,6 +98,19 @@ public class AquaLegUnitType extends aquarion.units.type.DamageStateUnitType {
         }
     }
     @Override
+    public void drawShadow(Unit unit){
+        if(!unit.dead || !(unit instanceof aquarion.gen.AquaUnitc aqua)){
+            super.drawShadow(unit);
+            return;
+        }
+        float fall = 1f - Mathf.clamp(aqua.deathTimer() / 25f);
+        float elevation = Mathf.clamp(unit.elevation, shadowElevation, 1f) * shadowElevationScl * fall;
+        Draw.color(Pal.shadow);
+        Draw.rect(shadowRegion, unit.x + shadowTX * elevation, unit.y + shadowTY * elevation, unit.rotation - 90f);
+        Draw.color();
+    }
+
+    @Override
     public void drawLegs(Unit unit){
         if(!(unit instanceof AquaLegsc unite)) return;
         applyColor(unit);
@@ -105,7 +123,7 @@ public class AquaLegUnitType extends aquarion.units.type.DamageStateUnitType {
             int i = (j % 2 == 0 ? j/2 : legs.length - 1 - j/2);
             Leg leg = legs[i];
             AquaLegConfig cfg = legSequence.get(i);
-            if(cfg.footRegion != null && cfg.footRegion.found()){
+            if(drawLegSoftShadow && cfg.footRegion != null && cfg.footRegion.found()){
                 float ssize = cfg.footRegion.width * cfg.footRegion.scl() * 1.5f * footShadowScale;
                 Drawf.shadow(leg.base.x, leg.base.y, ssize, invDrown);
             }

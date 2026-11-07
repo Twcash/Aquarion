@@ -40,6 +40,121 @@ import static arc.math.Angles.*;
 
 
 public class AquaFx {
+    /** Rotation is splash size; particle variation is stable for the lifetime of each splash. */
+    public static final Effect waterSplash = new Effect(40f, 240f, e -> {
+        float scale = e.rotation;
+        e.lifetime = 25f + scale * 10f;
+        Draw.color(e.color, Color.white, 0.35f);
+        Lines.stroke(e.fout() * 1.2f);
+        Lines.circle(e.x, e.y, (2f + e.fin() * 8f) * scale);
+        int droplets = Mathf.clamp((int)(6 + scale * 4), 6, 24);
+        for(int i = 0; i < droplets; i++){
+            float angle = randomParticle(e.id * 17L + i, 360f);
+            float distance = randomParticle(e.id * 31L + i, 4f, 14f) * scale * e.fin();
+            float lift = Mathf.sin(e.fin() * Mathf.PI) * randomParticle(e.id * 43L + i, 3f, 8f) * scale;
+            Fill.circle(e.x + Angles.trnsx(angle, distance), e.y + Angles.trnsy(angle, distance) + lift,
+                e.fout() * scale * randomParticle(e.id * 59L + i, 0.6f, 1.4f));
+        }
+        Draw.reset();
+    }).layer(Layer.effect);
+
+    public static final Effect weaponDebris = new Effect(180f, 600f, e -> {
+        if(!(e.data instanceof WeaponDebrisState part)) return;
+        float flight = Mathf.clamp(e.time / part.flightTime);
+        float travel = 1f - (1f - flight) * (1f - flight);
+        float x = e.x + Angles.trnsx(part.angle, part.distance * travel);
+        float y = e.y + Angles.trnsy(part.angle, part.distance * travel);
+        float sink = Mathf.clamp((e.time - part.flightTime) / part.sinkTime);
+        float lift = Mathf.sin(flight * Mathf.PI) * part.height;
+        float rotation = e.rotation + part.spin * travel;
+        if(flight < 1f){
+            var tile = world.tileWorld(x, y);
+            if(tile != null && tile.floor().canShadow){
+                Draw.z(Layer.debris - 0.01f);
+                Draw.color(Pal.shadow);
+                Draw.alpha(Pal.shadow.a * Mathf.lerp(0.8f, 0.4f, lift / part.height));
+                float shadowScale = 1f - lift / part.height * 0.15f;
+                Draw.rect(part.region, x - lift * 0.25f, y - lift * 0.25f,
+                    part.region.width * part.region.scl() * part.scaleX * shadowScale,
+                    part.region.height * part.region.scl() * part.scaleY * shadowScale, rotation);
+                Draw.reset();
+            }
+        }
+        Draw.z(Layer.debris);
+        Draw.color(Color.white);
+        if(part.waterLanding){
+            Draw.alpha(1f - sink * sink);
+            y -= sink * Math.min(part.spriteSize * 0.25f, 6f);
+        }else{
+            Draw.alpha(Mathf.clamp(e.fout() * 5f));
+        }
+        Draw.rect(part.region, x, y + lift, part.region.width * part.region.scl() * part.scaleX,
+            part.region.height * part.region.scl() * part.scaleY, rotation);
+        Draw.reset();
+    });
+
+    /** Spawn a physical sprite fragment. Larger units throw harder; smaller fragments travel and tumble farther. */
+    public static void scatterWeaponDebris(TextureRegion region, float x, float y, float rotation,
+                                          float scaleX, float scaleY, float unitSize){
+        if(mindustry.Vars.headless || region == null || !region.found() || !Core.settings.getBool("effects", true)) return;
+        var part = new WeaponDebrisState();
+        part.region = region;
+        part.scaleX = scaleX;
+        part.scaleY = scaleY;
+        part.spriteSize = Math.max(region.width * Math.abs(scaleX), region.height * Math.abs(scaleY)) * region.scl();
+        float relativeSize = Mathf.clamp(Mathf.sqrt(Math.max(unitSize, 1f) / Math.max(part.spriteSize, 1f)), 0.6f, 1.6f);
+        part.angle = Mathf.random(360f);
+        part.distance = Mathf.clamp((unitSize * 1.2f + part.spriteSize * 0.4f + 8f) * relativeSize * Mathf.random(0.65f, 1.5f), 8f, 180f);
+        part.flightTime = Mathf.clamp(Mathf.random(20f, 35f) + Mathf.sqrt(part.distance) * 3f, 25f, 85f);
+        part.height = Mathf.clamp(part.distance * Mathf.random(0.15f, 0.35f) + part.spriteSize * 0.2f, 4f, 35f);
+        part.spin = Mathf.range(300f) * relativeSize;
+        part.sinkTime = Mathf.clamp((35f + part.spriteSize * 2f) * Mathf.random(0.8f, 1.3f), 35f, 120f);
+        part.splashScale = Mathf.clamp((Mathf.sqrt(part.spriteSize) * 0.25f + unitSize * 0.012f)
+            * Mathf.clamp(part.distance / part.flightTime, 0.6f, 2f) * Mathf.random(0.8f, 1.25f), 0.35f, 3f);
+        part.effect = weaponDebris;
+        part.data = part;
+        part.lifetime = part.flightTime + part.sinkTime;
+        part.rotation = rotation;
+        part.set(x, y);
+        part.add();
+    }
+
+    /** Impact and bubbles update offscreen as well, independently of effect rendering. */
+    private static class WeaponDebrisState extends mindustry.gen.EffectState{
+        TextureRegion region;
+        float scaleX, scaleY, spriteSize, angle, distance, flightTime, height, spin, sinkTime, splashScale, bubbleTimer;
+        boolean landed, waterLanding;
+        Color waterColor;
+
+        @Override public void update(){
+            float impactX = x + Angles.trnsx(angle, distance);
+            float impactY = y + Angles.trnsy(angle, distance);
+            if(!landed && time + Time.delta >= flightTime){
+                landed = true;
+                var tile = world.tileWorld(impactX, impactY);
+                if(tile != null && tile.floor().isLiquid && !tile.block().solid){
+                    waterLanding = true;
+                    waterColor = tile.floor().mapColor.cpy();
+                    waterSplash.at(impactX, impactY, splashScale, waterColor);
+                    mindustry.content.Fx.bubble.at(impactX, impactY, splashScale * 4f, waterColor);
+                }else if(tile != null){
+                    legStepDust.at(impactX, impactY, Mathf.clamp(splashScale * Mathf.random(0.7f, 1.1f), 0.3f, 2.5f),
+                        tile.floor().mapColor);
+                }
+            }
+            if(waterLanding){
+                bubbleTimer -= Time.delta;
+                if(bubbleTimer <= 0f){
+                    bubbleTimer = Mathf.random(9f, 20f);
+                    float radius = Math.min(spriteSize * 0.3f, 10f);
+                    mindustry.content.Fx.bubble.at(impactX + Mathf.range(radius), impactY + Mathf.range(radius),
+                        splashScale * 3f, waterColor);
+                }
+            }
+            super.update();
+        }
+    }
+
     /** Item data spirals in from the block's edge, shrinking to nothing at its center. */
     public static Effect itemVortex(arc.func.Floatp halfWidth, float duration, float turns){
         return new Effect(duration, 240f, e -> {
@@ -1313,20 +1428,18 @@ public class AquaFx {
                     Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
                 }
             }).layer(Layer.flyingUnitLow),
-            factoryDestroy = new Effect(100, e -> {
-                rand.setSeed(e.id);
-                color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());
-
-                for (int i = 0; i < e.rotation * e.rotation*4+2; i++) {
-                    float rot = e.rotation + rand.range(360f);
-                    int regionId = (int) rand.random(1, 12);
-                    TextureRegion region = Core.atlas.find("aquarion-factory-debris" + regionId);
-                    v.trns(rot, rand.random(e.finpow() * 28f *e.rotation));
-                    float fout = Math.max(e.fout(), 0.1f);
-                    float size = fout * 14f;
-                    Draw.rect(region, e.x + v.x, e.y + v.y, size, size, rand.random(270) * e.fout());
+            factoryDestroy = new Effect(100f, 600f, e -> {}){
+                @Override protected void add(float x, float y, float rotation, Color color, Object data){
+                    float size = Mathf.clamp(rotation, 0.5f, 8f);
+                    int pieces = Mathf.clamp((int)(size * size * 4f + 2f), 3, 64);
+                    for(int i = 0; i < pieces; i++){
+                        TextureRegion region = Core.atlas.find("aquarion-factory-debris" + Mathf.random(1, 12));
+                        float dimension = Math.max(region.width, region.height) * region.scl();
+                        float scale = 14f * Mathf.random(0.65f, 1.15f) / Math.max(dimension, 1f);
+                        scatterWeaponDebris(region, x, y, Mathf.random(360f), scale, scale, size * 16f);
+                    }
                 }
-            }).layer(Layer.flyingUnitLow),
+            },
             distriDestroy = new Effect(50, e -> {
                 rand.setSeed(e.id);
                 color(Color.valueOf("ffffff"), Color.valueOf("ffffff").a(e.fin()), e.fin());

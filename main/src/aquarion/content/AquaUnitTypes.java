@@ -84,7 +84,7 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, FlyingDialogueUnitc.class}, serialize = false) DefunctUnitType vilify, maintainer;
     public static @Annotations.EntityDef(value ={Unitc.class, DropShipc.class}, serialize = false) AquaUnitType vanguard;
     public static @Annotations.EntityDef(value ={Unitc.class,  AquaLegsc.class}, serialize = false) AquaLegUnitType regality, voltaic, rally, timmy;
-    public static @Annotations.EntityDef(value = {Unitc.class, AquaLegsc.class}, serialize = false) AquaLegUnitType mite;
+    public static @Annotations.EntityDef(value = {Unitc.class, AquaLegsc.class}, serialize = false) AquaLegUnitType mite, bulwark, rampart;
     public static UnitType visitor, mediumTruck, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
     public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType infantry, concussor, breaker, suppressor;
     public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType engineer;
@@ -97,7 +97,7 @@ public class AquaUnitTypes {
     public static UnitType gorge, burden;
     public static UnitType
         //Sharded units
-            weld, bulwark, pugnate, pillage, rampart, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit, apothecary;
+            weld, pugnate, pillage, crest, reave, soar, raze, shatter, solder, castellan, index, byteUnit, apothecary;
         public static  UnitType  cull, quantify, simplify, multiply, cullButScorch;
     public static void loadContent() {
         burden = new PayloadRailUnitType("burden"){{
@@ -945,8 +945,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        bulwark = new AquaUnitType("bulwark") {{
-            constructor = MechUnit::create;
+        bulwark = new AquaLegUnitType("bulwark") {{
             speed = 0.45f;
             hitSize = 8;
             range = 150;
@@ -954,13 +953,19 @@ public class AquaUnitTypes {
             drownTimeMultiplier = 2.5f;
             health = 650;
             armor = 2;
+            lockLegBase = true;
+            stepSound = Sounds.mechStepSmall;
             targetAir = false;
             rotateMoveFirst = true;
             mechLegColor = AquaPal.tantDarkestTone;
             rotateSpeed = 0.75f;
             shadowElevation = 0.12f;
             outlines = true;
+            legMoveSpace = 2.5f;
+            drawLegSoftShadow = false;
             drawCell = false;
+            legSequence.addAll(new AquaLegConfig(-4, -7, -10, 10){{segments = 1;}}
+            ,new AquaLegConfig(4, -7, -0, 10){{segments = 1;}});
             outlineColor = AquaPal.tantDarkestTone;
             damageState = new UnitDamageState(){{
                 firstEffect  = AquaFx.smokePuff2;
@@ -977,20 +982,22 @@ public class AquaUnitTypes {
                 rotateSpeed = 1.3f;
                 mirror = false;
                 x = 0;
-                y = -1;
+                y = -4;
                 recoil = 2;
-                shootSound = Sounds.shootBreach;
-                shootY = 3;
+                shootSound = AquaSounds.shootGrace;
+                shootY = 6;
                 reload = 180;
                 ;
                 parts.addAll(new RegionPart("-barrel") {{
                     moveY = -3f;
+                    y = 3;
                     progress = PartProgress.recoil.curve(Interp.pow2In);
                     heatColor = new Color(1f, 0.1f, 0.1f);
                     mirror = false;
                     under = true;
                 }}, new RegionPart("-sink") {{
                     progress = PartProgress.recoil.curve(Interp.pow5In);
+                    y = 3;
                     heatColor = new Color(1f, 0.1f, 0.1f);
                     moveY = -4f;
                     under = true;
@@ -1224,16 +1231,19 @@ public class AquaUnitTypes {
         }};
         weld = new AquaUnitType("weld") {{
             constructor = UnitWaterMove::create;
-            speed = 0.85f;
+            speed = 0.9f;
             hitSize = 8;
             range = 80;
-            health = 600;
+            health = 1100;
             armor = 4;
             allDatabaseTabs = true;
             targetAir = false;
             rotateMoveFirst = false;
-            omniMovement = true;
-            rotateSpeed = 1.5f;
+            omniMovement = false;
+            rotateSpeed = 2f;
+            waveTrailX = 9;
+            waveTrailY = -6f;
+            trailLength = 12;
             outlines = true;
             drawCell = false;
             outlineColor = AquaPal.tantDarkestTone;
@@ -1245,7 +1255,7 @@ public class AquaUnitTypes {
                 y = -1;
                 recoil = 3;
                 shootY = 5;
-                reload = 120;
+                reload = 30;
                 shoot.shots = 2;
                 shootSound = Sounds.shootArc;
                 damageState = new UnitDamageState(){{
@@ -1321,8 +1331,7 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
-        rampart = new AquaUnitType("rampart") {{
-            constructor = MechUnit::create;
+        rampart = new AquaLegUnitType("rampart") {{
             speed = 0.6f;
             hitSize = 8;
             range = 110;
@@ -1332,8 +1341,11 @@ public class AquaUnitTypes {
             shadowElevation = 0.3f;
             outlines = true;
             drawCell = false;
+            legMoveSpace = 2.5f;
             allDatabaseTabs = true;
             outlineColor = AquaPal.tantDarkestTone;
+            legSequence.addAll(new AquaLegConfig(-4, -7, -10, 10){{segments = 1;}}
+                    ,new AquaLegConfig(4, -7, -0, 10){{segments = 1;}});
             damageState = new UnitDamageState(){{
                 firstEffect  = AquaFx.smokePuff2;
                 firstColor = Color.gray;
@@ -1350,8 +1362,9 @@ public class AquaUnitTypes {
                 x = 5;
                 y = 0;
                 recoil = 2;
-                shootSound = Sounds.shootBreach;
+                shootSound = AquaSounds.shootRampart;
                 shootY = 4;
+                shootSoundVolume = 0.5f;
                 reload = 20;
                 parts.addAll(new RegionPart("-side") {{
                     x = -7f;
@@ -1359,8 +1372,9 @@ public class AquaUnitTypes {
                     progress = PartProgress.warmup.curve(Interp.pow2Out);
                     moves.addAll(new PartMove(PartProgress.recoil.curve(Interp.pow2In), 0, -3, 0));
                 }});
-                bullet = new BasicBulletType(4, 20, "aquarion-bolt") {{
+                bullet = new BasicBulletType(8, 20, "aquarion-bolt") {{
                     shrinkY = 0;
+                    lifetime = 30;
                     shrinkX = 0.2f;
                     hitSize = 2;
                     shootEffect = Fx.shootBig;
