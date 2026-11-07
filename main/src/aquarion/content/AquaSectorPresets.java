@@ -24,7 +24,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
             outline = false;
         }};
-        lib = new SectorPreset("lakesideLibrary", AquaPlanets.delubrum,1){{
+        lib = new SectorPreset("lakeside-library", AquaPlanets.delubrum,1){{
             outline = false;
             allDatabaseTabs = true;
         }};
@@ -33,7 +33,7 @@ public class AquaSectorPresets {
             allDatabaseTabs = true;
             addStartingItems = false;
         }};
-        frigidShores = new SectorPreset("frigidShores", fakeSerpulo, 467){{
+        frigidShores = new SectorPreset("frigid-shores", fakeSerpulo, 467){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 38;
@@ -52,7 +52,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             outline = false;
         }};
-        blastedDockyards = new SectorPreset("blastedDockyard", fakeSerpulo, 459){{
+        blastedDockyards = new SectorPreset("blasted-dockyard", fakeSerpulo, 459){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 33;
@@ -62,7 +62,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
             outline = false;
         }};
-        twinPass = new SectorPreset("twinPass", fakeSerpulo, 597){{
+        twinPass = new SectorPreset("twin-pass", fakeSerpulo, 597){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 20;
@@ -82,7 +82,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             outline = false;
         }};
-        floodPlains = new SectorPreset("floodPlains", fakeSerpulo, 349){{
+        floodPlains = new SectorPreset("flood-plains", fakeSerpulo, 349){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 17;
@@ -93,7 +93,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 4f;
             outline = false;
         }};
-        bay = new SectorPreset("Lagoon", fakeSerpulo, 14){{
+        bay = new SectorPreset("lagoon", fakeSerpulo, 14){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 21;
@@ -103,7 +103,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
             outline = false;
         }};
-        erodedCanyon = new SectorPreset("erodedCanyon", fakeSerpulo, 346){{
+        erodedCanyon = new SectorPreset("eroded-canyon", fakeSerpulo, 346){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 37;
@@ -113,7 +113,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
             outline = false;
         }};
-        lowlandStrait = new SectorPreset("lowlandStrait", fakeSerpulo, 469){{
+        lowlandStrait = new SectorPreset("lowland-strait", fakeSerpulo, 469){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 16;
@@ -123,7 +123,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
             outline = false;
         }};
-        mountainsideComplex = new SectorPreset("mountainsideComplex", fakeSerpulo, 159){{
+        mountainsideComplex = new SectorPreset("mountainside-complex", fakeSerpulo, 159){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 5;
@@ -213,7 +213,7 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             outline = false;
         }};
-        waterfrontFacility = new SectorPreset("waterfrontfacility", fakeSerpulo, 267){{
+        waterfrontFacility = new SectorPreset("waterfront-facility", fakeSerpulo, 267){{
             allDatabaseTabs = true;
             addStartingItems = true;
             difficulty = 9;
@@ -241,7 +241,7 @@ public class AquaSectorPresets {
 
         //TANTROS#
 
-        Ingress = new SectorPreset("Ingress", tantros2, 10){{
+        Ingress = new SectorPreset("ingress", tantros2, 10){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 6;
@@ -251,7 +251,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
             outline = false;
         }};
-        Torrent = new SectorPreset("EnsuingTorrent", tantros2, 142){{
+        Torrent = new SectorPreset("ensuing-torrent", tantros2, 142){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 11;
@@ -261,7 +261,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 2f;
             outline = false;
         }};
-        CrystalCaverns = new SectorPreset("CrystalCavern", tantros2, 144){{
+        CrystalCaverns = new SectorPreset("crystal-cavern", tantros2, 144){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 7;
@@ -281,7 +281,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 3;
             outline = false;
         }};
-        Grove = new SectorPreset("Grove", tantros2, 143){{
+        Grove = new SectorPreset("grove", tantros2, 143){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 17;
@@ -302,7 +302,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 3;
             outline = false;
         }};
-        FeldsparRavine = new SectorPreset("FeldsparRavine", tantros2, 145){{
+        FeldsparRavine = new SectorPreset("feldspar-ravine", tantros2, 145){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 11;
@@ -322,7 +322,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 3;
             outline = false;
         }};
-        GalenaFringe = new SectorPreset( "galenafringe", tantros2, 82){{
+        GalenaFringe = new SectorPreset( "galena-fringe", tantros2, 82){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 14;
@@ -332,7 +332,7 @@ public class AquaSectorPresets {
             startWaveTimeMultiplier = 5;
             outline = false;
         }};
-        Ecotone = new SectorPreset("Ecotone", tantros2, 146){{
+        Ecotone = new SectorPreset("ecotone", tantros2, 146){{
             allDatabaseTabs = true;
             addStartingItems = true;
             captureWave = 26;
