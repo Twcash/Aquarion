@@ -38,6 +38,7 @@ public class ModEventHandler {
         Events.on(EventType.ClientLoadEvent.class, e -> ModMusic.attach());
         Events.run(EventType.Trigger.update, AlternativeBuildCosts::updatePreviews);
         Events.run(EventType.Trigger.update, LinkBlock::redirectDeconstructionPlans);
+        Events.run(EventType.Trigger.update, LinkBlock::pickLinkedBlock);
         Events.on(EventType.ClientLoadEvent.class, e -> ModSettings.init());
         Events.on(EventType.ClientLoadEvent.class, e -> ResearchServer.loadGlobalResearch());
         Events.on(EventType.ClientLoadEvent.class, e -> StoryProgress.load());

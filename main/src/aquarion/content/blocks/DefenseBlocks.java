@@ -40,6 +40,7 @@ import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaLiquids.petroleum;
 import static aquarion.content.AquaPlanets.*;
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
@@ -138,8 +139,8 @@ public class DefenseBlocks {
                 x = 4;
             }};
             range = 400;
-            time = 600;
-            consumePower(6);
+            time = 360;
+            consumeLiquid(petroleum, 30);
             addLink(1,0,1, -1,0,1,2,0,1);
             spawn = new MissileUnitType("vesta-unit"){{
                 speed = 2.6f;

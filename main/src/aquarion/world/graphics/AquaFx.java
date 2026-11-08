@@ -92,8 +92,6 @@ public class AquaFx {
             part.region.height * part.region.scl() * part.scaleY, rotation);
         Draw.reset();
     });
-
-    /** Spawn a physical sprite fragment. Larger units throw harder; smaller fragments travel and tumble farther. */
     public static void scatterWeaponDebris(TextureRegion region, float x, float y, float rotation,
                                           float scaleX, float scaleY, float unitSize){
         if(mindustry.Vars.headless || region == null || !region.found() || !Core.settings.getBool("effects", true)) return;
@@ -118,8 +116,6 @@ public class AquaFx {
         part.set(x, y);
         part.add();
     }
-
-    /** Impact and bubbles update offscreen as well, independently of effect rendering. */
     private static class WeaponDebrisState extends mindustry.gen.EffectState{
         TextureRegion region;
         float scaleX, scaleY, spriteSize, angle, distance, flightTime, height, spin, sinkTime, splashScale, bubbleTimer;
@@ -154,8 +150,6 @@ public class AquaFx {
             super.update();
         }
     }
-
-    /** Item data spirals in from the block's edge, shrinking to nothing at its center. */
     public static Effect itemVortex(arc.func.Floatp halfWidth, float duration, float turns){
         return new Effect(duration, 240f, e -> {
             if(!(e.data instanceof Item item) || item.fullIcon == null) return;
@@ -522,6 +516,13 @@ public class AquaFx {
                     });
                 }
             }),
+            dumpItem = new Effect(23, e -> {
+                float scl = 1;
+                color(Tmp.c1.set(e.color).mul(1.1f));
+                randLenVectors(e.id, 6, 6f * e.finpow() * scl, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 1.5f * scl + 0.3f);
+                });
+            }).layer(Layer.debris),
             healSquares = new Effect(14, e -> {
                 color(Color.white, Color.valueOf("74aff8"), e.fin());
 
