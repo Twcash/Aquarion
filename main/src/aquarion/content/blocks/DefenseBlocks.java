@@ -131,7 +131,7 @@ public class DefenseBlocks {
             }};
         }};
         vesta = new MissileBlock("vesta"){{
-            requirements(Category.turret, with(metaglass, 60, silicon, 50, cupronickel, 80));
+            requirements(Category.turret, with(metaglass, 60, silicon, 50, cupronickel, 80, graphite, 60));
             size = 1;
             canMirror = false;
             drawer = new DrawRegionRotated(){{
@@ -139,8 +139,9 @@ public class DefenseBlocks {
                 x = 4;
             }};
             range = 400;
+            liquidCapacity = 240;
             time = 360;
-            consumeLiquid(petroleum, 30);
+            consumeLiquid(petroleum, .5f);
             addLink(1,0,1, -1,0,1,2,0,1);
             spawn = new MissileUnitType("vesta-unit"){{
                 speed = 2.6f;
