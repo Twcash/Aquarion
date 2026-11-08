@@ -1,5 +1,6 @@
 package aquarion.world.blocks.payload;
 
+import aquarion.world.MultiBlockLib.LinkBlock.LinkBuild;
 import aquarion.world.graphics.Renderer;
 import arc.Core;
 import arc.graphics.g2d.Draw;
@@ -9,18 +10,14 @@ import arc.math.Mathf;
 import arc.util.Eachable;
 import mindustry.content.Fx;
 import mindustry.entities.units.BuildPlan;
-import mindustry.game.Teams;
 import mindustry.gen.Building;
 import mindustry.graphics.Layer;
-import mindustry.world.Block;
-import mindustry.world.Tile;
 import mindustry.world.blocks.ConstructBlock;
 import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.blocks.payloads.PayloadBlock;
 
 import static mindustry.Vars.tilesize;
-import static mindustry.Vars.world;
 
 public class Displacer extends PayloadBlock{
     public TextureRegion gantry;
@@ -70,6 +67,7 @@ public class Displacer extends PayloadBlock{
             updatePayload();
             Building f = front();
             Building b = back();
+            if(b instanceof LinkBuild link) b = link.linkedBuilding();
             if(payload != null) retracting = true;
             if(payload != null && exporting){
 
@@ -103,19 +101,11 @@ public class Displacer extends PayloadBlock{
             if(extract >= extractTime && extractProg >= 0.98f){
                 extract = 0f;
 
-                Teams.TeamData data = team.data();
                 payload = new BuildPayload(b.block, team);
-
-                int bx = (int)b.x;
-                int by = (int)b.y;
-                short br = (short)b.rotation;
-                Block bblock = b.block;
-                Object bconfig = b.config();
+                b.addPlan(true, true);
 
                 Fx.placeBlock.at(b.x, b.y, 1f);
                 b.kill();
-
-                data.plans.add(new Teams.BlockPlan(bx, by, br, bblock, bconfig));
 
                 retracting = true;
                 exporting = false;

@@ -157,7 +157,7 @@ public class LinkBlock extends Block {
     public class LinkBuild extends Building {
         public Building linkBuild;
 
-        private Building linkedBuilding() {
+        public Building linkedBuilding() {
             return linkBuild != null && linkBuild.isValid() && linkBuild.team == team ? linkBuild : null;
         }
 
