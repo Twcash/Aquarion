@@ -685,7 +685,7 @@ public class CrafterBlocks {
             drillTime = 150;
 
             ambientSound = AquaSounds.machine4;
-            ambientSoundVolume = 0.08f;
+            ambientSoundVolume = 0.05f;
             consumePower(.125f);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(Liquids.water, 0.75f).boost();
@@ -701,7 +701,7 @@ public class CrafterBlocks {
             drawer = new DrawMulti(new DrawBlockShadow(), new DrawPistons() {{
                 sides = 1;
                 angleOffset = 90;
-                sinMag = 2.2f;
+                sinMag = 3f;
             }}, new DrawDefault(), new DrawGlowRegion("-glow") {{
                 alpha = 0.4f;
                 color = Color.valueOf("e68569");
