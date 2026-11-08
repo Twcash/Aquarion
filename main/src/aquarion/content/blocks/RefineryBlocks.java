@@ -428,7 +428,7 @@ public class RefineryBlocks {
             }});
         }};
         thermalCrackingUnit = new AquaGenericCrafter("thermal-cracking-unit") {{
-            requirements(AquaCategories.refinery, with(copper, 250, silicon, 600, metaglass, 700));
+            requirements(AquaCategories.refinery, with(copper, 250, silicon, 600, metaglass, 600));
             heatRequirement = 30;
             maxEfficiency = 5;
             ambientSound = AquaSounds.machine6;
