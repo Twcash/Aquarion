@@ -56,7 +56,7 @@ public class DefenseBlocks {
 
     public static void loadContent() {
         testblock = new NukeBlock("testblock"){{
-            requirements(Category.turret, BuildVisibility.sandboxOnly, with());
+            requirements(Category.units, BuildVisibility.sandboxOnly, with());
             alwaysUnlocked = true;
             health = 100;
         }};
@@ -69,7 +69,7 @@ public class DefenseBlocks {
             containing.add(new ItemStack(sand, 45));
         }};
         meteor = new MissileBlock("meteor"){{
-            requirements(Category.turret, with(graphite, 20, copper, 40));
+            requirements(Category.units, with(graphite, 20, copper, 40));
             size = 1;
             canMirror = false;
             drawer = new DrawRegionRotated(){{
@@ -131,7 +131,7 @@ public class DefenseBlocks {
             }};
         }};
         vesta = new MissileBlock("vesta"){{
-            requirements(Category.turret, with(metaglass, 60, silicon, 50, cupronickel, 80, graphite, 60));
+            requirements(Category.units, with(metaglass, 60, silicon, 50, cupronickel, 80, graphite, 60));
             size = 1;
             canMirror = false;
             drawer = new DrawRegionRotated(){{
