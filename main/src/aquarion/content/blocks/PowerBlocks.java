@@ -32,7 +32,7 @@ import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
     public static Block ejector;
-    public static Block miniumReactor, singularityReactor, advSolarGen, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, fumeEngine;
+    public static Block miniumReactor, singularityReactor, advSolarGen, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit,smallTurbine, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, fumeEngine;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -158,6 +158,39 @@ public class PowerBlocks {
             outputItem = new ItemStack(lead, 10);
             consumeLiquids(LiquidStack.with(haze, 8.5f ,water, 10));
             drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-top"));
+        }};
+        smallTurbine = new ConsumeGenerator("small-turbine") {{
+            requirements(Category.power, with(copper, 800, graphite, 250, silicon, 600));
+            consumeLiquid(haze, 4.25f);
+            powerProduction = 8.5f;
+            insulated = true;
+            liquidCapacity = 1500;
+            generateEffectRange = 4.5f / 4f;
+            effectChance = 0.09f;
+            generateEffect = Fx.steam;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            ambientSound = AquaSounds.machine7;
+            ambientSoundVolume = 0.05f;
+            size = 4;
+            squareSprite = false;
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawRegion("-fan"){{
+                spinSprite = true;
+                rotateSpeed = 6;
+            }}, new DrawRegion("-fan"){{
+                spinSprite = true;
+                rotateSpeed = -6;
+                rotation = 22.5f;
+            }}, new DrawParticles() {{
+                color = Color.gray;
+                alpha = 0.2f;
+                particleRad = 3.5f * 4f;
+                particleSize = 4;
+            }}, new DrawBlurSpin("-fan", 12), new DrawParticles() {{
+                color = Color.white;
+                alpha = 0.5f;
+                particleRad = 3f * 4f;
+                particleSize = 3.5f;
+            }}, new DrawDefault());
         }};
         turbineDynamo = new ConsumeGenerator("turbine-dynamo") {{
             requirements(Category.power, with(lead, 1500, metaglass, 1200, cupronickel, 1200, graphite, 400));

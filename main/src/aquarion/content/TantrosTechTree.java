@@ -190,6 +190,7 @@ public class TantrosTechTree {
                                 new Objectives.Produce(haze),
                                 new Objectives.SectorComplete(icyRiver)
                         ), () -> {
+                            node(smallTurbine);
                             node(fumeEngine, Seq.with(
                                     new Objectives.Produce(fumes),
                                     new Objectives.SectorComplete(FeldsparRavine)
