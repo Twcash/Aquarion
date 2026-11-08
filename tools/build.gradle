@@ -30,6 +30,8 @@ dependencies {
 }
 
 tasks.register('generateSounds') {
+    // The install task also cleans :main, which owns this generated file.
+    mustRunAfter ':main:clean'
     def soundsDir = new File(assetsDir, 'sounds')
     def soundFiles = fileTree(soundsDir) { include '**/*.ogg', '**/*.mp3' }
     def output = project(':main').layout.buildDirectory.file(

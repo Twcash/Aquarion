@@ -1466,7 +1466,7 @@ public class CrafterBlocks {
             craftTime = 10;
             alwaysUnlocked = true;
             liquidCapacity = 200;
-            consumePower(.25f);
+            consumePower(.5f);
             envDisabled = Env.underwater | Env.space;
             outputLiquid = new LiquidStack(air, 1);
             ambientSound = AquaSounds.fan1;
@@ -1490,7 +1490,7 @@ public class CrafterBlocks {
             craftTime = 10;
             alwaysUnlocked = true;
             liquidCapacity = 3000;
-            consumePower(5);
+            consumePower(10);
             envDisabled = Env.underwater | Env.space;
             outputLiquid = new LiquidStack(air, 16);
             hasHeat = true;
@@ -1518,7 +1518,7 @@ public class CrafterBlocks {
                 alpha = 0.3f;
                 particleSize = 2.5f;
                 particles = 14;
-                particleRad = 4f;
+                particleRad = 6f;
                 particleLife = 140f;
             }}, new NewDrawParticles() {{
                 x = -49/4f;
@@ -1527,7 +1527,7 @@ public class CrafterBlocks {
                 alpha = 0.3f;
                 particleSize = 2.5f;
                 particles = 14;
-                particleRad = 4f;
+                particleRad = 6f;
                 particleLife = 140f;
             }}, new NewDrawParticles() {{
                 x = -15/4f;
@@ -1536,7 +1536,7 @@ public class CrafterBlocks {
                 alpha = 0.3f;
                 particleSize = 2.5f;
                 particles = 14;
-                particleRad = 4f;
+                particleRad = 6f;
                 particleLife = 140f;
             }}, new NewDrawParticles() {{
                 x = -49/4f;
@@ -1545,11 +1545,10 @@ public class CrafterBlocks {
                 alpha = 0.3f;
                 particleSize = 2.5f;
                 particles = 14;
-                particleRad = 4f;
+                particleRad = 6f;
                 particleLife = 140f;
             }});
         }};
-
         steelFoundry = new AquaGenericCrafter("blast-furnace") {{
             requirements(Category.crafting, with(polymer, 900, ferrosilicon, 1200, graphite, 650, ferricMatter, 900, aluminum, 1200));
             size = 7;

@@ -7,6 +7,7 @@ import arc.func.Func;
 import arc.graphics.g2d.TextureRegion;
 import arc.scene.ui.layout.Table;
 import mindustry.Vars;
+import mindustry.entities.units.BuildPlan;
 import mindustry.game.Team;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
@@ -16,6 +17,7 @@ import mindustry.type.Item;
 import mindustry.type.Liquid;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
+import mindustry.world.Build;
 import mindustry.world.Tile;
 import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.consumers.Consume;
@@ -64,8 +66,41 @@ public class LinkBlock extends Block {
         details = Core.bundle.getOrNull(getContentType() + ".new-horizon-inner-entity.details");
     }
 
+    @Override
     public boolean canBreak(Tile tile) {
-        return false;
+        return tile.build instanceof LinkBuild link && link.deconstructionTarget() != null;
+    }
+
+    public static void redirectDeconstructionPlans() {
+        if (!Vars.state.isGame() || Vars.player == null || !Vars.player.isBuilder()) return;
+
+        var plans = Vars.player.unit().plans();
+        for (int i = plans.size - 1; i >= 0; i--) {
+            BuildPlan plan = plans.get(i);
+            if (!plan.breaking || !(plan.build() instanceof LinkBuild link)) continue;
+
+            Building target = link.deconstructionTarget();
+            if (target == null || !Build.validBreak(Vars.player.team(), target.tileX(), target.tileY())) {
+                plans.removeIndex(i);
+                continue;
+            }
+
+            int x = target.tileX(), y = target.tileY();
+            boolean alreadyQueued = false;
+            for (BuildPlan queued : plans) {
+                if (queued.breaking && queued.x == x && queued.y == y) {
+                    alreadyQueued = true;
+                    break;
+                }
+            }
+            if (alreadyQueued) {
+                plans.removeIndex(i);
+            } else {
+                plan.x = x;
+                plan.y = y;
+                plan.block = target.block;
+            }
+        }
     }
 
     @Override
@@ -87,6 +122,10 @@ public class LinkBlock extends Block {
     @SuppressWarnings("InnerClassMayBeStatic")
     public class LinkBuild extends Building {
         public Building linkBuild;
+
+        private Building deconstructionTarget() {
+            return linkBuild != null && linkBuild.isValid() && linkBuild.team == team ? linkBuild : null;
+        }
 
         public void updateLink(Building link) {
             if (link instanceof MultiBlockEntity) {

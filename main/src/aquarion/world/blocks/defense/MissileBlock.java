@@ -4,11 +4,13 @@ import aquarion.world.MultiBlockLib.MultiBlock;
 import aquarion.world.MultiBlockLib.MultiBlockEntity;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Fill;
+import arc.graphics.g2d.Lines;
 import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Point2;
 import arc.struct.IntSeq;
 import arc.struct.Seq;
+import arc.util.Eachable;
 import arc.util.Nullable;
 import arc.util.Tmp;
 import arc.util.io.Reads;
@@ -23,9 +25,9 @@ import mindustry.entities.units.BuildPlan;
 import mindustry.game.Team;
 import mindustry.gen.Building;
 import mindustry.gen.Unit;
+import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
-import mindustry.input.Placement;
 import mindustry.type.UnitType;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
@@ -68,7 +70,9 @@ public class MissileBlock extends Block implements MultiBlock {
     @Override
     public void setBars() {
         super.setBars();
-        addBar("progress", (MissileBlock.MissileBuild e) -> new Bar("bar.progress", Pal.ammo, e::totalprogress));
+        if (spawn != null) {
+            addBar("progress", (MissileBlock.MissileBuild e) -> new Bar("bar.progress", Pal.ammo, e::chargeFraction));
+        }
     }
     @Override
     @Nullable
@@ -109,6 +113,34 @@ public class MissileBlock extends Block implements MultiBlock {
     }
 
     @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
+        drawer.drawPlan(this, plan, list);
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
+        super.drawPlace(x, y, rotation, valid);
+        drawTargetingRange(x * tilesize + offset, y * tilesize + offset, rotation * 90f);
+    }
+
+    private void drawTargetingRange(float x, float y, float facing) {
+        if (spawn == null) return;
+        if (shootCone >= 360f) {
+            Drawf.dashCircle(x, y, range, Pal.placing);
+            return;
+        }
+
+        float start = facing - shootCone / 2f;
+        float end = facing + shootCone / 2f;
+        Drawf.dashLine(Pal.placing, x, y, x + Angles.trnsx(start, range), y + Angles.trnsy(start, range));
+        Drawf.dashLine(Pal.placing, x, y, x + Angles.trnsx(end, range), y + Angles.trnsy(end, range));
+        Draw.color(Pal.placing);
+        Lines.stroke(1f);
+        Lines.arc(x, y, range, shootCone / 360f, start);
+        Draw.reset();
+    }
+
+    @Override
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
         return super.canPlaceOn(tile, team, rotation) && checkLink(tile, team, size, rotation);
     }
@@ -118,14 +150,23 @@ public class MissileBlock extends Block implements MultiBlock {
         createPlaceholder(tile, size);
     }
     @Override
-    public void changePlacementPath(Seq<Point2> points, int rotation) {
-        Placement.calculateNodes(points, this, rotation, (point, other) -> {
-            if (rotation % 2 == 0) {
-                return Math.abs(point.x - other.x) <= getMaxSize(size, rotation).x;
-            } else {
-                return Math.abs(point.y - other.y) <= getMaxSize(size, rotation).y;
-            }
-        });
+    public void changePlacementPath(Seq<Point2> points, int rotation, boolean diagonalOn) {
+        if (points.size < 2) return;
+
+        Point2 first = points.first(), last = points.peek();
+        boolean horizontal = first.y == last.y;
+        // Match the rotation Mindustry will assign to the plans after this hook.
+        if (control != null && (!control.input.overrideLineRotation || diagonalOn) && (!ignoreLineRotation || mobile)) {
+            rotation = Tile.relativeTo(first.x, first.y, points.get(1).x, points.get(1).y);
+        }
+
+        Point2 footprint = getMaxSize(size, rotation);
+        int spacing = horizontal ? footprint.x : footprint.y;
+        int count = 0;
+        for (int i = 0; i < points.size; i += spacing) {
+            points.set(count++, points.get(i));
+        }
+        points.truncate(count);
     }
 
     @Override
@@ -164,7 +205,6 @@ public class MissileBlock extends Block implements MultiBlock {
         public float progress = 0;
         public Seq<Building[]> linkProximityMap;
         public Tile teamPos, statusPos;
-        public float totprogress = 0;
         private boolean payloadUpdating;
 
         @Override
@@ -193,8 +233,8 @@ public class MissileBlock extends Block implements MultiBlock {
         public void draw(){
             drawer.draw(this);
         }
-        public float totalprogress(){
-            return totprogress/time;
+        public float chargeFraction(){
+            return Mathf.clamp(progress / time);
         }
         @Override
         public void updateTile() {
@@ -206,7 +246,6 @@ public class MissileBlock extends Block implements MultiBlock {
             }
             if (efficiency > 0) {
                 progress += edelta() * Vars.state.rules.unitBuildSpeed(team) * efficiency;
-                totprogress += progress;
             }
 
             if (progress < time || net.client()) return;
@@ -236,15 +275,21 @@ public class MissileBlock extends Block implements MultiBlock {
                 Effect.shake(2f, 3f, this);
                 Fx.producesmoke.at(this);
                 b.add();
-                if(payloadUpdating || tile == emptyTile) dead = true;
-                else kill();
+                if(payloadUpdating || tile == emptyTile){
+                    dead = true;
+                }else{
+                    // Queue the rebuild before removing the launcher without detonating its fuel.
+                    if(state.rules.ghostBlocks) addPlan(true);
+                    tile.removeNet();
+                }
             }
         }
 
         Unit findEnemyUnit(float radius) {
             final Unit[] found = {null};
             Units.nearbyEnemies(team, x, y, radius, u -> {
-                if (!u.dead && targetInCone(u.x, u.y)) {
+                if (!u.dead && u.targetable(team) && !u.inFogTo(team)
+                    && u.checkTarget(spawn.targetAir, spawn.targetGround) && targetInCone(u.x, u.y)) {
                     found[0] = u;
                 }
             });
@@ -253,7 +298,9 @@ public class MissileBlock extends Block implements MultiBlock {
 
         // Find enemy buildings in range
         Building findEnemyBuilding(float radius) {
-            return indexer.findEnemyTile(team, x, y, radius, build -> targetInCone(build.x, build.y));
+            if (!spawn.targetGround) return null;
+            return indexer.findEnemyTile(team, x, y, radius,
+                build -> (spawn.targetUnderBlocks || !build.block.underBullets) && targetInCone(build.x, build.y));
         }
 
         boolean targetInCone(float targetX, float targetY) {
@@ -322,6 +369,7 @@ public class MissileBlock extends Block implements MultiBlock {
         @Override
         public void drawSelect() {
             super.drawSelect();
+            drawTargetingRange(x, y, rotdeg());
         }
 
         @Override

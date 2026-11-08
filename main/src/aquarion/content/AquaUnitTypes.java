@@ -991,6 +991,7 @@ public class AquaUnitTypes {
                 parts.addAll(new RegionPart("-barrel") {{
                     moveY = -3f;
                     y = 3;
+                    outline = false;
                     progress = PartProgress.recoil.curve(Interp.pow2In);
                     heatColor = new Color(1f, 0.1f, 0.1f);
                     mirror = false;
@@ -998,6 +999,7 @@ public class AquaUnitTypes {
                 }}, new RegionPart("-sink") {{
                     progress = PartProgress.recoil.curve(Interp.pow5In);
                     y = 3;
+                    outline = false;
                     heatColor = new Color(1f, 0.1f, 0.1f);
                     moveY = -4f;
                     under = true;
