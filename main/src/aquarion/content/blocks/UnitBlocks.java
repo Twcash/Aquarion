@@ -300,7 +300,8 @@ public class UnitBlocks {
             r.consumeItems(with(Items.silicon, 130, chalkalloy, 80, Items.metaglass, 40));
             r.upgrades.addAll(
                 new UnitType[]{empusa, oratoria},
-                new UnitType[]{rime, verglas}
+                new UnitType[]{rime, verglas},
+                new UnitType[]{tenon, fabricant}
 
         );});
         overwrite(Blocks.exponentialReconstructor, (Reconstructor r) -> {
