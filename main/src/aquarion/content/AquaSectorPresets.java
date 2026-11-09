@@ -9,7 +9,7 @@ public class AquaSectorPresets {
     public static SectorPreset  //tantros
     Ingress, diseasedCleft, brinePlateau, FeldsparRavine, Torrent, CrystalCaverns, Grove, Ecotone, SubmergedCanyon, GalenaFringe, ripHold, verdantShallows,
     //serpulo (fake)
-    resurgence, twinPass, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex,  erodedCanyon, searedWastes, fungalTropics, violetValley, frozenLake, stormyCoast, icyRiver, whitewoods, pipeyard, waterfrontFacility, isolatedOutpost, basalticPassageways,
+    resurgence, twinPass, dryRiver, blastedDockyards, coupledBasin, frigidShores, floodPlains, bay, lowlandStrait, mountainsideComplex,  erodedCanyon, searedWastes, fungalTropics, violetValley, frozenLake, stormyCoast, icyRiver, whitewoods, pipeyard, waterfrontFacility, isolatedOutpost, basalticPassageways, northGate
     //Delubrum
     lib, ruinedRepository;
     public static void load(){
@@ -237,6 +237,15 @@ public class AquaSectorPresets {
             overrideLaunchDefaults = true;
             outline = false;
             captureWave = 29;
+        }};
+        northGate = new SectorPreset("north-gate", fakeSerpulo, 156){{
+            allDatabaseTabs = true;
+            addStartingItems = true;
+            difficulty = 12;
+            showSectorLandInfo = false;
+            overrideLaunchDefaults = true;
+            outline = false;
+            captureWave = 35;
         }};
 
         //TANTROS#
