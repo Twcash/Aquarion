@@ -278,6 +278,36 @@ public class AquaBullets {
                 frontColor = Color.white;
                 despawnEffect = hitEffect = Fx.flakExplosionBig;
             }},
+            concussMagnesium = new MissileBulletType(1.8f, 60) {{
+                splashDamage = 150;
+                splashDamageRadius = 60;
+                weaveMag = 6;
+                weaveScale = 10;
+                weaveRandom = true;
+                homingPower = 0.01f;
+                status = AquaStatuses.concussed;
+                trailEffect = Fx.incendTrail;
+                trailInterval = 10;
+                trailLength = 12;
+                backColor = trailColor = lightColor = Pal.gray;
+                frontColor = Color.white;
+                despawnEffect = hitEffect = Fx.flakExplosionBig;
+            }},
+            concussBrimstone = new MissileBulletType(1.8f, 50) {{
+                splashDamage = 110;
+                splashDamageRadius = 30;
+                weaveMag = 6;
+                weaveScale = 10;
+                weaveRandom = true;
+                homingPower = 0.01f;
+                status = AquaStatuses.concussed;
+                trailEffect = Fx.incendTrail;
+                trailInterval = 10;
+                trailLength = 12;
+                backColor = trailColor = lightColor = Pal.accentBack;
+                frontColor = Color.white;
+                despawnEffect = hitEffect = Fx.flakExplosionBig;
+            }},
             vectorCupronickel = new BasicBulletType(20, 60) {{
                 ammoMultiplier = 2;
                 height = 15;

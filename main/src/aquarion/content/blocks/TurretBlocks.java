@@ -240,7 +240,9 @@ public class TurretBlocks {
             shootSound = shootMissileLong;
             range = 300;
             ammo(
-                    graphite, AquaBullets.concussGraphite
+                    graphite, AquaBullets.concussGraphite,
+                    brimstone, concussBrimstone,
+                    magnesiumPowder, concussMagnesium
             );
             limitRange(1.5f);
         }};
