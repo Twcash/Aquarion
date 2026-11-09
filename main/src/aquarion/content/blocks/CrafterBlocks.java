@@ -214,7 +214,7 @@ public class CrafterBlocks {
             requirements(Category.production, with(copper, 250, silicon, 500, ferricMatter, 150));
             size = 6;
             squareSprite = false;
-            outputLiquid = new LiquidStack(fumes, 3);
+            outputLiquid = new LiquidStack(fumes, 4);
             attribute = Attribute.steam;
             attributeBoostScale = 1 / 18f;
             minAttributeEfficiency = 0.1f;
