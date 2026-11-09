@@ -383,7 +383,10 @@ public class RefineryBlocks {
             liquidCapacity = 1500;
             consumeLiq(fumes, 2);
             outputLiquids = LiquidStack.with(oil, 3/2f, haze, 2f, muriaticAcid, 1f);
-            outputItem = new ItemStack(brimstone, 4);
+            outputItems = new ItemStack[]{
+                    new ItemStack(brimstone, 4),
+                    new ItemStack(graphite, 1),
+            };
             liquidOutputDirections = new int[]{3, 1, 2};
             drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawRegion("-middle"), new DrawRegion("-top"), new AquaDrawLiquidOutputs(), new DrawGlowRegion("-glow") {{
                 alpha = 0.4f;
