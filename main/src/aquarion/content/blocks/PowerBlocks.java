@@ -161,7 +161,7 @@ public class PowerBlocks {
         }};
         smallTurbine = new ConsumeGenerator("small-turbine") {{
             requirements(Category.power, with(copper, 800, graphite, 250, silicon, 600));
-            consumeLiquid(haze, 4.25f);
+            consumeLiquid(haze, 4f);
             powerProduction = 8.5f;
             insulated = true;
             liquidCapacity = 1500;

@@ -388,13 +388,36 @@ public class RefineryBlocks {
                     new ItemStack(graphite, 1),
             };
             liquidOutputDirections = new int[]{3, 1, 2};
-            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawRegion("-middle"), new DrawRegion("-top"), new AquaDrawLiquidOutputs(), new DrawGlowRegion("-glow") {{
-                alpha = 0.4f;
-                color = Color.valueOf("e68569");
-                glowIntensity = 0.3f;
-                glowScale = 5f;
-                layer = Layer.block + 3;
-                blending = Blending.additive;
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawRegion("-middle"), new DrawRegion("-top"), new AquaDrawLiquidOutputs(), new DrawGlowRegion() {{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.5f;
+                color = Color.valueOf("f5c5aa");
+            }}, new DrawGlowRegion("-glow1") {{
+                glowIntensity = 0.8f;
+                glowScale = 12;
+                alpha = 0.6f;
+                color = Color.valueOf("ef6a60");
+            }}, new DrawGlowRegion("-glow2") {{
+                glowIntensity = 0.5f;
+                glowScale = 10;
+                alpha = 0.6f;
+                color = Color.valueOf("ef6a60");
+            }}, new DrawGlowRegion("-glow3") {{
+                glowIntensity = 0.6f;
+                glowScale = 12;
+                alpha = 0.45f;
+                color = Color.valueOf("ef6a60");
+            }}, new DrawGlowRegion("-glow4") {{
+                glowIntensity = 0.7f;
+                glowScale = 14;
+                alpha = 0.5f;
+                color = Color.valueOf("ef6a60");
+            }}, new DrawGlowRegion("-glow5") {{
+                glowIntensity = 0.6f;
+                glowScale = 16;
+                alpha = 0.5f;
+                color = Color.valueOf("ef6a60");
             }});
         }};
         scrapCentrifuge = new AquaGenericCrafter("scrap-centrifuge"){{
