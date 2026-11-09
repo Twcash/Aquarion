@@ -1478,6 +1478,11 @@ public class CrafterBlocks {
                 particles = 14;
                 particleRad = 4f;
                 particleLife = 140f;
+            }}, new DrawGlowRegion() {{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.5f;
+                color = Color.valueOf("dd5858");
             }});
         }};
         intakeArray = new AquaGenericCrafter("intake-array") {{

@@ -47,7 +47,108 @@ import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class RefineryBlocks {
-    public static Block magmaDiffuser, biotiteLeachingVessel, bauxiteCentrifuge, slagRefinementArray, azuriteKiln, towaniteReductionVat, galenaCrucible, fumeSeparator, scrapCentrifuge,
+    public static Block magmaDiffuser, biotiteLeachingVessel, bauxiteCentrifuge, slagRefinementArray, azuriteKiln, towaniteReductionVat = new AquaGenericCrafter("towanite-reduction-vat") {{
+        requirements(AquaCategories.refinery, with(copper, 150, silicon, 500, aluminum, 1000));
+        size = 7;
+        itemCapacity = 150;
+        craftTime = 3 * 60f;
+        squareSprite = false;
+        consumePower(5);
+        consumeItemStack(new ItemStack(towanite, 15));
+        consumeLiq(fumes, 0.5f);
+        outputItems = new ItemStack[]{
+                new ItemStack(copper, 15),
+                new ItemStack(brimstone, 30),
+                new ItemStack(ferricMatter, 15)};
+
+        drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawPistonsNew() {{
+            sides = 1;
+            angleOffset = -90;
+            sinMag = 2.5f;
+            lenOffset = 1;
+        }}, new DrawPistonsNew() {{
+            suffix = "-piston1";
+            sides = 1;
+            drawIcon = false;
+            sinOffset = (10f);
+            angleOffset = -90;
+            sinMag = 2.5f;
+            lenOffset = 1;
+        }}, new DrawPistonsNew() {{
+            suffix = "-piston2";
+            sides = 1;
+            sinOffset = 20;
+            drawIcon = false;
+            angleOffset = -90;
+            sinMag = 2.5f;
+            lenOffset = 1;
+        }}, new DrawPistonsNew() {{
+            suffix = "-piston3";
+            sides = 1;
+            drawIcon = false;
+            angleOffset = -90;
+            sinOffset = 30;
+            sinMag = 2.5f;
+            lenOffset = 1;
+        }}, new DrawSoftParticles() {{
+            x = -14;
+            y = -3;
+            alpha = 0.35f;
+            particleRad = 12f;
+            particleSize = 12f;
+            particleLife = 120f;
+            particles = 27;
+        }}, new DrawSoftParticles() {{
+            x = 4;
+            y = -3;
+            alpha = 0.35f;
+            particleRad = 14f;
+            particleSize = 12f;
+            particleLife = 120f;
+            particles = 27;
+        }}, new DrawSoftParticles() {{
+            x = -6;
+            y = -3;
+            alpha = 0.35f;
+            particleRad = 14f;
+            particleSize = 12f;
+            particleLife = 120f;
+            particles = 27;
+        }}, new DrawRegion("-mid"), new DrawLiquidTile(fumes){{
+            padBottom = 12;
+            padRight = 55/2f;
+            padLeft = 20;
+            padTop = 134/4f;
+        }}, new DrawBubblesNew(Color.valueOf("a88b8b")){{
+            sides = 10;
+            recurrence = 6f;
+            spread = 4;
+            radius = 1f;
+            amount = 20;
+            offsetX = - 4;
+            offsetY = -29/4f;
+        }}, new DrawDefault(), new DrawGlowRegion() {{
+            alpha = 0.65f;
+            color = Color.valueOf("e68569");
+            glowIntensity = 0.3f;
+            glowScale = 6f;
+        }}, new DrawGlowRegion("-glow1") {{
+            alpha = 0.65f;
+            color = Color.valueOf("e68569");
+            glowIntensity = 0.3f;
+            glowScale = 6f;
+        }}, new DrawGlowRegion("-glow2") {{
+            alpha = 0.7f;
+            color = Color.valueOf("e68569");
+            glowIntensity = 0.4f;
+            glowScale = 5f;
+        }}, new DrawGlowRegion("-glow3") {{
+            alpha = 0.55f;
+            color = Color.valueOf("e68569");
+            glowIntensity = 0.5f;
+            glowScale = 9f;
+        }});
+    }}, galenaCrucible, fumeSeparator, scrapCentrifuge,
     thermalCrackingUnit, hazeCrackingUnit, vacuumFreezer, haliteRefinery, acuminiteDegredationArray, atmosphericCentrifuge, electrolysisVat, brineElectrolyzer, gasifier, ultrafamicRefinery,desulferizationAssembly;
 
     public static void loadContent() {
@@ -317,33 +418,6 @@ public class RefineryBlocks {
                 }});
             }
         };
-        towaniteReductionVat = new AquaGenericCrafter("towanite-reduction-vat") {{
-            requirements(AquaCategories.refinery, with(copper, 150, silicon, 500, aluminum, 1000));
-            size = 7;
-            itemCapacity = 150;
-            craftTime = 3 * 60f;
-            squareSprite = false;
-            consumePower(5);
-            consumeItemStack(new ItemStack(towanite, 15));
-            consumeLiq(fumes, 0.5f);
-            outputItems = new ItemStack[]{
-                    new ItemStack(copper, 15),
-                    new ItemStack(brimstone, 30),
-                    new ItemStack(ferricMatter, 15)};
-
-            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawPistons() {{
-                sides = 1;
-                angleOffset = -90;
-                sinMag = 2.5f;
-                lenOffset = 1;
-            }}, new DrawBetterArcSmelt() {{
-                x = -16;
-                y = -4;
-            }}, new DrawBetterArcSmelt() {{
-                x = 6;
-                y = -4;
-            }}, new DrawDefault(), new DrawGlowRegion());
-        }};
         galenaCrucible = new AquaGenericCrafter("galena-crucible") {{
             requirements(AquaCategories.refinery, with(zinc, 500, silicon, 200, graphite, 120));
             size = 6;

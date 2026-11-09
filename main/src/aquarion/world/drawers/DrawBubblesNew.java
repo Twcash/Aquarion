@@ -41,17 +41,17 @@ public class DrawBubblesNew extends DrawBlock {
                 float rad = (1f - life) * radius;
                 if(circle){
                     if (fill) {
-                        Fill.circle(build.x + x, build.y + y, rad);
+                        Fill.circle(build.x + x+offsetX, build.y + y+offsetY, rad);
                     } else {
                         Lines.stroke(build.warmup() * (life + strokeMin));
-                        Lines.circle(build.x + x, build.y + y, rad);
+                        Lines.circle(build.x + x+offsetX, build.y + y+offsetY, rad);
                     }
                 } else {
                     if (fill) {
-                        Fill.poly(build.x + x, build.y + y, sides, rad);
+                        Fill.poly(build.x + x+offsetX, build.y + y+offsetY, sides, rad);
                     } else {
                         Lines.stroke(build.warmup() * (life + strokeMin));
-                        Lines.poly(build.x + x, build.y + y, sides, rad);
+                        Lines.poly(build.x + x+offsetX, build.y + y+offsetY, sides, rad);
                     }
                 }
             }
