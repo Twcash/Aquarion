@@ -88,6 +88,8 @@ public class AquaUnitTypes {
     public static UnitType visitor, mediumTruck, lightTruck, healCraft, revenant, triumph, wretch, haint, ghoul, wraith, chimera, amalgam, corpse, popper, spewer;
     public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType infantry, concussor, breaker, suppressor;
     public static @Annotations.EntityDef(value = {Unitc.class, Gerbc.class}, serialize = false) UnitType engineer;
+    public static @Annotations.EntityDef({Unitc.class, GerbCorpsec.class}) UnitType infantryCorpse, engineerCorpse,
+        concussorCorpse, breakerCorpse, suppressorCorpse;
     public static @Annotations.EntityDef(value = {Unitc.class, AquaMechc.class}) UnitType knight;
     //core units and transport
 
@@ -3197,7 +3199,6 @@ public class AquaUnitTypes {
             legPairOffset = 1;
             legMoveSpace = 1.1f;
             drawCell = false;
-            abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.infantryDeath, AquaFx.bloodPool)));
             aiController = GerbBrainAI::new;
             weapons.add(new Weapon("aquarion-gerb-autogun") {{
                 rotate = false;
@@ -3254,7 +3255,6 @@ public class AquaUnitTypes {
             legMoveSpace = 1.25f;
             drawCell = false;
             aiController = GerbBrainAI::new;
-            abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.concDeath, AquaFx.bloodPool)));
             weapons.add(new Weapon("aquarion-gerb-concussion-rifle") {{
                 rotate = true;
                 x = 0;
@@ -3299,7 +3299,6 @@ public class AquaUnitTypes {
             legMoveSpace = 1.25f;
             drawCell = false;
             aiController = GerbBrainAI::new;
-            abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.breakDeath, AquaFx.bloodPool)));
             weapons.add(new Weapon("aquarion-gerb-medium-autogun") {{
                 rotate = true;
                 x = 2;
@@ -3342,7 +3341,6 @@ public class AquaUnitTypes {
             legMoveSpace = 1.25f;
             drawCell = false;
             aiController = GerbBrainAI::new;
-            abilities.addAll(new DeathFxAbility(new MultiEffect(AquaFx.breakDeath, AquaFx.bloodPool)));
             weapons.add(new Weapon("aquarion-gerb-large-autogun") {{
                             rotate = true;
                             x = 6.5f;
@@ -5079,4 +5077,11 @@ public class AquaUnitTypes {
                 }});
             }});
         }};
-    }}
+
+        infantryCorpse = new GerbCorpseType(infantry, "infantry");
+        engineerCorpse = new GerbCorpseType(engineer, "infantry");
+        concussorCorpse = new GerbCorpseType(concussor, "concussor");
+        breakerCorpse = new GerbCorpseType(breaker, "breaker");
+        suppressorCorpse = new GerbCorpseType(suppressor, "breaker");
+    }
+}

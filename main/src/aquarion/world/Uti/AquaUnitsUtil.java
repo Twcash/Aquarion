@@ -1,5 +1,6 @@
 package aquarion.world.Uti;
 
+import aquarion.gen.GerbCorpsec;
 import arc.func.Boolf;
 import arc.func.Cons;
 import arc.math.Mathf;
@@ -252,7 +253,7 @@ public class AquaUnitsUtil {
         cpriority = -99999f;
 
         nearbyEnemies(team, x - range, y - range, range*2f, range*2f, e -> {
-            if(e.dead() || !predicate.get(e)|| e.inFogTo(team)) return;
+            if(e.dead() || e instanceof GerbCorpsec || !predicate.get(e) || e.inFogTo(team)) return;
 
             float dst2 = e.dst2(x, y) - (e.hitSize * e.hitSize);
             if(dst2 < range*range && (result == null || dst2 < cdist || e.type.targetPriority > cpriority) && e.type.targetPriority >= cpriority){
@@ -273,7 +274,7 @@ public class AquaUnitsUtil {
         cpriority = -99999f;
 
         nearbyEnemies(team, x - range, y - range, range*2f, range*2f, e -> {
-            if(e.dead() || !predicate.get(e)|| !e.within(x, y, range + e.hitSize/2f)  || e.inFogTo(team)) return;
+            if(e.dead() || e instanceof GerbCorpsec || !predicate.get(e) || !e.within(x, y, range + e.hitSize/2f) || e.inFogTo(team)) return;
 
             float cost = sort.cost(e, x, y);
             if((result == null || cost < cdist || e.type.targetPriority > cpriority) && e.type.targetPriority >= cpriority){

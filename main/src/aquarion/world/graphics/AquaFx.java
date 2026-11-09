@@ -1309,7 +1309,7 @@ public class AquaFx {
 
                 for (int i = 0; i < 9; i++) {
                     float rot = e.rotation + rand.range(360f);
-                    int regionId = rand.random(1, 4);
+                    int regionId = rand.random(1, 6);
                     TextureRegion region = Core.atlas.find("aquarion-gib-" + regionId);
                     v.trns(rot, rand.random(e.finpow() * 28f));
                     float fout = Math.max(e.fout(), 0.1f);
