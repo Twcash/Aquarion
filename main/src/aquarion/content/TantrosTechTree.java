@@ -387,6 +387,10 @@ public class TantrosTechTree {
                                                         });
                                                     });
                                                 });
+                                                node(northGate, Seq.with(
+                                                        new Objectives.Research(ferroSiliconFoundry)
+                                                ), () -> {
+                                                });
                                             });
                                         });
                                         node(erodedCanyon, Seq.with(
@@ -678,7 +682,9 @@ public class TantrosTechTree {
                             node(ferroSiliconFoundry, Seq.with(
                                     new Objectives.OnSector(basalticPassageways)
                             ), () -> {
-                                node(steelFoundry, () -> {});
+                                node(steelFoundry, Seq.with(
+                                    new Objectives.OnSector(northGate)
+                            ), () -> {});
                             });
                         });
                         node(convectionHeater, () -> {
