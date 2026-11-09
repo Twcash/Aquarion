@@ -3,7 +3,6 @@ package aquarion.world.units;
 
 import aquarion.gen.*;
 import aquarion.world.blocks.units.AssembleUnitBlock;
-import aquarion.world.blocks.units.InfantryLandingPad;
 import aquarion.world.blocks.units.RailWorkshop;
 import aquarion.world.blocks.units.UnitBlock;
 import arc.struct.ObjectSet;
@@ -46,7 +45,6 @@ public class AquaPlayerUnits{
             if(block instanceof UnitAssembler factory) for(var plan : factory.plans) register(plan.unit);
             if(block instanceof UnitBlock factory) register(factory.unit);
             if(block instanceof AssembleUnitBlock factory) register(factory.unit);
-            if(block instanceof InfantryLandingPad factory) register(factory.unitType);
             if(block instanceof RailWorkshop factory){
                 register(factory.inputUnit);
                 register(factory.outputUnit);

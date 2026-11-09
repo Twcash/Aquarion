@@ -22,6 +22,7 @@ public class AquaStats {
     public static final Stat
             prodTime = new Stat("production-time"),
             MaxFlow = new Stat("maxflow"),
+            liquidSharing = new Stat("liquid-sharing", StatCat.function),
             healRange = new Stat("healRange", StatCat.function),
             healCD = new Stat("healCD", StatCat.function),
             rawHeal = new Stat("rawHeal", StatCat.function),

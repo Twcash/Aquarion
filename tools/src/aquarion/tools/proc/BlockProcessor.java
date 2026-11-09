@@ -3,6 +3,7 @@ package aquarion.tools.proc;
 import arc.files.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.math.Mathf;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -14,6 +15,17 @@ import mindustry.world.blocks.legacy.*;
 import aquarion.*;
 import aquarion.tools.GenAtlas.*;
 import aquarion.tools.*;
+import aquarion.world.blocks.payload.PayloadCentrifuge;
+import aquarion.world.drawers.DrawBetterRegion;
+import aquarion.world.drawers.DrawOrbitRegions;
+import aquarion.world.drawers.DrawWheel;
+import aquarion.world.type.AquaGenericCrafter;
+import mindustry.world.blocks.power.PowerGenerator;
+import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.world.draw.DrawBlock;
+import mindustry.world.draw.DrawBlurSpin;
+import mindustry.world.draw.DrawMulti;
+import mindustry.world.draw.DrawRegion;
 
 import java.util.concurrent.*;
 
@@ -79,6 +91,58 @@ public class BlockProcessor implements Processor{
         }
     }
 
+    private static void prepareDrawerIcons(DrawBlock drawer, TextureRegion base){
+        if(drawer instanceof DrawMulti multi){
+            for(DrawBlock child : multi.drawers){
+                prepareDrawerIcons(child, base);
+            }
+        }else if(drawer instanceof DrawWheel wheel && (wheel.iconRegion == null || !wheel.iconRegion.found())){
+            wheel.iconRegion = new GenRegion("wheel-icon", wheel.makeIcon(base.width, base.height));
+        }else if(drawer instanceof DrawOrbitRegions orbit && orbit.region.found()){
+            Pixmap icon = new Pixmap(base.width, base.height);
+            Pixmap sprite = conv(orbit.region).pixmap();
+            float radius = orbit.radius * 4f;
+            for(int i = 0; i < orbit.regionCount; i++){
+                float angle = orbit.rotationOffset + 360f * i / orbit.regionCount;
+                float x = icon.width / 2f + Mathf.cosDeg(angle) * radius;
+                float y = icon.height / 2f - Mathf.sinDeg(angle) * radius;
+                drawRotatedSprite(icon, sprite, x, y, orbit.rotation + orbit.countRotOffset * i);
+            }
+            orbit.iconRegion = new GenRegion("orbit-icon", icon);
+        }else if(drawer instanceof DrawBetterRegion region && region.drawIcon){
+            region.region = positionRegionIcon(region.region, base, region.x, region.y, region.rotation);
+        }else if(drawer instanceof DrawRegion region){
+            region.region = positionRegionIcon(region.region, base, region.x, region.y, region.rotation);
+        }else if(drawer instanceof DrawBlurSpin spin){
+            spin.region = positionRegionIcon(spin.region, base, spin.x, spin.y, 0f);
+        }
+    }
+
+    private static TextureRegion positionRegionIcon(TextureRegion region, TextureRegion base, float x, float y, float rotation){
+        if(region == null || !region.found() || (x == 0f && y == 0f && rotation == 0f)) return region;
+        Pixmap icon = new Pixmap(base.width, base.height);
+        drawRotatedSprite(icon, conv(region).pixmap(), icon.width / 2f + x * 4f, icon.height / 2f - y * 4f, rotation);
+        return new GenRegion("offset-region-icon", icon);
+    }
+
+    private static void drawRotatedSprite(Pixmap icon, Pixmap sprite, float x, float y, float rotation){
+        float cos = Mathf.cosDeg(rotation), sin = Mathf.sinDeg(rotation);
+        float extent = Mathf.len(sprite.width, sprite.height) / 2f;
+        int minX = Math.max(0, Mathf.floor(x - extent)), maxX = Math.min(icon.width, Mathf.ceil(x + extent));
+        int minY = Math.max(0, Mathf.floor(y - extent)), maxY = Math.min(icon.height, Mathf.ceil(y + extent));
+        for(int py = minY; py < maxY; py++){
+            float dy = y - py - 0.5f;
+            for(int px = minX; px < maxX; px++){
+                float dx = px + 0.5f - x;
+                int sx = Mathf.floor(sprite.width / 2f + dx * cos + dy * sin);
+                int sy = Mathf.floor(sprite.height / 2f + dx * sin - dy * cos);
+                if(sx < 0 || sx >= sprite.width || sy < 0 || sy >= sprite.height) continue;
+                int color = sprite.getRaw(sx, sy);
+                if((color & 255) != 0) icon.setRaw(px, py, Pixmap.blend(color, icon.getRaw(px, py)));
+            }
+        }
+    }
+
     @Override
     public void process(ExecutorService exec){
         // Standard Blocks
@@ -113,6 +177,17 @@ public class BlockProcessor implements Processor{
                                 }
                             }
                         }
+                    }
+                }
+                if(block.region.found()){
+                    if(block instanceof AquaGenericCrafter crafter){
+                        prepareDrawerIcons(crafter.drawer, block.region);
+                    }else if(block instanceof GenericCrafter crafter){
+                        prepareDrawerIcons(crafter.drawer, block.region);
+                    }else if(block instanceof PowerGenerator generator){
+                        prepareDrawerIcons(generator.drawer, block.region);
+                    }else if(block instanceof PayloadCentrifuge centrifuge){
+                        prepareDrawerIcons(centrifuge.drawer, block.region);
                     }
                 }
                 TextureRegion[] regions = block.getGeneratedIcons();

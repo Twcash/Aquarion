@@ -14,8 +14,8 @@ public class DrawBetterRegion extends DrawRegion {
     public TextureRegion region;
     public String suffix = "";
     public boolean spinSprite = false;
-    public boolean drawPlan = false;
-    public boolean drawIcon = false;
+    public boolean drawPlan = true;
+    public boolean drawIcon = true;
 
     public boolean buildingRotate = false;
     public float rotateSpeed, x, y, rotation;
@@ -54,11 +54,12 @@ public class DrawBetterRegion extends DrawRegion {
 
     @Override
     public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list){
-        if(!drawPlan) return;
+        if(!drawPlan || !region.found()) return;
+        float angle = rotation + (buildingRotate ? plan.rotation * 90f : 0f);
         if(spinSprite){
-            Drawf.spinSprite(region, plan.drawx() + x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));
+            Drawf.spinSprite(region, plan.drawx() + x, plan.drawy() + y, angle);
         }else{
-            Draw.rect(region, plan.drawx()+ x, plan.drawy() + y, (buildingRotate ? plan.rotation * 90f : 0 + rotation));
+            Draw.rect(region, plan.drawx() + x, plan.drawy() + y, angle);
         }
     }
 

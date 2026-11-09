@@ -30,6 +30,7 @@ import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
 import mindustry.entities.effect.MultiEffect;
+import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.world.Block;
@@ -591,7 +592,7 @@ public class CoreBlocks {
             buildVisibility = BuildVisibility.campaignOnly;
             processRate = 1f;
             itemCapacity = 500;
-            ambientSound = AquaSounds.researchLabloop;
+            ambientSound = Sounds.none;
             researchSound = AquaSounds.researchLabVoid;
             consumePower(10f);
             squareSprite = false;
@@ -602,7 +603,7 @@ public class CoreBlocks {
         laboratory = new ResearchVoider("laboratory"){{
             size = 5;
             squareSprite = false;
-            ambientSound = AquaSounds.researchLabloop;
+            ambientSound = Sounds.none;
             researchSound = AquaSounds.researchLabVoid;
             destructible = false;
             consumePower(5);

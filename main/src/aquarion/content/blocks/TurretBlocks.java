@@ -228,7 +228,7 @@ public class TurretBlocks {
             }};
         }};
         concuss = new AquaTemplates.AquaItemTurretTemplate("concuss"){{
-            requirements(Category.turret, with(graphite, 200, silicon, 120, AquaItems.ferricMatter, 150));
+            requirements(Category.turret, with(graphite, 120, silicon, 120, AquaItems.ferricMatter, 150));
             health = 650;
             size = 2;
             reload = 240;

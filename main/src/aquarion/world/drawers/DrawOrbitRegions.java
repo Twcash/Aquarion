@@ -14,6 +14,7 @@ import mindustry.world.draw.DrawRegion;
 
 public class DrawOrbitRegions extends DrawRegion {
     public TextureRegion region;
+    public TextureRegion iconRegion;
     public String suffix = "";
     public boolean drawPlan = true;
     //how many thingies are in orbit
@@ -84,7 +85,7 @@ public class DrawOrbitRegions extends DrawRegion {
 
     @Override
     public TextureRegion[] icons(Block block) {
-        return new TextureRegion[]{region};
+        return iconRegion == null ? new TextureRegion[0] : new TextureRegion[]{iconRegion};
     }
 
     @Override

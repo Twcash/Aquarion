@@ -143,7 +143,6 @@ public class EnvironmentBlocks {
             obstructsLight = true;
             forceDrawLight = true;
             variants = 3;
-            drawEdgeOut = false;
             drawEdgeIn = true;
             attributes.set(fertility, -5f);
         }};
@@ -164,7 +163,6 @@ public class EnvironmentBlocks {
             lightColor = Color.orange.cpy().a(0.38f);
             obstructsLight = true;
             forceDrawLight = true;
-            drawEdgeOut = false;
             drawEdgeIn = true;
             attributes.set(fertility, -5f);
         }};

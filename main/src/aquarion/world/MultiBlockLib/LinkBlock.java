@@ -6,16 +6,20 @@ import arc.func.Cons;
 import arc.func.Func;
 import arc.graphics.g2d.TextureRegion;
 import arc.scene.ui.layout.Table;
+import arc.util.Tmp;
 import mindustry.Vars;
+import mindustry.entities.units.BuildPlan;
 import mindustry.game.Team;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
 import mindustry.gen.Teamc;
 import mindustry.gen.Unit;
+import mindustry.input.Binding;
 import mindustry.type.Item;
 import mindustry.type.Liquid;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
+import mindustry.world.Build;
 import mindustry.world.Tile;
 import mindustry.world.blocks.payloads.Payload;
 import mindustry.world.consumers.Consume;
@@ -64,8 +68,73 @@ public class LinkBlock extends Block {
         details = Core.bundle.getOrNull(getContentType() + ".new-horizon-inner-entity.details");
     }
 
+    @Override
     public boolean canBreak(Tile tile) {
-        return false;
+        return tile.build instanceof LinkBuild link && link.linkedBuilding() != null;
+    }
+
+    public static void pickLinkedBlock() {
+        if (Vars.headless || !Vars.state.isGame() || !Core.input.keyTap(Binding.pick)
+            || Vars.player == null || !Vars.player.isBuilder() || Core.scene.hasDialog() || Core.scene.hasMouse()) return;
+
+        var input = Vars.control.input;
+        if (input.commandMode) return;
+
+        var mouse = Core.input.mouseWorld();
+        if (!(Vars.world.buildWorld(mouse.x, mouse.y) instanceof LinkBuild link) || link.inFogTo(Vars.player.team())) return;
+
+        Building target = link.linkedBuilding();
+        if (target == null || target.inFogTo(Vars.player.team())) return;
+
+        Block block = target.block;
+        if (!Vars.state.rules.editor && (!block.isVisible() || !block.unlockedNowHost() || !block.placeablePlayer
+            || !block.environmentBuildable() || !block.supportsEnv(Vars.state.rules.env))) return;
+
+        // Let the normal picker handle queued plans that overlap the cursor.
+        for (BuildPlan plan : Vars.player.unit().plans()) {
+            if (!plan.breaking && plan.block.bounds(plan.x, plan.y, Tmp.r1).contains(mouse)) return;
+        }
+
+        input.block = block;
+        block.lastConfig = block.copyConfig ? target.config() : null;
+        block.onPicked(target.tile);
+        var placement = Vars.ui.hudfrag.blockfrag;
+        if (block.isVisible() && placement.currentCategory != block.category) {
+            placement.currentCategory = block.category;
+            placement.rebuild();
+        }
+    }
+
+    public static void redirectDeconstructionPlans() {
+        if (!Vars.state.isGame() || Vars.player == null || !Vars.player.isBuilder()) return;
+
+        var plans = Vars.player.unit().plans();
+        for (int i = plans.size - 1; i >= 0; i--) {
+            BuildPlan plan = plans.get(i);
+            if (!plan.breaking || !(plan.build() instanceof LinkBuild link)) continue;
+
+            Building target = link.linkedBuilding();
+            if (target == null || !Build.validBreak(Vars.player.team(), target.tileX(), target.tileY())) {
+                plans.removeIndex(i);
+                continue;
+            }
+
+            int x = target.tileX(), y = target.tileY();
+            boolean alreadyQueued = false;
+            for (BuildPlan queued : plans) {
+                if (queued.breaking && queued.x == x && queued.y == y) {
+                    alreadyQueued = true;
+                    break;
+                }
+            }
+            if (alreadyQueued) {
+                plans.removeIndex(i);
+            } else {
+                plan.x = x;
+                plan.y = y;
+                plan.block = target.block;
+            }
+        }
     }
 
     @Override
@@ -87,6 +156,10 @@ public class LinkBlock extends Block {
     @SuppressWarnings("InnerClassMayBeStatic")
     public class LinkBuild extends Building {
         public Building linkBuild;
+
+        public Building linkedBuilding() {
+            return linkBuild != null && linkBuild.isValid() && linkBuild.team == team ? linkBuild : null;
+        }
 
         public void updateLink(Building link) {
             if (link instanceof MultiBlockEntity) {

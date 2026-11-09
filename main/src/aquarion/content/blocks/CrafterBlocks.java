@@ -10,7 +10,6 @@ import aquarion.world.blocks.payload.AquaConstructor;
 import aquarion.world.blocks.payload.PayloadCentrifuge;
 import aquarion.world.blocks.production.Filter;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
-import aquarion.content.blocks.EnvironmentBlocks;
 import aquarion.world.blocks.production.WallPayloadDrill;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
 import aquarion.world.drawers.*;
@@ -39,11 +38,9 @@ import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.heat.HeatProducer;
-import mindustry.world.blocks.production.AttributeCrafter;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.Pump;
-import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
@@ -56,7 +53,6 @@ import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.*;
 import static aquarion.content.AquaPlanets.*;
 import static aquarion.world.graphics.Renderer.Layer.heat;
-import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static arc.math.Interp.linear;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
@@ -69,7 +65,7 @@ public class CrafterBlocks {
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
             fumeFilter, ferroSiliconFoundry, magmaTap, cardReader, cryogenConditioner, rotaryKiln, wallExcavator, pnuematicCentrifuge, explosiveManufactory, explosivePayload,
-            laserEnricher, invarSmeltery;
+            laserEnricher, invarSmeltery, intakeArray;
     public static Block filter;
     public static Block wallCrafter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -80,7 +76,7 @@ public class CrafterBlocks {
 
         AquaItemEntity.registerSpoil(AquaItems.uraniumEnriched, thorium, 60f * 10f);
 
-        magmaTap = new AttributeCrafter("magma-tap") {{
+        magmaTap = new AquaGenericCrafter("magma-tap") {{
             requirements(Category.production, with(lead, 225, zinc, 120, silicon, 100));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             researchCost = with(lead,225, silicon, 100);
@@ -88,23 +84,20 @@ public class CrafterBlocks {
             floating = true;
             updateEffect = Fx.steam;
             attribute = Attribute.heat;
-            minEfficiency = 1;
-            maxBoost = 3;
+            minAttributeEfficiency = 1;
+            maxAttributeBoost = 3;
             consumePower(0.5f);
-            baseEfficiency = 0;
+            attributeBaseEfficiency = 0;
             updateEffectChance = 0.02f;
-            boostScale = 1f / 8f;
+            attributeBoostScale = 1f / 8f;
             craftTime = 5 * 60f;
             ambientSound = Sounds.loopFire;
             ambientSoundVolume = 0.05f;
             squareSprite = false;
             liquidCapacity = 900;
-            maxBoost = 3;
+            maxAttributeBoost = 3;
             outputLiquid = new LiquidStack(magma, 1.5f);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(magma, 5), new DrawDefault(), new DrawGlowRegion() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(magma, 5), new DrawDefault(), new DrawGlowRegion() {{
                 alpha = 0.65f;
                 color = Color.valueOf("e68569");
                 glowIntensity = 0.3f;
@@ -112,27 +105,6 @@ public class CrafterBlocks {
             }});
         }};
 
-        thermalEvaporator = new AttributeCrafter("geothermal-evaporator"){{
-            requirements(Category.crafting, with(lead, 250, zinc, 150, silicon, 150));
-            size = 5;
-            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            squareSprite = false;
-            minEfficiency = 0.5f;
-            updateEffect = Fx.steam;
-            attribute = Attribute.heat;
-            updateEffectChance = 0.02f;
-            liquidCapacity = 500;
-            consumePower(2);
-            boostScale = 1f / 20f;
-            ambientSound = Sounds.loopCombustion;
-            floating = true;
-            ambientSoundVolume = 0.06f;
-            baseEfficiency = 0;
-            consumeLiquid(halideWater, 4f);
-            craftTime = 240;
-            outputItem = new ItemStack(salt, 1);
-            outputLiquid = new LiquidStack(muriaticAcid, 3.5f);
-        }};
         cryogenConditioner = new HeatProducer("cryogen-conditioner"){{
             requirements(AquaCategories.heat, with(copper, 500, metaglass, 300, cupronickel, 250, silicon, 600));
             heatOutput = 40;
@@ -148,10 +120,7 @@ public class CrafterBlocks {
             rotateDraw = false;
             rotateDrawEditor = false;
             outputLiquid = new LiquidStack(cryogen, 12);
-            drawer = new DrawMulti(/*new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}*/ new DrawDefault(), new DrawHeatOutput());
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawBlockShadow(), new DrawDefault(), new DrawHeatOutput());
         }};
         nuetralizationChamber = new HeatProducer("nuetralization-vessel"){{
             requirements(AquaCategories.heat, with(copper, 150, zinc, 250, silicon, 500));
@@ -163,10 +132,7 @@ public class CrafterBlocks {
             consume(new ConsumeLiquidAcidic(1f));
             consumeLiquid(hydroxide, 1f);
             outputLiquid = new LiquidStack(water, 2);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawHeatOutput());
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawHeatOutput());
         }};
         ferroSiliconFoundry = new AquaGenericCrafter("ferrosilicon-foundry") {{
             requirements(Category.crafting, with(silicon, 900, copper, 500, ferricMatter, 700, graphite, 450));
@@ -210,10 +176,7 @@ public class CrafterBlocks {
             craftEffect = Fx.reactorsmoke;
             ambientSound = AquaSounds.waterHum;
             ambientSoundVolume = 0.09f;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawRegion("-mid"), new DrawArcSmelt() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawRegion("-mid"), new DrawArcSmelt() {{
                 circleStroke = 1.2f;
                 particles = 10;
                 particleLife = 35;
@@ -247,22 +210,19 @@ public class CrafterBlocks {
                 color = Color.valueOf("f5c5aa");
             }}, new DrawHeatInputBitmask(), new AquaHeatRegion("-heats"));
         }};
-        fumeFilter = new AttributeCrafter("fume-filter") {{
+        fumeFilter = new AquaGenericCrafter("fume-filter") {{
             requirements(Category.production, with(copper, 250, silicon, 500, ferricMatter, 150));
             size = 6;
             squareSprite = false;
-            outputLiquid = new LiquidStack(fumes, 3);
+            outputLiquid = new LiquidStack(fumes, 4);
             attribute = Attribute.steam;
-            boostScale = 1 / 18f;
-            minEfficiency = 0.1f;
-            maxBoost = 2;
+            attributeBoostScale = 1 / 18f;
+            minAttributeEfficiency = 0.1f;
+            maxAttributeBoost = 2;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            baseEfficiency = 0;
+            attributeBaseEfficiency = 0;
             liquidCapacity = 250f;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2) {{
                 alpha = 0.7f;
             }}, new DrawDefault(), new DrawBetterRegion("-fan") {{
                 y = 4;
@@ -286,7 +246,7 @@ public class CrafterBlocks {
                 rotation = 45;
                 spinSprite = true;
                 rotateSpeed = 2;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("836c59");
                 alpha = 0.4f;
                 y = 4;
@@ -296,7 +256,7 @@ public class CrafterBlocks {
                 particles = 12;
                 particleRad = 6f;
                 particleLife = 60f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("9f846d");
                 alpha = 0.4f;
                 y = 4;
@@ -306,7 +266,7 @@ public class CrafterBlocks {
                 sides = 12;
                 particleRad = 6f;
                 particleLife = 60f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("836c59");
                 alpha = 0.4f;
                 y = 4;
@@ -317,7 +277,7 @@ public class CrafterBlocks {
                 particleRad = 7f;
                 rotateScl = 2;
                 particleLife = 45f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("9f846d");
                 alpha = 0.4f;
                 sides = 12;
@@ -356,28 +316,25 @@ public class CrafterBlocks {
                 craftTime = 60;
                 drawer = new DrawMulti(new DrawDefault(), new DrawFlame());
             }};
-            graphiteConcentrator = new AttributeCrafter("graphite-concentrator") {{
+            graphiteConcentrator = new AquaGenericCrafter("graphite-concentrator") {{
                 requirements(Category.production, with(copper, 40, silicon, 80));
                 attribute = metamorphic;
                 craftTime = 150;
-                boostScale = .25f;
+                attributeBoostScale = .25f;
                 outputItem = new ItemStack(graphite, 2);
                 consumeLiquid(water, 0.25f);
                 liquidCapacity = 80;
-                baseEfficiency = 0;
+                attributeBaseEfficiency = 0;
                 itemCapacity = 18;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
                 size = 2;
-                minEfficiency = 0.1f;
+                minAttributeEfficiency = 0.1f;
                 squareSprite = false;
                 hasShadow = false;
                 drawer = new DrawMulti(
                     new DrawRegion("-bottom"),
                     new DrawRegion("-bottom-shadow"),
-                    new DrawBetterRegion("-shadow") {{
-                        layer = shadow;
-                        drawIcon = false;
-                    }}, new AquaDrawBetterParticles() {{
+                    new DrawBlockShadow(), new AquaDrawBetterParticles() {{
                         colorFrom = Color.valueOf("#67a0cd");
                         colorTo = Color.white;
                         alpha = 0.7f;
@@ -388,18 +345,18 @@ public class CrafterBlocks {
                         rotateScl = 2f;
                     }}, new DrawDefault());
             }};
-            ferricGrinder = new AttributeCrafter("ferric-macerator") {{
+            ferricGrinder = new AquaGenericCrafter("ferric-macerator") {{
                 requirements(Category.production, with( silicon, 500, metaglass, 200, graphite, 700, polymer, 450));
                 size = 6;
                 itemCapacity = 100;
                 liquidCapacity = 200;
                 craftTime = 240;
                 attribute = iron;
-                baseEfficiency = 0;
-                minEfficiency = 1;
-                displayEfficiency = true;
-                maxBoost = 2.5f;
-                boostScale = 1 / 36f;
+                attributeBaseEfficiency = 0;
+                minAttributeEfficiency = 1;
+                displayAttributeEfficiency = true;
+                maxAttributeBoost = 2.5f;
+                attributeBoostScale = 1 / 36f;
                 consumePower(4);
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);;
                 consumeLiquid(water, 3);
@@ -407,10 +364,7 @@ public class CrafterBlocks {
                         new ItemStack(sand, 20),
                         new ItemStack(ferricMatter, 8),
                 };
-                drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                    layer = shadow;
-                    drawIcon = false;
-                }}, new DrawRegion("-bottom"), new DrawParticles() {{
+                drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawParticles() {{
                     color = Color.valueOf("1c4538");
                     alpha = 0.5f;
                     particleSize = 4f;
@@ -450,6 +404,28 @@ public class CrafterBlocks {
                     rotateSpeed = -4;
                 }}, new DrawDefault());
             }};
+        thermalEvaporator = new AquaGenericCrafter("geothermal-evaporator"){{
+            requirements(Category.production, with(lead, 250, zinc, 150, silicon, 150));
+            size = 5;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            squareSprite = false;
+            minAttributeEfficiency = 0.5f;
+            updateEffect = Fx.steam;
+            attribute = Attribute.heat;
+            updateEffectChance = 0.02f;
+            liquidCapacity = 500;
+            consumePower(2);
+            attributeBoostScale = 1f / 20f;
+            ambientSound = Sounds.loopCombustion;
+            floating = true;
+            ambientSoundVolume = 0.06f;
+            attributeBaseEfficiency = 0;
+            consumeLiquid(halideWater, 4f);
+            craftTime = 240;
+            outputItem = new ItemStack(salt, 1);
+            outputLiquid = new LiquidStack(muriaticAcid, 3.5f);
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault());
+        }};
             ammoniaCompressor = new AquaGenericCrafter("ammonia-compressor"){{
                 requirements(Category.crafting, with(copper, 200, silicon, 150, metaglass, 120));
                 size = 3;
@@ -462,6 +438,46 @@ public class CrafterBlocks {
                 itemBoostIntensity = 2f;
                 outputLiquid = new LiquidStack(ammonia, 0.4f);
                 consume(new LiquidStack(methane, 0.3f), new LiquidStack(nitrogen, .1f));
+                drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new PhaseOffsetGlowRegion("-glow") {{
+                    alpha = 0.35f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.3f;
+                    glowScale = 5f;
+                    layer = heat;
+                    blending = Blending.additive;
+                }}, new PhaseOffsetGlowRegion("-glow1") {{
+                    alpha = 0.4f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.25f;
+                    glowScale = 6f;
+                    layer = heat;
+                    blending = Blending.additive;
+                    phaseOffset = 10;
+                }}, new PhaseOffsetGlowRegion("-glow2") {{
+                    alpha = 0.45f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.4f;
+                    glowScale = 8f;
+                    layer = heat;
+                    blending = Blending.additive;
+                    phaseOffset = 15;
+                }}, new PhaseOffsetGlowRegion("-glow3") {{
+                    alpha = 0.55f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.5f;
+                    glowScale = 10f;
+                    layer = heat;
+                    blending = Blending.additive;
+                    phaseOffset = 20;
+                }}, new PhaseOffsetGlowRegion("-glow4") {{
+                    alpha = 0.6f;
+                    color = Color.valueOf("e68569");
+                    glowIntensity = 0.6f;
+                    glowScale = 12f;
+                    layer = heat;
+                    blending = Blending.additive;
+                    phaseOffset = 24;
+                }});
             }};
 
             plasmaExtractor = new ModifiedbeamDrill("plasma-extractor") {{
@@ -506,10 +522,7 @@ public class CrafterBlocks {
                 consumeItemStack(new ItemStack(brimstone, 16));
                 itemCapacity = 350;
                 liquidCapacity = 900;
-                drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                    layer = shadow;
-                    drawIcon = false;
-                }}, new DrawRegion("-bottom"), new DrawRegion("-rotator") {{
+                drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawRegion("-rotator") {{
                     y = 35 / 4f;
                     x = 20 / 4f;
                     spinSprite = true;
@@ -555,9 +568,7 @@ public class CrafterBlocks {
                 hasHeat = false;
                 liquidCapacity = 120;
                 tier = 4;
-                drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                    layer = shadow;
-                }}, new DrawDefault(), new DrawRegion("-rotator") {{
+                drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawRegion("-rotator") {{
                     rotateSpeed = 1.5f;
                     spinSprite = true;
                 }}, new DrawRegion("-top"));
@@ -576,9 +587,7 @@ public class CrafterBlocks {
                 hasHeat = false;
                 liquidCapacity = 1500;
                 tier = 6;
-                drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                    layer = shadow;
-                }}, new DrawArcSmelt(){{
+                drawer = new DrawMulti(new DrawBlockShadow(), new DrawArcSmelt(){{
                     this.flameRad = 8;
                     this.flameRadiusMag = 1.2f;
                     this.flameRadiusScl = 12;
@@ -630,17 +639,17 @@ public class CrafterBlocks {
             heatOutput = 150;
             liquidOutputDirections = new int[]{2};
             liquidCapacity = 10000;
-            drawer = new DrawMulti(new DrawDefault(), new DrawBlurSpin() {{
+            drawer = new DrawMulti(new DrawDefault(), new DrawOffsetBlurSpin() {{
                 suffix = "-fan";
                 x = -2 / 4f;
                 y = -96 / 4f;
                 rotateSpeed = 4f;
-            }}, new DrawBlurSpin() {{
+            }}, new DrawOffsetBlurSpin() {{
                 suffix = "-fan";
                 x = -38 / 4f;
                 y = -96 / 4f;
                 rotateSpeed = 4f;
-            }}, new DrawBlurSpin() {{
+            }}, new DrawOffsetBlurSpin() {{
                 suffix = "-fan";
                 x = -88/ 4f;
                 y = -96 / 4f;
@@ -676,7 +685,7 @@ public class CrafterBlocks {
             drillTime = 150;
 
             ambientSound = AquaSounds.machine4;
-            ambientSoundVolume = 0.08f;
+            ambientSoundVolume = 0.05f;
             consumePower(.125f);
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumeLiquid(Liquids.water, 0.75f).boost();
@@ -689,13 +698,10 @@ public class CrafterBlocks {
             itemBoostIntensity = 1.4f;
             tier = 2;
             squareSprite = false;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawPistons() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawPistons() {{
                 sides = 1;
                 angleOffset = 90;
-                sinMag = 2.2f;
+                sinMag = 3f;
             }}, new DrawDefault(), new DrawGlowRegion("-glow") {{
                 alpha = 0.4f;
                 color = Color.valueOf("e68569");
@@ -749,10 +755,7 @@ public class CrafterBlocks {
             squareSprite = false;
             pumpAmount = (8.5f/2/9f);
             liquidCapacity = 300;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(water, 1.5f) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(water, 1.5f) {{
                 alpha = 0.6f;
             }}, new DrawLiquidTile(oil, 1.5f) {{
                 alpha = 0.6f;
@@ -785,27 +788,24 @@ public class CrafterBlocks {
             squareSprite = false;
             pumpAmount = (12/9f);
             liquidCapacity = 4800;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(water, 1.5f) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(water, 1.5f) {{
                 alpha = 0.6f;
-            }}, new DrawBlurSpin() {{
+            }}, new DrawOffsetBlurSpin() {{
                 suffix = "-fan";
                 x = -31 / 4f;
                 y = -14 / 4f;
                 rotateSpeed = 4f;
-            }}, new DrawBlurSpin() {{
+            }}, new DrawOffsetBlurSpin() {{
                 suffix = "-fan";
                 x = 29 / 4f;
                 y = 44 / 4f;
                 rotateSpeed = 4f;
-            }}, new DrawBlurSpin() {{
+            }}, new DrawOffsetBlurSpin() {{
                 suffix = "-fan";
                 x = -31 / 4f;
                 y = -14 / 4f;
                 rotateSpeed = -2f;
-            }}, new DrawBlurSpin() {{
+            }}, new DrawOffsetBlurSpin() {{
                 suffix = "-fan";
                 x = 29 / 4f;
                 y = 44 / 4f;
@@ -835,10 +835,7 @@ public class CrafterBlocks {
             liquidCapacity = 4000;
             consume(new LiquidStack(water, 34/12f));
             outputLiquid = new LiquidStack(haze, 34/12f);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }},new DrawDefault(), new DrawLiquidTile(water, 3.2f){{
+            drawer = new DrawMulti(new DrawBlockShadow(),new DrawDefault(), new DrawLiquidTile(water, 3.2f){{
                 alpha = 0.5f;
             }}, new DrawRegion("-top"));
         }};
@@ -862,10 +859,7 @@ public class CrafterBlocks {
             //consumeWrapped(new ConsumeItemExplode(0.2f)).set(1f, true);
             consume(new LiquidStack(water, 8.5f), new LiquidStack(air, 3.5f));
             outputLiquid = new LiquidStack(haze, 8.5f);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new BetterDrawParticles() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new NewDrawParticles() {{
                 color = Color.valueOf("dd5f41");
                 alpha = 0.4f;
                 y = 4;
@@ -875,7 +869,7 @@ public class CrafterBlocks {
                 particles = 18;
                 particleRad = 8f;
                 particleLife = 60f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("fbc14e");
                 alpha = 0.6f;
                 y = 4;
@@ -885,7 +879,7 @@ public class CrafterBlocks {
                 particles = 12;
                 particleRad = 6f;
                 particleLife = 60f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("dd5f41");
                 alpha = 0.4f;
                 y = 12;
@@ -895,7 +889,7 @@ public class CrafterBlocks {
                 particles = 18;
                 particleRad = 8f;
                 particleLife = 60f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("fbc14e");
                 alpha = 0.6f;
                 y = 12;
@@ -905,7 +899,7 @@ public class CrafterBlocks {
                 particles = 12;
                 particleRad = 6f;
                 particleLife = 60f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("dd5f41");
                 alpha = 0.4f;
                 y = -8;
@@ -915,7 +909,7 @@ public class CrafterBlocks {
                 particles = 18;
                 particleRad = 8f;
                 particleLife = 60f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("fbc14e");
                 alpha = 0.6f;
                 y = -8;
@@ -925,7 +919,7 @@ public class CrafterBlocks {
                 particles = 12;
                 particleRad = 6f;
                 particleLife = 60f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("dd5f41");
                 alpha = 0.4f;
                 y = -12;
@@ -935,7 +929,7 @@ public class CrafterBlocks {
                 particles = 18;
                 particleRad = 8f;
                 particleLife = 60f;
-            }}, new BetterDrawParticles() {{
+            }}, new NewDrawParticles() {{
                 color = Color.valueOf("fbc14e");
                 alpha = 0.6f;
                 y = -12;
@@ -1166,10 +1160,7 @@ public class CrafterBlocks {
             ambientSound = AquaSounds.refine;
             ambientSoundVolume = 0.07f;
             consumePower(3);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom")
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom")
                     , new DrawWheel() {{
                 width = 152 / 4f;
                 height = 106 / 4f;
@@ -1278,10 +1269,7 @@ public class CrafterBlocks {
             consume(new LiquidStack(petroleum, 4), new LiquidStack(oxygen, 8));
             consumeBoost(haze, 8.5f, 1f);
             liquidBoostIntensity = 1.2f;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawPump("-press") {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(petroleum, 3), new DrawPump("-press") {{
                 timeOffset = 0;
                 x = 16 / 4f;
                 y = -30 / 4f;
@@ -1316,10 +1304,7 @@ public class CrafterBlocks {
             consumeItemStack(new ItemStack(silicon, 20));
             consumeLiq(oxygen, 40/60f);
             outputItem = new ItemStack(sand, 20);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawParticles() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawParticles() {{
                 color = Color.valueOf("ffb5ad");
                 alpha = 0.3f;
                 particleSize = 3f;
@@ -1344,10 +1329,7 @@ public class CrafterBlocks {
             consumeBoost(graphite, 2, 1f);
             outputLiquid = new LiquidStack(oxygen, 80/60f);
             outputItem = new ItemStack(silicon, 40);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawSoftParticles() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawSoftParticles() {{
                 alpha = 0.35f;
                 particleRad = 5f;
                 particleSize = 9f;
@@ -1402,10 +1384,7 @@ public class CrafterBlocks {
             consumeItemStack(new ItemStack(coal, 12));
             consumeLiq(oxygen, 0.25f);
             outputLiquid = new LiquidStack(oil, 3f);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(oil, 4), new DrawDefault(), new DrawHeatInputBitmask("-heats"));
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(oil, 4), new DrawDefault(), new DrawHeatInputBitmask("-heats"));
         }};
 
         inlet = new AquaGenericCrafter("inlet") {{
@@ -1420,10 +1399,7 @@ public class CrafterBlocks {
             squareSprite = false;
             ambientSound = AquaSounds.waterAir;
             ambientSoundVolume = 0.01f;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawParticles() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawParticles() {{
                 color = Color.valueOf("455a5e");
                 alpha = 0.2f;
                 particleSize = 2.5f;
@@ -1446,10 +1422,7 @@ public class CrafterBlocks {
             shareOutputLiquids = true;
             ambientSound = AquaSounds.waterAir;
             ambientSoundVolume = 0.01f;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(halideWater) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(halideWater) {{
                 padRight = 11 / 4f;
                 padLeft = 11 / 4f;
                 padBottom = 22 / 4f;
@@ -1493,24 +1466,94 @@ public class CrafterBlocks {
             craftTime = 10;
             alwaysUnlocked = true;
             liquidCapacity = 200;
-            consumePower(.25f);
+            consumePower(.5f);
             envDisabled = Env.underwater | Env.space;
             outputLiquid = new LiquidStack(air, 1);
             ambientSound = AquaSounds.fan1;
             ambientSoundVolume = 0.02f;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawDefault(), new DrawBlurSpin("-fan", 8f), new DrawRegion("-top"), new DrawParticles() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawOffsetBlurSpin("-fan", 8f), new DrawRegion("-top"), new DrawParticles() {{
                 color = Color.valueOf("d4f0ff");
                 alpha = 0.3f;
                 particleSize = 2.5f;
                 particles = 14;
                 particleRad = 4f;
                 particleLife = 140f;
+            }}, new DrawGlowRegion() {{
+                glowIntensity = 0.7f;
+                glowScale = 9;
+                alpha = 0.5f;
+                color = Color.valueOf("dd5858");
             }});
         }};
-
-
+        intakeArray = new AquaGenericCrafter("intake-array") {{
+            shownPlanets.addAll(fakeSerpulo);
+            requirements(Category.production, with(concrete, 250, copper, 500, ferricMatter, 500, brass, 250));
+            size = 5;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            squareSprite = false;
+            consumeLiquid(water, 10);
+            craftTime = 10;
+            alwaysUnlocked = true;
+            liquidCapacity = 3000;
+            consumePower(10);
+            envDisabled = Env.underwater | Env.space;
+            outputLiquid = new LiquidStack(air, 16);
+            hasHeat = true;
+            heatRequirement =40;
+            baseEfficiency = 1;
+            maxEfficiency = 2;
+            ambientSound = AquaSounds.fan1;
+            ambientSoundVolume = 0.05f;
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawOffsetBlurSpin("-fan", 8f){{
+                x = -15/4f;
+                y = -49/4f;
+            }}, new DrawOffsetBlurSpin("-fan", 8f){{
+                x = -49/4f;
+                y = -49/4f;
+            }}, new DrawOffsetBlurSpin("-fan", 8f){{
+                x = -15/4f;
+                y = 15/4f;
+            }}, new DrawOffsetBlurSpin("-fan", 8f){{
+                x = -49/4f;
+                y = 15/4f;
+            }}, new DrawRegion("-top"), new NewDrawParticles() {{
+                x = -15/4f;
+                y = -49/4f;
+                color = Color.valueOf("d4f0ff");
+                alpha = 0.3f;
+                particleSize = 2.5f;
+                particles = 14;
+                particleRad = 6f;
+                particleLife = 140f;
+            }}, new NewDrawParticles() {{
+                x = -49/4f;
+                y = -49/4f;
+                color = Color.valueOf("d4f0ff");
+                alpha = 0.3f;
+                particleSize = 2.5f;
+                particles = 14;
+                particleRad = 6f;
+                particleLife = 140f;
+            }}, new NewDrawParticles() {{
+                x = -15/4f;
+                y = 15/4f;
+                color = Color.valueOf("d4f0ff");
+                alpha = 0.3f;
+                particleSize = 2.5f;
+                particles = 14;
+                particleRad = 6f;
+                particleLife = 140f;
+            }}, new NewDrawParticles() {{
+                x = -49/4f;
+                y = 15/4f;
+                color = Color.valueOf("d4f0ff");
+                alpha = 0.3f;
+                particleSize = 2.5f;
+                particles = 14;
+                particleRad = 6f;
+                particleLife = 140f;
+            }});
+        }};
         steelFoundry = new AquaGenericCrafter("blast-furnace") {{
             requirements(Category.crafting, with(polymer, 900, ferrosilicon, 1200, graphite, 650, ferricMatter, 900, aluminum, 1200));
             size = 7;
@@ -1528,10 +1571,7 @@ public class CrafterBlocks {
             consumeBoost(argon, 0.5f, 1f);
             outputLiquid = new LiquidStack(slag, 4);
             squareSprite = false;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(oxygen) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(oxygen) {{
                 padBottom = 2;
                 padLeft = 33;
                 padTop = 2;
@@ -1592,7 +1632,7 @@ public class CrafterBlocks {
             craftTime = 300;
             liquidCapacity = 2000;
             itemCapacity = 200;
-            drawer = new DrawMulti(new DrawDefault(), new DrawLiquidTile(water, 4), new DrawWheel() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawLiquidTile(water, 4), new DrawWheel() {{
                 width = 120 / 4f;
                 height = 103 / 4f;
                 rotation = -90;
@@ -1639,7 +1679,7 @@ public class CrafterBlocks {
             processTime = 600;
             consumePower(6);
             consumeLiquid(air, 4);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawOrbitRegions() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawOrbitRegions() {{
                 orbitSpeed = 4f;
                 radius = 16;
                 suffix = "-cog";
@@ -1723,10 +1763,7 @@ public class CrafterBlocks {
             liquidBoostIntensity = 2.56f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             tier = 4;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawPump("-bit"));
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawPump("-bit"));
         }};
         brineMixer = new AquaGenericCrafter("brine-mixer") {{
             requirements(Category.crafting, with(zinc, 200, metaglass, 350, graphite, 250));
@@ -1741,10 +1778,7 @@ public class CrafterBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumePower(10);
             outputLiquid = new LiquidStack(brine, 8.5f);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(brine) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(brine) {{
                 padTop = 51 / 4f;
                 padLeft = 3;
                 padBottom = 78 / 4f;
@@ -1779,32 +1813,26 @@ public class CrafterBlocks {
             consumePower(0.5f);
             outputLiquid = new LiquidStack(bioPulp, 0.125f);
             liquidCapacity = 120;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(bioPulp, 4), new DrawPump("-pump"), new DrawDefault());
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(bioPulp, 4), new DrawPump("-pump"), new DrawDefault());
         }};
-        algalTerrace = new AttributeCrafter("algal-terrace") {{
+        algalTerrace = new AquaGenericCrafter("algal-terrace") {{
             requirements(Category.production, with(metaglass, 1200, lead, 1200, ferricMatter, 500));
             size = 7;
-            baseEfficiency = 0.5f;
+            attributeBaseEfficiency = 0.5f;
             squareSprite = false;
             attribute = AquaAttributes.fertility;
-            boostScale = 1 / (49 / 2f);
+            attributeBoostScale = 1 / (49 / 2f);
             consumePower(5);
-            maxBoost = 2;
+            maxAttributeBoost = 2;
             liquidCapacity = 1200;
             itemCapacity = 20;
-            minEfficiency = 0.25f;
+            minAttributeEfficiency = 0.25f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             outputLiquid = new LiquidStack(bioPulp, 6.5f);
             consumeLiquids(LiquidStack.with(water, 10));
             craftTime = 90;
             consumeItem(brimstone, 1);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(water) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(water) {{
                 padding = 3;
             }}, new DrawCells() {{
                 range = 8 * 7 / 2f - 4;
@@ -1829,10 +1857,7 @@ public class CrafterBlocks {
             rotateDraw = false;
             heatOutput = 10;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawGlowRegion() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawGlowRegion() {{
                 color = new Color(1f, 0.22f, 0.22f, 0.4f);
             }}, new DrawHeatOutput() {{
                 heatColor = new Color(1f, 0.22f, 0.22f, 0.4f);
@@ -1850,10 +1875,7 @@ public class CrafterBlocks {
             craftTime =90;
             heatOutput = 15;
             rotateDraw = false;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawHeatOutput() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawHeatOutput() {{
                 heatColor = new Color(1f, 0.22f, 0.22f, 0.4f);
             }});
         }};
@@ -1868,10 +1890,7 @@ public class CrafterBlocks {
             consumeLiquid(oxygen, .2f);
             heatOutput = 30;
             rotateDraw = false;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawLiquidTile(oil, 4), new DrawSoftParticles() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawLiquidTile(oil, 4), new DrawSoftParticles() {{
                 alpha = 0.35f;
                 particleRad = 5f;
                 particleSize = 9f;
@@ -1887,10 +1906,7 @@ public class CrafterBlocks {
             requirements(AquaCategories.heat, with(copper, 60));
             visualMaxHeat = 150;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-                drawIcon = false;
-            }}, new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"));
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"));
             size = 2;
         }};
         explosivePayload = new AquaBlock("small-explosive-payload"){{

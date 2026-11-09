@@ -40,6 +40,7 @@ import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaLiquids.petroleum;
 import static aquarion.content.AquaPlanets.*;
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
@@ -55,7 +56,7 @@ public class DefenseBlocks {
 
     public static void loadContent() {
         testblock = new NukeBlock("testblock"){{
-            requirements(Category.turret, BuildVisibility.sandboxOnly, with());
+            requirements(Category.units, BuildVisibility.sandboxOnly, with());
             alwaysUnlocked = true;
             health = 100;
         }};
@@ -68,7 +69,7 @@ public class DefenseBlocks {
             containing.add(new ItemStack(sand, 45));
         }};
         meteor = new MissileBlock("meteor"){{
-            requirements(Category.turret, with(graphite, 20, copper, 40));
+            requirements(Category.units, with(graphite, 20, copper, 40));
             size = 1;
             canMirror = false;
             drawer = new DrawRegionRotated(){{
@@ -130,7 +131,7 @@ public class DefenseBlocks {
             }};
         }};
         vesta = new MissileBlock("vesta"){{
-            requirements(Category.turret, with(metaglass, 250, silicon, 500, copper, 500, polymer, 150));
+            requirements(Category.units, with(metaglass, 60, silicon, 50, cupronickel, 80, graphite, 60));
             size = 1;
             canMirror = false;
             drawer = new DrawRegionRotated(){{
@@ -138,8 +139,9 @@ public class DefenseBlocks {
                 x = 4;
             }};
             range = 400;
-            time = 600;
-            consumePower(6);
+            liquidCapacity = 240;
+            time = 360;
+            consumeLiquid(petroleum, .5f);
             addLink(1,0,1, -1,0,1,2,0,1);
             spawn = new MissileUnitType("vesta-unit"){{
                 speed = 2.6f;
@@ -167,7 +169,7 @@ public class DefenseBlocks {
                 targetAir = true;
                 targetUnderBlocks = false;
                 fogRadius = 6f;
-                health = 400;
+                health = 500;
                 weapons.add(new Weapon(){{
                     shootCone = 360f;
                     mirror = false;

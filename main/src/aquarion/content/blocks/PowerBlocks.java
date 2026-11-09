@@ -26,14 +26,13 @@ import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.*;
 import static aquarion.content.AquaPlanets.*;
 import static aquarion.world.graphics.Renderer.Layer.heat;
-import static aquarion.world.graphics.Renderer.Layer.shadow;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
     public static Block ejector;
-    public static Block miniumReactor, singularityReactor, advSolarGen, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, fumeEngine;
+    public static Block miniumReactor, singularityReactor, advSolarGen, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit,smallTurbine, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, fumeEngine;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -50,9 +49,7 @@ public class PowerBlocks {
             powerProduction = 2.75f;
             baseExplosiveness = 1;//funny
             envDisabled |= Env.underwater;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawDefault(), new DrawGlowRegion() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawGlowRegion() {{
                 glowIntensity = 0.7f;
                 glowScale = 12;
                 alpha = 0.4f;
@@ -90,9 +87,7 @@ public class PowerBlocks {
             squareSprite = false;
 
             outputItem = new ItemStack(minium, 1);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawDefault(), new DrawLiquidTile(air, 2), new DrawBlurFadeRegion("-rotator", 2), new DrawRegion("-top"));
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawLiquidTile(air, 2), new DrawBlurFadeRegion("-rotator", 2), new DrawRegion("-top"));
         }};
         hydroxideReactor = new HeaterGenerator("hydroxide-reactor") {{
             requirements(Category.power, with(ferricMatter, 500, silicon, 1200, copper, 900, graphite, 500));
@@ -116,9 +111,7 @@ public class PowerBlocks {
                     Fx.mineSmall,
                     AquaFx.hydroxideReactorGenerate
             );
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(hydroxide) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(hydroxide) {{
                 alpha = 0.8f;
                 padTop = 6;
                 padLeft = padBottom = padRight = 4;
@@ -166,6 +159,39 @@ public class PowerBlocks {
             consumeLiquids(LiquidStack.with(haze, 8.5f ,water, 10));
             drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-top"));
         }};
+        smallTurbine = new ConsumeGenerator("small-turbine") {{
+            requirements(Category.power, with(copper, 800, graphite, 250, silicon, 600));
+            consumeLiquid(haze, 4f);
+            powerProduction = 8.5f;
+            insulated = true;
+            liquidCapacity = 1500;
+            generateEffectRange = 4.5f / 4f;
+            effectChance = 0.09f;
+            generateEffect = Fx.steam;
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            ambientSound = AquaSounds.machine7;
+            ambientSoundVolume = 0.05f;
+            size = 4;
+            squareSprite = false;
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawRegion("-fan"){{
+                spinSprite = true;
+                rotateSpeed = 6;
+            }}, new DrawRegion("-fan"){{
+                spinSprite = true;
+                rotateSpeed = -6;
+                rotation = 22.5f;
+            }}, new DrawParticles() {{
+                color = Color.gray;
+                alpha = 0.2f;
+                particleRad = 3.5f * 4f;
+                particleSize = 4;
+            }}, new DrawBlurSpin("-fan", 12), new DrawParticles() {{
+                color = Color.white;
+                alpha = 0.5f;
+                particleRad = 3f * 4f;
+                particleSize = 3.5f;
+            }}, new DrawDefault());
+        }};
         turbineDynamo = new ConsumeGenerator("turbine-dynamo") {{
             requirements(Category.power, with(lead, 1500, metaglass, 1200, cupronickel, 1200, graphite, 400));
             size = 10;
@@ -180,9 +206,7 @@ public class PowerBlocks {
             insulated = true;
             powerProduction = 155;
             consumeLiquid(haze, 34);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawRegion("-bottom"), new DrawBlurSpin("-fan", 6), new DrawBlurSpin("-fan", 4), new DrawBlurSpin("-fan", 2), new DrawLiquidTile(haze, 7) {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawOffsetBlurSpin("-fan", 6), new DrawOffsetBlurSpin("-fan", 4), new DrawOffsetBlurSpin("-fan", 2), new DrawLiquidTile(haze, 7) {{
                 alpha = 0.6f;
             }}, new DrawRegion("-mid"), new DrawRadialEngine() {{
                 radius = 7;
@@ -387,9 +411,7 @@ public class PowerBlocks {
                     Fx.steam,
                     Fx.mineSmall
             );
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2), new DrawRegion("-cookie"),
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawLiquidTile(fumes, 2), new DrawRegion("-cookie"),
                     //sigh
                     new DrawBetterRegion("-coil") {{
                         spinSprite = true;
@@ -498,9 +520,7 @@ public class PowerBlocks {
             researchCostMultiplier = 0;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             consumePowerBuffered(1000);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawDefault(), new DrawGlowRegion() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawGlowRegion() {{
                 glowIntensity = 0.7f;
                 glowScale = 3;
                 alpha = 0.4f;
@@ -512,9 +532,7 @@ public class PowerBlocks {
             size = 4;
             insulated = true;
             consumePowerBuffered(20000);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawDefault());
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault());
         }};
         ionBattery = new Battery("ion-battery") {{
             requirements(Category.power, with(aluminum, 120, silicon, 200, copper, 100));
@@ -522,9 +540,7 @@ public class PowerBlocks {
             insulated = true;
             researchCostMultiplier = 0;
             consumePowerBuffered(60000);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawDefault(), new DrawGlowRegion() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawGlowRegion() {{
                 glowIntensity = 0.7f;
                 glowScale = 9;
                 alpha = 0.4f;
@@ -549,9 +565,7 @@ public class PowerBlocks {
             ambientSound = Sounds.loopCircuit;
             ambientSoundVolume = 0.06f;
             outputLiquid = new LiquidStack(slag, 0.125f);
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }}, new DrawDefault(), new DrawGlowRegion() {{
+            drawer = new DrawMulti(new DrawBlockShadow(), new DrawDefault(), new DrawGlowRegion() {{
                 glowIntensity = 0.7f;
                 glowScale = 9;
                 alpha = 0.4f;
@@ -580,9 +594,7 @@ public class PowerBlocks {
             effect = AquaFx.heatEngineGenerate;
             generateEffectRange = this.size * 8/2f;
             warmupSpeed = 0.0001f;
-            drawer = new DrawMulti(new DrawBetterRegion("-shadow") {{
-                layer = shadow;
-            }},new DrawRegion("-bottom"), new DrawLiquidTile(water, 4), new DrawOrbitRegions("-weeeeee", 24, 24f, 3f){{
+            drawer = new DrawMulti(new DrawBlockShadow(),new DrawRegion("-bottom"), new DrawLiquidTile(water, 4), new DrawOrbitRegions("-weeeeee", 24, 24f, 3f){{
                 spinSprite = true;
                 rotateSpeed = -1.5f;
             }}, new DrawRadialEngine(){{

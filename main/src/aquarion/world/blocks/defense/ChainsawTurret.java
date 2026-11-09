@@ -1,5 +1,6 @@
 package aquarion.world.blocks.defense;
 
+import aquarion.gen.GerbCorpsec;
 import aquarion.world.Uti.AquaUnitsUtil;
 import arc.Core;
 import arc.func.Boolf;
@@ -193,6 +194,10 @@ public class ChainsawTurret extends Block {
                     this.team, x, y, range,
                     e -> !e.dead() && unitFilter.get(e),
                     b -> targetGround && targetBlocks && buildingFilter.get(b), unitSort);
+            if (target == null && targetGround) {
+                target = Units.closest(Team.derelict, x, y, range,
+                    u -> u instanceof GerbCorpsec && u.isValid() && !u.inFogTo(team));
+            }
             if (target != null) {
                 targetPos.set(target.x(), target.y());
             }

@@ -21,6 +21,7 @@ import mindustry.content.Fx;
 import mindustry.entities.Damage;
 import mindustry.entities.Effect;
 import mindustry.entities.units.BuildPlan;
+import mindustry.game.Team;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
@@ -79,6 +80,14 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
     public boolean boostAffectSpeedANDoutput = false;
     public float craftTime = 80;
     public Attribute envAttribute;
+    /** Floor attribute that scales crafting speed and continuous output. */
+    public @Nullable Attribute attribute;
+    public float attributeBaseEfficiency = 1f;
+    /** Minimum base efficiency plus raw footprint attribute required for placement. */
+    public float minAttributeEfficiency = -1f;
+    public float attributeBoostScale = 1f;
+    public float maxAttributeBoost = 1f;
+    public boolean displayAttributeEfficiency = true;
     public Effect craftEffect = Fx.none;
     public Effect updateEffect = Fx.none;
     public float updateEffectChance = 0.04f;
@@ -113,6 +122,27 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         flags = EnumSet.of(BlockFlag.factory);
         drawArrow = false;
     }
+
+    private float attributeEfficiency(float sum){
+        return attributeBaseEfficiency + Math.min(maxAttributeBoost, attributeBoostScale * sum);
+    }
+
+    @Override
+    public boolean canPlaceOn(Tile tile, Team team, int rotation){
+        return super.canPlaceOn(tile, team, rotation) && (attribute == null ||
+            attributeBaseEfficiency + tile.getLinkedTilesAs(this, tempTiles)
+                .sumf(other -> other.floor().attributes.get(attribute)) >= minAttributeEfficiency);
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid);
+        if(attribute != null && displayAttributeEfficiency && attributeBoostScale > 0f){
+            float efficiency = attributeEfficiency(sumAttribute(attribute, x, y));
+            drawPlaceText(Core.bundle.format("bar.efficiency", (int)(efficiency * 100f)), x, y, valid);
+        }
+    }
+
     @Override
     public void setStats(){
         stats.timePeriod = craftTime;
@@ -127,6 +157,14 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         }
         if(outputLiquids != null){
             stats.add(Stat.output, StatValues.liquids(1f, outputLiquids));
+        }
+        if(shareInputLiquids || shareOutputLiquids){
+            String sharing = shareInputLiquids && shareOutputLiquids ? "both" : shareInputLiquids ? "inputs" : "outputs";
+            stats.add(AquaStats.liquidSharing, Core.bundle.get("stat.liquid-sharing." + sharing));
+        }
+        if(attribute != null){
+            stats.add(attributeBaseEfficiency <= 0.0001f ? Stat.tiles : Stat.affinities,
+                attribute, floating, attributeBoostScale * size * size, !displayAttributeEfficiency);
         }
         //Heat does not have the ability to affect item output.
         if(hasHeat){
@@ -187,6 +225,12 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
     public void setBars(){
         super.setBars();
         removeBar("liquid");
+
+        if(attribute != null && displayAttributeEfficiency && attributeBoostScale > 0f){
+            addBar("efficiency", (AquaGenericCrafterBuild build) -> new Bar(
+                () -> Core.bundle.format("bar.efficiency", (int)(build.attributeMultiplier() * 100f)),
+                () -> Pal.lightOrange, build::attributeMultiplier));
+        }
 
         if(hasHeat && heatRequirement != 0f){
             removeBar("heat");
@@ -375,6 +419,7 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
         public float[] sideHeat = new float[4];
         public float heat = 0f;
         private ItemStack constructionCost;
+        private float attributeSum;
 
         @Override
         public Seq<AquaItemEntity> aquaItemEntities(){
@@ -510,9 +555,29 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
             AquaItemEntity.reconcile(items, trackedItems);
         }
         @Override
+        public void onProximityUpdate(){
+            super.onProximityUpdate();
+            if(attribute != null) attributeSum = sumAttribute(attribute, tile.x, tile.y);
+        }
+
+        @Override
+        public void pickedUp(){
+            super.pickedUp();
+            if(attribute != null){
+                attributeSum = 0f;
+                warmup = 0f;
+            }
+        }
+
+        private float attributeMultiplier(){
+            return attribute == null ? 1f : Mathf.maxZero(attributeEfficiency(attributeSum) + attribute.env());
+        }
+
+        @Override
         public float getProgressIncrease(float baseTime){
+            float increase = super.getProgressIncrease(baseTime) * attributeMultiplier();
             if(ignoreLiquidFullness){
-                return super.getProgressIncrease(baseTime);
+                return increase;
             }
             float scaling = 1f, max = 1f;
             if(outputLiquids != null){
@@ -524,7 +589,7 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
                     max = Math.max(max, value);
                 }
             }
-            return super.getProgressIncrease(baseTime) * (dumpExtraLiquid ? Math.min(max, 1f) : scaling);
+            return increase * (dumpExtraLiquid ? Math.min(max, 1f) : scaling);
         }
 
 
@@ -625,13 +690,18 @@ public class AquaGenericCrafter extends AquaBlock implements AquaBarHelpers.Cust
             }
         }
         public void dumpInputs(Liquid liquid, float amount) {
-            if(liquid != outputLiquid.liquid){
-                for(LiquidStack liq:outputLiquids){
-                    if(liquid == liq.liquid) return;
+            if(outputLiquids != null){
+                for(LiquidStack output : outputLiquids){
+                    if(liquid == output.liquid) return;
                 }
-                for(int i = 0; i < proximity.size; i++){
-                    if(proximity.get(i).block == this.block) moveLiquid(proximity.get(i), liquid);
-                }
+            }
+
+            for(Building neighbor : proximity){
+                if(neighbor.block != block || neighbor.team != team) continue;
+
+                // Equalize the input buffers without applying conduit pressure or output directions.
+                float flow = (liquids.get(liquid) - neighbor.liquids.get(liquid)) / 2f;
+                if(flow > 0.0001f) transferLiquid(neighbor, flow, liquid);
             }
         }
 
