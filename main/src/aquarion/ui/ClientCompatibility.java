@@ -29,7 +29,7 @@ public final class ClientCompatibility {
             dialog.buttons.button(Core.bundle.get("aquarion.client-compatibility.uninstall"), () -> {
                 try{
                     var mod = Vars.mods.getMod(AquaLoader.class);
-                    if(mod == null) throw new IllegalStateException("Aquarion was not found in the mod list.");
+                    if(mod == null) throw new IllegalStateException("How?");
                     Vars.mods.removeMod(mod);
                     Core.app.exit();
                 }catch(Exception error){
@@ -51,7 +51,6 @@ public final class ClientCompatibility {
     }
 
     static boolean hasFoosClient(){
-        // Foo's installer uses this field to recognize its replacement client.
         for(java.lang.reflect.Field field : Version.class.getDeclaredFields()){
             if(field.getName().equals("foos")) return true;
         }

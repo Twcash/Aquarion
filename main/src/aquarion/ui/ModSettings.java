@@ -1,6 +1,8 @@
 package aquarion.ui;
 
+import aquarion.AquaLoader;
 import aquarion.content.AquaPlanets;
+import aquarion.dialogs.NewSettingsDialogue;
 import aquarion.world.content.AquaHints;
 import arc.Core;
 import arc.struct.Seq;
@@ -10,7 +12,10 @@ import mindustry.ctype.UnlockableContent;
 import mindustry.game.Saves;
 import mindustry.gen.Icon;
 import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.Setting;
-import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.CheckSetting;
+import aquarion.dialogs.NewSettingsDialogue.SettingsCategory.*;
+import aquarion.dialogs.NewSettingsDialogue.SettingsTable.CheckSetting.*;
+
+import static aquarion.ModEventHandler.settingsDialogue;
 
 public class ModSettings {
     private static boolean initialized = false;
@@ -19,39 +24,37 @@ public class ModSettings {
         if (initialized) return;
         initialized = true;
 
-        Vars.ui.settings.addCategory("Aquarion", "aquarion-settings-icon", root -> {
-            root.checkPref("floraFade", true);
-            root.sliderPref("floraFadePercent", 50,0,100,5,s -> s + "%");
-            root.checkPref("evilMenderStats", true);
-            root.checkPref("onlyModMus", false);
-            root.checkPref("betterland", false);
-            root.checkPref("betterfine", false);
-            root.checkPref("richPresence", true);
-            root.checkPref("showUpdates", true);
-            root.checkPref("debugResearchRendering", false);
-            root.checkPref("debugHitboxRendering", false);
-            root.checkPref("aquaMenuBattles", true);
-            root.checkPref("blockFactionVisibility", true);
-            root.checkPref("customLightShader", true);
-            
-            for (Setting setting : root.getSettings()) {
-                if (setting instanceof CheckSetting) {
-                    CheckSetting check = (CheckSetting) setting;
-                    check.title = "@settings." + check.name;
-                }
-            }
+        settingsDialogue.addCategory("Aquarion", "aquarion-settings-icon", root -> {
+                    root.checkPref("floraFade", true);
+                    root.sliderPref("floraFadePercent", 50, 0, 100, 5, s -> s + "%");
+                    root.checkPref("evilMenderStats", true);
+                    root.checkPref("onlyModMus", false);
+                    root.checkPref("betterland", false);
+                    root.checkPref("betterfine", false);
+                    root.checkPref("richPresence", true);
+                    root.checkPref("showUpdates", true);
+                    root.checkPref("debugResearchRendering", false);
+                    root.checkPref("debugHitboxRendering", false);
+                    root.checkPref("aquaMenuBattles", true);
+                    root.checkPref("blockFactionVisibility", true);
+                    root.checkPref("customLightShader", true);
 
-            root.pref(new ButtonPref(
-                    Core.bundle.get("settings.resethints"),
-                    Icon.trash,
-                    () -> Vars.ui.showConfirm(
-                            "@confirm",
-                            Core.bundle.get("settings.resethints-confirm"),
-                            AquaHints::reset
-                    )
-            ));
+                    for (NewSettingsDialogue.SettingsTable.Setting setting : root.getSettings()) {
+                        if (setting instanceof NewSettingsDialogue.SettingsTable.CheckSetting check) {
+                            check.title = "@settings." + check.name;
+                        }
+                    }
 
-            root.pref(new ButtonPref(Core.bundle.get("settings.clearTech-category"), Icon.trash, () -> {
+                    root.button(
+                            Core.bundle.get("settings.resethints"),
+                            Icon.trash,
+                            () -> Vars.ui.showConfirm(
+                                    "@confirm",
+                                    Core.bundle.get("settings.resethints-confirm"),
+                                    AquaHints::reset
+                            ));
+
+            root.button(Core.bundle.get("settings.clearTech-category"), Icon.trash, () -> {
                 Vars.ui.showConfirm("@confirm", Core.bundle.get("settings.clearTech-confirm"), () -> {
                     Vars.universe.clearLoadoutInfo();
 
@@ -78,24 +81,7 @@ public class ModSettings {
                     aquarion.world.blocks.effect.ResearchServer.globalResearch.clear();
                     aquarion.world.blocks.effect.ResearchServer.saveGlobalResearch();
                 });
-            }));
-
-            root.pref(new ButtonPref(Core.bundle.get("settings.clearCampaign"), Icon.trash, () -> {
-                Vars.ui.showConfirm("@confirm", Core.bundle.get("settings.clearCampaign-confirm"), () -> {
-                    Seq<Saves.SaveSlot> toDelete = new Seq<>();
-                    Vars.control.saves.getSaveSlots().each(s -> {
-                        if(s.getSector() == null) return;
-                        if((s.getSector().planet == AquaPlanets.tantros2 || s.getSector().planet == AquaPlanets.fakeSerpulo)) {
-                            toDelete.add(s);
-                        }
-                    });
-                    toDelete.each(Saves.SaveSlot::delete);
-
-                    Vars.ui.showInfoOnHidden(Core.bundle.get("settings.clearCampaign-closeConfirm"), () -> {
-                        Core.app.exit();
-                    });
-                });
-            }));
+            });
         });
     }
 
@@ -121,10 +107,6 @@ public class ModSettings {
 
     public static boolean getBetterFine(){
         return Core.settings.getBool("betterfine", false);
-    }
-
-    public static boolean getRichPresence(){
-        return Core.settings.getBool("richPresence", true);
     }
 
     public static boolean getShowUpdates(){return Core.settings.getBool("showUpdates", true);}

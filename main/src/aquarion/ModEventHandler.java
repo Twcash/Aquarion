@@ -4,6 +4,7 @@ import aquarion.annotations.Annotations;
 import aquarion.content.ModMusic;
 import aquarion.dialogs.AquaResearchDialog;
 import aquarion.dialogs.DialogueDialog;
+import aquarion.dialogs.NewSettingsDialogue;
 import aquarion.ui.ModSettings;
 import aquarion.world.MultiBlockLib.LinkBlock;
 import aquarion.world.blocks.AlternativeBuildCosts;
@@ -22,13 +23,14 @@ import static mindustry.Vars.*;
 @Annotations.EnsureLoad
 public class ModEventHandler {
     public static AquaResearchDialog techDialog;
+    public static NewSettingsDialogue settingsDialogue;
     public static DialogueDialog storyDialog;
-    public static WidgetGroup hudGroup;
     public static float autoResearchTimer = 0f;
     public static Interval timers = new Interval();
 
     public static void load(){
         techDialog = new AquaResearchDialog();
+        settingsDialogue = new NewSettingsDialogue();
         storyDialog = new DialogueDialog();
         // register the story-progress save chunk before any save can be read/written
         StoryProgress.register();
