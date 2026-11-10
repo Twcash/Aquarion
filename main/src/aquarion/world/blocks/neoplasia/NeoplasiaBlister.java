@@ -105,7 +105,7 @@ public class NeoplasiaBlister extends NeoplasiaproductionBlock{
                 float flow = Math.min(share, Math.max(0f, amount - lifeReserve()));
                 if(flow <= 0f || base == null) continue;
                 if(target.block() == air){
-                    target.setBlock(base, team);
+                    target.setNet(base, team, 0);
                     if(target.build instanceof NeoplasiaBuild tissue) tissue.amount = 0f;
                 }
                 if(target.build instanceof NeoplasiaBuild tissue){

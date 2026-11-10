@@ -3,6 +3,7 @@ package aquarion.entities.comp;
 import aquarion.gen.AquaUnitc;
 
 import aquarion.annotations.Annotations;
+import aquarion.content.AquaUnitTypes;
 import aquarion.units.type.AquaUnitType;
 import arc.Events;
 import arc.math.Mathf;
@@ -25,6 +26,18 @@ abstract class DropShipComp implements AquaUnitc, Posc, ElevationMovec, Payloadc
     @Annotations.Import Seq<Payload> payloads = new Seq<>();
 
     boolean didDrop = false;
+
+    @Annotations.Insert(value = "afterSync()", block = Unitc.class, after = false)
+    public void restoreSyncedDropshipType(){
+        // Vanguard is the only unit registered with this entity class.
+        if(type == null) type = AquaUnitTypes.vanguard;
+    }
+
+    @Annotations.Insert(value = "afterRead()", block = Unitc.class, after = false)
+    public void restoreLoadedDropshipType(){
+        restoreSyncedDropshipType();
+    }
+
     @Override
     public void update(){
         if(didDrop){
@@ -38,14 +51,16 @@ abstract class DropShipComp implements AquaUnitc, Posc, ElevationMovec, Payloadc
                 speedMultiplier = Mathf.approachDelta(speedMultiplier, 0.1f, 0.01f);
                 if(elevation <= .2) {
                     if (type instanceof AquaUnitType typee) {
-                        //landing damage and payload drops are server-authoritative
-                        if(!Vars.net.client()){
+                        // A blocked payload stays aboard. Retry on a later update.
+                        if(Vars.net.client()){
+                            if(!payloads.isEmpty()) return;
+                        }else{
+                            while(!payloads.isEmpty()){
+                                if(!dropLastPayload()) return;
+                            }
                             if(typee.landDamage > 0) {
                                 Damage.damage(team(), x, y, typee.landRange, typee.landDamage);
                             }
-                            do {
-                                dropLastPayload();
-                            }while(!payloads.isEmpty());
                         }
                         typee.dropEffect.at(x,y, rotation()-90);
                         didDrop = true;

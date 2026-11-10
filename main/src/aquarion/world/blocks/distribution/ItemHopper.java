@@ -30,6 +30,7 @@ public class ItemHopper extends Block {
         itemCapacity = 10;
         hasItems = true;
         update = true;
+        sync = true;
     }
     public class HopperBuild extends Building implements AquaItemEntity.Container{
         private final Seq<AquaItemEntity> trackedItems = new Seq<>();
@@ -44,16 +45,14 @@ public class ItemHopper extends Block {
             AquaItemEntity.update(trackedItems, items, edelta());
             tempRect.setCentered(this.x, this.y, size * Vars.tilesize * hitscale);
             Groups.bullet.intersect(tempRect.x, tempRect.y, tempRect.width, tempRect.height, b -> {
-                if (b != null && b.isAdded() && b.data instanceof ItemStack item) {
-                    if (acceptItem(this, item.item)) {
-                        Fx.smoke.at(b.x, b.y);
-                        Fx.smoke.at(x, y);
-                        b.remove();
-                        items.add(item.item, item.amount);
+                if(b == null || !b.isAdded() || !(b.data instanceof ItemStack item) || !acceptItem(this, item.item)) return;
+                Fx.smoke.at(b.x, b.y);
+                Fx.smoke.at(x, y);
+                b.absorbed = true;
+                b.remove();
+                if(!Vars.net.client()){
+                    items.add(item.item, item.amount);
                     for(int i = 0; i < item.amount; i++) AquaItemEntity.addIfTracked(trackedItems, new AquaItemEntity(item.item));
-                    } else {
-                        return;
-                    }
                 }
             });
             dump();

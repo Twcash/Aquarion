@@ -11,12 +11,17 @@ import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.RegionPart;
+import mindustry.game.Team;
 import mindustry.gen.Unit;
 import mindustry.gen.WaterMovec;
 import mindustry.graphics.Pal;
 
 /** Particles only; dying units retain their renderer, mounts and component timer. */
 public class CustUnitDeathFx {
+    public static boolean applies(Unit unit){
+        return unit.team != Team.crux && AquaPlayerUnits.contains(unit.type);
+    }
+
     public static boolean sinking(Unit unit){
         return unit instanceof aquarion.gen.AquaUnitc aqua && aqua.deathSinking()
             || unit instanceof WaterMovec && !unit.type.flying && unit.floorOn().isLiquid;
@@ -50,7 +55,7 @@ public class CustUnitDeathFx {
     }
 
     public static void spawn(Unit unit){
-        if(Vars.headless) return;
+        if(Vars.headless || !applies(unit)) return;
         AquaFx.factoryDestroy.at(unit.x, unit.y, Mathf.clamp(unit.hitSize / 16f, 0.65f, 3f));
         // Body-mounted parts use the same debris lifecycle and water impact as weapon parts.
         for(var part : unit.type.parts){

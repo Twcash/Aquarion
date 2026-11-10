@@ -118,7 +118,7 @@ public class NeoplasmHeart extends CoreBlock {
 
         void tryLiquidSlurper(){
             NeoplasmLiquidSlurper type = GenericNeoplasiaBlock.liquidSlurperBlock;
-            if(type == null) return;
+            if(Vars.net.client() || type == null) return;
             liquidRequestTimer += delta();
             if(liquidRequestTimer < 120f || amount < type.cost + Math.max(1f, maxAmount * 0.05f)) return;
             liquidRequestTimer = 0f;
@@ -130,7 +130,7 @@ public class NeoplasmHeart extends CoreBlock {
             for(var offset : Geometry.d8){
                 Tile site = Vars.world.tile(tile.x + offset.x, tile.y + offset.y);
                 if(site == null || site.block() != air || site.floor().isLiquid || !site.floor().placeableOn || !type.hasLiquid(site)) continue;
-                site.setBlock(type, team);
+                site.setNet(type, team, 0);
                 if(site.build instanceof NeoplasiaBuild gland){ gland.amount = type.cost; amount -= type.cost; }
                 return;
             }

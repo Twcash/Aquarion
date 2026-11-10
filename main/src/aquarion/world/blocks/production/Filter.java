@@ -6,6 +6,8 @@ import aquarion.world.consumers.AquaConsume;
 import aquarion.world.type.AquaGenericCrafter;
 import arc.math.Mathf;
 import arc.struct.Seq;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.type.Item;
@@ -130,6 +132,7 @@ public class Filter extends AquaGenericCrafter {
     }
 
     public class FilterBuild extends AquaGenericCrafterBuild {
+        private int craftCount;
 
         @Override
         public boolean shouldConsume() {
@@ -144,13 +147,15 @@ public class Filter extends AquaGenericCrafter {
         public void craft() {
             consume();
 
+            long craftSeed = ((long)tile.pos() << 32) ^ Integer.toUnsignedLong(craftCount++);
             for (int r = 0; r < Math.max(1, rollsPerCraft); r++) {
-                FilterDrop drop = rollDrop();
+                long rollSeed = craftSeed + r * 0x9e3779b97f4a7c15L;
+                FilterDrop drop = rollDrop(rollSeed);
                 if (drop == null) continue;
 
                 int amount = drop.minAmount == drop.maxAmount
                         ? drop.minAmount
-                        : Mathf.random(drop.minAmount, drop.maxAmount);
+                        : Mathf.randomSeed(rollSeed ^ 0x632be59bd9b4e019L, drop.minAmount, drop.maxAmount);
 
                 for (int i = 0; i < amount; i++) {
                     offload(drop.item);
@@ -173,15 +178,27 @@ public class Filter extends AquaGenericCrafter {
             }
         }
 
-        private FilterDrop rollDrop() {
+        private FilterDrop rollDrop(long seed) {
             if (totalWeight <= 0f) return null;
-            float roll = Mathf.random(totalWeight);
+            float roll = Mathf.randomSeed(seed, 0f, totalWeight);
             float acc = 0f;
             for (FilterDrop d : drops) {
                 acc += d.chance;
                 if (roll < acc) return d;
             }
             return drops.peek();
+        }
+
+        @Override public byte version(){ return 3; }
+
+        @Override public void write(Writes write){
+            super.write(write);
+            write.i(craftCount);
+        }
+
+        @Override public void read(Reads read, byte revision){
+            super.read(read, revision);
+            craftCount = revision >= 3 ? read.i() : 0;
         }
     }
 }

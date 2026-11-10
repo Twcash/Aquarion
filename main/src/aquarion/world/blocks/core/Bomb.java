@@ -3,16 +3,16 @@ package aquarion.world.blocks.core;
 import aquarion.content.blocks.EnvironmentBlocks;
 import arc.math.Mathf;
 import mindustry.content.Blocks;
-import mindustry.content.Fx;
 import mindustry.game.Team;
 import mindustry.gen.Building;
+import mindustry.gen.Call;
 import mindustry.gen.Sounds;
 import mindustry.world.Block;
 import mindustry.world.Tile;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.OverlayFloor;
-import mindustry.world.meta.Env;
 
+import static mindustry.Vars.net;
 import static mindustry.Vars.world;
 
 public class Bomb extends Block {
@@ -39,6 +39,7 @@ public class Bomb extends Block {
         @Override
         public void placed(){
             super.placed();
+            if(net.client()) return;
 
             int cx = tile.x;
             int cy = tile.y;
@@ -53,45 +54,28 @@ public class Bomb extends Block {
                     if(other == null) continue;
 
                     if(other.floor().isLiquid) continue;
-                    Floor floor = null;
-                    boolean hadOre = other.overlay() != Blocks.air && other.overlay().itemDrop != null;
-                    if(hadOre) floor = other.overlay();
-                    boolean protectOverlay = false;
-
-                    if(other.overlay() == EnvironmentBlocks.oreNickel){
-                        other.setOverlay(Blocks.air);
-                        other.setFloor(EnvironmentBlocks.nickelFloor.asFloor());
-                        protectOverlay = true;
-                    }else{
-                        Floor result = getExplosionResult(other);
-                        other.setFloor(result);
-                        if(floor!=null) other.setOverlay(floor);
+                    Floor result = getExplosionResult(other);
+                    Block overlay = other.overlay();
+                    if(overlay == EnvironmentBlocks.oreNickel){
+                        overlay = Blocks.air;
+                    }else if(overlay.itemDrop == null && overlay != Blocks.spawn){
+                        float edgeStart = (radius - 1f) * (radius - 1f);
+                        overlay = EnvironmentBlocks.scorche != null && dst2 >= edgeStart && Mathf.chance(0.6f)
+                            ? EnvironmentBlocks.scorche : Blocks.air;
                     }
+                    other.setFloorNet(result, overlay);
 
-                    if(other.block() != Blocks.air){
+                    if(other != tile && other.block() != Blocks.air){
                         if(other.build != null){
                             other.build.kill();
                         }else{
-                            other.remove();
-                        }
-                    }
-
-                    if(!protectOverlay){
-                        if((other.overlay() != Blocks.air) && !hadOre && (other.overlay()!= Blocks.spawn)){
-                            other.setOverlay(Blocks.air);
-                        }
-
-                        float edgeStart = (radius - 1f) * (radius - 1f);
-                        if(EnvironmentBlocks.scorche != null && dst2 >= edgeStart && Mathf.chance(0.6f)){
-                            if((other.overlay() == Blocks.air || other.overlay().itemDrop == null)  && other.overlay() != Blocks.spawn){
-                                other.setOverlay(EnvironmentBlocks.scorche);
-                            }
+                            other.removeNet();
                         }
                     }
                 }
             }
 
-            Sounds.explosion.at(tile.worldx(), tile.worldy());
+            Call.soundAt(Sounds.explosion, tile.worldx(), tile.worldy(), 1f, 1f);
             kill();
         }
         private Floor getExplosionResult(Tile tile){

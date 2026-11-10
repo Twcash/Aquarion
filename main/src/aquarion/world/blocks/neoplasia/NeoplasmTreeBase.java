@@ -635,7 +635,7 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
                     float taken = terrainDamage.get(covered.pos(), 0f) + damage;
                     if(taken >= Math.max(1f, covered.block().health)){
                         terrainDamage.remove(covered.pos(), 0f);
-                        covered.setAir();
+                        covered.removeNet();
                     }else{
                         terrainDamage.put(covered.pos(), taken);
                     }
@@ -653,9 +653,9 @@ public class NeoplasmTreeBase extends GenericNeoplasiaBlock {
             float remnant = base == null ? 0f : Math.min(smaller.amount, Math.max(1f, base.maxAmount * 0.1f));
             receiveMass(smaller.amount + smaller.branchBudget + smaller.branches.size * branchCost - remnant);
             smaller.items.each((item, count) -> items.add(item, count));
-            if(base == null) smaller.tile.setAir();
+            if(base == null) smaller.tile.removeNet();
             else{
-                smaller.tile.setBlock(base, team);
+                smaller.tile.setNet(base, team, 0);
                 if(smaller.tile.build instanceof NeoplasiaBuild tissue) tissue.amount = remnant;
             }
         }

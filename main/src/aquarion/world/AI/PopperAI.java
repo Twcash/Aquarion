@@ -238,7 +238,7 @@ public class PopperAI extends AIController {
         if (!validDepositTile(tile)) return false;
         GenericNeoplasiaBlock block = blobBlock != null ? blobBlock : defaultBlobBlock;
         if (block == null) return false;
-        tile.setBlock(block, unit.team);
+        tile.setNet(block, unit.team, 0);
         if (tile.build instanceof GenericNeoplasiaBlock.NeoplasiaBuild nb) {
             nb.amount = Math.min(nb.block().maxAmount, blobAmount);
             ItemStack[] stacks = blobItems != null ? blobItems : defaultBlobItems;

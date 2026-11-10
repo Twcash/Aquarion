@@ -28,7 +28,7 @@ public class NeoplasmGlobBulletType extends BasicBulletType {
 
     protected void placeOrFeed(Bullet b) {
         if (neoplasiaBlock == null) return;
-        //tile placement is server-authoritative; clients receive the block through entity sync
+        // Tile placement is server-authoritative and sent to clients.
         if (Vars.net.client()) return;
         var tile = Vars.world.tileWorld(b.x, b.y);
         if (tile == null || tile.solid() || tile.floor().isDeep()) return;
@@ -37,7 +37,7 @@ public class NeoplasmGlobBulletType extends BasicBulletType {
             return;
         }
         if (tile.block() != Blocks.air) return;
-        tile.setBlock(neoplasiaBlock, b.team);
+        tile.setNet(neoplasiaBlock, b.team, 0);
         if (tile.build instanceof GenericNeoplasiaBlock.NeoplasiaBuild nb) {
             nb.amount = blobAmount + Mathf.random(blobAmount * 0.2f);
         }

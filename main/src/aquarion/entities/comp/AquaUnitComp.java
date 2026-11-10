@@ -7,6 +7,7 @@ import aquarion.world.units.UnitHooks;
 import arc.math.Mathf;
 import arc.util.Time;
 import mindustry.Vars;
+import mindustry.content.Items;
 import aquarion.world.units.AquaPlayerUnits;
 import mindustry.gen.Unit;
 import mindustry.gen.Unitc;
@@ -22,11 +23,18 @@ public abstract class AquaUnitComp implements Unitc{
     private transient boolean wasDyingBeforeDamage;
 
     @Override public void afterRead(){
+        normalizeItemStack();
         // Saves contain the unit's normal health/velocity, never a partially completed visual sequence.
         deathTimer = deathDamageTaken = deathDamageLimit = 0f;
         deathSinking = false;
         healthBeforeDyingDamage = 0f;
         wasDyingBeforeDamage = false;
+    }
+
+    @Insert(value = "afterSync()", after = false)
+    public void normalizeItemStack(){
+        var stack = ((Unit)self()).stack;
+        if(stack.item == null) stack.set(Items.copper, 0);
     }
 
     @Insert(value = "rawDamage(float)", after = false)
@@ -48,7 +56,7 @@ public abstract class AquaUnitComp implements Unitc{
 
     /** Target searches use dead()/isValid(); the internal flag still drives the death sequence. */
     public boolean dyingPlayerUnit(){
-        return aquaPlayerUnit() && ((Unit)self()).dead && isAdded();
+        return CustUnitDeathFx.applies(self()) && ((Unit)self()).dead && isAdded();
     }
 
     @Replace(1)
@@ -63,7 +71,7 @@ public abstract class AquaUnitComp implements Unitc{
 
     @Wrap(value = "killed()", block = Unitc.class)
     public boolean beginPlayerDeath(){
-        if(!aquaPlayerUnit()) return true;
+        if(!CustUnitDeathFx.applies(self())) return true;
         deathTimer = 0f;
         deathDamageTaken = 0f;
         deathDamageLimit = maxHealth() * 0.5f;
@@ -78,12 +86,13 @@ public abstract class AquaUnitComp implements Unitc{
     @Wrap(value = "update()", block = Unitc.class)
     public boolean updateLivingPlayer(){
         // Keep all other components (including weapons) updating, but replace vanilla ground destruction.
-        return !aquaPlayerUnit() || !((Unit)self()).dead || (type().flying && !deathSinking) || CustUnitDeathFx.duration(self()) == 0f;
+        return !CustUnitDeathFx.applies(self()) || !((Unit)self()).dead || (type().flying && !deathSinking) || CustUnitDeathFx.duration(self()) == 0f;
     }
 
     @Wrap(value = "destroy()", block = Unitc.class)
     public boolean finishPlayerDeath(){
-        if(!aquaPlayerUnit() || !((Unit)self()).dead || deathDamageExceeded()) return true;
+        normalizeItemStack();
+        if(!CustUnitDeathFx.applies(self()) || !((Unit)self()).dead || deathDamageExceeded()) return true;
         if(type().flying && !deathSinking) return true;
         return deathTimer >= CustUnitDeathFx.duration(self());
     }
@@ -107,7 +116,7 @@ public abstract class AquaUnitComp implements Unitc{
 
     @Override public void update(){
         if(aquaPlayerUnit()) UnitHooks.updatePlayerUnit(self());
-        if(!aquaPlayerUnit() || !((Unit)self()).dead) return;
+        if(!CustUnitDeathFx.applies(self()) || !((Unit)self()).dead) return;
         deathTimer += Time.delta;
         CustUnitDeathFx.update(self(), deathTimer);
         if(type().flying && !deathSinking) return;

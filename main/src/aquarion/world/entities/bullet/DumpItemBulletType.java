@@ -7,6 +7,7 @@ import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.util.Tmp;
+import mindustry.Vars;
 import mindustry.content.Fx;
 import mindustry.entities.Damage;
 import mindustry.entities.Fires;
@@ -54,21 +55,23 @@ public class DumpItemBulletType extends BulletType {
         }
         Draw.reset();
     }
+    @Override
     public void despawned(Bullet b) {
         // Consumed stacks must not explode, ignite terrain, or reach a hopper.
         if(b.absorbed) return;
-        if(b.tileOn().build instanceof ItemHopper.HopperBuild) return;
+        var tile = b.tileOn();
+        if(tile == null || tile.build instanceof ItemHopper.HopperBuild) return;
         super.despawned(b);
-            if(b.tileOn().floor().isLiquid){
-            Fx.ripple.at(b.x, b.y, 1f, b.tileOn().floor().liquidDrop.color);
-        } else {
-
-            if (b.data instanceof ItemStack item) {
-                AquaFx.dumpItem.at(b.x, b.y, 1f, item.item.color);
-                if (item.item.explosiveness > 0)
+        if(tile.floor().isLiquid){
+            Fx.ripple.at(b.x, b.y, 1f, tile.floor().liquidDrop.color);
+        }else if(b.data instanceof ItemStack item){
+            AquaFx.dumpItem.at(b.x, b.y, 1f, item.item.color);
+            Fx.dynamicExplosion.at(b, item.item.explosiveness);
+            if(!Vars.net.client()){
+                if(item.item.explosiveness > 0f){
                     Damage.damage(Team.derelict, b.x, b.y, item.item.explosiveness * 15f, item.item.explosiveness * 40f, false, true);
-                Fx.dynamicExplosion.at(b, item.item.explosiveness);
-                if (b.tileOn() != null && item.item.flammability > 0.5f) Fires.create(b.tileOn());
+                }
+                if(item.item.flammability > 0.5f) Fires.create(tile);
             }
         }
     }

@@ -394,7 +394,7 @@ public class GenericNeoplasiaBlock extends Block {
         }
 
         void tryLiquidSlurper(){
-            if(liquidSlurperBlock == null || block() instanceof NeoplasmLiquidSlurper) return;
+            if(net.client() || liquidSlurperBlock == null || block() instanceof NeoplasmLiquidSlurper) return;
             liquidRequestTimer += delta();
             if(liquidRequestTimer < 120f || amount < liquidSlurperBlock.cost + lifeReserve()) return;
             liquidRequestTimer = 0f;
@@ -410,7 +410,7 @@ public class GenericNeoplasiaBlock extends Block {
             for(var offset : Geometry.d8){
                 Tile site = world.tile(tile.x + offset.x, tile.y + offset.y);
                 if(site == null || site.block() != air || site.floor().isLiquid || !site.floor().placeableOn || !liquidSlurperBlock.hasLiquid(site)) continue;
-                site.setBlock(liquidSlurperBlock, team);
+                site.setNet(liquidSlurperBlock, team, 0);
                 if(site.build instanceof NeoplasiaBuild gland){
                     amount -= liquidSlurperBlock.cost;
                     gland.amount = liquidSlurperBlock.cost;
@@ -456,7 +456,7 @@ public class GenericNeoplasiaBlock extends Block {
             if(!treeBlock.canPlaceOn(pendingTreeSite, team, 0)){ pendingTreeSite = null; return; }
             Tile site = pendingTreeSite;
             pendingTreeSite = null;
-            site.setBlock(treeBlock, team);
+            site.setNet(treeBlock, team, 0);
             if(site.build instanceof NeoplasiaBuild tree){
                 consumeItemCost(treeBlock.itemCost);
                 amount -= treeBlock.cost;
@@ -486,7 +486,7 @@ public class GenericNeoplasiaBlock extends Block {
             Seq<ItemStack> inventory = new Seq<>();
             items.each((item, count) -> inventory.add(new ItemStack(item, count)));
             items.clear();
-            tile.setBlock(target, team);
+            tile.setNet(target, team, 0);
             if(tile.build instanceof NeoplasiaBuild nb){
                 nb.amount = savedAmount;
                 for(ItemStack stack : inventory) nb.items.add(stack.item, stack.amount);
@@ -599,7 +599,7 @@ public class GenericNeoplasiaBlock extends Block {
         }
 
         void burstSpread() {
-            if (tile == null) return;
+            if (net.client() || tile == null) return;
             float threshold = maxAmount * burstThresholdFraction;
             if (burstDir == -1) {
                 if (amount < threshold || burstCooldown > 0f) {
@@ -640,7 +640,7 @@ public class GenericNeoplasiaBlock extends Block {
                 amount -= flow;
                 n.receiveMass(flow);
             } else if (next.block() == air && base != null) {
-                next.setBlock(base, team);
+                next.setNet(base, team, 0);
                 if (next.build instanceof NeoplasiaBuild nb) {
                     float flow = Math.min(Math.min(transfer, amount), nb.block().maxAmount);
                     amount -= flow;
@@ -694,6 +694,7 @@ public class GenericNeoplasiaBlock extends Block {
         }
 
         void damageNearby() {
+            if(net.client()) return;
             if (tile == null || damage <= 0f) return;
             for (int i = 0; i < 4; i++) {
                 Tile t = tile.nearby(i);
@@ -823,7 +824,7 @@ public class GenericNeoplasiaBlock extends Block {
         }
 
         void requestItems() {
-            if (neededItems == null || neededItems.isEmpty()) return;
+            if (net.client() || neededItems == null || neededItems.isEmpty()) return;
             if(shortages == null) shortages = new ObjectIntMap<>();
             pullTimer += delta();
             if(pullTimer >= 15f){
@@ -847,7 +848,7 @@ public class GenericNeoplasiaBlock extends Block {
                 if (findProducer(item, 15) != null && failures < 5) continue;
                 Tile spawnTile = findEmptyTile(10);
                 if (spawnTile != null) {
-                    spawnTile.setBlock(factory, team);
+                    spawnTile.setNet(factory, team, 0);
                     shortages.remove(item, 0);
                 }
             }

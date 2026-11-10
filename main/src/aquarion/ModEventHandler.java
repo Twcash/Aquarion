@@ -13,8 +13,10 @@ import aquarion.world.dialogue.StoryProgress;
 import aquarion.world.graphics.MenuReplacer;
 import arc.Events;
 import arc.util.Interval;
+import arc.util.Log;
 import arc.util.Time;
 import mindustry.game.EventType;
+import mindustry.gen.Groups;
 import arc.scene.ui.layout.*;
 
 import static mindustry.Vars.*;
@@ -41,6 +43,13 @@ public class ModEventHandler {
         Events.run(EventType.Trigger.update, AlternativeBuildCosts::updatePreviews);
         Events.run(EventType.Trigger.update, LinkBlock::redirectDeconstructionPlans);
         Events.run(EventType.Trigger.update, LinkBlock::pickLinkedBlock);
+        // Mindustry reads active weather attributes before updating weather entities.
+        Events.run(EventType.Trigger.update, () -> Groups.weather.each(weather -> {
+            if(weather.weather == null){
+                Log.warn("Removing weather entity @ with an unresolved weather type", weather.id);
+                weather.remove();
+            }
+        }));
         Events.on(EventType.ClientLoadEvent.class, e -> ModSettings.init());
         Events.on(EventType.ClientLoadEvent.class, e -> ResearchServer.loadGlobalResearch());
         Events.on(EventType.ClientLoadEvent.class, e -> StoryProgress.load());
