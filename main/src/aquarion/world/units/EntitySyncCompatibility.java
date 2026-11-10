@@ -1,5 +1,6 @@
 package aquarion.world.units;
 
+import aquarion.gen.aquarionEntityMapping;
 import mindustry.Vars;
 import mindustry.ctype.ContentType;
 import mindustry.ctype.MappableContent;
@@ -64,7 +65,10 @@ public final class EntitySyncCompatibility{
                 for(int i = 0; i < entities; i++){
                     int id = stream.readInt();
                     String expected = stream.readUTF();
-                    verify("entity", id, expected, EntityMapping.customIdMap.get(id));
+                    // Several unit types can share an entity class and its numeric slot.
+                    if(aquarionEntityMapping.aliasId(expected) != id){
+                        verify("entity", id, expected, EntityMapping.customIdMap.get(id));
+                    }
                 }
                 for(ContentType type : syncedContent){
                     var entries = Vars.content.<MappableContent>getBy(type);

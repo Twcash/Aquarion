@@ -104,6 +104,10 @@ public class EntityProcessor extends BaseProcessor{
         }
 
         if(round == 1){
+            // Keep the source declarations' order within each owner, regardless of javac's
+            // input file order. Existing entity slots depend on this order.
+            defs.sort(Comparator.comparing((Element def) -> def.getEnclosingElement().toString())
+                    .thenComparingInt(def -> trees.getTree(def).pos));
             serializer = TypeIOResolver.resolve(this);
             groups = ObjectMap.of(
                     toComp(Entityc.class), "all",
@@ -678,6 +682,12 @@ public class EntityProcessor extends BaseProcessor{
                                     .build()
                     )
                     .addField(
+                            FieldSpec.builder(ParameterizedTypeName.get(cName(ObjectIntMap.class), cName(String.class)), "aliases")
+                                    .addModifiers(Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
+                                    .initializer("new $T<>()", cName(ObjectIntMap.class))
+                                    .build()
+                    )
+                    .addField(
                             FieldSpec.builder(TypeName.INT, "last")
                                     .addModifiers(Modifier.PRIVATE, Modifier.STATIC, Modifier.VOLATILE)
                                     .initializer("0")
@@ -732,8 +742,17 @@ public class EntityProcessor extends BaseProcessor{
                                     .addCode(lnew())
                                     .addStatement("int id = classId(type)")
                                     .beginControlFlow("if(id != -1)")
-                                    .addStatement("$T.customIdMap.put(classId(type), name)", cName(EntityMapping.class))
+                                    .addStatement("aliases.put(name, id)")
+                                    .addStatement("$T.customIdMap.put(id, name)", cName(EntityMapping.class))
                                     .endControlFlow()
+                                    .build()
+                    )
+                    .addMethod(
+                            MethodSpec.methodBuilder("aliasId")
+                                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                                    .addParameter(cName(String.class), "name")
+                                    .returns(TypeName.INT)
+                                    .addStatement("return aliases.get(name, -1)")
                                     .build()
                     )
                     .addMethod(
