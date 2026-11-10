@@ -11,6 +11,7 @@ import arc.math.Mathf;
 import arc.math.geom.Vec2;
 import arc.util.Time;
 import mindustry.gen.*;
+import mindustry.core.World;
 import mindustry.type.UnitType;
 
 import static mindustry.Vars.*;
@@ -35,11 +36,23 @@ abstract class BuggyComp implements AquaUnitc, ElevationMovec{
     public void move(float cx, float cy){
         if(!net.client() && !dead()) BuggyCollision.check(self(), cx, cy);
         var solid = solidity();
-        if(solid != null) collisions.move(self(), cx, cy, solid);
+        if(solid != null){
+            // Let buggies already in deep liquid drive back onto land.
+            if(!deepLiquid(tileX(), tileY())){
+                collisions.move(self(), cx, cy, (tx, ty) -> solid.solid(tx, ty) || deepLiquid(tx, ty));
+            }else{
+                collisions.move(self(), cx, cy, solid);
+            }
+        }
         else{
             x += cx;
             y += cy;
         }
+    }
+
+    private static boolean deepLiquid(int tx, int ty){
+        var tile = world.tile(tx, ty);
+        return tile != null && tile.floor().isLiquid && tile.floor().isDeep();
     }
 
     @Replace(1)
@@ -112,8 +125,9 @@ abstract class BuggyComp implements AquaUnitc, ElevationMovec{
         }else{
             float direction = reversing ? -1f : 1f;
             float probe = Math.max(4f, Math.min(hitSize() * 0.66f, 7.8f));
-            boolean blocked = !AmphibiousPathfinder.canLand(cfg,
-                x + forwardX * probe * direction, y + forwardY * probe * direction);
+            float probeX = x + forwardX * probe * direction, probeY = y + forwardY * probe * direction;
+            boolean blocked = !AmphibiousPathfinder.canLand(cfg, probeX, probeY)
+                || (!deepLiquid(tileX(), tileY()) && deepLiquid(World.toTile(probeX), World.toTile(probeY)));
             if(wallRecoveryRemaining <= 0f){
                 wallStallTime = blocked && traveled < 0.02f * Time.delta ? wallStallTime + Time.delta : 0f;
                 if(wallStallTime >= cfg.wallStuckTime){
