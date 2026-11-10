@@ -5,6 +5,7 @@ varying vec3 v_worldPos;
 varying float v_emissive;
 
 uniform sampler2D u_shadowMap;
+uniform float u_visibility;
 uniform vec3 u_sunPos;
 uniform int u_planetCount;
 uniform vec3 u_planetPos[8];
@@ -30,7 +31,18 @@ float raySphereIntersect(vec3 ro, vec3 rd, vec3 center, float radius) {
     return t;
 }
 
+// Ordered coverage keeps the nearest visible surface at each pixel as the ring fades.
+float bayer2(vec2 pixel) {
+    return mod(2.0 * pixel.x + 3.0 * pixel.y, 4.0);
+}
+
 void main(){
+    if (u_visibility < 1.0) {
+        vec2 pixel = floor(gl_FragCoord.xy);
+        float threshold = 4.0 * bayer2(mod(pixel, 2.0)) + bayer2(mod(floor(pixel * 0.5), 2.0));
+        if (u_visibility * 16.0 <= threshold + 0.5) discard;
+    }
+
     float selfShadow = calculateShadow(v_lightSpacePos);
 
     vec3 toSun = normalize(u_sunPos - v_worldPos);

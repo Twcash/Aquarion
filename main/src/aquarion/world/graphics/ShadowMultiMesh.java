@@ -2,8 +2,9 @@ package aquarion.world.graphics;
 
 import arc.graphics.Color;
 import arc.graphics.gl.Shader;
+import arc.math.Interp;
+import arc.math.Mathf;
 import arc.math.geom.Mat3D;
-import arc.math.geom.Vec3;
 import arc.util.Log;
 import mindustry.graphics.Shaders;
 import mindustry.graphics.g3d.GenericMesh;
@@ -42,8 +43,14 @@ public class ShadowMultiMesh implements GenericMesh {
 
     @Override
     public void render(PlanetParams params, Mat3D projection, Mat3D transform) {
-        if (PlanetShadowMap.shadowBuffer == null) {
-            for (GenericMesh m : allMeshes) m.render(params, projection, transform);
+        // Lower zoom values are closer. The sector UI starts appearing at 1.9.
+        float ringVisibility = params.drawUi && params.planet == planet
+            ? Interp.smooth.apply(Mathf.clamp((params.zoom - 1.3f) / (1.9f - 1.3f)))
+            : 1f;
+        if (PlanetShadowMap.shadowBuffer == null || ringVisibility == 0f) {
+            for (GenericMesh m : allMeshes) {
+                if (m != ring || ringVisibility > 0f) m.render(params, projection, transform);
+            }
             return;
         }
 
@@ -65,6 +72,7 @@ public class ShadowMultiMesh implements GenericMesh {
 
         Shader origRing = getShader(ring);
         setShader(ring, depthShader);
+        // Both passes use the globe's transform, which includes its axial rotation.
         ring.render(params, projection, transform);
         setShader(ring, origRing);
 
@@ -74,6 +82,7 @@ public class ShadowMultiMesh implements GenericMesh {
         PlanetShadowMap.ShadowedPlanetShader ss = PlanetShadowMap.shadowedShader;
         ss.planet = planet;
         ss.emissive = ringEmissive();
+        ss.visibility = ringVisibility;
         ss.lightDir.set(planet.solarSystem.position).sub(planet.position).nor();
         ss.ambientColor.set(planet.solarSystem.lightColor);
 

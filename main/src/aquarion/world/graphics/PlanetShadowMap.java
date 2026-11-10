@@ -82,6 +82,7 @@ public class PlanetShadowMap {
         public Vec3 camDir = new Vec3();
         public Vec3 camPos = new Vec3();
         public boolean emissive;
+        public float visibility = 1f;
         public Planet planet;
 
         private final Seq<Planet> tmpPlanets = new Seq<>();
@@ -98,6 +99,7 @@ public class PlanetShadowMap {
             setUniformf("u_camdir", camDir);
             setUniformf("u_campos", renderer.planets.cam.position);
             setUniformf("u_emissive", emissive ? 1f : 0f);
+            setUniformf("u_visibility", visibility);
             setUniformi("u_shadowMap", 1);
             setUniformMatrix4("u_lightSpaceMatrix", PlanetShadowMap.lightSpaceMatrix.val);
 

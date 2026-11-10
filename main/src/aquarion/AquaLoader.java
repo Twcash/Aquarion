@@ -123,6 +123,7 @@ public class AquaLoader extends Mod {
         
         Events.on(EventType.ClientLoadEvent.class, e -> {
             aquarionIconLoader.loadIcons();
+            aquarion.ui.WavePayloadEditor.install();
 
             if (Core.atlas.has("aquarion-icon-refinery")) Icon.icons.put("refinery", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-refinery")));
             if (Core.atlas.has("aquarion-icon-heat")) Icon.icons.put("heat", new TextureRegionDrawable(Core.atlas.find("aquarion-icon-heat")));
