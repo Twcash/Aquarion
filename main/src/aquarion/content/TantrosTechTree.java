@@ -112,20 +112,21 @@ public class TantrosTechTree {
                 });
             });
             node(mite, ()->{
-                node(trainyard, ()->{
-                    node(gorge);
-                    node(burden);
-                    node(path);
-                    node(pathCoupler);
-                    node(railPoint, ()->{
-                        node(cargoDock, ()->{
-                            node(cargoDepot);
+                node(railPoint, ()->{
+                    node(trainyard, ()->{
+                        node(path, ()->{
+                            node(gorge, ()->{});
+                            node(burden, ()->{});
                         });
-                        node(liquidCargoDock, ()->{
-                            node(liquidCargoDepot);
-                        });
-                        node(railJunction);
+                        node(pathCoupler, ()->{});
                     });
+                    node(cargoDock, ()->{
+                        node(liquidCargoDock, ()->{
+                            node(liquidCargoDepot, ()->{});
+                        });
+                        node(cargoDepot, ()->{});
+                    });
+                    node(railJunction, ()->{});
                 });
                 node(UnitBlocks.bulwark, Seq.with(
                         new Objectives.OnSector(floodPlains),
@@ -199,11 +200,10 @@ public class TantrosTechTree {
                                     new Objectives.Produce(petroleum),
                                     new Objectives.OnSector(GalenaFringe)
                             ), () -> {});
-                            node(hydroxideReactor, Seq.with(
-                                    new Objectives.Produce(hydroxide),
-                                    new Objectives.SectorComplete(Grove)
-                            ), () -> {});
                         });
+                        node(hydroxideReactor, Seq.with(
+                                new Objectives.Produce(hydroxide)
+                        ), () -> {});
                     });
                     node(heatEngine, Seq.with(
                             new Objectives.OnSector(twinPass)
@@ -739,7 +739,9 @@ public class TantrosTechTree {
                     });
                 });
                 node(atmosphericCentrifuge, AlternativeBuildCosts.researchRequirements(atmosphericCentrifuge),
-                    Seq.with(AlternativeBuildCosts.researchObjective(atmosphericCentrifuge)), () -> {});
+                    Seq.with(AlternativeBuildCosts.researchObjective(atmosphericCentrifuge)), () -> {
+                            node(intakeArray, () -> {});
+                        });
             });
         });
     }
