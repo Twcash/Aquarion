@@ -52,7 +52,7 @@ public class ItemHopper extends Block {
                 b.remove();
                 if(!Vars.net.client()){
                     items.add(item.item, item.amount);
-                    for(int i = 0; i < item.amount; i++) AquaItemEntity.addIfTracked(trackedItems, new AquaItemEntity(item.item));
+                    for(int i = 0; i < item.amount; i++) AquaItemEntity.addIfTracked(trackedItems, AquaItemEntity.create(item.item));
                 }
             });
             dump();

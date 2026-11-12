@@ -217,7 +217,7 @@ public class SealedConveyor extends Duct implements Autotiler{
                         .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
                                 Mathf.clamp((progress + 1f) / 2f));
 
-                AquaItemEntity.draw(current, currentData, currentAge, x + Tmp.v1.x, y + Tmp.v1.y, itemSize);
+                AquaItemEntity.draw(trackedItems, current, x + Tmp.v1.x, y + Tmp.v1.y, itemSize);
             }
             Draw.scl(xscl, yscl);
             drawAt(x, y, blendbits, rotation, SliceMode.none);

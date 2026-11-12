@@ -1,6 +1,7 @@
 package aquarion.content;
 
 import aquarion.world.content.AquaItem;
+import aquarion.world.content.RadiationItem;
 import arc.graphics.Color;
 import mindustry.content.Items;
 import mindustry.content.Planets;
@@ -156,6 +157,7 @@ public class AquaItems {
         uranium = new AquaItem("uranium", Color.valueOf("#ffe1b4")) {{
             radioactivity = 2.5f;
             hardness = 4;
+
             decayTo = Items.thorium;
             buildable = false;
         }};
@@ -165,15 +167,22 @@ public class AquaItems {
             decayTo = Items.lead;
             buildable = false;
         }};
+        Items.fissileMatter.hidden = true;
+        Items.fissileMatter = null;
+        Items.fissileMatter = new RadiationItem("fissile-matter", Color.valueOf("fff4e5")) {{
+            decayTime = 240;
+            decayItem = Items.lead;
+        }};
         Items.thorium = null;
-        Items.thorium = new AquaItem("thorium", Color.valueOf("#141314")) {{
+        Items.thorium = new RadiationItem("thorium", Color.valueOf("#141314")) {{
+            decayTime = 120;
             radioactivity = 1.5f;
-            decayTo = radium;
+            decayItem = Items.fissileMatter;
+            enrichProduct = true;
         }};
         uraniumEnriched = new AquaItem("uranium-enriched", Color.valueOf("#ffe1b4")) {{
             radioactivity = 2.5f;
             buildable = false;
-            decayTo = Items.thorium;
         }};
         Items.sporePod = null;
         Items.sporePod = new AquaItem("spore-pod", Color.valueOf("#a15bc4")) {{
@@ -201,5 +210,6 @@ public class AquaItems {
             cost = 1.2f;
         }};
         fluorite = new AquaItem("fluorite", Color.valueOf("9de0ba"));
+
     }
 }
