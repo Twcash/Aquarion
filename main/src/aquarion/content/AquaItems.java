@@ -15,7 +15,7 @@ public class AquaItems {
     public static Item pentlandite;
     public static Item magnesiumPowder;
     public static Item steel, brass;
-    public static Item minium, uranium, uraniumEnriched, radium, pitchblende;
+    public static Item minium, uranium, radium, pitchblende;
     public static Item chalkalloy, crystal, pearl;
     public static Item acuminite;
     public static Item hexogen;
@@ -179,10 +179,6 @@ public class AquaItems {
             radioactivity = 1.5f;
             decayItem = Items.fissileMatter;
             enrichProduct = true;
-        }};
-        uraniumEnriched = new AquaItem("uranium-enriched", Color.valueOf("#ffe1b4")) {{
-            radioactivity = 2.5f;
-            buildable = false;
         }};
         Items.sporePod = null;
         Items.sporePod = new AquaItem("spore-pod", Color.valueOf("#a15bc4")) {{

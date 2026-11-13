@@ -2,7 +2,6 @@ package aquarion.content.blocks;
 
 import aquarion.content.AquaAttributes;
 import aquarion.content.AquaCategories;
-import aquarion.content.AquaItems;
 import aquarion.content.AquaSounds;
 import aquarion.world.blocks.AquaBlock;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
@@ -18,8 +17,6 @@ import aquarion.world.entities.parts.NewRegPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.type.AquaGenericCrafter;
-import aquarion.world.blocks.production.LaserEnricher;
-import aquarion.world.items.AquaItemEntity;
 import aquarion.world.type.GroundDrill;
 import arc.func.Cons;
 import arc.graphics.Blending;
@@ -41,7 +38,8 @@ import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.Pump;
-import mindustry.world.consumers.*;
+import mindustry.world.consumers.ConsumeItemFlammable;
+import mindustry.world.consumers.ConsumeLiquidFlammable;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
@@ -65,7 +63,7 @@ public class CrafterBlocks {
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
             fumeFilter, ferroSiliconFoundry, magmaTap, cardReader, cryogenConditioner, rotaryKiln, wallExcavator, pnuematicCentrifuge, explosiveManufactory, explosivePayload,
-            laserEnricher, invarSmeltery, intakeArray;
+            invarSmeltery, intakeArray;
     public static Block filter;
     public static Block wallCrafter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -73,9 +71,6 @@ public class CrafterBlocks {
     }
     public static void loadContent() {
         disableVanilla();
-
-        AquaItemEntity.registerSpoil(AquaItems.uraniumEnriched, thorium, 60f * 10f);
-
         magmaTap = new AquaGenericCrafter("magma-tap") {{
             requirements(Category.production, with(lead, 225, zinc, 120, silicon, 100));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -1748,10 +1743,6 @@ public class CrafterBlocks {
                 phaseOffset = 15;
             }});
             itemCapacity = 250;
-        }};
-        laserEnricher = new LaserEnricher("laser-enricher"){{
-            requirements(Category.crafting, with(silicon, 180, thorium, 120, tungsten, 100));
-            researchCost = with(silicon, 120, thorium, 80);
         }};
         pinDrill = new GroundDrill("pin-drill") {{
             requirements(Category.production, with(tungsten, 40, beryllium, 50, silicon, 20));
