@@ -41,6 +41,6 @@ public class EffectBlocks {
             envDisabled = Env.none;
             consume(new ConsumeLiquidFlammable(0.1f, 2 / 60f));
         }};
-        
+
     }
 }

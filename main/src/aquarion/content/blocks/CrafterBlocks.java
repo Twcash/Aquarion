@@ -7,7 +7,6 @@ import aquarion.world.blocks.AquaBlock;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
 import aquarion.world.blocks.payload.AquaConstructor;
 import aquarion.world.blocks.payload.PayloadCentrifuge;
-import aquarion.world.blocks.production.Filter;
 import aquarion.world.blocks.production.ModifiedbeamDrill;
 import aquarion.world.blocks.production.WallPayloadDrill;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
@@ -64,7 +63,6 @@ public class CrafterBlocks {
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
             fumeFilter, ferroSiliconFoundry, magmaTap, cardReader, cryogenConditioner, rotaryKiln, wallExcavator, pnuematicCentrifuge, explosiveManufactory, explosivePayload,
             invarSmeltery, intakeArray;
-    public static Block filter;
     public static Block wallCrafter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -2019,40 +2017,6 @@ public class CrafterBlocks {
             consumeItems(ItemStack.with(chalkalloy, 4, blastCompound, 2));
             craftTime = 120;
             drawer = new DrawMulti(new DrawDefault(), new DrawFade());
-        }};
-        filter = new Filter("filter") {{
-            requirements(Category.crafting, with(copper, 500, ferricMatter, 250, silicon, 600, aluminum, 250));
-            buildTime = 2200f;
-            size = 7;
-            health = 200;
-
-            craftTime = 600f;
-            itemCapacity = 25;
-            liquidCapacity = 300f;
-
-            consumePower(2.0f);
-            consumeLiquid(water, 4.25f);
-            clearwaterRatio = 1f;
-
-            rollsPerCraft = 1;
-            // drop(item, chance, quantity);
-            // drop(item, chance, min, max);
-            drop(Items.sand, 50f, 25);
-            drop(Items.copper, 20f, 10, 15);
-            drop(Items.lead, 20f, 10, 15);
-            drop(calcium, 10f, 5, 20);
-
-            drawer = new DrawMulti(
-                    new DrawRegion("-bottom"),
-                    new DrawRegion("-underwater"),
-                    new DrawLiquidTile(mindustry.content.Liquids.water, 2f) {{
-                            padBottom = 28f;
-                    }},
-                    new DrawLiquidTile(aquarion.content.AquaLiquids.clearwater, 2f) {{
-                            padTop = 28f;
-                    }},
-                    new DrawDefault()
-            );
         }};
         cardReader = new GenericCrafter("card-reader"){{
             requirements(Category.effect, with(libraryCard, 1));
