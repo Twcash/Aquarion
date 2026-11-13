@@ -405,7 +405,9 @@ public class TantrosTechTree {
                                                         new Objectives.SectorComplete(searedWastes)
                                                 ), () -> {
                                                     node(dryRiver, Seq.with(
-                                                            new Objectives.SectorComplete(basalticPassageways)
+                                                            new Objectives.SectorComplete(basalticPassageways),
+                                                            new Objectives.SectorComplete(northGate),
+                                                            new Objectives.Produce(steel)
                                                     ), () -> {});
                                                 });
                                             });
@@ -422,6 +424,7 @@ public class TantrosTechTree {
                                             ), () -> {
                                                 node(violetValley, Seq.with(
                                                         new Objectives.SectorComplete(fungalTropics),
+                                                        new Objectives.SectorComplete(northGate),
                                                         new Objectives.Research(sporeProcessor),
                                                         new Objectives.Research(ferrosilicon)
                                                 ), () -> {});
