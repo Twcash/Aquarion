@@ -4,12 +4,10 @@ import mindustry.content.Blocks;
 import mindustry.content.Liquids;
 import mindustry.content.StatusEffects;
 import mindustry.entities.bullet.LiquidBulletType;
-import mindustry.world.blocks.defense.turrets.LiquidTurret;
-import mindustry.entities.bullet.BulletType;
 import mindustry.graphics.Layer;
+import mindustry.world.blocks.defense.turrets.LiquidTurret;
 
 import static aquarion.content.AquaLiquids.*;
-import static aquarion.content.AquaStatuses.*;
 
 public class vannilaturret {
     public static void loadContent() {
@@ -19,18 +17,6 @@ public class vannilaturret {
         waveBlock.ammoTypes.put(Liquids.water, new LiquidBulletType(Liquids.water) {{
             lifetime = 49f;
             speed = 4f;
-            knockback = 1.7f;
-            puddleSize = 8f;
-            orbSize = 4f;
-            drag = 0.001f;
-            ammoMultiplier = 0.4f;
-            statusDuration = 60f * 4f;
-            damage = 0.2f;
-            layer = Layer.bullet - 2f;
-        }});
-        waveBlock.ammoTypes.put(clearwater, new LiquidBulletType(clearwater) {{
-            lifetime = 49f;
-            speed = 7f;
             knockback = 1.7f;
             puddleSize = 8f;
             orbSize = 4f;
@@ -120,18 +106,6 @@ public class vannilaturret {
         tsunamiBlock.ammoTypes.put(Liquids.water, new LiquidBulletType(Liquids.water) {{
             lifetime = 49f;
             speed = 6f;
-            knockback = 2.8f;
-            puddleSize = 14f;
-            orbSize = 5.5f;
-            drag = 0.001f;
-            ammoMultiplier = 0.4f;
-            statusDuration = 60f * 4f;
-            damage = 0.5f;
-            layer = Layer.bullet - 2f;
-        }});
-        tsunamiBlock.ammoTypes.put(clearwater, new LiquidBulletType(clearwater) {{
-            lifetime = 49f;
-            speed = 9f;
             knockback = 2.8f;
             puddleSize = 14f;
             orbSize = 5.5f;

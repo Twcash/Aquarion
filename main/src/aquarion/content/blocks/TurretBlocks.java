@@ -4,28 +4,25 @@ import aquarion.content.*;
 import aquarion.world.blocks.turrets.AquaPowerTurret;
 import aquarion.world.blocks.turrets.ItemPointDefenseTurret;
 import aquarion.world.drawers.AquaDrawTurret;
-import aquarion.world.entities.bullet.GambleBulletType;
 import aquarion.world.entities.parts.NewRegPart;
 import aquarion.world.graphics.AquaFx;
-import aquarion.world.graphics.AquaPal;
 import arc.func.Cons;
 import arc.graphics.Color;
 import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
 import arc.math.Interp;
 import arc.math.Mathf;
-import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
 import mindustry.entities.UnitSorts;
-import mindustry.entities.bullet.*;
-import mindustry.entities.effect.ExplosionEffect;
+import mindustry.entities.bullet.BasicBulletType;
+import mindustry.entities.bullet.ContinuousLaserBulletType;
+import mindustry.entities.bullet.MissileBulletType;
+import mindustry.entities.bullet.PointLaserBulletType;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.DrawPart;
 import mindustry.entities.part.EffectSpawnerPart;
-import mindustry.entities.part.FlarePart;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.*;
 import mindustry.gen.Sounds;
@@ -33,37 +30,24 @@ import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
-import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.units.RepairTurret;
 import mindustry.world.draw.DrawTurret;
-import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaBullets.*;
-
-import static aquarion.content.AquaItems.brimstone;
-import static aquarion.content.AquaItems.cupronickel;
-import static aquarion.content.AquaItems.ferrosilicon;
-import static aquarion.content.AquaItems.nickel;
 import static aquarion.content.AquaItems.*;
-import static aquarion.content.AquaLiquids.fumes;
 import static aquarion.content.AquaLiquids.*;
 import static aquarion.content.AquaPlanets.*;
-import static aquarion.world.graphics.AquaFx.rand;
-import static aquarion.world.graphics.AquaFx.v;
-import static aquarion.world.graphics.AquaPal.*;
+import static aquarion.world.graphics.AquaPal.tantDarkestTone;
 import static arc.graphics.g2d.Draw.color;
-import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
 import static arc.math.Interp.*;
-import static mindustry.Vars.state;
-import static mindustry.Vars.tilesize;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
-import static mindustry.content.StatusEffects.*;
+import static mindustry.content.StatusEffects.burning;
 import static mindustry.entities.part.DrawPart.PartProgress.*;
 import static mindustry.gen.Sounds.*;
 import static mindustry.type.ItemStack.with;
@@ -924,7 +908,6 @@ public class TurretBlocks {
             velocityRnd = 0.1f;
             ammo(
                     water, douseWater,
-                    AquaLiquids.clearwater, douseClearWater,
                     Liquids.slag, douseSlag,
                     Liquids.cryofluid, douseCryofluid,
                     Liquids.oil, douseOil,

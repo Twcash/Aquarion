@@ -15,7 +15,6 @@ import mindustry.gen.Sounds;
 import mindustry.graphics.Pal;
 import mindustry.Vars;
 
-/** All tunable movement settings are inherited from AquaUnitType. */
 public class AmphibiousUnitType extends AquaUnitType {
     public TextureRegion landRegion;
 

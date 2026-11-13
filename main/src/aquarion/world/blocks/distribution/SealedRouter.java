@@ -81,11 +81,7 @@ public class SealedRouter extends Router {
                 current = lastItem;
             }
             progress += edelta() / speed * 2f;
-            if(current != null && current.radioactivity > 0){
-                if(Mathf.chance(0.05f)) Fx.smoke.at(this);
-            }
             if (lastItem != null) {
-                // Reset target to null at the beginning of each cycle
                 target = null;
                 target = getTileTarget(lastItem, lastInput, false);
                 if (target != null) {
@@ -122,7 +118,7 @@ public class SealedRouter extends Router {
                                 Mathf.clamp((progress + 1f) / 2f));
 
 
-                AquaItemEntity.draw(current, currentData, currentAge, x + Tmp.v1.x, y + Tmp.v1.y, itemSize);
+                AquaItemEntity.draw(trackedItems, current, x + Tmp.v1.x, y + Tmp.v1.y, itemSize);
                 Draw.reset();
             }
             Draw.reset();

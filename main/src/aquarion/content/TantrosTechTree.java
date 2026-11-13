@@ -473,7 +473,6 @@ public class TantrosTechTree {
                                 nodeProduce(compositeSteel, () -> {});
                                 nodeProduce(pitchblende, () -> {
                                     nodeProduce(uranium, () -> {
-                                        nodeProduce(uraniumEnriched, () -> {});
                                         nodeProduce(thorium, () -> {
                                             nodeProduce(radium, () -> {});
                                         });
@@ -496,33 +495,6 @@ public class TantrosTechTree {
                         nodeProduce(cuprite, () -> {});
                     });
                     nodeProduce(magma, () -> {});
-                });
-                nodeProduce(nickel, () -> {
-                    nodeProduce(air, () -> {
-                        nodeProduce(water, () -> {
-                            nodeProduce(halideWater, () -> {
-                                nodeProduce(muriaticAcid, () -> {
-                                    nodeProduce(hydroxide, () -> {});
-                                });
-                                nodeProduce(salt, () -> {
-                                    nodeProduce(brine, () -> {
-                                        nodeProduce(chlorine, () -> {});
-                                    });
-                                });
-                            });
-                            nodeProduce(haze, () -> {
-                                nodeProduce(clearwater, () -> {});
-                            });
-                            nodeProduce(oxygen, () -> {
-                                nodeProduce(hydrogen, () -> {});
-                            });
-                        });
-                        nodeProduce(cryogen, () -> {});
-                        nodeProduce(nitrogen, () -> {
-                            nodeProduce(argon, () -> {});
-                        });
-                    });
-                    nodeProduce(cupronickel, () -> {});
                 });
                 nodeProduce(copper, () -> {
                     nodeProduce(graphite, () -> {

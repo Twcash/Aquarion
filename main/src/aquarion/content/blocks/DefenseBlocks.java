@@ -7,6 +7,7 @@ import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.blocks.defense.MissileBlock;
 import aquarion.world.blocks.defense.NukeBlock;
 import aquarion.world.blocks.payload.ReagentMix;
+import aquarion.world.blocks.radioloy.RadioactiveBlock;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Color;
@@ -49,7 +50,7 @@ import static mindustry.type.ItemStack.with;
 
 public class DefenseBlocks {
     public static Block forceGenerator, testblock, meteor, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
-            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade, ferricWall, ferricWallLarge
+            cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade, ferricWall, ferricWallLarge, thoriumCube
     //I have no clue where to put these so I'll put them here
     ,dolomiteReagentMix, sandClump;
 
@@ -431,7 +432,10 @@ public class DefenseBlocks {
             health = 110 * 4 * 4;
             size = 2;
         }};
-
+        thoriumCube = new RadioactiveBlock("thorium-cube"){{
+            requirements(Category.defense, ItemStack.with(thorium, 60));
+            size = 1;
+        }};
 
         forceGenerator = new ForceProjector("force-generator"){{
             requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));

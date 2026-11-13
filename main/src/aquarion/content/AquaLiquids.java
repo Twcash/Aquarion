@@ -3,26 +3,18 @@ package aquarion.content;
 import aquarion.world.content.AquaLiquid;
 import arc.graphics.Color;
 import mindustry.content.Fx;
-import mindustry.content.Planets;
 import mindustry.content.StatusEffects;
 import mindustry.type.Liquid;
 
 import static aquarion.content.AquaStatuses.*;
-import static aquarion.content.AquaPlanets.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaLiquids {
-    public static Liquid ammonia, defunctBlood, cryogen, vitriol, rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, oxygen, brine, helium, hydroxide, clearwater;
+    public static Liquid ammonia, defunctBlood, cryogen, vitriol, rareSludge, argon, muriaticAcid, halideWater, air, haze, methane, petroleum, fluorine, chlorine, fumes, magma, bioPulp, oxygen, brine, helium, hydroxide;
 
     public static void loadContent() {
 
-        clearwater = new Liquid("clear-water", Color.valueOf("#47a3d1")) {{
-            canStayOn.addAll(water);
-            heatCapacity = 0.7f;
-            viscosity = 0.45f;
-            effect = wet;
-        }};
         brine = new Liquid("brine", Color.valueOf("#b8c89f")) {{
             coolant = false;
             viscosity = 0.8f;

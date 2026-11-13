@@ -17,7 +17,6 @@ import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.power.*;
-import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
@@ -32,7 +31,7 @@ import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
     public static Block ejector;
-    public static Block miniumReactor, singularityReactor, advSolarGen, leadBurner, petroleumEngine, heatExchanger, energyBank, voltageSupplyUnit,smallTurbine, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, fumeEngine;
+    public static Block miniumReactor, singularityReactor, advSolarGen, leadBurner, petroleumEngine, heatExchanger,transpositionTower, energyBank, transformer,smallTurbine, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, fumeEngine;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
@@ -500,6 +499,16 @@ public class PowerBlocks {
             alwaysUnlocked = true;
             schematicPriority = 8;
         }};
+        transpositionTower = new PowerPylon("transposition-tower"){{
+            requirements(Category.power, with(silicon, 90, polymer, 40, steel, 5));
+            shownPlanets.addAll(fakeErekir, fakeSerpulo, tantros2, qeraltar);
+            maxRange = 25;
+            laserRange = 25;
+            maxNodes = 6;
+            size = 2;
+            alwaysUnlocked = true;
+            schematicPriority = 8;
+        }};
         outlet = new PowerOutlet("outlet") {{
             requirements(Category.power, with(silicon, 10));
             shownPlanets.addAll(fakeErekir, fakeSerpulo, tantros2, qeraltar);
@@ -513,6 +522,26 @@ public class PowerBlocks {
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             drawer = new DrawMulti(new DrawDefault(), new DrawSideRegion());
         }};
+        transformer = new PowerOutlet("transformer") {{
+            requirements(Category.power, with(steel, 10, copper, 60, metaglass, 10));
+            shownPlanets.addAll(fakeErekir, fakeSerpulo, tantros2, qeraltar);
+            rotate = true;
+            health = 300;
+            rotateDraw = false;
+            powerProduction = 3;
+            alwaysUnlocked = true;
+            regionRotated1 = 1;
+            schematicPriority = 9;
+            consumeLiquid(ammonia, 1/6f);
+            destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
+            drawer = new DrawMulti(new DrawDefault(), new mindustry.world.draw.DrawLiquidTile(ammonia){{alpha = 0.6f;}}, new mindustry.world.draw.DrawRegion("-top"), new DrawSideRegion(), new DrawGlowRegion() {{
+                glowIntensity = 0.7f;
+                glowScale = 3;
+                alpha = 0.4f;
+                color = Color.valueOf("f5c5aa");
+            }});
+        }};
+
         energyBank = new Battery("energy-bank") {{
             requirements(Category.power, with(copper, 30));
             size = 1;

@@ -1,23 +1,15 @@
 package aquarion.content.blocks;
 
-import aquarion.content.DialogueStories;
-import aquarion.world.blocks.core.OverdrivePylon;
-import aquarion.world.blocks.effect.StoryTellerBlock;
 import aquarion.world.graphics.AquaFx;
-import arc.graphics.Color;
 import mindustry.content.Fx;
-import mindustry.content.Planets;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.type.Category;
 import mindustry.world.Block;
-import mindustry.world.blocks.defense.OverdriveProjector;
 import mindustry.world.blocks.power.LightBlock;
 import mindustry.world.consumers.ConsumeLiquidFlammable;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
-import static aquarion.content.AquaItems.*;
-import static aquarion.content.AquaLiquids.magma;
 import static aquarion.content.AquaPlanets.*;
 import static mindustry.content.Items.copper;
 import static mindustry.content.Items.silicon;
@@ -25,7 +17,6 @@ import static mindustry.type.ItemStack.with;
 
 public class EffectBlocks {
     public static Block  lantern, led;
-    public static StoryTellerBlock storyteller;
 
     public static void loadContent() {
         led = new LightBlock("led") {{
@@ -51,8 +42,5 @@ public class EffectBlocks {
             consume(new ConsumeLiquidFlammable(0.1f, 2 / 60f));
         }};
 
-//        storyteller = new StoryTellerBlock("storyteller") {{
-//            story = DialogueStories.all.first();
-//        }};
     }
 }

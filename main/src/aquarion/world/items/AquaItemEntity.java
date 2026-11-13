@@ -1,12 +1,12 @@
 package aquarion.world.items;
 
+import aquarion.world.content.RadiationItem;
 import arc.struct.Seq;
 import java.util.Arrays;
 import arc.util.Nullable;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
-import arc.Core;
 import arc.graphics.g2d.TextureRegion;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -15,11 +15,30 @@ import mindustry.gen.Building;
 import mindustry.type.Item;
 import mindustry.world.modules.ItemModule;
 
-/**
- * Per-unit item state for Aquarion-aware item buildings. The actual inventory remains a normal
- * Mindustry ItemModule, so existing item APIs and ordinary items remain compatible.
- */
 public class AquaItemEntity {
+    public static AquaItemEntity create(Item item) {
+        return item instanceof aquarion.world.content.AquaItem aqua ? aqua.createBuild() : new AquaItemEntity(item);
+    }
+
+    public boolean tracked() {
+        return data != 0 || rule(item, data) != null;
+    }
+
+    public boolean hasTag(String tag) {
+        return false;
+    }
+
+    public int writeState() { return data; }
+    public void readState(int state) { data = state; }
+
+    /** Create the resulting unit after update changes this unit's item. */
+    public AquaItemEntity replacement() {
+        return create(item);
+    }
+
+    public void draw(float x, float y, float size) {
+        draw(item, data, age, x, y, size);
+    }
     private static final Seq<SpoilRule> spoilRules = new Seq<>();
     private static final Seq<FreshTransfer> freshTransfers = new Seq<>();
     private static final Seq<Transfer> transfers = new Seq<>();
@@ -40,30 +59,28 @@ public class AquaItemEntity {
         this.age = age;
     }
 
-    /** Register an item transformation that runs after {@code ticks} of time in aware buildings. */
     public static void registerSpoil(Item from, Item to, float ticks) {
         registerSpoil(from, to, ticks, -1);
     }
 
-    /** Register a transformation restricted to entities carrying a specific data value. */
     public static void registerSpoil(Item from, Item to, float ticks, int requiredData) {
         if(from == null || to == null || ticks <= 0f) throw new IllegalArgumentException("Invalid item spoil rule");
         spoilRules.remove(s -> s.from == from && s.requiredData == requiredData);
         spoilRules.add(new SpoilRule(from, to, ticks, requiredData));
     }
 
-    /** Remove a previously registered spoil transformation for an item. */
     public static void removeSpoil(Item from) {
         spoilRules.remove(s -> s.from == from);
     }
 
-    private boolean update(float delta) {
+    public boolean update(float delta) {
         SpoilRule rule = rule(item, data);
         if(rule == null) return false;
         age += Math.max(0f, delta);
         if(age < rule.ticks) return false;
         item = rule.to;
-        age %= rule.ticks;
+        data = 0;
+        age = 0f;
         return true;
     }
 
@@ -71,12 +88,14 @@ public class AquaItemEntity {
         return spoilRules.find(s -> s.from == item && (s.requiredData < 0 || s.requiredData == data));
     }
 
-    /** Return the display sprite for a per-unit item state. */
     public static TextureRegion icon(Item item, int data) {
         return item.fullIcon;
     }
-
-    /** Draw an item and blend toward its registered spoil result as it ages. */
+    public static void draw(Seq<AquaItemEntity> entities, Item item, float x, float y, float size) {
+        AquaItemEntity entity = entities.find(e -> e.item == item);
+        if(entity != null) entity.draw(x, y, size);
+        else Draw.rect(item.fullIcon, x, y, size, size);
+    }
     public static void draw(Item item, int data, float age, float x, float y, float size) {
         SpoilRule spoil = rule(item, data);
         if(spoil == null) {
@@ -119,7 +138,8 @@ public class AquaItemEntity {
         FreshTransfer(Building source, Item item, int data) {
             this.source = source;
             this.item = item;
-            this.entity = new AquaItemEntity(item, data, 0f);
+            this.entity = create(item);
+            this.entity.readState(data);
         }
     }
 
@@ -145,6 +165,20 @@ public class AquaItemEntity {
         Seq<AquaItemEntity> aquaItemEntities();
     }
 
+    /** Enrich one ordinary unit, including units not yet in the sparse ledger. */
+    public static boolean enrich(Building build, Item item) {
+        if(build.items == null || !(build instanceof Container container)) return false;
+        Seq<AquaItemEntity> entities = container.aquaItemEntities();
+        reconcile(build.items, entities);
+        for(AquaItemEntity entity : entities) {
+            if(entity.item == item && entity instanceof RadiationItem.RadiationComp thorium && !thorium.enriched) {
+                thorium.enrich();
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** Receive an item while inheriting its per-unit state from another aware building if possible. */
     public static void receive(Building receiver, Building source, Item item, ItemModule inventory,
                                Seq<AquaItemEntity> entities) {
@@ -156,7 +190,7 @@ public class AquaItemEntity {
 
     /** Keep only items with active decay rules or explicit metadata in the per-unit ledger. */
     public static void addIfTracked(Seq<AquaItemEntity> entities, AquaItemEntity entity) {
-        if(entity != null && (entity.data != 0 || rule(entity.item, entity.data) != null)) entities.add(entity);
+        if(entity != null && entity.tracked()) entities.add(entity);
     }
 
     /** Take an item's state from the active handoff or an aware source building. */
@@ -164,7 +198,7 @@ public class AquaItemEntity {
         AquaItemEntity entity = takeFreshTransfer(source, item);
         if(entity == null) entity = takePending(source, item);
         if(entity == null && source instanceof Container container) entity = take(container.aquaItemEntities(), item);
-        return entity == null ? new AquaItemEntity(item) : entity;
+        return entity == null ? create(item) : entity;
     }
 
     /** Temporarily associate an incoming item with its source while a block applies routing logic. */
@@ -237,11 +271,13 @@ public class AquaItemEntity {
     /** Update and reconcile against an inventory, transforming item counts when spoil occurs. */
     public static void update(Seq<AquaItemEntity> entities, ItemModule inventory, float delta) {
         reconcile(inventory, entities);
-        for(AquaItemEntity entity : entities) {
+        for(int i = 0; i < entities.size; i++) {
+            AquaItemEntity entity = entities.get(i);
             Item before = entity.item;
             if(entity.update(delta)) {
                 inventory.remove(before, 1);
                 inventory.add(entity.item, 1);
+                entities.set(i, entity.replacement());
             }
         }
         reconcile(inventory, entities);
@@ -269,12 +305,21 @@ public class AquaItemEntity {
         for(int i = entities.size - 1; i >= 0; i--) {
             AquaItemEntity entity = entities.get(i);
             if(entity.item == null || inventory.get(entity.item) < reconcileCounts[entity.item.id] ||
-                (entity.data == 0 && rule(entity.item, entity.data) == null)) {
+                !entity.tracked()) {
                 if(entity.item != null) reconcileCounts[entity.item.id]--;
                 entities.remove(i);
             }
         }
-        // Only synthesize state for decay-enabled items inserted through an unmodified Mindustry path.
+        // Nested item builds own their tracking policy, including ordinary thorium units.
+        for(Item item : Vars.content.items()) {
+            if(!(item instanceof aquarion.world.content.AquaItem)) continue;
+            if(inventory.get(item) <= reconcileCounts[item.id]) continue;
+            AquaItemEntity prototype = create(item);
+            if(!prototype.tracked()) continue;
+            int missing = inventory.get(item) - reconcileCounts[item.id];
+            for(int i = 0; i < missing; i++) entities.add(create(item));
+            reconcileCounts[item.id] += Math.max(0, missing);
+        }
         for(int i = 0; i < spoilRules.size; i++) {
             Item item = spoilRules.get(i).from;
             boolean seen = false;
@@ -288,7 +333,7 @@ public class AquaItemEntity {
             if(rule(item, 0) == null) continue;
             int missing = inventory.get(item) - reconcileCounts[item.id];
             for(int amountIndex = 0; amountIndex < missing; amountIndex++) {
-                entities.add(new AquaItemEntity(item));
+                entities.add(create(item));
                 reconcileCounts[item.id]++;
             }
         }
@@ -298,7 +343,7 @@ public class AquaItemEntity {
         write.i(entities.size);
         for(AquaItemEntity entity : entities) {
             write.s(entity.item.id);
-            write.i(entity.data);
+            write.i(entity.writeState());
             write.f(entity.age);
         }
     }
@@ -310,7 +355,12 @@ public class AquaItemEntity {
             Item item = Vars.content.item(read.s());
             int data = read.i();
             float age = read.f();
-            if(item != null) entities.add(new AquaItemEntity(item, data, age));
+            if(item != null) {
+                AquaItemEntity entity = create(item);
+                entity.readState(data);
+                entity.age = age;
+                entities.add(entity);
+            }
         }
     }
 }

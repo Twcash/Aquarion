@@ -2,14 +2,11 @@ package aquarion.content.blocks;
 
 import aquarion.content.AquaAttributes;
 import aquarion.content.AquaCategories;
-import aquarion.content.AquaItems;
 import aquarion.content.AquaSounds;
 import aquarion.world.blocks.AquaBlock;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
 import aquarion.world.blocks.payload.AquaConstructor;
 import aquarion.world.blocks.payload.PayloadCentrifuge;
-import aquarion.world.blocks.production.Filter;
-import aquarion.world.blocks.production.ModifiedbeamDrill;
 import aquarion.world.blocks.production.WallPayloadDrill;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
 import aquarion.world.drawers.*;
@@ -18,8 +15,6 @@ import aquarion.world.entities.parts.NewRegPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.type.AquaGenericCrafter;
-import aquarion.world.blocks.production.LaserEnricher;
-import aquarion.world.items.AquaItemEntity;
 import aquarion.world.type.GroundDrill;
 import arc.func.Cons;
 import arc.graphics.Blending;
@@ -41,7 +36,8 @@ import mindustry.world.blocks.heat.HeatProducer;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.Pump;
-import mindustry.world.consumers.*;
+import mindustry.world.consumers.ConsumeItemFlammable;
+import mindustry.world.consumers.ConsumeLiquidFlammable;
 import mindustry.world.draw.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
@@ -65,17 +61,13 @@ public class CrafterBlocks {
              algalTerrace, steelFoundry, pinDrill, inlet, inletArray, atmosphericIntake,nuetralizationChamber,
             AnnealingOven, SolidBoiler, CentrifugalPump, pumpAssembly, harvester, DrillDerrick, beamBore, fumeMixer, plasmaExtractor,
             fumeFilter, ferroSiliconFoundry, magmaTap, cardReader, cryogenConditioner, rotaryKiln, wallExcavator, pnuematicCentrifuge, explosiveManufactory, explosivePayload,
-            laserEnricher, invarSmeltery, intakeArray;
-    public static Block filter;
+            invarSmeltery, intakeArray;
     public static Block wallCrafter;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
     public static void loadContent() {
         disableVanilla();
-
-        AquaItemEntity.registerSpoil(AquaItems.uraniumEnriched, thorium, 60f * 10f);
-
         magmaTap = new AquaGenericCrafter("magma-tap") {{
             requirements(Category.production, with(lead, 225, zinc, 120, silicon, 100));
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -480,7 +472,7 @@ public class CrafterBlocks {
                 }});
             }};
 
-            plasmaExtractor = new ModifiedbeamDrill("plasma-extractor") {{
+            plasmaExtractor = new aquarion.world.blocks.production.AquaBeamDrill("plasma-extractor") {{
                 requirements(Category.production, with(silicon, 200, lead, 350));
                 tier = 3;
                 itemCapacity = 50;
@@ -497,7 +489,7 @@ public class CrafterBlocks {
                 heatColor = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
             }};
-            beamBore = new ModifiedbeamDrill("beam-bore") {{
+            beamBore = new aquarion.world.blocks.production.AquaBeamDrill("beam-bore") {{
                 requirements(Category.production, with(aluminum, 250, copper, 75, ferricMatter, 125));
                 tier = 4;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -761,8 +753,6 @@ public class CrafterBlocks {
                 alpha = 0.6f;
             }}, new DrawLiquidTile(water, 1.5f) {{
                 alpha = 0.6f;
-            }}, new DrawLiquidTile(clearwater, 1.5f) {{
-                alpha = 0.6f;
             }}, new DrawDefault(), new DrawGlowRegion("-glow") {{
                 alpha = 0.3f;
                 color = Color.valueOf("e68569");
@@ -813,8 +803,6 @@ public class CrafterBlocks {
             }}, new DrawLiquidTile(oil, 1.5f) {{
                 alpha = 0.6f;
             }}, new DrawLiquidTile(water, 1.5f) {{
-                alpha = 0.6f;
-            }}, new DrawLiquidTile(clearwater, 1.5f) {{
                 alpha = 0.6f;
             }}, new DrawDefault(), new DrawGlowRegion("-glow") {{
                 alpha = 0.3f;
@@ -1749,10 +1737,6 @@ public class CrafterBlocks {
             }});
             itemCapacity = 250;
         }};
-        laserEnricher = new LaserEnricher("laser-enricher"){{
-            requirements(Category.crafting, with(silicon, 180, thorium, 120, tungsten, 100));
-            researchCost = with(silicon, 120, thorium, 80);
-        }};
         pinDrill = new GroundDrill("pin-drill") {{
             requirements(Category.production, with(tungsten, 40, beryllium, 50, silicon, 20));
             drillTime = 100;
@@ -2028,40 +2012,6 @@ public class CrafterBlocks {
             consumeItems(ItemStack.with(chalkalloy, 4, blastCompound, 2));
             craftTime = 120;
             drawer = new DrawMulti(new DrawDefault(), new DrawFade());
-        }};
-        filter = new Filter("filter") {{
-            requirements(Category.crafting, with(copper, 500, ferricMatter, 250, silicon, 600, aluminum, 250));
-            buildTime = 2200f;
-            size = 7;
-            health = 200;
-
-            craftTime = 600f;
-            itemCapacity = 25;
-            liquidCapacity = 300f;
-
-            consumePower(2.0f);
-            consumeLiquid(water, 4.25f);
-            clearwaterRatio = 1f;
-
-            rollsPerCraft = 1;
-            // drop(item, chance, quantity);
-            // drop(item, chance, min, max);
-            drop(Items.sand, 50f, 25);
-            drop(Items.copper, 20f, 10, 15);
-            drop(Items.lead, 20f, 10, 15);
-            drop(calcium, 10f, 5, 20);
-
-            drawer = new DrawMulti(
-                    new DrawRegion("-bottom"),
-                    new DrawRegion("-underwater"),
-                    new DrawLiquidTile(mindustry.content.Liquids.water, 2f) {{
-                            padBottom = 28f;
-                    }},
-                    new DrawLiquidTile(aquarion.content.AquaLiquids.clearwater, 2f) {{
-                            padTop = 28f;
-                    }},
-                    new DrawDefault()
-            );
         }};
         cardReader = new GenericCrafter("card-reader"){{
             requirements(Category.effect, with(libraryCard, 1));
