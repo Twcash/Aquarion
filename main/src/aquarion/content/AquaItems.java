@@ -169,7 +169,7 @@ public class AquaItems {
         }};
         Items.fissileMatter.hidden = true;
         Items.fissileMatter = null;
-        Items.fissileMatter = new RadiationItem("fissile-matter", Color.valueOf("fff4e5")) {{
+        Items.fissileMatter = new RadiationItem("fissile-matter", Color.valueOf("8bbeb0")) {{
             decayTime = 240;
             decayItem = Items.lead;
         }};
