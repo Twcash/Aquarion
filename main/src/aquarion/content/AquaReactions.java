@@ -27,24 +27,6 @@ public class AquaReactions {
             damage = 0.1f;
             effectChance = 0.12f;
         }});
-        LiquidReactions.register(new LiquidReaction(clearwater, magma, haze) {{
-            aAmount = 1f;
-            bAmount = 1f;
-            resultAmount = 0.9f;
-            rate = 0.9f;
-            effect = Fx.steam;
-            damage = 0.1f;
-            effectChance = 0.12f;
-        }});
-        LiquidReactions.register(new LiquidReaction(clearwater, slag, haze) {{
-            aAmount = 1f;
-            bAmount = 1f;
-            resultAmount = 0.9f;
-            rate = 0.9f;
-            damage = 0.1f;
-            effect = Fx.steam;
-            effectChance = 0.12f;
-        }});
         LiquidReactions.register(new LiquidReaction(water, fluorine, haze) {{
             aAmount = 1f;
             bAmount = 1f;

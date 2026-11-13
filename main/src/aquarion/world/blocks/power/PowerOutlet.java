@@ -5,17 +5,13 @@ import aquarion.world.drawers.SwitchRegion;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
-import arc.math.geom.Geometry;
 import arc.struct.EnumSet;
-import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Nullable;
 import mindustry.Vars;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.gen.Sounds;
-import mindustry.world.Tile;
-import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerGraph;
@@ -41,7 +37,6 @@ public class PowerOutlet extends PowerGenerator {
         flags = EnumSet.of(BlockFlag.battery);
         insulated = true;
         consumesPower = true;
-        powerProduction = 100/60f;
         rotate = true;
         saveConfig = false;
         saveData = false;
@@ -53,8 +48,7 @@ public class PowerOutlet extends PowerGenerator {
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
-        Draw.rect(region, plan.drawx(), plan.drawy());
-        Draw.rect(plan.rotation >= 2 ? sideRegion2 : sideRegion1, plan.drawx(), plan.drawy(), plan.rotation * 90);
+        drawer.drawPlan(this, plan, list);
     }
 
     @Override
@@ -176,7 +170,11 @@ public class PowerOutlet extends PowerGenerator {
                 lastFront = frontBuild;
             }
         }
-
+        @Override
+        public float warmup(){
+            if(!enabled || need <= 0) return 0;
+            return  productionEfficiency * need;
+        }
         @Override
         public float getPowerProduction() {
             if (!enabled || need <= 0) return 0f;

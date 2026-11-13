@@ -29,6 +29,7 @@ public final class ClientCompatibility {
             dialog.buttons.button(Core.bundle.get("aquarion.client-compatibility.uninstall"), () -> {
                 try{
                     var mod = Vars.mods.getMod(AquaLoader.class);
+                    //Linux
                     if(mod == null) throw new IllegalStateException("How?");
                     Vars.mods.removeMod(mod);
                     Core.app.exit();

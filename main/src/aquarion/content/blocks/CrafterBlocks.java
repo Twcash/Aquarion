@@ -7,7 +7,6 @@ import aquarion.world.blocks.AquaBlock;
 import aquarion.world.blocks.heatBlocks.HotHeatConductor;
 import aquarion.world.blocks.payload.AquaConstructor;
 import aquarion.world.blocks.payload.PayloadCentrifuge;
-import aquarion.world.blocks.production.ModifiedbeamDrill;
 import aquarion.world.blocks.production.WallPayloadDrill;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
 import aquarion.world.drawers.*;
@@ -473,7 +472,7 @@ public class CrafterBlocks {
                 }});
             }};
 
-            plasmaExtractor = new ModifiedbeamDrill("plasma-extractor") {{
+            plasmaExtractor = new aquarion.world.blocks.production.AquaBeamDrill("plasma-extractor") {{
                 requirements(Category.production, with(silicon, 200, lead, 350));
                 tier = 3;
                 itemCapacity = 50;
@@ -490,7 +489,7 @@ public class CrafterBlocks {
                 heatColor = Color.valueOf("9d8cf2");
                 boostHeatColor = Color.valueOf("e1f28c");
             }};
-            beamBore = new ModifiedbeamDrill("beam-bore") {{
+            beamBore = new aquarion.world.blocks.production.AquaBeamDrill("beam-bore") {{
                 requirements(Category.production, with(aluminum, 250, copper, 75, ferricMatter, 125));
                 tier = 4;
                 destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
@@ -754,8 +753,6 @@ public class CrafterBlocks {
                 alpha = 0.6f;
             }}, new DrawLiquidTile(water, 1.5f) {{
                 alpha = 0.6f;
-            }}, new DrawLiquidTile(clearwater, 1.5f) {{
-                alpha = 0.6f;
             }}, new DrawDefault(), new DrawGlowRegion("-glow") {{
                 alpha = 0.3f;
                 color = Color.valueOf("e68569");
@@ -806,8 +803,6 @@ public class CrafterBlocks {
             }}, new DrawLiquidTile(oil, 1.5f) {{
                 alpha = 0.6f;
             }}, new DrawLiquidTile(water, 1.5f) {{
-                alpha = 0.6f;
-            }}, new DrawLiquidTile(clearwater, 1.5f) {{
                 alpha = 0.6f;
             }}, new DrawDefault(), new DrawGlowRegion("-glow") {{
                 alpha = 0.3f;

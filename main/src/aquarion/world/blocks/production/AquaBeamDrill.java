@@ -31,7 +31,7 @@ import mindustry.world.meta.StatValues;
 
 import static mindustry.Vars.tilesize;
 
-public class ModifiedbeamDrill extends BeamDrill implements AquaBarHelpers.CustomBarHolder {
+public class AquaBeamDrill extends BeamDrill implements AquaBarHelpers.CustomBarHolder {
     public TextureRegion top1, top2;
     public @Nullable Item blockedItem;
     /** Special exemption items that this drill can't mine. */
@@ -108,7 +108,7 @@ public class ModifiedbeamDrill extends BeamDrill implements AquaBarHelpers.Custo
         }
     }
 
-    public ModifiedbeamDrill(String name) {
+    public AquaBeamDrill(String name) {
         super(name);
     }
     public class ModifiedBeamDrillBuild extends BeamDrillBuild{

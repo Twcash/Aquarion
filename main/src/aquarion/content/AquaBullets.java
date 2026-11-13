@@ -1,10 +1,6 @@
 package aquarion.content;
 
-import aquarion.world.entities.bullet.AOEBulletType;
-import aquarion.world.entities.bullet.AquaBulletType;
-import aquarion.world.entities.bullet.DumpItemBulletType;
-import aquarion.world.entities.bullet.GambleBulletType;
-import aquarion.world.entities.bullet.NeoplasmGlobBulletType;
+import aquarion.world.entities.bullet.*;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import aquarion.world.graphics.Renderer;
@@ -31,7 +27,6 @@ import mindustry.graphics.Pal;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.*;
-import static aquarion.content.AquaLiquids.methane;
 import static aquarion.world.graphics.AquaFx.rand;
 import static aquarion.world.graphics.AquaFx.v;
 import static aquarion.world.graphics.AquaPal.smoke;
@@ -45,7 +40,6 @@ import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.content.StatusEffects.*;
 import static mindustry.gen.Sounds.explosion;
-import static mindustry.gen.Sounds.loopSpray;
 
 public class AquaBullets {
     public static BulletType
@@ -852,18 +846,6 @@ public class AquaBullets {
             douseWater = new LiquidBulletType(water) {{
                 lifetime = 49f;
                 speed = 4f;
-                knockback = 1.7f;
-                puddleSize = 8f;
-                orbSize = 4f;
-                drag = 0.001f;
-                ammoMultiplier = 0.4f;
-                statusDuration = 60f * 4f;
-                damage = 0.2f;
-                layer = Layer.bullet - 2f;
-            }},
-            douseClearWater = new LiquidBulletType(AquaLiquids.clearwater) {{
-                lifetime = 49f;
-                speed = 7f;
                 knockback = 1.7f;
                 puddleSize = 8f;
                 orbSize = 4f;
