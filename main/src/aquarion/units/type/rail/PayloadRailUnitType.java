@@ -1,7 +1,6 @@
-package aquarion.units.type;
+package aquarion.units.type.rail;
 
 import mindustry.gen.Building;
-import mindustry.gen.PayloadUnit;
 import mindustry.Vars;
 import mindustry.gen.Unit;
 import mindustry.gen.Payloadc;
@@ -11,7 +10,7 @@ import mindustry.world.blocks.payloads.Payload;
 import arc.graphics.g2d.Draw;
 
 /** A dedicated rail car for building payloads up to 2x2. */
-public class PayloadRailUnitType extends RailUnitType{
+public class PayloadRailUnitType extends RailUnitType {
     public PayloadRailUnitType(String name){
         super(name);
         constructor = aquarion.world.units.PayloadRailUnit::new;

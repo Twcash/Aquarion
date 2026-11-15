@@ -5,7 +5,7 @@ import aquarion.annotations.Annotations;
 import aquarion.annotations.Annotations.*;
 
 import aquarion.gen.FlyingDialogueUnitc;
-import aquarion.units.DefunctUnitType;
+import aquarion.units.type.DefunctUnitType;
 import arc.*;
 import arc.func.Cons;
 import arc.graphics.*;

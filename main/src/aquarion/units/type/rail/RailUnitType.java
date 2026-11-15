@@ -1,10 +1,10 @@
-package aquarion.units.type;
+package aquarion.units.type.rail;
 
+import aquarion.units.type.AquaUnitType;
 import aquarion.world.AI.RailCommandAI;
 import aquarion.world.blocks.distribution.RailPoint;
 import aquarion.world.graphics.Renderer;
 import aquarion.content.blocks.DistributionBlocks;
-import arc.Core;
 import arc.graphics.g2d.Draw;
 import mindustry.graphics.Pal;
 import arc.util.io.Reads;
@@ -14,7 +14,6 @@ import mindustry.ai.types.CommandAI;
 import mindustry.gen.Unit;
 import mindustry.gen.UnitEntity;
 import mindustry.io.TypeIO;
-import mindustry.type.UnitType;
 import mindustry.world.meta.Env;
 
 import java.io.ByteArrayInputStream;
@@ -22,7 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
-public class RailUnitType extends AquaUnitType{
+public class RailUnitType extends AquaUnitType {
     /** Car length in world units; zero derives it from the loaded sprite. */
     public float railLength;
     /** Minimum visual gap between neighboring cars, in world units. */

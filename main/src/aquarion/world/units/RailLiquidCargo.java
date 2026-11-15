@@ -1,6 +1,6 @@
 package aquarion.world.units;
 
-import aquarion.units.type.LiquidRailUnitType;
+import aquarion.units.type.rail.LiquidRailUnitType;
 import aquarion.world.AI.RailCommandAI;
 import aquarion.world.blocks.distribution.CargoStation.CargoStationBuild;
 import aquarion.world.blocks.distribution.RailPoint.RailPointBuild;

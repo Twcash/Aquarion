@@ -1,5 +1,6 @@
-package aquarion.units.type;
+package aquarion.units.effect;
 
+import aquarion.units.type.AquaUnitType;
 import aquarion.world.graphics.StyledTrail;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;

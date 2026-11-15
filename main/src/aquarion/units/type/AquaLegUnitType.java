@@ -1,20 +1,16 @@
-package aquarion.units;
+package aquarion.units.type;
 
 //import aquarion.gen.AquaLegsUnit;
 import aquarion.gen.AquaLegsc;
-import aquarion.world.entities.AquaLeg;
 import aquarion.world.entities.AquaLegConfig;
 import aquarion.world.graphics.AquaFx;
 import arc.Core;
 import arc.graphics.Color;
-import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Angles;
 import arc.math.Mathf;
-import arc.math.Scaled;
 import arc.math.geom.Vec2;
 import arc.struct.Seq;
 import arc.util.Time;
@@ -22,17 +18,11 @@ import arc.util.Tmp;
 import mindustry.Vars;
 import mindustry.entities.Leg;
 import mindustry.entities.Effect;
-import mindustry.entities.abilities.Ability;
-import mindustry.entities.part.DrawPart;
-import mindustry.entities.units.WeaponMount;
 import mindustry.gen.*;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.MultiPacker;
 import mindustry.graphics.Pal;
-import mindustry.type.UnitType;
-
-import static arc.graphics.g2d.Draw.xscl;
 
 public class AquaLegUnitType extends aquarion.units.type.DamageStateUnitType {
     public Seq<AquaLegConfig> legSequence = new Seq();

@@ -1,4 +1,4 @@
-package aquarion.units;
+package aquarion.units.type;
 
 import mindustry.type.UnitType;
 

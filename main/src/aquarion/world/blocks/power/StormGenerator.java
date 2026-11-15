@@ -1,24 +1,17 @@
 package aquarion.world.blocks.power;
 
 import aquarion.content.AquaAttributes;
-import aquarion.content.AquaWeathers;
 import aquarion.world.graphics.AquaPal;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
-import arc.math.geom.Vec2;
 import arc.util.Eachable;
-import arc.util.Nullable;
-import arc.util.Time;
 import mindustry.Vars;
-import mindustry.content.Weathers;
 import mindustry.entities.units.BuildPlan;
-import mindustry.gen.WeatherState;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
-import mindustry.type.Weather;
 import mindustry.world.blocks.power.SolarGenerator;
 import mindustry.world.meta.Attribute;
 
@@ -56,8 +49,6 @@ public class StormGenerator extends SolarGenerator {
         return new TextureRegion[]{region,rotator, drone};
     }
     public class StormGenBuild extends SolarGeneratorBuild {
-        @Nullable public Vec2 curWind;
-
         float lift = 0f;
         float liftSmooth = 0f;
 

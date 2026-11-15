@@ -1,4 +1,4 @@
-package aquarion.units.type;
+package aquarion.units.type.rail;
 
 import aquarion.world.units.LiquidRailUnit;
 import arc.Core;
@@ -7,7 +7,7 @@ import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import mindustry.gen.Unit;
 
-public class LiquidRailUnitType extends RailUnitType{
+public class LiquidRailUnitType extends RailUnitType {
     public float liquidCapacity = 120f;
     public TextureRegion liquidRegion;
 
