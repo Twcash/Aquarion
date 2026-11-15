@@ -5,7 +5,6 @@ import aquarion.content.AquaItems;
 import aquarion.content.AquaLiquids;
 import aquarion.content.AquaSounds;
 import aquarion.world.blocks.AlternativeBuildCosts;
-import aquarion.world.blocks.AquaBlock;
 import aquarion.world.consumers.AquaConsume;
 import aquarion.world.consumers.ConsumeLiquidAcidic;
 import aquarion.world.drawers.*;
@@ -18,14 +17,11 @@ import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.content.Fx;
 import mindustry.content.Liquids;
-import mindustry.content.Planets;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.entities.effect.RadialEffect;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
-import mindustry.type.Category;
-import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.type.LiquidStack;
 import mindustry.world.Block;
@@ -34,16 +30,10 @@ import mindustry.world.consumers.ConsumeLiquid;
 import mindustry.world.draw.*;
 
 import static aquarion.content.AquaItems.*;
-import static aquarion.content.AquaItems.aluminum;
-import static aquarion.content.AquaItems.ferricMatter;
 import static aquarion.content.AquaLiquids.*;
-import static aquarion.content.AquaLiquids.muriaticAcid;
-import static aquarion.content.AquaPlanets.*;
 import static arc.math.Interp.pow5Out;
 import static mindustry.content.Items.*;
-import static mindustry.content.Items.sand;
 import static mindustry.content.Liquids.*;
-import static mindustry.content.Liquids.water;
 import static mindustry.type.ItemStack.with;
 
 public class RefineryBlocks {
@@ -713,7 +703,7 @@ public class RefineryBlocks {
             updateEffectChance = 0.05f;
             updateEffect = Fx.coalSmeltsmoke;
             outputLiquid = new LiquidStack(fluorine, 0.75f);
-            outputItems = ItemStack.with(aluminum, 60, copper, 60);
+            outputItems = ItemStack.with(aluminum, 60, copper, 60, salt, 10);
             drawer = new DrawMulti(new DrawBlockShadow(), new DrawRegion("-bottom"), new DrawCellsNew() {{
                 range = 70 / 4f;
                 radius = 2.5f;

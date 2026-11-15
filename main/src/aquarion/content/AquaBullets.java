@@ -1269,7 +1269,7 @@ public class AquaBullets {
                     }};
                 }};
             }},
-            redactZinc = new BasicBulletType(7f, 55, "missile-large") {{
+            redactZinc = new BasicBulletType(7f, 60, "missile-large") {{
                 width = 15f;
                 pierce = true;
                 pierceCap = 2;
@@ -1306,7 +1306,7 @@ public class AquaBullets {
                 backColor = trailColor = AquaItems.zinc.color;
 
             }},
-            redactAluminum = new BasicBulletType(5f, 155, "missile-large") {{
+            redactAluminum = new BasicBulletType(5f, 75, "missile-large") {{
                 width = 15f;
                 pierce = false;
                 height = 19f;
