@@ -179,7 +179,7 @@ public class DialogueChoiceBlock extends Element {
             y += vy * delta;
             rot += vrot * delta;
 
-            // world-space extents of the rotated hitbox, so collisions respect rotation
+            //world-space extents of the rotated hitbox, so collisions respect rotation
             float inset = Scl.scl(hitInset);
             float hw = width / 2f - inset, hh = height / 2f - inset;
             float s = Mathf.sinDeg(rot), c = Mathf.cosDeg(rot);
@@ -195,12 +195,11 @@ public class DialogueChoiceBlock extends Element {
                     vx *= 0.8f;
                 }else{
                     vy = 0f;
-                    // rest on the floor: strong friction so it stops instead of sliding
+                    //rest on the floor: strong friction so it stops instead of sliding
                     vx *= Math.max(0f, 1f - groundFriction * delta);
                     vrot *= Math.max(0f, 1f - groundFriction * delta);
                     if(Math.abs(vx) < 3f) vx = 0f;
                     if(Math.abs(vrot) < 4f) vrot = 0f;
-                    // settle as a proper box: turn axis-aligned, keeping the bottom edge on the floor
                     easeRotation(delta);
                     s = Mathf.sinDeg(rot);
                     c = Mathf.cosDeg(rot);
@@ -274,7 +273,6 @@ public class DialogueChoiceBlock extends Element {
         Lines.poly(cx, cy, 4, width * 0.7071f, rot + 45f);
         Lines.stroke(1f);
         Draw.reset();
-
         if(option != null){
             if(!hasRegion){
                 String t = option.displayText();

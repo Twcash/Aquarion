@@ -494,7 +494,6 @@ public class PowerBlocks {
             requirements(Category.power, with(silicon, 15));
             shownPlanets.addAll(fakeErekir, fakeSerpulo, tantros2, qeraltar);
             maxRange = 12;
-            laserRange = 12;
             maxNodes = 9;
             alwaysUnlocked = true;
             schematicPriority = 8;
@@ -503,7 +502,6 @@ public class PowerBlocks {
             requirements(Category.power, with(silicon, 90, polymer, 40, steel, 5));
             shownPlanets.addAll(fakeErekir, fakeSerpulo, tantros2, qeraltar);
             maxRange = 25;
-            laserRange = 25;
             maxNodes = 6;
             size = 2;
             alwaysUnlocked = true;
