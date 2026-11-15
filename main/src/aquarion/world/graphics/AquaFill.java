@@ -98,6 +98,7 @@ public class AquaFill {
                                 int end = value.indexOf(']', cursor);
                                 if(end >= 0){
                                     String tag = value.substring(cursor, end);
+                                    //Regex for CSS hex codes. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Cheatsheet
                                     if(tag.isEmpty() || tag.matches("#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?") || Colors.get(tag) != null){
                                         cursor = end + 1;
                                         continue;
