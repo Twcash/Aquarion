@@ -4,40 +4,26 @@ import aquarion.annotations.Annotations;
 import aquarion.annotations.Annotations.*;
 
 import aquarion.gen.DialogueUnitc;
-import aquarion.units.DefunctUnitType;
+import aquarion.units.type.DefunctUnitType;
 import arc.*;
 import arc.func.Cons;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.struct.Seq;
 import arc.util.*;
 import arc.util.pooling.Pools;
-import mindustry.ai.types.*;
-import mindustry.async.*;
-import mindustry.content.*;
 import mindustry.core.*;
-import mindustry.ctype.*;
-import mindustry.entities.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.units.*;
-import mindustry.game.EventType.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.world.*;
-import mindustry.world.blocks.*;
-import mindustry.world.blocks.environment.*;
-import mindustry.world.blocks.payloads.*;
-import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
-import static mindustry.logic.GlobalVars.*;
 
 @Annotations.EntityComponent
 abstract class DialogueUnitComp implements Unitc, DialogueUnitc, Legsc{

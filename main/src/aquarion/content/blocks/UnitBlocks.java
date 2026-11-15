@@ -1,14 +1,11 @@
 package aquarion.content.blocks;
 
 import aquarion.content.*;
-import aquarion.units.type.AquaUnitType;
 import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.payload.InitializationBay;
 import aquarion.world.blocks.units.*;
-import aquarion.world.content.AquaLiquid;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
-import arc.struct.ObjectMap;
 import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
@@ -39,7 +36,7 @@ public class UnitBlocks {
 
     public static void loadContent() {
 
-        infantryPad = new InfantryLandingPad("infantry-landing-pad"){{
+        infantryPad = new GerbUnitPad("infantry-landing-pad"){{
             requirements(Category.units, with());
             buildTime = 600;
             buildVisibility = BuildVisibility.sandboxOnly;
@@ -47,7 +44,7 @@ public class UnitBlocks {
             spawnInterval = 15;
             size = 5;
         }};
-        concussorPad = new InfantryLandingPad("concussor-landing-pad"){{
+        concussorPad = new GerbUnitPad("concussor-landing-pad"){{
             requirements(Category.units, with());
             buildTime = 600;
             unitType = AquaUnitTypes.concussor;
@@ -63,7 +60,7 @@ public class UnitBlocks {
             size = 6;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
         }};
-        statusApplier = new UnitBlockStatusApplierThingWhat("manipulation-bay"){{
+        statusApplier = new PayloadUnitStatusApplier("manipulation-bay"){{
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             requirements(Category.units, with(polymer, 200, silicon, 900, copper, 1000, metaglass, 500));
             plans = Seq.with(new StatusPlan(AquaStatuses.weighted, 300) {{

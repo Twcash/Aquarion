@@ -3,7 +3,6 @@ package aquarion.world.blocks.units;
 import aquarion.content.AquaUnitTypes;
 import arc.math.Angles;
 import arc.math.Mathf;
-import arc.Core;
 import mindustry.content.Fx;
 import mindustry.gen.Building;
 import mindustry.gen.Unit;
@@ -19,14 +18,14 @@ import static mindustry.Vars.tilesize;
  * Infantry landing pad. Periodically drops a squad of infantry from the sky.
  * Engineers build these to set up remote outposts far from the player's base.
  */
-public class InfantryLandingPad extends Block {
+public class GerbUnitPad extends Block {
     public final int timerSpawn = timers++;
 
     public UnitType unitType = AquaUnitTypes.infantry;
     public int spawnCount = 4;
     public float spawnInterval = 10f;
 
-    public InfantryLandingPad(String name){
+    public GerbUnitPad(String name){
         super(name);
         update = true;
         solid = false;

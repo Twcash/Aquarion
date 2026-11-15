@@ -9,15 +9,13 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.math.geom.Vec3;
 import arc.scene.Element;
-import arc.scene.ui.TextButton;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.gen.Call;
 import mindustry.type.Planet;
 import mindustry.type.Sector;
 import mindustry.type.Weather;
-
-/** Campaign fronts use the saved universe clock, shared by the map and sector weather. */
+//Planet weather simulated the same way sector capture was.
 public class PlanetWeather {
     private static final int count = 6;
     private static int selected = -1;

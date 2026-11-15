@@ -1,4 +1,4 @@
-package aquarion.world.campaign;
+package aquarion.world.campaign.objectives;
 
 import arc.Core;
 import arc.graphics.Colors;

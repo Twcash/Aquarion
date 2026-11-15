@@ -34,16 +34,14 @@ import mindustry.ui.Styles;
 import mindustry.io.TypeIO;
 
 import static mindustry.Vars.*;
-
-/** Produces rail units, or assembles an ordered train of the configured length. */
-public class RailWorkshop extends RailPoint{
+public class RailwayUnitFactory extends RailPoint{
     public final boolean coupling;
     public UnitType inputUnit, outputUnit;
     public Seq<UnitType> unitChoices = new Seq<>();
     public float buildTime = 600f;
     public ItemStack[] recipe = {};
 
-    public RailWorkshop(String name, boolean coupling){
+    public RailwayUnitFactory(String name, boolean coupling){
         super(name);
         this.coupling = coupling;
         size = 3;
@@ -53,7 +51,7 @@ public class RailWorkshop extends RailPoint{
         consumePower(2f);
         saveConfig = true;
         commandable = !coupling;
-        if(!coupling) RailWorkshopCommands.register();
+        if(!coupling) RailwayUnitFactoryCommands.register();
         config(UnitType.class, (RailWorkshopBuild build, UnitType unit) -> {
             if(!coupling && unitChoices.contains(unit, true)) build.selectedUnit = unit;
         });
@@ -365,7 +363,7 @@ public class RailWorkshop extends RailPoint{
                 if(segment == null) return seekCoupler ? null : previous;
                 travelled += segment.length;
                 if(seekCoupler){
-                    if(current instanceof RailWorkshopBuild workshop && workshop != this && ((RailWorkshop)workshop.block).coupling && workshop.enabled
+                    if(current instanceof RailWorkshopBuild workshop && workshop != this && ((RailwayUnitFactory)workshop.block).coupling && workshop.enabled
                         && (heldTrain == null || RailConsist.members(heldTrain).size < workshop.trainLength)) return current;
                 }else if(travelled >= length) return current;
                 visited.add(current);

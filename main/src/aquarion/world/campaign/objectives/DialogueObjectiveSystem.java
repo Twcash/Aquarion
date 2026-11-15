@@ -1,10 +1,9 @@
-package aquarion.world.campaign;
+package aquarion.world.campaign.objectives;
 
 import arc.struct.Seq;
 
 import static mindustry.Vars.state;
 
-/** Coordinates the active campaign map dialogue and its objective flags. */
 public class DialogueObjectiveSystem {
     public static DialogueObjective active;
     private static final Seq<DialogueObjective> suppressedOnLoad = new Seq<>();
@@ -12,8 +11,6 @@ public class DialogueObjectiveSystem {
 
     private DialogueObjectiveSystem(){
     }
-
-    /** Queue dialogue from any gameplay event using the normal objective UI and save state. */
     public static void show(DialogueObjective dialogue){
         if(dialogue == null || state == null || !state.isGame()) return;
         if(!state.rules.objectives.all.contains(dialogue, true)) state.rules.objectives.add(dialogue);

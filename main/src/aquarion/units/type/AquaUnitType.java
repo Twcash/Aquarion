@@ -2,25 +2,19 @@ package aquarion.units.type;
 
 import aquarion.annotations.Annotations;
 import aquarion.gen.DropShipc;
+import aquarion.units.effect.UnitTrail;
 import aquarion.world.entities.parts.AquaPart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.Renderer;
 import aquarion.world.graphics.StyledTrail;
 import arc.graphics.Color;
 import arc.math.Mathf;
-import arc.Core;
-import arc.graphics.Pixmap;
-import arc.graphics.Pixmaps;
 import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureAtlas;
 import arc.graphics.g2d.TextureRegion;
 import arc.struct.Seq;
 import mindustry.entities.Effect;
 import mindustry.gen.Unit;
 import mindustry.content.Fx;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.MultiPacker;
-import mindustry.type.UnitType;
 import mindustry.world.meta.Env;
 
 public class AquaUnitType extends DamageStateUnitType {

@@ -9,22 +9,15 @@ import aquarion.world.blocks.distribution.SealedRouter;
 import aquarion.world.blocks.distribution.EntitySorter;
 import aquarion.world.blocks.distribution.EntityJunction;
 import aquarion.world.blocks.distribution.EntityDirectionalUnloader;
-import aquarion.world.blocks.distribution.EntityDirectionalUnloader.EntityDirectionalUnloaderBuild;
 import aquarion.world.blocks.distribution.EntityUnloader.EntityUnloaderBuild;
 import aquarion.world.blocks.core.EntityStorageBuild;
 import aquarion.world.blocks.core.EntityCoreBuild;
 import aquarion.world.blocks.payload.*;
 import aquarion.world.blocks.production.DelayIncinerator;
-import aquarion.world.blocks.units.RailWorkshop;
+import aquarion.world.blocks.units.RailwayUnitFactory;
 import aquarion.world.graphics.AquaFx;
-import aquarion.world.graphics.WaterReflections;
-import arc.func.Cons;
-import mindustry.Vars;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
-import mindustry.content.Items;
-import mindustry.content.Planets;
-import mindustry.ctype.UnlockableContent;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.type.Category;
 import mindustry.world.Block;
@@ -33,10 +26,8 @@ import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.storage.Unloader;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.meta.Env;
-import mindustry.world.meta.Stat;
 
 import static aquarion.content.AquaItems.*;
-import static aquarion.content.AquaPlanets.*;
 import static aquarion.content.AquaUnitTypes.*;
 import static aquarion.content.AquaUnitTypes.path;
 import static mindustry.content.Items.*;
@@ -48,7 +39,7 @@ public class DistributionBlocks {
             sealedUnderflow, sealedJunction, payloadDisplacer;
     public static Block trainyard, pathCoupler, liquidCargoDock, liquidCargoDepot, cargoDepot, cargoDock, railPoint, railJunction;
     public static void loadContent() {
-        trainyard = new RailWorkshop("trainyard", false){{
+        trainyard = new RailwayUnitFactory("trainyard", false){{
             unitChoices.add(path, gorge, burden);
             requirements(Category.units, with(concrete, 150, graphite, 200, copper, 100, silicon, 80));
             inputUnit = outputUnit = path;
@@ -93,7 +84,7 @@ public class DistributionBlocks {
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;
         }};
-        pathCoupler = new RailWorkshop("rail-coupler", true){{
+        pathCoupler = new RailwayUnitFactory("rail-coupler", true){{
             requirements(Category.units, with(concrete, 150, lead, 150, graphite, 100, silicon, 100));
             inputUnit = path;
             outputUnit = path;

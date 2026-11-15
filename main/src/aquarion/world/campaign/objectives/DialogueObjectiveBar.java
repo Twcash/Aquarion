@@ -1,4 +1,4 @@
-package aquarion.world.campaign;
+package aquarion.world.campaign.objectives;
 
 import arc.Core;
 import arc.Events;
@@ -18,7 +18,6 @@ import mindustry.ui.Styles;
 
 import static mindustry.Vars.mobile;
 
-/** Bottom-left HUD bar for dialogue map objectives. */
 public class DialogueObjectiveBar {
     private static DialogueObjectiveBar instance;
     private static final float charRate = 12f;

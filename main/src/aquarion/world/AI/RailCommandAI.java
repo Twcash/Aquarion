@@ -10,7 +10,7 @@ import aquarion.world.units.RailTraffic;
 import aquarion.world.units.RailCargo;
 import aquarion.world.units.RailConsist;
 import aquarion.world.blocks.distribution.CargoStation.CargoStationBuild;
-import aquarion.world.blocks.units.RailWorkshop.RailWorkshopBuild;
+import aquarion.world.blocks.units.RailwayUnitFactory.RailWorkshopBuild;
 import arc.math.geom.Position;
 import arc.math.Angles;
 import arc.math.Mathf;

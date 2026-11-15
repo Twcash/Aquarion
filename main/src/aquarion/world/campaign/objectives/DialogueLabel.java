@@ -1,9 +1,8 @@
-package aquarion.world.campaign;
+package aquarion.world.campaign.objectives;
 
 import aquarion.world.graphics.AquaFill;
 import arc.scene.ui.Label;
 
-/** Connects dialogue text and its per-character shake to the shared drawing utility. */
 class DialogueLabel extends Label {
     private DialogueTypewriter typewriter;
     private final AquaFill.ShakingText shakingText = new AquaFill.ShakingText();

@@ -4,21 +4,17 @@ import arc.graphics.g2d.Draw;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
-import arc.util.Log;
 import arc.util.Nullable;
 import arc.util.Structs;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
-import mindustry.ctype.UnlockableContent;
 import mindustry.entities.Effect;
 import mindustry.gen.Building;
-import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.ui.Bar;
-import mindustry.ui.Styles;
 import mindustry.world.blocks.ItemSelection;
 import mindustry.world.blocks.payloads.BuildPayload;
 import mindustry.world.blocks.payloads.Payload;
@@ -27,8 +23,8 @@ import mindustry.world.consumers.ConsumeItemDynamic;
 import mindustry.world.consumers.ConsumeLiquidsDynamic;
 import mindustry.world.consumers.ConsumePayloadDynamic;
 
-public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
-    public UnitBlockStatusApplierThingWhat(String name) {
+public class PayloadUnitStatusApplier extends PayloadBlock {
+    public PayloadUnitStatusApplier(String name) {
         super(name);
         rotate = true;
         acceptsItems = true;
@@ -174,7 +170,7 @@ public class UnitBlockStatusApplierThingWhat extends PayloadBlock {
         public void buildConfiguration(Table table){
             Seq<StatusEffect> effects = plans.map(p -> p.effect);
 
-            ItemSelection.buildTable(UnitBlockStatusApplierThingWhat.this, table,
+            ItemSelection.buildTable(PayloadUnitStatusApplier.this, table,
                     effects,
                     () -> planIndex >= 0 && planIndex < plans.size ? plans.get(planIndex).effect : null,
                     effect -> {

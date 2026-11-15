@@ -1,12 +1,9 @@
 package aquarion.dialogs;
 
 import aquarion.content.blocks.CoreBlocks;
-import aquarion.world.campaign.GlobalFlagTriggers;
-import aquarion.world.campaign.DialogueObjective;
-import aquarion.world.campaign.DialogueObjectiveSystem;
-import arc.Events;
-import jdk.jfr.EventType;
-import mindustry.content.Blocks;
+import aquarion.world.campaign.objectives.GlobalFlagTriggers;
+import aquarion.world.campaign.objectives.DialogueObjective;
+import aquarion.world.campaign.objectives.DialogueObjectiveSystem;
 
 public class GlobalDialogues {
     private static boolean loaded;

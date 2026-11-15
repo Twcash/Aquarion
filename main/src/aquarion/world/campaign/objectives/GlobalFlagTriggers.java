@@ -1,4 +1,4 @@
-package aquarion.world.campaign;
+package aquarion.world.campaign.objectives;
 
 import arc.Events;
 import arc.func.Boolp;
@@ -12,7 +12,7 @@ import mindustry.world.Block;
 import mindustry.world.blocks.ConstructBlock.ConstructBuild;
 
 import static mindustry.Vars.*;
-
+//Global campaign flags that can be triggered whe
 public class GlobalFlagTriggers{
     public static  Seq<FlagTrigger> all = new Seq<>();
     public static  ObjectSet<String> events = new ObjectSet<>();
@@ -46,7 +46,6 @@ public class GlobalFlagTriggers{
         deconstructedBlocks.clear();
     }
 
-    /** Record an arbitrary gameplay event for predicates to inspect. */
     public static void record(String event){
         if(state != null && state.isCampaign() && event != null) events.add(event);
     }
@@ -60,7 +59,6 @@ public class GlobalFlagTriggers{
         all.add(trigger);
     }
 
-    /** Register a predicate inline; enum constants may instead implement FlagTrigger. */
     public static Condition when(String flag, Boolp condition){
         Condition trigger = new Condition(flag, condition);
         add(trigger);
@@ -74,7 +72,6 @@ public class GlobalFlagTriggers{
         }
     }
 
-    /** Mirrors the hint completion pattern while storing completion in campaign saves. */
     public interface FlagTrigger{
         String name();
         boolean complete();
