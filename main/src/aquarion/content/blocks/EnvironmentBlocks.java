@@ -5,33 +5,26 @@ import aquarion.content.AquaItems;
 import aquarion.content.AquaLiquids;
 import aquarion.content.AquaStatuses;
 import aquarion.world.blocks.environment.*;
-import aquarion.world.blocks.power.GenericGenerator;
-import aquarion.world.content.AquaItem;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaShaders;
 import arc.func.Cons;
 import arc.graphics.Color;
 import mindustry.content.*;
 import mindustry.ctype.UnlockableContent;
-import mindustry.entities.part.RegionPart;
 import mindustry.game.Team;
 import mindustry.gen.Sounds;
 import mindustry.graphics.CacheLayer;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
-import mindustry.type.Liquid;
 import mindustry.world.Block;
-import mindustry.world.blocks.defense.Radar;
-import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
-import org.w3c.dom.Attr;
 
 import static aquarion.content.AquaAttributes.*;
-import static aquarion.content.AquaItems.salt;
 import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaItems.salt;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
@@ -806,6 +799,7 @@ public class EnvironmentBlocks {
             variants = 2;
             attributes.set(iron, 1.1f);
             hasShadow = false;
+            shadowAlpha = 0.2f;
         }};
         andesiteExtrusions = new TallBlock("andesite-extrusions") {{
             variants = 2;
@@ -887,7 +881,7 @@ public class EnvironmentBlocks {
             attributes.set(Attribute.sand, 2f);
         }};
         CrystalGalena = new TallBlock("galena-crystal") {{
-            variants = 2;
+            variants = 3;
             itemDrop = galena;
             clipSize = 128f;
             shadowAlpha = 0.6f;
