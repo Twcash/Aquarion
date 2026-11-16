@@ -31,6 +31,7 @@ import static mindustry.type.ItemStack.with;
 
 public class PowerBlocks {
     public static Block ejector;
+    public static Block lightningRod;
     public static Block miniumReactor, singularityReactor, advSolarGen, leadBurner, petroleumEngine, heatExchanger,transpositionTower, energyBank, transformer,smallTurbine, turbineDynamo, solarGenerator, hydroxideReactor, heatEngine, pylon, outlet, capacitorBank, ionBattery, radiator, compressor, fumeEngine;
 
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
@@ -38,6 +39,13 @@ public class PowerBlocks {
     }
 
     public static void loadContent() {
+        lightningRod = new LightningRod("lightning-rod"){{
+            requirements(Category.power, with(copper, 120, lead, 100, silicon, 80));
+            size = 2;
+            health = 2000;
+            insulated = true;
+            envDisabled |= Env.underwater;
+        }};
         solarGenerator = new SolarGenerator("solar-generator") {{
             requirements(Category.power, with(lead, 150, nickel, 150, silicon, 200));
             size = 4;

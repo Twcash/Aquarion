@@ -1,7 +1,6 @@
 package aquarion.content.blocks;
 
 import aquarion.content.*;
-import aquarion.world.blocks.AquaBlock;
 import aquarion.world.blocks.core.AquaCoreBlock;
 import aquarion.world.blocks.core.SpecializationCatalyst;
 import aquarion.world.blocks.core.TrackedStorageBlock;
@@ -16,12 +15,11 @@ import aquarion.world.blocks.defense.deflectorShield;
 import aquarion.world.blocks.logic.BinaryChannel;
 import aquarion.world.blocks.logic.BinarySplitter;
 import aquarion.world.blocks.logic.StorageReader;
-import aquarion.world.blocks.logic.toggler;
+import aquarion.world.blocks.logic.Toggler;
 import aquarion.world.blocks.neoplasia.*;
 import aquarion.world.entities.bullet.NeoplasmGlobBulletType;
 import aquarion.world.entities.bullet.TentacleBulletType;
 import aquarion.world.AI.PopperAI;
-import aquarion.world.content.AquaItem;
 import aquarion.world.graphics.AquaFx;
 import arc.func.Cons;
 import arc.graphics.Color;
@@ -36,13 +34,7 @@ import mindustry.type.ItemStack;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.BuildTurret;
 import mindustry.world.blocks.environment.OverlayFloor;
-import mindustry.world.blocks.logic.MessageBlock;
-import mindustry.world.blocks.production.GenericCrafter;
-import mindustry.world.blocks.sandbox.ItemSource;
-import mindustry.world.blocks.sandbox.LiquidSource;
-import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.blocks.storage.CoreBlock;
-import mindustry.world.blocks.storage.StorageBlock;
 import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
@@ -75,7 +67,7 @@ public class CoreBlocks {
 
 
 
-        toggler = new toggler("toggler"){{
+        toggler = new Toggler("toggler"){{
             requirements(Category.logic, with(silicon, 10, graphite, 5));
             size = 1;
         }};

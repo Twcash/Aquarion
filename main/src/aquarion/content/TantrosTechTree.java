@@ -215,6 +215,7 @@ public class TantrosTechTree {
                         ), () -> {});
                     });
                     node(solarGenerator, () -> {
+                        node(lightningRod, () -> {});
                         node(advSolarGen, Seq.with(
                                 new Objectives.OnSector(stormyCoast)
                         ), () -> {});

@@ -1,18 +1,19 @@
 package aquarion.world.blocks.logic;
 
-import aquarion.world.blocks.logic.BinaryChannel.BinaryChannelBuild;
-import aquarion.world.blocks.logic.toggler.togglerBuild;
 import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import mindustry.gen.Building;
+import mindustry.graphics.Drawf;
 
 public class BinarySplitter extends BinaryBlock {
+    private static final Color lightColor = Color.valueOf("e1d7f8");
     public BinarySplitter(String name) {
         super(name);
-        rotate = true;
+        rotate = false;
         update = true;
-        drawArrow = true;
+        drawArrow = false;
     }
 
     public TextureRegion onRegion;
@@ -27,29 +28,26 @@ public class BinarySplitter extends BinaryBlock {
 
         @Override
         public void draw() {
-            Draw.rect(region, x, y, 0);
-            if (active) Draw.rect(onRegion, x, y, rotation);
+            Draw.rect(active ? onRegion : region, x, y, 0);
+            Drawf.light(x, y, 12f * warmup(), lightColor, 0.3f * warmup());
+
+        }
+
+        @Override
+        public boolean outputsTo(Building target){
+            return target != null && proximity.contains(target);
+        }
+
+        @Override
+        public boolean acceptsInput(Building source){
+            return true;
         }
 
         @Override
         public void updateTile() {
-            for (Building build : proximity) {
-                if(build instanceof BinaryBlockBuild b){
-                    if(build instanceof BinaryChannelBuild c){
-                        if(c.front() != null && front() == this){
-                            continue;
-                        }
-                        b.active = active;
-                    } else if (build instanceof BinarySplitterBuild d) {
-                        if(active)b.active = active;
-                        continue;
-                    }
-                }
-                if(build instanceof togglerBuild){
-                    continue;
-                } else{
-                    build.enabled = active;
-                }
+            super.updateTile();
+            for(Building target : proximity){
+                if(outputsTo(target)) transmit(this, target, active);
             }
         }
     }

@@ -3,6 +3,10 @@ package aquarion.world.blocks.logic;
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
+import arc.math.Mathf;
+import arc.struct.IntSeq;
+import arc.util.io.Reads;
+import arc.util.io.Writes;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.Eachable;
@@ -31,9 +35,16 @@ public class StorageReader extends Block {
 
         config(Item.class, (StorageReaderBuild build, Item item) -> build.filterItem = item);
         config(Integer.class, (StorageReaderBuild build, Integer value) -> {
-            build.threshold = value & 0xFFFF;
+            build.threshold = Mathf.clamp(value & 0xFFFF, 0, 100);
             build.above = ((value >> 16) & 1) == 1;
         });
+        config(IntSeq.class, (StorageReaderBuild build, IntSeq values) -> {
+            if(values.size != 3) return;
+            build.filterItem = values.get(0) < 0 ? null : Vars.content.item(values.get(0));
+            build.threshold = Mathf.clamp(values.get(1), 0, 100);
+            build.above = values.get(2) != 0;
+        });
+        configClear((StorageReaderBuild build) -> build.filterItem = null);
     }
 
     @Override
@@ -46,14 +57,11 @@ public class StorageReader extends Block {
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
-        Draw.rect(region, plan.drawx(), plan.drawy(), 0);
-        Draw.rect(topRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);
-
+        Draw.rect(region, plan.drawx(), plan.drawy(),0);
     }
-
     @Override
     public TextureRegion[] icons(){
-        return new TextureRegion[]{region, topRegion};
+        return new TextureRegion[]{region};
     }
 
     public class StorageReaderBuild extends Building {
@@ -72,20 +80,15 @@ public class StorageReader extends Block {
         @Override
         public void updateTile(){
             Building target = back();
-            if(target != null && target.items != null && filterItem != null){
+            enabled = false;
+            if(target != null && target.team == team && target.items != null && filterItem != null){
                 int cap = target.block.itemCapacity;
                 int count = target.items.get(filterItem);
                 int required = cap * threshold / 100;
                 enabled = above ? count >= required : count < required;
             }
 
-            if(front() != null){
-                if(front() instanceof BinaryChannel.BinaryChannelBuild y){
-                    if(front().back() != null && front().back() == this) y.active = enabled;
-                }else if(!(front() instanceof BinarySplitter.BinarySplitterBuild || front() instanceof toggler.togglerBuild)){
-                    front().enabled = enabled;
-                }
-            }
+            BinaryBlock.transmit(this, front(), enabled);
         }
 
         @Override
@@ -96,21 +99,21 @@ public class StorageReader extends Block {
                 Styles.cleart
             );
             modeButton.clicked(() -> {
-                above = !above;
-                modeButton.setText(above ? Core.bundle.get("setting.storagereader.above") : Core.bundle.get("setting.storagereader.below"));
+                configure(threshold | ((!above ? 1 : 0) << 16));
             });
+            modeButton.update(() -> modeButton.setText(Core.bundle.get(
+                above ? "setting.storagereader.above" : "setting.storagereader.below")));
+            pctLabel.update(() -> pctLabel.setText(threshold + "%"));
 
             Slider slider = new Slider(0, 100, 5, false);
             slider.setValue(threshold);
             slider.changed(() -> {
-                threshold = (int)slider.getValue();
-                pctLabel.setText(threshold + "%");
+                configure((int)slider.getValue() | ((above ? 1 : 0) << 16));
             });
 
             table.background(Tex.pane);
             table.margin(8);
             ItemSelection.buildTable(StorageReader.this, table, Vars.content.items(), () -> filterItem, item -> {
-                filterItem = item;
                 configure(item);
             });
             table.row();
@@ -124,7 +127,30 @@ public class StorageReader extends Block {
 
         @Override
         public Object config(){
-            return filterItem;
+            return IntSeq.with(filterItem == null ? -1 : filterItem.id, threshold, above ? 1 : 0);
+        }
+
+        @Override
+        public byte version(){
+            return 1;
+        }
+
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            write.s(filterItem == null ? -1 : filterItem.id);
+            write.i(threshold);
+            write.bool(above);
+        }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            if(revision < 1) return;
+            int item = read.s();
+            filterItem = item < 0 ? null : Vars.content.item(item);
+            threshold = Mathf.clamp(read.i(), 0, 100);
+            above = read.bool();
         }
     }
 }
