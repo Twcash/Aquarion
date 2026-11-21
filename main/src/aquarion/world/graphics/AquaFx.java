@@ -24,19 +24,18 @@ import mindustry.entities.Effect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.gen.Building;
-import mindustry.world.Block;
-import static mindustry.Vars.world;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
-
 import mindustry.type.Item;
+import mindustry.world.Block;
 import mindustry.world.blocks.payloads.Payload;
 
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.lineAngle;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.*;
+import static mindustry.Vars.world;
 
 
 public class AquaFx {
@@ -1838,6 +1837,12 @@ public class AquaFx {
                     });
                 }
             }).layer(Layer.debris),
+
+    diminutionRing = new Effect(200, e->{
+        Draw.color(Pal.sap);
+        Lines.stroke(4*Interp.pow5Out.apply(e.fout()));
+        Lines.circle(e.x,e.y, 125*2*Interp.pow2Out.apply(e.fin()));
+    }),
 
     hitBulletColor1 = new Effect(14, e -> {
                 color(Color.white, e.color, e.fin());
