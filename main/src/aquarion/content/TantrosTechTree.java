@@ -494,6 +494,32 @@ public class TantrosTechTree {
                     });
                     nodeProduce(magma, () -> {});
                 });
+                                nodeProduce(nickel, () -> {
+                    nodeProduce(air, () -> {
+                        nodeProduce(water, () -> {
+                            nodeProduce(halideWater, () -> {
+                                nodeProduce(muriaticAcid, () -> {
+                                    nodeProduce(hydroxide, () -> {});
+                                });
+                                nodeProduce(salt, () -> {
+                                    nodeProduce(brine, () -> {
+                                        nodeProduce(chlorine, () -> {});
+                                    });
+                                });
+                            });
+                            nodeProduce(haze, () -> {
+                            });
+                            nodeProduce(oxygen, () -> {
+                                nodeProduce(hydrogen, () -> {});
+                            });
+                        });
+                        nodeProduce(cryogen, () -> {});
+                        nodeProduce(nitrogen, () -> {
+                            nodeProduce(argon, () -> {});
+                        });
+                    });
+                    nodeProduce(cupronickel, () -> {});
+                });
                 nodeProduce(copper, () -> {
                     nodeProduce(graphite, () -> {
                         nodeProduce(coal, () -> {
