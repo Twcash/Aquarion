@@ -2,15 +2,11 @@ package aquarion.entities.comp;
 
 import aquarion.gen.AquaUnitc;
 import aquarion.annotations.Annotations;
-import aquarion.gen.*;
-import aquarion.units.AquaLegUnitType;
-import aquarion.world.entities.AquaLeg;
+import aquarion.units.type.AquaLegUnitType;
 import aquarion.world.entities.AquaLegConfig;
 import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
-import arc.struct.Seq;
-import arc.util.Structs;
 import arc.util.Time;
 import arc.util.Tmp;
 import mindustry.Vars;

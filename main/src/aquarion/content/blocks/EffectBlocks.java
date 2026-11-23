@@ -22,10 +22,10 @@ public class EffectBlocks {
         led = new LightBlock("led") {{
             shownPlanets.addAll(fakeSerpulo,fakeErekir, tantros2, qeraltar);
             requirements(Category.effect, BuildVisibility.lightingOnly, with(silicon, 10, copper, 5));
-            brightness = 0.5f;
+            brightness = 0.7f;
             destroyEffect = new MultiEffect(Fx.dynamicExplosion, AquaFx.factoryDestroy);
             size = 1;
-            radius = 20;
+            radius = 50;
             consumePower(0.1f);
             envEnabled |= Env.terrestrial | Env.underwater;
             envDisabled = Env.none;

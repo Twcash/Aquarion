@@ -8,6 +8,7 @@ import mindustry.content.Planets;
 import mindustry.type.Item;
 
 import static aquarion.content.AquaPlanets.*;
+import static mindustry.content.Items.tungsten;
 
 public class AquaItems {
     public static Item polymer, cuprite, calcium;
@@ -83,6 +84,7 @@ public class AquaItems {
         polymer = new Item("polymer", Color.valueOf("#eaeadf")) {{
             cost = 1.3f;
         }};
+        tungsten.hardness = 4;
         ferricMatter = new AquaItem("ferric-matter", Color.valueOf("#675b53")) {{
             cost = 0.5f;
             magnetism = 1;

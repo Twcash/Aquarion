@@ -9,15 +9,13 @@ import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.math.geom.Vec3;
 import arc.scene.Element;
-import arc.scene.ui.TextButton;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.gen.Call;
 import mindustry.type.Planet;
 import mindustry.type.Sector;
 import mindustry.type.Weather;
-
-/** Campaign fronts use the saved universe clock, shared by the map and sector weather. */
+//Planet weather simulated the same way sector capture was.
 public class PlanetWeather {
     private static final int count = 6;
     private static int selected = -1;
@@ -177,7 +175,8 @@ public class PlanetWeather {
                         Draw.color(Color.sky);
                         Draw.alpha(alpha);
                         Lines.stroke(2f);
-                        int kind = planet == AquaPlanets.tantros2 ? 3 : index % 3;
+                        int kind = planet == AquaPlanets.tantros2 ? 3 : weather == AquaWeathers.blizzard ? 0
+                            : weather == AquaWeathers.thunderstorm ? 2 : 1;
                         if(kind == 0){
                             for(int a = 0; a < 3; a++) Lines.lineAngleCenter(x, y, a * 60f, 20f);
                         }else if(kind == 3){
@@ -249,7 +248,18 @@ public class PlanetWeather {
 
     private static Weather type(Planet planet, int index){
         if(planet == AquaPlanets.tantros2) return index % 2 == 0 ? AquaWeathers.currents : AquaWeathers.sedimentDisturance;
-        return index % 3 == 0 ? AquaWeathers.blizzard : index % 3 == 1 ? AquaWeathers.monsoon : AquaWeathers.thunderstorm;
+        // Only one of the six fronts is a thunderstorm; ordinary rain fronts are more common.
+        return index % 3 == 0 ? AquaWeathers.blizzard : index == count - 1 ? AquaWeathers.thunderstorm : AquaWeathers.monsoon;
+    }
+
+    private static boolean suitable(Planet planet, Weather weather, Sector sector){
+        if(planet != AquaPlanets.fakeSerpulo) return true;
+        float latitude = Math.abs(sector.tile.v.y);
+        boolean frozen = planet.generator instanceof aquarion.planets.FakeSerpuloPlanetGenerator generator
+            && generator.isFrozen(sector.tile.v);
+        if(weather == AquaWeathers.blizzard) return latitude >= 0.4f && (frozen || latitude >= 0.65f);
+        if(weather == AquaWeathers.thunderstorm) return latitude < 0.5f && !frozen;
+        return latitude < 0.65f && !frozen;
     }
 
     private static Sector center(Planet planet, int index, int ahead){
@@ -258,7 +268,9 @@ public class PlanetWeather {
         arc.struct.Seq<Sector> route = routes.get(key);
         if(route == null){
             route = new arc.struct.Seq<>();
-            route.add(planet.sectors.get(index * planet.sectors.size / count));
+            Sector start = planet.sectors.get(index * planet.sectors.size / count);
+            Weather weather = type(planet, index);
+            route.add(planet.sectors.min(s -> suitable(planet, weather, s) ? s.tile.v.dst2(start.tile.v) : Float.MAX_VALUE));
             routes.put(key, route);
         }
         while(route.size <= tick){
@@ -272,6 +284,7 @@ public class PlanetWeather {
             Sector best = null;
             float bestScore = -Float.MAX_VALUE;
             for(Sector next : current.near()){
+                if(!suitable(planet, type(planet, index), next)) continue;
                 if(route.size > 1 && next == route.get(route.size-2)) continue;
                 float score = next.tile.v.cpy().sub(current.tile.v).nor().dot(heading);
                 for(int back = Math.max(0, route.size - 8); back < route.size; back++){
@@ -293,8 +306,8 @@ public class PlanetWeather {
         String key = planet.name + ":" + index;
         Sector center = center(planet, index, 0);
         if(footprintCenters.get(key) != center){
-            int radius = index % 3 == 1 ? 2 : 1;
             Weather weather = type(planet, index);
+            int radius = weather == AquaWeathers.monsoon ? 2 : 1;
             arc.struct.ObjectMap<Sector, Weather> footprint = new arc.struct.ObjectMap<>();
             arc.struct.Seq<Sector> edge = arc.struct.Seq.with(center);
             footprint.put(center, weather);
@@ -316,6 +329,8 @@ public class PlanetWeather {
             float spacing = center.tile.v.dst(center.near().first().tile.v);
             arc.struct.ObjectMap<Sector, Weather> shaped = new arc.struct.ObjectMap<>();
             for(Sector tile : footprint.keys()){
+                // Check the entire footprint too, so a front cannot spill over a climate boundary.
+                if(!suitable(planet, weather, tile)) continue;
                 Vec3 offset = tile.tile.v.cpy().sub(center.tile.v);
                 float along = offset.dot(heading) / spacing;
                 float across = offset.dot(side) / spacing;
@@ -352,7 +367,11 @@ public class PlanetWeather {
         Weather expected = effectiveWeather(sector.planet, sector);
         for(Weather weather : new Weather[]{AquaWeathers.monsoon, AquaWeathers.thunderstorm, AquaWeathers.blizzard,
             AquaWeathers.currents, AquaWeathers.sedimentDisturance, mindustry.content.Weathers.rain}){
-            if(weather != expected && weather.instance() != null) weather.instance().life(Math.min(weather.instance().life(), 60f));
+            if(weather != expected && weather.instance() != null){
+                var instance = weather.instance();
+                // Start at the current opacity rather than snapping down to the last second of the fade.
+                instance.life(Math.min(instance.life(), mindustry.gen.WeatherState.fadeTime * instance.opacity));
+            }
         }
         if(expected != null){
             if(!expected.isActive()) Call.createWeather(expected, 1f, 600f, 1f, 0f);

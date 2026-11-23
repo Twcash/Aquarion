@@ -1,6 +1,6 @@
 package aquarion.world.units;
 
-import aquarion.units.AquaLegUnitType;
+import aquarion.units.type.AquaLegUnitType;
 import aquarion.world.graphics.AquaFx;
 import arc.graphics.Color;
 import arc.graphics.g2d.TextureRegion;

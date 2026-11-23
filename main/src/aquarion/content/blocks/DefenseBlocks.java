@@ -1,9 +1,9 @@
 package aquarion.content.blocks;
 
 import aquarion.world.AI.NewMissileAI;
-import aquarion.world.MultiBlockLib.drawrr.DrawRegionCenterSymmetry;
 import aquarion.world.MultiBlockLib.drawrr.DrawRegionRotated;
 import aquarion.world.blocks.defense.AquaWall;
+import aquarion.world.blocks.defense.DiminutionProjector;
 import aquarion.world.blocks.defense.MissileBlock;
 import aquarion.world.blocks.defense.NukeBlock;
 import aquarion.world.blocks.payload.ReagentMix;
@@ -12,14 +12,11 @@ import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
 import arc.graphics.Color;
 import arc.graphics.g2d.Lines;
-import mindustry.ai.types.CommandAI;
-import mindustry.ai.types.FlyingAI;
-import mindustry.ai.types.MissileAI;
 import mindustry.content.Fx;
+import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.content.Planets;
 import mindustry.entities.Effect;
-import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.abilities.MoveEffectAbility;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.EmptyBulletType;
@@ -42,9 +39,10 @@ import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.petroleum;
-import static aquarion.content.AquaPlanets.*;
+import static aquarion.content.AquaPlanets.fakeSerpulo;
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
+import static mindustry.content.Blocks.forceProjector;
 import static mindustry.content.Items.*;
 import static mindustry.type.ItemStack.with;
 
@@ -52,7 +50,7 @@ public class DefenseBlocks {
     public static Block forceGenerator, testblock, meteor, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade, ferricWall, ferricWallLarge, thoriumCube
     //I have no clue where to put these so I'll put them here
-    ,dolomiteReagentMix, sandClump;
+    ,dolomiteReagentMix, sandClump, largeForceProjector, diminutionProjector,invarWall,invarWallLarge;
 
 
     public static void loadContent() {
@@ -425,6 +423,40 @@ public class DefenseBlocks {
             health = 160 * 4*4;
             size = 2;
             armor = 2;
+        }};
+        invarWall = new Wall("invar-wall"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.defense, with(invar, 6));
+            health = 250 * 4;
+            armor = 5;
+        }};
+        invarWallLarge = new Wall("invar-wall-large"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.defense, ItemStack.mult(invarWall.requirements, 4));
+            health = 250 * 4*4;
+            size = 2;
+            armor = 5;
+        }};
+        largeForceProjector = new ForceProjector("large-force-projector"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.effect, ItemStack.mult(forceProjector.requirements, 4));
+            size = 5;
+            phaseRadiusBoost = 120f;
+            radius = 240;
+            shieldHealth = 2450f;
+            cooldownNormal = 5.8f;
+            sides = 12;
+            cooldownLiquid = 6.0f;
+            cooldownBrokenBase = 3.5f;
+            phaseShieldBoost = 1500;
+            coolantConsumption = 60;
+            itemConsumer = consumeItem(Items.phaseFabric).boost();
+            consumePower(25f);
+        }};
+        diminutionProjector = new DiminutionProjector("diminution-projector"){{
+            requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
+            size = 3;
+            consumePower(7);
         }};
         chalkalloyWallLarge = new Wall("chalkalloy-wall-large"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);

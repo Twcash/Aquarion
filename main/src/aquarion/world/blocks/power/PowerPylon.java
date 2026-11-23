@@ -15,7 +15,6 @@ import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import arc.util.Eachable;
 import arc.util.Time;
-import arc.util.Tmp;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.Team;
 import mindustry.gen.Building;
@@ -29,7 +28,6 @@ import mindustry.world.blocks.power.Battery;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerGraph;
 import mindustry.world.blocks.power.PowerNode;
-import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.meta.Env;
 import mindustry.world.modules.PowerModule;
 
@@ -37,10 +35,10 @@ import static mindustry.Vars.*;
 import static mindustry.core.Renderer.laserOpacity;
 
 public class PowerPylon extends PowerNode {
-    protected static BuildPlan otherReq;
-    protected static int returnInt = 0;
-    protected final static ObjectSet<PowerGraph> graphs = new ObjectSet<>();
-    protected static float maxRange;
+    public static BuildPlan otherReq;
+    public int returnInt = 0;
+    public static ObjectSet<PowerGraph> graphs = new ObjectSet<>();
+    public float maxRange;
     public TextureRegion cable;
     public TextureRegion cableEnd;
     public TextureRegion glow;
@@ -126,9 +124,8 @@ public class PowerPylon extends PowerNode {
         });
     }
     public static boolean isAllowedLinkTarget(Building build){
-        return build instanceof PowerPylonBuild || build instanceof PowerGenerator.GeneratorBuild || build instanceof Battery.BatteryBuild && build.block.insulated || build instanceof PowerSource.PowerSourceBuild || build instanceof PowerNodeBuild;
+        return build instanceof PowerPylonBuild || build instanceof PowerGenerator.GeneratorBuild || build instanceof Battery.BatteryBuild && build.block.insulated || build instanceof PowerNodeBuild;
     }
-    //Gotta keep this here OR ELSE
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid){
         Tile tile = world.tile(x, y);

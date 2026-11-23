@@ -3,6 +3,7 @@ package aquarion.world.graphics.weather;
 import aquarion.content.AquaAttributes;
 import aquarion.content.AquaSounds;
 import aquarion.world.entities.AquaLightning;
+import aquarion.world.blocks.power.LightningRod;
 import aquarion.world.graphics.AquaShaders;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -17,7 +18,6 @@ import mindustry.gen.WeatherState;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.world.meta.Attribute;
-import static mindustry.gen.WeatherState.fadeTime;
 
 import arc.*;
 import arc.graphics.*;
@@ -57,7 +57,7 @@ public class Monsoon extends Weather {
         statusDuration = 240;
         soundVol = 1;
         duration = 10 * Time.toMinutes;
-        soundVolMin = 0.8f;
+        soundVolMin = 0f;
     }
 
     private int lightningCounter = 0;
@@ -65,7 +65,7 @@ public class Monsoon extends Weather {
 
     @Override
     public void update(WeatherState state){
-        float intensity = state.intensity;
+        float intensity = state.intensity * state.opacity;
 
         //deterministic lightning: seeded by the synced weather state id, so clients
         //draw the exact same strikes while the server handles the damage
@@ -81,9 +81,16 @@ public class Monsoon extends Weather {
             Color lightningColor = Color.valueOf("bef8ff").cpy();
             lightningColor.a = Mathf.randomSeed(seed + 3, 0.4f, 1f); // vary Sigma alpha
             //Super sigma alpha code
-            Fx.lightning.at(x, y, size);
-            AquaSounds.thunder.at(x, y, size/100*2, size/100*2);
-            AquaLightning.create(Team.derelict, lightningColor, size, x, y, Mathf.randomSeed(seed + 6, 0f, 360f), (int)Mathf.randomSeed(seed + 7, minLightningLength, maxLightningLength));
+            var rod = LightningRod.find(x, y);
+            if(rod != null){
+                rod.capture();
+                Fx.chainLightning.at(x, y, 0f, lightningColor, new arc.math.geom.Vec2(rod.x, rod.y));
+                AquaSounds.thunder.at(rod.x, rod.y, size/100*2, size/100*2);
+            }else{
+                Fx.lightning.at(x, y, size);
+                AquaSounds.thunder.at(x, y, size/100*2, size/100*2);
+                AquaLightning.create(Team.derelict, lightningColor, size, x, y, Mathf.randomSeed(seed + 6, 0f, 360f), (int)Mathf.randomSeed(seed + 7, minLightningLength, maxLightningLength));
+            }
         }
 
         if(!Vars.net.client()){
@@ -133,15 +140,8 @@ public class Monsoon extends Weather {
         return Mathf.clamp((zoomGone * def - scale) / ((zoomGone - zoomVisible) * def));
     }
     public void drawMist(WeatherState state){
-        if(state.life < fadeTime){
-            state.opacity = Math.min(state.life / fadeTime, state.opacity);
-        } else {
-            state.opacity = Mathf.lerpDelta(state.opacity, 1f, 0.004f);
-        }
-
         float intensity = state.intensity * state.opacity;
 
-        Draw.blit(AquaShaders.monsoon);
         Draw.draw(Layer.light + 1, () -> {
             Draw.color(Color.valueOf("515573"), 0.6f*intensity);
             Fill.rect(Core.camera.position.x, Core.camera.position.y, Core.camera.width, Core.camera.height);

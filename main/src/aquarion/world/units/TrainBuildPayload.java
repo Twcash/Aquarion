@@ -1,6 +1,6 @@
 package aquarion.world.units;
 
-import aquarion.units.type.PayloadRailUnitType;
+import aquarion.units.type.rail.PayloadRailUnitType;
 import mindustry.Vars;
 import mindustry.gen.Building;
 import mindustry.gen.Unit;

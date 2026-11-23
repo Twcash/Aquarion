@@ -1,8 +1,6 @@
 package aquarion.content;
 
 import aquarion.content.blocks.*;
-import aquarion.units.type.AquaUnitType;
-import aquarion.world.blocks.units.UnitBlock;
 import aquarion.world.blocks.core.SpecializationCatalyst;
 import arc.Events;
 import arc.struct.ObjectMap;
@@ -10,14 +8,13 @@ import arc.struct.ObjectSet;
 import arc.util.Nullable;
 import arc.util.Time;
 import aquarion.ui.ModSettings;
-import aquarion.units.DefunctUnitType;
+import aquarion.units.type.DefunctUnitType;
 import mindustry.content.TechTree;
 import mindustry.game.EventType;
 import mindustry.game.Rules;
 import mindustry.gen.Unit;
 import mindustry.type.UnitType;
 import mindustry.world.Block;
-import mindustry.world.blocks.liquid.LiquidBlock;
 import mindustry.world.meta.BuildVisibility;
 
 import static mindustry.Vars.*;

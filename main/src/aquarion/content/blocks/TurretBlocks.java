@@ -54,7 +54,7 @@ import static mindustry.type.ItemStack.with;
 
 public class TurretBlocks {
     public static Block javelin, aftershock, suffocate,concuss, volt, grace, perforate, finite, mayhem, illustrate, acquit, clobber, reconstitution, flagellate, truncate, thrash, dislocate, refraction, confront, focus, douse, pelt, point, vector, sentry, maelstrom, Foment, redact, torrefy,
-      blaze, ensign, hack;
+      blaze, ensign, hack, overbear;
     public static <T extends UnlockableContent> void overwrite(UnlockableContent target, Cons<T> setter) {
         setter.get((T) target);
     }
@@ -1538,6 +1538,81 @@ public class TurretBlocks {
                     }});
                 }
             }};
+        }};
+        overbear = new ItemTurret("overbear"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.turret, with(copper, 90, metaglass, 60, silicon, 45));
+            size = 3;
+            reload = 30;
+            shoot = new ShootBarrel(){{
+                barrels = new float[]{0,9,0, 4, 7.5f,0, -4, 7.5f, 0, 7.5f, 11/2f,0,-7.5f, 11/2f,0};
+            }};
+            shoot.shots = 10;
+            shootY = 0;
+            shoot.shotDelay = 2;
+            shootSound = shootMissileSmall;
+            range = 250;
+            ammo(
+                    pyratite, new BasicBulletType(5, 40,"missile-large"){{
+                        width = 8;
+                        height = 10;
+                        splashDamageRadius = 25;
+                        frontColor = Pal.lightPyraFlame;
+                        despawnSound = explosionMissile;
+                        backColor = Pal.darkPyraFlame;
+                        trailEffect = Fx.missileTrailSmokeSmall;
+                    }},
+                    blastCompound, new BasicBulletType(5, 60,"missile-large"){{
+                        width = 8;
+                        height = 10;
+                        splashDamage = 60;
+                        splashDamageRadius = 40;
+                        frontColor = Pal.blastAmmoFront;
+                        backColor = Pal.blastAmmoBack;
+                        despawnSound = explosionMissile;
+                        trailEffect = Fx.missileTrailSmokeSmall;
+                    }},
+                    invar, new BasicBulletType(6, 90){{
+                        width = 8;
+                        height = 10;
+                        frontColor = Pal.plastaniumFront;
+                        backColor = Pal.plastaniumBack;
+                        fragBullets = 8;
+                        trailEffect = Fx.missileTrailSmokeSmall;
+                        splashDamageRadius = 25;
+                        splashDamage = 60;
+                     }},
+                    steel, new BasicBulletType(5, 120,"missile-large"){{
+                        width = 8;
+                        height = 10;
+                        pierce = true;
+                        pierceCap = 2;
+                        pierceBuilding = true;
+                        frontColor = Color.white;
+                        despawnSound = explosionMissile;
+                        trailEffect = Fx.missileTrailSmokeSmall;
+                        backColor = Pal.gray;
+                    }},
+                    plastanium, new BasicBulletType(10, 90, "missile-large"){{
+                        width = 8;
+                        height = 10;
+                        frontColor = Pal.plastaniumFront;
+                        backColor = Pal.plastaniumBack;
+                        fragBullets = 8;
+                        trailEffect = Fx.missileTrailSmokeSmall;
+                        fragBullet = new BasicBulletType(2.5f, 20, "bullet"){{
+                            width = 10f;
+                            height = 12f;
+                            shrinkY = 1f;
+                            lifetime = 15f;
+                            backColor = Pal.plastaniumBack;
+                            frontColor = Pal.plastaniumFront;
+                            despawnEffect = Fx.none;
+                        }};
+                    }}
+            );
+            coolant = consumeCoolant(0.3f);
+            limitRange(1.05f);
         }};
         illustrate = new ItemTurret("illustrate"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);

@@ -1,6 +1,6 @@
 package aquarion.world.units;
 
-import aquarion.units.type.RailUnitType;
+import aquarion.units.type.rail.RailUnitType;
 import aquarion.world.AI.RailCommandAI;
 import aquarion.world.units.RailPathfinder.Edge;
 import arc.math.Mathf;

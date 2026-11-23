@@ -1,5 +1,6 @@
 package aquarion.world.AI;
 
+import aquarion.units.type.rail.PayloadRailUnitType;
 import aquarion.world.blocks.distribution.RailPoint;
 import aquarion.world.blocks.distribution.RailPoint.RailPointBuild;
 import aquarion.world.units.RailPathfinder;
@@ -9,7 +10,7 @@ import aquarion.world.units.RailTraffic;
 import aquarion.world.units.RailCargo;
 import aquarion.world.units.RailConsist;
 import aquarion.world.blocks.distribution.CargoStation.CargoStationBuild;
-import aquarion.world.blocks.units.RailWorkshop.RailWorkshopBuild;
+import aquarion.world.blocks.units.RailwayUnitFactory.RailWorkshopBuild;
 import arc.math.geom.Position;
 import arc.math.Angles;
 import arc.math.Mathf;
@@ -342,7 +343,7 @@ public class RailCommandAI extends CommandAI{
     }
 
     private void updateCargo(){
-        if(yieldOwner != null || (unit.type.itemCapacity <= 0 && !(unit instanceof aquarion.world.units.LiquidRailUnit) && !(unit.type instanceof aquarion.units.type.PayloadRailUnitType))) return;
+        if(yieldOwner != null || (unit.type.itemCapacity <= 0 && !(unit instanceof aquarion.world.units.LiquidRailUnit) && !(unit.type instanceof PayloadRailUnitType))) return;
         if(patrolResume != null){
             if(targetPos != null && cargoTarget != null && !targetPos.within(cargoTarget, 0.01f)){
                 patrolResume = null;

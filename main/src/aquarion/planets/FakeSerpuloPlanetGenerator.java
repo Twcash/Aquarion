@@ -126,6 +126,12 @@ public class FakeSerpuloPlanetGenerator extends PlanetGenerator{
         }
     }
 
+    /** Uses the same terrain sample as the planet mesh when classifying cold weather regions. */
+    public boolean isFrozen(Vec3 position){
+        Block block = getBlock(position);
+        return block == Blocks.snow || block == Blocks.ice || block == Blocks.iceSnow || block == packedSnow;
+    }
+
     Block getBlock(Vec3 position){
         float height = rawHeight(position);
         Tmp.v31.set(position);

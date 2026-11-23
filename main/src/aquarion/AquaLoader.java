@@ -1,5 +1,6 @@
 package aquarion;
 
+import aquarion.world.campaign.objectives.*;
 import arc.scene.style.TextureRegionDrawable;
 import aquarion.content.AquaCategories;
 import aquarion.content.AquaFactions;
@@ -11,11 +12,6 @@ import aquarion.world.MultiBlockLib.PlaceholderBlock;
 import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.environment.CheckpointBlock;
 import aquarion.world.blocks.neoplasia.NeoplasiaGraph;
-import aquarion.world.campaign.DialogueObjective;
-import aquarion.world.campaign.DialogueObjectiveBar;
-import aquarion.world.campaign.DialogueObjectiveOption;
-import aquarion.world.campaign.DialogueObjectiveSystem;
-import aquarion.world.campaign.SectorCapturedObjective;
 import aquarion.world.graphics.AquaShaders;
 import aquarion.world.graphics.Renderer;
 import arc.*;
@@ -30,7 +26,6 @@ import mindustry.gen.Icon;
 import mindustry.io.JsonIO;
 import mindustry.mod.*;
 import aquarion.annotations.Annotations.*;
-import aquarion.gen.*;
 import mindustry.world.Block;
 import aquarion.ui.AquaCampaignSelect; //aqua campaign select is kinda cooked rn
 
@@ -149,11 +144,9 @@ public class AquaLoader extends Mod {
     public void init() {
         aquarion.ui.ClientCompatibility.install();
         aquarion.world.map.RuntimeMapFilters.install();
-        aquarion.world.campaign.GlobalFlagTriggers.register();
+        GlobalFlagTriggers.register();
         aquarion.dialogs.GlobalDialogues.load();
         MapObjectives.registerObjective(DialogueObjective::new);
-        MapObjectives.registerObjective(aquarion.world.campaign.BlockPlacedObjective::new);
-        MapObjectivesDialog.setInterpreter(aquarion.world.campaign.BlockPlacedObjective.class, MapObjectivesDialog.defaultInterpreter());
         MapObjectives.registerObjective(SectorCapturedObjective::new);
         MapObjectivesDialog.setInterpreter(SectorCapturedObjective.class, MapObjectivesDialog.defaultInterpreter());
         MapObjectivesDialog.setInterpreter(DialogueObjective.class, MapObjectivesDialog.defaultInterpreter());
@@ -163,7 +156,7 @@ public class AquaLoader extends Mod {
         JsonIO.classTag("DialogueObjectiveOption", DialogueObjectiveOption.class);
 
         Events.on(EventType.WorldLoadEvent.class, e -> {
-            aquarion.world.campaign.GlobalFlags.reload();
+            GlobalFlags.reload();
             DialogueObjectiveSystem.reset();
         });
         if(!headless){

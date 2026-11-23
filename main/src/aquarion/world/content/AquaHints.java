@@ -1,25 +1,17 @@
 package aquarion.world.content;
 
-import aquarion.content.blocks.CrafterBlocks;
 import aquarion.content.blocks.LiquidBlocks;
-import aquarion.content.blocks.PowerBlocks;
 import aquarion.content.blocks.TurretBlocks;
 import aquarion.content.AquaSectorPresets;
-import aquarion.ui.WorldToasts;
 import aquarion.world.blocks.power.PowerOutlet;
 import aquarion.world.blocks.power.PowerPylon;
 import aquarion.world.type.GroundDrill;
 import arc.Core;
-import arc.Events;
 import arc.func.Boolp;
-import arc.struct.ObjectSet;
 import arc.struct.Seq;
-import arc.util.Nullable;
 import arc.util.Structs;
 import mindustry.Vars;
-import mindustry.game.EventType;
 import mindustry.ui.fragments.HintsFragment;
-import mindustry.world.Block;
 import mindustry.world.blocks.power.SolarGenerator;
 
 import static mindustry.Vars.*;

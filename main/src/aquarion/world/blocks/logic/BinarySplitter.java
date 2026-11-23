@@ -1,55 +1,53 @@
 package aquarion.world.blocks.logic;
 
 import arc.Core;
+import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
 import mindustry.gen.Building;
-import mindustry.world.Block;
-import aquarion.world.blocks.logic.toggler;
-import aquarion.world.blocks.logic.BinaryChannel;
+import mindustry.graphics.Drawf;
 
-public class BinarySplitter extends Block {
+public class BinarySplitter extends BinaryBlock {
+    private static final Color lightColor = Color.valueOf("e1d7f8");
     public BinarySplitter(String name) {
         super(name);
-        rotate = true;
+        rotate = false;
         update = true;
-        drawArrow = true;
+        drawArrow = false;
     }
 
     public TextureRegion onRegion;
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         onRegion = Core.atlas.find(name + "-on");
     }
 
-    public class BinarySplitterBuild extends Building {
-        public boolean active;
+    public class BinarySplitterBuild extends BinaryBlockBuild {
 
         @Override
-        public void draw(){
-            Draw.rect(region, x, y, 0);
-            if(active) Draw.rect(onRegion, x, y, rotation);
+        public void draw() {
+            Draw.rect(active ? onRegion : region, x, y, 0);
+            Drawf.light(x, y, 12f * warmup(), lightColor, 0.3f * warmup());
+
         }
 
         @Override
-        public void updateTile(){
-            if(back() instanceof toggler.togglerBuild b){
-                if(back().front()!=null && back().front()==this) active = b.enabled;
-            }else if(back() instanceof BinaryChannel.BinaryChannelBuild c){
-                if(back().front()!=null && back().front()==this) active = c.active;
-            }
+        public boolean outputsTo(Building target){
+            return target != null && proximity.contains(target);
+        }
 
-            for(int i = 0; i < proximity.size; i++){
-                Building other = proximity.get(i);
-                if(other != null && other != back()){
-                    if(other instanceof BinaryChannel.BinaryChannelBuild h){
-                        if(h.front() == this || h.back() == this) h.active = active;
-                    }else if(!(other instanceof toggler.togglerBuild)){
-                        other.enabled = active;
-                    }
-                }
+        @Override
+        public boolean acceptsInput(Building source){
+            return true;
+        }
+
+        @Override
+        public void updateTile() {
+            super.updateTile();
+            for(Building target : proximity){
+                if(outputsTo(target)) transmit(this, target, active);
             }
         }
     }

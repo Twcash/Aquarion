@@ -1,5 +1,6 @@
 package aquarion.world.units;
 
+import aquarion.units.type.rail.LiquidRailUnitType;
 import aquarion.world.blocks.distribution.CargoStation.CargoStationBuild;
 import aquarion.world.blocks.distribution.RailPoint.RailPointBuild;
 import mindustry.Vars;
@@ -64,7 +65,7 @@ public class RailPayloadSupport{
     private static boolean reserveSpace(Unit unit, CargoStationBuild dock){
         for(Unit car : RailConsist.members(unit)){
             if(!reserveCar(unit, car)) continue;
-            if(dock.liquidCargo() && car instanceof LiquidRailUnit tank && car.type instanceof aquarion.units.type.LiquidRailUnitType type
+            if(dock.liquidCargo() && car instanceof LiquidRailUnit tank && car.type instanceof LiquidRailUnitType type
                 && tank.liquidAmount < type.liquidCapacity - 0.001f){
                 for(Liquid liquid : Vars.content.liquids()) if(dock.liquids.get(liquid) > 0.001f && uses(unit, liquid)
                     && (tank.liquidAmount <= 0.001f || tank.cargoLiquid == liquid)) return true;
@@ -79,7 +80,7 @@ public class RailPayloadSupport{
         int changed = 0;
         for(Unit car : RailConsist.members(unit)){
             if(!reserveCar(unit, car)) continue;
-            if(dock.liquidCargo() && car instanceof LiquidRailUnit tank && car.type instanceof aquarion.units.type.LiquidRailUnitType type){
+            if(dock.liquidCargo() && car instanceof LiquidRailUnit tank && car.type instanceof LiquidRailUnitType type){
                 for(Liquid liquid : Vars.content.liquids()){
                     if(!uses(unit, liquid) || (tank.liquidAmount > 0.001f && tank.cargoLiquid != liquid)) continue;
                     float amount = Math.min(dock.liquids.get(liquid), Math.max(0f, type.liquidCapacity - tank.liquidAmount));
@@ -108,7 +109,7 @@ public class RailPayloadSupport{
         if(liquid == null || !uses(unit, liquid)) return 0f;
         float total = 0f;
         for(Unit car : RailConsist.members(unit)) if(car instanceof LiquidRailUnit tank && tank.cargoLiquid == liquid
-            && car.type instanceof aquarion.units.type.LiquidRailUnitType){
+            && car.type instanceof LiquidRailUnitType){
             total += reservedInCar(unit, tank, liquid);
         }
         return total;

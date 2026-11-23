@@ -1,7 +1,7 @@
 package aquarion.world.units;
 
 import aquarion.world.AI.RailCommandAI;
-import aquarion.units.type.RailUnitType;
+import aquarion.units.type.rail.RailUnitType;
 import arc.struct.Seq;
 import mindustry.gen.Groups;
 import mindustry.gen.Unit;
