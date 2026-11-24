@@ -3016,18 +3016,22 @@ public class AquaUnitTypes {
         }};
         fabricant = new UnitType("fabricant") {
             {
-                health = 1400;
+                health = 3400;
                 lowAltitude = false;
                 flying = true;
                 constructor = UnitEntity::create;
-                speed = 0.9f;
+                speed = 1.3f;
                 rotateSpeed = 1f;
                 accel = 0.04f;
                 drag = 0.08f;
                 buildSpeed = 3f;
+                engineOffset = 10.5f;
+                engineSize = 5.5f;
                 targetFlags = new BlockFlag[]{BlockFlag.generator, null};
                 hitSize = 20;
+                range = 650;
                 engineOffset = 8f;
+                circleTarget = true;
                 weapons.add(new Weapon() {
                     {
                         x = 0;
@@ -3039,12 +3043,36 @@ public class AquaUnitTypes {
                         reload = 270;
                         velocityRnd = 0.1f;
                         inaccuracy = 5f;
-                        range = 400;
                         bullet = new DroneSpawnerBulletType() {{
                             spawnUnit = fabricantDrone;
+                            rangeOverride = 650;
                         }};
                     }
-                });
+                }, new Weapon(){{
+                    minShootVelocity = 1f;
+                    x = 3f;
+                    shootY = 0f;
+                    reload = 12f;
+                    shootCone = 180f;
+                    ejectEffect = Fx.none;
+                    inaccuracy = 15f;
+                    ignoreRotation = true;
+                    shootSound = Sounds.shootHorizon;
+                    soundPitchMax = 1.2f;
+                    bullet = new BombBulletType(40f, 35f){{
+                        width = 10f;
+                        height = 14f;
+                        hitEffect = Fx.flakExplosion;
+                        shootEffect = Fx.none;
+                        smokeEffect = Fx.none;
+                        frontColor = Pal.accent;
+                        backColor = Pal.accentBack;
+                        trailLength = 3;
+                        status = StatusEffects.blasted;
+                        statusDuration = 60f;
+                        damage = splashDamage * 0.5f;
+                    }};
+                }});
             }
         };
         endure = new DefunctUnitType("endure") {{
