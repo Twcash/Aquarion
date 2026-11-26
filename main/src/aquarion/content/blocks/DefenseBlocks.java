@@ -1,11 +1,12 @@
 package aquarion.content.blocks;
 
+import aquarion.content.AquaStatuses;
 import aquarion.world.AI.NewMissileAI;
 import aquarion.world.MultiBlockLib.drawrr.DrawRegionRotated;
 import aquarion.world.blocks.defense.AquaWall;
-import aquarion.world.blocks.defense.DiminutionProjector;
 import aquarion.world.blocks.defense.MissileBlock;
 import aquarion.world.blocks.defense.NukeBlock;
+import aquarion.world.blocks.defense.StatusProjector;
 import aquarion.world.blocks.payload.ReagentMix;
 import aquarion.world.blocks.radioloy.RadioactiveBlock;
 import aquarion.world.graphics.AquaFx;
@@ -38,6 +39,7 @@ import mindustry.world.meta.BuildVisibility;
 import mindustry.world.meta.Env;
 
 import static aquarion.content.AquaItems.*;
+import static aquarion.content.AquaLiquids.ammonia;
 import static aquarion.content.AquaLiquids.petroleum;
 import static aquarion.content.AquaPlanets.fakeSerpulo;
 import static arc.graphics.g2d.Draw.color;
@@ -50,7 +52,7 @@ public class DefenseBlocks {
     public static Block forceGenerator, testblock, meteor, chalkalloyWall, chalkalloyWallLarge, zincWall, hugeZincWall, polymerWall, hugePolymerWall, steelWall, hugeSteelWall, nickelWall, hugeNickelWall, nickelBarricade, bauxiteWall, hugeBauxiteWall, aluminumWall, hugeAluminumWall,
             cupronickelWall, hugeCupronickelWall, cupronickelBarricade, vesta, ferrosilconWall, hugeFerrosiliconWall, bauxiteBarricade, ferricWall, ferricWallLarge, thoriumCube
     //I have no clue where to put these so I'll put them here
-    ,dolomiteReagentMix, sandClump, largeForceProjector, diminutionProjector,invarWall,invarWallLarge;
+    ,dolomiteReagentMix, sandClump, largeForceProjector, diminutionProjector, RecoveryProjector,invarWall,invarWallLarge;
 
 
     public static void loadContent() {
@@ -453,10 +455,24 @@ public class DefenseBlocks {
             itemConsumer = consumeItem(Items.phaseFabric).boost();
             consumePower(25f);
         }};
-        diminutionProjector = new DiminutionProjector("diminution-projector"){{
-            requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
+        diminutionProjector = new StatusProjector("diminution-projector"){{
+            requirements(Category.effect, ItemStack.with(silicon, 250, chalkalloy, 200, invar, 150));
             size = 3;
+            effect = AquaStatuses.diminished;
             consumePower(7);
+        }};
+        RecoveryProjector = new StatusProjector("recovery-projector"){{
+            requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
+            size = 2;
+            effect =  AquaStatuses.recovery;
+            reload = 240;
+            applyEnemy = false;
+            applyEffect = AquaFx.recovery;
+            shootEffect = AquaFx.recoveryRing;
+            statusTime = 120;
+            range = 120;
+            consumeLiquid(ammonia, 1);
+            consumePower(2);
         }};
         chalkalloyWallLarge = new Wall("chalkalloy-wall-large"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);

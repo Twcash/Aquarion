@@ -21,11 +21,13 @@ import mindustry.world.Tile;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
-public class DiminutionProjector extends Block {
-    public DiminutionProjector(String name) {
+public class StatusProjector extends Block {
+    public StatusProjector(String name) {
         super(name);
         update = true;
     }
+    // Only apply to the enemy team if true. Else applies to same team.
+    public boolean applyEnemy = true;
     public @Load("@-top") TextureRegion topRegion;
     public StatusEffect effect = StatusEffects.slow;
     public Effect applyEffect = Fx.sapped;
@@ -44,7 +46,7 @@ public class DiminutionProjector extends Block {
         Draw.reset();
     }
 
-    public class DiminutionProjectorBuild extends Building{
+    public class StatusProjectorBuild extends Building{
         public float progress = 0;
         public float smoothProgress = 0;
 
@@ -56,12 +58,19 @@ public class DiminutionProjector extends Block {
             if (progress >= 1) {
                 progress %= 1;
                 shootEffect.at(x,y);
-                Units.nearbyEnemies(this.team, x, y, range*2, unit -> {
+                if(applyEnemy){Units.nearbyEnemies(this.team, x, y, range*2, unit -> {
                     if (unit != null && !unit.dead) {
                         unit.apply(effect, statusTime);
                         applyEffect.at(unit.x, unit.y);
                     };
-                });
+                });} else {
+                    Units.nearby(this.team, x, y, range*2, unit -> {
+                        if (unit != null && !unit.dead) {
+                            unit.apply(effect, statusTime);
+                            applyEffect.at(unit.x, unit.y);
+                        };
+                    });
+                }
             }
         }
         @Override

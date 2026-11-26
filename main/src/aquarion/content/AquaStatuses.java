@@ -6,7 +6,6 @@ import arc.graphics.Color;
 import arc.math.Interp;
 import arc.math.Mathf;
 import mindustry.content.Fx;
-import mindustry.content.StatusEffects;
 import mindustry.entities.units.StatusEntry;
 import mindustry.game.EventType;
 import mindustry.gen.Unit;
@@ -17,7 +16,7 @@ import static mindustry.Vars.state;
 import static mindustry.content.StatusEffects.*;
 
 public class AquaStatuses {
-    public static StatusEffect ionized, flung, concussed, corroding, cold, weighted, rearmed, retrofit, armored;
+    public static StatusEffect ionized, flung, concussed, corroding, cold, weighted, rearmed, retrofit, armored, diminished, recovery;
     public static void load(){
         cold = new StatusEffect("cold"){{
             speedMultiplier = 0.8f;
@@ -119,6 +118,16 @@ public class AquaStatuses {
             damageMultiplier = 1.1f;
             reloadMultiplier = 0.7f;
             outline = false;
+        }};
+        diminished = new StatusEffect("diminished"){{
+            effect = AquaFx.diminished;
+            speedMultiplier = 0.8f;
+            damageMultiplier = 0.9f;
+            healthMultiplier = 0.8f;
+        }};
+        recovery = new StatusEffect("recovery"){{
+            effect = AquaFx.recovery;
+            damage = -1.5f;
         }};
     }
     public static class AquaStatusEffect extends StatusEffect{

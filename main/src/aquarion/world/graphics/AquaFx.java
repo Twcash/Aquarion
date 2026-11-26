@@ -23,6 +23,7 @@ import mindustry.content.Liquids;
 import mindustry.entities.Effect;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.effect.ParticleEffect;
+import mindustry.entities.effect.SeqEffect;
 import mindustry.gen.Building;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
@@ -1650,7 +1651,20 @@ public class AquaFx {
                 Draw.alpha(1f);
                 Draw.reset();
             }).layer(Layer.groundUnit - 1f),
+            diminished = new Effect(40f, e -> {
+                color(Color.white, Pal.sap, Interp.pow2In.apply(e.fin()));
 
+                randLenVectors(e.id, 3, 1f + e.fin() * 2f, (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fslope() * 1.3f);
+                });
+            }),
+            recovery = new Effect(100f, e -> {
+                color(Pal.heal);
+
+                randLenVectors(e.id, 2, 1f + e.fin() * 2f, (x, y) -> {
+                    Fill.square(e.x + x, e.y + y, e.fout() * 1.3f);
+                });
+            }),
     concDeath = new Effect(20 * 60f, e -> {
         TextureRegion reg = Core.atlas.find("aquarion-concussor-corpse");
         float fadeStart = 0.8f;
@@ -1843,6 +1857,19 @@ public class AquaFx {
         Lines.stroke(4*Interp.pow5Out.apply(e.fout()));
         Lines.circle(e.x,e.y, 125*2*Interp.pow2Out.apply(e.fin()));
     }),
+
+            recoveryRing = new SeqEffect(new Effect(90, e->{
+                Draw.color(Pal.heal);
+                Lines.stroke(2.5f);
+                Lines.circle(e.x,e.y, 90*2*Interp.pow2Out.apply(e.fin()));
+                TextureRegion reg = Core.atlas.find("aquarion-soft-circle-inv");
+                Draw.alpha(Interp.pow2Out.apply(e.fout()));
+                Draw.rect(reg,e.x,e.y, 90*4*Interp.pow2Out.apply(e.fin()),90*4*Interp.pow2Out.apply(e.fin()),0);
+            }), new Effect(30, e->{
+                Draw.color(Pal.heal, Color.white, e.fin());
+                Lines.stroke(2.5f*e.fout());
+                Lines.circle(e.x,e.y, 90*2+(30*2*Interp.pow2Out.apply(e.fin())));
+            })),
 
     hitBulletColor1 = new Effect(14, e -> {
                 color(Color.white, e.color, e.fin());
