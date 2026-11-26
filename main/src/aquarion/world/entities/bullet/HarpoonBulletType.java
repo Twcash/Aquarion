@@ -1,6 +1,5 @@
 package aquarion.world.entities.bullet;
 
-import aquarion.gen.Amphibiousc;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
@@ -8,6 +7,7 @@ import arc.graphics.g2d.TextureRegion;
 import arc.math.Angles;
 import arc.math.Mathf;
 import arc.math.geom.Vec2;
+import arc.util.Tmp;
 import mindustry.content.Fx;
 import mindustry.entities.Damage;
 import mindustry.entities.bullet.BulletType;
@@ -15,13 +15,8 @@ import mindustry.gen.*;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 
-import static mindustry.Vars.*;
-
-/** A finite tractor tether that pulls its shooter toward the first enemy on its ray. */
 public class HarpoonBulletType extends BulletType{
-    /** Initial and maximum pull speeds, in world units per tick. */
     public float initialPullSpeed = 0.35f, pullSpeed = 9f;
-    /** Ticks of attachment required to reach maximum strength. Each new tether starts fresh. */
     public float pullRampTime = 60f;
     public float beamWidth = 0.28f, stopDistance = 12f;
     public Color beamColor = Color.valueOf("a9d8ff");
@@ -84,18 +79,10 @@ public class HarpoonBulletType extends BulletType{
         b.set(mx, my);
         Healthc target = tether.target;
         b.rotation(b.angleTo(target));
-        //Recheck the ray so a newly built wall or intervening enemy breaks the tether.
+        owner.impulseNet(Tmp.v1.set(target).sub(owner).limit((pullSpeedAt(b.time) + (1f - owner.dst(target) / range))));
         if(owner.dst(target) > rangeOverride + owner.hitSize ||
             Damage.linecast(b, mx, my, b.rotation(), b.dst(target) + 1f) != target){
             b.remove();
-            return;
-        }
-        if(!net.client() && owner instanceof Amphibiousc frog){
-            float radius = target instanceof Building build ? build.block.size * tilesize / 2f :
-                target instanceof Unit unit ? unit.hitSize / 2f : 0f;
-            if(!frog.pullHarpoon(target.x(), target.y(), pullSpeedAt(b.time), Math.max(stopDistance, radius + owner.hitSize / 2f))){
-                b.remove();
-            }
         }
     }
 

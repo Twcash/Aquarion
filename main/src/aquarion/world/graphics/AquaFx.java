@@ -1857,17 +1857,22 @@ public class AquaFx {
         Lines.stroke(4*Interp.pow5Out.apply(e.fout()));
         Lines.circle(e.x,e.y, 125*2*Interp.pow2Out.apply(e.fin()));
     }),
+            ambrosiaLand = new Effect(100, e->{
+                color(Tmp.c1.set(e.color).mul(1.1f));
+                Lines.stroke(4*Interp.pow5In.apply(e.fout()));
+                Lines.circle(e.x,e.y, 90*2*Interp.pow2Out.apply(e.fin()));
+            }),
 
             recoveryRing = new SeqEffect(new Effect(90, e->{
-                Draw.color(Pal.heal);
-                Lines.stroke(2.5f);
+                Draw.color(Pal.heal.a(0.6f));
+                Lines.stroke(4.5f);
                 Lines.circle(e.x,e.y, 90*2*Interp.pow2Out.apply(e.fin()));
                 TextureRegion reg = Core.atlas.find("aquarion-soft-circle-inv");
-                Draw.alpha(Interp.pow2Out.apply(e.fout()));
+                Draw.alpha(Interp.pow2Out.apply(e.fout())*0.6f);
                 Draw.rect(reg,e.x,e.y, 90*4*Interp.pow2Out.apply(e.fin()),90*4*Interp.pow2Out.apply(e.fin()),0);
             }), new Effect(30, e->{
-                Draw.color(Pal.heal, Color.white, e.fin());
-                Lines.stroke(2.5f*e.fout());
+                Draw.color(Pal.heal.a(0.6f), Color.white, e.fin());
+                Lines.stroke(4.5f*e.fout());
                 Lines.circle(e.x,e.y, 90*2+(30*2*Interp.pow2Out.apply(e.fin())));
             })),
 

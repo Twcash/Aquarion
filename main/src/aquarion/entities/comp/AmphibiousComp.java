@@ -21,7 +21,6 @@ import mindustry.type.UnitType;
 
 import static mindustry.Vars.*;
 
-/** Naval movement in liquid, with serialized/synchronized discrete hops on dry ground. */
 @EntityComponent
 abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
     @Import UnitType type;
@@ -37,7 +36,6 @@ abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
     transient boolean hopHasSafePosition;
     transient float hopRecoveryDelay;
 
-    /** Repair overlap from crowd pushes, construction, or an invalidated emergency landing. */
     public boolean recoverHopFooting(){
         if(!(type instanceof AquaUnitType cfg) || hopping || dead()) return false;
         if(AmphibiousPathfinder.canLand(cfg, x, y)){
@@ -84,37 +82,10 @@ abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
         vel.setZero();
         return true;
     }
-
-    /** Tethers slide grounded units safely; an in-progress hop finishes before pulling. */
-    public boolean pullHarpoon(float targetX, float targetY, float speed, float stopDistance){
-        if(dead() || !(type instanceof AquaUnitType cfg)) return false;
-        if(hopping){
-            harpoonHold = 2f;
-            return true;
-        }
-        float distance = Mathf.dst(x, y, targetX, targetY);
-        float step = Math.min(speed * Time.delta, Math.max(0f, distance - stopDistance));
-        if(step <= 0f){
-            harpoonHold = 2f;
-            return true;
-        }
-        Vec2 delta = Tmp.v4.set(targetX - x, targetY - y).setLength(step);
-        if(AmphibiousPathfinder.canLand(cfg, x + delta.x, y + delta.y) &&
-            AmphibiousPathfinder.canTraverse(cfg, x, y, x + delta.x, y + delta.y)){
-            float previousX = x, previousY = y;
-            move(delta.x, delta.y);
-            if(Mathf.dst(previousX, previousY, x, y) > step * 0.1f){
-                harpoonHold = 2f;
-                vel.setZero();
-                return true;
-            }
-        }
-        //A blocked tether must not continually disable the AI's escape hops.
-        harpoonHold = 0f;
-        vel.setZero();
-        return false;
+    //For UnitType drawer
+    public float hopVisualHeight(){
+        return type instanceof AquaUnitType cfg ? hopArc() * cfg.hopHeight : 0f;
     }
-
     @Replace(1)
     @Override
     public EntityCollisions.SolidPred solidity(){
@@ -140,20 +111,12 @@ abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
     public void moveAt(Vec2 vector, float acceleration){
         hopAimX = vector.x;
         hopAimY = vector.y;
-        if(harpoonHold > 0f || hopping || !floorOn().isLiquid){
-            vel.setZero();
-            return;
-        }
         Vec2 change = Tmp.v4.set(vector).sub(vel).limit(acceleration * vector.len() * Time.delta);
         vel.add(change);
     }
 
     public float hopArc(){
         return hopping ? Math.max(0f, Mathf.sin(Mathf.clamp(hopTime / Math.max(hopDuration, 0.001f)) * Mathf.PI)) : 0f;
-    }
-
-    public float hopVisualHeight(){
-        return type instanceof AquaUnitType cfg ? hopArc() * cfg.hopHeight : 0f;
     }
 
     @Replace(1)
@@ -177,7 +140,6 @@ abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
             type.allowLegStep && type.legPhysicsLayer ? PhysicsProcess.layerLegs : PhysicsProcess.layerGround;
     }
 
-    /** AI requests an exact landing; player and logic movement use the same validation. */
     public boolean requestHop(float targetX, float targetY){
         if(harpoonHold > 0f || hopping || hopCooldownRemaining > 0f || dead() || !(type instanceof AquaUnitType cfg)) return false;
         if(!cfg.hopFromWater && floorOn().isLiquid) return false;
@@ -197,7 +159,6 @@ abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
         hopEndY = targetY;
         HopLanding.reserve(self());
         hopDuration = Math.max(1f, Mathf.dst(x, y, targetX, targetY) / (cfg.hopSpeed * Math.max(speedMultiplier, 0.01f)));
-        rotation = angleTo(targetX, targetY);
         vel.setZero();
         if(!headless && !inFogTo(player.team())){
             cfg.hopTakeoffEffect.at(x, y, hitSize() / 8f, floorOn().mapColor);
@@ -233,6 +194,7 @@ abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
             float progress = Mathf.clamp(hopTime / Math.max(hopDuration, 0.001f));
             float nextX = Mathf.lerp(hopStartX, hopEndX, progress);
             float nextY = Mathf.lerp(hopStartY, hopEndY, progress);
+            rotation = Mathf.approach(rotation, angleTo(hopEndX, hopEndY), type.rotateSpeed*Time.delta);
             if(progress >= 1f && !HopLanding.clear(self(), hopEndX, hopEndY)){
                 //An ally entered the reserved spot after takeoff. Do not land inside it.
                 HopLanding.release(self());
@@ -285,7 +247,7 @@ abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
         }else if(!(controller() instanceof AmphibiousAI) && !(controller() instanceof AmphibiousCommandAI) &&
             hopCooldownRemaining <= 0f && (Math.abs(hopAimX) + Math.abs(hopAimY)) > 0.001f){
             //Routed AI starts exact hops itself; don't override a swimming waypoint
-            //with an unsolicited full-distance hop when it approaches a shoreline.
+            // with an unsolicited full-distance hop when it approaches a shoreline.
             Vec2 direction = Tmp.v4.set(hopAimX, hopAimY).nor();
             boolean water = floorOn().isLiquid;
             float probe = Math.max(tilesize, hitSize() / 2f);
@@ -295,6 +257,7 @@ abstract class AmphibiousComp implements AquaUnitc, WaterMovec {
                 float dx = direction.x, dy = direction.y;
                 for(float distance = cfg.hopDistance; distance >= cfg.hopMinDistance; distance -= tilesize / 2f){
                     if(requestHop(x + dx * distance, y + dy * distance)) break;
+
                 }
             }
         }

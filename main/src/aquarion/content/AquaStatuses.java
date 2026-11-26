@@ -128,6 +128,7 @@ public class AquaStatuses {
         recovery = new StatusEffect("recovery"){{
             effect = AquaFx.recovery;
             damage = -1.5f;
+            speedMultiplier = 1.1f;
         }};
     }
     public static class AquaStatusEffect extends StatusEffect{

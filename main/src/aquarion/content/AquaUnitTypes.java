@@ -1,10 +1,9 @@
 package aquarion.content;
 
 //import aquarion.gen.AquaLegsUnit;
+
 import aquarion.annotations.Annotations;
 import aquarion.gen.*;
-import aquarion.units.type.AquaLegUnitType;
-import aquarion.units.type.DefunctUnitType;
 import aquarion.units.abilities.DeathFxAbility;
 import aquarion.units.effect.UnitTrail;
 import aquarion.units.type.*;
@@ -16,12 +15,13 @@ import aquarion.world.abilities.LightningFieldAbility;
 import aquarion.world.entities.AquaLegConfig;
 import aquarion.world.entities.DroneSpawnerBulletType;
 import aquarion.world.entities.bullet.AquaBulletType;
+import aquarion.world.entities.bullet.HarpoonBulletType;
 import aquarion.world.entities.bullet.TentacleBulletType;
 import aquarion.world.entities.parts.EnginePart;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.AquaPal;
-import aquarion.world.units.newTankUnitType;
 import aquarion.world.units.UnitDamageState;
+import aquarion.world.units.newTankUnitType;
 import arc.graphics.Blending;
 import arc.graphics.Color;
 import arc.graphics.g2d.Fill;
@@ -37,7 +37,10 @@ import mindustry.content.Fx;
 import mindustry.content.Liquids;
 import mindustry.content.StatusEffects;
 import mindustry.entities.Effect;
-import mindustry.entities.abilities.*;
+import mindustry.entities.abilities.LiquidExplodeAbility;
+import mindustry.entities.abilities.MoveEffectAbility;
+import mindustry.entities.abilities.RepairFieldAbility;
+import mindustry.entities.abilities.ShieldArcAbility;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
@@ -89,7 +92,7 @@ public class AquaUnitTypes {
     public static @Annotations.EntityDef(value = {Unitc.class, AquaMechc.class}) UnitType knight;
     //core units and transport
 
-    public static @Annotations.EntityDef(value = {Unitc.class, Amphibiousc.class}) AmphibiousUnitType wort;
+    public static @Annotations.EntityDef(value = {Unitc.class, Amphibiousc.class}) AmphibiousUnitType wort, maltose, kestose, trisacc, ambrosia;
     public static @Annotations.EntityDef(value = {Unitc.class, Buggyc.class}) BuggyUnitType krait;
     public static @Annotations.EntityDef(value = {Unitc.class, Burrowc.class}) BurrowUnitType trawl, trawlBody;
     public static UnitType gorge, burden;
@@ -3963,7 +3966,8 @@ public class AquaUnitTypes {
             }});
         }};
         wort = new AmphibiousUnitType("wort"){{
-            speed = swimSpeed = 1.2f;
+            speed = 0.05f;
+            swimSpeed = 1.1f;
             hopSpeed = 3f;
             hopDistance = 48f;
             hopHeight = 18f;
@@ -3994,7 +3998,10 @@ public class AquaUnitTypes {
                 rotateSpeed = 8f;
                 shootCone = 8f;
                 shootSound = Sounds.beamParallax;
-                bullet = new aquarion.world.entities.bullet.HarpoonBulletType();
+                bullet = new HarpoonBulletType(){{
+                    pullSpeed = 120;
+                    initialPullSpeed = 60;
+                }};
             }});
             weapons.add(new Weapon(){{
                 mirror = false;
@@ -4024,6 +4031,101 @@ public class AquaUnitTypes {
                 }};
             }});
         }};
+        maltose = new AmphibiousUnitType("maltose"){{
+            speed = 0.05f;
+            swimSpeed = 1f;
+            hopSpeed = 2.5f;
+            hopDistance = 70f;
+            hopHeight = 26f;
+            hopCooldown = 40f;
+            hopAirTargetThreshold = 0.8f;
+            hopCrushDamage = 120f;
+            hopCrushRadius = 30f;
+            hopLandShake = 1.8f;
+            hopOverEnvironment = true;
+            engineSize = 0;
+            hitSize = 10f;
+            health = 600;
+            drag = 0.12f;
+            immunities.add(StatusEffects.melting);
+            accel = 0.3f;
+            outlineColor = Pal.darkOutline;
+            rotateSpeed = 5f;
+            trailLength = 12;
+            waveTrailX = 3f;
+        }};
+        kestose = new AmphibiousUnitType("kestose"){{
+            speed = 0.05f;
+            swimSpeed = 0.8f;
+            hopSpeed = 2.5f;
+            hopDistance = 70f;
+            hopHeight = 26f;
+            hopCooldown = 40f;
+            hopAirTargetThreshold = 0.8f;
+            hopCrushDamage = 120f;
+            hopCrushRadius = 30f;
+            hopLandShake = 1.8f;
+            hopOverEnvironment = true;
+            engineSize = 0;
+            hitSize = 10f;
+            health = 600;
+            drag = 0.12f;
+            immunities.add(StatusEffects.melting);
+            accel = 0.3f;
+            outlineColor = Pal.darkOutline;
+            rotateSpeed = 5f;
+            trailLength = 12;
+            waveTrailX = 3f;
+        }};
+        trisacc = new AmphibiousUnitType("trisacc"){{
+            speed = 0.01f;
+            swimSpeed = 0.7f;
+            hopSpeed = 2.5f;
+            hopDistance = 70f;
+            hopHeight = 26f;
+            hopCooldown = 40f;
+            hopAirTargetThreshold = 0.8f;
+            hopCrushDamage = 120f;
+            hopCrushRadius = 30f;
+            hopLandShake = 1.8f;
+            hopOverEnvironment = true;
+            engineSize = 0;
+            hitSize = 10f;
+            health = 600;
+            drag = 0.12f;
+            immunities.add(StatusEffects.melting);
+            accel = 0.3f;
+            outlineColor = Pal.darkOutline;
+            rotateSpeed = 5f;
+            trailLength = 12;
+            waveTrailX = 3f;
+        }};
+        ambrosia = new AmphibiousUnitType("ambrosia"){{
+            speed = 0.01f;
+            swimSpeed = 0.6f;
+            hopSpeed = 2.4f;
+            hopDistance = 300f;
+            hopHeight = 50f;
+            hopCooldown = 180f;
+            hopAirTargetThreshold = 0.8f;
+            hopCrushDamage = 300f;
+            hopCrushRadius = 90f;
+            stepSound = AquaSounds.mechStepKnight;
+            hopLandShake = 9f;
+            hopLandEffect = new MultiEffect(Fx.unitLand, AquaFx.ambrosiaLand);
+            hopOverEnvironment = true;
+            engineSize = 0;
+            hitSize =  34f;
+            health = 45000;
+            drag = 0.12f;
+            immunities.add(StatusEffects.melting);
+            accel = 0.3f;
+            outlineColor = Pal.darkOutline;
+            rotateSpeed = 5f;
+            trailLength = 12;
+            waveTrailX = 3f;
+        }};
+
         recoil = new ErekirUnitType("recoil") {{
             constructor = UnitEntity::create;
             hitSize = 14;

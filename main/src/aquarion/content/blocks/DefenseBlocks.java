@@ -413,6 +413,13 @@ public class DefenseBlocks {
             requirements(Category.defense, with(chalkalloy, 6));
             health = 110 * 4;
         }};
+        chalkalloyWallLarge = new Wall("chalkalloy-wall-large"){{
+            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
+            requirements(Category.defense, ItemStack.mult(chalkalloyWall.requirements, 4));
+            health = 110 * 4 * 4;
+            size = 2;
+        }};
+
         ferricWall = new Wall("ferric-wall"){{
             shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
             requirements(Category.defense, with(ferricMatter, 6));
@@ -462,7 +469,7 @@ public class DefenseBlocks {
             consumePower(7);
         }};
         RecoveryProjector = new StatusProjector("recovery-projector"){{
-            requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
+            requirements(Category.effect, ItemStack.with(ferricMatter, 250, silicon, 300, concrete , 200));
             size = 2;
             effect =  AquaStatuses.recovery;
             reload = 240;
@@ -474,17 +481,10 @@ public class DefenseBlocks {
             consumeLiquid(ammonia, 1);
             consumePower(2);
         }};
-        chalkalloyWallLarge = new Wall("chalkalloy-wall-large"){{
-            shownPlanets.addAll(Planets.serpulo, fakeSerpulo);
-            requirements(Category.defense, ItemStack.mult(chalkalloyWall.requirements, 4));
-            health = 110 * 4 * 4;
-            size = 2;
-        }};
         thoriumCube = new RadioactiveBlock("thorium-cube"){{
             requirements(Category.defense, ItemStack.with(thorium, 60));
             size = 1;
         }};
-
         forceGenerator = new ForceProjector("force-generator"){{
             requirements(Category.effect, ItemStack.with(silicon, 250, copper, 1000, metaglass, 200));
             size = 3;

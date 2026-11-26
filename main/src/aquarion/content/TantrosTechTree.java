@@ -1,6 +1,5 @@
 package aquarion.content;
 
-import aquarion.content.blocks.CrafterBlocks;
 import aquarion.content.blocks.UnitBlocks;
 import aquarion.world.blocks.AlternativeBuildCosts;
 import aquarion.world.blocks.core.SpecializationCatalyst;
@@ -8,13 +7,13 @@ import arc.struct.ObjectFloatMap;
 import arc.struct.ObjectSet;
 import arc.struct.Seq;
 import mindustry.Vars;
-import mindustry.content.Items;
 import mindustry.game.Objectives;
 import mindustry.type.Item;
 import mindustry.type.UnitType;
 
 import static aquarion.content.AquaItems.*;
 import static aquarion.content.AquaLiquids.*;
+import static aquarion.content.AquaSectorPresets.*;
 import static aquarion.content.AquaUnitTypes.*;
 import static aquarion.content.blocks.CoreBlocks.*;
 import static aquarion.content.blocks.CrafterBlocks.*;
@@ -24,16 +23,15 @@ import static aquarion.content.blocks.EffectBlocks.lantern;
 import static aquarion.content.blocks.EffectBlocks.led;
 import static aquarion.content.blocks.LiquidBlocks.*;
 import static aquarion.content.blocks.PowerBlocks.*;
-import static aquarion.content.blocks.CoreBlocks.channel;
 import static aquarion.content.blocks.RefineryBlocks.*;
 import static aquarion.content.blocks.TurretBlocks.*;
 import static aquarion.content.blocks.UnitBlocks.*;
-import static aquarion.content.AquaSectorPresets.*;
 import static aquarion.content.blocks.UnitBlocks.bulwark;
 import static aquarion.content.blocks.UnitBlocks.mite;
 import static mindustry.content.Items.*;
 import static mindustry.content.Liquids.*;
 import static mindustry.content.TechTree.*;
+
 public class TantrosTechTree {
     public static void load() {
         ObjectFloatMap<Item> costMultipliers = new ObjectFloatMap<Item>();
@@ -61,6 +59,7 @@ public class TantrosTechTree {
                 });
             });
             node(mendPyre, () -> {
+                node(RecoveryProjector);
                 node(mendPylon, () -> {
                     node(mendSubstation, () -> {});
                     node(overClockProjector, () -> {});
