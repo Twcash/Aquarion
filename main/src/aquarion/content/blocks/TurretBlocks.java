@@ -234,7 +234,7 @@ public class TurretBlocks {
             requirements(Category.turret, with(cupronickel, 120, silicon, 110, metaglass, 150, graphite, 70));
             health = 650;
             size = 3;
-            reload = 20;
+            reload = 55;
             ammoPerShot = 1;
             range = 260;
             shootSound = AquaSounds.vectorShot;
@@ -1052,7 +1052,7 @@ public class TurretBlocks {
             size = 3;
             range = 350;
             limitRange(1.2f);
-            reload = 45;
+            reload = 65;
             consumeAmmoOnce = true;
             maxAmmo = 45;
             inaccuracy = 0;

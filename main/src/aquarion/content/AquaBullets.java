@@ -827,6 +827,7 @@ public class AquaBullets {
                 hitSize = 12;
                 ammoMultiplier = 20;
                 splashDamage = 60;
+                splashDamageRadius = 8;
                 scaleLife = true;
                 fragBullets = 10;
                 collidesGround = true;
@@ -944,7 +945,6 @@ public class AquaBullets {
                 homingDelay = 5;
                 weaveScale = 1.75f;
                 shrinkX = 0.2f;
-                ammoMultiplier = 1;
                 shrinkY = 0.8f;
                 frontColor = lightColor = hitColor = Color.white;
                 backColor = trailColor = Color.valueOf("8d70ab");
@@ -1186,7 +1186,7 @@ public class AquaBullets {
                 frontColor = lightColor = hitColor = Color.white;
                 backColor = trailColor = AquaItems.brass.color;
             }},
-            redactCuprite = new BasicBulletType(6f, 50, "missile-large") {{
+            redactCuprite = new BasicBulletType(6f, 45, "missile-large") {{
                 width = 8f;
                 pierce = true;
                 height = 14f;
@@ -1196,7 +1196,7 @@ public class AquaBullets {
                 trailLength = 25;
                 trailWidth = 2.5f;
                 lifetime = 55f;
-                reloadMultiplier = 2f;
+                reloadMultiplier = 2.5f;
                 ammoMultiplier = 2;
                 shootEffect = new Effect(15, e -> {
                     color(e.color);
@@ -1306,8 +1306,9 @@ public class AquaBullets {
                 backColor = trailColor = AquaItems.zinc.color;
 
             }},
-            redactAluminum = new BasicBulletType(5f, 75, "missile-large") {{
+            redactAluminum = new BasicBulletType(5f, 145, "missile-large") {{
                 width = 15f;
+                armorMultiplier = 2f;
                 pierce = false;
                 height = 19f;
                 trailLength = 34;
@@ -1683,7 +1684,7 @@ public class AquaBullets {
                 homingDelay = 3f;
                 homingPower = 0.1f;
                 homingRange = 48;
-                ammoMultiplier = 8;
+                ammoMultiplier = 9;
             }},
             ensignLead = new RailBulletType() {{
                 length = 155f;
