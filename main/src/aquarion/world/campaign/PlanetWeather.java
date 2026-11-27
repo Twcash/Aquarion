@@ -15,6 +15,22 @@ import mindustry.gen.Call;
 import mindustry.type.Planet;
 import mindustry.type.Sector;
 import mindustry.type.Weather;
+import arc.*;
+import arc.func.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.input.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.scene.actions.*;
+import arc.scene.event.*;
+import arc.scene.event.InputEvent.*;
+import arc.scene.utils.*;
+import arc.struct.*;
+import arc.util.*;
+import arc.util.pooling.*;
+
+import static arc.util.Align.*;
 //Planet weather simulated the same way sector capture was.
 public class PlanetWeather {
     private static final int count = 6;
@@ -76,12 +92,7 @@ public class PlanetWeather {
                 }
             };
             path.setFillParent(true);
-            path.clicked(() -> {
-                if(hitOwner < 0) return;
-                Planet planet = Vars.ui.planet.state.planet;
-                selected = shown == planet && selected == hitOwner ? -1 : hitOwner;
-                shown = planet;
-            });
+            path.touchable = Touchable.disabled;
             path.addListener(new arc.scene.ui.Tooltip(table -> {
                 if(hitWeather != null) table.add(hitWeather.localizedName);
             }));
