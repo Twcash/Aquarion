@@ -1,23 +1,18 @@
 package aquarion.world.graphics;
 
+import aquarion.ui.ModSettings;
 import arc.Core;
 import arc.files.Fi;
 import arc.graphics.Color;
-import arc.graphics.Pixmap;
 import arc.graphics.Texture;
 import arc.graphics.g2d.TextureRegion;
-import arc.graphics.gl.FrameBuffer;
 import arc.graphics.gl.Shader;
 import arc.math.geom.Vec3;
 import arc.scene.ui.layout.Scl;
 import arc.util.Nullable;
-
 import arc.util.Time;
-import aquarion.ui.ModSettings;
 import mindustry.Vars;
-import mindustry.content.Liquids;
 import mindustry.graphics.CacheLayer;
-import mindustry.graphics.Pal;
 import mindustry.graphics.Shaders;
 import mindustry.type.Planet;
 
@@ -34,6 +29,7 @@ public class AquaShaders {
     public static @Nullable PartRegionShader knight1;
     public static @Nullable MonsoonShader monsoon;
     public static @Nullable deflectorShader deflectorShield;
+    public static @Nullable ForceGeneratorShader forceGeneratorShader;
     public static @Nullable DissolveShader dissolveShader;
     public static @Nullable RailPlacementShader railPlacement;
     public static @Nullable CircleDistortShader circleDistort;
@@ -67,6 +63,7 @@ public static void init() {
     circleDistort = new CircleDistortShader();
     glitch = new SurfaceShader("glitch");
     deflectorShield = new deflectorShader();
+    forceGeneratorShader = new ForceGeneratorShader();
     shadowLayer = new CacheLayer.ShaderLayer(shadow);
     neoplasiaBaseLayer = new CacheLayer.ShaderLayer(neoplasiaBaseShader);
     brineLayer = new CacheLayer.ShaderLayer(brine);
@@ -109,6 +106,7 @@ public static void init() {
             knight1.dispose();
             PlanetShadowMap.dispose();
             if(railPlacement != null) railPlacement.dispose();
+            if(forceGeneratorShader != null) forceGeneratorShader.dispose();
             CircleDistort.dispose();
             if(circleDistort != null){ circleDistort.dispose(); circleDistort = null; }
         }
@@ -297,6 +295,23 @@ public static void init() {
                     Core.camera.position.y - Core.camera.height / 2);
             setUniformf("u_texsize", Core.camera.width, Core.camera.height);
             setUniformf("u_invsize", 1f/Core.camera.width, 1f/Core.camera.height);
+        }
+    }
+
+    public static class ForceGeneratorShader extends Shaders.LoadShader {
+        public ForceGeneratorShader(){
+            super("forceGenerator", "screenspace");
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_dp", Scl.scl(1f));
+            setUniformf("u_time", Time.time / Scl.scl(1f));
+            setUniformf("u_offset",
+                Core.camera.position.x - Core.camera.width / 2f,
+                Core.camera.position.y - Core.camera.height / 2f);
+            setUniformf("u_texsize", Core.camera.width, Core.camera.height);
+            setUniformf("u_invsize", 1f / Core.camera.width, 1f / Core.camera.height);
         }
     }
     public static class PlanetShader extends Shaders.LoadShader {

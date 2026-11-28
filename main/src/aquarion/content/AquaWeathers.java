@@ -27,6 +27,7 @@ public class AquaWeathers {
             particleDensity = 24000;
             density = 300;
             lightningChance = 0.05f;
+            lightningDamageMultiplier = 0.25f;
             stormColor = Color.valueOf("2c2e2f");
             sizeMax = 6f;
             sizeMin = 1.4f;

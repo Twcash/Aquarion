@@ -45,6 +45,7 @@ public class Monsoon extends Weather {
     public float speed = 5;
     public float minLightningSize = 5;
     public float maxLightningSize = 50;
+    public float lightningDamageMultiplier = 1f;
     public float minLightningLength = 5;
     public float maxLightningLength = 50;
     public float sinSclMin = 30f, sinSclMax = 80f, sinMagMin = 1f, sinMagMax = 7f;
@@ -89,7 +90,7 @@ public class Monsoon extends Weather {
             }else{
                 Fx.lightning.at(x, y, size);
                 AquaSounds.thunder.at(x, y, size/100*2, size/100*2);
-                AquaLightning.create(Team.derelict, lightningColor, size, x, y, Mathf.randomSeed(seed + 6, 0f, 360f), (int)Mathf.randomSeed(seed + 7, minLightningLength, maxLightningLength));
+                AquaLightning.create(Team.derelict, lightningColor, size * lightningDamageMultiplier, x, y, Mathf.randomSeed(seed + 6, 0f, 360f), (int)Mathf.randomSeed(seed + 7, minLightningLength, maxLightningLength));
             }
         }
 

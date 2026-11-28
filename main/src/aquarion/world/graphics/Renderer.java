@@ -1,26 +1,18 @@
 package aquarion.world.graphics;
 
-import arc.Core;
-import arc.graphics.Blending;
-import arc.graphics.Color;
-import arc.graphics.Gl;
-import arc.graphics.Pixmap;
-import arc.graphics.g2d.Bloom;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
-import arc.graphics.gl.FrameBuffer;
-import arc.graphics.gl.Shader;
-import arc.math.Angles;
-import arc.math.Mathf;
-import arc.struct.Seq;
-import arc.util.Nullable;
-import arc.util.Time;
 import aquarion.world.blocks.defense.AquaWall;
 import aquarion.world.blocks.neoplasia.GenericNeoplasiaBlock;
 import aquarion.world.blocks.neoplasia.NeoplasmTreeBase;
+import arc.Core;
+import arc.graphics.Blending;
+import arc.graphics.Color;
+import arc.graphics.Pixmap;
+import arc.graphics.g2d.Draw;
+import arc.graphics.gl.FrameBuffer;
+import arc.graphics.gl.Shader;
+import arc.math.Mathf;
+import arc.struct.Seq;
 import mindustry.Vars;
-import mindustry.graphics.Shaders;
 import mindustry.world.Tile;
 
 import static mindustry.Vars.tilesize;
@@ -30,6 +22,7 @@ public class Renderer {
     private static final Seq<Tile> visibleWallShadows = new Seq<>();
     private static final arc.math.geom.Rect treeCamera = new arc.math.geom.Rect();
     private static boolean deflectorPassRequested;
+    private static boolean forceGeneratorPassRequested;
     private static boolean glitchPassRequested;
     private static final Seq<Runnable> railPlacementAreas = new Seq<>();
     //public static @Nullable Bloom bloom;
@@ -38,6 +31,7 @@ public class Renderer {
         public static final float shadow = 29.8936f;
         public static final float heat = 39.7656f;
         public static final float deflector = 126.05f;
+        public static final float forceGenerator = 128f;
         public static final float neoplasiaUnder = Layer.blockUnder + 0.011221232134f;
         public static final float neoplasiaBase = Layer.blockOver + 0.133262332134f;
         public static final float glitch = Layer.deflector+3;
@@ -74,8 +68,6 @@ public class Renderer {
                 railPlacementAreas.clear();
                 Draw.reset();
             }
-            // blit() bypasses SpriteBatch, so set the GL blend state explicitly.
-            // Otherwise the capped alpha can be ignored by the current blend mode.
             Blending.normal.apply();
             buffer.blit(AquaShaders.railPlacement);
             Draw.blend(previousBlend);
@@ -130,6 +122,17 @@ public class Renderer {
         }
         deflectorPassRequested = false;
 
+        if(forceGeneratorPassRequested && Vars.renderer.animateShields){
+            Draw.drawRange(Layer.forceGenerator, 0.0001f,
+                    () -> buffer.begin(Color.clear),
+                    () -> {
+                        buffer.end();
+                        if(AquaShaders.forceGeneratorShader != null) buffer.blit(AquaShaders.forceGeneratorShader);
+                    }
+            );
+        }
+        forceGeneratorPassRequested = false;
+
         if(glitchPassRequested){
             Draw.drawRange(Layer.glitch, 0.0001f,
                     () -> buffer.begin(Color.clear),
@@ -175,6 +178,10 @@ public class Renderer {
 
     public static void requestDeflectorPass(){
         deflectorPassRequested = true;
+    }
+
+    public static void requestForceGeneratorPass(){
+        forceGeneratorPassRequested = true;
     }
 
     public static void requestGlitchPass(){

@@ -1,6 +1,7 @@
 package aquarion.world.entities;
 
 
+import aquarion.world.blocks.power.LightningRod;
 import aquarion.world.graphics.AquaFx;
 import aquarion.world.graphics.Renderer;
 import arc.graphics.*;
@@ -22,10 +23,13 @@ public class AquaLightning {
     private static final Rand random = new Rand();
     private static final Rect rect = new Rect();
     private static final Seq<Unit> entities = new Seq<>();
+    private static final Seq<Building> buildings = new Seq<>();
     private static final IntSet hit = new IntSet();
+    private static final IntSet hitBuildings = new IntSet();
     private static final int maxChain = 8;
     private static final float hitRange = 30f;
     private static boolean bhit = false;
+    private static boolean chainStopped = false;
     private static int lastSeed = 0;
 
     private static final float ANGLE_RANGE = 30f;
@@ -43,8 +47,12 @@ public class AquaLightning {
     private static void createLightningInternal(@Nullable Bullet hitter, int seed, Team team, Color color, float damage, float x, float y, float rotation, int length){
         random.setSeed(seed);
         hit.clear();
+        hitBuildings.clear();
+        chainStopped = false;
 
         BulletType hitCreate = hitter == null || hitter.type.lightningType == null ? Bullets.damageLightning : hitter.type.lightningType;
+        // The damage bullets use normal shield interception rather than bespoke shield geometry checks.
+        hitCreate.absorbable = true;
         Seq<Vec2> mainLines = new Seq<>();
         bhit = false;
 
@@ -57,11 +65,18 @@ public class AquaLightning {
     private static void createBranch(@Nullable Bullet hitter, BulletType hitCreate, Team team, Color color, float damage,
                                      float x, float y, float rotation, int length, Seq<Vec2> lines) {
         for (int i = 0; i < length / 2; i++) {
-            //damage bullets are server-authoritative; the branch walk itself is
-            //seeded and deterministic, so clients still draw identical lightning
-            if(!net.client()){
-                hitCreate.create(null, team, x, y, rotation, damage * (hitter == null ? 1f : hitter.damageMultiplier()), 1f, 1f, hitter);
+            if(chainStopped) break;
+
+            // Lightning rods attract the strike and terminate all remaining chain links.
+            LightningRod.LightningRodBuild rod = LightningRod.find(x, y);
+            if(rod != null){
+                lines.add(new Vec2(rod.x, rod.y));
+                rod.capture();
+                chainStopped = true;
+                break;
             }
+
+            float startX = x, startY = y;
             Vec2 nextPoint = new Vec2(x + random.range(3f), y + random.range(3f));
             lines.add(nextPoint);
 
@@ -84,17 +99,34 @@ public class AquaLightning {
 
             rect.setSize(hitRange).setCenter(x, y);
             entities.clear();
-            if (hit.size < maxChain) {
+            buildings.clear();
+            if (hit.size + hitBuildings.size < maxChain) {
                 Units.nearbyEnemies(team, rect, u -> {
-                    if (!hit.contains(u.id()) && (hitter == null || u.checkTarget(hitter.type.collidesAir, hitter.type.collidesGround))) {
+                    if (!hit.contains(u.id())) {
                         entities.add(u);
+                    }
+                });
+                Units.nearbyBuildings(x, y, hitRange, b -> {
+                    if(b.team != team && b.block.targetable && !b.block.privileged && !hitBuildings.contains(b.pos())){
+                        buildings.add(b);
                     }
                 });
             }
 
             Unit furthest = Geometry.findFurthest(x, y, entities);
+            Building furthestBuilding = Geometry.findFurthest(x, y, buildings);
+            boolean targetBuilding = furthestBuilding != null && (furthest == null || furthestBuilding.dst2(x, y) > furthest.dst2(x, y));
 
-            if (furthest != null) {
+            if(targetBuilding){
+                hitBuildings.add(furthestBuilding.pos());
+                x = furthestBuilding.x;
+                y = furthestBuilding.y;
+                if(furthestBuilding instanceof LightningRod.LightningRodBuild lightningRod){
+                    lightningRod.capture();
+                    chainStopped = true;
+                    break;
+                }
+            }else if(furthest != null){
                 hit.add(furthest.id());
                 x = furthest.x();
                 y = furthest.y();
@@ -103,6 +135,21 @@ public class AquaLightning {
                 rotation += random.range(ANGLE_RANGE);
                 x += Angles.trnsx(rotation, hitRange / 2f);
                 y += Angles.trnsy(rotation, hitRange / 2f);
+            }
+
+            // Use moving, absorbable projectiles so shields can intercept damage normally.
+            // Defer creation one tick so the shield scan runs before the bolt can hit its target.
+            if(!net.client()){
+                float distance = Mathf.dst(startX, startY, x, y);
+                float hitDamage = damage * (hitter == null ? 1f : hitter.damageMultiplier());
+                float targetAngle = Angles.angle(startX, startY, x, y);
+                float targetX = x, targetY = y;
+                Time.run(1f, () -> {
+                    Bullet damageBullet = hitCreate.create(null, team, startX, startY, targetAngle, hitDamage, 1f, 1f, hitter);
+                    if(damageBullet != null && distance > 0.001f){
+                        damageBullet.vel.set(targetX - startX, targetY - startY).setLength(Mathf.clamp(distance / 2f, 1f, 8f));
+                    }
+                });
             }
 
             // Chance to create a branch
@@ -114,4 +161,5 @@ public class AquaLightning {
             }
         }
     }
+
 }
